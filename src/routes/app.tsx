@@ -129,7 +129,7 @@ function CommunitySidebar() {
               <span className="cc-sb-switch-l">Create Club</span>
             </button>
             <div className="cc-sb-switch-sep" />
-            <div className="cc-sb-switch-head">Your Communities</div>
+            <div className="cc-sb-switch-head">Your Clubs</div>
             {CLUBS.filter(c => c.label.toLowerCase().includes(query.toLowerCase())).map(c => (
               <button
                 key={c.id}
