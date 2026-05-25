@@ -210,7 +210,7 @@ function GettingStarted() {
           <ResourceRow icon={<Sparkles size={18}/>} title="AIVA Academy" desc="Master AI-powered community building." cta="Unlock"/>
         </div>
 
-        <div className="gs-section-l">Download the AdvisorsClub app</div>
+        <div className="gs-section-l">Download The AdvisorsClub App</div>
         <div className="gs-card gs-resources">
           <ResourceRow icon={<Monitor size={18}/>} title="Desktop app" desc="Mac and Windows app." cta="Download"/>
           <ResourceRow icon={<Smartphone size={18}/>} title="Mobile app" desc="iOS and Android." cta="Download"/>
