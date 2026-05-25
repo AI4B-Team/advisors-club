@@ -133,7 +133,7 @@ function Index() {
             </div>
 
             <div className="replace-winner">
-              <div className="rw-logo"><Sparkles size={20} /></div>
+              <div className="rw-logo" style={{ background:"transparent", padding:0 }}><img src={advisorsLogo} alt="AdvisorsClub" style={{ width:"100%", height:"100%", objectFit:"contain" }} /></div>
               <div className="rw-name">AdvisorsClub</div>
               <div className="rw-sub">One platform. One login. One bill.</div>
               <div className="rw-features">
