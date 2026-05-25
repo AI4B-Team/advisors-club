@@ -22,8 +22,6 @@ function DiscoverPage() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("All");
   const [filterOpen, setFilterOpen] = useState(false);
-  const [seek, setSeek] = useState<string | null>(null);
-  const [seekOpen, setSeekOpen] = useState(false);
 
   const filtered = useMemo<Club[]>(() => {
     let list = CLUBS.slice();
@@ -58,31 +56,6 @@ function DiscoverPage() {
           <p className="dc-min-sub">or <a href="/signup" className="dc-min-link">create your own</a></p>
 
           <div className="dc-min-search">
-            <div className="dc-seek">
-              <button
-                type="button"
-                className="dc-seek-btn"
-                onClick={() => setSeekOpen(v => !v)}
-                onBlur={() => setTimeout(() => setSeekOpen(false), 150)}
-              >
-                {seek ?? "Seek"} <ChevronDown size={16} />
-              </button>
-              {seekOpen && (
-                <div className="dc-seek-menu" role="menu">
-                  {SEEK_OPTIONS.map(o => (
-                    <button
-                      key={o}
-                      type="button"
-                      className={`dc-seek-item ${seek===o?"on":""}`}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => { setSeek(o); setSeekOpen(false); }}
-                    >
-                      {o}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
             <Search size={20} strokeWidth={2.2} />
             <input
               type="search"
@@ -93,7 +66,8 @@ function DiscoverPage() {
           </div>
 
           <div className="dc-min-pills">
-            {QUICK.map(t => (
+            <span className="dc-seek-label">SEEK</span>
+            {SEEK_OPTIONS.map(t => (
               <button
                 key={t}
                 className={`dc-pill ${cat===t?"on":""}`}
@@ -102,6 +76,12 @@ function DiscoverPage() {
                 {t}
               </button>
             ))}
+            <button
+              className={`dc-pill ${cat==="Happiness"?"on":""}`}
+              onClick={() => setCat(cat==="Happiness" ? "All" : "Happiness")}
+            >
+              Happiness
+            </button>
             <button
               className={`dc-pill dc-filter ${filterOpen?"on":""}`}
               onClick={() => setFilterOpen(v => !v)}
@@ -119,6 +99,7 @@ function DiscoverPage() {
           )}
         </div>
       </section>
+
 
       <div className="dc-rows">
         {isFiltering ? (
