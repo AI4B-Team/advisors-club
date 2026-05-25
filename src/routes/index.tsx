@@ -515,7 +515,7 @@ function Index() {
             <div style={{ padding:14, background:"#FFFFFF" }}>
               {/* Live stage */}
               <div style={{ position:"relative", borderRadius:12, overflow:"hidden", border:"1px solid rgba(0,0,0,0.07)" }}>
-                <img src={conferenceLive} alt="Live conference stage" loading="lazy" style={{ width:"100%", height:200, objectFit:"cover", display:"block" }} />
+                <img src={conferenceLive} alt="Live virtual event host" loading="lazy" style={{ width:"100%", height:220, objectFit:"cover", objectPosition:"center 30%", display:"block" }} />
                 <div style={{ position:"absolute", top:10, left:10, display:"flex", alignItems:"center", gap:5, background:"rgba(224,52,26,0.95)", borderRadius:4, padding:"3px 8px" }}>
                   <div style={{ width:6, height:6, borderRadius:"50%", background:"#fff" }} />
                   <span style={{ fontSize:9, fontWeight:800, color:"#fff", letterSpacing:"0.08em" }}>LIVE</span>
