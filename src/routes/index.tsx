@@ -749,7 +749,7 @@ function Index() {
               <div className="pf"><Minus size={14} className="pfd" />Custom domain</div>
               <div className="pf"><Minus size={14} className="pfd" />Virtual conferences</div>
               <div className="pf"><Minus size={14} className="pfd" />Email marketing</div>
-              <a href="#" className="plan-cta ghost">Get started free</a>
+              <Link to="/signup" className="plan-cta ghost">Get started free</Link>
             </div>
             <div className="plan hot">
               <div className="plan-tag" style={{display:"inline-flex",alignItems:"center",gap:4}}><Zap size={11} fill="currentColor" strokeWidth={0} />Most Popular</div>
@@ -766,7 +766,7 @@ function Index() {
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full gamification suite</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe payments (2% fee)</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Email marketing (5k contacts)</div>
-              <a href="#" className="plan-cta solid">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></a>
+              <Link to="/signup" className="plan-cta solid">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
             <div className="plan">
               <div className="plan-tier">Pro</div>
@@ -782,7 +782,7 @@ function Index() {
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Advanced analytics & CRM</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Team members & roles</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Branded mobile app</div>
-              <a href="#" className="plan-cta ghost">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></a>
+              <Link to="/signup" className="plan-cta ghost">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
           </div>
           <p style={{ textAlign: "center", fontSize: 13, color: "var(--ac-muted)", marginTop: 24 }}>
