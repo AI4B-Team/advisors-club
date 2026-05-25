@@ -53,11 +53,6 @@ function CommunityDashboard() {
   );
 }
 
-function NavItem({ icon, label, active, to }: { icon: React.ReactNode; label: string; active?: boolean; to?: string }) {
-  const cls = `cm-nav-item${active ? " on" : ""}`;
-  if (to) return <Link to={to} className={cls}>{icon}<span>{label}</span></Link>;
-  return <button className={cls}>{icon}<span>{label}</span></button>;
-}
 
 function Post({ name, meta, text, likes, comments, shares }: { name: string; meta: string; text: string; likes: number; comments: number; shares: number }) {
   return (
