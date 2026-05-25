@@ -53,9 +53,9 @@ export const Route = createFileRoute("/")({
 
 function Logo() {
   return (
-    <a href="#" className="nav-logo" aria-label="AdvisorsClub">
+    <Link to="/" className="nav-logo" aria-label="AdvisorsClub">
       <img src={advisorsLogo} alt="AdvisorsClub" className="logo-img" />
-    </a>
+    </Link>
   );
 }
 
