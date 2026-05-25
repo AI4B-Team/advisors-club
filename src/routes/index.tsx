@@ -231,7 +231,7 @@ function Index() {
 
       {/* HERO */}
       <section className="hero">
-        <div className="hero-bg" />
+        <div className="hero-bg" style={{ backgroundImage: `url(${heroBg})` }} />
         <div className="hero-overlay" />
 
         <div className="hero-content">
