@@ -856,4 +856,5 @@
 .acct-comm-m{font-size:12.5px;color:var(--muted);margin-top:2px}
 .acct-comm-btn{padding:10px 22px;border-radius:8px;border:1px solid var(--line-2);background:#fff;font-size:12px;font-weight:800;letter-spacing:0.08em;color:var(--ink);cursor:pointer}
 .acct-comm-btn:hover{background:rgba(0,0,0,0.03)}
-@media (max-width:900px){.acct-wrap{margin:-28px -16px;padding:24px 16px}.acct{grid-template-columns:1fr;gap:20px}.acct-nav{position:static;flex-direction:row;overflow-x:auto}.acct-tab{white-space:nowrap}}
+.acct-comm-icon{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);background:transparent;border:0;border-radius:8px;cursor:pointer}
+.acct-comm-icon:hover{background:rgba(0,0,0,0.05);color:var(--ink)}
