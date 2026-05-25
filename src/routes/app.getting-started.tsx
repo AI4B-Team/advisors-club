@@ -33,7 +33,7 @@ const GROUPS: Group[] = [
   },
   {
     id: "community",
-    title: "Set up your community",
+    title: "Set Up Your Community",
     icon: <SettingsIcon size={16}/>,
     tasks: [
       { id: "c1", label: "Name your Club & pick a niche" },
