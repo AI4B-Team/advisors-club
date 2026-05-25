@@ -1155,7 +1155,9 @@
 .cc-sb-switch-menu {
   position: absolute;
   left: 12px;
-  right: 12px;
+  right: auto;
+  width: calc(100vw - 24px);
+  max-width: 360px;
   top: calc(100% + 4px);
   background: #fff;
   border: 1px solid #E5E7EB;
