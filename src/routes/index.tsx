@@ -448,7 +448,7 @@ function Index() {
             <div style={{ padding: 14, background: "#FFFFFF" }}>
               {/* Featured banner */}
               <div style={{ position:"relative", borderRadius:12, overflow:"hidden", marginBottom:12, background:"#F4F1EC", border:"1px solid rgba(0,0,0,0.06)", aspectRatio:"16 / 7" }}>
-                <img src={courseFeatured} alt="Featured course" loading="lazy" style={{ width:"100%", height:"100%", objectFit:"contain", display:"block" }} />
+                <img src={courseFeatured} alt="Featured course" loading="lazy" style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center", display:"block" }} />
                 <div style={{ position:"absolute", top:10, left:12, fontSize:8, fontWeight:800, color:"var(--ac-amber)", background:"rgba(255,255,255,0.95)", border:"1px solid rgba(245,166,35,0.5)", borderRadius:4, padding:"3px 7px", letterSpacing:"0.12em" }}>FEATURED</div>
                 <div style={{ position:"absolute", left:12, right:12, bottom:10, background:"rgba(255,255,255,0.92)", backdropFilter:"blur(6px)", borderRadius:8, padding:"8px 10px", border:"1px solid rgba(0,0,0,0.05)" }}>
                   <div style={{ fontSize:13, fontWeight:800, color:"#0F0F14", lineHeight:1.15 }}>Elite Strength Academy</div>
