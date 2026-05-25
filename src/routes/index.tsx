@@ -230,21 +230,7 @@ function Index() {
 
       {/* HERO */}
       <section className="hero">
-        <div className="mosaic">
-          {clubs.map((c, i) => (
-            <div className="club-card" key={i}>
-              <div className="cc-img" style={{ background: c.bg }}>{c.svg}</div>
-              <div className="cc-overlay" />
-              <div className="cc-body">
-                <div className="cc-av" style={{ background: c.avBg }}>{c.av}</div>
-                <div className="cc-tag">{c.tag}</div>
-                <span className="cc-name">{c.name}</span>
-                <span className="cc-meta">{c.meta}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
+        <div className="hero-bg" />
         <div className="hero-overlay" />
 
         <div className="hero-content">
