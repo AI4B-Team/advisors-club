@@ -61,7 +61,10 @@ function Index() {
   return (
     <div className="ac">
       <nav>
-        <Logo />
+        <div style={{ display:"flex", alignItems:"center", gap:24 }}>
+          <Logo />
+          <a href="#" className="nav-discover" style={{ color:"#111", fontSize:14, fontWeight:600, textDecoration:"none" }}>Discover</a>
+        </div>
         <div style={{ display:"flex", alignItems:"center", gap:20 }}>
           <a href="#" className="nav-login" style={{ color:"#111", fontSize:14, fontWeight:600, textDecoration:"none" }}>Login</a>
           <a href="#pricing" className="nav-btn">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></a>
