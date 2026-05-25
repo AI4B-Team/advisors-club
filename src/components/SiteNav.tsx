@@ -15,7 +15,16 @@ export function SiteNav({ discoverSearch }: Props) {
     <div className="ac">
       <nav>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flex: discoverSearch ? 1 : "0 0 auto" }}>
-          <Link to="/" className="nav-logo" aria-label="AdvisorsClub">
+          <Link
+            to="/"
+            className="nav-logo"
+            aria-label="AdvisorsClub — Home"
+            onClick={() => {
+              if (typeof window !== "undefined" && window.location.pathname === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
             <img src={advisorsLogo} alt="AdvisorsClub" className="logo-img" style={{ height: 28 }} />
           </Link>
           <span style={{ width: 1, height: 22, background: "rgba(255,255,255,0.2)" }} />
