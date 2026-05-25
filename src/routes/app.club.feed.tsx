@@ -53,21 +53,24 @@ const SEED: Post[] = [
 function FeedPage() {
   const [posts, setPosts] = useState<Post[]>(SEED);
   const [draft, setDraft] = useState("");
+  const [title, setTitle] = useState("");
   const [sort, setSort] = useState<"latest"|"top">("latest");
 
   function publish() {
     const text = draft.trim();
     if (!text) return;
+    const body = title.trim() ? `**${title.trim()}**\n\n${text}` : text;
     setPosts(p => [{
       id: crypto.randomUUID(),
       author: "Zaddy",
       initials: "Z",
       color: "#F5A623",
       time: "Just now",
-      body: text,
+      body,
       likes: 0, comments: 0,
     }, ...p]);
     setDraft("");
+    setTitle("");
   }
 
   function toggleLike(id: string) {
