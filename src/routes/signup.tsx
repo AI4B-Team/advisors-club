@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight, Sparkles, Users, Zap, Shield, MessageSquare, Eye, EyeOff } from "lucide-react";
+import advisorsLogo from "@/assets/advisorsclub-logo.png";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -26,7 +27,7 @@ function SignupPage() {
     <div className="lt">
       <div className="lt-auth">
         <div className="lt-auth-left">
-          <Link to="/landing" className="lt-auth-logo">Advisors<span>Club</span></Link>
+          <Link to="/landing" className="lt-auth-logo" aria-label="AdvisorsClub"><img src={advisorsLogo} alt="AdvisorsClub" style={{ height: 32, display: "block" }} /></Link>
           <div className="lt-step-dots">
             <div className={`lt-step-dot ${step>=1?"on":""}`} />
             <div className={`lt-step-dot ${step>=2?"on":""}`} />
