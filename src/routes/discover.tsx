@@ -16,8 +16,7 @@ export const Route = createFileRoute("/discover")({
   component: DiscoverPage,
 });
 
-const QUICK = ["Trending", "Business", "Real Estate", "Fitness", "AI & Tech", "Finance", "Marketing"];
-const SEEK_OPTIONS = ["Wealth", "Health", "Love", "Wisdom", "Happiness"];
+const SEEK_OPTIONS = ["Wealth", "Health", "Love", "Wisdom"];
 
 function DiscoverPage() {
   const [q, setQ] = useState("");
