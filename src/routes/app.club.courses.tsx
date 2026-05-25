@@ -12,9 +12,9 @@ type SampleCourse = {
 };
 
 const SAMPLES: SampleCourse[] = [
-  { title: "Real Estate Wholesaling 101", lessons: 24, minutes: 312, learners: 184, progress: 62, tag: "Bestseller", gradient: "linear-gradient(135deg,#F59E0B,#EF4444)" },
-  { title: "Cold Outreach Mastery", lessons: 12, minutes: 148, learners: 96,  progress: 28, tag: "New",        gradient: "linear-gradient(135deg,#0EA5E9,#6366F1)" },
-  { title: "Closing High-Ticket Deals", lessons: 18, minutes: 240, learners: 142, progress: 0,  tag: "Live cohort", gradient: "linear-gradient(135deg,#A78BFA,#EC4899)" },
+  { title: "Real Estate Wholesaling 101", lessons: 24, minutes: 312, learners: 184, progress: 62, tag: "Bestseller", gradient: "#1F2937" },
+  { title: "Cold Outreach Mastery", lessons: 12, minutes: 148, learners: 96,  progress: 28, tag: "New",        gradient: "#1F2937" },
+  { title: "Closing High-Ticket Deals", lessons: 18, minutes: 240, learners: 142, progress: 0,  tag: "Live Cohort", gradient: "#1F2937" },
 ];
 
 const AIVA_PROMPTS = [
