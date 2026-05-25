@@ -148,13 +148,13 @@ function CommunitySidebar() {
         )}
       </div>
 
-      <Link to="/app/dashboard" className="cc-sb-pill" activeProps={{className:"cc-sb-pill on"}}>
-        <span className="cc-sb-pill-i"><Rocket size={15}/></span>
-        Getting Started
+      <Link to="/app" activeOptions={{ exact: true }} className="cc-sb-pill" activeProps={{className:"cc-sb-pill on"}}>
+        <span className="cc-sb-pill-i"><Home size={15}/></span>
+        Home
       </Link>
 
-      <Link to="/app" activeOptions={{ exact: true }} className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
-        <Home size={16}/> Home
+      <Link to="/app/dashboard" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
+        <Rocket size={16}/> Getting Started
       </Link>
 
       <Link to="/app/club/feed" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
