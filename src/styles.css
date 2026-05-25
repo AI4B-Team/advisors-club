@@ -108,6 +108,12 @@
 
 .ac nav,
 .site-nav{
+  --ac-bg:#1A1A1A; --ac-bg2:#212121; --ac-bg3:#2A2A2A;
+  --ac-amber:#F5A623; --ac-amber2:#E8940A; --ac-amber3:#FFCC55;
+  --ac-white:#FFFFFF;
+  --ac-muted:rgba(255,255,255,0.5); --ac-muted2:rgba(255,255,255,0.3);
+  --ac-border:rgba(255,255,255,0.08); --ac-border2:rgba(255,255,255,0.14);
+  --ac-font:'Plus Jakarta Sans',sans-serif;
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 52px;height:66px;
