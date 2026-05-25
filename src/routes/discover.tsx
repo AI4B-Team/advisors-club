@@ -45,20 +45,17 @@ function DiscoverPage() {
 
   return (
     <div className="lt">
-      <Nav />
-      <section className="lt-hero">
+      <SiteNav discoverSearch={{ value: q, onChange: setQ }} />
+      <section className="lt-hero" style={{ paddingTop: 110 }}>
         <h1>Find an Advisor Club <br/>worth joining.</h1>
         <p>Browse {CLUBS.length} expert-led Clubs across business, fitness, AI, finance and more — built by operators who actually do the work.</p>
-        <div className="lt-search-lg">
-          <Search size={20} strokeWidth={2} />
-          <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search clubs, topics, advisors..." />
-        </div>
         <div className="lt-quickpills">
           {["Real Estate","AI & Tech","Fitness","Finance","Marketing"].map(t => (
             <button key={t} className={`pill ${cat===t?"on":""}`} onClick={() => setCat(cat===t?"All":t)}>{t}</button>
           ))}
         </div>
       </section>
+
 
       <div className="lt-container">
         {!isFiltering && (
