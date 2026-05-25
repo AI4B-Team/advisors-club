@@ -185,7 +185,6 @@ function CommunitySidebar() {
 /* ============ TOP BAR ============ */
 function Topbar() {
   const nav = useNavigate();
-  const pathname = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -197,16 +196,8 @@ function Topbar() {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
-  const isHome = pathname === "/app/dashboard" || pathname === "/app/club/feed";
-  const isCourses = pathname.startsWith("/app/club/courses");
-
   return (
     <header className="cc-tb">
-      <nav className="cc-tb-tabs">
-        <button className={`cc-tb-tab ${isHome ? "on":""}`} onClick={()=>nav({to:"/app/dashboard"})}>Home</button>
-        <button className={`cc-tb-tab ${isCourses ? "on":""}`} onClick={()=>nav({to:"/app/club/courses"})}>Courses</button>
-      </nav>
-
       <div className="cc-tb-search">
         <Search size={14}/>
         <input placeholder="Search" />
