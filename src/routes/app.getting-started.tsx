@@ -55,7 +55,7 @@ const GROUPS: Group[] = [
   },
   {
     id: "launch",
-    title: "Launch your community",
+    title: "Launch Your Community",
     icon: <Rocket size={16}/>,
     tasks: [
       { id: "g1", label: "Share your launch link on socials" },
