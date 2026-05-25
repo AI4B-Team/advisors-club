@@ -185,7 +185,6 @@ function CommunitySidebar() {
 /* ============ TOP BAR ============ */
 function Topbar() {
   const nav = useNavigate();
-  const { active } = useContext(ClubCtx);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -203,11 +202,6 @@ function Topbar() {
 
   return (
     <header className="cc-tb">
-      <button className="cc-tb-club" onClick={()=>nav({to:"/app/dashboard"})}>
-        <span className="cc-tb-club-av" style={{background:active.color}}>{active.label.slice(0,1)}</span>
-        <span className="cc-tb-club-n">{active.label}</span>
-      </button>
-
       <nav className="cc-tb-tabs">
         <button className={`cc-tb-tab ${isHome ? "on":""}`} onClick={()=>nav({to:"/app/dashboard"})}>Home</button>
         <button className={`cc-tb-tab ${isCourses ? "on":""}`} onClick={()=>nav({to:"/app/club/courses"})}>Courses</button>
