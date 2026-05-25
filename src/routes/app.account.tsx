@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, Plus, BookOpen, Calendar, Flame, BarChart3, MessageSquare, Eye, Pin } from "lucide-react";
+import { Eye, Pin, RefreshCw, Bell } from "lucide-react";
+import heroImg from "@/assets/account-hero.jpg";
 
 export const Route = createFileRoute("/app/account")({
   head: () => ({
