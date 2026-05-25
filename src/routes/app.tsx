@@ -93,10 +93,12 @@ const TOP_LINKS: TopLink[] = [
   { label: "Members", to: "/app/club/members", icon: <Users size={16}/>,
     subs: [{label:"All Members",to:"/app/club/members"},{label:"Online",to:"/app/club/members"},{label:"Admins",to:"/app/club/members"}],
     menu: DEFAULT_MENU },
-  { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>,
+  { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,
     subs: [{label:"Console",to:"/app/aiva"},{label:"Prompts",to:"/app/aiva"},{label:"History",to:"/app/aiva"}],
     menu: DEFAULT_MENU },
 ];
+
+const AIVA_LABEL = "AIVA";
 
 function SidebarTopLink({ link }: { link: TopLink }) {
   const [expanded, setExpanded] = useState(false);
@@ -110,8 +112,20 @@ function SidebarTopLink({ link }: { link: TopLink }) {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
   const baseCls = link.pill ? "cc-sb-pill" : "cc-sb-feed";
+  const isAiva = link.label === AIVA_LABEL;
   return (
-    <div className="cc-sb-item">
+    <div className={`cc-sb-item${isAiva ? " cc-sb-item-aiva" : ""}`}>
+      <div className={`cc-sb-item-row ${baseCls}-wrap`}>
+        <Link
+          to={link.to}
+          activeOptions={link.exact ? { exact: true } : undefined}
+          className={baseCls}
+          activeProps={{ className: `${baseCls} on` }}
+        >
+          {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
+          <span className="cc-sb-item-l">{link.label}</span>
+          {isAiva && <span className="cc-sb-badge-new">NEW</span>}
+        </Link>
       <div className={`cc-sb-item-row ${baseCls}-wrap`}>
         <Link
           to={link.to}
