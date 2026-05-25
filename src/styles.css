@@ -220,7 +220,7 @@
 .ac .stat-n{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:6px;color:var(--ac-amber)}
 .ac .stat-l{font-size:13px;color:var(--ac-muted);font-weight:500}
 
-.ac .pricing-section{padding:100px 52px;background:var(--ac-bg2);border-top:1px solid var(--ac-border)}
+.ac .pricing-section{padding:56px 52px;background:var(--ac-bg2);border-top:1px solid var(--ac-border)}
 .ac .pricing-inner{max-width:1080px;margin:0 auto}
 .ac .price-hd{text-align:center;margin-bottom:56px}
 .ac .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
