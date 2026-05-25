@@ -257,14 +257,6 @@ function Index() {
         <div className="stat-item"><div className="stat-n">4.9★</div><div className="stat-l">Average rating</div></div>
       </div>
 
-      {/* TICKER */}
-      <div className="ticker">
-        <div className="ticker-track">
-          {[...tickerItems, ...tickerItems].map((t, i) => (
-            <span className="ti" key={i}><span className="tdot" />{t}</span>
-          ))}
-        </div>
-      </div>
 
       {/* FEATURES */}
       <section className="showcase" id="features">
