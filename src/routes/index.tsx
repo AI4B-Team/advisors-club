@@ -97,7 +97,7 @@ function Index() {
         <div className="replace-inner">
           <div className="showcase-hd" style={{ marginBottom: 48 }}>
             <div className="sc-eyebrow">One Platform. Zero Stack.</div>
-            <h2 className="sc-h2">Replace 7 Tools.<br />With One.</h2>
+            <h2 className="sc-h2" style={{whiteSpace:"nowrap"}}>Replace 7 Tools With One.</h2>
             <p className="sc-sub" style={{ maxWidth: 620, margin: "0 auto" }}>Stop paying for seven subscriptions that barely talk to each other. AdvisorsClub does it all — natively, and with AI on top.</p>
           </div>
 
