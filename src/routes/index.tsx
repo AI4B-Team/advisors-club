@@ -264,7 +264,7 @@ function Index() {
                     <Sparkles size={12} color="#1A1208" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <div style={{ fontSize:11, fontWeight:800, color:"#0F0F14", lineHeight:1.1 }}>Brand voice trained</div>
+                    <div style={{ fontSize:11, fontWeight:800, color:"#0F0F14", lineHeight:1.1 }}>Brand Voice Trained</div>
                     <div style={{ fontSize:9, color:"#6B6B75" }}>Confident · Direct · Educational</div>
                   </div>
                 </div>
