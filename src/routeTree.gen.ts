@@ -16,6 +16,13 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
+import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
+import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
+import { Route as AppClubFeedRouteImport } from './routes/app.club.feed'
+import { Route as AppClubEventsRouteImport } from './routes/app.club.events'
+import { Route as AppClubCoursesRouteImport } from './routes/app.club.courses'
+import { Route as AppClubChallengesRouteImport } from './routes/app.club.challenges'
+import { Route as AppClubAnalyticsRouteImport } from './routes/app.club.analytics'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -52,6 +59,41 @@ const AppAivaRoute = AppAivaRouteImport.update({
   path: '/aiva',
   getParentRoute: () => AppRoute,
 } as any)
+const AppClubSettingsRoute = AppClubSettingsRouteImport.update({
+  id: '/club/settings',
+  path: '/club/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClubMembersRoute = AppClubMembersRouteImport.update({
+  id: '/club/members',
+  path: '/club/members',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClubFeedRoute = AppClubFeedRouteImport.update({
+  id: '/club/feed',
+  path: '/club/feed',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClubEventsRoute = AppClubEventsRouteImport.update({
+  id: '/club/events',
+  path: '/club/events',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClubCoursesRoute = AppClubCoursesRouteImport.update({
+  id: '/club/courses',
+  path: '/club/courses',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClubChallengesRoute = AppClubChallengesRouteImport.update({
+  id: '/club/challenges',
+  path: '/club/challenges',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClubAnalyticsRoute = AppClubAnalyticsRouteImport.update({
+  id: '/club/analytics',
+  path: '/club/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +103,13 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/club/analytics': typeof AppClubAnalyticsRoute
+  '/app/club/challenges': typeof AppClubChallengesRoute
+  '/app/club/courses': typeof AppClubCoursesRoute
+  '/app/club/events': typeof AppClubEventsRoute
+  '/app/club/feed': typeof AppClubFeedRoute
+  '/app/club/members': typeof AppClubMembersRoute
+  '/app/club/settings': typeof AppClubSettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +119,13 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/club/analytics': typeof AppClubAnalyticsRoute
+  '/app/club/challenges': typeof AppClubChallengesRoute
+  '/app/club/courses': typeof AppClubCoursesRoute
+  '/app/club/events': typeof AppClubEventsRoute
+  '/app/club/feed': typeof AppClubFeedRoute
+  '/app/club/members': typeof AppClubMembersRoute
+  '/app/club/settings': typeof AppClubSettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +136,13 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/club/analytics': typeof AppClubAnalyticsRoute
+  '/app/club/challenges': typeof AppClubChallengesRoute
+  '/app/club/courses': typeof AppClubCoursesRoute
+  '/app/club/events': typeof AppClubEventsRoute
+  '/app/club/feed': typeof AppClubFeedRoute
+  '/app/club/members': typeof AppClubMembersRoute
+  '/app/club/settings': typeof AppClubSettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +154,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/aiva'
     | '/app/dashboard'
+    | '/app/club/analytics'
+    | '/app/club/challenges'
+    | '/app/club/courses'
+    | '/app/club/events'
+    | '/app/club/feed'
+    | '/app/club/members'
+    | '/app/club/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +170,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/aiva'
     | '/app/dashboard'
+    | '/app/club/analytics'
+    | '/app/club/challenges'
+    | '/app/club/courses'
+    | '/app/club/events'
+    | '/app/club/feed'
+    | '/app/club/members'
+    | '/app/club/settings'
   id:
     | '__root__'
     | '/'
@@ -109,6 +186,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/aiva'
     | '/app/dashboard'
+    | '/app/club/analytics'
+    | '/app/club/challenges'
+    | '/app/club/courses'
+    | '/app/club/events'
+    | '/app/club/feed'
+    | '/app/club/members'
+    | '/app/club/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -170,17 +254,80 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAivaRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/club/settings': {
+      id: '/app/club/settings'
+      path: '/club/settings'
+      fullPath: '/app/club/settings'
+      preLoaderRoute: typeof AppClubSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/club/members': {
+      id: '/app/club/members'
+      path: '/club/members'
+      fullPath: '/app/club/members'
+      preLoaderRoute: typeof AppClubMembersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/club/feed': {
+      id: '/app/club/feed'
+      path: '/club/feed'
+      fullPath: '/app/club/feed'
+      preLoaderRoute: typeof AppClubFeedRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/club/events': {
+      id: '/app/club/events'
+      path: '/club/events'
+      fullPath: '/app/club/events'
+      preLoaderRoute: typeof AppClubEventsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/club/courses': {
+      id: '/app/club/courses'
+      path: '/club/courses'
+      fullPath: '/app/club/courses'
+      preLoaderRoute: typeof AppClubCoursesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/club/challenges': {
+      id: '/app/club/challenges'
+      path: '/club/challenges'
+      fullPath: '/app/club/challenges'
+      preLoaderRoute: typeof AppClubChallengesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/club/analytics': {
+      id: '/app/club/analytics'
+      path: '/club/analytics'
+      fullPath: '/app/club/analytics'
+      preLoaderRoute: typeof AppClubAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppAivaRoute: typeof AppAivaRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppClubAnalyticsRoute: typeof AppClubAnalyticsRoute
+  AppClubChallengesRoute: typeof AppClubChallengesRoute
+  AppClubCoursesRoute: typeof AppClubCoursesRoute
+  AppClubEventsRoute: typeof AppClubEventsRoute
+  AppClubFeedRoute: typeof AppClubFeedRoute
+  AppClubMembersRoute: typeof AppClubMembersRoute
+  AppClubSettingsRoute: typeof AppClubSettingsRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAivaRoute: AppAivaRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppClubAnalyticsRoute: AppClubAnalyticsRoute,
+  AppClubChallengesRoute: AppClubChallengesRoute,
+  AppClubCoursesRoute: AppClubCoursesRoute,
+  AppClubEventsRoute: AppClubEventsRoute,
+  AppClubFeedRoute: AppClubFeedRoute,
+  AppClubMembersRoute: AppClubMembersRoute,
+  AppClubSettingsRoute: AppClubSettingsRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
