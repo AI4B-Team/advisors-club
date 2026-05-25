@@ -397,3 +397,28 @@
 .ac .tc-role{color:rgba(0,0,0,0.55)}
 .ac .cta-fine2{color:rgba(0,0,0,0.45)}
 .ac .cta-form2{box-shadow:0 10px 40px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.08)}
+
+/* light-mode for new sections */
+.ac .replace-section{background:#fff}
+.ac .replace-killed,.ac .replace-winner{background:#fafafa;border:1px solid rgba(0,0,0,0.08)}
+.ac .rk-row{background:rgba(0,0,0,0.02);border-color:rgba(0,0,0,0.06)}
+.ac .rk-name{color:rgba(0,0,0,0.78)}
+.ac .rk-tag,.ac .rk-total,.ac .rw-sub,.ac .rw-total,.ac .replace-col-label{color:rgba(0,0,0,0.55)}
+.ac .rk-total{border-top-color:rgba(0,0,0,0.08)}
+.ac .rw-total{border-top-color:rgba(0,0,0,0.08)}
+.ac .replace-winner{background:linear-gradient(160deg,rgba(245,166,35,0.08) 0%,#fff 60%);border-color:rgba(245,166,35,0.4)}
+.ac .rw-name{color:#1A1A1A}
+.ac .rw-row{color:rgba(0,0,0,0.82);background:rgba(245,166,35,0.06);border-color:rgba(245,166,35,0.2)}
+.ac .aiva-section{background:#f7f7f7;border-top:1px solid rgba(0,0,0,0.08)}
+.ac .aiva-chat{background:#fff;border:1px solid rgba(0,0,0,0.08);box-shadow:0 20px 60px -25px rgba(0,0,0,0.18)}
+.ac .am-bub.you{background:rgba(74,222,128,0.14);border-color:rgba(74,222,128,0.3);color:#0A2A12}
+.ac .am-bub.ai{background:#fafafa;border-color:rgba(0,0,0,0.08);color:rgba(0,0,0,0.82)}
+.ac .am-title{color:#1A1A1A}
+.ac .am-step{background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.22)}
+.ac .am-step-l{color:rgba(0,0,0,0.78)}
+.ac .am-step-t,.ac .aiva-side-eyebrow,.ac .rw-total,.ac .rk-total{color:rgba(0,0,0,0.55)}
+.ac .aiva-side-h{color:#1A1A1A}
+.ac .aiva-cap{background:#fff;border-color:rgba(0,0,0,0.08);color:rgba(0,0,0,0.82)}
+.ac .aiva-input{background:#fff;border-color:rgba(0,0,0,0.08)}
+.ac .aiva-input input{color:rgba(0,0,0,0.7)}
+.ac .aiva-input input::placeholder{color:rgba(0,0,0,0.4)}
