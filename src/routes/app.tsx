@@ -93,6 +93,7 @@ function CommunitySidebar() {
   const { active, setActive } = useContext(ClubCtx);
   const nav = useNavigate();
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -110,19 +111,15 @@ function CommunitySidebar() {
         </button>
         {open && (
           <div className="cc-sb-switch-menu">
-            <div className="cc-sb-switch-head">Your Communities</div>
-            {CLUBS.map(c => (
-              <button
-                key={c.id}
-                className={`cc-sb-switch-item ${active.id === c.id ? "on":""}`}
-                onClick={() => { setActive(c); setOpen(false); }}
-              >
-                <span className="cc-sb-switch-dot" style={{background: c.color}}>{c.label.slice(0,1)}</span>
-                <span className="cc-sb-switch-l">{c.label}</span>
-                {active.id === c.id && <span className="cc-sb-switch-check">✓</span>}
-              </button>
-            ))}
-            <div className="cc-sb-switch-sep" />
+            <div className="cc-sb-switch-search">
+              <Search size={14}/>
+              <input
+                placeholder="Search communities"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                autoFocus
+              />
+            </div>
             <button className="cc-sb-switch-item" onClick={() => { setOpen(false); nav({ to: "/discover" }); }}>
               <span className="cc-sb-switch-dot ghost"><Compass size={14}/></span>
               <span className="cc-sb-switch-l">Explore Clubs</span>
@@ -131,6 +128,19 @@ function CommunitySidebar() {
               <span className="cc-sb-switch-dot ghost"><Plus size={14}/></span>
               <span className="cc-sb-switch-l">Create Club</span>
             </button>
+            <div className="cc-sb-switch-sep" />
+            <div className="cc-sb-switch-head">Your Communities</div>
+            {CLUBS.filter(c => c.label.toLowerCase().includes(query.toLowerCase())).map(c => (
+              <button
+                key={c.id}
+                className={`cc-sb-switch-item ${active.id === c.id ? "on":""}`}
+                onClick={() => { setActive(c); setOpen(false); setQuery(""); }}
+              >
+                <span className="cc-sb-switch-dot" style={{background: c.color}}>{c.label.slice(0,1)}</span>
+                <span className="cc-sb-switch-l">{c.label}</span>
+                {active.id === c.id && <span className="cc-sb-switch-check">✓</span>}
+              </button>
+            ))}
           </div>
         )}
       </div>
