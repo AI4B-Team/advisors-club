@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Eye, Pin, RefreshCw, Users, User, Share2, Wallet, UserCog, Bell, MessageSquare, CreditCard, Receipt, BarChart3, Settings, Palette } from "lucide-react";
+import { Eye, Pin, RefreshCw, Users, User, Share2, Wallet, UserCog, Bell, MessageSquare, CreditCard, Receipt, BarChart3, Settings, Palette, FileText, Send, Zap, Bot, Inbox, DollarSign, Layers, Monitor, Code, Moon, Keyboard, UserPlus } from "lucide-react";
 import heroImg from "@/assets/account-hero.jpg";
 
 export const Route = createFileRoute("/app/account")({
@@ -13,21 +13,44 @@ export const Route = createFileRoute("/app/account")({
   component: AccountPage,
 });
 
-const TABS = [
-  { id: "Clubs", icon: Users },
-  { id: "Profile", icon: User },
-  { id: "Affiliates", icon: Share2 },
-  { id: "Payouts", icon: Wallet },
-  { id: "Account", icon: UserCog },
-  { id: "Notifications", icon: Bell },
-  { id: "Chat", icon: MessageSquare },
-  { id: "Payment Methods", icon: CreditCard },
-  { id: "Payment History", icon: Receipt },
-  { id: "Analytics", icon: BarChart3 },
-  { id: "Settings", icon: Settings },
-  { id: "Theme", icon: Palette },
-] as const;
-type Tab = typeof TABS[number]["id"];
+type TabDef = { id: string; icon: typeof Users };
+const TAB_GROUPS: { items: TabDef[] }[] = [
+  { items: [
+    { id: "Clubs", icon: Users },
+    { id: "Profile", icon: User },
+    { id: "Audience", icon: Users },
+    { id: "Content", icon: FileText },
+    { id: "Marketing", icon: Send },
+    { id: "Workflows", icon: Zap },
+    { id: "AI Agents", icon: Bot },
+    { id: "AI Inbox", icon: Inbox },
+    { id: "Paywalls", icon: DollarSign },
+    { id: "Affiliates", icon: Share2 },
+    { id: "Plans", icon: Layers },
+    { id: "Payouts", icon: Wallet },
+    { id: "Account", icon: UserCog },
+    { id: "Notifications", icon: Bell },
+    { id: "Chat", icon: MessageSquare },
+    { id: "Payment Methods", icon: CreditCard },
+    { id: "Payment History", icon: Receipt },
+    { id: "Analytics", icon: BarChart3 },
+    { id: "Site", icon: Monitor },
+    { id: "Developers", icon: Code },
+    { id: "Settings", icon: Settings },
+  ]},
+  { items: [
+    { id: "Site builder", icon: Monitor },
+    { id: "Customize theme", icon: Palette },
+    { id: "Switch to light mode", icon: Moon },
+    { id: "Keyboard shortcuts", icon: Keyboard },
+  ]},
+  { items: [
+    { id: "View as", icon: Eye },
+    { id: "Invite member", icon: UserPlus },
+  ]},
+];
+const TABS = TAB_GROUPS.flatMap(g => g.items);
+type Tab = string;
 
 function AccountPage() {
   const [tab, setTab] = useState<Tab>("Clubs");
@@ -35,14 +58,18 @@ function AccountPage() {
     <div className="acct-wrap">
       <div className="acct">
         <aside className="acct-nav">
-          {TABS.map(t => {
-            const Icon = t.icon;
-            return (
-              <button key={t.id} className={`acct-tab${tab===t.id?" on":""}`} onClick={()=>setTab(t.id)}>
-                <Icon size={18}/> <span>{t.id}</span>
-              </button>
-            );
-          })}
+          {TAB_GROUPS.map((g, gi) => (
+            <div key={gi} className={`acct-nav-group${gi>0?" acct-nav-group-sep":""}`}>
+              {g.items.map(t => {
+                const Icon = t.icon;
+                return (
+                  <button key={t.id} className={`acct-tab${tab===t.id?" on":""}`} onClick={()=>setTab(t.id)}>
+                    <Icon size={18}/> <span>{t.id}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </aside>
         <section className="acct-panel">
           {tab === "Clubs" && <Communities/>}
