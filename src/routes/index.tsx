@@ -13,6 +13,7 @@ import coverAI from "@/assets/covers/ai.jpg";
 import coverBrand from "@/assets/covers/brand.jpg";
 import coverInvesting from "@/assets/covers/investing.jpg";
 import courseFeatured from "@/assets/course-cover-featured.jpg";
+import ai4bLogo from "@/assets/ai4b-logo.png";
 import courseCover1 from "@/assets/course-cover-1.jpg";
 import courseCover2 from "@/assets/course-cover-2.jpg";
 import courseCover3 from "@/assets/course-cover-3.jpg";
