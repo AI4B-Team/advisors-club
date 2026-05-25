@@ -108,41 +108,44 @@ function FeedPage() {
       </div>
 
       <div className="cc-composer">
-        <span className="cc-post-av" style={{background:"#F5A623"}}>Z</span>
-        <div className="cc-composer-body">
-          <input
-            className="cc-composer-title"
-            value={title}
-            onChange={e=>setTitle(e.target.value)}
-            placeholder="Title (optional)"
-          />
-          <textarea
-            value={draft}
-            onChange={e=>setDraft(e.target.value)}
-            placeholder="Write something"
-            rows={3}
-          />
-          <div className="cc-composer-foot">
-            <div className="cc-composer-tools">
-              <button data-tip="Add"><PlusCircle size={18}/></button>
-              <button data-tip="Topic"><Hash size={18}/></button>
-              <button data-tip="Attach file"><Paperclip size={18}/></button>
-              <button data-tip="Video"><Video size={18}/></button>
-              <button data-tip="GIF"><span style={{fontSize:10,fontWeight:800,letterSpacing:.5}}>GIF</span></button>
-              <button data-tip="Image"><ImageIcon size={18}/></button>
-              <button data-tip="Emoji"><Smile size={18}/></button>
-              <button data-tip="Poll"><BarChart3 size={18}/></button>
-              <button data-tip="Voice note"><Mic size={18}/></button>
-            </div>
-            <div className="cc-composer-right">
-              <span className="cc-composer-target">Posting in: <b>Community</b></span>
-              <button className="cc-composer-send" onClick={publish} disabled={!draft.trim()}>
-                <Send size={14}/> Publish
-              </button>
-            </div>
+        <div className="cc-composer-top">
+          <span className="cc-post-av" style={{background:"#F5A623"}}>Z</span>
+          <div className="cc-composer-body">
+            <input
+              className="cc-composer-title"
+              value={title}
+              onChange={e=>setTitle(e.target.value)}
+              placeholder="Title (optional)"
+            />
+            <textarea
+              value={draft}
+              onChange={e=>setDraft(e.target.value)}
+              placeholder="Write something"
+              rows={3}
+            />
+          </div>
+        </div>
+        <div className="cc-composer-foot">
+          <div className="cc-composer-tools">
+            <button data-tip="Add"><PlusCircle size={18}/></button>
+            <button data-tip="Topic"><Hash size={18}/></button>
+            <button data-tip="Attach file"><Paperclip size={18}/></button>
+            <button data-tip="Video"><Video size={18}/></button>
+            <button data-tip="GIF"><span style={{fontSize:10,fontWeight:800,letterSpacing:.5}}>GIF</span></button>
+            <button data-tip="Image"><ImageIcon size={18}/></button>
+            <button data-tip="Emoji"><Smile size={18}/></button>
+            <button data-tip="Poll"><BarChart3 size={18}/></button>
+            <button data-tip="Voice note"><Mic size={18}/></button>
+          </div>
+          <div className="cc-composer-right">
+            <span className="cc-composer-target">Posting in: <b>Community</b></span>
+            <button className="cc-composer-send" onClick={publish} disabled={!draft.trim()}>
+              <Send size={14}/> Publish
+            </button>
           </div>
         </div>
       </div>
+
 
       <div className="cc-posts">
         {sorted.map(p => (
