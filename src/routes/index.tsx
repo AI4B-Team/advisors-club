@@ -96,8 +96,8 @@ function Index() {
       <section className="showcase" id="features">
         <div className="showcase-hd">
           <div className="sc-eyebrow">The 6 Cs of AdvisorsClub</div>
-          <h2 className="sc-h2">Six Pillars. One Platform.<br />Everything Your Club Needs.</h2>
-          <p className="sc-sub" style={{ maxWidth: 760 }}>Stop stitching together five different apps.<br />AdvisorsClub replaces Kajabi, Teachable, Zoom, Mailchimp — and then adds AI on top.</p>
+          <h2 className="sc-h2">The Operating System For<br />Modern Creator Businesses.</h2>
+          <p className="sc-sub" style={{ maxWidth: 760 }}>Community + Content + Coaching + AI + Automation + Monetization.<br />Six pillars. One AI-powered platform. Zero duct tape.</p>
         </div>
 
         {/* 01 · COMMUNITIES — text LEFT, mockup RIGHT */}
