@@ -214,18 +214,6 @@ function Topbar() {
       <nav className="cc-tb-tabs">
         <button className={`cc-tb-tab ${isHome ? "on":""}`} onClick={()=>nav({to:"/app/dashboard"})}>Home</button>
         <button className={`cc-tb-tab ${isCourses ? "on":""}`} onClick={()=>nav({to:"/app/club/courses"})}>Courses</button>
-        <div className="cc-tb-more-wrap" ref={moreRef}>
-          <button className="cc-tb-tab" onClick={()=>setMoreOpen(o=>!o)}>More <ChevronDown size={13}/></button>
-          {moreOpen && (
-            <div className="cc-tb-more-menu">
-              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/events"})}}><Calendar size={14}/> Events</button>
-              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/challenges"})}}><Flame size={14}/> Challenges</button>
-              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/members"})}}><Users size={14}/> Members</button>
-              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/analytics"})}}><BarChart3 size={14}/> Analytics</button>
-              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/settings"})}}><Settings size={14}/> Settings</button>
-            </div>
-          )}
-        </div>
       </nav>
 
       <div className="cc-tb-search">
