@@ -138,29 +138,14 @@
 .ac .hm-tile{
   aspect-ratio:16/9;
   border-radius:6px;
-  padding:14px 16px;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  position:relative;overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-color:#1a1a1a;
   box-shadow:0 8px 24px rgba(0,0,0,0.5);
-}
-.ac .hm-tile::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.05) 60%);
-}
-.ac .hm-tag{
-  position:relative;z-index:1;
-  font-size:9px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;
-  color:#1A1A1A;background:#F5A623;padding:2px 7px;border-radius:3px;
-  align-self:flex-start;margin-bottom:6px;
-}
-.ac .hm-title{
-  position:relative;z-index:1;
-  font-size:13px;font-weight:800;line-height:1.2;color:#fff;
-  text-shadow:0 1px 8px rgba(0,0,0,0.6);
 }
 @media(max-width:960px){
   .ac .hero-mosaic{grid-template-columns:repeat(4,1fr);gap:10px}
-  .ac .hm-title{font-size:11px}
 }
 
 .ac .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(15,15,15,1) 0%, rgba(15,15,15,0.7) 25%, rgba(15,15,15,0.45) 55%, rgba(15,15,15,0.55) 100%),radial-gradient(ellipse 70% 55% at 50% 55%, rgba(0,0,0,0.55) 0%, transparent 70%);pointer-events:none}
