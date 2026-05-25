@@ -579,8 +579,8 @@ function Index() {
             <div className="fg-col"><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Privacy</a><a href="#">Terms</a></div>
           </div>
           <div className="footer-btm">
-            <span>© {new Date().getFullYear()} AdvisorsClub. All rights reserved.</span>
-            <span>Powered by <strong style={{ color: "var(--ac-amber)" }}>Real Advisors, Inc.</strong></span>
+            <span>© {new Date().getFullYear()} AdvisorsClub. All Rights Reserved.</span>
+            <span>Powered By <strong style={{ color: "var(--ac-amber)" }}>Real Advisors, Inc.</strong></span>
           </div>
         </div>
       </footer>
