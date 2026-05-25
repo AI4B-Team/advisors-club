@@ -101,8 +101,8 @@ function Index() {
         <div className="replace-inner">
           <div className="showcase-hd" style={{ marginBottom: 48 }}>
             <div className="sc-eyebrow">One Platform. Zero Stack.</div>
-            <h2 className="sc-h2" style={{whiteSpace:"nowrap"}}>Replace 7 Tools With One.</h2>
-            <p className="sc-sub" style={{ maxWidth: 620, margin: "0 auto" }}>Stop paying for seven subscriptions that barely talk to each other. AdvisorsClub does it all — natively, and with AI on top.</p>
+            <h2 className="sc-h2">Replace Your Entire<br />Creator Stack.</h2>
+            <p className="sc-sub" style={{ maxWidth: 620, margin: "0 auto" }}>One platform. One login. Built-in AI.</p>
           </div>
 
           <div className="replace-grid">
@@ -110,13 +110,13 @@ function Index() {
               <div className="replace-col-label">Cancel these</div>
               <div className="rk-list">
                 {[
-                  { n: "Skool", t: "Community" },
-                  { n: "Circle", t: "Premium community" },
-                  { n: "Kajabi", t: "Courses & funnels" },
-                  { n: "Zoom", t: "Webinars" },
-                  { n: "Mailchimp", t: "Email marketing" },
-                  { n: "Discord", t: "Chat" },
-                  { n: "Facebook Groups", t: "Audience" },
+                  { n: "Kajabi", t: "Courses & Funnels" },
+                  { n: "Zoom", t: "Calls & Webinars" },
+                  { n: "Mailchimp", t: "Email Marketing" },
+                  { n: "Discord", t: "Community Chat" },
+                  { n: "Calendly", t: "Coaching Bookings" },
+                  { n: "HubSpot", t: "CRM" },
+                  { n: "Zapier", t: "Automations" },
                 ].map((t) => (
                   <div className="rk-row" key={t.n}>
                     <div className="rk-x"><X size={12} strokeWidth={3.5} /></div>
@@ -125,30 +125,46 @@ function Index() {
                   </div>
                 ))}
               </div>
-              <div className="rk-total">≈ <strong>$847/mo</strong> · 7 logins · 0 AI</div>
+              <div className="rk-total">≈ <strong>$847/mo</strong> · 7 tools · No AI</div>
             </div>
 
             <div className="replace-arrow" aria-hidden="true">
               <ArrowRight size={28} strokeWidth={2.5} />
             </div>
 
-            <div className="replace-winner">
+            <div className="replace-winner" style={{ position: "relative" }}>
+              <div style={{ position:"absolute", top:16, right:16, display:"inline-flex", alignItems:"center", gap:4, padding:"4px 10px", borderRadius:999, fontSize:10, fontWeight:700, letterSpacing:0.6, background:"linear-gradient(135deg, var(--ac-amber), #F5A623)", color:"#1a1208" }}>
+                <Sparkles size={10} strokeWidth={2.5} /> AI INCLUDED
+              </div>
               <div className="rw-logo" style={{ background:"transparent", padding:0 }}><img src={advisorsLogo} alt="AdvisorsClub" style={{ width:"100%", height:"100%", objectFit:"contain" }} /></div>
               <div className="rw-name">AdvisorsClub</div>
-              <div className="rw-sub">One platform. One login. One bill.</div>
+              <div className="rw-sub">One platform. One login. Built-in AI.</div>
               <div className="rw-features">
                 {[
-                  "Community + DMs + chat",
-                  "Unlimited courses & lessons",
-                  "Live conferences (10k attendees)",
-                  "Native email marketing",
-                  "Challenges & gamification",
-                  "Coaching, calls & CRM",
-                  "AIVA — your 24/7 AI operator",
-                ].map((f) => (
-                  <div className="rw-row" key={f}>
-                    <Check size={13} strokeWidth={3} />
-                    <span>{f}</span>
+                  { f: "Community + chat" },
+                  { f: "Unlimited courses & lessons" },
+                  { f: "Coaching + live calls" },
+                  { f: "Email marketing" },
+                  { f: "Landing pages + funnels" },
+                  { f: "CRM + automations" },
+                  { f: "Challenges + gamification" },
+                  { f: "Events + conferences" },
+                  { f: "AIVA AI content creation", ai: true },
+                  { f: "AIVA 24/7 AI operator", ai: true },
+                ].map(({ f, ai }) => (
+                  <div
+                    className="rw-row"
+                    key={f}
+                    style={ai ? {
+                      background: "linear-gradient(135deg, color-mix(in oklab, var(--ac-amber) 14%, transparent), color-mix(in oklab, var(--ac-amber) 4%, transparent))",
+                      border: "1px solid color-mix(in oklab, var(--ac-amber) 35%, transparent)",
+                      borderRadius: 10,
+                      padding: "8px 10px",
+                      boxShadow: "0 0 24px -8px color-mix(in oklab, var(--ac-amber) 50%, transparent)",
+                    } : undefined}
+                  >
+                    {ai ? <Sparkles size={13} strokeWidth={2.5} style={{ color: "var(--ac-amber)" }} /> : <Check size={13} strokeWidth={3} />}
+                    <span style={ai ? { fontWeight: 600 } : undefined}>{f}</span>
                   </div>
                 ))}
               </div>
