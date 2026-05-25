@@ -101,23 +101,7 @@ function DiscoverPage() {
   );
 }
 
-function Nav() {
-  return (
-    <header className="lt-nav">
-      <div className="lt-nav-in">
-        <Link to="/" className="lt-nav-logo">Advisors<span>Club</span></Link>
-        <div className="lt-nav-search">
-          <Search size={16} strokeWidth={2} />
-          <input placeholder="Search Clubs..." />
-        </div>
-        <div className="lt-nav-right">
-          <Link to="/login" className="lt-nav-link">Login</Link>
-          <Link to="/signup" className="btn-amber">Start For Free <ArrowRight size={14} strokeWidth={3} /></Link>
-        </div>
-      </div>
-    </header>
-  );
-}
+
 
 function ClubCard({ c, large = false }: { c: Club; large?: boolean }) {
   return (
