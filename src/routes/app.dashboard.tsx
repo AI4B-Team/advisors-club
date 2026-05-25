@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Home, PlayCircle, Calendar, Users, Info, MoreHorizontal, MessageSquare, Send, Heart } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { MoreHorizontal, MessageSquare, Send, Heart } from "lucide-react";
 
 export const Route = createFileRoute("/app/dashboard")({
   head: () => ({
@@ -14,13 +14,8 @@ export const Route = createFileRoute("/app/dashboard")({
 function CommunityDashboard() {
   return (
     <div className="cm">
-      <aside className="cm-nav">
-        <NavItem icon={<Home size={18}/>} label="Community" active />
-        <NavItem icon={<PlayCircle size={18}/>} label="Courses" to="/app/club/courses" />
-        <NavItem icon={<Calendar size={18}/>} label="Events" to="/app/club/events" />
-        <NavItem icon={<Users size={18}/>} label="Members" to="/app/club/members" />
-        <NavItem icon={<Info size={18}/>} label="About" />
-      </aside>
+      <aside className="cm-nav" />
+
 
       <section className="cm-feed">
         <div className="cm-compose">
@@ -58,11 +53,6 @@ function CommunityDashboard() {
   );
 }
 
-function NavItem({ icon, label, active, to }: { icon: React.ReactNode; label: string; active?: boolean; to?: string }) {
-  const cls = `cm-nav-item${active ? " on" : ""}`;
-  if (to) return <Link to={to} className={cls}>{icon}<span>{label}</span></Link>;
-  return <button className={cls}>{icon}<span>{label}</span></button>;
-}
 
 function Post({ name, meta, text, likes, comments, shares }: { name: string; meta: string; text: string; likes: number; comments: number; shares: number }) {
   return (
