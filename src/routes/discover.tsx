@@ -18,7 +18,7 @@ export const Route = createFileRoute("/discover")({
 
 type Sort = "trending" | "popular" | "free";
 
-const QUICK = ["Trending", "Business", "Real Estate", "Fitness", "AI & Tech", "Finance", "Marketing", "Mindset", "Crypto", "Sales"];
+const QUICK = ["Trending", "Business", "Real Estate", "Fitness", "AI & Tech", "Finance", "Marketing"];
 
 const SEEK_OPTIONS = ["Wealth", "Health", "Love", "Wisdom", "Happiness"];
 
