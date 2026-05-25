@@ -33,8 +33,8 @@ function CoursesPage() {
           <p>Sample preview — no courses yet. Generate your first with AIVA in seconds.</p>
         </div>
         <div style={{display:"flex",gap:8}}>
-          <button className="btn-ghost"><Upload size={14}/> Upload existing</button>
-          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate with AIVA</Link>
+          <button className="btn-ghost"><Upload size={14}/> Upload Existing</button>
+          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
         </div>
       </div>
 
