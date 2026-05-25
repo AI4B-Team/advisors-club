@@ -890,9 +890,11 @@
 .acct-wrap{background:#fff;min-height:calc(100vh - 56px);margin:-28px -32px;padding:32px 32px 40px 0}
 .acct{display:grid;grid-template-columns:240px 1fr;gap:32px;max-width:1200px;margin:0}
 .acct-nav{display:flex;flex-direction:column;gap:4px;position:sticky;top:80px;align-self:start}
-.acct-tab{padding:14px 20px;border-radius:10px;font-size:15px;font-weight:700;color:var(--ink);background:transparent;border:0;text-align:left;cursor:pointer}
-.acct-tab:hover{background:rgba(0,0,0,0.04)}
-.acct-tab.on{background:#FDE68A;color:var(--ink)}
+.acct-tab{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;font-size:15px;font-weight:700;color:var(--ink);background:transparent;border:0;text-align:left;cursor:pointer}
+.acct-tab svg{color:#111827;flex-shrink:0}
+.acct-tab:hover{background:#F3F4F6}
+.acct-tab.on{background:#0F172A;color:#fff}
+.acct-tab.on svg{color:#fff}
 .acct-panel{min-width:0}
 .acct-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:32px}
 .acct-box h2{font-size:22px;font-weight:800;margin-bottom:6px;color:var(--ink)}
