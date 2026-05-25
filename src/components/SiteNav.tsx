@@ -12,8 +12,7 @@ type Props = {
 
 export function SiteNav({ discoverSearch }: Props) {
   return (
-    <div className="ac">
-      <nav>
+      <nav className="site-nav">
         <div style={{ display: "flex", alignItems: "center", gap: 12, flex: discoverSearch ? 1 : "0 0 auto" }}>
           <Link
             to="/landing"
@@ -77,6 +76,5 @@ export function SiteNav({ discoverSearch }: Props) {
           </Link>
         </div>
       </nav>
-    </div>
   );
 }
