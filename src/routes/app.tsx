@@ -32,11 +32,11 @@ function IconRail() {
   return (
     <aside className="cc-rail">
       {items.map(it => (
-        <button key={it.id} className={`cc-rail-bubble ${it.active ? "on":""}`} title={it.label} style={{background: it.color}}>
+        <button key={it.id} className={`cc-rail-bubble ${it.active ? "on":""}`} data-tip={it.label} style={{background: it.color}}>
           {it.label.slice(0,1)}
         </button>
       ))}
-      <button className="cc-rail-add" title="Create community" onClick={() => nav({ to: "/discover" })}><Plus size={18}/></button>
+      <button className="cc-rail-add" data-tip="Create Community" onClick={() => nav({ to: "/discover" })}><Plus size={18}/></button>
     </aside>
   );
 }
