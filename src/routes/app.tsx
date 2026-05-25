@@ -1,6 +1,6 @@
-import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Search, Bell, LogOut, ChevronsUpDown, LayoutDashboard, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Compass, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home } from "lucide-react";
+import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -8,108 +8,186 @@ export const Route = createFileRoute("/app")({
 
 function AppShell() {
   return (
-    <div className="lt">
-      <div className="lt-app">
-        <Sidebar />
-        <div className="lt-main">
-          <Topbar />
-          <main className="lt-content">
-            <Outlet />
-          </main>
-        </div>
+    <div className="cc">
+      <IconRail />
+      <CommunitySidebar />
+      <div className="cc-main-wrap">
+        <Topbar />
+        <main className="cc-main">
+          <Outlet />
+        </main>
       </div>
     </div>
   );
 }
 
-function Sidebar() {
+/* ============ LEFT ICON RAIL ============ */
+function IconRail() {
   const nav = useNavigate();
+  const items = [
+    { id: "re", label: "Real Estate Empire", color: "#F5A623", active: true },
+    { id: "c1", label: "Coaches Circle", color: "#0EA5E9" },
+    { id: "c2", label: "Creators Hub", color: "#A78BFA" },
+  ];
   return (
-    <aside className="lt-sidebar">
-      <div className="lt-sb-top">
-        <Link to="/landing" className="lt-sb-logo">Advisors<span>Club</span></Link>
-        <button className="lt-switcher">
-          <span className="lt-switcher-av">RE</span>
-          <span className="lt-switcher-t">
-            <span className="lt-switcher-name">Real Estate Empire</span>
-            <span className="lt-switcher-meta">847 members</span>
-          </span>
-          <ChevronsUpDown size={14} color="#737380" />
+    <aside className="cc-rail">
+      {items.map(it => (
+        <button key={it.id} className={`cc-rail-bubble ${it.active ? "on":""}`} title={it.label} style={{background: it.color}}>
+          {it.label.slice(0,1)}
         </button>
-      </div>
-
-      <nav className="lt-sb-nav">
-        <div className="lt-sb-group">Main</div>
-        <Link to="/" className="lt-sb-item"><Home size={16}/> Home</Link>
-        <Link to="/app/getting-started" className="lt-sb-item"><Sparkles size={16}/> Getting started <span className="lt-sb-badge">NEW</span></Link>
-        <Link to="/app/dashboard" className="lt-sb-item" activeOptions={{exact:false}}><LayoutDashboard size={16}/> Community</Link>
-        <Link to="/app/club/feed" className="lt-sb-item"><MessageSquare size={16}/> Club Feed</Link>
-
-        <div className="lt-sb-group">Learn</div>
-        <Link to="/app/club/courses" className="lt-sb-item"><BookOpen size={16}/> Courses</Link>
-        <Link to="/app/club/challenges" className="lt-sb-item"><Flame size={16}/> Challenges</Link>
-        <Link to="/app/club/events" className="lt-sb-item"><Calendar size={16}/> Events</Link>
-
-        <div className="lt-sb-group">People</div>
-        <Link to="/app/club/members" className="lt-sb-item"><Users size={16}/> Members</Link>
-        <Link to="/app/club/analytics" className="lt-sb-item"><BarChart3 size={16}/> Analytics</Link>
-
-        <div className="lt-sb-group">Tools</div>
-        <Link to="/app/aiva" className="lt-sb-item"><Sparkles size={16}/> AIVA <span className="lt-sb-badge">AI</span></Link>
-        <Link to="/app/club/settings" className="lt-sb-item"><Settings size={16}/> Settings</Link>
-      </nav>
-
+      ))}
+      <button className="cc-rail-add" title="Create community" onClick={() => nav({ to: "/discover" })}><Plus size={18}/></button>
     </aside>
   );
 }
 
+/* ============ COMMUNITY SIDEBAR ============ */
+type SpaceLink = { label: string; icon: string; to: string; count?: number };
+type SpaceGroup = { title: string; items: SpaceLink[] };
+
+const SPACES: SpaceGroup[] = [
+  {
+    title: "Get started",
+    items: [
+      { label: "Start here", icon: "🏠", to: "/app/getting-started", count: 1 },
+      { label: "Say hello", icon: "👋", to: "/app/club/feed", count: 1 },
+      { label: "Resources", icon: "📖", to: "/app/club/courses", count: 1 },
+    ],
+  },
+  {
+    title: "Learn",
+    items: [
+      { label: "Courses", icon: "📚", to: "/app/club/courses" },
+      { label: "Challenges", icon: "🔥", to: "/app/club/challenges" },
+      { label: "Events", icon: "📅", to: "/app/club/events" },
+    ],
+  },
+  {
+    title: "Community",
+    items: [
+      { label: "Members", icon: "👥", to: "/app/club/members" },
+      { label: "Analytics", icon: "📊", to: "/app/club/analytics" },
+      { label: "AIVA", icon: "✨", to: "/app/aiva" },
+    ],
+  },
+];
+
+function CommunitySidebar() {
+  return (
+    <aside className="cc-sb">
+      <div className="cc-sb-top">
+        <button className="cc-sb-switcher">
+          <span className="cc-sb-name">Real Estate Empire</span>
+          <ChevronDown size={16}/>
+        </button>
+      </div>
+
+      <Link to="/app/dashboard" className="cc-sb-pill" activeProps={{className:"cc-sb-pill on"}}>
+        <span className="cc-sb-pill-i"><Rocket size={15}/></span>
+        Getting started
+      </Link>
+
+      <Link to="/app/club/feed" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
+        <MessageSquare size={16}/> Feed
+      </Link>
+
+      {SPACES.map(group => (
+        <div key={group.title} className="cc-sb-group">
+          <div className="cc-sb-group-t">{group.title}</div>
+          {group.items.map(it => (
+            <Link key={it.label+it.to} to={it.to} className="cc-sb-row" activeProps={{className:"cc-sb-row on"}}>
+              <span className="cc-sb-row-emoji">{it.icon}</span>
+              <span className="cc-sb-row-l">{it.label}</span>
+              {it.count != null && <span className="cc-sb-row-c">{it.count}</span>}
+            </Link>
+          ))}
+        </div>
+      ))}
+
+      <div className="cc-sb-foot">
+        <button className="cc-sb-live"><Video size={15}/> Go live</button>
+        <div className="cc-sb-powered">Powered by AdvisorsClub</div>
+      </div>
+    </aside>
+  );
+}
+
+/* ============ TOP BAR ============ */
 function Topbar() {
   const nav = useNavigate();
+  const pathname = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function onDocClick(e: MouseEvent) {
+    function onDoc(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
     }
-    document.addEventListener("mousedown", onDocClick);
-    return () => document.removeEventListener("mousedown", onDocClick);
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
-  return (
-    <header className="lt-topbar">
-      <div className="lt-topbar-search">
-        <Search size={14} />
-        <input placeholder="Search your Club..." />
-      </div>
-      <div className="lt-topbar-right">
-        <button className="btn-amber" style={{height:36,padding:"0 14px"}}><Plus size={15} strokeWidth={3}/> New Post</button>
-        <button className="lt-bell"><Bell size={16}/><span className="lt-bell-dot"/></button>
+  const isHome = pathname === "/app/dashboard" || pathname === "/app/club/feed";
+  const isCourses = pathname.startsWith("/app/club/courses");
 
-        <div className="lt-pf-wrap" ref={ref}>
-          <button className="lt-pf-btn" onClick={() => setOpen(o=>!o)} aria-label="Account menu">
-            <span className="lt-pf-av">Z</span>
-          </button>
+  return (
+    <header className="cc-tb">
+      <div className="cc-tb-brand">
+        <span className="cc-tb-logo">M</span>
+        <button className="cc-tb-cname">Real Estate Empire <ChevronDown size={14}/></button>
+      </div>
+
+      <nav className="cc-tb-tabs">
+        <button className={`cc-tb-tab ${isHome ? "on":""}`} onClick={()=>nav({to:"/app/dashboard"})}>Home</button>
+        <button className={`cc-tb-tab ${isCourses ? "on":""}`} onClick={()=>nav({to:"/app/club/courses"})}>Courses</button>
+        <div className="cc-tb-more-wrap" ref={moreRef}>
+          <button className="cc-tb-tab" onClick={()=>setMoreOpen(o=>!o)}>More <ChevronDown size={13}/></button>
+          {moreOpen && (
+            <div className="cc-tb-more-menu">
+              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/events"})}}><Calendar size={14}/> Events</button>
+              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/challenges"})}}><Flame size={14}/> Challenges</button>
+              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/members"})}}><Users size={14}/> Members</button>
+              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/analytics"})}}><BarChart3 size={14}/> Analytics</button>
+              <button onClick={()=>{setMoreOpen(false);nav({to:"/app/club/settings"})}}><Settings size={14}/> Settings</button>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      <div className="cc-tb-search">
+        <Search size={14}/>
+        <input placeholder="Search" />
+      </div>
+
+      <div className="cc-tb-right">
+        <button className="cc-tb-icon" title="Notifications"><Bell size={16}/></button>
+        <button className="cc-tb-icon" title="Messages"><MessageCircle size={16}/></button>
+        <button className="cc-tb-icon" title="Bookmarks"><Bookmark size={16}/></button>
+
+        <div className="cc-tb-pf" ref={ref}>
+          <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">Z</button>
           {open && (
-            <div className="lt-pf-menu">
-              <div className="lt-pf-head">
-                <span className="lt-pf-av lg">Z</span>
+            <div className="cc-tb-menu">
+              <div className="cc-tb-menu-head">
+                <span className="cc-tb-menu-av">Z</span>
                 <div>
-                  <div className="lt-pf-n">Zaddy</div>
-                  <div className="lt-pf-e">zaddy@advisorsclub.com</div>
+                  <div className="cc-tb-menu-n">Zaddy</div>
+                  <div className="cc-tb-menu-e">zaddy@advisorsclub.com</div>
                 </div>
               </div>
-              <button className="lt-pf-cta amber"><Zap size={15} strokeWidth={3}/> Upgrade</button>
-              <button className="lt-pf-cta ghost"><UserPlus size={15}/> Add Members</button>
-              <div className="lt-pf-sep" />
+              <button className="cc-tb-menu-cta amber"><Zap size={15} strokeWidth={3}/> Upgrade</button>
+              <button className="cc-tb-menu-cta ghost"><UserPlus size={15}/> Add Members</button>
+              <div className="cc-tb-menu-sep" />
               <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
               <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" />
               <MenuItem icon={<Mail size={15}/>} label="Invites" />
-              <div className="lt-pf-sep" />
+              <div className="cc-tb-menu-sep" />
               <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" />
               <MenuItem icon={<Sun size={15}/>} label="Theme:" right="Light ›" />
-              <button className="lt-pf-affil"><Award size={15}/> Join Affiliate Program</button>
-              <button className="lt-pf-logout" onClick={()=>nav({to:"/"})}><LogOut size={15}/> Log Out</button>
+              <button className="cc-tb-menu-logout" onClick={()=>nav({to:"/"})}><LogOut size={15}/> Log Out</button>
             </div>
           )}
         </div>
@@ -120,10 +198,10 @@ function Topbar() {
 
 function MenuItem({ icon, label, right, onClick }: { icon: React.ReactNode; label: string; right?: string; onClick?: () => void }) {
   return (
-    <button className="lt-pf-item" onClick={onClick}>
-      <span className="lt-pf-i">{icon}</span>
-      <span className="lt-pf-l">{label}</span>
-      {right && <span className="lt-pf-r">{right}</span>}
+    <button className="cc-tb-menu-item" onClick={onClick}>
+      <span className="cc-tb-menu-i">{icon}</span>
+      <span className="cc-tb-menu-l">{label}</span>
+      {right && <span className="cc-tb-menu-r">{right}</span>}
     </button>
   );
 }
