@@ -185,7 +185,6 @@ function CommunitySidebar() {
 /* ============ TOP BAR ============ */
 function Topbar() {
   const nav = useNavigate();
-  const pathname = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
