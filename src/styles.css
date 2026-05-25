@@ -733,29 +733,78 @@
 
 /* === Discover Netflix-style rows === */
 .lt .dc-rows{max-width:1280px;margin:0 auto;padding:24px 24px 80px}
-.lt .dc-row{margin-bottom:40px}
-.lt .dc-row-head{display:flex;align-items:center;justify-content:space-between;margin:0 4px 14px}
+.lt .dc-row{margin-bottom:28px}
+.lt .dc-row-compact{margin-bottom:18px}
+.lt .dc-row-head{display:flex;align-items:flex-end;justify-content:space-between;margin:0 4px 12px;gap:16px}
 .lt .dc-row-title{font-size:22px;font-weight:800;letter-spacing:-0.5px;color:#0F0F12;margin:0}
 .lt .dc-row-arrows{display:flex;gap:6px}
 .lt .dc-row-arrows button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line,#e5e7eb);background:#fff;color:#0F0F12;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
 .lt .dc-row-arrows button:hover{background:#0F0F12;color:#fff;border-color:#0F0F12}
-.lt .dc-row-scroll{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 14px;scrollbar-width:none}
+.lt .dc-row-scroll{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 10px;scrollbar-width:none}
 .lt .dc-row-scroll::-webkit-scrollbar{display:none}
+.lt .dc-grid-compact{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding:2px}
+@media (max-width:880px){.lt .dc-grid-compact{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .lt .dc-card{flex:0 0 280px;scroll-snap-align:start;background:#fff;border:1px solid var(--line,#e5e7eb);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;cursor:pointer}
+.lt .dc-grid-compact .dc-card{flex:initial}
 .lt .dc-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px -16px rgba(15,15,18,0.18);border-color:#0F0F12}
 .lt .dc-card-cover{position:relative;aspect-ratio:16/10;overflow:hidden;background:#f5f5f0}
 .lt .dc-card-cover img{width:100%;height:100%;object-fit:cover;display:block}
 .lt .dc-badge{position:absolute;top:10px;right:10px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.2px;backdrop-filter:blur(8px)}
 .lt .dc-badge.free{background:#16A34A;color:#fff}
-.lt .dc-badge.price{background:rgba(15,15,18,0.8);color:#fff}
-.lt .dc-card-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px}
+.lt .dc-badge.price{background:rgba(15,15,18,0.85);color:#fff}
+.lt .dc-aiva-badge{position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;background:rgba(15,15,18,0.85);color:#FACC15;backdrop-filter:blur(8px)}
+.lt .dc-card-body{padding:14px 14px 14px;display:flex;flex-direction:column;gap:6px}
 .lt .dc-card-cat{font-size:10px;font-weight:800;letter-spacing:1.2px;color:#B8801A;text-transform:uppercase}
 .lt .dc-card-title{font-size:16px;font-weight:800;color:#0F0F12;letter-spacing:-0.3px;line-height:1.25}
-.lt .dc-card-tagline{font-size:13px;color:#52525B;line-height:1.45;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.lt .dc-card-meta{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--line,#e5e7eb);font-size:12px}
+.lt .dc-card-tagline{font-size:13px;color:#52525B;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lt .dc-card-meta{display:flex;align-items:center;justify-content:space-between;padding-top:10px;margin-top:4px;border-top:1px solid var(--line,#e5e7eb);font-size:12px}
 .lt .dc-advisor{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:#52525B}
 .lt .dc-avatar{width:22px;height:22px;border-radius:999px;background:#0F0F12;color:#fff;font-size:9px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
-.lt .dc-rating{display:inline-flex;align-items:center;gap:4px;font-weight:700;color:#0F0F12}
+.lt .dc-rating{display:inline-flex;align-items:center;gap:4px;color:#0F0F12}
+
+/* Life chips */
+.lt .dc-life{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.1px;width:fit-content;margin-top:2px}
+.lt .dc-life.fire{background:#FEF3C7;color:#92400E}
+.lt .dc-life.live{background:#FEE2E2;color:#B91C1C}
+.lt .dc-life.ai{background:#EDE9FE;color:#5B21B6}
+.lt .dc-life.online{background:#DCFCE7;color:#166534}
+.lt .dc-life-dot{width:7px;height:7px;border-radius:999px;background:#16A34A;box-shadow:0 0 0 3px rgba(22,163,74,0.18)}
+
+/* Featured row — cinematic */
+.lt .dc-featured{margin-bottom:36px;padding:24px;background:linear-gradient(180deg,#FAF8F3,#fff);border:1px solid var(--line,#e5e7eb);border-radius:18px}
+.lt .dc-feat-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#B8801A;margin-bottom:4px}
+.lt .dc-feat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:980px){.lt .dc-feat-grid{grid-template-columns:1fr}}
+.lt .dc-feat-card{background:#fff;border:1px solid var(--line,#e5e7eb);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:pointer}
+.lt .dc-feat-card:hover{transform:translateY(-4px);box-shadow:0 22px 48px -20px rgba(15,15,18,0.25);border-color:#0F0F12}
+.lt .dc-feat-cover{position:relative;aspect-ratio:16/9;overflow:hidden;background:#f5f5f0}
+.lt .dc-feat-cover img{width:100%;height:100%;object-fit:cover}
+.lt .dc-feat-overlay{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:space-between;padding:12px;pointer-events:none}
+.lt .dc-feat-cat{padding:5px 10px;background:rgba(255,255,255,0.95);border-radius:999px;font-size:10px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#0F0F12}
+.lt .dc-feat-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px}
+.lt .dc-feat-title{font-size:20px;font-weight:900;letter-spacing:-0.5px;color:#0F0F12;margin:2px 0 0;line-height:1.2}
+.lt .dc-feat-tagline{font-size:13.5px;color:#52525B;line-height:1.5;margin:0}
+.lt .dc-feat-foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--line,#e5e7eb);font-size:12px;margin-top:4px}
+
+/* Emotional subhead */
+.lt .dc-emotion{font-size:17px;color:#52525B;max-width:680px;margin:0 auto 28px;line-height:1.55}
+.lt .dc-emotion b{color:#0F0F12;font-weight:800}
+
+/* Creator CTA pill (under search) */
+.lt .dc-creator-cta{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:10px 16px 10px 12px;border-radius:999px;background:#0F0F12;color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.lt .dc-creator-cta:hover{transform:translateY(-1px);box-shadow:0 12px 28px -12px rgba(15,15,18,0.5)}
+.lt .dc-creator-cta b{font-weight:800;color:#FACC15}
+.lt .dc-creator-spark{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;background:#FACC15;color:#0F0F12}
+
+/* Creator banner at bottom */
+.lt .dc-creator-banner{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:24px 0 12px;padding:28px 32px;border-radius:20px;background:linear-gradient(135deg,#0F0F12 0%,#1F1F26 100%);color:#fff;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.lt .dc-creator-banner:hover{transform:translateY(-2px);box-shadow:0 24px 56px -20px rgba(15,15,18,0.5)}
+.lt .dc-creator-banner h3{font-size:24px;font-weight:900;letter-spacing:-0.5px;margin:4px 0 6px}
+.lt .dc-creator-banner p{font-size:14px;color:rgba(255,255,255,0.7);margin:0;max-width:520px}
+.lt .dc-cb-eye{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#FACC15}
+.lt .dc-cb-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;background:#FACC15;color:#0F0F12;font-weight:800;font-size:14px;white-space:nowrap;flex-shrink:0}
+@media (max-width:720px){.lt .dc-creator-banner{flex-direction:column;align-items:flex-start;padding:22px}}
+
 @media (max-width:760px){
   .lt .dc-rows{padding:16px 12px 60px}
   .lt .dc-card{flex-basis:220px}
