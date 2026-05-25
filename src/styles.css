@@ -240,7 +240,7 @@
 
 .ac .cta-bottom{text-align:center;padding:110px 52px;position:relative;overflow:hidden}
 .ac .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(245,166,35,0.08) 0%,transparent 65%);pointer-events:none}
-.ac .cta-bottom h2{font-size:clamp(36px,5vw,64px);font-weight:900;letter-spacing:-2.5px;max-width:700px;margin:0 auto 20px;font-family:var(--ac-font)}
+.ac .cta-bottom h2{font-size:clamp(28px,4.2vw,56px);font-weight:900;letter-spacing:-2px;max-width:none;margin:0 auto 20px;font-family:var(--ac-font);white-space:nowrap}
 .ac .cta-bottom p{font-size:17px;color:var(--ac-muted);max-width:440px;margin:0 auto 40px;line-height:1.72}
 .ac .cta-form2{width:100%;max-width:460px;margin:0 auto;display:flex;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.3)}
 .ac .cta-form2 input{flex:1;padding:16px 18px;font-size:14px;font-family:var(--ac-font);background:transparent;border:none;outline:none;color:#1A1A1A}
