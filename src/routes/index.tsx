@@ -575,39 +575,39 @@ function Index() {
               <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA summarizes every session automatically</li>
             </ul>
           </div>
-          <div className="fp-visual">
-            <div className="fp-vis-bar">
+          <div className="fp-visual" style={{ background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)" }}>
+            <div className="fp-vis-bar" style={{ background:"#FAFAF7", borderBottom:"1px solid rgba(0,0,0,0.07)" }}>
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Coaching Dashboard</span>
+              <span style={{ fontSize: 11, color: "#6B6B75", marginLeft: 8 }}>Coaching Dashboard</span>
             </div>
-            <div style={{ padding:18 }}>
-              <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em" }}>Upcoming Sessions</div>
-              <div style={{ background:"var(--ac-bg3)", border:"1px solid rgba(245,166,35,0.2)", borderRadius:12, padding:14, marginBottom:10 }}>
+            <div style={{ padding:18, background:"#FFFFFF" }}>
+              <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em" }}>Upcoming Sessions</div>
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(245,166,35,0.30)", borderRadius:12, padding:14, marginBottom:10 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
-                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(245,166,35,0.12)", display:"flex", alignItems:"center", justifyContent:"center", color:"var(--ac-amber)" }}><Video size={18} /></div>
+                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(245,166,35,0.14)", display:"flex", alignItems:"center", justifyContent:"center", color:"var(--ac-amber)" }}><Video size={18} /></div>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontSize:12, fontWeight:700 }}>1:1 Strategy Call — Marcus T.</div>
-                    <div style={{ fontSize:10, color:"var(--ac-muted)" }}>Today · 2:00 PM EST · 60 min</div>
+                    <div style={{ fontSize:12, fontWeight:700, color:"#0F0F14" }}>1:1 Strategy Call — Marcus T.</div>
+                    <div style={{ fontSize:10, color:"#6B6B75" }}>Today · 2:00 PM EST · 60 min</div>
                   </div>
                   <div style={{ padding:"4px 10px", borderRadius:50, background:"var(--ac-amber)", fontSize:9, fontWeight:800, color:"#1A1A1A" }}>Join</div>
                 </div>
-                <div style={{ height:1, background:"var(--ac-border)", marginBottom:8 }} />
+                <div style={{ height:1, background:"rgba(0,0,0,0.07)", marginBottom:8 }} />
                 <div style={{ display:"flex", gap:12 }}>
-                  <div style={{ flex:1, background:"rgba(255,255,255,0.04)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"var(--ac-muted)" }}>Goal</div><div style={{ color:"rgba(255,255,255,0.8)", marginTop:1 }}>Close first wholesale deal</div></div>
-                  <div style={{ flex:1, background:"rgba(255,255,255,0.04)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"var(--ac-muted)" }}>Progress</div><div style={{ color:"var(--ac-amber)", marginTop:1 }}>3/5 milestones</div></div>
+                  <div style={{ flex:1, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.06)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"#6B6B75" }}>Goal</div><div style={{ color:"#0F0F14", marginTop:1 }}>Close first wholesale deal</div></div>
+                  <div style={{ flex:1, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.06)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"#6B6B75" }}>Progress</div><div style={{ color:"var(--ac-amber)", marginTop:1, fontWeight:700 }}>3/5 milestones</div></div>
                 </div>
               </div>
-              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14, marginBottom:10 }}>
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:12, padding:14, marginBottom:10 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(129,140,248,0.12)", display:"flex", alignItems:"center", justifyContent:"center", color:"#818CF8" }}><Users size={18} /></div>
+                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(129,140,248,0.14)", display:"flex", alignItems:"center", justifyContent:"center", color:"#6366F1" }}><Users size={18} /></div>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontSize:12, fontWeight:700 }}>Group Hot Seat — All Members</div>
-                    <div style={{ fontSize:10, color:"var(--ac-muted)" }}>Thursday · 6:00 PM EST · 14 attending</div>
+                    <div style={{ fontSize:12, fontWeight:700, color:"#0F0F14" }}>Group Hot Seat — All Members</div>
+                    <div style={{ fontSize:10, color:"#6B6B75" }}>Thursday · 6:00 PM EST · 14 attending</div>
                   </div>
-                  <div style={{ padding:"4px 10px", borderRadius:50, background:"rgba(255,255,255,0.06)", border:"1px solid var(--ac-border)", fontSize:9, fontWeight:700, color:"var(--ac-muted)" }}>RSVP</div>
+                  <div style={{ padding:"4px 10px", borderRadius:50, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.12)", fontSize:9, fontWeight:700, color:"#6B6B75" }}>RSVP</div>
                 </div>
               </div>
-              <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.08em" }}>Client Progress</div>
+              <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.08em" }}>Client Progress</div>
               <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
                 {[
                   { name:"Marcus T.", av:"M", avBg:"#F5A623", avC:"#1A1A1A", pct:75, hot:true },
@@ -616,10 +616,10 @@ function Index() {
                   <div key={c.name} style={{ display:"flex", alignItems:"center", gap:10, fontSize:11 }}>
                     <div style={{ width:26, height:26, borderRadius:"50%", background:c.avBg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:900, color:c.avC, flexShrink:0 }}>{c.av}</div>
                     <div style={{ flex:1 }}>
-                      <div style={{ fontWeight:600, marginBottom:3 }}>{c.name}</div>
-                      <div style={{ height:4, background:"rgba(255,255,255,0.08)", borderRadius:2, overflow:"hidden" }}><div style={{ height:"100%", width:`${c.pct}%`, background:"var(--ac-amber)", borderRadius:2 }} /></div>
+                      <div style={{ fontWeight:600, marginBottom:3, color:"#0F0F14" }}>{c.name}</div>
+                      <div style={{ height:4, background:"rgba(0,0,0,0.07)", borderRadius:2, overflow:"hidden" }}><div style={{ height:"100%", width:`${c.pct}%`, background:"var(--ac-amber)", borderRadius:2 }} /></div>
                     </div>
-                    <div style={{ fontSize:10, color: c.hot?"var(--ac-amber)":"var(--ac-muted)", fontWeight:700 }}>{c.pct}%</div>
+                    <div style={{ fontSize:10, color: c.hot?"var(--ac-amber)":"#6B6B75", fontWeight:700 }}>{c.pct}%</div>
                   </div>
                 ))}
               </div>
