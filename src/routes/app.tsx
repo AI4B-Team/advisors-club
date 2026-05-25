@@ -62,7 +62,7 @@ function IconRail() {
 }
 
 /* ============ COMMUNITY SIDEBAR ============ */
-type SubLink = { label: string; to: string };
+type SubLink = { label: string; to: string; icon: ReactNode };
 type TopLink = {
   label: string; to: string; icon: React.ReactNode;
   exact?: boolean; pill?: boolean;
@@ -73,28 +73,60 @@ const DEFAULT_MENU = ["Pin to top", "Mute notifications", "Mark all read", "Hide
 
 const TOP_LINKS: TopLink[] = [
   { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
-    subs: [{label:"Dashboard",to:"/app/dashboard"},{label:"Activity",to:"/app"},{label:"Bookmarks",to:"/app/bookmarks"}],
+    subs: [
+      {label:"Dashboard",to:"/app/dashboard", icon:<LayoutDashboard size={14}/>},
+      {label:"Activity",to:"/app", icon:<Activity size={14}/>},
+      {label:"Bookmarks",to:"/app/bookmarks", icon:<Bookmark size={14}/>},
+    ],
     menu: DEFAULT_MENU },
   { label: "Getting Started", to: "/app/dashboard", icon: <Rocket size={16}/>,
-    subs: [{label:"Start Here",to:"/app/getting-started"},{label:"Say Hello",to:"/app/club/feed"},{label:"Resources",to:"/app/club/courses"}],
+    subs: [
+      {label:"Start Here",to:"/app/getting-started", icon:<PlayCircle size={14}/>},
+      {label:"Say Hello",to:"/app/club/feed", icon:<Hand size={14}/>},
+      {label:"Resources",to:"/app/club/courses", icon:<Book size={14}/>},
+    ],
     menu: DEFAULT_MENU },
   { label: "Community", to: "/app/club/feed", icon: <MessageSquare size={16}/>,
-    subs: [{label:"Feed",to:"/app/club/feed"},{label:"Announcements",to:"/app/club/feed"},{label:"Discussions",to:"/app/club/feed"}],
+    subs: [
+      {label:"Feed",to:"/app/club/feed", icon:<Hash size={14}/>},
+      {label:"Announcements",to:"/app/club/feed", icon:<Megaphone size={14}/>},
+      {label:"Discussions",to:"/app/club/feed", icon:<MessagesSquare size={14}/>},
+    ],
     menu: DEFAULT_MENU },
   { label: "Courses", to: "/app/club/courses", icon: <BookOpen size={16}/>,
-    subs: [{label:"All Courses",to:"/app/club/courses"},{label:"In Progress",to:"/app/club/courses"},{label:"Completed",to:"/app/club/courses"}],
+    subs: [
+      {label:"All Courses",to:"/app/club/courses", icon:<BookOpen size={14}/>},
+      {label:"In Progress",to:"/app/club/courses", icon:<Clock size={14}/>},
+      {label:"Completed",to:"/app/club/courses", icon:<CheckCircle2 size={14}/>},
+    ],
     menu: DEFAULT_MENU },
   { label: "Challenges", to: "/app/club/challenges", icon: <Flame size={16}/>,
-    subs: [{label:"Active",to:"/app/club/challenges"},{label:"Upcoming",to:"/app/club/challenges"},{label:"Past",to:"/app/club/challenges"}],
+    subs: [
+      {label:"Active",to:"/app/club/challenges", icon:<Flame size={14}/>},
+      {label:"Upcoming",to:"/app/club/challenges", icon:<CalendarClock size={14}/>},
+      {label:"Past",to:"/app/club/challenges", icon:<History size={14}/>},
+    ],
     menu: DEFAULT_MENU },
   { label: "Events", to: "/app/club/events", icon: <Calendar size={16}/>,
-    subs: [{label:"Calendar",to:"/app/club/events"},{label:"Upcoming",to:"/app/club/events"},{label:"Past",to:"/app/club/events"}],
+    subs: [
+      {label:"Calendar",to:"/app/club/events", icon:<CalendarDays size={14}/>},
+      {label:"Upcoming",to:"/app/club/events", icon:<CalendarClock size={14}/>},
+      {label:"Past",to:"/app/club/events", icon:<CalendarCheck size={14}/>},
+    ],
     menu: DEFAULT_MENU },
   { label: "Members", to: "/app/club/members", icon: <Users size={16}/>,
-    subs: [{label:"All Members",to:"/app/club/members"},{label:"Online",to:"/app/club/members"},{label:"Admins",to:"/app/club/members"}],
+    subs: [
+      {label:"All Members",to:"/app/club/members", icon:<Users size={14}/>},
+      {label:"Online",to:"/app/club/members", icon:<UserCheck size={14}/>},
+      {label:"Admins",to:"/app/club/members", icon:<ShieldCheck size={14}/>},
+    ],
     menu: DEFAULT_MENU },
   { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,
-    subs: [{label:"Console",to:"/app/aiva"},{label:"Prompts",to:"/app/aiva"},{label:"History",to:"/app/aiva"}],
+    subs: [
+      {label:"Console",to:"/app/aiva", icon:<Terminal size={14}/>},
+      {label:"Prompts",to:"/app/aiva", icon:<Lightbulb size={14}/>},
+      {label:"History",to:"/app/aiva", icon:<FileClock size={14}/>},
+    ],
     menu: DEFAULT_MENU },
 ];
 
