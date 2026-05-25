@@ -1,38 +1,55 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight } from "lucide-react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass } from "lucide-react";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
 });
 
+type Club = { id: string; label: string; color: string };
+const CLUBS: Club[] = [
+  { id: "re", label: "Real Estate Empire", color: "#F5A623" },
+  { id: "c1", label: "Coaches Circle", color: "#0EA5E9" },
+  { id: "c2", label: "Creators Hub", color: "#A78BFA" },
+];
+
+const ClubCtx = createContext<{
+  active: Club;
+  setActive: (c: Club) => void;
+}>({ active: CLUBS[0], setActive: () => {} });
+
 function AppShell() {
+  const [active, setActive] = useState<Club>(CLUBS[0]);
   return (
-    <div className="cc">
-      <IconRail />
-      <CommunitySidebar />
-      <div className="cc-main-wrap">
-        <Topbar />
-        <main className="cc-main">
-          <Outlet />
-        </main>
+    <ClubCtx.Provider value={{ active, setActive }}>
+      <div className="cc">
+        <IconRail />
+        <CommunitySidebar />
+        <div className="cc-main-wrap">
+          <Topbar />
+          <main className="cc-main">
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </ClubCtx.Provider>
   );
 }
 
 /* ============ LEFT ICON RAIL ============ */
 function IconRail() {
   const nav = useNavigate();
-  const items = [
-    { id: "re", label: "Real Estate Empire", color: "#F5A623", active: true },
-    { id: "c1", label: "Coaches Circle", color: "#0EA5E9" },
-    { id: "c2", label: "Creators Hub", color: "#A78BFA" },
-  ];
+  const { active, setActive } = useContext(ClubCtx);
   return (
     <aside className="cc-rail">
-      {items.map(it => (
-        <button key={it.id} className={`cc-rail-bubble ${it.active ? "on":""}`} data-tip={it.label} style={{background: it.color}}>
+      {CLUBS.map(it => (
+        <button
+          key={it.id}
+          className={`cc-rail-bubble ${active.id === it.id ? "on":""}`}
+          data-tip={it.label}
+          style={{background: it.color}}
+          onClick={() => setActive(it)}
+        >
           {it.label.slice(0,1)}
         </button>
       ))}
