@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Eye, Pin, RefreshCw, Bell } from "lucide-react";
+import { Eye, Pin, RefreshCw } from "lucide-react";
 import heroImg from "@/assets/account-hero.jpg";
 
 export const Route = createFileRoute("/app/account")({
