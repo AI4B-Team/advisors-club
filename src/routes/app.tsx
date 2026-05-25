@@ -93,6 +93,7 @@ function CommunitySidebar() {
   const { active, setActive } = useContext(ClubCtx);
   const nav = useNavigate();
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function onDoc(e: MouseEvent) {
