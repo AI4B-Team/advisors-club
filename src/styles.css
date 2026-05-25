@@ -262,7 +262,7 @@
 .ac .cta-form2 input::placeholder{color:#aaa}
 .ac .cta-form2 button{padding:16px 20px;background:var(--ac-amber);color:#1A1A1A;font-size:14px;font-weight:900;font-family:var(--ac-font);border:none;cursor:pointer;transition:background .2s}
 .ac .cta-form2 button:hover{background:var(--ac-amber3)}
-.ac .cta-fine2{font-size:12px;color:rgba(255,255,255,0.35);margin-top:14px}
+.ac .cta-fine2{font-size:12px;color:rgba(255,255,255,0.35);margin-top:32px;line-height:1.9}
 
 .ac footer{background:#141414;border-top:1px solid var(--ac-border);padding:52px 52px 36px}
 .ac .footer-inner{max-width:1200px;margin:0 auto}
