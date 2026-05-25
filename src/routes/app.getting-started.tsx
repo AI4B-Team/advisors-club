@@ -115,7 +115,7 @@ function GettingStarted() {
   return (
     <div className="gs">
       <div className="gs-inner">
-        <h1 className="gs-title">Welcome to AdvisorsClub, Zaddy!</h1>
+        <h1 className="gs-title">Welcome To Advisors Club, Zaddy!</h1>
         <p className="gs-sub">What's your club idea? AIVA will help you build it.</p>
 
         <div className="gs-chat-card">
