@@ -757,7 +757,7 @@ function Index() {
             <div className="plan">
               <div className="plan-tier">Club Pro</div>
               <div className="plan-price"><sup>$</sup>97</div>
-              <div className="plan-per">per month · everything unlimited</div>
+              <div className="plan-per">Per month · Everything unlimited</div>
               <div className="plan-div" />
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Everything in Advisor</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />0% transaction fees</div>
