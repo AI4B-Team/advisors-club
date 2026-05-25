@@ -47,10 +47,10 @@ type SpaceGroup = { title: string; items: SpaceLink[] };
 
 const SPACES: SpaceGroup[] = [
   {
-    title: "Get started",
+    title: "Get Started",
     items: [
-      { label: "Start here", icon: "🏠", to: "/app/getting-started", count: 1 },
-      { label: "Say hello", icon: "👋", to: "/app/club/feed", count: 1 },
+      { label: "Start Here", icon: "🏠", to: "/app/getting-started", count: 1 },
+      { label: "Say Hello", icon: "👋", to: "/app/club/feed", count: 1 },
       { label: "Resources", icon: "📖", to: "/app/club/courses", count: 1 },
     ],
   },
@@ -84,7 +84,7 @@ function CommunitySidebar() {
 
       <Link to="/app/dashboard" className="cc-sb-pill" activeProps={{className:"cc-sb-pill on"}}>
         <span className="cc-sb-pill-i"><Rocket size={15}/></span>
-        Getting started
+        Getting Started
       </Link>
 
       <Link to="/app/club/feed" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
@@ -105,7 +105,7 @@ function CommunitySidebar() {
       ))}
 
       <div className="cc-sb-foot">
-        <button className="cc-sb-live"><Video size={15}/> Go live</button>
+        <button className="cc-sb-live"><Video size={15}/> Go Live</button>
         <div className="cc-sb-powered">Powered by AdvisorsClub</div>
       </div>
     </aside>
