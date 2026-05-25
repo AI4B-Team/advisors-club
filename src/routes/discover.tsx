@@ -54,12 +54,16 @@ function DiscoverPage() {
         <div className="dc-hero-bg" style={{ backgroundImage: `url(${heroBg})` }} />
         <div className="dc-hero-overlay" />
         <div className="dc-hero-inner">
-          <div className="dc-eyebrow">— EXPERT-LED ADVISOR CLUBS —</div>
           <h1 style={{ whiteSpace: "nowrap" }}>
             Find A Club <span className="dc-amber">Worth Joining.</span>
           </h1>
-          <p>Join {CLUBS.reduce((s,c)=>s+c.members,0).toLocaleString()}+ operators learning from advisors who've actually done it — across business, fitness, AI, finance and more.</p>
-          <Link to="/signup" className="dc-cta">Join FREE For 7 Days <ArrowRight size={16} strokeWidth={3} /></Link>
+          <input
+            type="search"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search Clubs, advisors, topics…"
+            className="dc-search"
+          />
         </div>
 
         {/* Overlapping tile strip */}
