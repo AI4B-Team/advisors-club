@@ -72,8 +72,8 @@ function Index() {
           <div className="hero-badge"><span className="bdot" />The Platform Built for Expert Advisors</div>
           <h1><span style={{whiteSpace:"nowrap"}}>Build Your Community.</span><br /><span className="gold" style={{whiteSpace:"nowrap"}}>Automate Your Business.</span></h1>
           <p className="hero-sub">
-            <span style={{whiteSpace:"nowrap"}}>Launch memberships, sell courses, run coaching programs, and grow your</span><br />
-            <span style={{whiteSpace:"nowrap"}}>business with your built-in AI business operator.</span>
+            <span style={{whiteSpace:"nowrap"}}>Launch memberships, sell courses, run coaching programs,</span><br />
+            <span style={{whiteSpace:"nowrap"}}>and grow your business with your built-in AI business operator.</span>
           </p>
           <div className="optin">
             <input type="email" placeholder="Enter your email to start free" />
