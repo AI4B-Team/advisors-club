@@ -556,7 +556,7 @@ function Index() {
         <div className="aiva-inner">
           <div className="showcase-hd" style={{ marginBottom: 48 }}>
             <div className="sc-eyebrow" style={{ display:"inline-flex", alignItems:"center", gap:6 }}><Sparkles size={12} />Meet AIVA</div>
-            <h2 className="sc-h2">Your 24/7 AI<br />Community Operator.</h2>
+            <h2 className="sc-h2">Your 24/7 Autonomous<br />AI Community Operator.</h2>
             <p className="sc-sub" style={{ maxWidth: 640, margin: "0 auto" }}>Not a chatbot. Not a widget. An autonomous AI operator that runs your business, your content, and your community — while you sleep.</p>
           </div>
 
