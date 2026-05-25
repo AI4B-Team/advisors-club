@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Bot, BookOpen, Briefcase, Check, Flame, Heart, Home, MessageCircle, Minus, Pin, Plus, Repeat2, Star, Zap } from "lucide-react";
 import heroBg from "@/assets/hero-netflix.jpg";
-import advisorsLogo from "@/assets/advisorsclub-logo.jpg";
+import advisorsLogo from "@/assets/advisorsclub-logo.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
