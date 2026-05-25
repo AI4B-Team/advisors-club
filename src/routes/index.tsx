@@ -64,6 +64,7 @@ function Index() {
       <nav>
         <div style={{ display:"flex", alignItems:"center", gap:24 }}>
           <Logo />
+          <span style={{ width:1, height:22, background:"rgba(255,255,255,0.2)" }} />
           <a href="#" className="nav-discover" style={{ color:"#fff", fontSize:14, fontWeight:600, textDecoration:"none" }}>Discover</a>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:20 }}>
