@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Search, Bell, LogOut, ChevronsUpDown, LayoutDashboard, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Compass, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award } from "lucide-react";
+import { Search, Bell, LogOut, ChevronsUpDown, LayoutDashboard, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Compass, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home } from "lucide-react";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -40,6 +40,7 @@ function Sidebar() {
 
       <nav className="lt-sb-nav">
         <div className="lt-sb-group">Main</div>
+        <Link to="/" className="lt-sb-item"><Home size={16}/> Home</Link>
         <Link to="/app/getting-started" className="lt-sb-item"><Sparkles size={16}/> Getting started <span className="lt-sb-badge">NEW</span></Link>
         <Link to="/app/dashboard" className="lt-sb-item" activeOptions={{exact:false}}><LayoutDashboard size={16}/> Community</Link>
         <Link to="/app/club/feed" className="lt-sb-item"><MessageSquare size={16}/> Club Feed</Link>
