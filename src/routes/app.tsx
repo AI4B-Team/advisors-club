@@ -185,9 +185,15 @@ function SidebarTopLink({ link }: { link: TopLink }) {
       {expanded && (
         <div className="cc-sb-subs">
           {link.subs.map(s => (
-            <Link key={s.label} to={s.to} className="cc-sb-sub" activeProps={{ className: "cc-sb-sub on" }}>
-              {s.label}
-            </Link>
+            <div key={s.label} className="cc-sb-sub-row">
+              <Link to={s.to} className="cc-sb-sub" activeProps={{ className: "cc-sb-sub on" }}>
+                <span className="cc-sb-sub-i">{s.icon}</span>
+                <span className="cc-sb-sub-l">{s.label}</span>
+              </Link>
+              <button className="cc-sb-sub-add" aria-label={`Add to ${s.label}`} onClick={(e)=>e.preventDefault()}>
+                <Plus size={13}/>
+              </button>
+            </div>
           ))}
         </div>
       )}
