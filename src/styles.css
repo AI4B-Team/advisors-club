@@ -149,7 +149,7 @@
 }
 
 .ac .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(15,15,15,1) 0%, rgba(15,15,15,0.7) 25%, rgba(15,15,15,0.45) 55%, rgba(15,15,15,0.55) 100%),radial-gradient(ellipse 70% 55% at 50% 55%, rgba(0,0,0,0.55) 0%, transparent 70%);pointer-events:none}
-.ac .hero-content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:20px 24px 80px;max-width:760px;margin:0 auto}
+.ac .hero-content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:110px 24px 80px;max-width:760px;margin:0 auto}
 .ac .hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.28);color:var(--ac-amber3);font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:28px}
 .ac .bdot{width:6px;height:6px;border-radius:50%;background:var(--ac-amber);animation:ac-bpulse 2s infinite}
 @keyframes ac-bpulse{0%,100%{opacity:1}50%{opacity:0.3}}
@@ -289,8 +289,8 @@
   .ac .stat-item{border-right:none;border-bottom:1px solid var(--ac-border)}
   .ac .mosaic{grid-template-columns:repeat(3,1fr)}
 }
-.ac .logo-img{height:280px;width:auto;display:block;margin:-90px 0}
-.ac .fg-brand .logo-img{height:96px;margin:0}
+.ac .logo-img{height:160px;width:auto;display:block}
+.ac .fg-brand .logo-img{height:220px;margin:-60px 0}
 
 /* ===== LIGHT MODE (everything outside hero/nav/footer) ===== */
 .ac{background:#fff;color:#1A1A1A}
