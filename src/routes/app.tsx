@@ -224,7 +224,7 @@ function CommunitySidebar() {
       ))}
 
       <div className="cc-sb-foot">
-        <button className="cc-sb-live"><Video size={15}/> Go Live</button>
+        <button className="cc-sb-live"><span className="cc-sb-live-dot"/><Video size={15}/> Start Live Session</button>
         <div className="cc-sb-powered">Powered by AdvisorsClub</div>
       </div>
     </aside>
