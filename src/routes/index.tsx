@@ -741,7 +741,7 @@ function Index() {
               <div className="plan-tag" style={{display:"inline-flex",alignItems:"center",gap:4}}><Zap size={11} fill="currentColor" strokeWidth={0} />Most Popular</div>
               <div className="plan-tier">Advisor</div>
               <div className="plan-price"><sup>$</sup>47</div>
-              <div className="plan-per">per month · unlimited members</div>
+              <div className="plan-per">Per month · Unlimited members</div>
               <div className="plan-div" />
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Club members</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited courses & lessons</div>
@@ -757,7 +757,7 @@ function Index() {
             <div className="plan">
               <div className="plan-tier">Club Pro</div>
               <div className="plan-price"><sup>$</sup>97</div>
-              <div className="plan-per">per month · everything unlimited</div>
+              <div className="plan-per">Per month · Everything unlimited</div>
               <div className="plan-div" />
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Everything in Advisor</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />0% transaction fees</div>
