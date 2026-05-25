@@ -52,30 +52,8 @@ function CommunityDashboard() {
         />
       </section>
 
-      <aside className="cm-side">
-        <div className="cm-card">
-          <div className="cm-card-cover" />
-          <div className="cm-card-body">
-            <span className="cm-pub">● PUBLIC</span>
-            <h3>Real Estate Empire</h3>
-            <p>Join a focused community of advisors mastering real-estate, syndication, and long-term wealth.</p>
-            <ul className="cm-links">
-              <li>🔗 Join My Newsletter</li>
-              <li>🔗 My Top Online Resources</li>
-              <li>🔗 Schedule Your Call</li>
-            </ul>
-            <div className="cm-stats">
-              <div><b>3.5k</b><span>Members</span></div>
-              <div><b>221<i/></b><span>Online</span></div>
-              <div><b>3</b><span>Admins</span></div>
-            </div>
-            <div className="cm-faces">
-              {["MK","PS","DL","TR","AQ","JN","RB"].map((s,i)=><span key={i} className="cm-face">{s}</span>)}
-            </div>
-            <Link to="/app/club/settings" className="cm-settings">Settings</Link>
-          </div>
-        </div>
-      </aside>
+      <aside className="cm-side" />
+
     </div>
   );
 }
