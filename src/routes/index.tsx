@@ -74,26 +74,26 @@ function Index() {
       </div>
 
 
-      {/* FEATURES */}
+      {/* THE 6 Cs */}
       <section className="showcase" id="features">
         <div className="showcase-hd">
-          <div className="sc-eyebrow">Where all-in-one meets best-in-class</div>
-          <h2 className="sc-h2">One Platform. Every Tool<br />Your Club Will Ever Need.</h2>
-          <p className="sc-sub">Stop stitching together Kajabi, Zoom, Mailchimp, and Teachable. AdvisorsClub replaces them all — and then adds AI.</p>
+          <div className="sc-eyebrow">The 6 Cs of AdvisorsClub</div>
+          <h2 className="sc-h2">Six Pillars. One Platform.<br />Everything Your Club Needs.</h2>
+          <p className="sc-sub">Stop stitching together five different apps. AdvisorsClub replaces Kajabi, Teachable, Zoom, Mailchimp — and then adds AI on top.</p>
         </div>
 
-        {/* Feature 1: Feed */}
-        <div className="feat-panel" style={{ marginBottom: 96 }}>
+        {/* 01 · COMMUNITIES — text LEFT, mockup RIGHT */}
+        <div className="feat-panel" style={{ marginBottom: 32 }}>
           <div className="fp-text">
-            <div className="fp-eyebrow">Communities · Clubs</div>
+            <div className="fp-eyebrow">01 · Communities</div>
             <h3 className="fp-h3">Your Club. Your Brand.<br />Your Members — For Life.</h3>
-            <p className="fp-p">A beautiful, branded home for your audience. Rich discussions, announcements, member profiles, polls, gamification, and a feed your members will actually open every morning.</p>
+            <p className="fp-p">A beautiful, branded home for your audience. Rich discussions, announcements, member profiles, polls, gamification, and a feed your members actually look forward to opening every morning.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Threaded discussions, reactions & rich media posts</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Gamification — points, levels, leaderboards & badges</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Rich feed — text, video, images, polls & GIFs</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />Member profiles, DMs & networking</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Challenges — 30-day sprints with accountability loops</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />Custom domain, logo & full white-label branding</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Toggle: public discovery or fully private</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Multiple Clubs under one account (Pro)</li>
             </ul>
           </div>
           <div className="fp-visual">
@@ -108,7 +108,7 @@ function Index() {
                   <div><div className="mp-name">Zaddy · Admin</div><div className="mp-time">5 min ago</div></div>
                   <div className="mp-badge"><Pin size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:3}} />Pinned</div>
                 </div>
-                <div className="mp-body">Welcome to the Club! Drop your biggest goal for this month — AIVA is live — ask her anything about the course material and she'll answer instantly.</div>
+                <div className="mp-body">Welcome to the Club! Drop your biggest goal — AIVA is live and will answer instantly.</div>
                 <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Heart size={12} />38</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />14 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Repeat2 size={12} />Share</span></div>
               </div>
               <div className="mock-post">
@@ -119,102 +119,324 @@ function Index() {
                 <div className="mp-body">Just closed a $52k wholesale deal using the script from Module 4. This Club paid for itself 200x.</div>
                 <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Flame size={12} />112</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />47 replies</span></div>
               </div>
-              <div className="mock-post" style={{ opacity: 0.6 }}>
+              <div className="mock-post" style={{ opacity: 0.65 }}>
                 <div className="mp-hd">
                   <div className="mp-av" style={{ background: "#818CF8" }}>S</div>
                   <div><div className="mp-name">Sarah K.</div><div className="mp-time">3 hours ago</div></div>
                 </div>
-                <div className="mp-body">Question for the group — what's the best market to target for wholesaling right now?</div>
+                <div className="mp-body">What's the best market to target for wholesaling right now?</div>
                 <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4, color:"var(--ac-amber)", fontSize:10}}><Bot size={12} />AIVA replied</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />23 replies</span></div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Feature 2: Courses */}
-        <div className="feat-panel flip" style={{ marginBottom: 96 }}>
+        <div style={{ height: 1, background: "var(--ac-border)", maxWidth: 1100, margin: "0 auto" }} />
+
+        {/* 02 · CONTENT — mockup LEFT, text RIGHT */}
+        <div className="feat-panel flip" style={{ marginTop: 32, marginBottom: 32 }}>
           <div className="fp-text">
-            <div className="fp-eyebrow">Courses · Coaching · Conferences</div>
-            <h3 className="fp-h3">Teach. Coach. Host.<br />All Inside Your Club.</h3>
-            <p className="fp-p">Unlimited courses with native video hosting. Group coaching sessions. Virtual conferences for up to 10,000 live attendees. No Teachable. No Zoom. No Vimeo. Just AdvisorsClub.</p>
+            <div className="fp-eyebrow">02 · Content</div>
+            <h3 className="fp-h3">Your Content, Written For You.<br />Every Single Week.</h3>
+            <p className="fp-p">AIVA learns your brand voice and creates posts, email newsletters, course content, and sales copy — all from inside your Advisor Dashboard. Show up consistently without burning out.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Unlimited courses — video, audio, text, quizzes</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Drip content, prerequisites & completion certificates</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Live virtual conferences with Q&A, polls & replay</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />1:1 and group coaching sessions with booking</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA answers course questions 24/7 automatically</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AI-generated posts, emails & announcements</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Weekly content calendar — planned & scheduled</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Native email marketing — 5k to 100k contacts</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Sales copy & landing pages for your Club</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Brand voice training — AIVA sounds like you</li>
             </ul>
           </div>
           <div className="fp-visual">
             <div className="fp-vis-bar">
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Courses</span>
+              <span style={{ fontSize: 11, color: "var(--ac-amber)", marginLeft: 8, fontWeight: 700, display:"inline-flex", alignItems:"center", gap:4 }}><Sparkles size={11} />Content Studio</span>
             </div>
-            <div className="mock-course">
-              <div className="course-hd">Your Courses</div>
-              {[
-                { Icon: Home, color: "#F5A623", bg: "rgba(245,166,35,0.12)", name: "Real Estate Investor Masterclass", meta: "6 modules · 42 lessons · 847 enrolled", pct: 78 },
-                { Icon: Bot, color: "#818CF8", bg: "rgba(129,140,248,0.12)", name: "AI for Real Estate Investors", meta: "4 modules · 28 lessons · 312 enrolled", pct: 64 },
-                { Icon: Briefcase, color: "#4ADE80", bg: "rgba(74,222,128,0.12)", name: "Deal Analyzer Bootcamp", meta: "3 modules · 18 lessons · 503 enrolled", pct: 91 },
-              ].map((r) => (
-                <div className="course-row" key={r.name}>
-                  <div className="cr-thumb" style={{ background: r.bg, color: r.color }}><r.Icon size={20} /></div>
-                  <div className="cr-info"><div className="cr-name">{r.name}</div><div className="cr-meta">{r.meta}</div></div>
-                  <div className="cr-bar"><div className="cr-fill" style={{ width: `${r.pct}%` }} /></div>
+            <div style={{ padding: 18 }}>
+              <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
+                {[{l:"Posts",a:true},{l:"Emails"},{l:"Sales Copy"},{l:"Newsletters"}].map((t)=>(
+                  <div key={t.l} style={{ padding:"5px 12px", borderRadius:50, fontSize:10, fontWeight:700, background: t.a?"rgba(245,166,35,0.12)":"var(--ac-bg3)", border: `1px solid ${t.a?"rgba(245,166,35,0.3)":"var(--ac-border)"}`, color: t.a?"var(--ac-amber)":"var(--ac-muted)" }}>{t.l}</div>
+                ))}
+              </div>
+              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14, marginBottom:10 }}>
+                <div style={{ fontSize:10, fontWeight:800, color:"var(--ac-amber)", textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:8, display:"inline-flex", alignItems:"center", gap:5 }}><Bot size={11} />AIVA is writing…</div>
+                <div style={{ fontSize:12, color:"rgba(255,255,255,0.8)", lineHeight:1.6 }}>
+                  <strong>This Week in Real Estate</strong><br /><br />
+                  The market shifted again — savvy investors are already moving. Here's what you need to know:<br /><br />
+                  <span style={{ color:"var(--ac-amber)" }}>→</span> Motivated sellers up 18% in Phoenix…<br />
+                  <span style={{ color:"var(--ac-amber)" }}>→</span> The deal formula that closed 3 wholesales…<br />
+                  <span style={{ color:"rgba(255,255,255,0.4)" }}>█████████ generating…</span>
                 </div>
-              ))}
-              <div className="course-row" style={{ borderStyle: "dashed", opacity: 0.45 }}>
-                <div className="cr-thumb" style={{ background: "rgba(255,255,255,0.04)", color: "var(--ac-muted)" }}><Plus size={20} /></div>
-                <div className="cr-info"><div className="cr-name" style={{ color: "var(--ac-muted)" }}>Add a new course</div><div className="cr-meta">AIVA will build the outline for you</div></div>
+              </div>
+              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:10, padding:12 }}>
+                <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}><Calendar size={11} />This Week's Content Schedule</div>
+                <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
+                  {[
+                    { d:"MON", t:"Club feed post — Market update", dot:"#4ADE80" },
+                    { d:"WED", t:"Email newsletter — Deal of the week", dot:"#4ADE80" },
+                    { d:"FRI", t:"Announcement — New module drop", dot:"rgba(245,166,35,0.5)" },
+                  ].map(r=>(
+                    <div key={r.d} style={{ display:"flex", alignItems:"center", gap:8, fontSize:11 }}>
+                      <div style={{ width:36, fontWeight:700, color:"var(--ac-amber)" }}>{r.d}</div>
+                      <div style={{ flex:1, color:"rgba(255,255,255,0.7)" }}>{r.t}</div>
+                      <div style={{ width:6, height:6, borderRadius:"50%", background:r.dot }} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Feature 3: AIVA */}
-        <div className="feat-panel">
+        <div style={{ height: 1, background: "var(--ac-border)", maxWidth: 1100, margin: "0 auto" }} />
+
+        {/* 03 · CHALLENGES — text LEFT, mockup RIGHT */}
+        <div className="feat-panel" style={{ marginTop: 32, marginBottom: 32 }}>
           <div className="fp-text">
-            <div className="fp-eyebrow">AI Agent · Automation · Content</div>
-            <h3 className="fp-h3">Meet AIVA — Your Club<br />Runs Itself.</h3>
-            <p className="fp-p">AIVA (Advisors Intelligent Virtual Agent) is your always-on AI teammate. She builds your courses, answers members, writes content, and manages automations — 24/7, in your voice.</p>
+            <div className="fp-eyebrow">03 · Challenges</div>
+            <h3 className="fp-h3">Turn Your Club Into<br />An Addiction. In 30 Days.</h3>
+            <p className="fp-p">Run time-bound Challenges that create urgency, drive engagement, and reward your best members. Nothing keeps a Club alive like a live leaderboard people are fighting to top.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Builds a full course outline in under 60 seconds</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Auto-replies to member questions using your course content</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Writes posts, emails & sales copy in your brand voice</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Triggers automations based on member behavior</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Learns and improves with every interaction</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />30-day, 14-day, 7-day & custom challenge formats</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Daily check-ins, streaks & accountability nudges</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Live leaderboard — points, badges & prizes</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA sends automated encouragement & reminders</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Challenge analytics — completion, drop-off & wins</li>
             </ul>
           </div>
           <div className="fp-visual">
             <div className="fp-vis-bar">
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "var(--ac-amber)", marginLeft: 8, fontWeight: 700 }}>● AIVA — Online</span>
+              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8, display:"inline-flex", alignItems:"center", gap:5 }}><Trophy size={11} />30-Day Deal Challenge — Day 14 of 30</span>
             </div>
-            <div className="mock-aiva">
-              <div className="ai-row">
-                <div className="ai-av" style={{ background: "linear-gradient(135deg,#F5A623,#E8940A)", color: "#1A1A1A" }}>A</div>
-                <div className="ai-bub">Hi! I'm AIVA. I can build your courses, answer member questions, write your content, and set up automations. What do you need?</div>
-              </div>
-              <div className="ai-row u">
-                <div className="ai-av" style={{ background: "#3A3A3A" }}>Z</div>
-                <div className="ai-bub u">Build me a 6-module real estate course for beginners</div>
-              </div>
-              <div className="ai-row">
-                <div className="ai-av" style={{ background: "linear-gradient(135deg,#F5A623,#E8940A)", color: "#1A1A1A" }}>A</div>
-                <div className="ai-bub">
-                  <strong><BookOpen size={13} style={{display:"inline",verticalAlign:"-2px",marginRight:6}} />Real Estate Investing: Zero to First Deal</strong><br /><br />
-                  Module 1: The Wealth Mindset<br />
-                  Module 2: Finding Deals First<br />
-                  Module 3: Analyze Any Property<br />
-                  Module 4: Offers That Win<br />
-                  Module 5: Fund With $0 Down<br />
-                  Module 6: Close & Scale<br /><br />
-                  <em style={{ color: "rgba(255,255,255,0.45)", fontSize: 10 }}>Generating lesson content...</em>
+            <div style={{ padding: 18 }}>
+              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14, marginBottom:10 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+                  <div style={{ fontSize:12, fontWeight:700 }}>Your Progress</div>
+                  <div style={{ fontSize:11, color:"var(--ac-amber)", fontWeight:700 }}>Day 14/30</div>
+                </div>
+                <div style={{ height:6, background:"rgba(255,255,255,0.08)", borderRadius:3, marginBottom:12, overflow:"hidden" }}>
+                  <div style={{ height:"100%", width:"47%", background:"linear-gradient(90deg,var(--ac-amber2),var(--ac-amber3))", borderRadius:3 }} />
+                </div>
+                <div style={{ display:"flex", gap:10 }}>
+                  {[
+                    { n:"14", l:<span style={{display:"inline-flex",alignItems:"center",gap:3,justifyContent:"center"}}>Streak <Flame size={9} /></span>, hot:true },
+                    { n:"840", l:"Points" },
+                    { n:"#3", l:"Rank" },
+                  ].map((s,i)=>(
+                    <div key={i} style={{ flex:1, background: s.hot?"rgba(245,166,35,0.08)":"rgba(255,255,255,0.04)", border:`1px solid ${s.hot?"rgba(245,166,35,0.15)":"var(--ac-border)"}`, borderRadius:8, padding:8, textAlign:"center" }}>
+                      <div style={{ fontSize:18, fontWeight:900, color: s.hot?"var(--ac-amber)":"#fff" }}>{s.n}</div>
+                      <div style={{ fontSize:9, color:"var(--ac-muted)", textTransform:"uppercase", letterSpacing:"0.05em" }}>{s.l}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="ai-row">
-                <div className="ai-av" style={{ background: "linear-gradient(135deg,#F5A623,#E8940A)", color: "#1A1A1A" }}>A</div>
-                <div className="ai-bub"><div className="tdots"><div className="td" /><div className="td" /><div className="td" /></div></div>
+              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14 }}>
+                <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:12, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}><Trophy size={11} />Leaderboard</div>
+                <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                  {[
+                    { r:"1", name:"Marcus T.", av:"M", avBg:"#F5A623", avC:"#1A1A1A", pts:"1,240", hot:true },
+                    { r:"2", name:"Sarah K.", av:"S", avBg:"#818CF8", avC:"#fff", pts:"1,010" },
+                    { r:"3", name:"You", av:"Y", avBg:"#4ADE80", avC:"#1A1A1A", pts:"840", you:true },
+                    { r:"4", name:"Ryan P.", av:"R", avBg:"#FB923C", avC:"#fff", pts:"720", dim:true },
+                  ].map(row=>(
+                    <div key={row.r} style={{ display:"flex", alignItems:"center", gap:10, fontSize:12, opacity: row.dim?0.5:1, background: row.you?"rgba(245,166,35,0.05)":"transparent", border: row.you?"1px solid rgba(245,166,35,0.15)":"1px solid transparent", borderRadius:8, padding: row.you?"6px 8px":"0 8px" }}>
+                      <div style={{ width:20, fontWeight:900, color: row.hot||row.you?"var(--ac-amber)":"rgba(255,255,255,0.5)", textAlign:"center" }}>{row.r}</div>
+                      <div style={{ width:26, height:26, borderRadius:"50%", background:row.avBg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:900, color:row.avC }}>{row.av}</div>
+                      <div style={{ flex:1, fontWeight: row.you?700:600, color: row.you?"var(--ac-amber)":"#fff" }}>{row.name}</div>
+                      <div style={{ fontWeight: row.hot||row.you?800:700, color: row.hot||row.you?"var(--ac-amber)":"var(--ac-muted)" }}>{row.pts} pts</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ height: 1, background: "var(--ac-border)", maxWidth: 1100, margin: "0 auto" }} />
+
+        {/* 04 · COURSES — mockup LEFT, text RIGHT */}
+        <div className="feat-panel flip" style={{ marginTop: 32, marginBottom: 32 }}>
+          <div className="fp-text">
+            <div className="fp-eyebrow">04 · Courses</div>
+            <h3 className="fp-h3">Courses Your Members<br />Actually Finish.</h3>
+            <p className="fp-p">The average online course has a 13% completion rate. AdvisorsClub communities average 71% — because courses live inside a community that holds people accountable every day.</p>
+            <ul className="fp-list">
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Unlimited courses — video, text, audio & quizzes</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA builds your course outline in 60 seconds</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Drip content, prerequisites & content locks</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Completion certificates & compliance reports</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Native video hosting — no Vimeo or Wistia needed</li>
+            </ul>
+          </div>
+          <div className="fp-visual">
+            <div className="fp-vis-bar">
+              <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
+              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Real Estate Investor Masterclass</span>
+            </div>
+            <div style={{ background:"#000", aspectRatio:"16/9", position:"relative", display:"flex", alignItems:"center", justifyContent:"center", maxHeight:180 }}>
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(145deg,#1A0A00,#2A1500,#0A0A20)", opacity:0.9 }} />
+              <div style={{ position:"relative", width:48, height:48, borderRadius:"50%", background:"rgba(245,166,35,0.9)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                <Play size={20} fill="#1A1A1A" strokeWidth={0} style={{ marginLeft: 2 }} />
+              </div>
+              <div style={{ position:"absolute", bottom:10, left:12, right:12 }}>
+                <div style={{ height:3, background:"rgba(255,255,255,0.15)", borderRadius:2, overflow:"hidden" }}>
+                  <div style={{ height:"100%", width:"35%", background:"var(--ac-amber)", borderRadius:2 }} />
+                </div>
+                <div style={{ display:"flex", justifyContent:"space-between", marginTop:5, fontSize:9, color:"rgba(255,255,255,0.5)" }}><span>4:12</span><span>11:47</span></div>
+              </div>
+            </div>
+            <div style={{ padding:14 }}>
+              <div style={{ fontSize:11, fontWeight:700, color:"var(--ac-muted)", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.07em" }}>Module 3 · Lesson 2 of 5</div>
+              <div style={{ fontSize:13, fontWeight:800, marginBottom:12 }}>Analyzing Any Property in Under 10 Minutes</div>
+              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8, fontSize:11, padding:"6px 8px", borderRadius:7, background:"rgba(245,166,35,0.08)", border:"1px solid rgba(245,166,35,0.2)" }}>
+                  <div style={{ width:16, height:16, borderRadius:"50%", background:"var(--ac-amber)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><Play size={8} fill="#1A1A1A" strokeWidth={0} /></div>
+                  <div style={{ flex:1, color:"var(--ac-amber)", fontWeight:600 }}>2. Analyzing Any Property ← Now Playing</div>
+                </div>
+                {[
+                  "3. The 70% Rule Explained",
+                  "4. Making Your First Offer",
+                ].map((t,i)=>(
+                  <div key={t} style={{ display:"flex", alignItems:"center", gap:8, fontSize:11, padding:"6px 8px", borderRadius:7, opacity: i===0?0.6:0.4 }}>
+                    <div style={{ width:16, height:16, borderRadius:"50%", background:"rgba(255,255,255,0.1)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><Lock size={8} /></div>
+                    <div style={{ flex:1, color:"var(--ac-muted)" }}>{t}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop:12, display:"flex", alignItems:"center", gap:8 }}>
+                <div style={{ flex:1, height:4, background:"rgba(255,255,255,0.08)", borderRadius:2, overflow:"hidden" }}><div style={{ height:"100%", width:"62%", background:"var(--ac-amber)", borderRadius:2 }} /></div>
+                <div style={{ fontSize:10, color:"var(--ac-muted)" }}>62% complete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ height: 1, background: "var(--ac-border)", maxWidth: 1100, margin: "0 auto" }} />
+
+        {/* 05 · CONFERENCES — text LEFT, mockup RIGHT */}
+        <div className="feat-panel" style={{ marginTop: 32, marginBottom: 32 }}>
+          <div className="fp-text">
+            <div className="fp-eyebrow">05 · Conferences</div>
+            <h3 className="fp-h3">Go Live To Thousands.<br />No Zoom. No Third-Party Tools.</h3>
+            <p className="fp-p">Host webinars, virtual summits, live Q&amp;As, and multi-day masterminds — natively inside your Club. Members RSVP, get reminders, and attend without ever leaving your branded platform.</p>
+            <ul className="fp-list">
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Up to 10,000 live attendees per event</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Live chat, Q&amp;A queue, polls & screen share</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Auto-recorded, transcribed & AI-summarized</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Automated reminders — 24h, 1h & 15min before</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Sell gated access to recorded replays</li>
+            </ul>
+          </div>
+          <div className="fp-visual">
+            <div className="fp-vis-bar">
+              <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
+              <span style={{ fontSize: 11, color: "#F87171", marginLeft: 8, fontWeight:700, display:"inline-flex", alignItems:"center", gap:5 }}><Radio size={11} />LIVE — Real Estate Summit 2026</span>
+            </div>
+            <div style={{ background:"#000", padding:16 }}>
+              <div style={{ background:"linear-gradient(145deg,#1A0A00,#0A0A20)", borderRadius:10, padding:20, textAlign:"center", minHeight:120, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", position:"relative", overflow:"hidden" }}>
+                <div style={{ position:"absolute", top:8, right:8, display:"flex", alignItems:"center", gap:5, background:"rgba(248,113,113,0.2)", border:"1px solid rgba(248,113,113,0.4)", borderRadius:4, padding:"3px 8px" }}>
+                  <div style={{ width:6, height:6, borderRadius:"50%", background:"#F87171" }} />
+                  <span style={{ fontSize:9, fontWeight:800, color:"#F87171" }}>LIVE</span>
+                </div>
+                <div style={{ width:50, height:50, borderRadius:"50%", background:"linear-gradient(135deg,#F5A623,#E8940A)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, fontWeight:900, color:"#1A1A1A", marginBottom:8 }}>Z</div>
+                <div style={{ fontSize:12, fontWeight:800 }}>Zaddy — Live Q&amp;A Session</div>
+                <div style={{ fontSize:10, color:"var(--ac-muted)", marginTop:3 }}>2,847 watching now</div>
+              </div>
+            </div>
+            <div style={{ padding:14 }}>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
+                <div style={{ display:"flex" }}>
+                  {[
+                    {l:"M",bg:"#F5A623",c:"#1A1A1A"},
+                    {l:"S",bg:"#818CF8",c:"#fff"},
+                    {l:"R",bg:"#4ADE80",c:"#1A1A1A"},
+                  ].map((a,i)=>(
+                    <div key={i} style={{ width:22, height:22, borderRadius:"50%", background:a.bg, border:"2px solid var(--ac-bg2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, fontWeight:900, color:a.c, marginRight:-6 }}>{a.l}</div>
+                  ))}
+                  <div style={{ width:22, height:22, borderRadius:"50%", background:"var(--ac-bg3)", border:"2px solid var(--ac-bg2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, color:"var(--ac-muted)" }}>+2.8k</div>
+                </div>
+                <div style={{ fontSize:10, color:"var(--ac-muted)" }}>2,847 attending</div>
+              </div>
+              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:10, padding:10 }}>
+                <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.07em" }}>Live Q&amp;A</div>
+                {[
+                  { name:"Marcus T.", c:"var(--ac-amber)", q:"What's the best market right now?" },
+                  { name:"Sarah K.", c:"#818CF8", q:"How do I find motivated sellers?" },
+                  { name:"Ryan P.", c:"#4ADE80", q:"Can you share the calculator?", dim:true },
+                ].map((q,i)=>(
+                  <div key={i} style={{ fontSize:11, color: q.dim?"rgba(255,255,255,0.5)":"rgba(255,255,255,0.75)", lineHeight:1.5, marginBottom:i<2?6:0 }}>
+                    <span style={{ color:q.c, fontWeight:700 }}>{q.name}</span> — {q.q}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ height: 1, background: "var(--ac-border)", maxWidth: 1100, margin: "0 auto" }} />
+
+        {/* 06 · COACHING — mockup LEFT, text RIGHT */}
+        <div className="feat-panel flip" style={{ marginTop: 32 }}>
+          <div className="fp-text">
+            <div className="fp-eyebrow">06 · Coaching</div>
+            <h3 className="fp-h3">Deliver Coaching<br />That Gets Real Results.</h3>
+            <p className="fp-p">Sell and deliver both group and 1:1 coaching directly inside your Club. Booking, calls, progress tracking, session notes, and client milestones — all in one place. No Calendly. No separate CRM.</p>
+            <ul className="fp-list">
+              <li><Check size={11} strokeWidth={3} className="fp-check" />1:1 coaching — booking, calls & session notes</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Group coaching calls — live video with your Club</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Client milestones, progress tracking & accountability</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Private coaching spaces — gated to paid tiers</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA summarizes every session automatically</li>
+            </ul>
+          </div>
+          <div className="fp-visual">
+            <div className="fp-vis-bar">
+              <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
+              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Coaching Dashboard</span>
+            </div>
+            <div style={{ padding:18 }}>
+              <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em" }}>Upcoming Sessions</div>
+              <div style={{ background:"var(--ac-bg3)", border:"1px solid rgba(245,166,35,0.2)", borderRadius:12, padding:14, marginBottom:10 }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
+                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(245,166,35,0.12)", display:"flex", alignItems:"center", justifyContent:"center", color:"var(--ac-amber)" }}><Video size={18} /></div>
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontSize:12, fontWeight:700 }}>1:1 Strategy Call — Marcus T.</div>
+                    <div style={{ fontSize:10, color:"var(--ac-muted)" }}>Today · 2:00 PM EST · 60 min</div>
+                  </div>
+                  <div style={{ padding:"4px 10px", borderRadius:50, background:"var(--ac-amber)", fontSize:9, fontWeight:800, color:"#1A1A1A" }}>Join</div>
+                </div>
+                <div style={{ height:1, background:"var(--ac-border)", marginBottom:8 }} />
+                <div style={{ display:"flex", gap:12 }}>
+                  <div style={{ flex:1, background:"rgba(255,255,255,0.04)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"var(--ac-muted)" }}>Goal</div><div style={{ color:"rgba(255,255,255,0.8)", marginTop:1 }}>Close first wholesale deal</div></div>
+                  <div style={{ flex:1, background:"rgba(255,255,255,0.04)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"var(--ac-muted)" }}>Progress</div><div style={{ color:"var(--ac-amber)", marginTop:1 }}>3/5 milestones</div></div>
+                </div>
+              </div>
+              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14, marginBottom:10 }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(129,140,248,0.12)", display:"flex", alignItems:"center", justifyContent:"center", color:"#818CF8" }}><Users size={18} /></div>
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontSize:12, fontWeight:700 }}>Group Hot Seat — All Members</div>
+                    <div style={{ fontSize:10, color:"var(--ac-muted)" }}>Thursday · 6:00 PM EST · 14 attending</div>
+                  </div>
+                  <div style={{ padding:"4px 10px", borderRadius:50, background:"rgba(255,255,255,0.06)", border:"1px solid var(--ac-border)", fontSize:9, fontWeight:700, color:"var(--ac-muted)" }}>RSVP</div>
+                </div>
+              </div>
+              <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.08em" }}>Client Progress</div>
+              <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
+                {[
+                  { name:"Marcus T.", av:"M", avBg:"#F5A623", avC:"#1A1A1A", pct:75, hot:true },
+                  { name:"Sarah K.", av:"S", avBg:"#818CF8", avC:"#fff", pct:48 },
+                ].map(c=>(
+                  <div key={c.name} style={{ display:"flex", alignItems:"center", gap:10, fontSize:11 }}>
+                    <div style={{ width:26, height:26, borderRadius:"50%", background:c.avBg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:900, color:c.avC, flexShrink:0 }}>{c.av}</div>
+                    <div style={{ flex:1 }}>
+                      <div style={{ fontWeight:600, marginBottom:3 }}>{c.name}</div>
+                      <div style={{ height:4, background:"rgba(255,255,255,0.08)", borderRadius:2, overflow:"hidden" }}><div style={{ height:"100%", width:`${c.pct}%`, background:"var(--ac-amber)", borderRadius:2 }} /></div>
+                    </div>
+                    <div style={{ fontSize:10, color: c.hot?"var(--ac-amber)":"var(--ac-muted)", fontWeight:700 }}>{c.pct}%</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
