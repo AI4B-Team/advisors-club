@@ -51,11 +51,6 @@ function CoursesPage() {
             <input className="aiva-prompt" placeholder="e.g. Build a 6-week real estate wholesaling course for beginners…"/>
             <button className="aiva-prompt-go">Generate <ArrowRight size={14}/></button>
           </div>
-          <div className="aiva-prompt-chips">
-            {AIVA_PROMPTS.map(p => (
-              <button key={p} className="aiva-prompt-chip">{p}</button>
-            ))}
-          </div>
         </div>
       </div>
 
