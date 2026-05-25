@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, BellRing, Bot, Calendar, Check, Flame, Heart, Lock, Mail, MessageCircle, Mic, Minus, Package, Pin, Play, Radio, Repeat2, Send, ShoppingBag, Sparkles, Star, Truck, Trophy, Users, Video, Wand2, X, Zap } from "lucide-react";
+import { ArrowRight, BellRing, Bot, Calendar, Check, Flame, Heart, Lock, Mail, MessageCircle, Mic, Minus, Pin, Play, Radio, Repeat2, Send, Sparkles, Star, Trophy, Users, Video, Wand2, X, Zap } from "lucide-react";
 import coverWealth from "@/assets/covers/wealth.jpg";
 import coverRealEstate from "@/assets/covers/realestate.jpg";
 import coverSales from "@/assets/covers/sales.jpg";
@@ -592,40 +592,40 @@ function Index() {
           <div className="fp-visual" style={{ background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)" }}>
             <div className="fp-vis-bar" style={{ background:"#FAFAF7", borderBottom:"1px solid rgba(0,0,0,0.07)" }}>
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "#6B6B75", marginLeft: 8 }}>Store Dashboard</span>
+              <span style={{ fontSize: 11, color: "#6B6B75", marginLeft: 8 }}>Coaching Dashboard</span>
             </div>
             <div style={{ padding:18, background:"#FFFFFF" }}>
-              <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em" }}>Today's Orders</div>
+              <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em" }}>Upcoming Sessions</div>
               <div style={{ background:"#FAFAF7", border:"1px solid rgba(245,166,35,0.30)", borderRadius:12, padding:14, marginBottom:10 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
-                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(245,166,35,0.14)", display:"flex", alignItems:"center", justifyContent:"center", color:"var(--ac-amber)" }}><ShoppingBag size={18} /></div>
+                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(245,166,35,0.14)", display:"flex", alignItems:"center", justifyContent:"center", color:"var(--ac-amber)" }}><Video size={18} /></div>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontSize:12, fontWeight:700, color:"#0F0F14" }}>New Order #1284 — Marcus T.</div>
-                    <div style={{ fontSize:10, color:"#6B6B75" }}>Today · 2:00 PM EST · Express shipping</div>
+                    <div style={{ fontSize:12, fontWeight:700, color:"#0F0F14" }}>1:1 Strategy Call — Marcus T.</div>
+                    <div style={{ fontSize:10, color:"#6B6B75" }}>Today · 2:00 PM EST · 60 min</div>
                   </div>
-                  <div style={{ padding:"4px 10px", borderRadius:50, background:"var(--ac-amber)", fontSize:9, fontWeight:800, color:"#1A1A1A" }}>Ship</div>
+                  <div style={{ padding:"4px 10px", borderRadius:50, background:"var(--ac-amber)", fontSize:9, fontWeight:800, color:"#1A1A1A" }}>Join</div>
                 </div>
                 <div style={{ height:1, background:"rgba(0,0,0,0.07)", marginBottom:8 }} />
                 <div style={{ display:"flex", gap:12 }}>
-                  <div style={{ flex:1, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.06)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"#6B6B75" }}>Items</div><div style={{ color:"#0F0F14", marginTop:1 }}>3 products · Vintage Tee</div></div>
-                  <div style={{ flex:1, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.06)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"#6B6B75" }}>Total</div><div style={{ color:"var(--ac-amber)", marginTop:1, fontWeight:700 }}>$148.00</div></div>
+                  <div style={{ flex:1, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.06)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"#6B6B75" }}>Goal</div><div style={{ color:"#0F0F14", marginTop:1 }}>Close first wholesale deal</div></div>
+                  <div style={{ flex:1, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.06)", borderRadius:6, padding:"6px 8px", fontSize:10 }}><div style={{ color:"#6B6B75" }}>Progress</div><div style={{ color:"var(--ac-amber)", marginTop:1, fontWeight:700 }}>3/5 milestones</div></div>
                 </div>
               </div>
               <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:12, padding:14, marginBottom:10 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(129,140,248,0.14)", display:"flex", alignItems:"center", justifyContent:"center", color:"#6366F1" }}><Package size={18} /></div>
+                  <div style={{ width:36, height:36, borderRadius:10, background:"rgba(129,140,248,0.14)", display:"flex", alignItems:"center", justifyContent:"center", color:"#6366F1" }}><Users size={18} /></div>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontSize:12, fontWeight:700, color:"#0F0F14" }}>Restock Alert — Vintage Tee (M)</div>
-                    <div style={{ fontSize:10, color:"#6B6B75" }}>4 left in stock · 14 sold this week</div>
+                    <div style={{ fontSize:12, fontWeight:700, color:"#0F0F14" }}>Group Hot Seat — All Members</div>
+                    <div style={{ fontSize:10, color:"#6B6B75" }}>Thursday · 6:00 PM EST · 14 attending</div>
                   </div>
-                  <div style={{ padding:"4px 10px", borderRadius:50, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.12)", fontSize:9, fontWeight:700, color:"#6B6B75" }}>Reorder</div>
+                  <div style={{ padding:"4px 10px", borderRadius:50, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.12)", fontSize:9, fontWeight:700, color:"#6B6B75" }}>RSVP</div>
                 </div>
               </div>
-              <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.08em" }}>Top Products</div>
+              <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.08em" }}>Client Progress</div>
               <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
                 {[
-                  { name:"Vintage Tee", av:"V", avBg:"#F5A623", avC:"#1A1A1A", pct:75, hot:true },
-                  { name:"Signature Hoodie", av:"H", avBg:"#818CF8", avC:"#fff", pct:48 },
+                  { name:"Marcus T.", av:"M", avBg:"#F5A623", avC:"#1A1A1A", pct:75, hot:true },
+                  { name:"Sarah K.", av:"S", avBg:"#818CF8", avC:"#fff", pct:48 },
                 ].map(c=>(
                   <div key={c.name} style={{ display:"flex", alignItems:"center", gap:10, fontSize:11 }}>
                     <div style={{ width:26, height:26, borderRadius:"50%", background:c.avBg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:900, color:c.avC, flexShrink:0 }}>{c.av}</div>
