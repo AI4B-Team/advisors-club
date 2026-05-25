@@ -189,13 +189,10 @@ function Topbar() {
   const pathname = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const [moreOpen, setMoreOpen] = useState(false);
-  const moreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
