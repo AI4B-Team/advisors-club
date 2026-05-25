@@ -61,17 +61,7 @@ function Logo() {
 function Index() {
   return (
     <div className="ac">
-      <nav>
-        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-          <Logo />
-          <span style={{ width:1, height:22, background:"rgba(255,255,255,0.2)" }} />
-          <Link to="/discover" className="nav-discover" style={{ color:"#fff", fontSize:14, fontWeight:600, textDecoration:"none" }}>Discover</Link>
-        </div>
-        <div style={{ display:"flex", alignItems:"center", gap:20 }}>
-          <Link to="/login" className="nav-login" style={{ color:"#fff", fontSize:14, fontWeight:600, textDecoration:"none" }}>Login</Link>
-          <Link to="/signup" className="nav-btn">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
-        </div>
-      </nav>
+      <SiteNav />
 
       {/* HERO */}
       <section className="hero">
