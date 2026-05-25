@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Send, Check, ChevronDown, ChevronUp, BookOpen, Users, Rocket, Settings as SettingsIcon, HelpCircle, Compass, Smartphone, Monitor, ExternalLink, Hash, Paperclip } from "lucide-react";
+import { Sparkles, Send, Check, ChevronDown, ChevronUp, BookOpen, Users, Rocket, Settings as SettingsIcon, HelpCircle, Compass, Smartphone, Monitor, ExternalLink, Paperclip } from "lucide-react";
 import { aivaChat } from "@/lib/ai.functions";
 
 export const Route = createFileRoute("/app/getting-started")({
