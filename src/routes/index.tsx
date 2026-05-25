@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Bot, BookOpen, Briefcase, Check, Flame, Heart, Home, MessageCircle, Minus, Pin, Plus, Repeat2, Star, Zap } from "lucide-react";
+import { ArrowRight, Bot, Calendar, Check, Flame, Heart, Lock, MessageCircle, Minus, Pin, Play, Radio, Repeat2, Sparkles, Star, Trophy, Users, Video, Zap } from "lucide-react";
 import heroBg from "@/assets/hero-netflix.jpg";
 import advisorsLogo from "@/assets/advisorsclub-logo.png";
 
