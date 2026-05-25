@@ -4,8 +4,6 @@ import heroBg from "@/assets/hero-netflix.jpg";
 import advisorsLogo from "@/assets/advisorsclub-logo.jpg";
 
 export const Route = createFileRoute("/")({
-
-export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
