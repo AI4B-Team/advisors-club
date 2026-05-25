@@ -467,7 +467,7 @@ function Index() {
           <div className="price-hd">
             <div className="sc-eyebrow">Simple, honest pricing</div>
             <h2 className="sc-h2">Half The Price.<br />Twice The Power.</h2>
-            <p className="sc-sub" style={{ maxWidth: 480, margin: "0 auto" }}>Kajabi charges $179/mo. Circle & Skool charge $99/mo. AdvisorsClub starts at $0 — and our best plan costs less than a dinner out.</p>
+            <p className="sc-sub" style={{ maxWidth: 720, margin: "0 auto" }}>Kajabi charges $179/mo. Circle & Skool charge $99/mo.<br />AdvisorsClub starts at $0 — and our best plan costs less than a dinner out.</p>
           </div>
           <div className="plans">
             <div className="plan">
