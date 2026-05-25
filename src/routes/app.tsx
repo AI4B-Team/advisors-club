@@ -178,16 +178,16 @@ function Topbar() {
                   <div className="cc-tb-menu-e">zaddy@advisorsclub.com</div>
                 </div>
               </div>
-              <button className="cc-tb-menu-cta amber"><Zap size={15} strokeWidth={3}/> Upgrade</button>
-              <button className="cc-tb-menu-cta ghost"><UserPlus size={15}/> Add Members</button>
+              <button className="cc-tb-menu-cta amber" onClick={()=>{setOpen(false);nav({to:"/pricing"})}}><Zap size={15} strokeWidth={3}/> Upgrade</button>
+              <button className="cc-tb-menu-cta ghost" onClick={()=>{setOpen(false);nav({to:"/app/club/members"})}}><UserPlus size={15}/> Add Members</button>
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
-              <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" />
-              <MenuItem icon={<Mail size={15}/>} label="Invites" />
+              <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
+              <MenuItem icon={<Mail size={15}/>} label="Invites" onClick={()=>{setOpen(false);nav({to:"/app/club/members"})}} />
               <div className="cc-tb-menu-sep" />
-              <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" />
-              <MenuItem icon={<Sun size={15}/>} label="Theme:" right="Light ›" />
-              <button className="cc-tb-menu-logout" onClick={()=>nav({to:"/"})}><LogOut size={15}/> Log Out</button>
+              <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
+              <MenuItem icon={<Sun size={15}/>} label="Theme:" right="Light ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
+              <button className="cc-tb-menu-logout" onClick={()=>{setOpen(false);nav({to:"/"})}}><LogOut size={15}/> Log Out</button>
             </div>
           )}
         </div>
