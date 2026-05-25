@@ -1143,3 +1143,8 @@
 .cc .cc-rail-add {
   border-radius: 12px !important;
 }
+
+/* Ensure tooltips render above sidebar */
+.cc-rail { position: relative; z-index: 60; overflow: visible; }
+.cc-rail-bubble[data-tip]::after,
+.cc-rail-add[data-tip]::after { z-index: 9999; }
