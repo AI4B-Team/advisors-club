@@ -17,6 +17,7 @@ import courseCover1 from "@/assets/course-cover-1.jpg";
 import courseCover2 from "@/assets/course-cover-2.jpg";
 import courseCover3 from "@/assets/course-cover-3.jpg";
 import advisorsLogo from "@/assets/advisorsclub-logo.png";
+import conferenceLive from "@/assets/conference-live.jpg";
 
 const COVERS = [coverWealth, coverRealEstate, coverSales, coverMindset, coverMarketing, coverCrypto, coverFitness, coverSpeaking, coverStartup, coverAI, coverBrand, coverInvesting];
 const HERO_TILES: string[] = Array.from({ length: 28 }, (_, i) => COVERS[i % COVERS.length]);
