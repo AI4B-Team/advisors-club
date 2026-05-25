@@ -101,7 +101,7 @@ function Index() {
         <div className="replace-inner">
           <div className="showcase-hd" style={{ marginBottom: 48 }}>
             <div className="sc-eyebrow">One Platform. Zero Stack.</div>
-            <h2 className="sc-h2">Replace Your Entire<br />Creator Stack.</h2>
+            <h2 className="sc-h2" style={{ whiteSpace: "nowrap" }}>Replace Your Entire Creator Stack.</h2>
             <p className="sc-sub" style={{ maxWidth: 620, margin: "0 auto" }}>One platform. One login. Built-in AI.</p>
           </div>
 
