@@ -163,7 +163,7 @@
 .ac .optin button:hover{background:var(--ac-amber3)}
 .ac .hero-fine{font-size:12px;color:rgba(255,255,255,0.38);letter-spacing:0.01em}
 
-.ac .showcase{padding:100px 52px;max-width:1200px;margin:0 auto}
+.ac .showcase{padding:56px 52px;max-width:1200px;margin:0 auto}
 .ac .showcase-hd{text-align:center;margin-bottom:60px}
 .ac .sc-eyebrow{font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--ac-amber);margin-bottom:14px}
 .ac .sc-h2{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-1.8px;line-height:1.1;margin-bottom:16px;font-family:var(--ac-font)}
