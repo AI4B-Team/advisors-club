@@ -557,7 +557,7 @@ function Index() {
         <div className="cta-glow" />
         <div className="sc-eyebrow">Ready to build?</div>
         <h2>Your Club Is One Click Away.</h2>
-        <p>Start free today. No credit card. Your first 100 members are on us.</p>
+        <p style={{ maxWidth: "none", whiteSpace: "nowrap" }}>Start Free Today. No Credit Card. Your First 100 Members Are On Us.</p>
         <div className="cta-form2">
           <input type="email" placeholder="Enter your email address" />
           <button>Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
