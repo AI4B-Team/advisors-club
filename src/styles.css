@@ -510,9 +510,12 @@
 
 /* --- auth pages --- */
 .lt-auth{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
-.lt-auth-left{display:flex;flex-direction:column;justify-content:center;padding:48px 64px;max-width:540px;width:100%;margin-left:auto}
-.lt-auth-logo{font-weight:800;font-size:18px;margin-bottom:48px;color:var(--ink)}
-.lt-auth-logo span{color:var(--amber)}
+.lt-auth-left{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 64px;max-width:480px;width:100%;margin:0 auto}
+.lt-auth-left form{width:100%;text-align:left}
+.lt-auth-left h1{text-align:center}
+.lt-auth-logo{display:inline-flex;margin-bottom:40px}
+.lt-auth-logo img{height:36px;width:auto;display:block}
+
 .lt-auth h1{font-size:32px;margin-bottom:8px}
 .lt-auth-sub{color:var(--muted);font-size:15px;margin-bottom:32px}
 .lt-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
@@ -527,8 +530,8 @@
 .lt-cta-full.amber:hover{background:var(--amber-2)}
 .lt-divider{display:flex;align-items:center;gap:14px;margin:24px 0;color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em}
 .lt-divider::before,.lt-divider::after{content:"";flex:1;height:1px;background:var(--line)}
-.lt-google{width:100%;height:46px;border-radius:10px;border:1px solid var(--line-2);background:#fff;color:var(--ink);font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px}
-.lt-google:hover{border-color:var(--ink-2)}
+.lt-google{width:100%;height:48px;border-radius:10px;border:1px solid var(--line-2);background:#fff;color:var(--ink);font-weight:700;display:flex;align-items:center;justify-content:center;gap:12px;font-size:15px;box-shadow:0 1px 2px rgba(0,0,0,0.04);transition:all .15s;cursor:pointer}
+.lt-google:hover{border-color:var(--ink-2);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .lt-auth-foot{margin-top:24px;font-size:14px;color:var(--ink-2);text-align:center}
 .lt-auth-foot a{color:var(--amber);font-weight:700}
 .lt-auth-right{background:linear-gradient(160deg,#0F0F12 0%,#1f1f26 100%);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:64px;gap:24px}

@@ -1,6 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye, EyeOff, ArrowRight, Sparkles, Users, Zap, Shield, MessageSquare } from "lucide-react";
+import logoUrl from "@/assets/advisorsclub-logo.png";
+
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -27,33 +29,34 @@ function LoginPage() {
     <div className="lt">
       <div className="lt-auth">
         <div className="lt-auth-left">
-          <Link to="/landing" className="lt-auth-logo">Advisors<span>Club</span></Link>
-          <h1>Welcome back.</h1>
-          <p className="lt-auth-sub">Log in to run your Club and check in with your members.</p>
+          <Link to="/landing" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
+          <h1>Welcome Back</h1>
+          <p className="lt-auth-sub">Log In To Run Your Club And Check In With Your Members.</p>
           <form onSubmit={onSubmit}>
             <div className="lt-field">
               <label>Email</label>
-              <input type="email" required placeholder="you@yourclub.com" />
+              <input type="email" required placeholder="You@YourClub.com" />
             </div>
             <div className="lt-field lt-field-rel">
               <label>Password</label>
               <input type={showPw ? "text" : "password"} required placeholder="••••••••" />
-              <button type="button" onClick={() => setShowPw(!showPw)} aria-label="Toggle password">
+              <button type="button" onClick={() => setShowPw(!showPw)} aria-label="Toggle Password">
                 {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             <div style={{textAlign:"right",marginTop:-4,marginBottom:8}}>
-              <a href="#" style={{fontSize:13,color:"#F5A623",fontWeight:600}}>Forgot password?</a>
+              <a href="#" style={{fontSize:13,color:"#F5A623",fontWeight:600}}>Forgot Password?</a>
             </div>
-            <button type="submit" className="lt-cta-full">Log in <ArrowRight size={16} strokeWidth={3} /></button>
+            <button type="submit" className="lt-cta-full">Log In <ArrowRight size={16} strokeWidth={3} /></button>
           </form>
-          <div className="lt-divider">or continue with</div>
-          <button className="lt-google">
-            <GoogleG /> Continue with Google
+          <div className="lt-divider">Or Continue With</div>
+          <button type="button" className="lt-google">
+            <GoogleG /> <span>Continue With Google</span>
           </button>
           <div className="lt-auth-foot">
-            New to AdvisorsClub? <Link to="/signup">Sign up free</Link>
+            New To AdvisorsClub? <Link to="/signup">Sign Up Free</Link>
           </div>
+
         </div>
         <RightPanel />
       </div>
