@@ -59,35 +59,6 @@ function CoursesPage() {
         </div>
       </div>
 
-      {/* Continue learning strip */}
-      <div className="lt-section-head">
-        <h2><TrendingUp size={16}/> Continue Learning</h2>
-        <span className="lt-section-sub">Sample Data · Resumes The Moment You Publish</span>
-      </div>
-      <div className="course-grid">
-        {SAMPLES.map(c => (
-          <div className="course-card" key={c.title}>
-            <div className="course-thumb" style={{background:c.gradient}}>
-              <span className="course-tag">{c.tag}</span>
-              <button className="course-play" aria-label="Preview"><Play size={18} fill="#111" /></button>
-            </div>
-            <div className="course-body">
-              <h3>{c.title}</h3>
-              <div className="course-meta">
-                <span><BookOpen size={12}/> {c.lessons} Lessons</span>
-                <span><Clock size={12}/> {Math.round(c.minutes/60)}h {c.minutes%60}m</span>
-                <span><Users size={12}/> {c.learners}</span>
-              </div>
-              <div className="course-progress">
-                <div className="course-progress-bar" style={{width:`${c.progress}%`}}/>
-              </div>
-              <div className="course-progress-l">
-                {c.progress > 0 ? <>Continue · {c.progress}% Complete</> : <>Not Started</>}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
 
       {/* Outcomes / what AIVA generates */}
       <div className="lt-section-head" style={{marginTop:28}}>
