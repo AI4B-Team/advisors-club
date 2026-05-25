@@ -354,39 +354,41 @@ function Index() {
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
               <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Real Estate Investor Masterclass</span>
             </div>
-            <div style={{ background:"#000", aspectRatio:"16/9", position:"relative", display:"flex", alignItems:"center", justifyContent:"center", maxHeight:180 }}>
-              <div style={{ position:"absolute", inset:0, background:"linear-gradient(145deg,#1A0A00,#2A1500,#0A0A20)", opacity:0.9 }} />
-              <div style={{ position:"relative", width:48, height:48, borderRadius:"50%", background:"rgba(245,166,35,0.9)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-                <Play size={20} fill="#1A1A1A" strokeWidth={0} style={{ marginLeft: 2 }} />
-              </div>
-              <div style={{ position:"absolute", bottom:10, left:12, right:12 }}>
-                <div style={{ height:3, background:"rgba(255,255,255,0.15)", borderRadius:2, overflow:"hidden" }}>
-                  <div style={{ height:"100%", width:"35%", background:"var(--ac-amber)", borderRadius:2 }} />
+            <div style={{ padding: 12, background: "#0A0A0F" }}>
+              {/* Featured banner */}
+              <div style={{ position:"relative", borderRadius:10, overflow:"hidden", height:88, marginBottom:10, background:"linear-gradient(135deg,#1A0A00 0%,#3A1A00 45%,#0A1530 100%)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                <div style={{ position:"absolute", inset:0, background:"radial-gradient(circle at 30% 50%, rgba(245,166,35,0.25), transparent 60%)" }} />
+                <div style={{ position:"relative", textAlign:"center", letterSpacing:"0.04em" }}>
+                  <div style={{ fontSize:18, fontWeight:900, color:"#fff", lineHeight:1 }}>REAL ESTATE</div>
+                  <div style={{ fontSize:11, fontWeight:700, color:"var(--ac-amber)", marginTop:3, letterSpacing:"0.18em" }}>MASTERCLASS</div>
                 </div>
-                <div style={{ display:"flex", justifyContent:"space-between", marginTop:5, fontSize:9, color:"rgba(255,255,255,0.5)" }}><span>4:12</span><span>11:47</span></div>
               </div>
-            </div>
-            <div style={{ padding:14 }}>
-              <div style={{ fontSize:11, fontWeight:700, color:"var(--ac-muted)", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.07em" }}>Module 3 · Lesson 2 of 5</div>
-              <div style={{ fontSize:13, fontWeight:800, marginBottom:12 }}>Analyzing Any Property in Under 10 Minutes</div>
-              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-                <div style={{ display:"flex", alignItems:"center", gap:8, fontSize:11, padding:"6px 8px", borderRadius:7, background:"rgba(245,166,35,0.08)", border:"1px solid rgba(245,166,35,0.2)" }}>
-                  <div style={{ width:16, height:16, borderRadius:"50%", background:"var(--ac-amber)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><Play size={8} fill="#1A1A1A" strokeWidth={0} /></div>
-                  <div style={{ flex:1, color:"var(--ac-amber)", fontWeight:600 }}>2. Analyzing Any Property ← Now Playing</div>
-                </div>
+              {/* 3-card grid */}
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:8 }}>
                 {[
-                  "3. The 70% Rule Explained",
-                  "4. Making Your First Offer",
-                ].map((t,i)=>(
-                  <div key={t} style={{ display:"flex", alignItems:"center", gap:8, fontSize:11, padding:"6px 8px", borderRadius:7, opacity: i===0?0.6:0.4 }}>
-                    <div style={{ width:16, height:16, borderRadius:"50%", background:"rgba(255,255,255,0.1)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><Lock size={8} /></div>
-                    <div style={{ flex:1, color:"var(--ac-muted)" }}>{t}</div>
+                  { t:"Property Analysis", d:"Analyze any deal in under 10 minutes.", g:"linear-gradient(145deg,#2A1500,#4A2500)", p:62, now:true },
+                  { t:"The 70% Rule", d:"Master the formula every investor uses.", g:"linear-gradient(145deg,#1A1A2E,#16213E)", p:28, now:false },
+                  { t:"First Offer", d:"Submit winning offers with confidence.", g:"linear-gradient(145deg,#0F2027,#203A43)", p:0, now:false },
+                ].map((c) => (
+                  <div key={c.t} style={{ background:"#12121A", borderRadius:8, overflow:"hidden", border:"1px solid rgba(255,255,255,0.06)" }}>
+                    <div style={{ height:54, background:c.g, position:"relative", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                      <div style={{ width:24, height:24, borderRadius:"50%", background:"rgba(245,166,35,0.9)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                        <Play size={10} fill="#1A1A1A" strokeWidth={0} style={{ marginLeft:1 }} />
+                      </div>
+                      {c.now && (
+                        <div style={{ position:"absolute", top:4, right:4, fontSize:7, fontWeight:800, color:"var(--ac-amber)", background:"rgba(245,166,35,0.15)", border:"1px solid rgba(245,166,35,0.35)", borderRadius:3, padding:"1px 4px", letterSpacing:"0.08em" }}>NOW</div>
+                      )}
+                    </div>
+                    <div style={{ padding:"8px 8px 10px" }}>
+                      <div style={{ fontSize:10, fontWeight:800, color:"#fff", marginBottom:3, lineHeight:1.2 }}>{c.t}</div>
+                      <div style={{ fontSize:8.5, color:"var(--ac-muted)", lineHeight:1.35, marginBottom:6, minHeight:22 }}>{c.d}</div>
+                      <div style={{ height:3, background:"rgba(255,255,255,0.08)", borderRadius:2, overflow:"hidden" }}>
+                        <div style={{ height:"100%", width:`${c.p}%`, background:"var(--ac-amber)" }} />
+                      </div>
+                      <div style={{ fontSize:8, color:"var(--ac-muted)", marginTop:3 }}>{c.p}%</div>
+                    </div>
                   </div>
                 ))}
-              </div>
-              <div style={{ marginTop:12, display:"flex", alignItems:"center", gap:8 }}>
-                <div style={{ flex:1, height:4, background:"rgba(255,255,255,0.08)", borderRadius:2, overflow:"hidden" }}><div style={{ height:"100%", width:"62%", background:"var(--ac-amber)", borderRadius:2 }} /></div>
-                <div style={{ fontSize:10, color:"var(--ac-muted)" }}>62% complete</div>
               </div>
             </div>
           </div>
