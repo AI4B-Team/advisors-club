@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Bot, Calendar, Check, Flame, Heart, Lock, MessageCircle, Minus, Pin, Play, Radio, Repeat2, Sparkles, Star, Trophy, Users, Video, Zap } from "lucide-react";
+import { ArrowRight, BellRing, Bot, Calendar, Check, Flame, Heart, Lock, Mail, MessageCircle, Mic, Minus, Pin, Play, Radio, Repeat2, Send, Sparkles, Star, Trophy, Users, Video, Wand2, X, Zap } from "lucide-react";
 import coverWealth from "@/assets/covers/wealth.jpg";
 import coverRealEstate from "@/assets/covers/realestate.jpg";
 import coverSales from "@/assets/covers/sales.jpg";
@@ -91,13 +91,74 @@ function Index() {
         <div className="stat-item"><div className="stat-n" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>4.9<Star size={28} fill="currentColor" strokeWidth={0} /></div><div className="stat-l">Average rating</div></div>
       </div>
 
+      {/* REPLACE 7 TOOLS */}
+      <section className="replace-section">
+        <div className="replace-inner">
+          <div className="showcase-hd" style={{ marginBottom: 48 }}>
+            <div className="sc-eyebrow">One Platform. Zero Stack.</div>
+            <h2 className="sc-h2">Replace 7 Tools.<br />With One.</h2>
+            <p className="sc-sub" style={{ maxWidth: 620, margin: "0 auto" }}>Stop paying for seven subscriptions that barely talk to each other. AdvisorsClub does it all — natively, and with AI on top.</p>
+          </div>
+
+          <div className="replace-grid">
+            <div className="replace-killed">
+              <div className="replace-col-label">Cancel these</div>
+              <div className="rk-list">
+                {[
+                  { n: "Skool", t: "Community" },
+                  { n: "Circle", t: "Premium community" },
+                  { n: "Kajabi", t: "Courses & funnels" },
+                  { n: "Zoom", t: "Webinars" },
+                  { n: "Mailchimp", t: "Email marketing" },
+                  { n: "Discord", t: "Chat" },
+                  { n: "Facebook Groups", t: "Audience" },
+                ].map((t) => (
+                  <div className="rk-row" key={t.n}>
+                    <div className="rk-x"><X size={12} strokeWidth={3.5} /></div>
+                    <div className="rk-name">{t.n}</div>
+                    <div className="rk-tag">{t.t}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="rk-total">≈ <strong>$847/mo</strong> · 7 logins · 0 AI</div>
+            </div>
+
+            <div className="replace-arrow" aria-hidden="true">
+              <ArrowRight size={28} strokeWidth={2.5} />
+            </div>
+
+            <div className="replace-winner">
+              <div className="rw-logo"><Sparkles size={20} /></div>
+              <div className="rw-name">AdvisorsClub</div>
+              <div className="rw-sub">One platform. One login. One bill.</div>
+              <div className="rw-features">
+                {[
+                  "Community + DMs + chat",
+                  "Unlimited courses & lessons",
+                  "Live conferences (10k attendees)",
+                  "Native email marketing",
+                  "Challenges & gamification",
+                  "Coaching, calls & CRM",
+                  "AIVA — your 24/7 AI operator",
+                ].map((f) => (
+                  <div className="rw-row" key={f}>
+                    <Check size={13} strokeWidth={3} />
+                    <span>{f}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="rw-total">From <strong>$47/mo</strong> · Save <strong>$800+/mo</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* THE 6 Cs */}
       <section className="showcase" id="features">
         <div className="showcase-hd">
           <div className="sc-eyebrow">The 6 Cs of AdvisorsClub</div>
-          <h2 className="sc-h2">Six Pillars. One Platform.<br />Everything Your Club Needs.</h2>
-          <p className="sc-sub" style={{ maxWidth: 760 }}>Stop stitching together five different apps.<br />AdvisorsClub replaces Kajabi, Teachable, Zoom, Mailchimp — and then adds AI on top.</p>
+          <h2 className="sc-h2">The Operating System For<br />Modern Creator Businesses.</h2>
+          <p className="sc-sub" style={{ maxWidth: 760 }}>Community + Content + Coaching + AI + Automation + Monetization.<br />Six pillars. One AI-powered platform. Zero duct tape.</p>
         </div>
 
         {/* 01 · COMMUNITIES — text LEFT, mockup RIGHT */}
@@ -455,6 +516,90 @@ function Index() {
                     <div style={{ fontSize:10, color: c.hot?"var(--ac-amber)":"var(--ac-muted)", fontWeight:700 }}>{c.pct}%</div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MEET AIVA */}
+      <section className="aiva-section">
+        <div className="aiva-glow" aria-hidden="true" />
+        <div className="aiva-inner">
+          <div className="showcase-hd" style={{ marginBottom: 48 }}>
+            <div className="sc-eyebrow" style={{ display:"inline-flex", alignItems:"center", gap:6 }}><Sparkles size={12} />Meet AIVA</div>
+            <h2 className="sc-h2">Your 24/7 AI<br />Community Operator.</h2>
+            <p className="sc-sub" style={{ maxWidth: 640, margin: "0 auto" }}>Not a chatbot. Not a widget. An autonomous AI operator that runs your business, your content, and your community — while you sleep.</p>
+          </div>
+
+          {/* Conversational demo */}
+          <div className="aiva-demo">
+            <div className="aiva-chat">
+              <div className="fp-vis-bar">
+                <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
+                <span style={{ fontSize: 11, color: "var(--ac-amber)", marginLeft: 8, fontWeight: 700, display:"inline-flex", alignItems:"center", gap:5 }}><Bot size={11} />AIVA Console</span>
+              </div>
+              <div className="aiva-thread">
+                <div className="aiva-msg you">
+                  <div className="am-av you">Y</div>
+                  <div className="am-bub you">Create a 5-day onboarding challenge for new members.</div>
+                </div>
+                <div className="aiva-msg ai">
+                  <div className="am-av ai"><Sparkles size={13} /></div>
+                  <div className="am-bub ai">
+                    <div className="am-title">On it. Building your challenge now.</div>
+                    <div className="am-steps">
+                      {[
+                        { l: "Challenge framework created — 5 days, daily check-ins", d: "0.2s" },
+                        { l: "5 lessons drafted in your brand voice", d: "1.1s" },
+                        { l: "5 email reminders written & scheduled", d: "1.8s" },
+                        { l: "Welcome posts queued to your Club feed", d: "2.4s" },
+                        { l: "Leaderboard + points rules configured", d: "2.9s" },
+                      ].map((s) => (
+                        <div className="am-step" key={s.l}>
+                          <div className="am-check"><Check size={10} strokeWidth={4} /></div>
+                          <div className="am-step-l">{s.l}</div>
+                          <div className="am-step-t">{s.d}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="am-cta">Review & publish →</div>
+                  </div>
+                </div>
+                <div className="aiva-input">
+                  <input placeholder="Ask AIVA to do anything…" readOnly />
+                  <button type="button" aria-label="Send"><Send size={14} /></button>
+                </div>
+              </div>
+            </div>
+
+            <div className="aiva-side">
+              <div className="aiva-side-eyebrow">What AIVA does, autonomously</div>
+              <div className="aiva-side-h">One intelligent system.<br />Not ten disconnected widgets.</div>
+              <div className="aiva-cap-grid">
+                {[
+                  { i: <Wand2 size={14} />, l: "Writes content" },
+                  { i: <MessageCircle size={14} />, l: "Answers members" },
+                  { i: <Bot size={14} />, l: "Moderates discussions" },
+                  { i: <Trophy size={14} />, l: "Creates challenges" },
+                  { i: <Mail size={14} />, l: "Generates emails" },
+                  { i: <Users size={14} />, l: "Onboards new members" },
+                  { i: <Sparkles size={14} />, l: "Recommends courses" },
+                  { i: <BellRing size={14} />, l: "Re-engages inactive users" },
+                  { i: <Zap size={14} />, l: "Sells memberships" },
+                  { i: <Mic size={14} />, l: "Summarizes every call" },
+                  { i: <Video size={14} />, l: "Turns recordings into content" },
+                  { i: <Heart size={14} />, l: "Helps members 24/7" },
+                ].map((c) => (
+                  <div className="aiva-cap" key={c.l}>
+                    <div className="aiva-cap-i">{c.i}</div>
+                    <div className="aiva-cap-l">{c.l}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="aiva-tag">
+                <span className="bdot" />
+                Your community runs even when you don't.
               </div>
             </div>
           </div>
