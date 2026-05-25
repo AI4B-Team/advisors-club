@@ -1211,3 +1211,40 @@
 .cc-sb-switch-l { flex: 1; }
 .cc-sb-switch-check { color: #10B981; font-weight: 700; }
 .cc-sb-switch-sep { height: 1px; background: #E5E7EB; margin: 6px 2px; }
+
+/* Global white tooltips — applies to any element with data-tip */
+[data-tip] { position: relative; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 6px);
+  transform: translateX(-50%) translateY(-2px);
+  background: #fff;
+  color: #111827;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s ease, transform .12s ease;
+  z-index: 9999;
+}
+[data-tip]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+/* Rail bubbles override: tooltips render to the right, vertically centered */
+.cc-rail-bubble[data-tip]::after,
+.cc-rail-add[data-tip]::after {
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+}
+.cc-rail-bubble[data-tip]:hover::after,
+.cc-rail-add[data-tip]:hover::after {
+  transform: translateY(-50%) translateX(0);
+}

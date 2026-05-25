@@ -216,9 +216,9 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
-        <button className="cc-tb-icon" title="Notifications"><Bell size={16}/></button>
-        <button className="cc-tb-icon" title="Messages"><MessageCircle size={16}/></button>
-        <button className="cc-tb-icon" title="Bookmarks"><Bookmark size={16}/></button>
+        <button className="cc-tb-icon" data-tip="Notifications" onClick={()=>nav({to:"/app/notifications"})}><Bell size={16}/></button>
+        <button className="cc-tb-icon" data-tip="Messages" onClick={()=>nav({to:"/app/messages"})}><MessageCircle size={16}/></button>
+        <button className="cc-tb-icon" data-tip="Bookmarks" onClick={()=>nav({to:"/app/bookmarks"})}><Bookmark size={16}/></button>
 
         <div className="cc-tb-pf" ref={ref}>
           <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">Z</button>
