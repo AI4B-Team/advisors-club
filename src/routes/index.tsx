@@ -117,6 +117,9 @@ function Index() {
                   { n: "Calendly", t: "Coaching Bookings" },
                   { n: "HubSpot", t: "CRM" },
                   { n: "Zapier", t: "Automations" },
+                  { n: "ClickFunnels", t: "Landing Pages" },
+                  { n: "Circle", t: "Memberships" },
+                  { n: "ChatGPT Plus", t: "AI Assistant" },
                 ].map((t) => (
                   <div className="rk-row" key={t.n}>
                     <div className="rk-x"><X size={12} strokeWidth={3.5} /></div>
@@ -125,7 +128,7 @@ function Index() {
                   </div>
                 ))}
               </div>
-              <div className="rk-total">≈ <strong>$847/mo</strong> · 7 tools · No AI</div>
+              <div className="rk-total">≈ <strong>$1,240/mo</strong> · 10 tools · No AI</div>
             </div>
 
             <div className="replace-arrow" aria-hidden="true">
