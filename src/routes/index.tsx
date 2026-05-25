@@ -375,18 +375,18 @@ function Index() {
               <li><Check size={11} strokeWidth={3} className="fp-check" />Challenge analytics — completion, drop-off & wins</li>
             </ul>
           </div>
-          <div className="fp-visual">
-            <div className="fp-vis-bar">
+          <div className="fp-visual" style={{ background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)" }}>
+            <div className="fp-vis-bar" style={{ background:"#FAFAF7", borderBottom:"1px solid rgba(0,0,0,0.07)" }}>
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8, display:"inline-flex", alignItems:"center", gap:5 }}><Trophy size={11} />30-Day Deal Challenge — Day 14 of 30</span>
+              <span style={{ fontSize: 11, color: "#6B6B66", marginLeft: 8, display:"inline-flex", alignItems:"center", gap:5 }}><Trophy size={11} />30-Day Deal Challenge — Day 14 of 30</span>
             </div>
-            <div style={{ padding: 18 }}>
-              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14, marginBottom:10 }}>
+            <div style={{ padding: 18, background:"#FFFFFF" }}>
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:12, padding:14, marginBottom:10 }}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
-                  <div style={{ fontSize:12, fontWeight:700 }}>Your Progress</div>
+                  <div style={{ fontSize:12, fontWeight:700, color:"#1A1A1A" }}>Your Progress</div>
                   <div style={{ fontSize:11, color:"var(--ac-amber)", fontWeight:700 }}>Day 14/30</div>
                 </div>
-                <div style={{ height:6, background:"rgba(255,255,255,0.08)", borderRadius:3, marginBottom:12, overflow:"hidden" }}>
+                <div style={{ height:6, background:"rgba(0,0,0,0.06)", borderRadius:3, marginBottom:12, overflow:"hidden" }}>
                   <div style={{ height:"100%", width:"47%", background:"linear-gradient(90deg,var(--ac-amber2),var(--ac-amber3))", borderRadius:3 }} />
                 </div>
                 <div style={{ display:"flex", gap:10 }}>
@@ -395,15 +395,15 @@ function Index() {
                     { n:"840", l:"Points" },
                     { n:"#3", l:"Rank" },
                   ].map((s,i)=>(
-                    <div key={i} style={{ flex:1, background: s.hot?"rgba(245,166,35,0.08)":"rgba(255,255,255,0.04)", border:`1px solid ${s.hot?"rgba(245,166,35,0.15)":"var(--ac-border)"}`, borderRadius:8, padding:8, textAlign:"center" }}>
-                      <div style={{ fontSize:18, fontWeight:900, color: s.hot?"var(--ac-amber)":"#fff" }}>{s.n}</div>
-                      <div style={{ fontSize:9, color:"var(--ac-muted)", textTransform:"uppercase", letterSpacing:"0.05em" }}>{s.l}</div>
+                    <div key={i} style={{ flex:1, background: s.hot?"rgba(245,166,35,0.10)":"#FFFFFF", border:`1px solid ${s.hot?"rgba(245,166,35,0.25)":"rgba(0,0,0,0.07)"}`, borderRadius:8, padding:8, textAlign:"center" }}>
+                      <div style={{ fontSize:18, fontWeight:900, color: s.hot?"var(--ac-amber)":"#1A1A1A" }}>{s.n}</div>
+                      <div style={{ fontSize:9, color:"#6B6B66", textTransform:"uppercase", letterSpacing:"0.05em" }}>{s.l}</div>
                     </div>
                   ))}
                 </div>
               </div>
-              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14 }}>
-                <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:12, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}><Trophy size={11} />Leaderboard</div>
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:12, padding:14 }}>
+                <div style={{ fontSize:10, fontWeight:700, color:"#6B6B66", marginBottom:12, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}><Trophy size={11} />Leaderboard</div>
                 <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
                   {[
                     { r:"1", name:"Marcus T.", av:"M", avBg:"#F5A623", avC:"#1A1A1A", pts:"1,240", hot:true },
@@ -411,11 +411,11 @@ function Index() {
                     { r:"3", name:"You", av:"Y", avBg:"#4ADE80", avC:"#1A1A1A", pts:"840", you:true },
                     { r:"4", name:"Ryan P.", av:"R", avBg:"#FB923C", avC:"#fff", pts:"720", dim:true },
                   ].map(row=>(
-                    <div key={row.r} style={{ display:"flex", alignItems:"center", gap:10, fontSize:12, opacity: row.dim?0.5:1, background: row.you?"rgba(245,166,35,0.05)":"transparent", border: row.you?"1px solid rgba(245,166,35,0.15)":"1px solid transparent", borderRadius:8, padding: row.you?"6px 8px":"0 8px" }}>
-                      <div style={{ width:20, fontWeight:900, color: row.hot||row.you?"var(--ac-amber)":"rgba(255,255,255,0.5)", textAlign:"center" }}>{row.r}</div>
+                    <div key={row.r} style={{ display:"flex", alignItems:"center", gap:10, fontSize:12, opacity: row.dim?0.55:1, background: row.you?"rgba(245,166,35,0.10)":"#FFFFFF", border: row.you?"1px solid rgba(245,166,35,0.25)":"1px solid rgba(0,0,0,0.06)", borderRadius:8, padding:"6px 8px" }}>
+                      <div style={{ width:20, fontWeight:900, color: row.hot||row.you?"var(--ac-amber)":"rgba(0,0,0,0.4)", textAlign:"center" }}>{row.r}</div>
                       <div style={{ width:26, height:26, borderRadius:"50%", background:row.avBg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:900, color:row.avC }}>{row.av}</div>
-                      <div style={{ flex:1, fontWeight: row.you?700:600, color: row.you?"var(--ac-amber)":"#fff" }}>{row.name}</div>
-                      <div style={{ fontWeight: row.hot||row.you?800:700, color: row.hot||row.you?"var(--ac-amber)":"var(--ac-muted)" }}>{row.pts} pts</div>
+                      <div style={{ flex:1, fontWeight: row.you?700:600, color: row.you?"var(--ac-amber)":"#1A1A1A" }}>{row.name}</div>
+                      <div style={{ fontWeight: row.hot||row.you?800:700, color: row.hot||row.you?"var(--ac-amber)":"#6B6B66" }}>{row.pts} pts</div>
                     </div>
                   ))}
                 </div>
