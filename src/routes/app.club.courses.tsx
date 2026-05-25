@@ -61,8 +61,8 @@ function CoursesPage() {
 
       {/* Continue learning strip */}
       <div className="lt-section-head">
-        <h2><TrendingUp size={16}/> Continue learning</h2>
-        <span className="lt-section-sub">Sample data · resumes the moment you publish</span>
+        <h2><TrendingUp size={16}/> Continue Learning</h2>
+        <span className="lt-section-sub">Sample Data · Resumes The Moment You Publish</span>
       </div>
       <div className="course-grid">
         {SAMPLES.map(c => (
@@ -74,7 +74,7 @@ function CoursesPage() {
             <div className="course-body">
               <h3>{c.title}</h3>
               <div className="course-meta">
-                <span><BookOpen size={12}/> {c.lessons} lessons</span>
+                <span><BookOpen size={12}/> {c.lessons} Lessons</span>
                 <span><Clock size={12}/> {Math.round(c.minutes/60)}h {c.minutes%60}m</span>
                 <span><Users size={12}/> {c.learners}</span>
               </div>
@@ -82,7 +82,7 @@ function CoursesPage() {
                 <div className="course-progress-bar" style={{width:`${c.progress}%`}}/>
               </div>
               <div className="course-progress-l">
-                {c.progress > 0 ? <>Continue · {c.progress}% complete</> : <>Not started</>}
+                {c.progress > 0 ? <>Continue · {c.progress}% Complete</> : <>Not Started</>}
               </div>
             </div>
           </div>
@@ -91,15 +91,15 @@ function CoursesPage() {
 
       {/* Outcomes / what AIVA generates */}
       <div className="lt-section-head" style={{marginTop:28}}>
-        <h2><Award size={16}/> What AIVA generates for you</h2>
+        <h2><Award size={16}/> What AIVA Generates For You</h2>
       </div>
       <div className="aiva-grid">
         {[
-          { t: "Course outlines",   d: "Full module + lesson breakdown in seconds." },
-          { t: "Lesson plans",      d: "Scripts, key points, talking notes." },
+          { t: "Course Outlines",   d: "Full module + lesson breakdown in seconds." },
+          { t: "Lesson Plans",      d: "Scripts, key points, talking notes." },
           { t: "Worksheets",        d: "Downloadable PDFs your members can fill in." },
-          { t: "Quizzes & checks",  d: "Auto-graded multiple choice and reflections." },
-          { t: "Drip schedule",     d: "Unlock weekly, daily, or by member action." },
+          { t: "Quizzes & Checks",  d: "Auto-graded multiple choice and reflections." },
+          { t: "Drip Schedule",     d: "Unlock weekly, daily, or by member action." },
           { t: "Certificates",      d: "Branded completion certificates, auto-issued." },
         ].map(x => (
           <div className="aiva-feature" key={x.t}>
