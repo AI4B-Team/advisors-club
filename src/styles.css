@@ -721,8 +721,9 @@
 .lt .dc-seek-item{text-align:left;padding:9px 12px;border-radius:8px;border:0;background:transparent;font-size:14px;font-weight:500;color:var(--ink);font-family:inherit;cursor:pointer}
 .lt .dc-seek-item:hover{background:#f3f4f6}
 .lt .dc-seek-item.on{background:#0F0F12;color:#fff}
-.lt .dc-min-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:24px}
-.lt .dc-pill{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:600;border:1px solid var(--line,#e5e7eb);background:#fff;color:var(--ink-2,#52525B);cursor:pointer;transition:all .15s;font-family:inherit}
+.lt .dc-min-pills{display:flex;flex-wrap:nowrap;justify-content:center;gap:8px;margin-top:24px;overflow-x:auto;padding:4px 4px 8px;scrollbar-width:none}
+.lt .dc-min-pills::-webkit-scrollbar{display:none}
+.lt .dc-pill{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid var(--line,#e5e7eb);background:#fff;color:var(--ink-2,#52525B);cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap;flex-shrink:0}
 .lt .dc-pill:hover{border-color:#0F0F12;color:#0F0F12}
 .lt .dc-pill.on{background:#0F0F12;color:#fff;border-color:#0F0F12}
 .lt .dc-pill.sm{padding:6px 12px;font-size:12px}
