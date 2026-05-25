@@ -1397,12 +1397,12 @@
 .aiva-panel-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
 .aiva-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,0.1);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,0.15)}
 .aiva-panel-sub{font-size:13px;color:rgba(255,255,255,0.7);flex:1;min-width:200px}
-.aiva-prompt-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:6px 6px 6px 14px}
-.aiva-prompt-i{color:rgba(255,255,255,0.6);flex-shrink:0}
-.aiva-prompt{flex:1;background:transparent;border:0;outline:0;color:#fff;font-size:14px;padding:10px 0;min-width:0}
-.aiva-prompt::placeholder{color:rgba(255,255,255,0.45)}
-.aiva-prompt-go{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:9px;background:#fff;color:#0F172A;font-weight:700;font-size:13px;border:0;cursor:pointer;white-space:nowrap}
-.aiva-prompt-go:hover{background:#E5E7EB}
+.aiva-prompt-row{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #7C3AED;border-radius:12px;padding:6px 6px 6px 14px;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+.aiva-prompt-i{color:#7C3AED;flex-shrink:0}
+.aiva-prompt{flex:1;background:transparent;border:0;outline:0;color:#111827;font-size:14px;padding:10px 0;min-width:0}
+.aiva-prompt::placeholder{color:#9CA3AF}
+.aiva-prompt-go{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:9px;background:#7C3AED;color:#fff;font-weight:700;font-size:13px;border:0;cursor:pointer;white-space:nowrap}
+.aiva-prompt-go:hover{background:#6D28D9}
 .aiva-prompt-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .aiva-prompt-chip{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:12px;padding:6px 10px;border-radius:999px;cursor:pointer;transition:background .15s}
 .aiva-prompt-chip:hover{background:rgba(255,255,255,0.12)}
