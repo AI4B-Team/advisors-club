@@ -374,38 +374,42 @@ function Index() {
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
               <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Elite Strength Academy</span>
             </div>
-            <div style={{ padding: 12, background: "#0A0A0F" }}>
+            <div style={{ padding: 14, background: "#FFFFFF" }}>
               {/* Featured banner */}
-              <div style={{ position:"relative", borderRadius:10, overflow:"hidden", height:120, marginBottom:10 }}>
-                <img src={courseFeatured} alt="Featured course" loading="lazy" style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%)" }} />
-                <div style={{ position:"absolute", top:8, left:10, fontSize:8, fontWeight:800, color:"var(--ac-amber)", background:"rgba(245,166,35,0.15)", border:"1px solid rgba(245,166,35,0.4)", borderRadius:3, padding:"2px 6px", letterSpacing:"0.12em" }}>FEATURED</div>
-                <div style={{ position:"absolute", left:12, bottom:10, right:12 }}>
-                  <div style={{ fontSize:14, fontWeight:800, color:"#fff", lineHeight:1.15 }}>Elite Strength Academy</div>
-                  <div style={{ fontSize:10, color:"rgba(255,255,255,0.7)", marginTop:2 }}>12 modules · 48 lessons · 6h 20m</div>
+              <div style={{ position:"relative", borderRadius:12, overflow:"hidden", marginBottom:12, background:"#F4F1EC", border:"1px solid rgba(0,0,0,0.06)", aspectRatio:"16 / 7" }}>
+                <img src={courseFeatured} alt="Featured course" loading="lazy" style={{ width:"100%", height:"100%", objectFit:"contain", display:"block" }} />
+                <div style={{ position:"absolute", top:10, left:12, fontSize:8, fontWeight:800, color:"var(--ac-amber)", background:"rgba(255,255,255,0.95)", border:"1px solid rgba(245,166,35,0.5)", borderRadius:4, padding:"3px 7px", letterSpacing:"0.12em" }}>FEATURED</div>
+                <div style={{ position:"absolute", left:12, right:12, bottom:10, background:"rgba(255,255,255,0.92)", backdropFilter:"blur(6px)", borderRadius:8, padding:"8px 10px", border:"1px solid rgba(0,0,0,0.05)" }}>
+                  <div style={{ fontSize:13, fontWeight:800, color:"#0F0F14", lineHeight:1.15 }}>Elite Strength Academy</div>
+                  <div style={{ fontSize:10, color:"#6B6B75", marginTop:2 }}>12 modules · 48 lessons · 6h 20m</div>
                 </div>
               </div>
               {/* 3-card grid */}
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:8 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10 }}>
                 {[
-                  { t:"Perfect Your Deadlift", d:"Build strength without breaking your back.", img:courseCover1, p:"NEW" },
-                  { t:"Meal Prep In 60 Min", d:"A week of fuel, ready Sunday night.", img:courseCover2, p:"8 lessons" },
-                  { t:"Run Your First 5K", d:"From couch to finish line in 6 weeks.", img:courseCover3, p:"12 lessons" },
+                  { t:"Perfect Your Deadlift", d:"Build strength without breaking your back.", img:courseCover1, p:"NEW", prog:35 },
+                  { t:"Meal Prep In 60 Min", d:"A week of fuel, ready Sunday night.", img:courseCover2, p:"8 lessons", prog:62 },
+                  { t:"Run Your First 5K", d:"From couch to finish line in 6 weeks.", img:courseCover3, p:"12 lessons", prog:18 },
                 ].map((c) => (
-                  <div key={c.t} style={{ background:"#12121A", borderRadius:8, overflow:"hidden", border:"1px solid rgba(255,255,255,0.06)" }}>
-                    <div style={{ height:70, position:"relative", overflow:"hidden" }}>
-                      <img src={c.img} alt={c.t} loading="lazy" style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                      <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.55))" }} />
-                      <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                        <div style={{ width:26, height:26, borderRadius:"50%", background:"rgba(245,166,35,0.95)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 4px 12px rgba(0,0,0,0.4)" }}>
+                  <div key={c.t} style={{ background:"#FFFFFF", borderRadius:10, overflow:"hidden", border:"1px solid rgba(0,0,0,0.07)", boxShadow:"0 1px 2px rgba(0,0,0,0.04)" }}>
+                    <div style={{ position:"relative", overflow:"hidden", background:"#F4F1EC", aspectRatio:"1 / 1" }}>
+                      <img src={c.img} alt={c.t} loading="lazy" style={{ width:"100%", height:"100%", objectFit:"contain", display:"block" }} />
+                      <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", pointerEvents:"none" }}>
+                        <div style={{ width:28, height:28, borderRadius:"50%", background:"rgba(245,166,35,0.95)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 4px 12px rgba(0,0,0,0.25)" }}>
                           <Play size={11} fill="#1A1A1A" strokeWidth={0} style={{ marginLeft:1 }} />
                         </div>
                       </div>
                     </div>
-                    <div style={{ padding:"8px 8px 10px" }}>
-                      <div style={{ fontSize:10, fontWeight:800, color:"#fff", marginBottom:3, lineHeight:1.2 }}>{c.t}</div>
-                      <div style={{ fontSize:8.5, color:"var(--ac-muted)", lineHeight:1.35, marginBottom:6, minHeight:22 }}>{c.d}</div>
-                      <div style={{ fontSize:8, color:"var(--ac-amber)", fontWeight:700, letterSpacing:"0.06em" }}>{c.p}</div>
+                    <div style={{ padding:"9px 9px 10px" }}>
+                      <div style={{ fontSize:10, fontWeight:800, color:"#0F0F14", marginBottom:3, lineHeight:1.2 }}>{c.t}</div>
+                      <div style={{ fontSize:8.5, color:"#6B6B75", lineHeight:1.35, marginBottom:7, minHeight:22 }}>{c.d}</div>
+                      <div style={{ height:4, borderRadius:999, background:"#EFEAE2", overflow:"hidden", marginBottom:5 }}>
+                        <div style={{ width:`${c.prog}%`, height:"100%", background:"linear-gradient(90deg, var(--ac-amber), #F5A623)", borderRadius:999 }} />
+                      </div>
+                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                        <span style={{ fontSize:8, color:"var(--ac-amber)", fontWeight:700, letterSpacing:"0.06em" }}>{c.p}</span>
+                        <span style={{ fontSize:8, color:"#9A9AA3", fontWeight:600 }}>{c.prog}%</span>
+                      </div>
                     </div>
                   </div>
                 ))}
