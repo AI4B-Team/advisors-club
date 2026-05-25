@@ -88,7 +88,7 @@ function CommunitySidebar() {
       </Link>
 
       <Link to="/app/club/feed" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
-        <MessageSquare size={16}/> Feed
+        <MessageSquare size={16}/> Community
       </Link>
 
       {SPACES.map(group => (
