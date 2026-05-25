@@ -496,7 +496,7 @@ function Index() {
         <div className="feat-panel" style={{ marginTop: 32, marginBottom: 32 }}>
           <div className="fp-text">
             <div className="fp-eyebrow">05 · Conferences</div>
-            <h3 className="fp-h3">Sell Out Summits.<br />Without Zoom Or A Third-Party Tool.</h3>
+            <h3 className="fp-h3">Sell Out Virtual Events.<br />Without Zoom Or A Third-Party Tool.</h3>
             <p className="fp-p">Host webinars, virtual summits, live Q&amp;As, and multi-day masterminds — natively inside your Club. Members RSVP, get reminders, and attend without ever leaving your branded platform.</p>
             <ul className="fp-list">
               <li><Check size={11} strokeWidth={3} className="fp-check" />Up to 10,000 live attendees per event</li>
