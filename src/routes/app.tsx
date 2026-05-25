@@ -126,16 +126,6 @@ function SidebarTopLink({ link }: { link: TopLink }) {
           <span className="cc-sb-item-l">{link.label}</span>
           {isAiva && <span className="cc-sb-badge-new">NEW</span>}
         </Link>
-      <div className={`cc-sb-item-row ${baseCls}-wrap`}>
-        <Link
-          to={link.to}
-          activeOptions={link.exact ? { exact: true } : undefined}
-          className={baseCls}
-          activeProps={{ className: `${baseCls} on` }}
-        >
-          {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
-          <span className="cc-sb-item-l">{link.label}</span>
-        </Link>
         <button
           className="cc-sb-caret"
           aria-label="Toggle sub-links"
