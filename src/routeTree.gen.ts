@@ -16,6 +16,8 @@ import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ClubSplatRouteImport } from './routes/club.$'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppGettingStartedRouteImport } from './routes/app.getting-started'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
@@ -62,6 +64,16 @@ const ClubSplatRoute = ClubSplatRouteImport.update({
   id: '/club/$',
   path: '/club/$',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMessagesRoute = AppMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppGettingStartedRoute = AppGettingStartedRouteImport.update({
   id: '/getting-started',
@@ -130,6 +142,8 @@ export interface FileRoutesByFullPath {
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -150,6 +164,8 @@ export interface FileRoutesByTo {
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -171,6 +187,8 @@ export interface FileRoutesById {
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -193,6 +211,8 @@ export interface FileRouteTypes {
     | '/app/aiva'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/messages'
+    | '/app/notifications'
     | '/club/$'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -213,6 +233,8 @@ export interface FileRouteTypes {
     | '/app/aiva'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/messages'
+    | '/app/notifications'
     | '/club/$'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -233,6 +255,8 @@ export interface FileRouteTypes {
     | '/app/aiva'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/messages'
+    | '/app/notifications'
     | '/club/$'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -303,6 +327,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/club/$'
       preLoaderRoute: typeof ClubSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/messages': {
+      id: '/app/messages'
+      path: '/messages'
+      fullPath: '/app/messages'
+      preLoaderRoute: typeof AppMessagesRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/getting-started': {
       id: '/app/getting-started'
@@ -389,6 +427,8 @@ interface AppRouteChildren {
   AppAivaRoute: typeof AppAivaRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppGettingStartedRoute: typeof AppGettingStartedRoute
+  AppMessagesRoute: typeof AppMessagesRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
   AppClubAnalyticsRoute: typeof AppClubAnalyticsRoute
   AppClubChallengesRoute: typeof AppClubChallengesRoute
   AppClubCoursesRoute: typeof AppClubCoursesRoute
@@ -403,6 +443,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppAivaRoute: AppAivaRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppGettingStartedRoute: AppGettingStartedRoute,
+  AppMessagesRoute: AppMessagesRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
   AppClubAnalyticsRoute: AppClubAnalyticsRoute,
   AppClubChallengesRoute: AppClubChallengesRoute,
   AppClubCoursesRoute: AppClubCoursesRoute,
@@ -426,3 +468,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
