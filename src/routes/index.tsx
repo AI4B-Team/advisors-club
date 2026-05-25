@@ -262,7 +262,7 @@ function Index() {
       <section className="showcase" id="features">
         <div className="showcase-hd">
           <div className="sc-eyebrow">Where all-in-one meets best-in-class</div>
-          <h2 className="sc-h2">One platform. Every tool<br />your Club will ever need.</h2>
+          <h2 className="sc-h2">One Platform. Every Tool<br />Your Club Will Ever Need.</h2>
           <p className="sc-sub">Stop stitching together Kajabi, Zoom, Mailchimp, and Teachable. AdvisorsClub replaces them all — and then adds AI.</p>
         </div>
 
@@ -270,7 +270,7 @@ function Index() {
         <div className="feat-panel" style={{ marginBottom: 96 }}>
           <div className="fp-text">
             <div className="fp-eyebrow">Communities · Clubs</div>
-            <h3 className="fp-h3">Your Club. Your brand.<br />Your members — for life.</h3>
+            <h3 className="fp-h3">Your Club. Your Brand.<br />Your Members — For Life.</h3>
             <p className="fp-p">A beautiful, branded home for your audience. Rich discussions, announcements, member profiles, polls, gamification, and a feed your members will actually open every morning.</p>
             <ul className="fp-list">
               <li><div className="fp-check">✓</div>Threaded discussions, reactions & rich media posts</li>
@@ -319,7 +319,7 @@ function Index() {
         <div className="feat-panel flip" style={{ marginBottom: 96 }}>
           <div className="fp-text">
             <div className="fp-eyebrow">Courses · Coaching · Conferences</div>
-            <h3 className="fp-h3">Teach. Coach. Host.<br />All inside your Club.</h3>
+            <h3 className="fp-h3">Teach. Coach. Host.<br />All Inside Your Club.</h3>
             <p className="fp-p">Unlimited courses with native video hosting. Group coaching sessions. Virtual conferences for up to 10,000 live attendees. No Teachable. No Zoom. No Vimeo. Just AdvisorsClub.</p>
             <ul className="fp-list">
               <li><div className="fp-check">✓</div>Unlimited courses — video, audio, text, quizzes</li>
@@ -359,7 +359,7 @@ function Index() {
         <div className="feat-panel">
           <div className="fp-text">
             <div className="fp-eyebrow">AI Agent · Automation · Content</div>
-            <h3 className="fp-h3">Meet AIVA — your Club<br />runs itself.</h3>
+            <h3 className="fp-h3">Meet AIVA — Your Club<br />Runs Itself.</h3>
             <p className="fp-p">AIVA (Advisors Intelligent Virtual Agent) is your always-on AI teammate. She builds your courses, answers members, writes content, and manages automations — 24/7, in your voice.</p>
             <ul className="fp-list">
               <li><div className="fp-check">✓</div>Builds a full course outline in under 60 seconds</li>
@@ -410,7 +410,7 @@ function Index() {
         <div className="pricing-inner">
           <div className="price-hd">
             <div className="sc-eyebrow">Simple, honest pricing</div>
-            <h2 className="sc-h2">Half the price.<br />Twice the power.</h2>
+            <h2 className="sc-h2">Half The Price.<br />Twice The Power.</h2>
             <p className="sc-sub" style={{ maxWidth: 480, margin: "0 auto" }}>Kajabi charges $179/mo. Circle & Skool charge $99/mo. AdvisorsClub starts at $0 — and our best plan costs less than a dinner out.</p>
           </div>
           <div className="plans">
@@ -475,7 +475,7 @@ function Index() {
         <section className="testi-section">
           <div className="testi-hd">
             <div className="sc-eyebrow">What Advisors say</div>
-            <h2 className="sc-h2">Loved by 14,000+ Advisors<br />across every niche.</h2>
+            <h2 className="sc-h2">Loved By 14,000+ Advisors<br />Across Every Niche.</h2>
           </div>
           <div className="testi-grid">
             {[
@@ -500,7 +500,7 @@ function Index() {
       <div className="cta-bottom">
         <div className="cta-glow" />
         <div className="sc-eyebrow">Ready to build?</div>
-        <h2>Your Club is one click away.</h2>
+        <h2>Your Club Is One Click Away.</h2>
         <p>Start free today. No credit card. Your first 100 members are on us.</p>
         <div className="cta-form2">
           <input type="email" placeholder="Enter your email address" />
