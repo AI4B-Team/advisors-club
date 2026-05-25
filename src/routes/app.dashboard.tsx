@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Home, PlayCircle, Calendar, Users, Info, MoreHorizontal, MessageSquare, Send, Heart } from "lucide-react";
+import { MoreHorizontal, MessageSquare, Send, Heart } from "lucide-react";
 
 export const Route = createFileRoute("/app/dashboard")({
   head: () => ({
