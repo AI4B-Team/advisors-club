@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Search, Bell, LogOut, ChevronsUpDown, LayoutDashboard, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Compass, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award } from "lucide-react";
+import { Search, Bell, LogOut, ChevronsUpDown, LayoutDashboard, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Compass, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home } from "lucide-react";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
