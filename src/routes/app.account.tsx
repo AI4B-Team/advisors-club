@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Eye, Pin, RefreshCw } from "lucide-react";
+import { Eye, Pin, RefreshCw, Users, User, Share2, Wallet, UserCog, Bell, MessageSquare, CreditCard, Receipt, BarChart3, Settings, Palette } from "lucide-react";
 import heroImg from "@/assets/account-hero.jpg";
 
 export const Route = createFileRoute("/app/account")({
@@ -14,10 +14,20 @@ export const Route = createFileRoute("/app/account")({
 });
 
 const TABS = [
-  "Clubs","Profile","Affiliates","Payouts","Account",
-  "Notifications","Chat","Payment Methods","Payment History","Analytics","Settings","Theme",
+  { id: "Clubs", icon: Users },
+  { id: "Profile", icon: User },
+  { id: "Affiliates", icon: Share2 },
+  { id: "Payouts", icon: Wallet },
+  { id: "Account", icon: UserCog },
+  { id: "Notifications", icon: Bell },
+  { id: "Chat", icon: MessageSquare },
+  { id: "Payment Methods", icon: CreditCard },
+  { id: "Payment History", icon: Receipt },
+  { id: "Analytics", icon: BarChart3 },
+  { id: "Settings", icon: Settings },
+  { id: "Theme", icon: Palette },
 ] as const;
-type Tab = typeof TABS[number];
+type Tab = typeof TABS[number]["id"];
 
 function AccountPage() {
   const [tab, setTab] = useState<Tab>("Clubs");
@@ -25,9 +35,14 @@ function AccountPage() {
     <div className="acct-wrap">
       <div className="acct">
         <aside className="acct-nav">
-          {TABS.map(t => (
-            <button key={t} className={`acct-tab${tab===t?" on":""}`} onClick={()=>setTab(t)}>{t}</button>
-          ))}
+          {TABS.map(t => {
+            const Icon = t.icon;
+            return (
+              <button key={t.id} className={`acct-tab${tab===t.id?" on":""}`} onClick={()=>setTab(t.id)}>
+                <Icon size={18}/> <span>{t.id}</span>
+              </button>
+            );
+          })}
         </aside>
         <section className="acct-panel">
           {tab === "Clubs" && <Communities/>}
@@ -148,4 +163,3 @@ function Empty({ label }: { label: string }) {
     </div>
   );
 }
-
