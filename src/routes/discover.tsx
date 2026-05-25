@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, Star, ArrowRight, Lock } from "lucide-react";
+import { Star, ArrowRight } from "lucide-react";
 import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
+import { SiteNav } from "@/components/SiteNav";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({
