@@ -15,6 +15,7 @@ import { Route as LandingRouteImport } from './routes/landing'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ClubSplatRouteImport } from './routes/club.$'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
@@ -53,6 +54,11 @@ const AppRoute = AppRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClubSplatRoute = ClubSplatRouteImport.update({
+  id: '/club/$',
+  path: '/club/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/club/$': typeof ClubSplatRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/courses': typeof AppClubCoursesRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/club/$': typeof ClubSplatRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/courses': typeof AppClubCoursesRoute
@@ -145,6 +153,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/club/$': typeof ClubSplatRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/courses': typeof AppClubCoursesRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/aiva'
     | '/app/dashboard'
+    | '/club/$'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/courses'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/aiva'
     | '/app/dashboard'
+    | '/club/$'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/courses'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/aiva'
     | '/app/dashboard'
+    | '/club/$'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/courses'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  ClubSplatRoute: typeof ClubSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -258,6 +271,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/club/$': {
+      id: '/club/$'
+      path: '/club/$'
+      fullPath: '/club/$'
+      preLoaderRoute: typeof ClubSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/dashboard': {
@@ -359,6 +379,7 @@ const rootRouteChildren: RootRouteChildren = {
   LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  ClubSplatRoute: ClubSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
