@@ -297,7 +297,7 @@
 .ac .replace-section{padding:56px 52px;background:var(--ac-bg)}
 .ac .replace-inner{max-width:1100px;margin:0 auto}
 .ac .replace-grid{display:grid;grid-template-columns:1fr 56px 1fr;gap:18px;align-items:stretch}
-.ac .replace-killed,.ac .replace-winner{background:var(--ac-bg2);border:1px solid var(--ac-border);border-radius:18px;padding:28px}
+.ac .replace-killed,.ac .replace-winner{background:var(--ac-bg2);border:1px solid var(--ac-border);border-radius:18px;padding:28px;display:flex;flex-direction:column}
 .ac .replace-col-label{font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--ac-muted);margin-bottom:16px}
 .ac .rk-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
 .ac .rk-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--ac-border);border-radius:10px;opacity:0.7}
