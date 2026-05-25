@@ -769,7 +769,7 @@ function Index() {
               <a href="#" className="plan-cta solid">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></a>
             </div>
             <div className="plan">
-              <div className="plan-tier">Club Pro</div>
+              <div className="plan-tier">Pro</div>
               <div className="plan-price"><sup>$</sup>97</div>
               <div className="plan-per">Per month · Everything unlimited</div>
               <div className="plan-div" />
