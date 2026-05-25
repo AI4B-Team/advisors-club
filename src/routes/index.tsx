@@ -223,7 +223,7 @@ function Index() {
               <div className="mock-post">
                 <div className="mp-hd">
                   <div className="mp-av" style={{ background: "#F5A623" }}>Z</div>
-                  <div><div className="mp-name">Zaddy · Admin</div><div className="mp-time">5 min ago</div></div>
+                  <div><div className="mp-name">Admin</div><div className="mp-time">5 min ago</div></div>
                   <div className="mp-badge"><Pin size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:3}} />Pinned</div>
                 </div>
                 <div className="mp-body">New cohort drop: <b>"Build Your First AI Agent in 7 Days"</b> goes live Monday. AIVA will guide every lesson — ask her anything, anytime.</div>
