@@ -155,7 +155,7 @@ function Index() {
         <div className="feat-panel flip" style={{ marginTop: 32, marginBottom: 32 }}>
           <div className="fp-text">
             <div className="fp-eyebrow">02 · Content</div>
-            <h3 className="fp-h3">Your Content, Written For You.<br />Every Single Week.</h3>
+            <h3 className="fp-h3"><span style={{whiteSpace:"nowrap"}}>Your Content, Written For You.</span><br /><span style={{whiteSpace:"nowrap"}}>Every Single Week.</span></h3>
             <p className="fp-p">AIVA learns your brand voice and creates posts, email newsletters, course content, and sales copy — all from inside your Advisor Dashboard. Show up consistently without burning out.</p>
             <ul className="fp-list">
               <li><Check size={11} strokeWidth={3} className="fp-check" />AI-generated posts, emails & announcements</li>
