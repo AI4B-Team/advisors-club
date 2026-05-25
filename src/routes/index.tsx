@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, BellRing, Bot, Calendar, Check, Flame, Heart, Lock, Mail, MessageCircle, Mic, Minus, Pin, Play, Radio, Repeat2, Send, Sparkles, Star, Trophy, Users, Video, Wand2, X, Zap } from "lucide-react";
 import coverWealth from "@/assets/covers/wealth.jpg";
 import coverRealEstate from "@/assets/covers/realestate.jpg";
@@ -65,11 +65,11 @@ function Index() {
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
           <Logo />
           <span style={{ width:1, height:22, background:"rgba(255,255,255,0.2)" }} />
-          <a href="#" className="nav-discover" style={{ color:"#fff", fontSize:14, fontWeight:600, textDecoration:"none" }}>Discover</a>
+          <Link to="/discover" className="nav-discover" style={{ color:"#fff", fontSize:14, fontWeight:600, textDecoration:"none" }}>Discover</Link>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:20 }}>
-          <a href="#" className="nav-login" style={{ color:"#fff", fontSize:14, fontWeight:600, textDecoration:"none" }}>Login</a>
-          <a href="#pricing" className="nav-btn">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></a>
+          <Link to="/login" className="nav-login" style={{ color:"#fff", fontSize:14, fontWeight:600, textDecoration:"none" }}>Login</Link>
+          <Link to="/signup" className="nav-btn">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
         </div>
       </nav>
 
@@ -749,7 +749,7 @@ function Index() {
               <div className="pf"><Minus size={14} className="pfd" />Custom domain</div>
               <div className="pf"><Minus size={14} className="pfd" />Virtual conferences</div>
               <div className="pf"><Minus size={14} className="pfd" />Email marketing</div>
-              <a href="#" className="plan-cta ghost">Get started free</a>
+              <Link to="/signup" className="plan-cta ghost">Get started free</Link>
             </div>
             <div className="plan hot">
               <div className="plan-tag" style={{display:"inline-flex",alignItems:"center",gap:4}}><Zap size={11} fill="currentColor" strokeWidth={0} />Most Popular</div>
@@ -766,7 +766,7 @@ function Index() {
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full gamification suite</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe payments (2% fee)</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Email marketing (5k contacts)</div>
-              <a href="#" className="plan-cta solid">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></a>
+              <Link to="/signup" className="plan-cta solid">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
             <div className="plan">
               <div className="plan-tier">Pro</div>
@@ -782,7 +782,7 @@ function Index() {
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Advanced analytics & CRM</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Team members & roles</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Branded mobile app</div>
-              <a href="#" className="plan-cta ghost">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></a>
+              <Link to="/signup" className="plan-cta ghost">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
           </div>
           <p style={{ textAlign: "center", fontSize: 13, color: "var(--ac-muted)", marginTop: 24 }}>
