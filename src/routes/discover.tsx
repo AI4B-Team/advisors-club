@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, SlidersHorizontal, Star } from "lucide-react";
+import { Search, SlidersHorizontal, Star, ChevronDown } from "lucide-react";
 import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
 
@@ -20,11 +20,15 @@ type Sort = "trending" | "popular" | "free";
 
 const QUICK = ["Trending", "Business", "Real Estate", "Fitness", "AI & Tech", "Finance", "Marketing", "Mindset", "Crypto", "Sales"];
 
+const SEEK_OPTIONS = ["Wealth", "Health", "Love", "Wisdom", "Happiness"];
+
 function DiscoverPage() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("All");
   const [sort, setSort] = useState<Sort>("trending");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [seek, setSeek] = useState<string | null>(null);
+  const [seekOpen, setSeekOpen] = useState(false);
 
   const filtered = useMemo<Club[]>(() => {
     let list = CLUBS.slice();
@@ -50,7 +54,7 @@ function DiscoverPage() {
 
       <section className="dc-min">
         <div className="dc-min-inner">
-          <h1>Discover Clubs</h1>
+          <h1>Find A Club <span style={{color:"#F5A623"}}>Worth Joining.</span></h1>
           <p className="dc-min-sub">or <a href="/signup" className="dc-min-link">create your own</a></p>
 
           <div className="dc-min-search">
@@ -61,6 +65,31 @@ function DiscoverPage() {
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search for anything"
             />
+            <div className="dc-seek">
+              <button
+                type="button"
+                className="dc-seek-btn"
+                onClick={() => setSeekOpen(v => !v)}
+                onBlur={() => setTimeout(() => setSeekOpen(false), 150)}
+              >
+                {seek ?? "Seek"} <ChevronDown size={16} />
+              </button>
+              {seekOpen && (
+                <div className="dc-seek-menu" role="menu">
+                  {SEEK_OPTIONS.map(o => (
+                    <button
+                      key={o}
+                      type="button"
+                      className={`dc-seek-item ${seek===o?"on":""}`}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => { setSeek(o); setSeekOpen(false); }}
+                    >
+                      {o}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="dc-min-pills">
