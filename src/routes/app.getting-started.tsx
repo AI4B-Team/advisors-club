@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Send, Check, ChevronDown, ChevronUp, BookOpen, Users, Rocket, Settings as SettingsIcon, HelpCircle, Compass, Smartphone, Monitor, ExternalLink, Hash, Paperclip } from "lucide-react";
+import { Sparkles, Send, Check, ChevronDown, ChevronUp, BookOpen, Users, Rocket, Settings as SettingsIcon, HelpCircle, Compass, Smartphone, Monitor, ExternalLink, Paperclip } from "lucide-react";
 import { aivaChat } from "@/lib/ai.functions";
 
 export const Route = createFileRoute("/app/getting-started")({
@@ -23,7 +23,7 @@ type Group = { id: string; title: string; icon: React.ReactNode; tasks: Task[] }
 const GROUPS: Group[] = [
   {
     id: "profile",
-    title: "Complete your profile",
+    title: "Complete Your Profile",
     icon: <Users size={16}/>,
     tasks: [
       { id: "p1", label: "Create account", done: true },
@@ -33,7 +33,7 @@ const GROUPS: Group[] = [
   },
   {
     id: "community",
-    title: "Set up your community",
+    title: "Set Up Your Community",
     icon: <SettingsIcon size={16}/>,
     tasks: [
       { id: "c1", label: "Name your Club & pick a niche" },
@@ -44,7 +44,7 @@ const GROUPS: Group[] = [
   },
   {
     id: "launch-prep",
-    title: "Prepare to launch",
+    title: "Prepare To Launch",
     icon: <BookOpen size={16}/>,
     tasks: [
       { id: "l1", label: "Publish a welcome post" },
@@ -55,7 +55,7 @@ const GROUPS: Group[] = [
   },
   {
     id: "launch",
-    title: "Launch your community",
+    title: "Launch Your Community",
     icon: <Rocket size={16}/>,
     tasks: [
       { id: "g1", label: "Share your launch link on socials" },
@@ -149,7 +149,6 @@ function GettingStarted() {
             />
             <div className="gs-composer-bar">
               <div className="gs-composer-tools">
-                <button aria-label="Add space" type="button"><Hash size={16}/></button>
                 <button aria-label="Attach" type="button"><Paperclip size={16}/></button>
               </div>
               <button className="gs-send" onClick={send} disabled={busy || !input.trim()} aria-label="Send">
@@ -162,7 +161,7 @@ function GettingStarted() {
         <div className="gs-card">
           <div className="gs-checklist-h">
             <div>
-              <h3>Setup checklist</h3>
+              <h3>Setup Checklist</h3>
               <div className="gs-progress-meta">{doneCount} of {allTasks.length} tasks completed</div>
             </div>
             <div className="gs-progress-pct">{pct}%</div>
@@ -211,7 +210,7 @@ function GettingStarted() {
           <ResourceRow icon={<Sparkles size={18}/>} title="AIVA Academy" desc="Master AI-powered community building." cta="Unlock"/>
         </div>
 
-        <div className="gs-section-l">Download the AdvisorsClub app</div>
+        <div className="gs-section-l">Download The AdvisorsClub App</div>
         <div className="gs-card gs-resources">
           <ResourceRow icon={<Monitor size={18}/>} title="Desktop app" desc="Mac and Windows app." cta="Download"/>
           <ResourceRow icon={<Smartphone size={18}/>} title="Mobile app" desc="iOS and Android." cta="Download"/>
