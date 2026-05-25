@@ -578,12 +578,12 @@ function Index() {
         <div className="feat-panel flip" style={{ marginTop: 32 }}>
           <div className="fp-text">
             <div className="fp-eyebrow">06 · Coaching</div>
-            <h3 className="fp-h3">Coach Ecommerce Sellers<br />To Real Revenue.</h3>
-            <p className="fp-p">Run your ecommerce coaching practice inside your Club. Book sellers, run 1:1 and group calls, track store milestones, and keep session notes — all in one place. No Calendly. No separate CRM. No spreadsheets tracking your sellers' wins.</p>
+            <h3 className="fp-h3">Deliver Coaching<br />That Gets Real Results.</h3>
+            <p className="fp-p">Sell and deliver both group and 1:1 coaching directly inside your Club. Booking, calls, progress tracking, session notes, and client milestones — all in one place. No Calendly. No separate CRM.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />1:1 seller coaching — booking, calls & session notes</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Group hot-seat calls — live video with your sellers</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Track store milestones — first sale, $10k month, wholesale deal</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />1:1 coaching — booking, calls & session notes</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Group coaching calls — live video with your Club</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Client milestones, progress tracking & accountability</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />Private coaching spaces — gated to paid tiers</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA summarizes every session automatically</li>
             </ul>
