@@ -11,9 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LandingRouteImport } from './routes/landing'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as AppRouteImport } from './routes/app'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
@@ -34,6 +34,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiscoverRoute = DiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
@@ -42,11 +47,6 @@ const DiscoverRoute = DiscoverRouteImport.update({
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -96,9 +96,9 @@ const AppClubAnalyticsRoute = AppClubAnalyticsRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/discover': typeof DiscoverRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
@@ -112,9 +112,9 @@ export interface FileRoutesByFullPath {
   '/app/club/settings': typeof AppClubSettingsRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/discover': typeof DiscoverRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
@@ -129,9 +129,9 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/discover': typeof DiscoverRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/app/aiva': typeof AppAivaRoute
@@ -147,9 +147,9 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/app'
     | '/discover'
+    | '/landing'
     | '/login'
     | '/signup'
     | '/app/aiva'
@@ -163,9 +163,9 @@ export interface FileRouteTypes {
     | '/app/club/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/app'
     | '/discover'
+    | '/landing'
     | '/login'
     | '/signup'
     | '/app/aiva'
@@ -179,9 +179,9 @@ export interface FileRouteTypes {
     | '/app/club/settings'
   id:
     | '__root__'
-    | '/'
     | '/app'
     | '/discover'
+    | '/landing'
     | '/login'
     | '/signup'
     | '/app/aiva'
@@ -196,9 +196,9 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   DiscoverRoute: typeof DiscoverRoute
+  LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
 }
@@ -219,6 +219,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/discover': {
       id: '/discover'
       path: '/discover'
@@ -231,13 +238,6 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/dashboard': {
@@ -333,12 +333,22 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   DiscoverRoute: DiscoverRoute,
+  LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
