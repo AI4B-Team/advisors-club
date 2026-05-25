@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Star, ArrowRight } from "lucide-react";
 import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
+import heroBg from "@/assets/conference-live.jpg";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({
@@ -41,23 +42,54 @@ function DiscoverPage() {
   }, [q, cat, sort]);
 
   const featured = CLUBS.filter(c => c.featured);
+  const heroTiles = CLUBS.slice(0, 4);
   const isFiltering = q.trim().length > 0 || cat !== "All" || sort === "free";
 
   return (
     <div className="lt">
       <SiteNav discoverSearch={{ value: q, onChange: setQ }} />
-      <section className="lt-hero" style={{ paddingTop: 110 }}>
-        <h1>Find an Advisor Club <br/>worth joining.</h1>
-        <p>Browse {CLUBS.length} expert-led Clubs across business, fitness, AI, finance and more — built by operators who actually do the work.</p>
-        <div className="lt-quickpills">
-          {["Real Estate","AI & Tech","Fitness","Finance","Marketing"].map(t => (
-            <button key={t} className={`pill ${cat===t?"on":""}`} onClick={() => setCat(cat===t?"All":t)}>{t}</button>
-          ))}
+
+      {/* DARK HERO */}
+      <section className="dc-hero">
+        <div className="dc-hero-bg" style={{ backgroundImage: `url(${heroBg})` }} />
+        <div className="dc-hero-overlay" />
+        <div className="dc-hero-inner">
+          <div className="dc-eyebrow">— EXPERT-LED ADVISOR CLUBS —</div>
+          <h1>
+            Start, Run &amp; Grow Your Business.<br />
+            <span className="dc-amber">REAL Results Start &amp; End With REAL Advisors.</span>
+          </h1>
+          <p>Join {CLUBS.reduce((s,c)=>s+c.members,0).toLocaleString()}+ operators learning from advisors who've actually done it — across business, fitness, AI, finance and more.</p>
+          <Link to="/signup" className="dc-cta">Join FREE For 7 Days <ArrowRight size={16} strokeWidth={3} /></Link>
+        </div>
+
+        {/* Overlapping tile strip */}
+        <div className="dc-tiles-wrap">
+          <div className="dc-tiles">
+            {heroTiles.map(c => (
+              <div key={c.id} className="dc-tile" style={{ backgroundImage: `url(${c.cover})` }}>
+                <div className="dc-tile-fade" />
+                <div className="dc-tile-body">
+                  <div className="dc-tile-cat">{c.category}</div>
+                  <div className="dc-tile-name">{c.name}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
+      <div className="lt-container" style={{ paddingTop: 40 }}>
+        <div className="dc-section-hd">
+          <div className="dc-section-eyebrow">— Your Personal Advisors Are Waiting —</div>
+          <h2>Led By The Best In Field.</h2>
+          <div className="lt-quickpills" style={{ justifyContent: "center", marginTop: 18 }}>
+            {["Real Estate","AI & Tech","Fitness","Finance","Marketing"].map(t => (
+              <button key={t} className={`pill ${cat===t?"on":""}`} onClick={() => setCat(cat===t?"All":t)}>{t}</button>
+            ))}
+          </div>
+        </div>
 
-      <div className="lt-container">
         {!isFiltering && (
           <>
             <div className="lt-row-title">Featured Clubs</div>
@@ -66,6 +98,7 @@ function DiscoverPage() {
             </div>
           </>
         )}
+
 
         <div className="lt-filterbar">
           {CATEGORIES.map(c => (
