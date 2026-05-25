@@ -304,7 +304,7 @@
 .ac .rk-x{width:20px;height:20px;border-radius:50%;background:rgba(248,113,113,0.15);color:#F87171;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ac .rk-name{font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);text-decoration:line-through;text-decoration-color:rgba(248,113,113,0.6)}
 .ac .rk-tag{margin-left:auto;font-size:10px;color:var(--ac-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
-.ac .rk-total{font-size:13px;color:var(--ac-muted);text-align:center;padding-top:14px;border-top:1px solid var(--ac-border)}
+.ac .rk-total{font-size:13px;color:var(--ac-muted);text-align:center;padding-top:14px;border-top:1px solid var(--ac-border);margin-top:auto}
 .ac .rk-total strong{color:#F87171;font-weight:900}
 .ac .replace-arrow{display:flex;align-items:center;justify-content:center;color:var(--ac-amber)}
 .ac .replace-winner{border-color:rgba(245,166,35,0.4);background:linear-gradient(160deg,rgba(245,166,35,0.06) 0%,var(--ac-bg2) 60%);position:relative}
