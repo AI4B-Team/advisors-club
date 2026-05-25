@@ -1,36 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Bot, Calendar, Check, Flame, Heart, Lock, MessageCircle, Minus, Pin, Play, Radio, Repeat2, Sparkles, Star, Trophy, Users, Video, Zap } from "lucide-react";
-const HERO_TILES: { title: string; tag: string; bg: string }[] = [
-  { title: "Wealth Mastery", tag: "Finance", bg: "linear-gradient(135deg,#7a4a18,#3a1f08)" },
-  { title: "Real Estate Empire", tag: "Property", bg: "linear-gradient(135deg,#1f3a5f,#0c1a2e)" },
-  { title: "Fitness Pro Coaching", tag: "Health", bg: "linear-gradient(135deg,#6b1f2a,#2a0a10)" },
-  { title: "Sales Accelerator", tag: "Sales", bg: "linear-gradient(135deg,#8a5a1a,#3a2208)" },
-  { title: "Mindset Reset", tag: "Coaching", bg: "linear-gradient(135deg,#3a2a5f,#150a2a)" },
-  { title: "Marketing Lab", tag: "Marketing", bg: "linear-gradient(135deg,#1a5a4a,#062820)" },
-  { title: "Tax Strategy Vault", tag: "Tax", bg: "linear-gradient(135deg,#5a3a18,#251608)" },
-  { title: "Crypto Insider", tag: "Crypto", bg: "linear-gradient(135deg,#2a2a2a,#0a0a0a)" },
-  { title: "Career Catalyst", tag: "Career", bg: "linear-gradient(135deg,#1f4a6e,#0a1f30)" },
-  { title: "Public Speaking Pro", tag: "Speaking", bg: "linear-gradient(135deg,#6b2f4a,#2a101c)" },
-  { title: "Startup Playbook", tag: "Founders", bg: "linear-gradient(135deg,#4a3a1a,#1c1408)" },
-  { title: "Personal Brand Builder", tag: "Brand", bg: "linear-gradient(135deg,#5a1a3a,#220a18)" },
-  { title: "Productivity OS", tag: "Systems", bg: "linear-gradient(135deg,#2a4a6b,#0a1c2c)" },
-  { title: "Leadership Forge", tag: "Leadership", bg: "linear-gradient(135deg,#6b4a1a,#2a1c08)" },
-  { title: "E-commerce Scaling", tag: "E-com", bg: "linear-gradient(135deg,#1a4a3a,#082018)" },
-  { title: "Nutrition Blueprint", tag: "Wellness", bg: "linear-gradient(135deg,#3a5a1a,#162208)" },
-  { title: "Negotiation School", tag: "Strategy", bg: "linear-gradient(135deg,#5a2a1a,#221008)" },
-  { title: "Investing 101", tag: "Investing", bg: "linear-gradient(135deg,#1a3a5a,#081822)" },
-  { title: "Agency Owners Club", tag: "Agency", bg: "linear-gradient(135deg,#4a1a5a,#1c0822)" },
-  { title: "Therapy Practice", tag: "Mental", bg: "linear-gradient(135deg,#2a5a5a,#0a2222)" },
-  { title: "Content Creator Pro", tag: "Creators", bg: "linear-gradient(135deg,#8a3a1a,#3a1608)" },
-  { title: "AI Advisor Academy", tag: "AI", bg: "linear-gradient(135deg,#3a3a6b,#14142c)" },
-  { title: "Executive Coaching", tag: "Exec", bg: "linear-gradient(135deg,#5a4a2a,#221c10)" },
-  { title: "Mindful Wealth", tag: "Lifestyle", bg: "linear-gradient(135deg,#2a4a2a,#0c1c0c)" },
-  { title: "Closer's Circle", tag: "Sales", bg: "linear-gradient(135deg,#6b1a2a,#2a0810)" },
-  { title: "Speaker Network", tag: "Network", bg: "linear-gradient(135deg,#1a2a6b,#08102c)" },
-  { title: "Funnel Masters", tag: "Marketing", bg: "linear-gradient(135deg,#7a5a1a,#2c2008)" },
-  { title: "Author Academy", tag: "Writing", bg: "linear-gradient(135deg,#3a1a3a,#160816)" },
-];
+import coverWealth from "@/assets/covers/wealth.jpg";
+import coverRealEstate from "@/assets/covers/realestate.jpg";
+import coverSales from "@/assets/covers/sales.jpg";
+import coverMindset from "@/assets/covers/mindset.jpg";
+import coverMarketing from "@/assets/covers/marketing.jpg";
+import coverCrypto from "@/assets/covers/crypto.jpg";
+import coverFitness from "@/assets/covers/fitness.jpg";
+import coverSpeaking from "@/assets/covers/speaking.jpg";
+import coverStartup from "@/assets/covers/startup.jpg";
+import coverAI from "@/assets/covers/ai.jpg";
+import coverBrand from "@/assets/covers/brand.jpg";
+import coverInvesting from "@/assets/covers/investing.jpg";
 import advisorsLogo from "@/assets/advisorsclub-logo.png";
+
+const COVERS = [coverWealth, coverRealEstate, coverSales, coverMindset, coverMarketing, coverCrypto, coverFitness, coverSpeaking, coverStartup, coverAI, coverBrand, coverInvesting];
+const HERO_TILES: string[] = Array.from({ length: 28 }, (_, i) => COVERS[i % COVERS.length]);
 
 export const Route = createFileRoute("/")({
   component: Index,
