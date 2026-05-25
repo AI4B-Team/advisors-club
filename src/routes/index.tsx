@@ -12,6 +12,10 @@ import coverStartup from "@/assets/covers/startup.jpg";
 import coverAI from "@/assets/covers/ai.jpg";
 import coverBrand from "@/assets/covers/brand.jpg";
 import coverInvesting from "@/assets/covers/investing.jpg";
+import courseFeatured from "@/assets/course-cover-featured.jpg";
+import courseCover1 from "@/assets/course-cover-1.jpg";
+import courseCover2 from "@/assets/course-cover-2.jpg";
+import courseCover3 from "@/assets/course-cover-3.jpg";
 import advisorsLogo from "@/assets/advisorsclub-logo.png";
 
 const COVERS = [coverWealth, coverRealEstate, coverSales, coverMindset, coverMarketing, coverCrypto, coverFitness, coverSpeaking, coverStartup, coverAI, coverBrand, coverInvesting];
@@ -340,7 +344,7 @@ function Index() {
           <div className="fp-text">
             <div className="fp-eyebrow">04 · Courses</div>
             <h3 className="fp-h3">Courses Your Members<br />Actually Finish.</h3>
-            <p className="fp-p">The average online course has a 13% completion rate. AdvisorsClub communities average 71% — because courses live inside a community that holds people accountable every day.</p>
+            <p className="fp-p">Launch beautiful, binge-worthy courses that live inside your community — so members stay accountable, ask questions, and finish what they started.</p>
             <ul className="fp-list">
               <li><Check size={11} strokeWidth={3} className="fp-check" />Unlimited courses — video, text, audio & quizzes</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA builds your course outline in 60 seconds</li>
@@ -352,40 +356,40 @@ function Index() {
           <div className="fp-visual">
             <div className="fp-vis-bar">
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Real Estate Investor Masterclass</span>
+              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Elite Strength Academy</span>
             </div>
             <div style={{ padding: 12, background: "#0A0A0F" }}>
               {/* Featured banner */}
-              <div style={{ position:"relative", borderRadius:10, overflow:"hidden", height:88, marginBottom:10, background:"linear-gradient(135deg,#1A0A00 0%,#3A1A00 45%,#0A1530 100%)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-                <div style={{ position:"absolute", inset:0, background:"radial-gradient(circle at 30% 50%, rgba(245,166,35,0.25), transparent 60%)" }} />
-                <div style={{ position:"relative", textAlign:"center", letterSpacing:"0.04em" }}>
-                  <div style={{ fontSize:18, fontWeight:900, color:"#fff", lineHeight:1 }}>REAL ESTATE</div>
-                  <div style={{ fontSize:11, fontWeight:700, color:"var(--ac-amber)", marginTop:3, letterSpacing:"0.18em" }}>MASTERCLASS</div>
+              <div style={{ position:"relative", borderRadius:10, overflow:"hidden", height:120, marginBottom:10 }}>
+                <img src={courseFeatured} alt="Featured course" loading="lazy" style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%)" }} />
+                <div style={{ position:"absolute", top:8, left:10, fontSize:8, fontWeight:800, color:"var(--ac-amber)", background:"rgba(245,166,35,0.15)", border:"1px solid rgba(245,166,35,0.4)", borderRadius:3, padding:"2px 6px", letterSpacing:"0.12em" }}>FEATURED</div>
+                <div style={{ position:"absolute", left:12, bottom:10, right:12 }}>
+                  <div style={{ fontSize:14, fontWeight:800, color:"#fff", lineHeight:1.15 }}>Elite Strength Academy</div>
+                  <div style={{ fontSize:10, color:"rgba(255,255,255,0.7)", marginTop:2 }}>12 modules · 48 lessons · 6h 20m</div>
                 </div>
               </div>
               {/* 3-card grid */}
               <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:8 }}>
                 {[
-                  { t:"Property Analysis", d:"Analyze any deal in under 10 minutes.", g:"linear-gradient(145deg,#2A1500,#4A2500)", p:62, now:true },
-                  { t:"The 70% Rule", d:"Master the formula every investor uses.", g:"linear-gradient(145deg,#1A1A2E,#16213E)", p:28, now:false },
-                  { t:"First Offer", d:"Submit winning offers with confidence.", g:"linear-gradient(145deg,#0F2027,#203A43)", p:0, now:false },
+                  { t:"Perfect Your Deadlift", d:"Build strength without breaking your back.", img:courseCover1, p:"NEW" },
+                  { t:"Meal Prep In 60 Min", d:"A week of fuel, ready Sunday night.", img:courseCover2, p:"8 lessons" },
+                  { t:"Run Your First 5K", d:"From couch to finish line in 6 weeks.", img:courseCover3, p:"12 lessons" },
                 ].map((c) => (
                   <div key={c.t} style={{ background:"#12121A", borderRadius:8, overflow:"hidden", border:"1px solid rgba(255,255,255,0.06)" }}>
-                    <div style={{ height:54, background:c.g, position:"relative", display:"flex", alignItems:"center", justifyContent:"center" }}>
-                      <div style={{ width:24, height:24, borderRadius:"50%", background:"rgba(245,166,35,0.9)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-                        <Play size={10} fill="#1A1A1A" strokeWidth={0} style={{ marginLeft:1 }} />
+                    <div style={{ height:70, position:"relative", overflow:"hidden" }}>
+                      <img src={c.img} alt={c.t} loading="lazy" style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                      <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.55))" }} />
+                      <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                        <div style={{ width:26, height:26, borderRadius:"50%", background:"rgba(245,166,35,0.95)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 4px 12px rgba(0,0,0,0.4)" }}>
+                          <Play size={11} fill="#1A1A1A" strokeWidth={0} style={{ marginLeft:1 }} />
+                        </div>
                       </div>
-                      {c.now && (
-                        <div style={{ position:"absolute", top:4, right:4, fontSize:7, fontWeight:800, color:"var(--ac-amber)", background:"rgba(245,166,35,0.15)", border:"1px solid rgba(245,166,35,0.35)", borderRadius:3, padding:"1px 4px", letterSpacing:"0.08em" }}>NOW</div>
-                      )}
                     </div>
                     <div style={{ padding:"8px 8px 10px" }}>
                       <div style={{ fontSize:10, fontWeight:800, color:"#fff", marginBottom:3, lineHeight:1.2 }}>{c.t}</div>
                       <div style={{ fontSize:8.5, color:"var(--ac-muted)", lineHeight:1.35, marginBottom:6, minHeight:22 }}>{c.d}</div>
-                      <div style={{ height:3, background:"rgba(255,255,255,0.08)", borderRadius:2, overflow:"hidden" }}>
-                        <div style={{ height:"100%", width:`${c.p}%`, background:"var(--ac-amber)" }} />
-                      </div>
-                      <div style={{ fontSize:8, color:"var(--ac-muted)", marginTop:3 }}>{c.p}%</div>
+                      <div style={{ fontSize:8, color:"var(--ac-amber)", fontWeight:700, letterSpacing:"0.06em" }}>{c.p}</div>
                     </div>
                   </div>
                 ))}
