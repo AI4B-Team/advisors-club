@@ -1248,3 +1248,24 @@
 .cc-rail-add[data-tip]:hover::after {
   transform: translateY(-50%) translateX(0);
 }
+
+.cc-sb-switch-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #F3F4F6;
+  border-radius: 8px;
+  padding: 0 10px;
+  height: 34px;
+  margin-bottom: 6px;
+  color: #6B7280;
+}
+.cc-sb-switch-search input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 13px;
+  color: #111827;
+}
+.cc-sb-switch-search input::placeholder { color: #9CA3AF; }
