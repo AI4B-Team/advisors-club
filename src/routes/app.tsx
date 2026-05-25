@@ -87,6 +87,10 @@ function CommunitySidebar() {
         Getting Started
       </Link>
 
+      <Link to="/app" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
+        <Home size={16}/> Home
+      </Link>
+
       <Link to="/app/club/feed" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
         <MessageSquare size={16}/> Community
       </Link>
