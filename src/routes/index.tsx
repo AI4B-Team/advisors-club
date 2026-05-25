@@ -70,7 +70,7 @@ function Index() {
 
         <div className="hero-content">
           <div className="hero-badge"><span className="bdot" />The Platform Built for Expert Advisors</div>
-          <h1>Build Your <span className="gold">Community.</span><br />Automate Your Business.</h1>
+          <h1>Build Your Community.<br />Automate Your Business.</h1>
           <p className="hero-sub">
             Community, courses, content, coaching, and AI automation — all in one platform built to scale modern creator businesses.
           </p>
