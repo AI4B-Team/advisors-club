@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import heroBg from "@/assets/hero-netflix.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
