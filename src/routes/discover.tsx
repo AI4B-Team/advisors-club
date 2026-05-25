@@ -47,7 +47,7 @@ function DiscoverPage() {
 
   return (
     <div className="lt">
-      <SiteNav discoverSearch={{ value: q, onChange: setQ }} />
+      <SiteNav />
 
       {/* DARK HERO */}
       <section className="dc-hero">
