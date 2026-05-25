@@ -397,7 +397,6 @@ function Index() {
             </div>
           </div>
         </div>
-        </div>
 
         <div style={{ height: 1, background: "var(--ac-border)", maxWidth: 1100, margin: "0 auto" }} />
 
