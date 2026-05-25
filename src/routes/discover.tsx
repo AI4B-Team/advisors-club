@@ -78,7 +78,7 @@ function DiscoverPage() {
         </div>
       </section>
 
-      <div className="lt-container" style={{ paddingTop: 40 }}>
+      <div className="lt-container" style={{ paddingTop: 160 }}>
         <div className="dc-section-hd">
           <div className="dc-section-eyebrow">— Your Personal Advisors Are Waiting —</div>
           <h2>Led By The Best In Field.</h2>
