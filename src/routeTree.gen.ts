@@ -20,6 +20,7 @@ import { Route as AppNotificationsRouteImport } from './routes/app.notifications
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppGettingStartedRouteImport } from './routes/app.getting-started'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
+import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
@@ -85,6 +86,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBookmarksRoute = AppBookmarksRouteImport.update({
+  id: '/bookmarks',
+  path: '/bookmarks',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAivaRoute = AppAivaRouteImport.update({
   id: '/aiva',
   path: '/aiva',
@@ -140,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/bookmarks': typeof AppBookmarksRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/bookmarks': typeof AppBookmarksRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/bookmarks': typeof AppBookmarksRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/bookmarks'
     | '/app/dashboard'
     | '/app/getting-started'
     | '/app/messages'
@@ -231,6 +241,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/bookmarks'
     | '/app/dashboard'
     | '/app/getting-started'
     | '/app/messages'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/bookmarks'
     | '/app/dashboard'
     | '/app/getting-started'
     | '/app/messages'
@@ -356,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/bookmarks': {
+      id: '/app/bookmarks'
+      path: '/bookmarks'
+      fullPath: '/app/bookmarks'
+      preLoaderRoute: typeof AppBookmarksRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/aiva': {
       id: '/app/aiva'
       path: '/aiva'
@@ -425,6 +444,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppAccountRoute: typeof AppAccountRoute
   AppAivaRoute: typeof AppAivaRoute
+  AppBookmarksRoute: typeof AppBookmarksRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppGettingStartedRoute: typeof AppGettingStartedRoute
   AppMessagesRoute: typeof AppMessagesRoute
@@ -441,6 +461,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAccountRoute: AppAccountRoute,
   AppAivaRoute: AppAivaRoute,
+  AppBookmarksRoute: AppBookmarksRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppGettingStartedRoute: AppGettingStartedRoute,
   AppMessagesRoute: AppMessagesRoute,
