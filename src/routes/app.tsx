@@ -20,11 +20,13 @@ const ClubCtx = createContext<{
 
 function AppShell() {
   const [active, setActive] = useState<Club>(CLUBS[0]);
+  const pathname = useRouterState({ select: s => s.location.pathname });
+  const hideSidebar = pathname.startsWith("/app/account");
   return (
     <ClubCtx.Provider value={{ active, setActive }}>
-      <div className="cc">
+      <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}`}>
         <IconRail />
-        <CommunitySidebar />
+        {!hideSidebar && <CommunitySidebar />}
         <div className="cc-main-wrap">
           <Topbar />
           <main className="cc-main">
@@ -35,6 +37,7 @@ function AppShell() {
     </ClubCtx.Provider>
   );
 }
+
 
 /* ============ LEFT ICON RAIL ============ */
 function IconRail() {
