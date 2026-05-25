@@ -21,17 +21,19 @@ type Tab = typeof TABS[number];
 function AccountPage() {
   const [tab, setTab] = useState<Tab>("Communities");
   return (
-    <div className="acct">
-      <aside className="acct-nav">
-        {TABS.map(t => (
-          <button key={t} className={`acct-tab${tab===t?" on":""}`} onClick={()=>setTab(t)}>{t}</button>
-        ))}
-      </aside>
-      <section className="acct-panel">
-        {tab === "Communities" && <Communities/>}
-        {tab === "Account" && <AccountOverview/>}
-        {tab !== "Communities" && tab !== "Account" && <Empty label={tab}/>}
-      </section>
+    <div className="acct-wrap">
+      <div className="acct">
+        <aside className="acct-nav">
+          {TABS.map(t => (
+            <button key={t} className={`acct-tab${tab===t?" on":""}`} onClick={()=>setTab(t)}>{t}</button>
+          ))}
+        </aside>
+        <section className="acct-panel">
+          {tab === "Communities" && <Communities/>}
+          {tab === "Account" && <AccountOverview/>}
+          {tab !== "Communities" && tab !== "Account" && <Empty label={tab}/>}
+        </section>
+      </div>
     </div>
   );
 }
