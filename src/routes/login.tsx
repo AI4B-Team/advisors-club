@@ -27,7 +27,7 @@ function LoginPage() {
 
   return (
     <div className="lt">
-      <div className="lt-auth">
+      <div className="lt-auth lt-auth-rev">
         <div className="lt-auth-left">
           <Link to="/landing" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
           <h1>Welcome Back</h1>
