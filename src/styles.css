@@ -1397,7 +1397,7 @@
 .aiva-panel-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
 .aiva-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:#7C3AED;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;border:1px solid #7C3AED}
 .aiva-panel-sub{font-size:13px;color:#6B7280;flex:1;min-width:200px}
-.aiva-prompt-row{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #7C3AED;border-radius:12px;padding:6px 6px 6px 14px;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+.aiva-prompt-row{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:6px 6px 6px 14px}
 .aiva-prompt-i{color:#7C3AED;flex-shrink:0}
 .aiva-prompt{flex:1;background:transparent;border:0;outline:0;color:#111827;font-size:14px;padding:10px 0;min-width:0}
 .aiva-prompt::placeholder{color:#9CA3AF}
