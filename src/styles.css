@@ -1131,3 +1131,15 @@
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
+
+/* Force all buttons inside community shell to be rectangular with rounded corners */
+.cc button,
+.cc-main button,
+.cc .btn,
+.cc a.btn {
+  border-radius: 8px !important;
+}
+.cc .cc-rail-bubble,
+.cc .cc-rail-add {
+  border-radius: 12px !important;
+}
