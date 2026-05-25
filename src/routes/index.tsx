@@ -60,7 +60,7 @@ function Index() {
             <input type="email" placeholder="Enter your email to start free" />
             <button>Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
           </div>
-          <p className="hero-fine">No credit card required · Free forever on Starter · Setup in 5 minutes</p>
+          <p className="hero-fine">No Credit Card Required · Free Forever On Starter · Setup In 5 Minutes</p>
         </div>
       </section>
 
