@@ -122,16 +122,46 @@
 }
 .ac .nav-btn:hover{background:var(--ac-amber3);transform:translateY(-1px)}
 
-.ac .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-.ac .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;transform:scale(1.02);pointer-events:none}
-.ac .club-card{border-radius:10px;position:relative;overflow:hidden;opacity:0.42}
-.ac .club-card .cc-img{position:absolute;inset:0;background-size:cover;background-position:center}
-.ac .club-card .cc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.1) 60%)}
-.ac .club-card .cc-body{position:absolute;bottom:0;left:0;right:0;padding:14px 12px}
-.ac .club-card .cc-tag{display:inline-block;margin-bottom:5px;font-size:9px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#1A1A1A;background:var(--ac-amber);padding:2px 7px;border-radius:3px}
-.ac .club-card .cc-name{font-size:11px;font-weight:800;line-height:1.3;color:#fff;display:block;margin-bottom:3px}
-.ac .club-card .cc-meta{font-size:9px;color:rgba(255,255,255,0.6);font-weight:500}
-.ac .club-card .cc-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#1A1A1A;margin-bottom:7px;border:2px solid rgba(255,255,255,0.3)}
+.ac .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:#0f0f0f}
+
+/* Netflix-style tilted mosaic of niche course tiles */
+.ac .hero-mosaic{
+  position:absolute;inset:-15% -10%;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:14px;
+  transform:rotate(-12deg) scale(1.15);
+  transform-origin:center;
+  pointer-events:none;
+  opacity:0.55;
+}
+.ac .hm-tile{
+  aspect-ratio:16/9;
+  border-radius:6px;
+  padding:14px 16px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  position:relative;overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,0.5);
+}
+.ac .hm-tile::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.05) 60%);
+}
+.ac .hm-tag{
+  position:relative;z-index:1;
+  font-size:9px;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;
+  color:#1A1A1A;background:#F5A623;padding:2px 7px;border-radius:3px;
+  align-self:flex-start;margin-bottom:6px;
+}
+.ac .hm-title{
+  position:relative;z-index:1;
+  font-size:13px;font-weight:800;line-height:1.2;color:#fff;
+  text-shadow:0 1px 8px rgba(0,0,0,0.6);
+}
+@media(max-width:960px){
+  .ac .hero-mosaic{grid-template-columns:repeat(4,1fr);gap:10px}
+  .ac .hm-title{font-size:11px}
+}
 
 .ac .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(15,15,15,1) 0%, rgba(15,15,15,0.7) 25%, rgba(15,15,15,0.45) 55%, rgba(15,15,15,0.55) 100%),radial-gradient(ellipse 70% 55% at 50% 55%, rgba(0,0,0,0.55) 0%, transparent 70%);pointer-events:none}
 .ac .hero-content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:110px 24px 80px;max-width:760px;margin:0 auto}
