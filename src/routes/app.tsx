@@ -186,11 +186,18 @@ function CommunitySidebar() {
 function Topbar() {
   const nav = useNavigate();
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const recentSearches = ["Real Estate funnel", "AIVA prompts", "Stripe Connect", "Course builder"];
+  const trending = ["Live events", "Member onboarding", "Challenges"];
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) setSearchOpen(false);
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
@@ -198,9 +205,39 @@ function Topbar() {
 
   return (
     <header className="cc-tb">
-      <div className="cc-tb-search">
+      <div className="cc-tb-search" ref={searchRef}>
         <Search size={14}/>
-        <input placeholder="Search" />
+        <input
+          placeholder="Search"
+          value={query}
+          onChange={(e)=>setQuery(e.target.value)}
+          onFocus={()=>setSearchOpen(true)}
+        />
+        <button
+          type="button"
+          className="cc-tb-search-caret"
+          aria-label="Show recent searches"
+          onClick={()=>setSearchOpen(o=>!o)}
+        >
+          <ChevronDown size={14}/>
+        </button>
+        {searchOpen && (
+          <div className="cc-tb-search-menu">
+            <div className="cc-tb-search-head">Recent</div>
+            {recentSearches.map(s => (
+              <button key={s} className="cc-tb-search-item" onClick={()=>{setQuery(s);setSearchOpen(false);}}>
+                <Search size={13}/> <span>{s}</span>
+              </button>
+            ))}
+            <div className="cc-tb-search-sep" />
+            <div className="cc-tb-search-head">Trending</div>
+            {trending.map(s => (
+              <button key={s} className="cc-tb-search-item" onClick={()=>{setQuery(s);setSearchOpen(false);}}>
+                <Sparkles size={13}/> <span>{s}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="cc-tb-right">
@@ -236,6 +273,7 @@ function Topbar() {
     </header>
   );
 }
+
 
 function MenuItem({ icon, label, right, onClick }: { icon: React.ReactNode; label: string; right?: string; onClick?: () => void }) {
   return (
