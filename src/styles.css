@@ -276,3 +276,38 @@
 }
 .ac .logo-img{height:32px;width:auto;display:block;mix-blend-mode:screen}
 .ac .fg-brand .logo-img{height:28px;mix-blend-mode:screen}
+
+/* ===== LIGHT MODE (everything outside hero/nav/footer) ===== */
+.ac{background:#fff;color:#1A1A1A}
+.ac .stats-row,
+.ac .showcase,
+.ac .pricing-section,
+.ac .testi-section,
+.ac .cta-bottom{background:#fff;color:#1A1A1A;border-color:rgba(0,0,0,0.08)}
+.ac .stats-row{border-top:1px solid rgba(0,0,0,0.08);border-bottom:1px solid rgba(0,0,0,0.08)}
+.ac .stat-item{border-right:1px solid rgba(0,0,0,0.08)}
+.ac .stat-l{color:rgba(0,0,0,0.55)}
+.ac .sc-h2,.ac .fp-h3,.ac .cta-bottom h2{color:#1A1A1A}
+.ac .sc-sub,.ac .fp-p,.ac .cta-bottom p{color:rgba(0,0,0,0.6)}
+.ac .fp-list li{color:rgba(0,0,0,0.7)}
+.ac .fp-visual{background:#fafafa;border:1px solid rgba(0,0,0,0.08)}
+.ac .fp-vis-bar{background:#f0f0f0;border-bottom:1px solid rgba(0,0,0,0.08)}
+.ac .mock-post,.ac .course-row,.ac .ai-bub{background:#fafafa;border:1px solid rgba(0,0,0,0.08);color:#1A1A1A}
+.ac .mp-body{color:rgba(0,0,0,0.72)}
+.ac .mp-actions,.ac .mp-time,.ac .course-hd,.ac .cr-meta{color:rgba(0,0,0,0.5)}
+.ac .ai-bub{color:rgba(0,0,0,0.8)}
+.ac .ai-bub.u{background:rgba(245,166,35,0.12);border-color:rgba(245,166,35,0.3)}
+.ac .cr-bar{background:rgba(0,0,0,0.08)}
+.ac .pricing-section{background:#f7f7f7;border-top:1px solid rgba(0,0,0,0.08)}
+.ac .plan{background:#fff;border:1px solid rgba(0,0,0,0.08);color:#1A1A1A}
+.ac .plan.hot{background:linear-gradient(160deg,rgba(245,166,35,0.08) 0%,#fff 55%)}
+.ac .pf{color:rgba(0,0,0,0.72)}
+.ac .plan-tier,.ac .plan-per{color:rgba(0,0,0,0.55)}
+.ac .plan-div{background:rgba(0,0,0,0.08)}
+.ac .plan-cta.ghost{color:#1A1A1A;border:1px solid rgba(0,0,0,0.18)}
+.ac .testi-section{background:#fff}
+.ac .tc{background:#fafafa;border:1px solid rgba(0,0,0,0.08)}
+.ac .tc-text{color:rgba(0,0,0,0.78)}
+.ac .tc-role{color:rgba(0,0,0,0.55)}
+.ac .cta-fine2{color:rgba(0,0,0,0.45)}
+.ac .cta-form2{box-shadow:0 10px 40px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.08)}
