@@ -645,10 +645,10 @@ function Index() {
       <section className="aiva-section">
         <div className="aiva-glow" aria-hidden="true" />
         <div className="aiva-inner">
-          <div className="showcase-hd" style={{ marginBottom: 48 }}>
+          <div className="showcase-hd" style={{ marginBottom: 56 }}>
             <div className="sc-eyebrow" style={{ display:"inline-flex", alignItems:"center", gap:6 }}><Sparkles size={12} />Meet AIVA</div>
-            <h2 className="sc-h2">Your 24/7 Autonomous<br />AI Community Operator.</h2>
-            <p className="sc-sub" style={{ maxWidth: 640, margin: "0 auto" }}>Not a chatbot. Not a widget. An autonomous AI operator that runs your business, your content, and your community — while you sleep.</p>
+            <h2 className="sc-h2" style={{ fontSize: "clamp(34px,5.2vw,68px)", lineHeight: 1.05 }}>Your 24/7 Autonomous<br /><span className="gold">AI Business Operator.</span></h2>
+            <p className="sc-sub" style={{ maxWidth: 680, margin: "18px auto 0", fontSize: 17 }}>Not a chatbot. Not a widget. An autonomous AI operator that runs your business, your content, and your community — while you sleep.</p>
           </div>
 
           {/* Conversational demo */}
@@ -657,6 +657,7 @@ function Index() {
               <div className="fp-vis-bar">
                 <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
                 <span style={{ fontSize: 11, color: "var(--ac-amber)", marginLeft: 8, fontWeight: 700, display:"inline-flex", alignItems:"center", gap:5 }}><Bot size={11} />AIVA Console</span>
+                <span style={{ marginLeft:"auto", fontSize:10, fontWeight:800, color:"#4ADE80", display:"inline-flex", alignItems:"center", gap:5, letterSpacing:"0.08em" }}><span style={{width:6,height:6,borderRadius:"50%",background:"#4ADE80",boxShadow:"0 0 8px #4ADE80",animation:"ac-pulse 1.4s ease-in-out infinite"}} />LIVE</span>
               </div>
               <div className="aiva-thread">
                 <div className="aiva-msg you">
