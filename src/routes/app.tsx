@@ -246,7 +246,7 @@ function Topbar() {
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
               <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
-              <MenuItem icon={<Mail size={15}/>} label="Invites" onClick={()=>{setOpen(false);nav({to:"/app/club/members"})}} />
+              
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
               <MenuItem icon={<Sun size={15}/>} label="Theme:" right="Light ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
