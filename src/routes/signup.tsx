@@ -26,7 +26,7 @@ function SignupPage() {
     <div className="lt">
       <div className="lt-auth">
         <div className="lt-auth-left">
-          <Link to="/" className="lt-auth-logo">Advisors<span>Club</span></Link>
+          <Link to="/landing" className="lt-auth-logo">Advisors<span>Club</span></Link>
           <div className="lt-step-dots">
             <div className={`lt-step-dot ${step>=1?"on":""}`} />
             <div className={`lt-step-dot ${step>=2?"on":""}`} />

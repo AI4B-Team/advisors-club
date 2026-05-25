@@ -26,7 +26,7 @@ function Sidebar() {
   return (
     <aside className="lt-sidebar">
       <div className="lt-sb-top">
-        <Link to="/" className="lt-sb-logo">Advisors<span>Club</span></Link>
+        <Link to="/landing" className="lt-sb-logo">Advisors<span>Club</span></Link>
         <button className="lt-switcher">
           <span className="lt-switcher-av">RE</span>
           <span className="lt-switcher-t">
