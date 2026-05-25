@@ -216,13 +216,8 @@ function Index() {
             <div className="mock-feed">
               <div className="mock-banner">
                 <img src={ai4bLogo} alt="AI for Business" className="mb-logo-img" />
-                <div className="mb-text">
-                  <div className="mb-title">AI for Business — Education Club</div>
-                  <div className="mb-sub">Master AI. Build smarter businesses. Learn with 12,000+ operators.</div>
-                </div>
                 <div className="mb-meta">
-                  <span><Users size={10} />12,480</span>
-                  <span><Lock size={10} />Members only</span>
+                  <span><Users size={10} />12,480 members</span>
                 </div>
               </div>
               <div className="mock-post">
