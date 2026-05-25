@@ -562,7 +562,7 @@ function Index() {
           <input type="email" placeholder="Enter your email address" />
           <button>Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
         </div>
-        <p className="cta-fine2">Free forever on Starter · 14-day trial on paid plans · Join 14,000+ Advisors</p>
+        <p className="cta-fine2">Free Forever On Starter · 14-Day Trial On Paid Plans<br />Join 14,000+ Advisors</p>
       </div>
 
       {/* FOOTER */}
