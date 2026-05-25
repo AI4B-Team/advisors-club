@@ -510,9 +510,12 @@
 
 /* --- auth pages --- */
 .lt-auth{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
-.lt-auth-left{display:flex;flex-direction:column;justify-content:center;padding:48px 64px;max-width:540px;width:100%;margin-left:auto}
-.lt-auth-logo{font-weight:800;font-size:18px;margin-bottom:48px;color:var(--ink)}
-.lt-auth-logo span{color:var(--amber)}
+.lt-auth-left{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 64px;max-width:480px;width:100%;margin:0 auto}
+.lt-auth-left form{width:100%;text-align:left}
+.lt-auth-left h1{text-align:center}
+.lt-auth-logo{display:inline-flex;margin-bottom:40px}
+.lt-auth-logo img{height:36px;width:auto;display:block}
+
 .lt-auth h1{font-size:32px;margin-bottom:8px}
 .lt-auth-sub{color:var(--muted);font-size:15px;margin-bottom:32px}
 .lt-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
