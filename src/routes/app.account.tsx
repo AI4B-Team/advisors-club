@@ -149,20 +149,3 @@ function Empty({ label }: { label: string }) {
   );
 }
 
-function Stat({ l, v, d }: { l: string; v: string; d: string }) {
-  return (
-    <div className="lt-stat">
-      <div className="lt-stat-l">{l}</div>
-      <div className="lt-stat-v">{v}</div>
-      <div className="lt-stat-d">{d}</div>
-    </div>
-  );
-}
-function QAction({ i, l, hot = false }: { i: React.ReactNode; l: string; hot?: boolean }) {
-  return (
-    <button className={`lt-quick-btn ${hot?"hot":""}`}>
-      <span className="lt-quick-i">{i}</span>
-      <span className="lt-quick-l">{l}</span>
-    </button>
-  );
-}
