@@ -102,7 +102,7 @@ function FeedPage() {
             <span className="cc-feed-av-plus">+30</span>
           </div>
           <button className="cc-feed-new" onClick={publish}>
-            <Plus size={15} strokeWidth={3}/> New post
+            <Plus size={15} strokeWidth={3}/> New Post
           </button>
         </div>
       </div>
