@@ -62,27 +62,102 @@ function IconRail() {
 }
 
 /* ============ COMMUNITY SIDEBAR ============ */
-type SpaceLink = { label: string; icon: string; to: string; count?: number };
-type SpaceGroup = { title: string; items: SpaceLink[] };
+type SubLink = { label: string; to: string };
+type TopLink = {
+  label: string; to: string; icon: React.ReactNode;
+  exact?: boolean; pill?: boolean;
+  subs: SubLink[]; menu: string[];
+};
 
-const MAIN_LINKS: { label: string; icon: string; to: string }[] = [
-  { label: "Courses", icon: "📚", to: "/app/club/courses" },
-  { label: "Challenges", icon: "🔥", to: "/app/club/challenges" },
-  { label: "Events", icon: "📅", to: "/app/club/events" },
-  { label: "Members", icon: "👥", to: "/app/club/members" },
-  { label: "AIVA", icon: "✨", to: "/app/aiva" },
+const DEFAULT_MENU = ["Pin to top", "Mute notifications", "Mark all read", "Hide"];
+
+const TOP_LINKS: TopLink[] = [
+  { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
+    subs: [{label:"Dashboard",to:"/app/dashboard"},{label:"Activity",to:"/app"},{label:"Bookmarks",to:"/app/bookmarks"}],
+    menu: DEFAULT_MENU },
+  { label: "Getting Started", to: "/app/dashboard", icon: <Rocket size={16}/>,
+    subs: [{label:"Start Here",to:"/app/getting-started"},{label:"Say Hello",to:"/app/club/feed"},{label:"Resources",to:"/app/club/courses"}],
+    menu: DEFAULT_MENU },
+  { label: "Community", to: "/app/club/feed", icon: <MessageSquare size={16}/>,
+    subs: [{label:"Feed",to:"/app/club/feed"},{label:"Announcements",to:"/app/club/feed"},{label:"Discussions",to:"/app/club/feed"}],
+    menu: DEFAULT_MENU },
+  { label: "Courses", to: "/app/club/courses", icon: <span className="cc-sb-row-emoji">📚</span>,
+    subs: [{label:"All Courses",to:"/app/club/courses"},{label:"In Progress",to:"/app/club/courses"},{label:"Completed",to:"/app/club/courses"}],
+    menu: DEFAULT_MENU },
+  { label: "Challenges", to: "/app/club/challenges", icon: <span className="cc-sb-row-emoji">🔥</span>,
+    subs: [{label:"Active",to:"/app/club/challenges"},{label:"Upcoming",to:"/app/club/challenges"},{label:"Past",to:"/app/club/challenges"}],
+    menu: DEFAULT_MENU },
+  { label: "Events", to: "/app/club/events", icon: <span className="cc-sb-row-emoji">📅</span>,
+    subs: [{label:"Calendar",to:"/app/club/events"},{label:"Upcoming",to:"/app/club/events"},{label:"Past",to:"/app/club/events"}],
+    menu: DEFAULT_MENU },
+  { label: "Members", to: "/app/club/members", icon: <span className="cc-sb-row-emoji">👥</span>,
+    subs: [{label:"All Members",to:"/app/club/members"},{label:"Online",to:"/app/club/members"},{label:"Admins",to:"/app/club/members"}],
+    menu: DEFAULT_MENU },
+  { label: "AIVA", to: "/app/aiva", icon: <span className="cc-sb-row-emoji">✨</span>,
+    subs: [{label:"Console",to:"/app/aiva"},{label:"Prompts",to:"/app/aiva"},{label:"History",to:"/app/aiva"}],
+    menu: DEFAULT_MENU },
 ];
 
-const SPACES: SpaceGroup[] = [
-  {
-    title: "Get Started",
-    items: [
-      { label: "Start Here", icon: "🏠", to: "/app/getting-started", count: 1 },
-      { label: "Say Hello", icon: "👋", to: "/app/club/feed", count: 1 },
-      { label: "Resources", icon: "📖", to: "/app/club/courses", count: 1 },
-    ],
-  },
-];
+function SidebarTopLink({ link }: { link: TopLink }) {
+  const [expanded, setExpanded] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+  const baseCls = link.pill ? "cc-sb-pill" : "cc-sb-feed";
+  return (
+    <div className="cc-sb-item">
+      <div className={`cc-sb-item-row ${baseCls}-wrap`}>
+        <Link
+          to={link.to}
+          activeOptions={link.exact ? { exact: true } : undefined}
+          className={baseCls}
+          activeProps={{ className: `${baseCls} on` }}
+        >
+          {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
+          <span className="cc-sb-item-l">{link.label}</span>
+        </Link>
+        <button
+          className="cc-sb-caret"
+          aria-label="Toggle sub-links"
+          onClick={() => setExpanded(e => !e)}
+        >
+          <ChevronDown size={14} style={{ transform: expanded ? "rotate(180deg)" : undefined, transition: "transform .15s" }}/>
+        </button>
+        <div className="cc-sb-more-wrap" ref={menuRef}>
+          <button
+            className="cc-sb-more"
+            aria-label="More options"
+            onClick={() => setMenuOpen(o => !o)}
+          >
+            <MoreHorizontal size={14}/>
+          </button>
+          {menuOpen && (
+            <div className="cc-sb-more-menu">
+              {link.menu.map(m => (
+                <button key={m} className="cc-sb-more-item" onClick={() => setMenuOpen(false)}>{m}</button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      {expanded && (
+        <div className="cc-sb-subs">
+          {link.subs.map(s => (
+            <Link key={s.label} to={s.to} className="cc-sb-sub" activeProps={{ className: "cc-sb-sub on" }}>
+              {s.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function CommunitySidebar() {
   const { active, setActive } = useContext(ClubCtx);
