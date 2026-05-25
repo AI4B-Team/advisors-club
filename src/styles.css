@@ -1269,3 +1269,27 @@
   color: #111827;
 }
 .cc-sb-switch-search input::placeholder { color: #9CA3AF; }
+
+.cc-composer-title {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  background: transparent;
+  padding: 2px 0;
+}
+.cc-composer-title::placeholder { color: #9CA3AF; font-weight: 700; }
+.cc-composer-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cc-composer-target {
+  font-size: 13px;
+  color: #6B7280;
+}
+.cc-composer-target b { color: #111827; font-weight: 700; }
+.cc-composer-send { border-radius: 8px !important; }
