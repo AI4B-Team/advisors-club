@@ -1404,8 +1404,8 @@
 .aiva-prompt-go{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:9px;background:#7C3AED;color:#fff;font-weight:700;font-size:13px;border:0;cursor:pointer;white-space:nowrap}
 .aiva-prompt-go:hover{background:#6D28D9}
 .aiva-prompt-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.aiva-prompt-chip{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:12px;padding:6px 10px;border-radius:999px;cursor:pointer;transition:background .15s}
-.aiva-prompt-chip:hover{background:rgba(255,255,255,0.12)}
+.aiva-prompt-chip{background:#F3F4F6;border:1px solid #E5E7EB;color:#374151;font-size:12px;padding:6px 10px;border-radius:999px;cursor:pointer;transition:background .15s}
+.aiva-prompt-chip:hover{background:#E5E7EB}
 
 /* Section heads */
 .lt-section-head{display:flex;align-items:baseline;justify-content:space-between;margin:8px 0 14px;flex-wrap:wrap;gap:8px}
