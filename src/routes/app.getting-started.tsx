@@ -44,7 +44,7 @@ const GROUPS: Group[] = [
   },
   {
     id: "launch-prep",
-    title: "Prepare to launch",
+    title: "Prepare To Launch",
     icon: <BookOpen size={16}/>,
     tasks: [
       { id: "l1", label: "Publish a welcome post" },
