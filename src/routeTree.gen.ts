@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ClubSplatRouteImport } from './routes/club.$'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
+import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
 import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
 import { Route as AppClubFeedRouteImport } from './routes/app.club.feed'
@@ -71,6 +72,11 @@ const AppAivaRoute = AppAivaRouteImport.update({
   path: '/aiva',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAccountRoute = AppAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppClubSettingsRoute = AppClubSettingsRouteImport.update({
   id: '/club/settings',
   path: '/club/settings',
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/club/$': typeof ClubSplatRoute
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/club/$': typeof ClubSplatRoute
@@ -151,6 +159,7 @@ export interface FileRoutesById {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/club/$': typeof ClubSplatRoute
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/signup'
+    | '/app/account'
     | '/app/aiva'
     | '/app/dashboard'
     | '/club/$'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/signup'
+    | '/app/account'
     | '/app/aiva'
     | '/app/dashboard'
     | '/club/$'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/signup'
+    | '/app/account'
     | '/app/aiva'
     | '/app/dashboard'
     | '/club/$'
@@ -294,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAivaRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/account': {
+      id: '/app/account'
+      path: '/account'
+      fullPath: '/app/account'
+      preLoaderRoute: typeof AppAccountRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/club/settings': {
       id: '/app/club/settings'
       path: '/club/settings'
@@ -347,6 +366,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAccountRoute: typeof AppAccountRoute
   AppAivaRoute: typeof AppAivaRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppClubAnalyticsRoute: typeof AppClubAnalyticsRoute
@@ -359,6 +379,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAccountRoute: AppAccountRoute,
   AppAivaRoute: AppAivaRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppClubAnalyticsRoute: AppClubAnalyticsRoute,
@@ -384,3 +405,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
