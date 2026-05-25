@@ -210,17 +210,17 @@ function Index() {
           <div className="fp-visual">
             <div className="fp-vis-bar">
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>realestatepro.advisorsclub.com</span>
+              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>club.aiforbusiness.com</span>
             </div>
             <div className="mock-feed">
               <div className="mock-banner">
-                <div className="mb-logo">RP</div>
+                <img src={ai4bLogo} alt="AI for Business" className="mb-logo-img" />
                 <div className="mb-text">
-                  <div className="mb-title">RealEstatePro Club</div>
-                  <div className="mb-sub">Your Club. Your Brand. Your Members — For Life.</div>
+                  <div className="mb-title">AI for Business — Education Club</div>
+                  <div className="mb-sub">Master AI. Build smarter businesses. Learn with 12,000+ operators.</div>
                 </div>
                 <div className="mb-meta">
-                  <span><Users size={10} />4,212</span>
+                  <span><Users size={10} />12,480</span>
                   <span><Lock size={10} />Members only</span>
                 </div>
               </div>
@@ -230,24 +230,24 @@ function Index() {
                   <div><div className="mp-name">Zaddy · Admin</div><div className="mp-time">5 min ago</div></div>
                   <div className="mp-badge"><Pin size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:3}} />Pinned</div>
                 </div>
-                <div className="mp-body">Welcome to the Club! Drop your biggest goal — AIVA is live and will answer instantly.</div>
-                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Heart size={12} />38</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />14 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
+                <div className="mp-body">New cohort drop: <b>"Build Your First AI Agent in 7 Days"</b> goes live Monday. AIVA will guide every lesson — ask her anything, anytime.</div>
+                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Heart size={12} />84</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />26 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
               </div>
               <div className="mock-post">
                 <div className="mp-hd">
                   <div className="mp-av" style={{ background: "#4ADE80" }}>M</div>
                   <div><div className="mp-name">Marcus T. <span style={{ color: "var(--ac-amber)", fontSize: 10 }}><Star size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:2}} />Lvl 14</span></div><div className="mp-time">2 hours ago</div></div>
                 </div>
-                <div className="mp-body">Just closed a $52k wholesale deal using the script from Module 4. This Club paid for itself 200x.</div>
-                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Flame size={12} />112</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />47 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
+                <div className="mp-body">Shipped my first GPT-powered customer support bot using the Module 4 playbook — cut response time 87% in the first week. This Club paid for itself 200x.</div>
+                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Flame size={12} />212</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />63 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
               </div>
               <div className="mock-post" style={{ opacity: 0.65 }}>
                 <div className="mp-hd">
                   <div className="mp-av" style={{ background: "#818CF8" }}>S</div>
                   <div><div className="mp-name">Sarah K.</div><div className="mp-time">3 hours ago</div></div>
                 </div>
-                <div className="mp-body">What's the best market to target for wholesaling right now?</div>
-                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4, color:"var(--ac-amber)", fontSize:10}}><Bot size={12} />AIVA replied</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />23 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
+                <div className="mp-body">Best prompt framework for writing landing pages with Claude right now?</div>
+                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4, color:"var(--ac-amber)", fontSize:10}}><Bot size={12} />AIVA replied</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />31 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
               </div>
             </div>
           </div>
