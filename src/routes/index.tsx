@@ -431,6 +431,7 @@ function Index() {
               <li><Check size={11} strokeWidth={3} className="fp-check" />Live chat, Q&amp;A queue, polls & screen share</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />Auto-recorded, transcribed & AI-summarized</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />Automated reminders — 24h, 1h & 15min before</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA auto-edits replays into reels, shorts & social clips</li>
               <li><Check size={11} strokeWidth={3} className="fp-check" />Sell gated access to recorded replays</li>
             </ul>
           </div>
