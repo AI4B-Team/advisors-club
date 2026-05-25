@@ -59,17 +59,6 @@ function Sidebar() {
         <Link to="/app/club/settings" className="lt-sb-item"><Settings size={16}/> Settings</Link>
       </nav>
 
-      <div className="lt-sb-foot">
-        <Link to="/discover" className="lt-discover-link"><Compass size={15}/> Discover Clubs</Link>
-        <div className="lt-user-row">
-          <span className="lt-user-av">Z</span>
-          <div className="lt-user-t">
-            <div className="lt-user-name">Zaddy</div>
-            <div className="lt-user-plan">Pro plan</div>
-          </div>
-          <button className="lt-user-out" onClick={() => nav({ to: "/" })} aria-label="Logout"><LogOut size={15}/></button>
-        </div>
-      </div>
     </aside>
   );
 }
