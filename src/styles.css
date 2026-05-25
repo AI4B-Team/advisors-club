@@ -163,7 +163,7 @@
 .ac .optin button:hover{background:var(--ac-amber3)}
 .ac .hero-fine{font-size:12px;color:rgba(255,255,255,0.38);letter-spacing:0.01em}
 
-.ac .showcase{padding:100px 52px;max-width:1200px;margin:0 auto}
+.ac .showcase{padding:56px 52px;max-width:1200px;margin:0 auto}
 .ac .showcase-hd{text-align:center;margin-bottom:60px}
 .ac .sc-eyebrow{font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--ac-amber);margin-bottom:14px}
 .ac .sc-h2{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-1.8px;line-height:1.1;margin-bottom:16px;font-family:var(--ac-font)}
@@ -220,7 +220,7 @@
 .ac .stat-n{font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:6px;color:var(--ac-amber)}
 .ac .stat-l{font-size:13px;color:var(--ac-muted);font-weight:500}
 
-.ac .pricing-section{padding:100px 52px;background:var(--ac-bg2);border-top:1px solid var(--ac-border)}
+.ac .pricing-section{padding:56px 52px;background:var(--ac-bg2);border-top:1px solid var(--ac-border)}
 .ac .pricing-inner{max-width:1080px;margin:0 auto}
 .ac .price-hd{text-align:center;margin-bottom:56px}
 .ac .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -242,7 +242,7 @@
 .ac .plan-cta.ghost{background:transparent;color:var(--ac-white);border:1px solid var(--ac-border2)}
 .ac .plan-cta.ghost:hover{border-color:rgba(245,166,35,0.4);background:rgba(245,166,35,0.05)}
 
-.ac .testi-section{padding:100px 52px;max-width:1200px;margin:0 auto}
+.ac .testi-section{padding:56px 52px;max-width:1200px;margin:0 auto}
 .ac .testi-hd{text-align:center;margin-bottom:56px}
 .ac .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .ac .tc{background:var(--ac-bg2);border:1px solid var(--ac-border);border-radius:16px;padding:28px}
@@ -253,7 +253,7 @@
 .ac .tc-name{font-size:13px;font-weight:700}
 .ac .tc-role{font-size:11px;color:var(--ac-muted)}
 
-.ac .cta-bottom{text-align:center;padding:110px 52px;position:relative;overflow:hidden}
+.ac .cta-bottom{text-align:center;padding:64px 52px;position:relative;overflow:hidden}
 .ac .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(245,166,35,0.08) 0%,transparent 65%);pointer-events:none}
 .ac .cta-bottom h2{font-size:clamp(28px,4.2vw,56px);font-weight:900;letter-spacing:-2px;max-width:none;margin:0 auto 20px;font-family:var(--ac-font);white-space:nowrap}
 .ac .cta-bottom p{font-size:17px;color:var(--ac-muted);max-width:440px;margin:0 auto 40px;line-height:1.72}
