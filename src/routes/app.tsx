@@ -1,38 +1,55 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight } from "lucide-react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass } from "lucide-react";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
 });
 
+type Club = { id: string; label: string; color: string };
+const CLUBS: Club[] = [
+  { id: "re", label: "Real Estate Empire", color: "#F5A623" },
+  { id: "c1", label: "Coaches Circle", color: "#0EA5E9" },
+  { id: "c2", label: "Creators Hub", color: "#A78BFA" },
+];
+
+const ClubCtx = createContext<{
+  active: Club;
+  setActive: (c: Club) => void;
+}>({ active: CLUBS[0], setActive: () => {} });
+
 function AppShell() {
+  const [active, setActive] = useState<Club>(CLUBS[0]);
   return (
-    <div className="cc">
-      <IconRail />
-      <CommunitySidebar />
-      <div className="cc-main-wrap">
-        <Topbar />
-        <main className="cc-main">
-          <Outlet />
-        </main>
+    <ClubCtx.Provider value={{ active, setActive }}>
+      <div className="cc">
+        <IconRail />
+        <CommunitySidebar />
+        <div className="cc-main-wrap">
+          <Topbar />
+          <main className="cc-main">
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </ClubCtx.Provider>
   );
 }
 
 /* ============ LEFT ICON RAIL ============ */
 function IconRail() {
   const nav = useNavigate();
-  const items = [
-    { id: "re", label: "Real Estate Empire", color: "#F5A623", active: true },
-    { id: "c1", label: "Coaches Circle", color: "#0EA5E9" },
-    { id: "c2", label: "Creators Hub", color: "#A78BFA" },
-  ];
+  const { active, setActive } = useContext(ClubCtx);
   return (
     <aside className="cc-rail">
-      {items.map(it => (
-        <button key={it.id} className={`cc-rail-bubble ${it.active ? "on":""}`} data-tip={it.label} style={{background: it.color}}>
+      {CLUBS.map(it => (
+        <button
+          key={it.id}
+          className={`cc-rail-bubble ${active.id === it.id ? "on":""}`}
+          data-tip={it.label}
+          style={{background: it.color}}
+          onClick={() => setActive(it)}
+        >
           {it.label.slice(0,1)}
         </button>
       ))}
@@ -73,13 +90,49 @@ const SPACES: SpaceGroup[] = [
 ];
 
 function CommunitySidebar() {
+  const { active, setActive } = useContext(ClubCtx);
+  const nav = useNavigate();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
   return (
     <aside className="cc-sb">
-      <div className="cc-sb-top">
-        <button className="cc-sb-switcher">
-          <span className="cc-sb-name">Real Estate Empire</span>
+      <div className="cc-sb-top" ref={ref}>
+        <button className="cc-sb-switcher" onClick={() => setOpen(o => !o)}>
+          <span className="cc-sb-name">{active.label}</span>
           <ChevronDown size={16}/>
         </button>
+        {open && (
+          <div className="cc-sb-switch-menu">
+            <div className="cc-sb-switch-head">Your Communities</div>
+            {CLUBS.map(c => (
+              <button
+                key={c.id}
+                className={`cc-sb-switch-item ${active.id === c.id ? "on":""}`}
+                onClick={() => { setActive(c); setOpen(false); }}
+              >
+                <span className="cc-sb-switch-dot" style={{background: c.color}}>{c.label.slice(0,1)}</span>
+                <span className="cc-sb-switch-l">{c.label}</span>
+                {active.id === c.id && <span className="cc-sb-switch-check">✓</span>}
+              </button>
+            ))}
+            <div className="cc-sb-switch-sep" />
+            <button className="cc-sb-switch-item" onClick={() => { setOpen(false); nav({ to: "/discover" }); }}>
+              <span className="cc-sb-switch-dot ghost"><Compass size={14}/></span>
+              <span className="cc-sb-switch-l">Explore Clubs</span>
+            </button>
+            <button className="cc-sb-switch-item" onClick={() => { setOpen(false); nav({ to: "/discover" }); }}>
+              <span className="cc-sb-switch-dot ghost"><Plus size={14}/></span>
+              <span className="cc-sb-switch-l">Create Club</span>
+            </button>
+          </div>
+        )}
       </div>
 
       <Link to="/app/dashboard" className="cc-sb-pill" activeProps={{className:"cc-sb-pill on"}}>
