@@ -51,9 +51,9 @@ const comparison = [
 ];
 
 const plans = [
-  { name: "Starter", price: "$0", tag: "Try it free", features: ["1 club", "Up to 50 members", "Core community", "Basic AI assists"], cta: "Start free" },
-  { name: "Creator", price: "$49", tag: "Most popular", features: ["Unlimited members", "Full LEXI AI suite", "Courses + certificates", "Funnels & email", "Custom domain"], cta: "Start 14-day trial", featured: true },
-  { name: "Business", price: "$149", tag: "Scale", features: ["Multi-community", "Affiliate program", "Advanced analytics", "White-glove migration", "Priority support"], cta: "Talk to sales" },
+  { name: "Starter", price: "$0", tag: "Try It Free", features: ["1 club", "Up to 50 members", "Core community", "Basic AI assists"], cta: "Start Free" },
+  { name: "Creator", price: "$49", tag: "Most Popular", features: ["Unlimited members", "Full LEXI AI suite", "Courses + certificates", "Funnels & email", "Custom domain"], cta: "Start 14-Day Trial", featured: true },
+  { name: "Business", price: "$149", tag: "Scale", features: ["Multi-community", "Affiliate program", "Advanced analytics", "White-glove migration", "Priority support"], cta: "Talk To Sales" },
 ];
 
 function Cell({ v }: { v: boolean | string }) {
@@ -69,7 +69,7 @@ function Index() {
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-primary shadow-glow">
+            <div className="grid h-8 w-8 place-items-center rounded-lg bg-primary">
               <Zap className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-display text-lg font-semibold tracking-tight">Advisors Club</span>
@@ -79,8 +79,8 @@ function Index() {
             <a href="#compare" className="hover:text-foreground">Compare</a>
             <a href="#pricing" className="hover:text-foreground">Pricing</a>
           </nav>
-          <Button size="sm" className="bg-gradient-primary text-primary-foreground hover:opacity-90">
-            Get started
+          <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
+            Get Started
           </Button>
         </div>
       </header>
@@ -92,29 +92,29 @@ function Index() {
           alt=""
           width={1920}
           height={1280}
-          className="absolute inset-0 h-full w-full object-cover opacity-60"
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
+        <div className="absolute inset-0 bg-background/70" />
         <div className="relative mx-auto max-w-6xl px-6 py-28 text-center md:py-40">
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-4 py-1.5 text-xs text-muted-foreground backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            Powered by LEXI — your AI co-founder
+            Powered By LEXI — Your AI Co-Founder
           </div>
           <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-            <span className="text-gradient">The community platform</span>
+            The Community Platform
             <br />
-            built for the AI era.
+            Built For The AI Era.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
             Community, courses, events, email and funnels — in one place. Launch in
             an afternoon for less than half the price of Circle, Skool or Kajabi.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <Button size="lg" className="bg-gradient-primary text-primary-foreground shadow-glow hover:opacity-90">
-              Start free — 14 days <ArrowRight className="ml-2 h-4 w-4" />
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+              Start Free — 14 Days <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button size="lg" variant="outline" className="border-border bg-card/40 backdrop-blur">
-              Watch the demo
+              Watch The Demo
             </Button>
           </div>
           <div className="mt-12 flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm text-muted-foreground">
@@ -128,8 +128,8 @@ function Index() {
       {/* Features */}
       <section id="features" className="mx-auto max-w-7xl px-6 py-24">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">Everything in one club</p>
-          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Stop duct-taping six tools together.</h2>
+          <p className="text-sm font-medium uppercase tracking-widest text-primary">Everything In One Club</p>
+          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Stop Duct-Taping Six Tools Together.</h2>
           <p className="mt-4 text-muted-foreground">
             Advisors Club brings the entire creator stack under one roof — with AI woven through every layer.
           </p>
@@ -138,9 +138,9 @@ function Index() {
           {features.map((f) => (
             <div
               key={f.title}
-              className="group rounded-2xl border border-border bg-card p-6 shadow-card-elegant transition hover:border-primary/40 hover:shadow-glow"
+              className="group rounded-2xl border border-border bg-card p-6 transition hover:border-primary/40"
             >
-              <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground">
+              <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                 <f.icon className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-semibold">{f.title}</h3>
@@ -161,7 +161,7 @@ function Index() {
           ].map((s) => (
             <div key={s.l} className="text-center">
               <s.i className="mx-auto mb-3 h-5 w-5 text-primary" />
-              <div className="text-gradient font-display text-4xl font-bold md:text-5xl">{s.v}</div>
+              <div className="font-display text-4xl font-bold text-foreground md:text-5xl">{s.v}</div>
               <div className="mt-1 text-sm text-muted-foreground">{s.l}</div>
             </div>
           ))}
@@ -171,10 +171,10 @@ function Index() {
       {/* Comparison */}
       <section id="compare" className="mx-auto max-w-6xl px-6 py-24">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">The honest comparison</p>
-          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Why creators switch.</h2>
+          <p className="text-sm font-medium uppercase tracking-widest text-primary">The Honest Comparison</p>
+          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Why Creators Switch.</h2>
         </div>
-        <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-card shadow-card-elegant">
+        <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-card">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-secondary/50 text-left">
@@ -210,21 +210,19 @@ function Index() {
       <section id="pricing" className="mx-auto max-w-6xl px-6 py-24">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-medium uppercase tracking-widest text-primary">Pricing</p>
-          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Built to scale, priced to start.</h2>
+          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Built To Scale, Priced To Start.</h2>
           <p className="mt-4 text-muted-foreground">Unlimited members on every paid plan. Save 30% annually.</p>
         </div>
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {plans.map((p) => (
             <div
               key={p.name}
-              className={`relative rounded-2xl border p-8 transition ${
-                p.featured
-                  ? "border-primary/60 bg-card shadow-glow"
-                  : "border-border bg-card shadow-card-elegant"
+              className={`relative rounded-2xl border bg-card p-8 transition ${
+                p.featured ? "border-primary/60" : "border-border"
               }`}
             >
               {p.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
                   {p.tag}
                 </div>
               )}
@@ -245,7 +243,7 @@ function Index() {
               <Button
                 className={`mt-8 w-full ${
                   p.featured
-                    ? "bg-gradient-primary text-primary-foreground hover:opacity-90"
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                 }`}
               >
@@ -258,18 +256,17 @@ function Index() {
 
       {/* CTA */}
       <section className="mx-auto max-w-6xl px-6 pb-32">
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-12 text-center shadow-glow md:p-20">
-          <div className="absolute inset-0 bg-gradient-primary opacity-20" />
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-12 text-center md:p-20">
           <div className="relative">
             <GraduationCap className="mx-auto mb-5 h-10 w-10 text-primary" />
             <h2 className="font-display text-4xl font-bold md:text-5xl">
-              Your club. Your courses. <span className="text-gradient">Your AI.</span>
+              Your Club. Your Courses. Your AI.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
               Join the creators building the next generation of communities on Advisors Club.
             </p>
-            <Button size="lg" className="mt-8 bg-gradient-primary text-primary-foreground shadow-glow hover:opacity-90">
-              Start your free trial <ArrowRight className="ml-2 h-4 w-4" />
+            <Button size="lg" className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90">
+              Start Your Free Trial <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
