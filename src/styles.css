@@ -290,7 +290,7 @@
   .ac .mosaic{grid-template-columns:repeat(3,1fr)}
 }
 .ac .logo-img{height:160px;width:auto;display:block}
-.ac .fg-brand .logo-img{height:220px;margin:-60px 0}
+.ac .fg-brand .logo-img{height:160px;margin:-40px 0 -30px -28px}
 
 /* ===== LIGHT MODE (everything outside hero/nav/footer) ===== */
 .ac{background:#fff;color:#1A1A1A}
