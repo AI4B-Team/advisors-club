@@ -14,8 +14,8 @@ export const Route = createFileRoute("/app/account")({
 });
 
 const TABS = [
-  "Communities","Profile","Affiliates","Payouts","Account",
-  "Notifications","Chat","Payment methods","Payment history","Theme",
+  "Clubs","Profile","Affiliates","Payouts","Account",
+  "Notifications","Chat","Payment Methods","Payment History","Theme",
 ] as const;
 type Tab = typeof TABS[number];
 
