@@ -69,7 +69,7 @@ function Index() {
         <div className="stat-item"><div className="stat-n">14k+</div><div className="stat-l">Active Advisors</div></div>
         <div className="stat-item"><div className="stat-n">$310M</div><div className="stat-l">Earned by Advisors</div></div>
         <div className="stat-item"><div className="stat-n">4.2M</div><div className="stat-l">Club Members</div></div>
-        <div className="stat-item"><div className="stat-n">71%</div><div className="stat-l">Course completion rate</div></div>
+        
         <div className="stat-item"><div className="stat-n" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>4.9<Star size={28} fill="currentColor" strokeWidth={0} /></div><div className="stat-l">Average rating</div></div>
       </div>
 
