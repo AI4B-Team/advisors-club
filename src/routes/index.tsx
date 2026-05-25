@@ -153,7 +153,8 @@ function Index() {
         </div>
       </section>
 
-
+      {/* THE 6 Cs */}
+      <section className="showcase" id="features">
         <div className="showcase-hd">
           <div className="sc-eyebrow">The 6 Cs of AdvisorsClub</div>
           <h2 className="sc-h2">The Operating System For<br />Modern Creator Businesses.</h2>
