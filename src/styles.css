@@ -858,3 +858,4 @@
 .acct-comm-btn:hover{background:rgba(0,0,0,0.03)}
 .acct-comm-icon{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);background:transparent;border:0;border-radius:8px;cursor:pointer}
 .acct-comm-icon:hover{background:rgba(0,0,0,0.05);color:var(--ink)}
+@media (max-width:900px){.acct-wrap{margin:-28px -16px;padding:24px 16px}.acct{grid-template-columns:1fr;gap:20px}.acct-nav{position:static;flex-direction:row;overflow-x:auto}.acct-tab{white-space:nowrap}}
