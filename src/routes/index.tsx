@@ -70,9 +70,9 @@ function Index() {
 
         <div className="hero-content">
           <div className="hero-badge"><span className="bdot" />The Platform Built for Expert Advisors</div>
-          <h1>Launch Your <span className="gold">Club.</span><br />Scale Your Empire.</h1>
+          <h1>Build Your <span className="gold">Community.</span><br />Automate Your Business.</h1>
           <p className="hero-sub">
-            The all-in-one platform where Advisors launch Clubs, host Courses, run Challenges, and get paid — with an AI agent working for you around the clock.
+            Community, courses, content, coaching, and AI automation — all in one platform built to scale modern creator businesses.
           </p>
           <div className="optin">
             <input type="email" placeholder="Enter your email to start free" />
