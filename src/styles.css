@@ -184,14 +184,14 @@
 .ac .wd1{background:#FF5F57} .ac .wd2{background:#FFBD2E} .ac .wd3{background:#28C840}
 
 .ac .mock-feed{padding:18px}
-.ac .mock-banner{position:relative;display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:12px;border-radius:12px;background:linear-gradient(135deg,#F5A623 0%,#E8841A 55%,#1A1A1A 100%);color:#fff;overflow:hidden}
-.ac .mock-banner::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 20%,rgba(255,255,255,0.18),transparent 50%);pointer-events:none}
-.ac .mb-logo{width:36px;height:36px;border-radius:8px;background:#fff;color:#1A1A1A;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;letter-spacing:-0.5px;flex-shrink:0}
-.ac .mb-text{flex:1;min-width:0}
-.ac .mb-title{font-size:13px;font-weight:700;letter-spacing:-0.2px}
-.ac .mb-sub{font-size:10px;opacity:0.85;margin-top:2px}
-.ac .mb-meta{display:flex;flex-direction:column;gap:4px;font-size:9px;font-weight:600;opacity:0.9;flex-shrink:0}
-.ac .mb-meta span{display:inline-flex;align-items:center;gap:4px}
+.ac .mock-banner{position:relative;display:flex !important;align-items:center;gap:14px;padding:16px 18px;margin-bottom:12px;border-radius:12px;background:linear-gradient(135deg,#0a1733 0%,#0f2452 55%,#1a1a1a 100%);color:#fff;overflow:hidden;border:1px solid rgba(255,255,255,0.06)}
+.ac .mock-banner::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(229,52,52,0.22),transparent 55%),radial-gradient(circle at 12% 90%,rgba(59,130,246,0.18),transparent 50%);pointer-events:none}
+.ac .mb-logo-img{position:relative;height:28px;width:auto;flex-shrink:0;z-index:1}
+.ac .mb-text{flex:1;min-width:0;position:relative;z-index:1}
+.ac .mb-title{font-size:13px;font-weight:700;letter-spacing:-0.2px;color:#fff}
+.ac .mb-sub{font-size:10.5px;color:rgba(255,255,255,0.7);margin-top:3px;line-height:1.4}
+.ac .mb-meta{display:flex;flex-direction:column;gap:5px;font-size:9.5px;font-weight:600;color:rgba(255,255,255,0.85);flex-shrink:0;position:relative;z-index:1;text-align:right}
+.ac .mb-meta span{display:inline-flex;align-items:center;gap:4px;justify-content:flex-end}
 .ac .mock-post{background:var(--ac-bg3);border:1px solid var(--ac-border);border-radius:12px;padding:14px;margin-bottom:10px}
 .ac .mp-hd{display:flex;align-items:center;gap:9px;margin-bottom:10px}
 .ac .mp-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#1A1A1A}
