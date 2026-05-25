@@ -887,8 +887,8 @@
 @media (max-width:1100px){.cm{grid-template-columns:1fr}.cm-nav,.cm-side{position:static}}
 
 /* === Account/Settings page (Skool style) === */
-.acct-wrap{background:#fff;min-height:calc(100vh - 56px);margin:-28px -32px;padding:40px 32px}
-.acct{display:grid;grid-template-columns:240px 1fr;gap:40px;max-width:1080px;margin:0 auto}
+.acct-wrap{background:#fff;min-height:calc(100vh - 56px);margin:-28px -32px;padding:32px 32px 40px 0}
+.acct{display:grid;grid-template-columns:240px 1fr;gap:32px;max-width:1200px;margin:0}
 .acct-nav{display:flex;flex-direction:column;gap:4px;position:sticky;top:80px;align-self:start}
 .acct-tab{padding:14px 20px;border-radius:10px;font-size:15px;font-weight:700;color:var(--ink);background:transparent;border:0;text-align:left;cursor:pointer}
 .acct-tab:hover{background:rgba(0,0,0,0.04)}
@@ -1068,6 +1068,10 @@
 .cc-tb-brand{display:flex;align-items:center;gap:10px}
 .cc-tb-logo{width:32px;height:32px;border-radius:8px;background:#111827;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
 .cc-tb-cname{background:transparent;border:0;cursor:pointer;font-weight:700;font-size:15px;color:#111827;display:flex;align-items:center;gap:6px}
+.cc-tb-club{display:inline-flex;align-items:center;gap:10px;background:transparent;border:0;cursor:pointer;padding:6px 10px;border-radius:10px}
+.cc-tb-club:hover{background:rgba(0,0,0,0.04)}
+.cc-tb-club-av{width:28px;height:28px;border-radius:8px;color:#fff;font-weight:800;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+.cc-tb-club-n{font-weight:800;font-size:14.5px;color:var(--ink);white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
 .cc-tb-tabs{display:flex;align-items:center;gap:4px;margin-left:18px;background:#F3F4F6;border-radius:999px;padding:4px}
 .cc-tb-tab{border:0;background:transparent;padding:8px 18px;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer;color:#6B7280;display:flex;align-items:center;gap:4px}
 .cc-tb-tab:hover{color:#111827}

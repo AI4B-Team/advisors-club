@@ -14,13 +14,13 @@ export const Route = createFileRoute("/app/account")({
 });
 
 const TABS = [
-  "Communities","Profile","Affiliates","Payouts","Account",
-  "Notifications","Chat","Payment methods","Payment history","Theme",
+  "Clubs","Profile","Affiliates","Payouts","Account",
+  "Notifications","Chat","Payment Methods","Payment History","Theme",
 ] as const;
 type Tab = typeof TABS[number];
 
 function AccountPage() {
-  const [tab, setTab] = useState<Tab>("Communities");
+  const [tab, setTab] = useState<Tab>("Clubs");
   return (
     <div className="acct-wrap">
       <div className="acct">
@@ -30,9 +30,9 @@ function AccountPage() {
           ))}
         </aside>
         <section className="acct-panel">
-          {tab === "Communities" && <Communities/>}
+          {tab === "Clubs" && <Communities/>}
           {tab === "Account" && <AccountOverview/>}
-          {tab !== "Communities" && tab !== "Account" && <Empty label={tab}/>}
+          {tab !== "Clubs" && tab !== "Account" && <Empty label={tab}/>}
         </section>
       </div>
     </div>
@@ -42,7 +42,7 @@ function AccountPage() {
 function Communities() {
   return (
     <div className="acct-box">
-      <h2>Communities</h2>
+      <h2>Clubs</h2>
       <p className="acct-sub">Drag and drop to reorder, pin to sidebar, or hide.</p>
       <CommRow color="#F5A623" letter="R" name="Real Estate Empire" meta="847 members · Pro" />
       <CommRow color="#6366F1" letter="A" name="AIVA Builders" meta="2.1k members · Free" />
