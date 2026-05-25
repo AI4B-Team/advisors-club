@@ -859,3 +859,47 @@
 .acct-comm-icon{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);background:transparent;border:0;border-radius:8px;cursor:pointer}
 .acct-comm-icon:hover{background:rgba(0,0,0,0.05);color:var(--ink)}
 @media (max-width:900px){.acct-wrap{margin:-28px -16px;padding:24px 16px}.acct{grid-template-columns:1fr;gap:20px}.acct-nav{position:static;flex-direction:row;overflow-x:auto}.acct-tab{white-space:nowrap}}
+
+/* === Strength Hive style Account overview === */
+.sh{display:flex;flex-direction:column;gap:18px}
+.sh-row{display:grid;grid-template-columns:1.7fr 1fr;gap:18px}
+.sh-row-2{grid-template-columns:1.7fr 1fr}
+.sh-welcome{position:relative;border-radius:18px;padding:28px 32px;display:flex;align-items:center;gap:16px;overflow:hidden;background:linear-gradient(120deg,#FCE7D2 0%,#F8D0C0 55%,#E9B7A8 100%);border:1px solid #F5DCC8;min-height:260px}
+.sh-welcome-t{flex:1;min-width:0;color:#2A1D17;z-index:1}
+.sh-date{font-size:12px;font-weight:600;color:#6B4A38;margin-bottom:10px}
+.sh-welcome-t h2{font-size:18px;font-weight:600;color:#3a2a20;margin-bottom:8px}
+.sh-welcome-t h1{font-size:30px;line-height:1.15;font-weight:800;color:#2A1D17;letter-spacing:-0.02em;max-width:340px}
+.sh-welcome-t h1 span{display:block}
+.sh-set-up{margin-top:20px;background:#1f1a2e;color:#fff;border:0;border-radius:999px;padding:11px 26px;font-size:13px;font-weight:700;cursor:pointer}
+.sh-set-up:hover{background:#0F0F12}
+.sh-welcome-img{width:240px;height:auto;object-fit:contain;flex-shrink:0;border-radius:14px}
+.sh-activity{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 22px}
+.sh-activity h3{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:16px}
+.sh-act-row{display:grid;grid-template-columns:96px 1fr 40px;align-items:center;gap:10px;margin-bottom:14px}
+.sh-act-l{font-size:11.5px;color:var(--muted);font-weight:600}
+.sh-act-bar{height:6px;border-radius:999px;background:#F1F1F4;overflow:hidden}
+.sh-act-bar span{display:block;height:100%;background:linear-gradient(90deg,#F5A623,#E8643A);border-radius:999px}
+.sh-act-pct{font-size:11.5px;color:var(--ink);font-weight:700;text-align:right}
+.sh-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sh-stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px}
+.sh-stat-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px}
+.sh-stat-v{font-size:34px;font-weight:800;color:var(--ink);letter-spacing:-0.02em}
+.sh-stat-d{font-size:12px;color:#1aa260;font-weight:700;margin-top:6px}
+.sh-counting{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.sh-counting-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.sh-counting-h h3{font-size:15px;font-weight:800;color:var(--ink)}
+.sh-pill{background:#F4F4F6;border:0;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--ink);cursor:pointer}
+.sh-chart{display:flex;align-items:flex-end;gap:8px;height:180px;padding-top:8px}
+.sh-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+.sh-bar-wrap .sh-bar{flex:0 0 auto;width:100%;background:#F1F1F4;border-radius:8px;align-self:stretch}
+.sh-bar-wrap{position:relative}
+.sh-bar-wrap .sh-bar{margin-top:auto}
+.sh-bar.on{background:linear-gradient(180deg,#F5A623,#E8643A)}
+.sh-bar-wrap span{font-size:10.5px;color:var(--muted);font-weight:600}
+.sh-ring{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;align-items:center;justify-content:center}
+.sh-ring-vis{--pct:85%;width:200px;height:200px;border-radius:50%;background:conic-gradient(#E8643A 0 var(--pct),#F1F1F4 var(--pct) 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.sh-ring-vis::after{content:"";position:absolute;inset:14px;border-radius:50%;background:#fff}
+.sh-ring-c{position:relative;text-align:center;z-index:1}
+.sh-ring-c b{display:block;font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-0.02em}
+.sh-ring-c span{display:block;font-size:11px;color:var(--muted);font-weight:600;max-width:120px;margin-top:4px}
+@media (max-width:900px){.sh-row,.sh-row-2{grid-template-columns:1fr}.sh-stats{grid-template-columns:1fr}.sh-welcome{flex-direction:column;text-align:left}.sh-welcome-img{width:200px}}
