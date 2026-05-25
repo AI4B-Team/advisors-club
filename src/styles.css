@@ -289,8 +289,8 @@
   .ac .stat-item{border-right:none;border-bottom:1px solid var(--ac-border)}
   .ac .mosaic{grid-template-columns:repeat(3,1fr)}
 }
-.ac .logo-img{height:280px;width:auto;display:block;margin:-90px 0}
-.ac .fg-brand .logo-img{height:96px;margin:0}
+.ac .logo-img{height:160px;width:auto;display:block}
+.ac .fg-brand .logo-img{height:220px;margin:-60px 0}
 
 /* ===== LIGHT MODE (everything outside hero/nav/footer) ===== */
 .ac{background:#fff;color:#1A1A1A}
