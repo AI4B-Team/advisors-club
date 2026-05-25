@@ -149,7 +149,6 @@ function GettingStarted() {
             />
             <div className="gs-composer-bar">
               <div className="gs-composer-tools">
-                <button aria-label="Add space" type="button"><Hash size={16}/></button>
                 <button aria-label="Attach" type="button"><Paperclip size={16}/></button>
               </div>
               <button className="gs-send" onClick={send} disabled={busy || !input.trim()} aria-label="Send">
