@@ -161,7 +161,7 @@ function GettingStarted() {
         <div className="gs-card">
           <div className="gs-checklist-h">
             <div>
-              <h3>Setup checklist</h3>
+              <h3>Setup Checklist</h3>
               <div className="gs-progress-meta">{doneCount} of {allTasks.length} tasks completed</div>
             </div>
             <div className="gs-progress-pct">{pct}%</div>
