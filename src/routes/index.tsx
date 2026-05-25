@@ -496,7 +496,7 @@ function Index() {
         <div className="feat-panel" style={{ marginTop: 32, marginBottom: 32 }}>
           <div className="fp-text">
             <div className="fp-eyebrow">05 · Conferences</div>
-            <h3 className="fp-h3">Go Live To Thousands.<br />No Zoom. No Third-Party Tools.</h3>
+            <h3 className="fp-h3">Sell Out Summits.<br />Without Zoom Or A Third-Party Tool.</h3>
             <p className="fp-p">Host webinars, virtual summits, live Q&amp;As, and multi-day masterminds — natively inside your Club. Members RSVP, get reminders, and attend without ever leaving your branded platform.</p>
             <ul className="fp-list">
               <li><Check size={11} strokeWidth={3} className="fp-check" />Up to 10,000 live attendees per event</li>
@@ -507,44 +507,50 @@ function Index() {
               <li><Check size={11} strokeWidth={3} className="fp-check" />Sell gated access to recorded replays</li>
             </ul>
           </div>
-          <div className="fp-visual">
-            <div className="fp-vis-bar">
+          <div className="fp-visual" style={{ background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)" }}>
+            <div className="fp-vis-bar" style={{ background:"#FAFAF7", borderBottom:"1px solid rgba(0,0,0,0.07)" }}>
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
-              <span style={{ fontSize: 11, color: "#F87171", marginLeft: 8, fontWeight:700, display:"inline-flex", alignItems:"center", gap:5 }}><Radio size={11} />LIVE — Real Estate Summit 2026</span>
+              <span style={{ fontSize: 11, color: "#E0341A", marginLeft: 8, fontWeight:700, display:"inline-flex", alignItems:"center", gap:5 }}><Radio size={11} />LIVE — Real Estate Summit 2026</span>
             </div>
-            <div style={{ background:"#000", padding:16 }}>
-              <div style={{ background:"linear-gradient(145deg,#1A0A00,#0A0A20)", borderRadius:10, padding:20, textAlign:"center", minHeight:120, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", position:"relative", overflow:"hidden" }}>
-                <div style={{ position:"absolute", top:8, right:8, display:"flex", alignItems:"center", gap:5, background:"rgba(248,113,113,0.2)", border:"1px solid rgba(248,113,113,0.4)", borderRadius:4, padding:"3px 8px" }}>
-                  <div style={{ width:6, height:6, borderRadius:"50%", background:"#F87171" }} />
-                  <span style={{ fontSize:9, fontWeight:800, color:"#F87171" }}>LIVE</span>
+            <div style={{ padding:14, background:"#FFFFFF" }}>
+              {/* Live stage */}
+              <div style={{ position:"relative", borderRadius:12, overflow:"hidden", border:"1px solid rgba(0,0,0,0.07)" }}>
+                <img src={conferenceLive} alt="Live conference stage" loading="lazy" style={{ width:"100%", height:200, objectFit:"cover", display:"block" }} />
+                <div style={{ position:"absolute", top:10, left:10, display:"flex", alignItems:"center", gap:5, background:"rgba(224,52,26,0.95)", borderRadius:4, padding:"3px 8px" }}>
+                  <div style={{ width:6, height:6, borderRadius:"50%", background:"#fff" }} />
+                  <span style={{ fontSize:9, fontWeight:800, color:"#fff", letterSpacing:"0.08em" }}>LIVE</span>
                 </div>
-                <div style={{ width:50, height:50, borderRadius:"50%", background:"linear-gradient(135deg,#F5A623,#E8940A)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, fontWeight:900, color:"#1A1A1A", marginBottom:8 }}>Z</div>
-                <div style={{ fontSize:12, fontWeight:800 }}>Zaddy — Live Q&amp;A Session</div>
-                <div style={{ fontSize:10, color:"var(--ac-muted)", marginTop:3 }}>2,847 watching now</div>
+                <div style={{ position:"absolute", top:10, right:10, background:"rgba(0,0,0,0.55)", backdropFilter:"blur(6px)", borderRadius:4, padding:"3px 8px", fontSize:10, color:"#fff", fontWeight:700, display:"inline-flex", alignItems:"center", gap:4 }}>
+                  <div style={{ width:5, height:5, borderRadius:"50%", background:"#4ADE80" }} />2,847 watching
+                </div>
+                <div style={{ position:"absolute", left:10, right:10, bottom:10, background:"rgba(255,255,255,0.95)", backdropFilter:"blur(6px)", borderRadius:8, padding:"7px 10px", border:"1px solid rgba(0,0,0,0.05)" }}>
+                  <div style={{ fontSize:12, fontWeight:800, color:"#0F0F14" }}>Zaddy — Live Q&amp;A Session</div>
+                  <div style={{ fontSize:10, color:"#6B6B75", marginTop:1 }}>Real Estate Summit 2026 · Day 2 of 3</div>
+                </div>
               </div>
-            </div>
-            <div style={{ padding:14 }}>
-              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
+              {/* attendees + Q&A */}
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", margin:"12px 2px 10px" }}>
                 <div style={{ display:"flex" }}>
                   {[
                     {l:"M",bg:"#F5A623",c:"#1A1A1A"},
                     {l:"S",bg:"#818CF8",c:"#fff"},
                     {l:"R",bg:"#4ADE80",c:"#1A1A1A"},
+                    {l:"J",bg:"#FB923C",c:"#fff"},
                   ].map((a,i)=>(
-                    <div key={i} style={{ width:22, height:22, borderRadius:"50%", background:a.bg, border:"2px solid var(--ac-bg2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, fontWeight:900, color:a.c, marginRight:-6 }}>{a.l}</div>
+                    <div key={i} style={{ width:22, height:22, borderRadius:"50%", background:a.bg, border:"2px solid #fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, fontWeight:900, color:a.c, marginRight:-6 }}>{a.l}</div>
                   ))}
-                  <div style={{ width:22, height:22, borderRadius:"50%", background:"var(--ac-bg3)", border:"2px solid var(--ac-bg2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, color:"var(--ac-muted)" }}>+2.8k</div>
+                  <div style={{ height:22, padding:"0 7px", borderRadius:11, background:"#FAFAF7", border:"2px solid #fff", display:"flex", alignItems:"center", fontSize:9, fontWeight:700, color:"#6B6B75", marginLeft:2 }}>+2.8k</div>
                 </div>
-                <div style={{ fontSize:10, color:"var(--ac-muted)" }}>2,847 attending</div>
+                <div style={{ fontSize:10, color:"#6B6B75", fontWeight:600 }}>2,847 attending</div>
               </div>
-              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:10, padding:10 }}>
-                <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.07em" }}>Live Q&amp;A</div>
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:10, padding:10 }}>
+                <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.08em" }}>Live Q&amp;A</div>
                 {[
                   { name:"Marcus T.", c:"var(--ac-amber)", q:"What's the best market right now?" },
-                  { name:"Sarah K.", c:"#818CF8", q:"How do I find motivated sellers?" },
-                  { name:"Ryan P.", c:"#4ADE80", q:"Can you share the calculator?", dim:true },
+                  { name:"Sarah K.", c:"#6366F1", q:"How do I find motivated sellers?" },
+                  { name:"Ryan P.", c:"#16A34A", q:"Can you share the calculator?", dim:true },
                 ].map((q,i)=>(
-                  <div key={i} style={{ fontSize:11, color: q.dim?"rgba(255,255,255,0.5)":"rgba(255,255,255,0.75)", lineHeight:1.5, marginBottom:i<2?6:0 }}>
+                  <div key={i} style={{ fontSize:11, color: q.dim?"rgba(15,15,20,0.45)":"#0F0F14", lineHeight:1.5, marginBottom:i<2?6:0 }}>
                     <span style={{ color:q.c, fontWeight:700 }}>{q.name}</span> — {q.q}
                   </div>
                 ))}
