@@ -212,6 +212,17 @@ function Index() {
               <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>realestatepro.advisorsclub.com</span>
             </div>
             <div className="mock-feed">
+              <div className="mock-banner">
+                <div className="mb-logo">RP</div>
+                <div className="mb-text">
+                  <div className="mb-title">RealEstatePro Club</div>
+                  <div className="mb-sub">Your Club. Your Brand. Your Members — For Life.</div>
+                </div>
+                <div className="mb-meta">
+                  <span><Users size={10} />4,212</span>
+                  <span><Lock size={10} />Members only</span>
+                </div>
+              </div>
               <div className="mock-post">
                 <div className="mp-hd">
                   <div className="mp-av" style={{ background: "#F5A623" }}>Z</div>
@@ -219,7 +230,7 @@ function Index() {
                   <div className="mp-badge"><Pin size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:3}} />Pinned</div>
                 </div>
                 <div className="mp-body">Welcome to the Club! Drop your biggest goal — AIVA is live and will answer instantly.</div>
-                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Heart size={12} />38</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />14 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Repeat2 size={12} />Share</span></div>
+                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Heart size={12} />38</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />14 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
               </div>
               <div className="mock-post">
                 <div className="mp-hd">
@@ -227,7 +238,7 @@ function Index() {
                   <div><div className="mp-name">Marcus T. <span style={{ color: "var(--ac-amber)", fontSize: 10 }}><Star size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:2}} />Lvl 14</span></div><div className="mp-time">2 hours ago</div></div>
                 </div>
                 <div className="mp-body">Just closed a $52k wholesale deal using the script from Module 4. This Club paid for itself 200x.</div>
-                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Flame size={12} />112</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />47 replies</span></div>
+                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Flame size={12} />112</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />47 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
               </div>
               <div className="mock-post" style={{ opacity: 0.65 }}>
                 <div className="mp-hd">
@@ -235,7 +246,7 @@ function Index() {
                   <div><div className="mp-name">Sarah K.</div><div className="mp-time">3 hours ago</div></div>
                 </div>
                 <div className="mp-body">What's the best market to target for wholesaling right now?</div>
-                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4, color:"var(--ac-amber)", fontSize:10}}><Bot size={12} />AIVA replied</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />23 replies</span></div>
+                <div className="mp-actions"><span style={{display:"inline-flex",alignItems:"center",gap:4, color:"var(--ac-amber)", fontSize:10}}><Bot size={12} />AIVA replied</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><MessageCircle size={12} />23 replies</span><span style={{display:"inline-flex",alignItems:"center",gap:4}}><Send size={12} />Share</span></div>
               </div>
             </div>
           </div>
