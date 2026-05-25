@@ -580,7 +580,7 @@ function Index() {
           </div>
           <div className="footer-btm">
             <span>© {new Date().getFullYear()} AdvisorsClub. All Rights Reserved.</span>
-            <span>Powered By <strong style={{ color: "var(--ac-amber)" }}>Real Advisors, Inc.</strong></span>
+            <span>Powered By: <strong style={{ color: "var(--ac-amber)" }}>Real Advisors, Inc.</strong></span>
           </div>
         </div>
       </footer>
