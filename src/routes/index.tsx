@@ -62,11 +62,8 @@ function Index() {
       {/* HERO */}
       <section className="hero">
         <div className="hero-mosaic" aria-hidden="true">
-          {HERO_TILES.map((t, i) => (
-            <div className="hm-tile" key={i} style={{ background: t.bg }}>
-              <span className="hm-tag">{t.tag}</span>
-              <span className="hm-title">{t.title}</span>
-            </div>
+          {HERO_TILES.map((src, i) => (
+            <div className="hm-tile" key={i} style={{ backgroundImage: `url(${src})` }} />
           ))}
         </div>
         <div className="hero-overlay" />
