@@ -24,8 +24,8 @@ export function ClubStub({
           <p>No {noun}s yet. Spin one up with AIVA or build it manually.</p>
         </div>
         <div style={{display:"flex",gap:8}}>
-          <button className="btn-ghost"><Plus size={14}/> Create manually</button>
-          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate with AIVA</Link>
+          <button className="btn-ghost"><Plus size={14}/> Create Manually</button>
+          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
         </div>
       </div>
 

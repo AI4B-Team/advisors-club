@@ -12,9 +12,9 @@ type SampleCourse = {
 };
 
 const SAMPLES: SampleCourse[] = [
-  { title: "Real Estate Wholesaling 101", lessons: 24, minutes: 312, learners: 184, progress: 62, tag: "Bestseller", gradient: "linear-gradient(135deg,#F59E0B,#EF4444)" },
-  { title: "Cold Outreach Mastery", lessons: 12, minutes: 148, learners: 96,  progress: 28, tag: "New",        gradient: "linear-gradient(135deg,#0EA5E9,#6366F1)" },
-  { title: "Closing High-Ticket Deals", lessons: 18, minutes: 240, learners: 142, progress: 0,  tag: "Live cohort", gradient: "linear-gradient(135deg,#A78BFA,#EC4899)" },
+  { title: "Real Estate Wholesaling 101", lessons: 24, minutes: 312, learners: 184, progress: 62, tag: "Bestseller", gradient: "#1F2937" },
+  { title: "Cold Outreach Mastery", lessons: 12, minutes: 148, learners: 96,  progress: 28, tag: "New",        gradient: "#1F2937" },
+  { title: "Closing High-Ticket Deals", lessons: 18, minutes: 240, learners: 142, progress: 0,  tag: "Live Cohort", gradient: "#1F2937" },
 ];
 
 const AIVA_PROMPTS = [
@@ -33,8 +33,8 @@ function CoursesPage() {
           <p>Sample preview — no courses yet. Generate your first with AIVA in seconds.</p>
         </div>
         <div style={{display:"flex",gap:8}}>
-          <button className="btn-ghost"><Upload size={14}/> Upload existing</button>
-          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate with AIVA</Link>
+          <button className="btn-ghost"><Upload size={14}/> Upload Existing</button>
+          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
         </div>
       </div>
 
@@ -61,8 +61,8 @@ function CoursesPage() {
 
       {/* Continue learning strip */}
       <div className="lt-section-head">
-        <h2><TrendingUp size={16}/> Continue learning</h2>
-        <span className="lt-section-sub">Sample data · resumes the moment you publish</span>
+        <h2><TrendingUp size={16}/> Continue Learning</h2>
+        <span className="lt-section-sub">Sample Data · Resumes The Moment You Publish</span>
       </div>
       <div className="course-grid">
         {SAMPLES.map(c => (
@@ -74,7 +74,7 @@ function CoursesPage() {
             <div className="course-body">
               <h3>{c.title}</h3>
               <div className="course-meta">
-                <span><BookOpen size={12}/> {c.lessons} lessons</span>
+                <span><BookOpen size={12}/> {c.lessons} Lessons</span>
                 <span><Clock size={12}/> {Math.round(c.minutes/60)}h {c.minutes%60}m</span>
                 <span><Users size={12}/> {c.learners}</span>
               </div>
@@ -82,7 +82,7 @@ function CoursesPage() {
                 <div className="course-progress-bar" style={{width:`${c.progress}%`}}/>
               </div>
               <div className="course-progress-l">
-                {c.progress > 0 ? <>Continue · {c.progress}% complete</> : <>Not started</>}
+                {c.progress > 0 ? <>Continue · {c.progress}% Complete</> : <>Not Started</>}
               </div>
             </div>
           </div>
@@ -91,15 +91,15 @@ function CoursesPage() {
 
       {/* Outcomes / what AIVA generates */}
       <div className="lt-section-head" style={{marginTop:28}}>
-        <h2><Award size={16}/> What AIVA generates for you</h2>
+        <h2><Award size={16}/> What AIVA Generates For You</h2>
       </div>
       <div className="aiva-grid">
         {[
-          { t: "Course outlines",   d: "Full module + lesson breakdown in seconds." },
-          { t: "Lesson plans",      d: "Scripts, key points, talking notes." },
+          { t: "Course Outlines",   d: "Full module + lesson breakdown in seconds." },
+          { t: "Lesson Plans",      d: "Scripts, key points, talking notes." },
           { t: "Worksheets",        d: "Downloadable PDFs your members can fill in." },
-          { t: "Quizzes & checks",  d: "Auto-graded multiple choice and reflections." },
-          { t: "Drip schedule",     d: "Unlock weekly, daily, or by member action." },
+          { t: "Quizzes & Checks",  d: "Auto-graded multiple choice and reflections." },
+          { t: "Drip Schedule",     d: "Unlock weekly, daily, or by member action." },
           { t: "Certificates",      d: "Branded completion certificates, auto-issued." },
         ].map(x => (
           <div className="aiva-feature" key={x.t}>
