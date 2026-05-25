@@ -91,9 +91,69 @@ function Index() {
         <div className="stat-item"><div className="stat-n" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>4.9<Star size={28} fill="currentColor" strokeWidth={0} /></div><div className="stat-l">Average rating</div></div>
       </div>
 
+      {/* REPLACE 7 TOOLS */}
+      <section className="replace-section">
+        <div className="replace-inner">
+          <div className="showcase-hd" style={{ marginBottom: 48 }}>
+            <div className="sc-eyebrow">One Platform. Zero Stack.</div>
+            <h2 className="sc-h2">Replace 7 Tools.<br />With One.</h2>
+            <p className="sc-sub" style={{ maxWidth: 620, margin: "0 auto" }}>Stop paying for seven subscriptions that barely talk to each other. AdvisorsClub does it all — natively, and with AI on top.</p>
+          </div>
 
-      {/* THE 6 Cs */}
-      <section className="showcase" id="features">
+          <div className="replace-grid">
+            <div className="replace-killed">
+              <div className="replace-col-label">Cancel these</div>
+              <div className="rk-list">
+                {[
+                  { n: "Skool", t: "Community" },
+                  { n: "Circle", t: "Premium community" },
+                  { n: "Kajabi", t: "Courses & funnels" },
+                  { n: "Zoom", t: "Webinars" },
+                  { n: "Mailchimp", t: "Email marketing" },
+                  { n: "Discord", t: "Chat" },
+                  { n: "Facebook Groups", t: "Audience" },
+                ].map((t) => (
+                  <div className="rk-row" key={t.n}>
+                    <div className="rk-x"><X size={12} strokeWidth={3.5} /></div>
+                    <div className="rk-name">{t.n}</div>
+                    <div className="rk-tag">{t.t}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="rk-total">≈ <strong>$847/mo</strong> · 7 logins · 0 AI</div>
+            </div>
+
+            <div className="replace-arrow" aria-hidden="true">
+              <ArrowRight size={28} strokeWidth={2.5} />
+            </div>
+
+            <div className="replace-winner">
+              <div className="rw-logo"><Sparkles size={20} /></div>
+              <div className="rw-name">AdvisorsClub</div>
+              <div className="rw-sub">One platform. One login. One bill.</div>
+              <div className="rw-features">
+                {[
+                  "Community + DMs + chat",
+                  "Unlimited courses & lessons",
+                  "Live conferences (10k attendees)",
+                  "Native email marketing",
+                  "Challenges & gamification",
+                  "Coaching, calls & CRM",
+                  "AIVA — your 24/7 AI operator",
+                ].map((f) => (
+                  <div className="rw-row" key={f}>
+                    <Check size={13} strokeWidth={3} />
+                    <span>{f}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="rw-total">From <strong>$47/mo</strong> · Save <strong>$800+/mo</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
         <div className="showcase-hd">
           <div className="sc-eyebrow">The 6 Cs of AdvisorsClub</div>
           <h2 className="sc-h2">The Operating System For<br />Modern Creator Businesses.</h2>
