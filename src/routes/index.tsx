@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, BellRing, Bot, Calendar, Check, Flame, Heart, Lock, Mail, MessageCircle, Mic, Minus, Pin, Play, Radio, Repeat2, Send, Sparkles, Star, Trophy, Users, Video, Wand2, X, Zap } from "lucide-react";
+import { ArrowRight, BellRing, Bot, Calendar, Check, Flame, Heart, Lock, Mail, MessageCircle, Mic, Minus, Package, Pin, Play, Radio, Repeat2, Send, ShoppingBag, Sparkles, Star, Truck, Trophy, Users, Video, Wand2, X, Zap } from "lucide-react";
 import coverWealth from "@/assets/covers/wealth.jpg";
 import coverRealEstate from "@/assets/covers/realestate.jpg";
 import coverSales from "@/assets/covers/sales.jpg";
