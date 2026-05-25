@@ -1,287 +1,551 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroBg from "@/assets/hero-bg.jpg";
-import { Button } from "@/components/ui/button";
-import {
-  Sparkles, Bot, Trophy, Video, Mail, Globe, ArrowRight, Check, X,
-  Zap, GraduationCap, Users, BarChart3,
-} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Advisors Club — AI-First Community & Course Platform" },
+      { title: "AdvisorsClub — Build Your Club. Own Your Audience." },
       {
         name: "description",
         content:
-          "Launch your community, courses, events and funnels in one AI-powered platform. From $49/mo. Built to replace Circle, Skool & Kajabi.",
+          "The all-in-one platform where Advisors launch Clubs, host Courses, run Challenges, and get paid — with AIVA, your AI agent, around the clock.",
       },
-      { property: "og:title", content: "Advisors Club — AI-First Community Platform" },
+      { property: "og:title", content: "AdvisorsClub — Build Your Club. Own Your Audience." },
       {
         property: "og:description",
-        content: "Community + courses + AI + funnels in one. From $49/mo.",
+        content: "Communities, Courses, Coaching, Conferences, Challenges — and AIVA. From $0.",
       },
     ],
     links: [
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap",
       },
     ],
   }),
 });
 
-const features = [
-  { icon: Sparkles, title: "LEXI AI Course Builder", desc: "Generate full course outlines, lessons, quizzes and enrollment funnels in minutes." },
-  { icon: Bot, title: "AI Knowledgebase", desc: "Trained on your content. Auto-replies to member questions 24/7. Save 2+ hours daily." },
-  { icon: Trophy, title: "Full Gamification", desc: "Points, levels, badges, streaks and gems — with analytics on what drives revenue." },
-  { icon: Video, title: "Native Video + Live", desc: "Mux-powered hosting and live streaming up to 10,000 concurrent attendees." },
-  { icon: Mail, title: "Email + Funnels Native", desc: "No Zapier. Sales pages, sequences and broadcasts built right in." },
-  { icon: Globe, title: "Migration Wizard", desc: "One-click import from Circle, Skool, Kajabi, Teachable and MemberUp." },
+type Club = {
+  bg: string;
+  svg: React.ReactNode;
+  av: string;
+  avBg: string;
+  tag: string;
+  name: string;
+  meta: string;
+};
+
+const clubs: Club[] = [
+  {
+    bg: "linear-gradient(145deg,#2C1810 0%,#5C3420 40%,#8B4513 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <rect x="40" y="100" width="120" height="120" fill="none" stroke="#F5A623" strokeWidth="2" />
+        <polygon points="20,110 100,40 180,110" fill="none" stroke="#F5A623" strokeWidth="2" />
+        <rect x="80" y="170" width="40" height="50" fill="#F5A623" opacity="0.3" />
+      </svg>
+    ),
+    av: "J", avBg: "#F5A623", tag: "$97/mo",
+    name: "Real Estate Investors Club", meta: "3,247 members · ⭐ 4.9",
+  },
+  {
+    bg: "linear-gradient(145deg,#0D2B1A 0%,#1A4A2A 40%,#2D7A45 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.12 }} viewBox="0 0 200 260">
+        <circle cx="100" cy="100" r="60" fill="none" stroke="#4ADE80" strokeWidth="3" />
+        <line x1="40" y1="100" x2="160" y2="100" stroke="#4ADE80" strokeWidth="2" />
+        <line x1="100" y1="40" x2="100" y2="160" stroke="#4ADE80" strokeWidth="2" />
+      </svg>
+    ),
+    av: "S", avBg: "#4ADE80", tag: "FREE",
+    name: "Elite Fitness Coaches Club", meta: "8,901 members · ⭐ 4.8",
+  },
+  {
+    bg: "linear-gradient(145deg,#0A0A2E 0%,#1A1A4A 40%,#2D2D7A 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <rect x="50" y="70" width="100" height="120" rx="8" fill="none" stroke="#818CF8" strokeWidth="2" />
+        <circle cx="70" cy="110" r="8" fill="#818CF8" opacity="0.5" />
+        <circle cx="100" cy="110" r="8" fill="#818CF8" opacity="0.5" />
+        <circle cx="130" cy="110" r="8" fill="#818CF8" opacity="0.5" />
+      </svg>
+    ),
+    av: "M", avBg: "#818CF8", tag: "$47/mo",
+    name: "AI Automation Mastery Club", meta: "12,440 members · ⭐ 5.0",
+  },
+  {
+    bg: "linear-gradient(145deg,#1A1000 0%,#3A2500 40%,#6B4500 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <rect x="30" y="160" width="30" height="60" fill="#F5A623" opacity="0.4" />
+        <rect x="75" y="120" width="30" height="100" fill="#F5A623" opacity="0.5" />
+        <rect x="120" y="80" width="30" height="140" fill="#F5A623" opacity="0.6" />
+        <rect x="165" y="50" width="30" height="170" fill="#F5A623" opacity="0.7" />
+      </svg>
+    ),
+    av: "R", avBg: "#F5A623", tag: "$97/mo",
+    name: "7-Figure Business Club", meta: "1,820 members · ⭐ 4.9",
+  },
+  {
+    bg: "linear-gradient(145deg,#1A0A20 0%,#3A1A40 40%,#6B2A7A 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <path d="M40 80 L100 40 L160 80 L160 180 L100 220 L40 180 Z" fill="none" stroke="#C084FC" strokeWidth="2" />
+      </svg>
+    ),
+    av: "A", avBg: "#C084FC", tag: "FREE",
+    name: "Ecom Scaling Secrets Club", meta: "5,670 members · ⭐ 4.7",
+  },
+  {
+    bg: "linear-gradient(145deg,#001A10 0%,#003020 40%,#005A38 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <circle cx="100" cy="120" r="70" fill="none" stroke="#34D399" strokeWidth="2" />
+        <text x="70" y="135" fontSize="48" fill="#34D399" opacity="0.5">$</text>
+      </svg>
+    ),
+    av: "T", avBg: "#34D399", tag: "$47/mo",
+    name: "Wealth Builder's Club", meta: "4,112 members · ⭐ 4.8",
+  },
+  {
+    bg: "linear-gradient(145deg,#200A00 0%,#401500 40%,#7A2A00 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <circle cx="100" cy="90" r="40" fill="none" stroke="#FB923C" strokeWidth="2" />
+        <path d="M40 200 Q100 155 160 200" fill="none" stroke="#FB923C" strokeWidth="2" />
+      </svg>
+    ),
+    av: "L", avBg: "#FB923C", tag: "$97/mo",
+    name: "High-Ticket Coaching Club", meta: "990 members · ⭐ 5.0",
+  },
+  {
+    bg: "linear-gradient(145deg,#0A1520 0%,#152535 40%,#1E3A50 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <rect x="30" y="60" width="140" height="180" rx="10" fill="none" stroke="#38BDF8" strokeWidth="2" />
+        <line x1="50" y1="100" x2="150" y2="100" stroke="#38BDF8" strokeWidth="2" />
+        <line x1="50" y1="130" x2="150" y2="130" stroke="#38BDF8" strokeWidth="1.5" />
+      </svg>
+    ),
+    av: "N", avBg: "#38BDF8", tag: "FREE",
+    name: "Content Creator Academy", meta: "15,320 members · ⭐ 4.9",
+  },
+  {
+    bg: "linear-gradient(145deg,#100A00 0%,#251500 40%,#453000 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <polygon points="100,30 170,75 170,165 100,210 30,165 30,75" fill="none" stroke="#FBBF24" strokeWidth="2" />
+        <text x="78" y="140" fontSize="36" fill="#FBBF24" opacity="0.6">₿</text>
+      </svg>
+    ),
+    av: "K", avBg: "#FBBF24", tag: "$47/mo",
+    name: "Crypto Trading Mastery", meta: "7,450 members · ⭐ 4.8",
+  },
+  {
+    bg: "linear-gradient(145deg,#150015 0%,#2A002A 40%,#500050 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <rect x="20" y="40" width="70" height="180" rx="6" fill="none" stroke="#E879F9" strokeWidth="2" />
+        <rect x="110" y="80" width="70" height="140" rx="6" fill="none" stroke="#E879F9" strokeWidth="2" />
+      </svg>
+    ),
+    av: "P", avBg: "#E879F9", tag: "$97/mo",
+    name: "Agency Owners Club", meta: "2,100 members · ⭐ 4.9",
+  },
+  {
+    bg: "linear-gradient(145deg,#001515 0%,#002A2A 40%,#004545 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <path d="M30 200 L80 120 L120 160 L170 60" fill="none" stroke="#2DD4BF" strokeWidth="2.5" />
+      </svg>
+    ),
+    av: "H", avBg: "#2DD4BF", tag: "$47/mo",
+    name: "High-Ticket Sales Club", meta: "3,800 members · ⭐ 4.9",
+  },
+  {
+    bg: "linear-gradient(145deg,#101020 0%,#1A1A35 40%,#2A2A55 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <path d="M100 40 C140 40 170 70 170 110 C170 145 148 170 120 180 L120 220 L80 220 L80 180 C52 170 30 145 30 110 C30 70 60 40 100 40Z" fill="none" stroke="#A5B4FC" strokeWidth="2" />
+      </svg>
+    ),
+    av: "B", avBg: "#A5B4FC", tag: "FREE",
+    name: "Mindset & Manifestation", meta: "22,100 members · ⭐ 4.7",
+  },
+  {
+    bg: "linear-gradient(145deg,#180A00 0%,#301500 40%,#602A00 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <circle cx="100" cy="100" r="30" fill="none" stroke="#F97316" strokeWidth="2" />
+        <circle cx="100" cy="100" r="55" fill="none" stroke="#F97316" strokeWidth="1.5" strokeDasharray="8,4" />
+      </svg>
+    ),
+    av: "D", avBg: "#F97316", tag: "$47/mo",
+    name: "Digital Marketing Club", meta: "6,230 members · ⭐ 4.8",
+  },
+  {
+    bg: "linear-gradient(145deg,#0A1A0A 0%,#152A15 40%,#254025 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.12 }} viewBox="0 0 200 260">
+        <polygon points="100,30 185,90 155,185 45,185 15,90" fill="none" stroke="#86EFAC" strokeWidth="2" />
+      </svg>
+    ),
+    av: "V", avBg: "#86EFAC", tag: "$97/mo",
+    name: "Executive Leadership Club", meta: "748 members · ⭐ 5.0",
+  },
+  {
+    bg: "linear-gradient(145deg,#0A0A20 0%,#151530 40%,#202050 100%)",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.15 }} viewBox="0 0 200 260">
+        <path d="M100 50 C60 50 30 80 30 115 C30 145 50 165 75 180 L100 220 L125 180 C150 165 170 145 170 115 C170 80 140 50 100 50Z" fill="none" stroke="#FDA4AF" strokeWidth="2" />
+      </svg>
+    ),
+    av: "C", avBg: "#FDA4AF", tag: "FREE",
+    name: "Holistic Wellness Club", meta: "11,890 members · ⭐ 4.8",
+  },
 ];
 
-const comparison = [
-  { feature: "Monthly Price", us: "$49", circle: "$99", skool: "$99", kajabi: "$179" },
-  { feature: "AI Course Builder", us: true, circle: "Partial", skool: false, kajabi: false },
-  { feature: "AI KB Auto-Replies", us: true, circle: "Basic", skool: false, kajabi: false },
-  { feature: "Gamification", us: true, circle: "Late add", skool: true, kajabi: false },
-  { feature: "Sales Funnels", us: true, circle: false, skool: false, kajabi: true },
-  { feature: "Migration Wizard", us: true, circle: "Manual", skool: false, kajabi: false },
-  { feature: "Completion Certificates", us: true, circle: false, skool: false, kajabi: true },
+const tickerItems = [
+  "Communities (Clubs)", "Courses", "Coaching", "Conferences", "Challenges",
+  "Content Studio", "AI Agent — AIVA", "Automation", "Payments", "Club Builder",
+  "Marketing Suite", "Branding",
 ];
 
-const plans = [
-  { name: "Starter", price: "$0", tag: "Try It Free", features: ["1 club", "Up to 50 members", "Core community", "Basic AI assists"], cta: "Start Free" },
-  { name: "Creator", price: "$49", tag: "Most Popular", features: ["Unlimited members", "Full LEXI AI suite", "Courses + certificates", "Funnels & email", "Custom domain"], cta: "Start 14-Day Trial", featured: true },
-  { name: "Business", price: "$149", tag: "Scale", features: ["Multi-community", "Affiliate program", "Advanced analytics", "White-glove migration", "Priority support"], cta: "Talk To Sales" },
-];
-
-function Cell({ v }: { v: boolean | string }) {
-  if (v === true) return <Check className="mx-auto h-5 w-5 text-primary" />;
-  if (v === false) return <X className="mx-auto h-5 w-5 text-muted-foreground/50" />;
-  return <span className="text-sm text-muted-foreground">{v}</span>;
+function Logo() {
+  return (
+    <a href="#" className="nav-logo">
+      <span className="logo-mark">A</span>
+      <span>AdvisorsClub</span>
+    </a>
+  );
 }
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-lg bg-primary">
-              <Zap className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="font-display text-lg font-semibold tracking-tight">Advisors Club</span>
-          </div>
-          <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-            <a href="#features" className="hover:text-foreground">Features</a>
-            <a href="#compare" className="hover:text-foreground">Compare</a>
-            <a href="#pricing" className="hover:text-foreground">Pricing</a>
-          </nav>
-          <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
-            Get Started
-          </Button>
-        </div>
-      </header>
+    <div className="ac">
+      <nav>
+        <Logo />
+        <a href="#pricing" className="nav-btn">Start For Free →</a>
+      </nav>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <img
-          src={heroBg}
-          alt=""
-          width={1920}
-          height={1280}
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-background/70" />
-        <div className="relative mx-auto max-w-6xl px-6 py-28 text-center md:py-40">
-          <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-4 py-1.5 text-xs text-muted-foreground backdrop-blur">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            Powered By LEXI — Your AI Co-Founder
-          </div>
-          <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-            The Community Platform
-            <br />
-            Built For The AI Era.
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
-            Community, courses, events, email and funnels — in one place. Launch in
-            an afternoon for less than half the price of Circle, Skool or Kajabi.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Start Free — 14 Days <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-border bg-card/40 backdrop-blur">
-              Watch The Demo
-            </Button>
-          </div>
-          <div className="mt-12 flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm text-muted-foreground">
-            <span>✓ No credit card</span>
-            <span>✓ Migrate from Circle / Skool in 1 click</span>
-            <span>✓ Unlimited members on every paid plan</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section id="features" className="mx-auto max-w-7xl px-6 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">Everything In One Club</p>
-          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Stop Duct-Taping Six Tools Together.</h2>
-          <p className="mt-4 text-muted-foreground">
-            Advisors Club brings the entire creator stack under one roof — with AI woven through every layer.
-          </p>
-        </div>
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="group rounded-2xl border border-border bg-card p-6 transition hover:border-primary/40"
-            >
-              <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                <f.icon className="h-5 w-5" />
+      {/* HERO */}
+      <section className="hero">
+        <div className="mosaic">
+          {clubs.map((c, i) => (
+            <div className="club-card" key={i}>
+              <div className="cc-img" style={{ background: c.bg }}>{c.svg}</div>
+              <div className="cc-overlay" />
+              <div className="cc-body">
+                <div className="cc-av" style={{ background: c.avBg }}>{c.av}</div>
+                <div className="cc-tag">{c.tag}</div>
+                <span className="cc-name">{c.name}</span>
+                <span className="cc-meta">{c.meta}</span>
               </div>
-              <h3 className="text-lg font-semibold">{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
             </div>
           ))}
         </div>
+
+        <div className="hero-overlay" />
+
+        <div className="hero-content">
+          <div className="hero-badge"><span className="bdot" />The Platform Built for Expert Advisors</div>
+          <h1>Build Your <span className="gold">Club.</span><br />Own Your Audience.</h1>
+          <p className="hero-sub">
+            The all-in-one platform where Advisors launch Clubs, host Courses, run Challenges, and get paid — with an AI agent working for you around the clock.
+          </p>
+          <div className="optin">
+            <input type="email" placeholder="Enter your email to start free" />
+            <button>Start For Free →</button>
+          </div>
+          <p className="hero-fine">No credit card required · Free forever on Starter · Setup in 5 minutes</p>
+        </div>
       </section>
 
-      {/* Stats */}
-      <section className="border-y border-border bg-card/30">
-        <div className="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-4">
-          {[
-            { v: "60%", l: "Cheaper than Kajabi", i: BarChart3 },
-            { v: "10k", l: "Concurrent live attendees", i: Video },
-            { v: "5+", l: "Platforms you can migrate from", i: Globe },
-            { v: "24/7", l: "AI member support", i: Bot },
-          ].map((s) => (
-            <div key={s.l} className="text-center">
-              <s.i className="mx-auto mb-3 h-5 w-5 text-primary" />
-              <div className="font-display text-4xl font-bold text-foreground md:text-5xl">{s.v}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{s.l}</div>
-            </div>
+      {/* STATS */}
+      <div className="stats-row">
+        <div className="stat-item"><div className="stat-n">14k+</div><div className="stat-l">Active Advisors</div></div>
+        <div className="stat-item"><div className="stat-n">$310M</div><div className="stat-l">Earned by Advisors</div></div>
+        <div className="stat-item"><div className="stat-n">4.2M</div><div className="stat-l">Club Members</div></div>
+        <div className="stat-item"><div className="stat-n">71%</div><div className="stat-l">Course completion rate</div></div>
+        <div className="stat-item"><div className="stat-n">4.9★</div><div className="stat-l">Average rating</div></div>
+      </div>
+
+      {/* TICKER */}
+      <div className="ticker">
+        <div className="ticker-track">
+          {[...tickerItems, ...tickerItems].map((t, i) => (
+            <span className="ti" key={i}><span className="tdot" />{t}</span>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* Comparison */}
-      <section id="compare" className="mx-auto max-w-6xl px-6 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">The Honest Comparison</p>
-          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Why Creators Switch.</h2>
+      {/* FEATURES */}
+      <section className="showcase" id="features">
+        <div className="showcase-hd">
+          <div className="sc-eyebrow">Where all-in-one meets best-in-class</div>
+          <h2 className="sc-h2">One platform. Every tool<br />your Club will ever need.</h2>
+          <p className="sc-sub">Stop stitching together Kajabi, Zoom, Mailchimp, and Teachable. AdvisorsClub replaces them all — and then adds AI.</p>
         </div>
-        <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-card">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-secondary/50 text-left">
-                <th className="px-6 py-4 font-semibold">Feature</th>
-                <th className="px-6 py-4 text-center font-semibold text-primary">Advisors Club</th>
-                <th className="px-6 py-4 text-center font-medium text-muted-foreground">Circle</th>
-                <th className="px-6 py-4 text-center font-medium text-muted-foreground">Skool</th>
-                <th className="px-6 py-4 text-center font-medium text-muted-foreground">Kajabi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparison.map((row, i) => (
-                <tr key={row.feature} className={i % 2 ? "bg-background/30" : ""}>
-                  <td className="px-6 py-4 font-medium">{row.feature}</td>
-                  <td className="px-6 py-4 text-center">
-                    {typeof row.us === "string" ? (
-                      <span className="font-semibold text-primary">{row.us}</span>
-                    ) : (
-                      <Cell v={row.us} />
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-center"><Cell v={row.circle} /></td>
-                  <td className="px-6 py-4 text-center"><Cell v={row.skool} /></td>
-                  <td className="px-6 py-4 text-center"><Cell v={row.kajabi} /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="mx-auto max-w-6xl px-6 py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">Pricing</p>
-          <h2 className="mt-3 text-4xl font-bold md:text-5xl">Built To Scale, Priced To Start.</h2>
-          <p className="mt-4 text-muted-foreground">Unlimited members on every paid plan. Save 30% annually.</p>
-        </div>
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {plans.map((p) => (
-            <div
-              key={p.name}
-              className={`relative rounded-2xl border bg-card p-8 transition ${
-                p.featured ? "border-primary/60" : "border-border"
-              }`}
-            >
-              {p.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
-                  {p.tag}
+        {/* Feature 1: Feed */}
+        <div className="feat-panel" style={{ marginBottom: 96 }}>
+          <div className="fp-text">
+            <div className="fp-eyebrow">Communities · Clubs</div>
+            <h3 className="fp-h3">Your Club. Your brand.<br />Your members — for life.</h3>
+            <p className="fp-p">A beautiful, branded home for your audience. Rich discussions, announcements, member profiles, polls, gamification, and a feed your members will actually open every morning.</p>
+            <ul className="fp-list">
+              <li><div className="fp-check">✓</div>Threaded discussions, reactions & rich media posts</li>
+              <li><div className="fp-check">✓</div>Gamification — points, levels, leaderboards & badges</li>
+              <li><div className="fp-check">✓</div>Member profiles, DMs & networking</li>
+              <li><div className="fp-check">✓</div>Challenges — 30-day sprints with accountability loops</li>
+              <li><div className="fp-check">✓</div>Custom domain, logo & full white-label branding</li>
+            </ul>
+          </div>
+          <div className="fp-visual">
+            <div className="fp-vis-bar">
+              <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
+              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>realestatepro.advisorsclub.com</span>
+            </div>
+            <div className="mock-feed">
+              <div className="mock-post">
+                <div className="mp-hd">
+                  <div className="mp-av" style={{ background: "#F5A623" }}>Z</div>
+                  <div><div className="mp-name">Zaddy · Admin</div><div className="mp-time">5 min ago</div></div>
+                  <div className="mp-badge">📌 Pinned</div>
                 </div>
-              )}
-              <h3 className="font-display text-xl font-semibold">{p.name}</h3>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="font-display text-5xl font-bold">{p.price}</span>
-                <span className="text-muted-foreground">/mo</span>
+                <div className="mp-body">Welcome to the Club! Drop your biggest goal for this month 👇 AIVA is live — ask her anything about the course material and she'll answer instantly.</div>
+                <div className="mp-actions"><span>❤️ 38</span><span>💬 14 replies</span><span>🔁 Share</span></div>
               </div>
-              {!p.featured && <p className="mt-1 text-sm text-muted-foreground">{p.tag}</p>}
-              <ul className="mt-6 space-y-3 text-sm">
-                {p.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button
-                className={`mt-8 w-full ${
-                  p.featured
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                }`}
-              >
-                {p.cta}
-              </Button>
+              <div className="mock-post">
+                <div className="mp-hd">
+                  <div className="mp-av" style={{ background: "#4ADE80" }}>M</div>
+                  <div><div className="mp-name">Marcus T. <span style={{ color: "var(--ac-amber)", fontSize: 10 }}>⭐ Lvl 14</span></div><div className="mp-time">2 hours ago</div></div>
+                </div>
+                <div className="mp-body">Just closed a $52k wholesale deal using the script from Module 4. This Club paid for itself 200x. 🔥🔥🔥</div>
+                <div className="mp-actions"><span>🔥 112</span><span>💬 47 replies</span></div>
+              </div>
+              <div className="mock-post" style={{ opacity: 0.6 }}>
+                <div className="mp-hd">
+                  <div className="mp-av" style={{ background: "#818CF8" }}>S</div>
+                  <div><div className="mp-name">Sarah K.</div><div className="mp-time">3 hours ago</div></div>
+                </div>
+                <div className="mp-body">Question for the group — what's the best market to target for wholesaling right now?</div>
+                <div className="mp-actions"><span style={{ color: "var(--ac-amber)", fontSize: 10 }}>🤖 AIVA replied</span><span>💬 23 replies</span></div>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
 
-      {/* CTA */}
-      <section className="mx-auto max-w-6xl px-6 pb-32">
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-12 text-center md:p-20">
-          <div className="relative">
-            <GraduationCap className="mx-auto mb-5 h-10 w-10 text-primary" />
-            <h2 className="font-display text-4xl font-bold md:text-5xl">
-              Your Club. Your Courses. Your AI.
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Join the creators building the next generation of communities on Advisors Club.
-            </p>
-            <Button size="lg" className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90">
-              Start Your Free Trial <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+        {/* Feature 2: Courses */}
+        <div className="feat-panel flip" style={{ marginBottom: 96 }}>
+          <div className="fp-text">
+            <div className="fp-eyebrow">Courses · Coaching · Conferences</div>
+            <h3 className="fp-h3">Teach. Coach. Host.<br />All inside your Club.</h3>
+            <p className="fp-p">Unlimited courses with native video hosting. Group coaching sessions. Virtual conferences for up to 10,000 live attendees. No Teachable. No Zoom. No Vimeo. Just AdvisorsClub.</p>
+            <ul className="fp-list">
+              <li><div className="fp-check">✓</div>Unlimited courses — video, audio, text, quizzes</li>
+              <li><div className="fp-check">✓</div>Drip content, prerequisites & completion certificates</li>
+              <li><div className="fp-check">✓</div>Live virtual conferences with Q&A, polls & replay</li>
+              <li><div className="fp-check">✓</div>1:1 and group coaching sessions with booking</li>
+              <li><div className="fp-check">✓</div>AIVA answers course questions 24/7 automatically</li>
+            </ul>
+          </div>
+          <div className="fp-visual">
+            <div className="fp-vis-bar">
+              <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
+              <span style={{ fontSize: 11, color: "var(--ac-muted)", marginLeft: 8 }}>Courses</span>
+            </div>
+            <div className="mock-course">
+              <div className="course-hd">Your Courses</div>
+              {[
+                { thumb: "🏠", bg: "rgba(245,166,35,0.12)", name: "Real Estate Investor Masterclass", meta: "6 modules · 42 lessons · 847 enrolled", pct: 78 },
+                { thumb: "🤖", bg: "rgba(129,140,248,0.12)", name: "AI for Real Estate Investors", meta: "4 modules · 28 lessons · 312 enrolled", pct: 64 },
+                { thumb: "💼", bg: "rgba(74,222,128,0.12)", name: "Deal Analyzer Bootcamp", meta: "3 modules · 18 lessons · 503 enrolled", pct: 91 },
+              ].map((r) => (
+                <div className="course-row" key={r.name}>
+                  <div className="cr-thumb" style={{ background: r.bg }}>{r.thumb}</div>
+                  <div className="cr-info"><div className="cr-name">{r.name}</div><div className="cr-meta">{r.meta}</div></div>
+                  <div className="cr-bar"><div className="cr-fill" style={{ width: `${r.pct}%` }} /></div>
+                </div>
+              ))}
+              <div className="course-row" style={{ borderStyle: "dashed", opacity: 0.45 }}>
+                <div className="cr-thumb" style={{ background: "rgba(255,255,255,0.04)", color: "var(--ac-muted)", fontSize: 20, fontWeight: 900 }}>+</div>
+                <div className="cr-info"><div className="cr-name" style={{ color: "var(--ac-muted)" }}>Add a new course</div><div className="cr-meta">AIVA will build the outline for you</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature 3: AIVA */}
+        <div className="feat-panel">
+          <div className="fp-text">
+            <div className="fp-eyebrow">AI Agent · Automation · Content</div>
+            <h3 className="fp-h3">Meet AIVA — your Club<br />runs itself.</h3>
+            <p className="fp-p">AIVA (Advisors Intelligent Virtual Agent) is your always-on AI teammate. She builds your courses, answers members, writes content, and manages automations — 24/7, in your voice.</p>
+            <ul className="fp-list">
+              <li><div className="fp-check">✓</div>Builds a full course outline in under 60 seconds</li>
+              <li><div className="fp-check">✓</div>Auto-replies to member questions using your course content</li>
+              <li><div className="fp-check">✓</div>Writes posts, emails & sales copy in your brand voice</li>
+              <li><div className="fp-check">✓</div>Triggers automations based on member behavior</li>
+              <li><div className="fp-check">✓</div>Learns and improves with every interaction</li>
+            </ul>
+          </div>
+          <div className="fp-visual">
+            <div className="fp-vis-bar">
+              <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
+              <span style={{ fontSize: 11, color: "var(--ac-amber)", marginLeft: 8, fontWeight: 700 }}>● AIVA — Online</span>
+            </div>
+            <div className="mock-aiva">
+              <div className="ai-row">
+                <div className="ai-av" style={{ background: "linear-gradient(135deg,#F5A623,#E8940A)", color: "#1A1A1A" }}>A</div>
+                <div className="ai-bub">Hi! I'm AIVA. I can build your courses, answer member questions, write your content, and set up automations. What do you need?</div>
+              </div>
+              <div className="ai-row u">
+                <div className="ai-av" style={{ background: "#3A3A3A" }}>Z</div>
+                <div className="ai-bub u">Build me a 6-module real estate course for beginners</div>
+              </div>
+              <div className="ai-row">
+                <div className="ai-av" style={{ background: "linear-gradient(135deg,#F5A623,#E8940A)", color: "#1A1A1A" }}>A</div>
+                <div className="ai-bub">
+                  <strong>📚 Real Estate Investing: Zero to First Deal</strong><br /><br />
+                  Module 1: The Wealth Mindset<br />
+                  Module 2: Finding Deals First<br />
+                  Module 3: Analyze Any Property<br />
+                  Module 4: Offers That Win<br />
+                  Module 5: Fund With $0 Down<br />
+                  Module 6: Close & Scale<br /><br />
+                  <em style={{ color: "rgba(255,255,255,0.45)", fontSize: 10 }}>Generating lesson content...</em>
+                </div>
+              </div>
+              <div className="ai-row">
+                <div className="ai-av" style={{ background: "linear-gradient(135deg,#F5A623,#E8940A)", color: "#1A1A1A" }}>A</div>
+                <div className="ai-bub"><div className="tdots"><div className="td" /><div className="td" /><div className="td" /></div></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
-          <div className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            <span>© {new Date().getFullYear()} Advisors Club. All rights reserved.</span>
+      {/* PRICING */}
+      <div className="pricing-section" id="pricing">
+        <div className="pricing-inner">
+          <div className="price-hd">
+            <div className="sc-eyebrow">Simple, honest pricing</div>
+            <h2 className="sc-h2">Half the price.<br />Twice the power.</h2>
+            <p className="sc-sub" style={{ maxWidth: 480, margin: "0 auto" }}>Kajabi charges $179/mo. Circle & Skool charge $99/mo. AdvisorsClub starts at $0 — and our best plan costs less than a dinner out.</p>
           </div>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-foreground">Privacy</a>
-            <a href="#" className="hover:text-foreground">Terms</a>
-            <a href="#" className="hover:text-foreground">Contact</a>
+          <div className="plans">
+            <div className="plan">
+              <div className="plan-tier">Starter</div>
+              <div className="plan-price"><sup>$</sup>0</div>
+              <div className="plan-per">Free forever · 1 Club</div>
+              <div className="plan-div" />
+              <div className="pf"><span className="pfc">✓</span>Up to 100 Club members</div>
+              <div className="pf"><span className="pfc">✓</span>1 course, unlimited lessons</div>
+              <div className="pf"><span className="pfc">✓</span>Club feed & discussions</div>
+              <div className="pf"><span className="pfc">✓</span>Basic gamification</div>
+              <div className="pf"><span className="pfc">✓</span>Stripe payments (5% fee)</div>
+              <div className="pf"><span className="pfc">✓</span>AIVA (10 prompts/mo)</div>
+              <div className="pf"><span className="pfd">–</span>Custom domain</div>
+              <div className="pf"><span className="pfd">–</span>Virtual conferences</div>
+              <div className="pf"><span className="pfd">–</span>Email marketing</div>
+              <a href="#" className="plan-cta ghost">Get started free</a>
+            </div>
+            <div className="plan hot">
+              <div className="plan-tag">⚡ Most Popular</div>
+              <div className="plan-tier">Advisor</div>
+              <div className="plan-price"><sup>$</sup>47</div>
+              <div className="plan-per">per month · unlimited members</div>
+              <div className="plan-div" />
+              <div className="pf"><span className="pfc">✓</span>Unlimited Club members</div>
+              <div className="pf"><span className="pfc">✓</span>Unlimited courses & lessons</div>
+              <div className="pf"><span className="pfc">✓</span>Custom domain & full branding</div>
+              <div className="pf"><span className="pfc">✓</span>AIVA AI agent — unlimited</div>
+              <div className="pf"><span className="pfc">✓</span>Virtual conferences (200 cap)</div>
+              <div className="pf"><span className="pfc">✓</span>Challenges engine</div>
+              <div className="pf"><span className="pfc">✓</span>Full gamification suite</div>
+              <div className="pf"><span className="pfc">✓</span>Stripe payments (2% fee)</div>
+              <div className="pf"><span className="pfc">✓</span>Email marketing (5k contacts)</div>
+              <a href="#" className="plan-cta solid">Start 14-day free trial →</a>
+            </div>
+            <div className="plan">
+              <div className="plan-tier">Club Pro</div>
+              <div className="plan-price"><sup>$</sup>97</div>
+              <div className="plan-per">per month · everything unlimited</div>
+              <div className="plan-div" />
+              <div className="pf"><span className="pfc">✓</span>Everything in Advisor</div>
+              <div className="pf"><span className="pfc">✓</span>0% transaction fees</div>
+              <div className="pf"><span className="pfc">✓</span>Multiple Clubs</div>
+              <div className="pf"><span className="pfc">✓</span>Unlimited virtual conferences</div>
+              <div className="pf"><span className="pfc">✓</span>Full email marketing (100k)</div>
+              <div className="pf"><span className="pfc">✓</span>Sales funnel builder</div>
+              <div className="pf"><span className="pfc">✓</span>Advanced analytics & CRM</div>
+              <div className="pf"><span className="pfc">✓</span>Team members & roles</div>
+              <div className="pf"><span className="pfc">✓</span>Branded mobile app</div>
+              <a href="#" className="plan-cta ghost">Start 14-day free trial →</a>
+            </div>
+          </div>
+          <p style={{ textAlign: "center", fontSize: 13, color: "var(--ac-muted)", marginTop: 24 }}>
+            All plans include a 14-day free trial · No credit card required · Cancel anytime
+          </p>
+        </div>
+      </div>
+
+      {/* TESTIMONIALS */}
+      <div style={{ borderTop: "1px solid var(--ac-border)" }}>
+        <section className="testi-section">
+          <div className="testi-hd">
+            <div className="sc-eyebrow">What Advisors say</div>
+            <h2 className="sc-h2">Loved by 14,000+ Advisors<br />across every niche.</h2>
+          </div>
+          <div className="testi-grid">
+            {[
+              { stars: "★★★★★", text: "AIVA built my entire 8-module course outline in 90 seconds. I spent 3 months organizing that on Kajabi. I cut my costs by 70% and my members are more engaged than ever.", av: "J", avBg: "#F5A623", name: "Jamie L.", role: "Real Estate Coach · 2,400 Club members" },
+              { stars: "★★★★★", text: "AIVA answers my members' questions better than I could. I used to spend 2 hours a day in the feed. Now I check in once a week. My Club genuinely runs itself.", av: "S", avBg: "#4ADE80", name: "Serena K.", role: "Fitness Advisor · 5,100 Club members" },
+              { stars: "★★★★★", text: "Migrated from Circle in 20 minutes flat. All my members, courses, and posts came over perfectly. The Challenges feature alone tripled my engagement in the first week.", av: "R", avBg: "#818CF8", name: "Ryan P.", role: "Crypto Advisor · 3,200 Club members" },
+            ].map((t) => (
+              <div className="tc" key={t.name}>
+                <div className="tc-stars">{t.stars}</div>
+                <p className="tc-text">"{t.text}"</p>
+                <div className="tc-auth">
+                  <div className="tc-av" style={{ background: t.avBg }}>{t.av}</div>
+                  <div><div className="tc-name">{t.name}</div><div className="tc-role">{t.role}</div></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* BOTTOM CTA */}
+      <div className="cta-bottom">
+        <div className="cta-glow" />
+        <div className="sc-eyebrow">Ready to build?</div>
+        <h2>Your Club is one click away.</h2>
+        <p>Start free today. No credit card. Your first 100 members are on us.</p>
+        <div className="cta-form2">
+          <input type="email" placeholder="Enter your email address" />
+          <button>Start For Free →</button>
+        </div>
+        <p className="cta-fine2">Free forever on Starter · 14-day trial on paid plans · Join 14,000+ Advisors</p>
+      </div>
+
+      {/* FOOTER */}
+      <footer>
+        <div className="footer-inner">
+          <div className="footer-grid">
+            <div className="fg-brand">
+              <Logo />
+              <p>The all-in-one Club platform for Advisors who want to teach, coach, and get paid.</p>
+            </div>
+            <div className="fg-col"><h4>Platform</h4><a href="#">Features</a><a href="#">Pricing</a><a href="#">AIVA</a><a href="#">Roadmap</a></div>
+            <div className="fg-col"><h4>Compare</h4><a href="#">vs Circle</a><a href="#">vs Skool</a><a href="#">vs Kajabi</a><a href="#">vs Teachable</a></div>
+            <div className="fg-col"><h4>Resources</h4><a href="#">Help Center</a><a href="#">Blog</a><a href="#">Affiliates</a><a href="#">Migrate</a></div>
+            <div className="fg-col"><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+          </div>
+          <div className="footer-btm">
+            <span>© {new Date().getFullYear()} AdvisorsClub. All rights reserved.</span>
+            <span>Powered by <strong style={{ color: "var(--ac-amber)" }}>Real Advisors, Inc.</strong></span>
           </div>
         </div>
       </footer>
