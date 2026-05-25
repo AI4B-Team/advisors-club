@@ -65,6 +65,14 @@ function IconRail() {
 type SpaceLink = { label: string; icon: string; to: string; count?: number };
 type SpaceGroup = { title: string; items: SpaceLink[] };
 
+const MAIN_LINKS: { label: string; icon: string; to: string }[] = [
+  { label: "Courses", icon: "📚", to: "/app/club/courses" },
+  { label: "Challenges", icon: "🔥", to: "/app/club/challenges" },
+  { label: "Events", icon: "📅", to: "/app/club/events" },
+  { label: "Members", icon: "👥", to: "/app/club/members" },
+  { label: "AIVA", icon: "✨", to: "/app/aiva" },
+];
+
 const SPACES: SpaceGroup[] = [
   {
     title: "Get Started",
@@ -72,22 +80,6 @@ const SPACES: SpaceGroup[] = [
       { label: "Start Here", icon: "🏠", to: "/app/getting-started", count: 1 },
       { label: "Say Hello", icon: "👋", to: "/app/club/feed", count: 1 },
       { label: "Resources", icon: "📖", to: "/app/club/courses", count: 1 },
-    ],
-  },
-  {
-    title: "Learn",
-    items: [
-      { label: "Courses", icon: "📚", to: "/app/club/courses" },
-      { label: "Challenges", icon: "🔥", to: "/app/club/challenges" },
-      { label: "Events", icon: "📅", to: "/app/club/events" },
-    ],
-  },
-  {
-    title: "Community",
-    items: [
-      { label: "Members", icon: "👥", to: "/app/club/members" },
-      { label: "Analytics", icon: "📊", to: "/app/club/analytics" },
-      { label: "AIVA", icon: "✨", to: "/app/aiva" },
     ],
   },
 ];
@@ -160,6 +152,12 @@ function CommunitySidebar() {
       <Link to="/app/club/feed" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
         <MessageSquare size={16}/> Community
       </Link>
+
+      {MAIN_LINKS.map(it => (
+        <Link key={it.to} to={it.to} className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
+          <span className="cc-sb-row-emoji">{it.icon}</span> {it.label}
+        </Link>
+      ))}
 
       {SPACES.map(group => (
         <div key={group.title} className="cc-sb-group">
