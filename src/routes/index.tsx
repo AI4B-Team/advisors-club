@@ -523,10 +523,10 @@ function Index() {
                 <div style={{ position:"absolute", top:10, right:10, background:"rgba(0,0,0,0.55)", backdropFilter:"blur(6px)", borderRadius:4, padding:"3px 8px", fontSize:10, color:"#fff", fontWeight:700, display:"inline-flex", alignItems:"center", gap:4 }}>
                   <div style={{ width:5, height:5, borderRadius:"50%", background:"#4ADE80" }} />2,847 watching
                 </div>
-                <div style={{ position:"absolute", left:10, right:10, bottom:10, background:"rgba(255,255,255,0.95)", backdropFilter:"blur(6px)", borderRadius:8, padding:"7px 10px", border:"1px solid rgba(0,0,0,0.05)" }}>
-                  <div style={{ fontSize:12, fontWeight:800, color:"#0F0F14" }}>Zaddy — Live Q&amp;A Session</div>
-                  <div style={{ fontSize:10, color:"#6B6B75", marginTop:1 }}>Real Estate Summit 2026 · Day 2 of 3</div>
-                </div>
+              </div>
+              <div style={{ padding:"10px 2px 0" }}>
+                <div style={{ fontSize:12, fontWeight:800, color:"#0F0F14" }}>Interest Meeting — Live Q&amp;A Session</div>
+                <div style={{ fontSize:10, color:"#6B6B75", marginTop:1 }}>Real Estate Summit 2026 · Day 2 of 3</div>
               </div>
               {/* attendees + Q&A */}
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", margin:"12px 2px 10px" }}>
