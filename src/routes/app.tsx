@@ -135,10 +135,6 @@ function Topbar() {
 
   return (
     <header className="cc-tb">
-      <div className="cc-tb-brand">
-        <span className="cc-tb-logo">M</span>
-        <button className="cc-tb-cname">Real Estate Empire <ChevronDown size={14}/></button>
-      </div>
 
       <nav className="cc-tb-tabs">
         <button className={`cc-tb-tab ${isHome ? "on":""}`} onClick={()=>nav({to:"/app/dashboard"})}>Home</button>
