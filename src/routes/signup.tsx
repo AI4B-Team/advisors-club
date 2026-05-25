@@ -86,14 +86,14 @@ function SignupPage() {
         </div>
 
         <div className="lt-auth-right">
-          <h2>Everything your Club needs. None of the stack.</h2>
-          <p style={{color:"rgba(255,255,255,0.7)"}}>Replace 7 tools with one focused platform.</p>
+          <h2>Everything Your Club Needs. None Of The Stack.</h2>
+          <p style={{color:"rgba(255,255,255,0.7)"}}>Replace 7 Tools With One Focused Platform.</p>
           <div style={{display:"flex",flexDirection:"column",gap:18,marginTop:10}}>
-            <Prop i={<Sparkles size={16}/>} t="AIVA — your AI operator" d="Drafts posts, emails, course outlines, replies." />
-            <Prop i={<Users size={16}/>} t="Community + courses + coaching" d="One platform. One subscription. One brand." />
-            <Prop i={<Zap size={16}/>} t="Native payments & memberships" d="Stripe Connect. Tiered access. Free trials." />
-            <Prop i={<MessageSquare size={16}/>} t="Live events & hot-seat calls" d="Built-in video. No Zoom links to share." />
-            <Prop i={<Shield size={16}/>} t="Your brand, your domain" d="Full white-label from day one." />
+            <Prop i={<Sparkles size={16}/>} t="AIVA — Your AI Operator" d="Drafts Posts, Emails, Course Outlines, Replies." />
+            <Prop i={<Users size={16}/>} t="Community + Courses + Coaching" d="One Platform. One Subscription. One Brand." />
+            <Prop i={<Zap size={16}/>} t="Native Payments & Memberships" d="Stripe Connect. Tiered Access. Free Trials." />
+            <Prop i={<MessageSquare size={16}/>} t="Live Events & Hot-Seat Calls" d="Built-In Video. No Zoom Links To Share." />
+            <Prop i={<Shield size={16}/>} t="Your Brand, Your Domain" d="Full White-Label From Day One." />
           </div>
           <div className="lt-testimonial">
             <p>“I launched my Club on a Tuesday and had 18 paying members by Friday. AIVA did most of the heavy lifting.”</p>
