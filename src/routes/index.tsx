@@ -153,18 +153,18 @@ function Index() {
             <div className="mock-course">
               <div className="course-hd">Your Courses</div>
               {[
-                { thumb: "🏠", bg: "rgba(245,166,35,0.12)", name: "Real Estate Investor Masterclass", meta: "6 modules · 42 lessons · 847 enrolled", pct: 78 },
-                { thumb: "🤖", bg: "rgba(129,140,248,0.12)", name: "AI for Real Estate Investors", meta: "4 modules · 28 lessons · 312 enrolled", pct: 64 },
-                { thumb: "💼", bg: "rgba(74,222,128,0.12)", name: "Deal Analyzer Bootcamp", meta: "3 modules · 18 lessons · 503 enrolled", pct: 91 },
+                { Icon: Home, color: "#F5A623", bg: "rgba(245,166,35,0.12)", name: "Real Estate Investor Masterclass", meta: "6 modules · 42 lessons · 847 enrolled", pct: 78 },
+                { Icon: Bot, color: "#818CF8", bg: "rgba(129,140,248,0.12)", name: "AI for Real Estate Investors", meta: "4 modules · 28 lessons · 312 enrolled", pct: 64 },
+                { Icon: Briefcase, color: "#4ADE80", bg: "rgba(74,222,128,0.12)", name: "Deal Analyzer Bootcamp", meta: "3 modules · 18 lessons · 503 enrolled", pct: 91 },
               ].map((r) => (
                 <div className="course-row" key={r.name}>
-                  <div className="cr-thumb" style={{ background: r.bg }}>{r.thumb}</div>
+                  <div className="cr-thumb" style={{ background: r.bg, color: r.color }}><r.Icon size={20} /></div>
                   <div className="cr-info"><div className="cr-name">{r.name}</div><div className="cr-meta">{r.meta}</div></div>
                   <div className="cr-bar"><div className="cr-fill" style={{ width: `${r.pct}%` }} /></div>
                 </div>
               ))}
               <div className="course-row" style={{ borderStyle: "dashed", opacity: 0.45 }}>
-                <div className="cr-thumb" style={{ background: "rgba(255,255,255,0.04)", color: "var(--ac-muted)", fontSize: 20, fontWeight: 900 }}>+</div>
+                <div className="cr-thumb" style={{ background: "rgba(255,255,255,0.04)", color: "var(--ac-muted)" }}><Plus size={20} /></div>
                 <div className="cr-info"><div className="cr-name" style={{ color: "var(--ac-muted)" }}>Add a new course</div><div className="cr-meta">AIVA will build the outline for you</div></div>
               </div>
             </div>
