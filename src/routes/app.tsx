@@ -87,7 +87,7 @@ function CommunitySidebar() {
         Getting Started
       </Link>
 
-      <Link to="/app" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
+      <Link to="/app" activeOptions={{ exact: true }} className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
         <Home size={16}/> Home
       </Link>
 
