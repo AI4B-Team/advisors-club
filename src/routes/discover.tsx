@@ -1,9 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Star, ArrowRight } from "lucide-react";
+import { Search, SlidersHorizontal, Star } from "lucide-react";
 import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
-import heroBg from "@/assets/conference-live.jpg";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({
@@ -19,10 +18,13 @@ export const Route = createFileRoute("/discover")({
 
 type Sort = "trending" | "popular" | "free";
 
+const QUICK = ["Trending", "Business", "Real Estate", "Fitness", "AI & Tech", "Finance", "Marketing", "Mindset", "Crypto", "Sales"];
+
 function DiscoverPage() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("All");
   const [sort, setSort] = useState<Sort>("trending");
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const filtered = useMemo<Club[]>(() => {
     let list = CLUBS.slice();
@@ -34,86 +36,66 @@ function DiscoverPage() {
         c.tags.some(t => t.includes(needle))
       );
     }
-    if (cat !== "All") list = list.filter(c => c.category === cat);
+    if (cat !== "All" && cat !== "Trending") list = list.filter(c => c.category === cat);
+    if (cat === "Trending") list = list.filter(c => c.trending);
     if (sort === "trending") list.sort((a,b) => Number(!!b.trending) - Number(!!a.trending));
     else if (sort === "popular") list.sort((a,b) => b.members - a.members);
     else if (sort === "free") list = list.filter(c => c.price === 0);
     return list;
   }, [q, cat, sort]);
 
-  const featured = CLUBS.filter(c => c.featured);
-  const heroTiles = CLUBS.slice(0, 4);
-  const isFiltering = q.trim().length > 0 || cat !== "All" || sort === "free";
-
   return (
     <div className="lt">
       <SiteNav />
 
-      {/* DARK HERO */}
-      <section className="dc-hero">
-        <div className="dc-hero-bg" style={{ backgroundImage: `url(${heroBg})` }} />
-        <div className="dc-hero-overlay" />
-        <div className="dc-hero-inner">
-          <h1 style={{ whiteSpace: "nowrap" }}>
-            Find A Club <span className="dc-amber">Worth Joining.</span>
-          </h1>
-          <input
-            type="search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search Clubs, advisors, topics…"
-            className="dc-search"
-          />
-        </div>
+      <section className="dc-min">
+        <div className="dc-min-inner">
+          <h1>Discover Clubs</h1>
+          <p className="dc-min-sub">or <a href="/signup" className="dc-min-link">create your own</a></p>
 
-        {/* Overlapping tile strip */}
-        <div className="dc-tiles-wrap">
-          <div className="dc-tiles">
-            {heroTiles.map(c => (
-              <div key={c.id} className="dc-tile" style={{ backgroundImage: `url(${c.cover})` }}>
-                <div className="dc-tile-fade" />
-                <div className="dc-tile-body">
-                  <div className="dc-tile-cat">{c.category}</div>
-                  <div className="dc-tile-name">{c.name}</div>
-                </div>
-              </div>
-            ))}
+          <div className="dc-min-search">
+            <Search size={20} strokeWidth={2.2} />
+            <input
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search for anything"
+            />
           </div>
+
+          <div className="dc-min-pills">
+            {QUICK.map(t => (
+              <button
+                key={t}
+                className={`dc-pill ${cat===t?"on":""}`}
+                onClick={() => setCat(cat===t ? "All" : t)}
+              >
+                {t}
+              </button>
+            ))}
+            <button
+              className={`dc-pill dc-filter ${filterOpen?"on":""}`}
+              onClick={() => setFilterOpen(v => !v)}
+            >
+              Filter <SlidersHorizontal size={14} />
+            </button>
+          </div>
+
+          {filterOpen && (
+            <div className="dc-min-filterbar">
+              {CATEGORIES.map(c => (
+                <button key={c} className={`dc-pill sm ${cat===c?"on":""}`} onClick={() => setCat(c)}>{c}</button>
+              ))}
+              <span className="dc-min-sep" />
+              <button className={`dc-pill sm ${sort==="trending"?"on":""}`} onClick={() => setSort("trending")}>Trending</button>
+              <button className={`dc-pill sm ${sort==="popular"?"on":""}`} onClick={() => setSort("popular")}>Popular</button>
+              <button className={`dc-pill sm ${sort==="free"?"on":""}`} onClick={() => setSort("free")}>Free only</button>
+            </div>
+          )}
         </div>
       </section>
 
-      <div className="lt-container" style={{ paddingTop: 160 }}>
-        <div className="dc-section-hd">
-          <div className="dc-section-eyebrow">— Your Personal Advisors Are Waiting —</div>
-          <h2>Led By The Best In Field.</h2>
-          <div className="lt-quickpills" style={{ justifyContent: "center", marginTop: 18 }}>
-            {["Real Estate","AI & Tech","Fitness","Finance","Marketing"].map(t => (
-              <button key={t} className={`pill ${cat===t?"on":""}`} onClick={() => setCat(cat===t?"All":t)}>{t}</button>
-            ))}
-          </div>
-        </div>
-
-        {!isFiltering && (
-          <>
-            <div className="lt-row-title">Featured Clubs</div>
-            <div className="lt-featured">
-              {featured.map(c => <ClubCard key={c.id} c={c} large />)}
-            </div>
-          </>
-        )}
-
-
-        <div className="lt-filterbar">
-          {CATEGORIES.map(c => (
-            <button key={c} className={`pill ${cat===c?"on":""}`} onClick={() => setCat(c)}>{c}</button>
-          ))}
-          <div className="lt-sort">
-            <button className={`pill ${sort==="trending"?"on":""}`} onClick={() => setSort("trending")}>Trending</button>
-            <button className={`pill ${sort==="popular"?"on":""}`} onClick={() => setSort("popular")}>Popular</button>
-            <button className={`pill ${sort==="free"?"on":""}`} onClick={() => setSort("free")}>Free only</button>
-          </div>
-        </div>
-
+      <div className="lt-container" style={{ paddingTop: 8, paddingBottom: 80 }}>
         {filtered.length === 0 ? (
           <div className="lt-empty">
             <div className="em">🔍</div>
@@ -126,25 +108,16 @@ function DiscoverPage() {
             {filtered.map(c => <ClubCard key={c.id} c={c} />)}
           </div>
         )}
-
-        <div className="lt-bottom-cta">
-          <h2>Have something to teach?</h2>
-          <p>Launch your own Club in under 60 seconds — built-in courses, community, coaching & AIVA included.</p>
-          <Link to="/signup" className="btn-amber" style={{padding:"14px 22px",fontSize:15}}>Launch My Club <ArrowRight size={16} strokeWidth={3} /></Link>
-        </div>
       </div>
     </div>
   );
 }
 
-
-
-function ClubCard({ c, large = false }: { c: Club; large?: boolean }) {
+function ClubCard({ c }: { c: Club }) {
   return (
     <div className="lt-club-card">
       <div className="lt-cover">
         <img src={c.cover} alt={c.name} loading="lazy" />
-        {c.trending && large && <span className="lt-badge amber">Trending</span>}
         {c.price === 0 ? <span className="lt-badge free">Free</span> : <span className="lt-badge price">${c.price}/mo</span>}
       </div>
       <div className="lt-club-body">
