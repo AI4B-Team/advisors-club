@@ -117,7 +117,7 @@
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 52px;height:66px;
-  background:rgba(26,26,26,0.88);backdrop-filter:blur(28px);
+  background:#1A1A1A;
   border-bottom:1px solid rgba(255,255,255,0.07);
 }
 .ac .nav-logo,.site-nav .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-weight:900;letter-spacing:-0.5px;font-size:18px}
