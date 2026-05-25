@@ -17,6 +17,7 @@ import courseCover1 from "@/assets/course-cover-1.jpg";
 import courseCover2 from "@/assets/course-cover-2.jpg";
 import courseCover3 from "@/assets/course-cover-3.jpg";
 import advisorsLogo from "@/assets/advisorsclub-logo.png";
+import advisorsLogoDark from "@/assets/advisorsclub-logo-dark.png";
 import conferenceLive from "@/assets/conference-live.jpg";
 
 const COVERS = [coverWealth, coverRealEstate, coverSales, coverMindset, coverMarketing, coverCrypto, coverFitness, coverSpeaking, coverStartup, coverAI, coverBrand, coverInvesting];
@@ -140,8 +141,7 @@ function Index() {
               <div style={{ position:"absolute", top:16, right:16, display:"inline-flex", alignItems:"center", gap:4, padding:"4px 10px", borderRadius:999, fontSize:10, fontWeight:700, letterSpacing:0.6, background:"linear-gradient(135deg, var(--ac-amber), #F5A623)", color:"#1a1208" }}>
                 <Sparkles size={10} strokeWidth={2.5} /> AI INCLUDED
               </div>
-              <div className="rw-logo" style={{ background:"transparent", padding:0, width:"auto", height:32, borderRadius:0, marginBottom:18, justifyContent:"flex-start" }}><img src={advisorsLogo} alt="AdvisorsClub" style={{ height:"100%", width:"auto", objectFit:"contain", display:"block" }} /></div>
-              <div className="rw-name">AdvisorsClub</div>
+              <div className="rw-logo" style={{ background:"transparent", padding:0, width:"auto", height:48, borderRadius:0, marginBottom:14, justifyContent:"flex-start" }}><img src={advisorsLogoDark} alt="AdvisorsClub" style={{ height:"100%", width:"auto", objectFit:"contain", display:"block" }} /></div>
               <div className="rw-sub">One platform. One login. Built-in AI.</div>
               <div className="rw-features">
                 {[
