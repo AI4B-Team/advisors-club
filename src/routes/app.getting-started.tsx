@@ -23,7 +23,7 @@ type Group = { id: string; title: string; icon: React.ReactNode; tasks: Task[] }
 const GROUPS: Group[] = [
   {
     id: "profile",
-    title: "Complete your profile",
+    title: "Complete Your Profile",
     icon: <Users size={16}/>,
     tasks: [
       { id: "p1", label: "Create account", done: true },
