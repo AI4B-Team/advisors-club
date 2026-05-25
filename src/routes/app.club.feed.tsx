@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send } from "lucide-react";
+import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle } from "lucide-react";
 
 export const Route = createFileRoute("/app/club/feed")({
   head: () => ({ meta: [{ title: "Feed — Real Estate Empire" }, { name: "description", content: "Live community feed for your Club members." }] }),
