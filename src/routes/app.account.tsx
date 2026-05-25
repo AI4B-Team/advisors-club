@@ -43,22 +43,23 @@ function Communities() {
     <div className="acct-box">
       <h2>Communities</h2>
       <p className="acct-sub">Drag and drop to reorder, pin to sidebar, or hide.</p>
-      <div className="acct-comm">
-        <span className="acct-comm-av" style={{background:"#F5A623"}}>R</span>
-        <div className="acct-comm-t">
-          <div className="acct-comm-n">Real Estate Empire</div>
-          <div className="acct-comm-m">847 members · Pro</div>
-        </div>
-        <button className="acct-comm-btn">SETTINGS</button>
+      <CommRow color="#F5A623" letter="R" name="Real Estate Empire" meta="847 members · Pro" />
+      <CommRow color="#6366F1" letter="A" name="AIVA Builders" meta="2.1k members · Free" />
+    </div>
+  );
+}
+
+function CommRow({ color, letter, name, meta }: { color: string; letter: string; name: string; meta: string }) {
+  return (
+    <div className="acct-comm">
+      <span className="acct-comm-av" style={{background:color}}>{letter}</span>
+      <div className="acct-comm-t">
+        <div className="acct-comm-n">{name}</div>
+        <div className="acct-comm-m">{meta}</div>
       </div>
-      <div className="acct-comm">
-        <span className="acct-comm-av" style={{background:"#6366F1"}}>A</span>
-        <div className="acct-comm-t">
-          <div className="acct-comm-n">AIVA Builders</div>
-          <div className="acct-comm-m">2.1k members · Free</div>
-        </div>
-        <button className="acct-comm-btn">SETTINGS</button>
-      </div>
+      <button className="acct-comm-btn">SETTINGS</button>
+      <button className="acct-comm-icon" aria-label="Hide"><Eye size={18}/></button>
+      <button className="acct-comm-icon" aria-label="Pin"><Pin size={18}/></button>
     </div>
   );
 }
