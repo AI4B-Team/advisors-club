@@ -681,7 +681,7 @@ function Index() {
 
             <div className="aiva-side">
               <div className="aiva-side-eyebrow">What AIVA does, autonomously</div>
-              <div className="aiva-side-h">One intelligent system.<br />Not ten disconnected widgets.</div>
+              <div className="aiva-side-h">One Intelligent System.<br />Not Ten Disconnected Widgets.</div>
               <div className="aiva-cap-grid">
                 {[
                   { i: <Wand2 size={14} />, l: "Writes content" },
