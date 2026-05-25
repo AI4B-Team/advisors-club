@@ -1059,7 +1059,8 @@
 .cc-sb-item-row .cc-sb-feed,.cc-sb-item-row .cc-sb-pill{flex:1;margin-bottom:0;padding-right:56px}
 .cc-sb-item-l{flex:1}
 .cc-sb-caret,.cc-sb-more{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:6px;border:0;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.cc-sb-caret{right:30px}
+.cc-sb-caret{right:30px;opacity:0;transition:opacity .12s}
+.cc-sb-item-row:hover .cc-sb-caret{opacity:1}
 .cc-sb-more-wrap{position:absolute;right:6px;top:50%;transform:translateY(-50%)}
 .cc-sb-more{position:static;transform:none;opacity:0;transition:opacity .12s}
 .cc-sb-item-row:hover .cc-sb-more{opacity:1}
