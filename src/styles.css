@@ -1023,7 +1023,7 @@
 .gs-res-row > button,.gs-res-row > a{background:transparent;border:0;padding:0;cursor:pointer}
 
 /* ============================ COMMUNITY (CC) SHELL ============================ */
-.cc{display:grid;grid-template-columns:72px 280px 1fr;min-height:100vh;background:#F8F9FB;color:#111827;font-family:var(--font-sans)}
+.cc{display:grid;grid-template-columns:72px 280px 1fr;height:100vh;overflow:hidden;background:#F8F9FB;color:#111827;font-family:var(--font-sans)}
 
 /* Icon rail */
 .cc-rail{background:#fff;border-right:1px solid #E5E7EB;display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 0}
