@@ -1246,10 +1246,8 @@
 .cc-sb-switcher { cursor: pointer; }
 .cc-sb-switch-menu {
   position: absolute;
-  left: 12px;
-  right: auto;
-  width: calc(100vw - 24px);
-  max-width: 360px;
+  left: 8px;
+  right: 8px;
   top: calc(100% + 4px);
   background: #fff;
   border: 1px solid #E5E7EB;
@@ -1261,6 +1259,19 @@
   flex-direction: column;
   gap: 2px;
 }
+.cc-sb-switch-search {
+  display:flex; align-items:center; gap:8px;
+  background:#F3F4F6; border:1px solid #E5E7EB; border-radius:8px;
+  padding:6px 10px; margin-bottom:4px;
+}
+.cc-sb-switch-search input {
+  border:0; outline:0; background:transparent; flex:1;
+  font-size:14px; color:#111827; min-width:0;
+}
+.cc-sb-switch-sep { height:1px; background:#F3F4F6; margin:6px 0; }
+.cc-sb-switch-check { margin-left:auto; color:#10B981; font-weight:700; }
+.cc-sb-switch-l { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cc-sb-switch-dot.ghost { background:#F3F4F6; color:#374151; }
 .cc-sb-switch-head {
   font-size: 11px;
   font-weight: 700;
