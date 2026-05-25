@@ -65,7 +65,7 @@ function SignupPage() {
             <>
               <h1>Name your Club.</h1>
               <p className="lt-auth-sub">You can change this later in settings.</p>
-              <form onSubmit={e => { e.preventDefault(); nav({ to: "/app/dashboard" }); }}>
+              <form onSubmit={e => { e.preventDefault(); nav({ to: "/app/getting-started" }); }}>
                 <div className="lt-field">
                   <label>Club name</label>
                   <input required placeholder="Real Estate Empire" />

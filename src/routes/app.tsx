@@ -40,6 +40,7 @@ function Sidebar() {
 
       <nav className="lt-sb-nav">
         <div className="lt-sb-group">Main</div>
+        <Link to="/app/getting-started" className="lt-sb-item"><Sparkles size={16}/> Getting started <span className="lt-sb-badge">NEW</span></Link>
         <Link to="/app/dashboard" className="lt-sb-item" activeOptions={{exact:false}}><LayoutDashboard size={16}/> Community</Link>
         <Link to="/app/club/feed" className="lt-sb-item"><MessageSquare size={16}/> Club Feed</Link>
 
