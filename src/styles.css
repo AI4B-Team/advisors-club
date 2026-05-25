@@ -1384,3 +1384,70 @@
 }
 .cc-composer-target b { color: #111827; font-weight: 700; }
 .cc-composer-send { border-radius: 8px !important; }
+
+/* ============ AIVA CTA + Glow ============ */
+.aiva-cta{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#06B6D4);color:#fff;font-weight:700;font-size:13px;text-decoration:none;border:0;cursor:pointer;box-shadow:0 6px 20px -6px rgba(124,58,237,.55);transition:transform .15s, box-shadow .2s}
+.aiva-cta:hover{transform:translateY(-1px);box-shadow:0 10px 26px -6px rgba(124,58,237,.7)}
+
+/* AIVA generator panel */
+.aiva-panel{position:relative;border-radius:18px;padding:1px;background:linear-gradient(135deg,#7C3AED,#06B6D4,#EC4899);margin-bottom:24px;overflow:hidden}
+.aiva-panel-glow{position:absolute;inset:-40%;background:radial-gradient(circle at 30% 30%,rgba(124,58,237,.35),transparent 60%),radial-gradient(circle at 70% 70%,rgba(6,182,212,.3),transparent 60%);filter:blur(40px);pointer-events:none;animation:aivaGlow 8s ease-in-out infinite}
+@keyframes aivaGlow{0%,100%{transform:translate(0,0)}50%{transform:translate(10px,-10px)}}
+.aiva-panel-inner{position:relative;background:#0F0B1F;border-radius:17px;padding:20px 22px;color:#fff}
+.aiva-panel-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.aiva-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,0.1);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,0.15)}
+.aiva-panel-sub{font-size:13px;color:rgba(255,255,255,0.7);flex:1;min-width:200px}
+.aiva-prompt-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:6px 6px 6px 14px}
+.aiva-prompt-i{color:rgba(255,255,255,0.6);flex-shrink:0}
+.aiva-prompt{flex:1;background:transparent;border:0;outline:0;color:#fff;font-size:14px;padding:10px 0;min-width:0}
+.aiva-prompt::placeholder{color:rgba(255,255,255,0.45)}
+.aiva-prompt-go{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:9px;background:linear-gradient(135deg,#7C3AED,#06B6D4);color:#fff;font-weight:700;font-size:13px;border:0;cursor:pointer;white-space:nowrap}
+.aiva-prompt-go:hover{filter:brightness(1.1)}
+.aiva-prompt-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.aiva-prompt-chip{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:12px;padding:6px 10px;border-radius:999px;cursor:pointer;transition:background .15s}
+.aiva-prompt-chip:hover{background:rgba(255,255,255,0.12)}
+
+/* Section heads */
+.lt-section-head{display:flex;align-items:baseline;justify-content:space-between;margin:8px 0 14px;flex-wrap:wrap;gap:8px}
+.lt-section-head h2{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--ink,#111827)}
+.lt-section-sub{font-size:12px;color:#9CA3AF}
+
+/* Course cards */
+.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.course-card{background:#fff;border:1px solid var(--line,#E5E7EB);border-radius:14px;overflow:hidden;transition:transform .15s, box-shadow .2s;cursor:pointer}
+.course-card:hover{transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(0,0,0,.15)}
+.course-thumb{position:relative;aspect-ratio:16/9;display:flex;align-items:flex-start;justify-content:space-between;padding:12px}
+.course-tag{background:rgba(0,0,0,0.55);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;backdrop-filter:blur(8px)}
+.course-play{margin-left:auto;align-self:flex-end;width:38px;height:38px;border-radius:999px;background:#fff;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.course-body{padding:14px 16px 16px}
+.course-body h3{font-size:15px;font-weight:700;margin-bottom:8px;color:#111827;line-height:1.3}
+.course-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:#6B7280;margin-bottom:10px}
+.course-meta span{display:inline-flex;align-items:center;gap:4px}
+.course-progress{height:6px;background:#F3F4F6;border-radius:999px;overflow:hidden}
+.course-progress-bar{height:100%;background:linear-gradient(90deg,#7C3AED,#06B6D4);border-radius:999px;transition:width .3s}
+.course-progress-l{font-size:11px;color:#6B7280;margin-top:6px;font-weight:500}
+
+/* AIVA capabilities grid */
+.aiva-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.aiva-feature{display:flex;gap:12px;background:#fff;border:1px solid var(--line,#E5E7EB);border-radius:12px;padding:14px}
+.aiva-feature-i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#7C3AED,#06B6D4);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.aiva-feature-t{font-size:13.5px;font-weight:700;color:#111827;margin-bottom:2px}
+.aiva-feature-d{font-size:12.5px;color:#6B7280;line-height:1.4}
+
+/* ============ Sidebar AIVA special treatment ============ */
+.cc-sb-item-aiva{position:relative;margin-top:6px}
+.cc-sb-item-aiva .cc-sb-feed{background:linear-gradient(135deg,rgba(124,58,237,0.10),rgba(6,182,212,0.10));border:1px solid rgba(124,58,237,0.18);position:relative;overflow:hidden}
+.cc-sb-item-aiva .cc-sb-feed::before{content:"";position:absolute;inset:-2px;background:linear-gradient(135deg,#7C3AED,#06B6D4);opacity:0;border-radius:inherit;z-index:-1;filter:blur(8px);transition:opacity .2s}
+.cc-sb-item-aiva .cc-sb-feed:hover::before{opacity:.4}
+.cc-sb-item-aiva .cc-sb-feed{color:#5B21B6}
+.cc-sb-item-aiva .cc-sb-feed svg{color:#7C3AED}
+.cc-sb-item-aiva .cc-sb-feed.on{background:linear-gradient(135deg,#7C3AED,#06B6D4);color:#fff;border-color:transparent}
+.cc-sb-item-aiva .cc-sb-feed.on svg{color:#fff}
+.cc-sb-badge-new{margin-left:auto;font-size:9px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:4px;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;animation:aivaPulse 2.4s ease-in-out infinite}
+@keyframes aivaPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)}50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}}
+
+/* Start Live elevated */
+.cc-sb-live{position:relative;background:linear-gradient(135deg,#DC2626,#EC4899);box-shadow:0 8px 24px -8px rgba(220,38,38,.6)}
+.cc-sb-live:hover{background:linear-gradient(135deg,#B91C1C,#DB2777);transform:translateY(-1px)}
+.cc-sb-live-dot{width:8px;height:8px;border-radius:999px;background:#fff;animation:livePulse 1.4s ease-in-out infinite}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.7);opacity:1}50%{box-shadow:0 0 0 6px rgba(255,255,255,0);opacity:.7}}

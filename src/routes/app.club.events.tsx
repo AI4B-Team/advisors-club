@@ -8,8 +8,10 @@ export const Route = createFileRoute("/app/club/events")({
     <ClubStub
       icon={<Calendar size={26}/>}
       title="Events"
+      noun="event"
       blurb="Event cards with RSVP, countdown timers, live Mux video rooms, recorded replays, and attendee avatar stacks."
       features={["Event cards","RSVP","Countdown timer","Live Mux room","Recording replays","Attendee avatars"]}
+      aivaPrompts={["Plan a 3-part live webinar series","Schedule a monthly Q&A","Turn my last recording into an event"]}
     />
   ),
 });

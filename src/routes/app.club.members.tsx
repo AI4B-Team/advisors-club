@@ -8,8 +8,10 @@ export const Route = createFileRoute("/app/club/members")({
     <ClubStub
       icon={<Users size={26}/>}
       title="Members"
+      noun="member"
       blurb="Sortable member table, detail slide-out, level & badge display, direct messaging, CSV export, and bulk actions."
       features={["Sortable table","Detail slide-out","Levels & badges","Direct message","CSV export","Bulk actions"]}
+      aivaPrompts={["Draft a welcome DM sequence","Segment my most engaged members","Write a re-engagement message"]}
     />
   ),
 });
