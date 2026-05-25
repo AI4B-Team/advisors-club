@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, Plus, BookOpen, Calendar, Flame, BarChart3, MessageSquare, Eye, Pin } from "lucide-react";
+import { Eye, Pin, RefreshCw } from "lucide-react";
+import heroImg from "@/assets/account-hero.jpg";
 
 export const Route = createFileRoute("/app/account")({
   head: () => ({
@@ -64,79 +65,78 @@ function CommRow({ color, letter, name, meta }: { color: string; letter: string;
   );
 }
 
-const BARS = [12,18,14,22,28,20,26,30,24,32,28,36,30,40,34,42,38,46,40,52,44,58,48,62,56,68,60,82,76,90];
+const COUNTING = [40,32,55,46,38,95,52,48,58,44,62,50];
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const ACTIVITY = [
+  { range: "18:00 - 19:00", pct: 78 },
+  { range: "19:00 - 20:00", pct: 52 },
+  { range: "14:00 - 15:00", pct: 64 },
+  { range: "18:00 - 21:00", pct: 28 },
+];
 
 function AccountOverview() {
   return (
-    <>
-      <div className="lt-ph">
-        <div>
-          <h1>Good morning, Zaddy.</h1>
-          <p>Here's what's happening in your Club today.</p>
-        </div>
-        <Link to="/app/aiva" className="btn-amber"><Sparkles size={15} strokeWidth={2.5}/> Ask AIVA</Link>
-      </div>
-
-      <div className="lt-stats">
-        <Stat l="Monthly Revenue" v="$4,230" d="+18% vs last mo" />
-        <Stat l="Members" v="847" d="+24 this week" />
-        <Stat l="Completions" v="143" d="+12% vs last mo" />
-        <Stat l="Engagement" v="72%" d="+4% this week" />
-      </div>
-
-      <div className="lt-aiva-strip">
-        <div className="lt-aiva-strip-i"><Sparkles size={18}/></div>
-        <div>
-          <div style={{fontSize:13,fontWeight:700,color:"#0F0F12"}}>AIVA worked for you today</div>
-          <div style={{fontSize:12,color:"#737380"}}>Last 24 hours</div>
-        </div>
-        <div className="lt-aiva-mini"><b>14</b><span>Questions answered</span></div>
-        <div className="lt-aiva-mini"><b>3</b><span>Posts drafted</span></div>
-        <div className="lt-aiva-mini"><b>1</b><span>Course outline built</span></div>
-        <Link to="/app/aiva" style={{marginLeft:"auto",fontSize:13,fontWeight:700,color:"#E89610"}}>Open AIVA →</Link>
-      </div>
-
-      <div className="lt-grid-2">
-        <div className="lt-panel">
-          <div className="lt-panel-h"><h3>Revenue — last 30 days</h3><Link to="/app/club/analytics">Analytics</Link></div>
-          <div className="lt-chart-bars">
-            {BARS.map((b, i) => (<div key={i} className={`lt-chart-bar ${i>=BARS.length-3?"hot":""}`} style={{height:`${b}%`}}/>))}
+    <div className="sh">
+      <div className="sh-row">
+        <div className="sh-welcome">
+          <div className="sh-welcome-t">
+            <div className="sh-date">January 15, 2026</div>
+            <h2>Welcome Back, Zaddy</h2>
+            <h1>Ready to set up your club's <span>Loyalty Card?</span></h1>
+            <button className="sh-set-up">Set Up</button>
           </div>
-          <div className="lt-chart-foot">
-            <div>
-              <div style={{fontSize:11,color:"#737380",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em"}}>MRR</div>
-              <div className="lt-chart-mrr">$4,230</div>
-            </div>
-            <div className="lt-chart-delta">▲ $640 vs last 30d</div>
-          </div>
+          <img src={heroImg} alt="Workspace illustration" width={448} height={256} loading="lazy" className="sh-welcome-img"/>
         </div>
-        <div className="lt-panel">
-          <div className="lt-panel-h"><h3>Top members</h3><Link to="/app/club/members">View all</Link></div>
-          {[["Marcus King","Level 4",2840],["Priya Shah","Level 3",2210],["Devon Liu","Level 5",1980],["Tasha Reyes","Level 3",1640],["Aisha Quinn","Level 4",1420]].map(([n,l,p], i) => (
-            <div key={i} className="lt-member-row">
-              <div className="lt-member-rank">{i+1}</div>
-              <span className="lt-avatar">{String(n).split(" ").map(s=>s[0]).join("")}</span>
-              <div className="lt-member-body">
-                <div className="lt-member-name">{n}</div>
-                <div className="lt-member-lvl">{l}</div>
-              </div>
-              <div className="lt-member-pts">{p} pts</div>
+        <div className="sh-activity">
+          <h3>Member Activity</h3>
+          {ACTIVITY.map(a => (
+            <div key={a.range} className="sh-act-row">
+              <span className="sh-act-l">{a.range}</span>
+              <div className="sh-act-bar"><span style={{width:`${a.pct}%`}}/></div>
+              <span className="sh-act-pct">{a.pct}%</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{marginTop:22}}>
-        <div className="lt-row-title" style={{color:"#737380"}}>Quick actions</div>
-        <div className="lt-quick">
-          <QAction i={<Plus size={18}/>} l="New Post" />
-          <QAction i={<BookOpen size={18}/>} l="Build Course with AIVA" hot />
-          <QAction i={<Calendar size={18}/>} l="Add Event" />
-          <QAction i={<Flame size={18}/>} l="Start Challenge" />
-          <QAction i={<BarChart3 size={18}/>} l="Analytics" />
+      <div className="sh-stats">
+        <ShStat label="Current Members" value="5,890" delta="+1,040 (15.30%)" />
+        <ShStat label="New Members" value="2,000" delta="+325 (8.50%)" />
+        <ShStat label="Today Visitor" value="500" delta="+155 (6.20%)" />
+      </div>
+
+      <div className="sh-row sh-row-2">
+        <div className="sh-counting">
+          <div className="sh-counting-h">
+            <h3>Member Counting</h3>
+            <button className="sh-pill">Monthly ▾</button>
+          </div>
+          <div className="sh-chart">
+            {COUNTING.map((v,i)=>(
+              <div key={i} className="sh-bar-wrap">
+                <div className={`sh-bar${i===5?" on":""}`} style={{height:`${v}%`}}/>
+                <span>{MONTHS[i]}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="sh-ring">
+          <div className="sh-ring-vis" style={{["--pct" as string]:"85%"}}>
+            <div className="sh-ring-c"><b>85%</b><span>Good Condition Equipment</span></div>
+          </div>
         </div>
       </div>
-    </>
+    </div>
+  );
+}
+
+function ShStat({ label, value, delta }: { label: string; value: string; delta: string }) {
+  return (
+    <div className="sh-stat">
+      <div className="sh-stat-h"><span>{label}</span><RefreshCw size={14}/></div>
+      <div className="sh-stat-v">{value}</div>
+      <div className="sh-stat-d">{delta}</div>
+    </div>
   );
 }
 
@@ -149,20 +149,3 @@ function Empty({ label }: { label: string }) {
   );
 }
 
-function Stat({ l, v, d }: { l: string; v: string; d: string }) {
-  return (
-    <div className="lt-stat">
-      <div className="lt-stat-l">{l}</div>
-      <div className="lt-stat-v">{v}</div>
-      <div className="lt-stat-d">{d}</div>
-    </div>
-  );
-}
-function QAction({ i, l, hot = false }: { i: React.ReactNode; l: string; hot?: boolean }) {
-  return (
-    <button className={`lt-quick-btn ${hot?"hot":""}`}>
-      <span className="lt-quick-i">{i}</span>
-      <span className="lt-quick-l">{l}</span>
-    </button>
-  );
-}
