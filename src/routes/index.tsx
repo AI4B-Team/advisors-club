@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import heroBg from "@/assets/hero-netflix.jpg";
+import advisorsLogo from "@/assets/advisorsclub-logo.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -214,9 +215,8 @@ const tickerItems = [
 
 function Logo() {
   return (
-    <a href="#" className="nav-logo">
-      <span className="logo-mark">A</span>
-      <span>AdvisorsClub</span>
+    <a href="#" className="nav-logo" aria-label="AdvisorsClub">
+      <img src={advisorsLogo} alt="AdvisorsClub" className="logo-img" />
     </a>
   );
 }
