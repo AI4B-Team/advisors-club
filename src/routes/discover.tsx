@@ -77,12 +77,7 @@ function DiscoverPage() {
               </button>
             ))}
             <button
-              className={`dc-pill ${cat==="Happiness"?"on":""}`}
-              onClick={() => setCat(cat==="Happiness" ? "All" : "Happiness")}
-            >
-              Happiness
-            </button>
-            <button
+
               className={`dc-pill dc-filter ${filterOpen?"on":""}`}
               onClick={() => setFilterOpen(v => !v)}
             >
