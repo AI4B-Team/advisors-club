@@ -153,6 +153,12 @@ function CommunitySidebar() {
         <MessageSquare size={16}/> Community
       </Link>
 
+      {MAIN_LINKS.map(it => (
+        <Link key={it.to} to={it.to} className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
+          <span className="cc-sb-row-emoji">{it.icon}</span> {it.label}
+        </Link>
+      ))}
+
       {SPACES.map(group => (
         <div key={group.title} className="cc-sb-group">
           <div className="cc-sb-group-t">{group.title}</div>
