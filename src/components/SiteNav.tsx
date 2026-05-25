@@ -20,7 +20,7 @@ export function SiteNav({ discoverSearch }: Props) {
             className="nav-logo"
             aria-label="AdvisorsClub — Home"
             onClick={() => {
-              if (typeof window !== "undefined" && window.location.pathname === "/") {
+              if (typeof window !== "undefined" && window.location.pathname === "/landing") {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
