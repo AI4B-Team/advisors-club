@@ -215,36 +215,8 @@ function CommunitySidebar() {
         )}
       </div>
 
-      <Link to="/app" activeOptions={{ exact: true }} className="cc-sb-pill" activeProps={{className:"cc-sb-pill on"}}>
-        <span className="cc-sb-pill-i"><Home size={15}/></span>
-        Home
-      </Link>
-
-      <Link to="/app/dashboard" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
-        <Rocket size={16}/> Getting Started
-      </Link>
-
-      <Link to="/app/club/feed" className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
-        <MessageSquare size={16}/> Community
-      </Link>
-
-      {MAIN_LINKS.map(it => (
-        <Link key={it.to} to={it.to} className="cc-sb-feed" activeProps={{className:"cc-sb-feed on"}}>
-          <span className="cc-sb-row-emoji">{it.icon}</span> {it.label}
-        </Link>
-      ))}
-
-      {SPACES.map(group => (
-        <div key={group.title} className="cc-sb-group">
-          <div className="cc-sb-group-t">{group.title}</div>
-          {group.items.map(it => (
-            <Link key={it.label+it.to} to={it.to} className="cc-sb-row" activeProps={{className:"cc-sb-row on"}}>
-              <span className="cc-sb-row-emoji">{it.icon}</span>
-              <span className="cc-sb-row-l">{it.label}</span>
-              {it.count != null && <span className="cc-sb-row-c">{it.count}</span>}
-            </Link>
-          ))}
-        </div>
+      {TOP_LINKS.map(link => (
+        <SidebarTopLink key={link.label} link={link} />
       ))}
 
       <div className="cc-sb-foot">
