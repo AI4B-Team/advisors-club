@@ -58,14 +58,18 @@ function AccountPage() {
     <div className="acct-wrap">
       <div className="acct">
         <aside className="acct-nav">
-          {TABS.map(t => {
-            const Icon = t.icon;
-            return (
-              <button key={t.id} className={`acct-tab${tab===t.id?" on":""}`} onClick={()=>setTab(t.id)}>
-                <Icon size={18}/> <span>{t.id}</span>
-              </button>
-            );
-          })}
+          {TAB_GROUPS.map((g, gi) => (
+            <div key={gi} className={`acct-nav-group${gi>0?" acct-nav-group-sep":""}`}>
+              {g.items.map(t => {
+                const Icon = t.icon;
+                return (
+                  <button key={t.id} className={`acct-tab${tab===t.id?" on":""}`} onClick={()=>setTab(t.id)}>
+                    <Icon size={18}/> <span>{t.id}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </aside>
         <section className="acct-panel">
           {tab === "Clubs" && <Communities/>}
