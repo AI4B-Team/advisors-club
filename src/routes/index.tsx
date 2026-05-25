@@ -72,7 +72,7 @@ function Index() {
           <div className="hero-badge"><span className="bdot" />The Platform Built for Expert Advisors</div>
           <h1><span style={{whiteSpace:"nowrap"}}>Build Your Community.</span><br /><span className="gold" style={{whiteSpace:"nowrap"}}>Automate Your Business.</span></h1>
           <p className="hero-sub">
-            <span style={{whiteSpace:"nowrap"}}>Community, courses, content, coaching, and AI automation —</span><br />
+            <span style={{whiteSpace:"nowrap"}}>Community, courses, content, coaching, and AI automation</span><br />
             <span style={{whiteSpace:"nowrap"}}>all in one platform built to scale modern creator businesses.</span>
           </p>
           <div className="optin">
