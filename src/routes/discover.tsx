@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, Star, ArrowRight, Lock } from "lucide-react";
+import { Star, ArrowRight } from "lucide-react";
 import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
+import { SiteNav } from "@/components/SiteNav";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({
@@ -44,20 +45,17 @@ function DiscoverPage() {
 
   return (
     <div className="lt">
-      <Nav />
-      <section className="lt-hero">
+      <SiteNav discoverSearch={{ value: q, onChange: setQ }} />
+      <section className="lt-hero" style={{ paddingTop: 110 }}>
         <h1>Find an Advisor Club <br/>worth joining.</h1>
         <p>Browse {CLUBS.length} expert-led Clubs across business, fitness, AI, finance and more — built by operators who actually do the work.</p>
-        <div className="lt-search-lg">
-          <Search size={20} strokeWidth={2} />
-          <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search clubs, topics, advisors..." />
-        </div>
         <div className="lt-quickpills">
           {["Real Estate","AI & Tech","Fitness","Finance","Marketing"].map(t => (
             <button key={t} className={`pill ${cat===t?"on":""}`} onClick={() => setCat(cat===t?"All":t)}>{t}</button>
           ))}
         </div>
       </section>
+
 
       <div className="lt-container">
         {!isFiltering && (
@@ -103,23 +101,7 @@ function DiscoverPage() {
   );
 }
 
-function Nav() {
-  return (
-    <header className="lt-nav">
-      <div className="lt-nav-in">
-        <Link to="/" className="lt-nav-logo">Advisors<span>Club</span></Link>
-        <div className="lt-nav-search">
-          <Search size={16} strokeWidth={2} />
-          <input placeholder="Search Clubs..." />
-        </div>
-        <div className="lt-nav-right">
-          <Link to="/login" className="lt-nav-link">Login</Link>
-          <Link to="/signup" className="btn-amber">Start For Free <ArrowRight size={14} strokeWidth={3} /></Link>
-        </div>
-      </div>
-    </header>
-  );
-}
+
 
 function ClubCard({ c, large = false }: { c: Club; large?: boolean }) {
   return (
