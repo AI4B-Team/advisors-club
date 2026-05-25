@@ -255,33 +255,101 @@ function Index() {
               <div className="wdot wd1" /><div className="wdot wd2" /><div className="wdot wd3" />
               <span style={{ fontSize: 11, color: "var(--ac-amber)", marginLeft: 8, fontWeight: 700, display:"inline-flex", alignItems:"center", gap:4 }}><Sparkles size={11} />Content Studio</span>
             </div>
-            <div style={{ padding: 18 }}>
-              <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
-                {[{l:"Posts",a:true},{l:"Emails"},{l:"Sales Copy"},{l:"Newsletters"}].map((t)=>(
-                  <div key={t.l} style={{ padding:"5px 12px", borderRadius:50, fontSize:10, fontWeight:700, background: t.a?"rgba(245,166,35,0.12)":"var(--ac-bg3)", border: `1px solid ${t.a?"rgba(245,166,35,0.3)":"var(--ac-border)"}`, color: t.a?"var(--ac-amber)":"var(--ac-muted)" }}>{t.l}</div>
-                ))}
-              </div>
-              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:12, padding:14, marginBottom:10 }}>
-                <div style={{ fontSize:10, fontWeight:800, color:"var(--ac-amber)", textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:8, display:"inline-flex", alignItems:"center", gap:5 }}><Bot size={11} />AIVA is writing…</div>
-                <div style={{ fontSize:12, color:"rgba(255,255,255,0.8)", lineHeight:1.6 }}>
-                  <strong>This Week in Real Estate</strong><br /><br />
-                  The market shifted again — savvy investors are already moving. Here's what you need to know:<br /><br />
-                  <span style={{ color:"var(--ac-amber)" }}>→</span> Motivated sellers up 18% in Phoenix…<br />
-                  <span style={{ color:"var(--ac-amber)" }}>→</span> The deal formula that closed 3 wholesales…<br />
-                  <span style={{ color:"rgba(255,255,255,0.4)" }}>█████████ generating…</span>
+            <div style={{ padding: 18, background:"#FFFFFF" }}>
+              {/* Brand voice + stats strip */}
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:14, padding:"10px 12px", borderRadius:10, background:"linear-gradient(135deg, rgba(245,166,35,0.08), rgba(245,166,35,0.02))", border:"1px solid rgba(245,166,35,0.25)" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                  <div style={{ width:24, height:24, borderRadius:"50%", background:"linear-gradient(135deg,var(--ac-amber),#F5A623)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                    <Sparkles size={12} color="#1A1208" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize:11, fontWeight:800, color:"#0F0F14", lineHeight:1.1 }}>Brand voice trained</div>
+                    <div style={{ fontSize:9, color:"#6B6B75" }}>Confident · Direct · Educational</div>
+                  </div>
+                </div>
+                <div style={{ display:"flex", gap:12 }}>
+                  <div style={{ textAlign:"right" }}>
+                    <div style={{ fontSize:13, fontWeight:900, color:"#0F0F14", lineHeight:1 }}>47</div>
+                    <div style={{ fontSize:8, color:"#6B6B75", textTransform:"uppercase", letterSpacing:"0.05em" }}>This wk</div>
+                  </div>
+                  <div style={{ width:1, background:"rgba(0,0,0,0.08)" }} />
+                  <div style={{ textAlign:"right" }}>
+                    <div style={{ fontSize:13, fontWeight:900, color:"#16A34A", lineHeight:1 }}>+28%</div>
+                    <div style={{ fontSize:8, color:"#6B6B75", textTransform:"uppercase", letterSpacing:"0.05em" }}>Engagement</div>
+                  </div>
                 </div>
               </div>
-              <div style={{ background:"var(--ac-bg3)", border:"1px solid var(--ac-border)", borderRadius:10, padding:12 }}>
-                <div style={{ fontSize:10, fontWeight:700, color:"var(--ac-muted)", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}><Calendar size={11} />This Week's Content Schedule</div>
+
+              {/* Tabs */}
+              <div style={{ display: "flex", gap: 6, marginBottom: 12, flexWrap: "wrap" }}>
+                {[{l:"Posts",a:true},{l:"Emails"},{l:"Sales Copy"},{l:"Newsletters"},{l:"Reels"}].map((t)=>(
+                  <div key={t.l} style={{ padding:"5px 12px", borderRadius:50, fontSize:10, fontWeight:700, background: t.a?"#0F0F14":"#F4F1EC", border: `1px solid ${t.a?"#0F0F14":"rgba(0,0,0,0.06)"}`, color: t.a?"#FFFFFF":"#6B6B75" }}>{t.l}</div>
+                ))}
+              </div>
+
+              {/* AIVA writing card */}
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:12, padding:14, marginBottom:10, boxShadow:"0 1px 2px rgba(0,0,0,0.03)" }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+                  <div style={{ fontSize:10, fontWeight:800, color:"var(--ac-amber)", textTransform:"uppercase", letterSpacing:"0.1em", display:"inline-flex", alignItems:"center", gap:5 }}>
+                    <Bot size={11} />AIVA is writing…
+                  </div>
+                  <div style={{ display:"inline-flex", alignItems:"center", gap:4, fontSize:9, color:"#6B6B75", fontWeight:600 }}>
+                    <span style={{ width:6, height:6, borderRadius:"50%", background:"#22C55E", boxShadow:"0 0 0 3px rgba(34,197,94,0.18)" }} />
+                    Live · 2,847 tokens
+                  </div>
+                </div>
+                <div style={{ fontSize:12, color:"#1F1F26", lineHeight:1.6 }}>
+                  <strong style={{ color:"#0F0F14" }}>This Week in Real Estate</strong><br /><br />
+                  The market shifted again — savvy investors are already moving. Here's what you need to know:<br /><br />
+                  <span style={{ color:"var(--ac-amber)", fontWeight:700 }}>→</span> Motivated sellers up 18% in Phoenix<br />
+                  <span style={{ color:"var(--ac-amber)", fontWeight:700 }}>→</span> The deal formula that closed 3 wholesales<br />
+                  <span style={{ color:"var(--ac-amber)", fontWeight:700 }}>→</span> Why mortgage rates favor cash buyers right…
+                </div>
+                <div style={{ marginTop:10, height:3, background:"rgba(0,0,0,0.06)", borderRadius:999, overflow:"hidden" }}>
+                  <div style={{ height:"100%", width:"72%", background:"linear-gradient(90deg, var(--ac-amber), #F5A623)", borderRadius:999 }} />
+                </div>
+              </div>
+
+              {/* Multi-channel distribution */}
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:10, padding:12, marginBottom:10 }}>
+                <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}>
+                  <Send size={11} />Auto-distribute to
+                </div>
+                <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+                  {[
+                    { l:"Club Feed", on:true },
+                    { l:"Email · 12.4k", on:true },
+                    { l:"Instagram", on:true },
+                    { l:"LinkedIn", on:false },
+                    { l:"YouTube", on:false },
+                  ].map((c)=>(
+                    <div key={c.l} style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"5px 9px", borderRadius:6, fontSize:10, fontWeight:600, background: c.on?"rgba(34,197,94,0.08)":"#FFFFFF", border:`1px solid ${c.on?"rgba(34,197,94,0.25)":"rgba(0,0,0,0.08)"}`, color: c.on?"#16A34A":"#9A9AA3" }}>
+                      <span style={{ width:5, height:5, borderRadius:"50%", background: c.on?"#22C55E":"#D1D1D6" }} />
+                      {c.l}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Schedule */}
+              <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:10, padding:12 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+                  <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}>
+                    <Calendar size={11} />This Week's Schedule
+                  </div>
+                  <div style={{ fontSize:9, color:"var(--ac-amber)", fontWeight:700 }}>5 scheduled</div>
+                </div>
                 <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
                   {[
-                    { d:"MON", t:"Club feed post — Market update", dot:"#4ADE80" },
-                    { d:"WED", t:"Email newsletter — Deal of the week", dot:"#4ADE80" },
-                    { d:"FRI", t:"Announcement — New module drop", dot:"rgba(245,166,35,0.5)" },
+                    { d:"MON", t:"Club feed post — Market update", k:"Post", dot:"#22C55E" },
+                    { d:"WED", t:"Email newsletter — Deal of the week", k:"Email", dot:"#22C55E" },
+                    { d:"THU", t:"Reel — 60s market hot-take", k:"Reel", dot:"#22C55E" },
+                    { d:"FRI", t:"Announcement — New module drop", k:"Post", dot:"rgba(245,166,35,0.6)" },
                   ].map(r=>(
                     <div key={r.d} style={{ display:"flex", alignItems:"center", gap:8, fontSize:11 }}>
-                      <div style={{ width:36, fontWeight:700, color:"var(--ac-amber)" }}>{r.d}</div>
-                      <div style={{ flex:1, color:"rgba(255,255,255,0.7)" }}>{r.t}</div>
+                      <div style={{ width:34, fontWeight:800, color:"var(--ac-amber)", fontSize:10 }}>{r.d}</div>
+                      <div style={{ flex:1, color:"#1F1F26" }}>{r.t}</div>
+                      <div style={{ fontSize:8, fontWeight:700, color:"#6B6B75", padding:"2px 6px", borderRadius:4, background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)", textTransform:"uppercase", letterSpacing:"0.05em" }}>{r.k}</div>
                       <div style={{ width:6, height:6, borderRadius:"50%", background:r.dot }} />
                     </div>
                   ))}
