@@ -516,7 +516,7 @@
 .lt-auth-left form{width:100%;text-align:left}
 .lt-auth-left h1{text-align:center}
 .lt-auth-logo{display:inline-flex;margin-bottom:40px}
-.lt-auth-logo img{height:36px;width:auto;display:block}
+.lt-auth-logo img{height:72px;width:auto;display:block}
 
 .lt-auth h1{font-size:32px;margin-bottom:8px}
 .lt-auth-sub{color:var(--muted);font-size:15px;margin-bottom:32px}
