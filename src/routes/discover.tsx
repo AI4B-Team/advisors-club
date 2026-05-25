@@ -52,7 +52,7 @@ function DiscoverPage() {
 
       <section className="dc-min">
         <div className="dc-min-inner">
-          <h1 style={{whiteSpace:"nowrap"}}>Find A Club Worth Joining.</h1>
+          <h1 style={{whiteSpace:"nowrap"}}>Find A Club Worth Joining</h1>
           <p className="dc-min-sub">or <a href="/signup" className="dc-min-link">create your own</a></p>
 
           <div className="dc-min-search">
