@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles, Plus, BookOpen, Calendar, Flame, BarChart3, MessageSquare } from "lucide-react";
+import { Sparkles, Plus, BookOpen, Calendar, Flame, BarChart3, MessageSquare, Eye, Pin } from "lucide-react";
 
 export const Route = createFileRoute("/app/account")({
   head: () => ({
