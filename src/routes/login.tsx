@@ -27,7 +27,7 @@ function LoginPage() {
     <div className="lt">
       <div className="lt-auth">
         <div className="lt-auth-left">
-          <Link to="/" className="lt-auth-logo">Advisors<span>Club</span></Link>
+          <Link to="/landing" className="lt-auth-logo">Advisors<span>Club</span></Link>
           <h1>Welcome back.</h1>
           <p className="lt-auth-sub">Log in to run your Club and check in with your members.</p>
           <form onSubmit={onSubmit}>

@@ -16,7 +16,7 @@ export function SiteNav({ discoverSearch }: Props) {
       <nav>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flex: discoverSearch ? 1 : "0 0 auto" }}>
           <Link
-            to="/"
+            to="/landing"
             className="nav-logo"
             aria-label="AdvisorsClub — Home"
             onClick={() => {
