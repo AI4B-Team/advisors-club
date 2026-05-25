@@ -64,14 +64,15 @@ function LoginPage() {
 function RightPanel() {
   return (
     <div className="lt-auth-right">
-      <h2>Built for advisors who actually do the work.</h2>
+      <h2>Built for creators who want more than followers.</h2>
       <p style={{color:"rgba(255,255,255,0.7)"}}>Everything you need to run a paid Club — in one tool.</p>
       <div style={{display:"flex",flexDirection:"column",gap:18,marginTop:10}}>
         <Prop i={<Sparkles size={16}/>} t="AIVA writes your content" d="Posts, emails & course outlines in seconds." />
         <Prop i={<Users size={16}/>} t="Members, not followers" d="Tiered access, paid coaching, real community." />
         <Prop i={<Zap size={16}/>} t="Replace 7+ tools" d="One subscription instead of $847/mo of SaaS." />
-        <Prop i={<MessageSquare size={16}/>} t="Live & async coaching" d="Calls, hot-seats, milestones — built in." />
+        <Prop i={<MessageSquare size={16}/>} t="Live coaching, built in" d="Calls, hot-seats & workshops — natively." />
         <Prop i={<Shield size={16}/>} t="Your brand, your domain" d="Full white-label. Bring your CNAME." />
+
       </div>
       <div className="lt-testimonial">
         <p>“I cancelled Skool, Calendly, Kajabi, and Mailchimp the week I switched. My Club runs on autopilot now.”</p>
