@@ -114,7 +114,7 @@ function CommunitySidebar() {
             <div className="cc-sb-switch-search">
               <Search size={14}/>
               <input
-                placeholder="Search communities"
+                placeholder="Search clubs"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 autoFocus
