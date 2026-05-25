@@ -70,7 +70,24 @@ export function SiteNav({ discoverSearch }: Props) {
           <Link to="/login" style={{ color: "#fff", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
             Login
           </Link>
-          <Link to="/signup" className="nav-btn">
+          <Link
+            to="/signup"
+            className="nav-btn"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              whiteSpace: "nowrap",
+              padding: "10px 24px",
+              borderRadius: 6,
+              background: "#F5A623",
+              color: "#1A1A1A",
+              fontSize: 14,
+              fontWeight: 800,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              textDecoration: "none",
+              flexShrink: 0,
+            }}
+          >
             Start For Free
             <ArrowRight size={14} strokeWidth={3} style={{ display: "inline", verticalAlign: "-2px", marginLeft: 4 }} />
           </Link>
