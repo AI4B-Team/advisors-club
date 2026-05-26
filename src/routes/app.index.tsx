@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2, Globe, Link2 } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2, Globe, Link2, Pin } from "lucide-react";
+
+const MAX_PINNED = 3;
+const IS_ADMIN = true;
 
 export const Route = createFileRoute("/app/")({
   head: () => ({ meta: [{ title: "Home — Real Estate Empire" }, { name: "description", content: "Your Club home feed." }] }),
@@ -19,6 +22,7 @@ type Post = {
   comments: number;
   liked?: boolean;
   saved?: boolean;
+  pinned?: boolean;
 };
 
 const SEED: Post[] = [
@@ -31,6 +35,7 @@ const SEED: Post[] = [
     title: "2026.05.21 Fail Forward",
     body: "Live replay from this week's Fail Forward session — drop your biggest takeaway below and tag a teammate who needs to hear it.",
     likes: 87, comments: 24,
+    pinned: true,
   },
   {
     id: "2",
@@ -86,8 +91,21 @@ function HomePage() {
   function toggleSave(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, saved: !po.saved} : po));
   }
+  function togglePin(id: string) {
+    setPosts(p => {
+      const target = p.find(po => po.id === id);
+      if (!target) return p;
+      const pinnedCount = p.filter(po => po.pinned).length;
+      if (!target.pinned && pinnedCount >= MAX_PINNED) {
+        alert(`You can pin up to ${MAX_PINNED} posts.`);
+        return p;
+      }
+      return p.map(po => po.id === id ? {...po, pinned: !po.pinned} : po);
+    });
+  }
 
-  const sorted = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const base = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
     <div className="hm">
@@ -145,7 +163,8 @@ function HomePage() {
 
           <div className="hm-posts">
             {sorted.map(p => (
-              <article key={p.id} className="hm-post">
+              <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
+                {p.pinned && <span className="hm-post-pinned"><Pin size={13}/> Pinned</span>}
                 <header className="hm-post-head">
                   <span className="hm-av" style={{background:p.color}}>{p.initials}</span>
                   <div className="hm-post-meta">
@@ -153,6 +172,14 @@ function HomePage() {
                     <div className="hm-post-sub">Posted in Discussions</div>
                   </div>
                   <button className="hm-post-share"><Share2 size={14}/> Share</button>
+                  {IS_ADMIN && (
+                    <button
+                      className={`hm-post-pin-btn${p.pinned?" on":""}`}
+                      onClick={()=>togglePin(p.id)}
+                      aria-label={p.pinned?"Unpin":"Pin"}
+                      title={p.pinned?"Unpin post":"Pin post"}
+                    ><Pin size={16} fill={p.pinned?"currentColor":"none"}/></button>
+                  )}
                   <button className="hm-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}

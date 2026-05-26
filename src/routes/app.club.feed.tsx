@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle } from "lucide-react";
+import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Pin } from "lucide-react";
+
+const MAX_PINNED = 3;
+const IS_ADMIN = true;
 
 export const Route = createFileRoute("/app/club/feed")({
   head: () => ({ meta: [{ title: "Feed — Real Estate Empire" }, { name: "description", content: "Live community feed for your Club members." }] }),
@@ -18,6 +21,7 @@ type Post = {
   comments: number;
   liked?: boolean;
   saved?: boolean;
+  pinned?: boolean;
 };
 
 const SEED: Post[] = [
@@ -29,6 +33,7 @@ const SEED: Post[] = [
     time: "1 month ago",
     body: "Welcome to **Real Estate Empire** 🚀 — drop your city + niche below so we can match you with the right deal flow this week.",
     likes: 42, comments: 18,
+    pinned: true,
   },
   {
     id: "2",
@@ -79,8 +84,21 @@ function FeedPage() {
   function toggleSave(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, saved: !po.saved} : po));
   }
+  function togglePin(id: string) {
+    setPosts(p => {
+      const target = p.find(po => po.id === id);
+      if (!target) return p;
+      const pinnedCount = p.filter(po => po.pinned).length;
+      if (!target.pinned && pinnedCount >= MAX_PINNED) {
+        alert(`You can pin up to ${MAX_PINNED} posts.`);
+        return p;
+      }
+      return p.map(po => po.id === id ? {...po, pinned: !po.pinned} : po);
+    });
+  }
 
-  const sorted = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const base = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
     <div className="cc-feed">
@@ -149,13 +167,22 @@ function FeedPage() {
 
       <div className="cc-posts">
         {sorted.map(p => (
-          <article key={p.id} className="cc-post">
+          <article key={p.id} className={`cc-post${p.pinned?" pinned":""}`}>
+            {p.pinned && <span className="cc-post-pinned"><Pin size={13}/> Pinned</span>}
             <header className="cc-post-head">
               <span className="cc-post-av" style={{background:p.color}}>{p.initials}</span>
               <div className="cc-post-meta">
                 <div className="cc-post-name">{p.author}</div>
                 <div className="cc-post-time">{p.time}</div>
               </div>
+              {IS_ADMIN && (
+                <button
+                  className={`cc-post-pin-btn${p.pinned?" on":""}`}
+                  onClick={()=>togglePin(p.id)}
+                  aria-label={p.pinned?"Unpin":"Pin"}
+                  title={p.pinned?"Unpin post":"Pin post"}
+                ><Pin size={16} fill={p.pinned?"currentColor":"none"}/></button>
+              )}
               <button className="cc-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
             </header>
             <div className="cc-post-body">{p.body}</div>
