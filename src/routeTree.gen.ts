@@ -15,6 +15,7 @@ import { Route as LandingRouteImport } from './routes/landing'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as ClubSplatRouteImport } from './routes/club.$'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
@@ -60,6 +61,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
 } as any)
 const ClubSplatRoute = ClubSplatRouteImport.update({
   id: '/club/$',
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
+  '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/courses': typeof AppClubCoursesRoute
@@ -162,7 +169,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
   '/discover': typeof DiscoverRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
@@ -175,6 +181,7 @@ export interface FileRoutesByTo {
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
+  '/app': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/courses': typeof AppClubCoursesRoute
@@ -199,6 +206,7 @@ export interface FileRoutesById {
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
+  '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/courses': typeof AppClubCoursesRoute
@@ -224,6 +232,7 @@ export interface FileRouteTypes {
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
+    | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/courses'
@@ -234,7 +243,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
     | '/discover'
     | '/landing'
     | '/login'
@@ -247,6 +255,7 @@ export interface FileRouteTypes {
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
+    | '/app'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/courses'
@@ -270,6 +279,7 @@ export interface FileRouteTypes {
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
+    | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/courses'
@@ -332,6 +342,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/club/$': {
       id: '/club/$'
@@ -449,6 +466,7 @@ interface AppRouteChildren {
   AppGettingStartedRoute: typeof AppGettingStartedRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
+  AppIndexRoute: typeof AppIndexRoute
   AppClubAnalyticsRoute: typeof AppClubAnalyticsRoute
   AppClubChallengesRoute: typeof AppClubChallengesRoute
   AppClubCoursesRoute: typeof AppClubCoursesRoute
@@ -466,6 +484,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppGettingStartedRoute: AppGettingStartedRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppNotificationsRoute: AppNotificationsRoute,
+  AppIndexRoute: AppIndexRoute,
   AppClubAnalyticsRoute: AppClubAnalyticsRoute,
   AppClubChallengesRoute: AppClubChallengesRoute,
   AppClubCoursesRoute: AppClubCoursesRoute,
