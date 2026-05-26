@@ -7,6 +7,7 @@ import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
+import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId } from "@/components/feed-meta";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
@@ -16,9 +17,10 @@ export const Route = createFileRoute("/app/")({
   component: HomePage,
 });
 
-import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
+import { SEED_POSTS, CATEGORY_META, type FeedPost as Post, type PostCategory } from "@/lib/feed-posts";
 
 const SEED: Post[] = SEED_POSTS;
+
 
 const EVENTS = [
   { day: "26", mo: "MAY", title: "Hotline", time: "5:30 – 6:30 PM EDT" },
