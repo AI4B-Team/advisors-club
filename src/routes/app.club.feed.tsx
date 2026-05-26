@@ -30,7 +30,7 @@ function FeedPage() {
   const [emailBlast, setEmailBlast] = useState(false);
   const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
   const [activeTab, setActiveTab] = useState<TabId>("all");
-  const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
+  const [composerCat, setComposerCat] = useState<PostCategory>("general");
   const [catOpen, setCatOpen] = useState(false);
 
   function publish() {
