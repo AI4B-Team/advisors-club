@@ -72,6 +72,7 @@ function HomePage() {
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<"latest"|"top">("latest");
+  const [emailBlast, setEmailBlast] = useState(false);
 
   function publish() {
     const text = draft.trim();
