@@ -163,6 +163,13 @@ function SidebarTopLink({ link }: { link: TopLink }) {
           {isAiva && <span className="cc-sb-badge-new">NEW</span>}
         </Link>
         <button
+          className="cc-sb-add"
+          aria-label={`Add to ${link.label}`}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+        >
+          <Plus size={13}/>
+        </button>
+        <button
           className="cc-sb-caret"
           aria-label="Toggle sub-links"
           onClick={() => setExpanded(e => !e)}
