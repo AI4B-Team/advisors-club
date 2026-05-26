@@ -104,14 +104,6 @@ const TOP_LINKS: TopLink[] = [
       {label:"Completed",to:"/app/club/courses", icon:<CheckCircle2 size={14}/>},
     ],
     menu: DEFAULT_MENU },
-  { label: "Resources", to: "/app/club/courses", icon: <FolderOpen size={16}/>,
-    subs: [
-      {label:"Library",to:"/app/club/courses", icon:<Library size={14}/>},
-      {label:"Templates",to:"/app/club/courses", icon:<FileText size={14}/>},
-      {label:"Links",to:"/app/club/courses", icon:<Link2 size={14}/>},
-      {label:"Downloads",to:"/app/club/courses", icon:<Download size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
   { label: "Challenges", to: "/app/club/challenges", icon: <Flame size={16}/>,
     subs: [
       {label:"Active",to:"/app/club/challenges", icon:<Flame size={14}/>},
@@ -126,6 +118,15 @@ const TOP_LINKS: TopLink[] = [
       {label:"Past",to:"/app/club/events", icon:<CalendarCheck size={14}/>},
     ],
     menu: DEFAULT_MENU },
+  { label: "Resources", to: "/app/club/courses", icon: <FolderOpen size={16}/>,
+    subs: [
+      {label:"Library",to:"/app/club/courses", icon:<Library size={14}/>},
+      {label:"Templates",to:"/app/club/courses", icon:<FileText size={14}/>},
+      {label:"Links",to:"/app/club/courses", icon:<Link2 size={14}/>},
+      {label:"Downloads",to:"/app/club/courses", icon:<Download size={14}/>},
+    ],
+    menu: DEFAULT_MENU },
+
   { label: "Members", to: "/app/club/members", icon: <Users size={16}/>,
     subs: [
       {label:"All Members",to:"/app/club/members", icon:<Users size={14}/>},
