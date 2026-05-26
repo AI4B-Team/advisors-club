@@ -1604,7 +1604,7 @@
 .lb-pod-badge.r3{background:linear-gradient(135deg,#D48A55,#A65A2B)}
 .lb-pod-name{font-size:13px;font-weight:700;color:#111827;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lb-pod-pts{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;border:1px solid #E5E7EB;font-size:12px;font-weight:700;color:#111827;background:#fff}
-.lb-pts-star{color:#E0A53A;font-size:11px;line-height:1}
+.lb-pts-star{color:#111827;font-size:11px;line-height:1}
 .lb-divider{height:1px;background:#E5E7EB;margin:4px 0 10px}
 .lb-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
 .lb-see-all{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;padding:9px 12px;border-top:1px solid #F3F4F6;font-size:13px;font-weight:700;color:#4F46E5;text-decoration:none;transition:color .12s ease}
