@@ -1602,6 +1602,10 @@
 .lb-pts-star{color:#E0A53A;font-size:11px;line-height:1}
 .lb-divider{height:1px;background:#E5E7EB;margin:4px 0 10px}
 .lb-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.lb-see-all{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;padding:9px 12px;border-top:1px solid #F3F4F6;font-size:13px;font-weight:600;color:#6B7280;text-decoration:none;transition:color .12s ease}
+.lb-see-all:hover{color:#111827}
+.lb-see-all span{transition:transform .15s ease}
+.lb-see-all:hover span{transform:translateX(2px)}
 .lb-row{display:grid;grid-template-columns:18px 28px 1fr auto;align-items:center;gap:10px}
 .lb-rank{font-size:12px;font-weight:600;color:#9CA3AF;text-align:center}
 .lb-av{width:28px;height:28px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px}
