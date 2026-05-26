@@ -527,8 +527,8 @@
 .lt-field input:focus{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-tint)}
 .lt-field-rel{position:relative}
 .lt-field-rel button{position:absolute;right:12px;top:38px;color:var(--muted);background:transparent;border:0;padding:4px}
-.lt-cta-full{width:100%;height:48px;border-radius:10px;background:var(--ink);color:#fff;font-size:15px;font-weight:700;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
-.lt-cta-full:hover{background:#000}
+.lt .lt-cta-full,.lt-cta-full{width:100%;height:48px;border-radius:10px;background:var(--ink);color:#fff;font-size:15px;font-weight:700;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer}
+.lt .lt-cta-full:hover,.lt-cta-full:hover{background:#000;color:#fff}
 .lt-cta-full.amber{background:var(--amber);color:#1a1408}
 .lt-cta-full.lt-cta-green{background:var(--amber);color:#1a1408}
 .lt-cta-full.lt-cta-green:hover{background:var(--amber-2)}
