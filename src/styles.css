@@ -1608,7 +1608,7 @@
 .lb-see-all:hover span{transform:translateX(2px)}
 .lb-row{display:grid;grid-template-columns:18px 28px 1fr auto;align-items:center;gap:10px}
 .lb-rank{font-size:12px;font-weight:600;color:#9CA3AF;text-align:center}
-.lb-av{width:28px;height:28px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px}
+.lb-av{width:28px;height:28px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;object-fit:cover;background:#F3F4F6}
 .lb-name{font-size:13px;font-weight:600;color:#111827;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lb-pts{padding:3px 10px;border-radius:999px;border:1px solid #E5E7EB;font-size:12px;font-weight:700;color:#111827;background:#fff}
 
