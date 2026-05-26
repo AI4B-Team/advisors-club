@@ -31,7 +31,7 @@ function LoginPage() {
         <div className="lt-auth-left">
           <Link to="/landing" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
           <h1>Welcome Back</h1>
-          <p className="lt-auth-sub">Log In To Run Your Club And Check In With Your Members.</p>
+          <p className="lt-auth-sub lt-nowrap">Log In To Run Your Club &amp; Check In With Your Members.</p>
           <form onSubmit={onSubmit}>
             <div className="lt-field">
               <label>Email</label>

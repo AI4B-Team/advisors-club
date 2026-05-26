@@ -520,6 +520,7 @@
 
 .lt-auth h1{font-size:32px;margin-bottom:8px}
 .lt-auth-sub{color:var(--muted);font-size:15px;margin-bottom:32px}
+.lt-nowrap{white-space:nowrap;font-size:14px}
 .lt-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
 .lt-field label{font-size:13px;font-weight:600;color:var(--ink)}
 .lt-field input{height:46px;border-radius:10px;border:1px solid var(--line-2);background:#fff;padding:0 14px;font-size:15px;color:var(--ink);outline:none;width:100%}
