@@ -5,6 +5,7 @@ import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
+import { FeaturedEvent } from "@/components/featured-event";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
@@ -245,6 +246,14 @@ function HomePage() {
             </div>
           </div>
 
+
+          <FeaturedEvent
+            title="Fail Forward — Live Workshop"
+            subtitle="Bring one stuck deal. Leave with a 7-day action plan."
+            whenISO="2026-05-28T15:00:00-04:00"
+            whenLabel="Thu, May 28 · 3:00 PM EDT"
+            host="Michael A."
+          />
 
           <div className="hm-card">
             <h3 className="hm-card-title">Upcoming events</h3>
