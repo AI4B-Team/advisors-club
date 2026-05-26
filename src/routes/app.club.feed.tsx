@@ -127,7 +127,10 @@ function FeedPage() {
         {sorted.map(p => (
           <article key={p.id} className={`cc-post${p.pinned?" pinned":""}`}>
             <header className="cc-post-head">
-              <span className="cc-post-av" style={{background:p.color}}>{p.initials}</span>
+              <span className="post-av-wrap">
+                <img className="post-av-img" src={p.photo} alt={p.author} loading="lazy"/>
+                <span className="post-av-level">{p.level}</span>
+              </span>
               <div className="cc-post-meta">
                 <div className="cc-post-name">{p.author}</div>
                 <div className="cc-post-time">{p.time}</div>
