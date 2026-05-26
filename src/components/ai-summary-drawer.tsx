@@ -176,7 +176,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
             ))}
           </div>
 
-          <div className="ai-section-label"><Download size={12}/> Recent admin uploads</div>
+          <div className="ai-section-label"><Download size={12}/> Recent Uploads</div>
           <div className="ai-upload-list">
             {RECENT_UPLOADS.map(u => (
               <button key={u.title} className="ai-upload-item">
