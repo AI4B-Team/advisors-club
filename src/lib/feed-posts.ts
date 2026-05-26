@@ -1,4 +1,4 @@
-export type PostCategory = "discussion" | "announcement" | "win" | "question" | "resource";
+export type PostCategory = "general" | "win" | "update";
 
 export type FeedPost = {
   id: string;
@@ -18,29 +18,25 @@ export type FeedPost = {
   category: PostCategory;
 };
 
-import { MessageCircle, Megaphone, Trophy, HelpCircle, BookOpen, type LucideIcon } from "lucide-react";
+import { MessageSquare, Sparkles, Megaphone, type LucideIcon } from "lucide-react";
 
 export const CATEGORY_META: Record<PostCategory, { label: string; icon: LucideIcon; bg: string; fg: string }> = {
-  discussion:   { label: "Discussion",   icon: MessageCircle, bg: "#F3F4F6", fg: "#374151" },
-  announcement: { label: "Announcement", icon: Megaphone,     bg: "#F3F4F6", fg: "#374151" },
-  win:          { label: "Win",          icon: Trophy,        bg: "#F3F4F6", fg: "#374151" },
-  question:     { label: "Question",     icon: HelpCircle,    bg: "#F3F4F6", fg: "#374151" },
-  resource:     { label: "Resource",     icon: BookOpen,      bg: "#F3F4F6", fg: "#374151" },
-
+  general: { label: "General", icon: MessageSquare, bg: "#F3F4F6", fg: "#374151" },
+  win:     { label: "Wins",    icon: Sparkles,      bg: "#F3F4F6", fg: "#374151" },
+  update:  { label: "Updates", icon: Megaphone,     bg: "#F3F4F6", fg: "#374151" },
 };
 
 export const FEED_TABS: { id: "all" | PostCategory; label: string }[] = [
-  { id: "all",          label: "All" },
-  { id: "discussion",   label: "Discussions" },
-  { id: "announcement", label: "Announcements" },
-  { id: "win",          label: "Wins" },
-  { id: "question",     label: "Questions" },
-
+  { id: "all",     label: "All" },
+  { id: "general", label: "General" },
+  { id: "win",     label: "Wins" },
+  { id: "update",  label: "Updates" },
 ];
+
 
 export const SEED_POSTS: FeedPost[] = [
   {
-    id: "1", category: "announcement",
+    id: "1", category: "update",
     author: "Michael A.", initials: "MA", color: "#F5A623", time: "3d",
     photo: "https://randomuser.me/api/portraits/men/32.jpg", level: 7,
     title: "2026.05.21 Fail Forward",
@@ -56,7 +52,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 142, comments: 38,
   },
   {
-    id: "3", category: "question",
+    id: "3", category: "general",
     author: "Devon R.", initials: "DR", color: "#6366F1", time: "9h",
     photo: "https://randomuser.me/api/portraits/men/52.jpg", level: 3,
     title: "AIVA prompts for cold-caller training?",
@@ -72,7 +68,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 218, comments: 56, pinned: true,
   },
   {
-    id: "5", category: "resource",
+    id: "5", category: "update",
     author: "Greg D.", initials: "GD", color: "#0EA5E9", time: "1d",
     photo: "https://randomuser.me/api/portraits/men/15.jpg", level: 6,
     title: "Skip tracing playbook (free template)",
@@ -80,7 +76,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 96, comments: 22,
   },
   {
-    id: "6", category: "discussion",
+    id: "6", category: "general",
     author: "Albert Lott", initials: "AL", color: "#F59E0B", time: "2d",
     photo: "https://randomuser.me/api/portraits/men/77.jpg", level: 4,
     title: "Door knocks > DMs in this market",
@@ -88,7 +84,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 64, comments: 17,
   },
   {
-    id: "7", category: "resource",
+    id: "7", category: "update",
     author: "Judith M.", initials: "JM", color: "#4F46E5", time: "2d",
     photo: "https://randomuser.me/api/portraits/women/22.jpg", level: 8,
     title: "How I structured my first JV partnership",
@@ -96,7 +92,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 73, comments: 19,
   },
   {
-    id: "8", category: "announcement",
+    id: "8", category: "update",
     author: "Marcus Lee", initials: "ML", color: "#0D9488", time: "3d",
     photo: "https://randomuser.me/api/portraits/men/41.jpg", level: 5,
     title: "Live AMA Thursday 3pm EDT",
@@ -104,7 +100,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 49, comments: 11,
   },
   {
-    id: "9", category: "question",
+    id: "9", category: "general",
     author: "Esther H.", initials: "EH", color: "#DB2777", time: "4d",
     photo: "https://randomuser.me/api/portraits/women/65.jpg", level: 10,
     title: "Loan officer red flags — share yours",
@@ -112,7 +108,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 88, comments: 31,
   },
   {
-    id: "10", category: "resource",
+    id: "10", category: "update",
     author: "Robert Fox", initials: "RF", color: "#7BA77B", time: "5d",
     photo: "https://randomuser.me/api/portraits/men/85.jpg", level: 7,
     title: "Off-market deal source nobody talks about",
@@ -128,7 +124,7 @@ export const SEED_POSTS: FeedPost[] = [
     likes: 57, comments: 9,
   },
   {
-    id: "12", category: "announcement",
+    id: "12", category: "update",
     author: "Dustin Gedlich", initials: "DG", color: "#A85A3A", time: "1w",
     photo: "https://randomuser.me/api/portraits/men/64.jpg", level: 6,
     title: "Welcome wave 👋",

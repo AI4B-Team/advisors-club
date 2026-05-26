@@ -45,7 +45,7 @@ function HomePage() {
   
   const [emailBlast, setEmailBlast] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("all");
-  const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
+  const [composerCat, setComposerCat] = useState<PostCategory>("general");
   const [catOpen, setCatOpen] = useState(false);
 
   function publish() {
