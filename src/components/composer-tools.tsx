@@ -44,19 +44,32 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
   }
 
   function addPollOption() {
-    setPollOpts(o => [...o, ""]);
+    setPollOpts(o => o.length >= 8 ? o : [...o, ""]);
+  }
+  function removePollOption(i: number) {
+    setPollOpts(o => o.length <= 2 ? o : o.filter((_, j) => j !== i));
   }
   function commitPoll() {
-    const opts = pollOpts.map(o => o.trim()).filter(Boolean);
-    if (!pollQ.trim() || opts.length < 2) {
+    const q = pollQ.trim().slice(0, 200);
+    const opts = pollOpts.map(o => o.trim().slice(0, 80)).filter(Boolean);
+    if (!q || opts.length < 2) {
       alert("Add a question and at least 2 options.");
       return;
     }
-    const md = `\n📊 Poll: ${pollQ.trim()}\n` + opts.map((o,i) => `  ${i+1}. ${o}`).join("\n") + "\n";
+    const flags: string[] = [];
+    flags.push(pollMulti ? "multi-select" : "single-select");
+    if (pollAnonymous) flags.push("anonymous");
+    flags.push(pollShowResults ? "results visible" : "results hidden until close");
+    flags.push(`closes: ${pollDuration === "never" ? "never" : `in ${pollDuration}`}`);
+    const md = `\n📊 Poll: ${q}\n` + opts.map((o,i) => `  ${i+1}. ${o}`).join("\n") + `\n  (${flags.join(" · ")})\n`;
     append(md);
     setOpenPoll(false);
     setPollQ("");
     setPollOpts(["", ""]);
+    setPollShowResults(true);
+    setPollMulti(false);
+    setPollAnonymous(false);
+    setPollDuration("7d");
   }
 
   async function toggleRecord() {
