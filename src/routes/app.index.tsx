@@ -22,6 +22,7 @@ type Post = {
   comments: number;
   liked?: boolean;
   saved?: boolean;
+  pinned?: boolean;
 };
 
 const SEED: Post[] = [
