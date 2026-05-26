@@ -113,11 +113,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
       <input ref={vidRef} type="file" accept="video/*" hidden onChange={e => { attachFiles(e.target.files, "video"); e.target.value=""; }}/>
 
       {openEmoji && (
-        <div className="composer-emoji-pop" onMouseLeave={() => setOpenEmoji(false)}>
-          {EMOJIS.map(e => (
-            <button key={e} type="button" className="composer-emoji-btn" onClick={() => insertEmoji(e)}>{e}</button>
-          ))}
-        </div>
+        <EmojiPicker onPick={insertEmoji} onClose={() => setOpenEmoji(false)} />
       )}
 
       {openPoll && (
