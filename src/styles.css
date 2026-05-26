@@ -1755,3 +1755,15 @@
 .post-actions-item.danger { color: #DC2626; }
 .post-actions-item.danger:hover { background: #FEF2F2; }
 .post-actions-sep { height: 1px; background: #E5E7EB; margin: 4px 2px; }
+
+/* Commenter avatars stack in post footer */
+.commenters { display: inline-flex; align-items: center; gap: 10px; margin-left: 4px; }
+.commenters-stack { display: inline-flex; }
+.commenters-av {
+  width: 26px; height: 26px; border-radius: 999px; object-fit: cover;
+  border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.04);
+  margin-left: -8px;
+}
+.commenters-av:first-child { margin-left: 0; }
+.commenters-label { font-size: 13px; font-weight: 600; color: #2563EB; cursor: pointer; }
+.commenters-label:hover { text-decoration: underline; }
