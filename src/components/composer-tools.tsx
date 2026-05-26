@@ -111,7 +111,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
 
       <input ref={fileRef} type="file" multiple hidden onChange={e => { attachFiles(e.target.files, "file"); e.target.value=""; }}/>
       <input ref={imgRef} type="file" accept="image/*" multiple hidden onChange={e => { attachFiles(e.target.files, "image"); e.target.value=""; }}/>
-      <input ref={vidRef} type="file" accept="video/*" hidden onChange={e => { attachFiles(e.target.files, "video"); e.target.value=""; }}/>
+      
 
       {openEmoji && (
         <EmojiPicker onPick={insertEmoji} onClose={() => setOpenEmoji(false)} />
