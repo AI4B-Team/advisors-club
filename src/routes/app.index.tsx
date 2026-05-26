@@ -150,7 +150,7 @@ function HomePage() {
             </div>
           </div>
 
-          <FeedTabs posts={posts} activeTab={activeTab} onChange={setActiveTab}/>
+          <FeedTabs posts={posts} activeTab={activeTab} onChange={setActiveTab} sort={sort} onSortChange={setSort}/>
 
           <div className="hm-posts">
             {sorted.length === 0 && (
