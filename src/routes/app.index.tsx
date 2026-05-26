@@ -186,9 +186,8 @@ function HomePage() {
         </section>
 
         <aside className="hm-side">
-          <AivaInsightsCard />
-
           <div className="hm-card hm-profile">
+
             <div className="hm-profile-cover">
               <img className="hm-profile-cover-img" src={reCover} alt="" loading="lazy" />
               <h2 className="hm-profile-logo">Real Estate Empire</h2>
@@ -222,6 +221,10 @@ function HomePage() {
               </div>
             </div>
           </div>
+
+          <AivaInsightsCard />
+
+
 
           <div className="hm-card">
             <h3 className="hm-card-title">Leaderboard</h3>
