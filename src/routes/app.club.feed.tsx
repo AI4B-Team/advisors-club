@@ -72,7 +72,7 @@ function FeedPage() {
       <div className="hm-head">
         <h1>
           <span className="cc-feed-emoji" style={{marginRight:8}}>🚀</span>
-          Space
+          Community
           <ChevronDown size={18} style={{marginLeft:6,verticalAlign:"-3px"}}/>
         </h1>
         <div className="hm-head-actions">
