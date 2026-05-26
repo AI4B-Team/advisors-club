@@ -198,9 +198,6 @@ function HomePage() {
                       lastLabel={`New comment ${p.time} ago`}
                     />
                   )}
-                  <button className={`hm-post-act ${p.saved?"on":""}`} onClick={()=>toggleSave(p.id)} style={{marginLeft:"auto"}}>
-                    <Bookmark size={16} fill={p.saved?"currentColor":"none"}/>
-                  </button>
                 </footer>
               </article>
             ))}
