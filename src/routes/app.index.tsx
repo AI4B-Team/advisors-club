@@ -291,7 +291,7 @@ function HomePage() {
           </div>
 
           <div className="hm-card">
-            <h3 className="hm-card-title">Trending posts</h3>
+            <h3 className="hm-card-title">Trending Posts</h3>
             <ul className="hm-trending">
               {TRENDING.map((t,i)=>(
                 <li key={i} className="hm-trend">
