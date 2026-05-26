@@ -1119,15 +1119,17 @@
 .cc-sb-more-menu{position:absolute;right:0;top:calc(100% + 4px);background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.12);min-width:180px;padding:4px;z-index:200}
 .cc-sb-more-item{display:block;width:100%;text-align:left;padding:8px 10px;border:0;background:transparent;border-radius:6px;font-size:13px;color:#111827;cursor:pointer}
 .cc-sb-more-item:hover{background:#F3F4F6}
-.cc-sb-subs{display:flex;flex-direction:column;margin:2px 0 6px 30px;padding-left:8px;border-left:1px solid #E5E7EB;gap:1px}
+.cc-sb-item.expanded > .cc-sb-item-row .cc-sb-feed:not(.on),
+.cc-sb-item.expanded > .cc-sb-item-row .cc-sb-pill:not(.on){background:#F3F4F6}
+.cc-sb-subs{position:relative;display:flex;flex-direction:column;gap:2px;margin:4px 0 8px 22px;padding-left:18px}
+.cc-sb-subs::before{content:"";position:absolute;left:0;top:0;bottom:18px;width:1px;background:#E5E7EB}
 .cc-sb-sub-row{position:relative;display:flex;align-items:center}
-.cc-sb-sub{flex:1;display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;color:#4B5563;text-decoration:none;font-size:13px;padding-right:32px}
-.cc-sb-sub-i{display:inline-flex;color:#6B7280}
+.cc-sb-sub-row::before{content:"";position:absolute;left:-18px;top:50%;width:14px;height:1px;background:#E5E7EB}
+.cc-sb-sub{flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:#9CA3AF;text-decoration:none;font-size:14px;font-weight:500;padding-right:32px}
+.cc-sb-sub-i{display:none}
 .cc-sb-sub-l{flex:1}
 .cc-sb-sub:hover{background:#F3F4F6;color:#111827}
-.cc-sb-sub:hover .cc-sb-sub-i{color:#111827}
 .cc-sb-sub.on{background:#F3F4F6;color:#111827;font-weight:600}
-.cc-sb-sub.on .cc-sb-sub-i{color:#111827}
 .cc-sb-sub-add{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:22px;height:22px;border:0;background:transparent;border-radius:6px;color:#6B7280;display:flex;align-items:center;justify-content:center;opacity:0;cursor:pointer;transition:opacity .12s}
 .cc-sb-sub-row:hover .cc-sb-sub-add{opacity:1}
 .cc-sb-sub-add:hover{background:rgba(0,0,0,0.08);color:#111827}
