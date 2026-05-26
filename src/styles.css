@@ -1932,3 +1932,35 @@
 .aiva-comp-menu{position:absolute;bottom:calc(100% + 6px);right:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 30px -10px rgba(17,24,39,.2);padding:5px;min-width:230px;z-index:30}
 .aiva-comp-item{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;background:transparent;border:0;border-radius:7px;font-size:13px;color:#1F2937;cursor:pointer;text-align:left}
 .aiva-comp-item:hover{background:#F5F3FF;color:#6D28D9}
+
+/* ============ FEED CATEGORY SYSTEM ============ */
+.fp-tabs{display:flex;align-items:center;gap:4px;overflow-x:auto;border-bottom:1px solid #E5E7EB;margin:8px 0 14px;scrollbar-width:none}
+.fp-tabs::-webkit-scrollbar{display:none}
+.fp-tab{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border:0;background:transparent;color:#6B7280;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+.fp-tab:hover{color:#374151}
+.fp-tab.on{color:#111827;border-bottom-color:#F5A623}
+.fp-tab-count{font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:#F3F4F6;color:#6B7280;line-height:1}
+.fp-tab.on .fp-tab-count{background:#FEF3C7;color:#92400E}
+
+.fp-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.01em;text-transform:none;line-height:1.4;white-space:nowrap}
+.fp-badge-pin{background:#FEF3C7;color:#92400E}
+
+.fp-cat-picker{position:relative;display:inline-flex}
+.fp-cat-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:7px 11px;border-radius:8px;border:0;cursor:pointer;transition:filter .15s}
+.fp-cat-btn:hover{filter:brightness(.95)}
+.fp-cat-menu{position:absolute;bottom:calc(100% + 6px);left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 30px -10px rgba(17,24,39,.2);padding:5px;min-width:180px;z-index:50}
+.fp-cat-item{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;background:transparent;border:0;border-radius:7px;font-size:13px;font-weight:600;color:#1F2937;cursor:pointer;text-align:left}
+.fp-cat-item:hover{background:#F9FAFB}
+.fp-cat-dot{width:8px;height:8px;border-radius:999px;flex-shrink:0}
+
+.fp-bookmark{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:0;background:transparent;color:#9CA3AF;cursor:pointer;transition:background .15s,color .15s;margin-left:auto}
+.fp-bookmark:hover{background:#F3F4F6;color:#6B7280}
+.fp-bookmark.on{color:#F5A623}
+
+.fp-empty{padding:36px 20px;text-align:center;color:#6B7280;font-size:14px;border:1px dashed #E5E7EB;border-radius:12px;background:#FAFAFB}
+.fp-empty-link{display:inline-block;margin-left:8px;background:none;border:0;color:#6D28D9;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-size:13px}
+
+.fp-inline-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:#F3F4F6;padding:1px 5px;border-radius:4px;color:#B45309}
+
+/* pinned badge replaces border treatment */
+.hm-post.pinned,.cc-post.pinned{border-left:none}
