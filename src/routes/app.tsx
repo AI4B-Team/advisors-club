@@ -413,69 +413,81 @@ function ViewModeToggle() {
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
-  // Regular members never see the view-mode toggle. Only the admin (in admin
-  // mode) sees it; when impersonating a member, the toggle hides so the
-  // experience matches a real member. Admin exits via the banner in /account.
-  if (mode !== "admin") return null;
+  const isAdmin = mode === "admin";
   const filtered = SAMPLE_MEMBERS.filter(m =>
     m.name.toLowerCase().includes(q.toLowerCase()) ||
     m.role.toLowerCase().includes(q.toLowerCase())
   );
   return (
-    <div className="cc-tb-view" role="group" aria-label="View as">
-      <span className="cc-tb-view-label">View:</span>
+    <div className="cc-tb-vw" ref={ref}>
       <button
-        className="cc-tb-view-btn on admin"
-        onClick={() => setMode("admin")}
-        aria-pressed={true}
+        className={`cc-tb-vw-trigger ${isAdmin ? "admin" : "member"}`}
+        onClick={() => setOpen(o => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
-        <ShieldCheck size={13}/> Admin
-      </button>
-      <div className="cc-tb-view-member" ref={ref}>
-        <button
-          className="cc-tb-view-btn"
-          onClick={() => setOpen(o => !o)}
-          aria-pressed={false}
-          aria-haspopup="menu"
-          aria-expanded={open}
-        >
-          <User size={13}/>
-          <span>{viewAs ? viewAs.name.split(" ")[0] : "Member"}</span>
-          <ChevronDown size={12}/>
-        </button>
-        {open && (
-          <div className="cc-tb-view-menu">
-            <div className="cc-tb-view-search">
-              <Search size={13}/>
-              <input
-                autoFocus
-                placeholder="Search members"
-                value={q}
-                onChange={(e)=>setQ(e.target.value)}
-              />
-            </div>
-            <div className="cc-tb-view-list">
-              {filtered.length === 0 && (
-                <div className="cc-tb-view-empty">No members found</div>
-              )}
-              {filtered.map(m => (
-                <button
-                  key={m.id}
-                  className={`cc-tb-view-item ${viewAs?.id === m.id ? "on" : ""}`}
-                  onClick={()=>{ setViewAs(m); setOpen(false); setQ(""); }}
-                >
-                  <img src={m.avatar} alt="" />
-                  <div className="cc-tb-view-item-meta">
-                    <div className="cc-tb-view-item-n">{m.name}</div>
-                    <div className="cc-tb-view-item-r">{m.role}</div>
-                  </div>
-                  {viewAs?.id === m.id && <span className="cc-tb-view-item-check">✓</span>}
-                </button>
-              ))}
-            </div>
-          </div>
+        <span className="cc-tb-vw-label">VIEW</span>
+        {isAdmin ? (
+          <span className="cc-tb-vw-current admin">
+            <ShieldCheck size={13}/> Admin
+          </span>
+        ) : (
+          <span className="cc-tb-vw-current member">
+            {viewAs ? (
+              <img src={viewAs.avatar} alt="" className="cc-tb-vw-av"/>
+            ) : (
+              <User size={13}/>
+            )}
+            <span>{viewAs ? viewAs.name.split(" ")[0] : "Member"}</span>
+          </span>
         )}
-      </div>
+        <ChevronDown size={12} className="cc-tb-vw-caret"/>
+      </button>
+      {open && (
+        <div className="cc-tb-vw-menu" role="menu">
+          <button
+            className={`cc-tb-vw-opt ${isAdmin ? "on" : ""}`}
+            onClick={() => { setMode("admin"); setViewAs(null); setOpen(false); }}
+          >
+            <span className="cc-tb-vw-opt-ic admin"><ShieldCheck size={14}/></span>
+            <span className="cc-tb-vw-opt-meta">
+              <span className="cc-tb-vw-opt-n">Admin</span>
+              <span className="cc-tb-vw-opt-r">Full access & moderation</span>
+            </span>
+            {isAdmin && <span className="cc-tb-vw-opt-check">✓</span>}
+          </button>
+          <div className="cc-tb-vw-sep"/>
+          <div className="cc-tb-vw-section">View as member</div>
+          <div className="cc-tb-vw-search">
+            <Search size={13}/>
+            <input
+              autoFocus
+              placeholder="Search members"
+              value={q}
+              onChange={(e)=>setQ(e.target.value)}
+            />
+          </div>
+          <div className="cc-tb-vw-list">
+            {filtered.length === 0 && (
+              <div className="cc-tb-vw-empty">No members found</div>
+            )}
+            {filtered.map(m => (
+              <button
+                key={m.id}
+                className={`cc-tb-vw-item ${viewAs?.id === m.id ? "on" : ""}`}
+                onClick={()=>{ setViewAs(m); setMode("member"); setOpen(false); setQ(""); }}
+              >
+                <img src={m.avatar} alt="" />
+                <div className="cc-tb-vw-item-meta">
+                  <div className="cc-tb-vw-item-n">{m.name}</div>
+                  <div className="cc-tb-vw-item-r">{m.role}</div>
+                </div>
+                {viewAs?.id === m.id && <span className="cc-tb-vw-item-check">✓</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

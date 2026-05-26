@@ -2268,3 +2268,38 @@
   .cal-month{grid-template-columns:1fr}
   .cal-week{grid-template-columns:repeat(3,1fr)}
 }
+
+/* Topbar VIEW pill (admin/member dropdown) */
+.cc-tb-vw{position:relative;display:inline-flex;margin-right:6px}
+.cc-tb-vw-trigger{display:inline-flex;align-items:center;gap:8px;padding:5px 10px 5px 12px;background:#F3F4F6;border:1px solid #E5E7EB;border-radius:999px;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s}
+.cc-tb-vw-trigger:hover{background:#EBEDF0;border-color:#D1D5DB}
+.cc-tb-vw-label{font-size:10px;font-weight:800;letter-spacing:.08em;color:#9CA3AF;text-transform:uppercase}
+.cc-tb-vw-current{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+.cc-tb-vw-current.admin{background:#F5A623;color:#1A1A1A}
+.cc-tb-vw-current.member{background:#fff;color:#111827;border:1px solid #E5E7EB}
+.cc-tb-vw-av{width:16px;height:16px;border-radius:999px;object-fit:cover}
+.cc-tb-vw-caret{color:#6B7280;flex-shrink:0}
+.cc-tb-vw-menu{position:absolute;top:calc(100% + 8px);right:0;width:300px;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.14),0 0 0 1px rgba(0,0,0,.02);z-index:100;overflow:hidden;padding:6px}
+.cc-tb-vw-opt{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;background:transparent;border:0;cursor:pointer;text-align:left;border-radius:8px;font-family:inherit}
+.cc-tb-vw-opt:hover{background:#F9FAFB}
+.cc-tb-vw-opt.on{background:#FEF3C7}
+.cc-tb-vw-opt-ic{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.cc-tb-vw-opt-ic.admin{background:#F5A623;color:#1A1A1A}
+.cc-tb-vw-opt-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.cc-tb-vw-opt-n{font-size:13px;font-weight:700;color:#111827}
+.cc-tb-vw-opt-r{font-size:11px;color:#6B7280}
+.cc-tb-vw-opt-check{color:#F59E0B;font-weight:800;font-size:14px}
+.cc-tb-vw-sep{height:1px;background:#F1F3F5;margin:6px 4px}
+.cc-tb-vw-section{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9CA3AF;padding:4px 10px 6px}
+.cc-tb-vw-search{display:flex;align-items:center;gap:8px;padding:8px 10px;margin:0 2px 4px;background:#F3F4F6;border-radius:8px;color:#6B7280}
+.cc-tb-vw-search input{flex:1;border:0;outline:none;font-size:13px;background:transparent;font-family:inherit;color:#111827}
+.cc-tb-vw-list{max-height:280px;overflow-y:auto}
+.cc-tb-vw-empty{padding:16px;text-align:center;color:#9CA3AF;font-size:13px}
+.cc-tb-vw-item{display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px;background:transparent;border:0;cursor:pointer;text-align:left;border-radius:8px;font-family:inherit}
+.cc-tb-vw-item:hover{background:#F9FAFB}
+.cc-tb-vw-item.on{background:#FEF3C7}
+.cc-tb-vw-item img{width:28px;height:28px;border-radius:999px;object-fit:cover;flex-shrink:0}
+.cc-tb-vw-item-meta{flex:1;min-width:0}
+.cc-tb-vw-item-n{font-size:13px;font-weight:700;color:#111827}
+.cc-tb-vw-item-r{font-size:11px;color:#6B7280}
+.cc-tb-vw-item-check{color:#F59E0B;font-weight:800}
