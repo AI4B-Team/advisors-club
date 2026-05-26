@@ -7,7 +7,7 @@ import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
-import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId } from "@/components/feed-meta";
+import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
