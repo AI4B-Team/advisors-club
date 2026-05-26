@@ -1654,7 +1654,7 @@
 .hm-profile-av.more{background:#F3F4F6!important;color:#6B7280;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px #E5E7EB}
 
 /* Pinned posts (home + community) */
-.hm-post.pinned,.cc-post.pinned{position:relative;border-color:#F5A623;box-shadow:0 0 0 1px #F5A623,0 6px 20px -10px rgba(245,166,35,.35)}
+.hm-post.pinned,.cc-post.pinned{position:relative;border:2px solid #F5A623;box-shadow:0 6px 20px -10px rgba(245,166,35,.35)}
 .hm-post-pinned,.cc-post-pinned{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#92400E;background:#FEF3C7;border:1px solid #FDE68A;padding:4px 9px;border-radius:999px;letter-spacing:.01em}
 .hm-post.pinned .hm-post-pinned + .hm-post-head .hm-post-more,
 .hm-post.pinned .hm-post-pinned + .hm-post-head .hm-post-share,
@@ -1995,9 +1995,6 @@
 .fp-empty-link{display:inline-block;margin-left:8px;background:none;border:0;color:#6D28D9;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px;font-size:13px}
 
 .fp-inline-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:#F3F4F6;padding:1px 5px;border-radius:4px;color:#B45309}
-
-/* pinned badge replaces border treatment */
-.hm-post.pinned,.cc-post.pinned{border-left:none}
 
 /* ============================================================
    SIGNUP FLOW (sf-)
