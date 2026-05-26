@@ -1596,14 +1596,14 @@
 .hm-profile-links a{color:#374151;text-decoration:none;font-weight:500}
 .hm-profile-links a:hover{color:#111827;text-decoration:underline}
 .hm-profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 0;border-top:1px solid #F3F4F6;border-bottom:1px solid #F3F4F6;margin-bottom:12px}
-.hm-profile-stats > div{display:flex;flex-direction:column;align-items:center;gap:2px}
+.hm-profile-stats > div{display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+.hm-profile-stats > div + div::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:60%;background:#E5E7EB}
 .hm-profile-stats strong{font-size:15px;font-weight:800;color:#111827;display:inline-flex;align-items:center;gap:4px}
 .hm-profile-stats strong i{width:6px;height:6px;border-radius:50%;background:#10B981;display:inline-block}
 .hm-profile-stats span{font-size:11px;color:#6B7280;font-weight:500}
-.hm-profile-avs{display:flex;align-items:center}
-.hm-profile-av{width:24px;height:24px;border-radius:999px;border:2px solid #fff;margin-left:-6px;flex-shrink:0;object-fit:cover;background:#E5E7EB}
-.hm-profile-av:first-child{margin-left:0}
-.hm-profile-av.more{background:#F3F4F6!important;color:#6B7280;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.hm-profile-avs{display:flex;align-items:center;justify-content:space-between;width:100%}
+.hm-profile-av{width:32px;height:32px;border-radius:999px;border:2px solid #fff;flex-shrink:0;object-fit:cover;background:#E5E7EB;box-shadow:0 0 0 1px #E5E7EB}
+.hm-profile-av.more{background:#F3F4F6!important;color:#6B7280;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px #E5E7EB}
 
 /* Pinned posts (home + community) */
 .hm-post.pinned,.cc-post.pinned{position:relative;border-color:#F5A623;box-shadow:0 0 0 1px #F5A623,0 6px 20px -10px rgba(245,166,35,.35)}
