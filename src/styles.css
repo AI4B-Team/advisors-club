@@ -1783,3 +1783,4 @@
 .email-blast-switch.on { background:#10B981; }
 .email-blast-knob { position:absolute; top:2px; left:2px; width:16px; height:16px; background:#fff; border-radius:50%; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:transform .15s; }
 .email-blast-switch.on .email-blast-knob { transform:translateX(14px); }
+.hm-composer-right { display:inline-flex; align-items:center; gap:14px; }
