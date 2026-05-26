@@ -63,6 +63,7 @@ const TRENDING = [
 ];
 
 function HomePage() {
+  const { isAdmin: IS_ADMIN } = useViewMode();
   const [posts, setPosts] = useState<Post[]>(SEED);
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
