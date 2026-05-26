@@ -139,7 +139,7 @@ function HomePage() {
                   className="hm-composer-title"
                   value={title}
                   onChange={e=>setTitle(e.target.value)}
-                  placeholder="Title (optional)"
+                  placeholder="Title"
                 />
                 <textarea
                   value={draft}
