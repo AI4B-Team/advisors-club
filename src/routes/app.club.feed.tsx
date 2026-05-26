@@ -113,13 +113,6 @@ function FeedPage() {
               </>
             )}
           </div>
-          <button className="hm-golive" type="button">
-            <span className="hm-golive-dot"/>
-            <Video size={14}/> Go Live
-          </button>
-          <button className="hm-new" onClick={publish}>
-            <Plus size={15} strokeWidth={3}/> New Post
-          </button>
           <button className="hm-iconbtn" aria-label="More"><MoreHorizontal size={16}/></button>
         </div>
       </div>
