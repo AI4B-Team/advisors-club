@@ -55,14 +55,14 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
             className={`post-actions-item${muted ? " on" : ""}`}
             onClick={() => { setMuted(m => !m); setOpen(false); }}
           >
-            {muted ? <BellOff size={14}/> : <Bell size={14}/>} {muted ? "Unmute notifications" : "Mute notifications"}
+            {muted ? <BellOff size={14}/> : <Bell size={14}/>} {muted ? "Unmute Notifications" : "Mute Notifications"}
           </button>
           <button className="post-actions-item" onClick={() => setOpen(false)}>
-            <Link2 size={14}/> Copy link
+            <Link2 size={14}/> Copy Link
           </button>
           {isAdmin && (
             <button className="post-actions-item" onClick={() => setOpen(false)}>
-              <FolderInput size={14}/> Change category
+              <FolderInput size={14}/> Change Category
             </button>
           )}
           {isAdmin && (
@@ -70,16 +70,16 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
               className="post-actions-item"
               onClick={() => { onPinToFeed?.(); setOpen(false); }}
             >
-              <Pin size={14}/> {isPinned ? "Unpin from feed" : "Pin to feed"}
+              <Pin size={14}/> {isPinned ? "Unpin From Feed" : "Pin To Feed"}
             </button>
           )}
           {isAdmin && (
             <button className="post-actions-item" onClick={() => setOpen(false)}>
-              <MessageSquareOff size={14}/> Turn off comments
+              <MessageSquareOff size={14}/> Turn Off Comments
             </button>
           )}
           <button className="post-actions-item" onClick={() => setOpen(false)}>
-            <Flag size={14}/> Report to admins
+            <Flag size={14}/> Report To Admins
           </button>
           {isAdmin && (
             <>
@@ -88,7 +88,7 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
                 <Trash2 size={14}/> Delete
               </button>
               <button className="post-actions-item danger" onClick={() => setOpen(false)}>
-                <UserX size={14}/> Delete and ban user
+                <UserX size={14}/> Delete And Ban User
               </button>
             </>
           )}
