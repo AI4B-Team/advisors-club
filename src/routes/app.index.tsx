@@ -146,7 +146,7 @@ function HomePage() {
                   rows={2}
                 />
               </div>
-              <button className="hm-composer-plus" onClick={publish} aria-label="Add"><Plus size={18}/></button>
+              
             </div>
             <div className="hm-composer-foot">
               <div className="hm-composer-tools">
