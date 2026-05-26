@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2, Globe, Link2, Pin } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
+import { CommenterStack } from "@/components/commenter-stack";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
@@ -199,6 +200,13 @@ function HomePage() {
                   <button className="hm-post-act">
                     <MessageCircle size={16}/> {p.comments}
                   </button>
+                  {p.comments > 0 && (
+                    <CommenterStack
+                      seed={p.id}
+                      count={Math.min(5, p.comments)}
+                      lastLabel={`New comment ${p.time} ago`}
+                    />
+                  )}
                   <button className={`hm-post-act ${p.saved?"on":""}`} onClick={()=>toggleSave(p.id)} style={{marginLeft:"auto"}}>
                     <Bookmark size={16} fill={p.saved?"currentColor":"none"}/>
                   </button>
