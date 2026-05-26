@@ -1,4 +1,4 @@
-export type PostCategory = "discussion" | "announcement" | "win" | "question" | "resource";
+export type PostCategory = "general" | "win" | "update";
 
 export type FeedPost = {
   id: string;
@@ -18,25 +18,21 @@ export type FeedPost = {
   category: PostCategory;
 };
 
-import { MessageCircle, Megaphone, Trophy, HelpCircle, BookOpen, type LucideIcon } from "lucide-react";
+import { MessageSquare, Sparkles, Megaphone, type LucideIcon } from "lucide-react";
 
 export const CATEGORY_META: Record<PostCategory, { label: string; icon: LucideIcon; bg: string; fg: string }> = {
-  discussion:   { label: "Discussion",   icon: MessageCircle, bg: "#F3F4F6", fg: "#374151" },
-  announcement: { label: "Announcement", icon: Megaphone,     bg: "#F3F4F6", fg: "#374151" },
-  win:          { label: "Win",          icon: Trophy,        bg: "#F3F4F6", fg: "#374151" },
-  question:     { label: "Question",     icon: HelpCircle,    bg: "#F3F4F6", fg: "#374151" },
-  resource:     { label: "Resource",     icon: BookOpen,      bg: "#F3F4F6", fg: "#374151" },
-
+  general: { label: "General", icon: MessageSquare, bg: "#F3F4F6", fg: "#374151" },
+  win:     { label: "Wins",    icon: Sparkles,      bg: "#F3F4F6", fg: "#374151" },
+  update:  { label: "Updates", icon: Megaphone,     bg: "#F3F4F6", fg: "#374151" },
 };
 
 export const FEED_TABS: { id: "all" | PostCategory; label: string }[] = [
-  { id: "all",          label: "All" },
-  { id: "discussion",   label: "Discussions" },
-  { id: "announcement", label: "Announcements" },
-  { id: "win",          label: "Wins" },
-  { id: "question",     label: "Questions" },
-
+  { id: "all",     label: "All" },
+  { id: "general", label: "General" },
+  { id: "win",     label: "Wins" },
+  { id: "update",  label: "Updates" },
 ];
+
 
 export const SEED_POSTS: FeedPost[] = [
   {
