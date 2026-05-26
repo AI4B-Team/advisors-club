@@ -411,14 +411,14 @@ function Index() {
                 <div style={{ fontSize:10, fontWeight:700, color:"#6B6B66", marginBottom:12, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}><Trophy size={11} />Leaderboard</div>
                 <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
                   {[
-                    { r:"1", name:"Marcus T.", av:"M", avBg:"#F5A623", avC:"#1A1A1A", pts:"1,240", hot:true },
-                    { r:"2", name:"Sarah K.", av:"S", avBg:"#818CF8", avC:"#fff", pts:"1,010" },
-                    { r:"3", name:"You", av:"Y", avBg:"#4ADE80", avC:"#1A1A1A", pts:"840", you:true },
-                    { r:"4", name:"Ryan P.", av:"R", avBg:"#FB923C", avC:"#fff", pts:"720", dim:true },
+                    { r:"1", name:"Marcus T.", img:"https://i.pravatar.cc/80?img=12", pts:"1,240", hot:true },
+                    { r:"2", name:"Sarah K.", img:"https://i.pravatar.cc/80?img=47", pts:"1,010" },
+                    { r:"3", name:"You", img:"https://i.pravatar.cc/80?img=64", pts:"840", you:true },
+                    { r:"4", name:"Ryan P.", img:"https://i.pravatar.cc/80?img=33", pts:"720", dim:true },
                   ].map(row=>(
                     <div key={row.r} style={{ display:"flex", alignItems:"center", gap:10, fontSize:12, opacity: row.dim?0.55:1, background: row.you?"rgba(245,166,35,0.10)":"#FFFFFF", border: row.you?"1px solid rgba(245,166,35,0.25)":"1px solid rgba(0,0,0,0.06)", borderRadius:8, padding:"6px 8px" }}>
                       <div style={{ width:20, fontWeight:900, color: row.hot||row.you?"var(--ac-amber)":"rgba(0,0,0,0.4)", textAlign:"center" }}>{row.r}</div>
-                      <div style={{ width:26, height:26, borderRadius:"50%", background:row.avBg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:900, color:row.avC }}>{row.av}</div>
+                      <img src={row.img} alt={row.name} loading="lazy" width={26} height={26} style={{ width:26, height:26, borderRadius:"50%", objectFit:"cover", flexShrink:0 }} />
                       <div style={{ flex:1, fontWeight: row.you?700:600, color: row.you?"var(--ac-amber)":"#1A1A1A" }}>{row.name}</div>
                       <div style={{ fontWeight: row.hot||row.you?800:700, color: row.hot||row.you?"var(--ac-amber)":"#6B6B66" }}>{row.pts} pts</div>
                     </div>
