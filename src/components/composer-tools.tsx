@@ -117,7 +117,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
           }}
         />
       )}
-      {recording && <span style={{fontSize:12,fontWeight:700,color:"#DC2626",marginLeft:6,alignSelf:"center"}}>● {recordSec}s</span>}
+      
 
       <input ref={fileRef} type="file" multiple hidden onChange={e => { attachFiles(e.target.files, "file"); e.target.value=""; }}/>
       <input ref={imgRef} type="file" accept="image/*" multiple hidden onChange={e => { attachFiles(e.target.files, "image"); e.target.value=""; }}/>
