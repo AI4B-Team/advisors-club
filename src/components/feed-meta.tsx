@@ -18,15 +18,16 @@ export function PostBody({ text }: { text: string }) {
 /* ============ Category badge ============ */
 export function PostBadge({ category }: { category: PostCategory }) {
   const m = CATEGORY_META[category];
+  const Icon = m.icon;
   return (
     <span className="fp-badge" style={{ background: m.bg, color: m.fg }}>
-      <span aria-hidden>{m.emoji}</span> {m.label}
+      <Icon size={12} aria-hidden /> {m.label}
     </span>
   );
 }
 
 export function PinBadge() {
-  return <span className="fp-badge fp-badge-pin">📌 Pinned</span>;
+  return <span className="fp-badge fp-badge-pin"><Pin size={12} aria-hidden/> Pinned</span>;
 }
 
 /* ============ Tab row ============ */
