@@ -136,7 +136,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
 
       {openPoll && (
         <div className="composer-modal-back" onClick={() => setOpenPoll(false)}>
-          <div className="composer-modal" onClick={e => e.stopPropagation()}>
+          <div className="composer-modal poll-modal" onClick={e => e.stopPropagation()}>
             <div className="composer-modal-head">
               <h3>Create Poll</h3>
               <button type="button" onClick={() => setOpenPoll(false)}><X size={16}/></button>
@@ -145,18 +145,65 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
               className="composer-modal-input"
               placeholder="Ask a question…"
               value={pollQ}
+              maxLength={200}
               onChange={e => setPollQ(e.target.value)}
             />
             {pollOpts.map((o, i) => (
-              <input
-                key={i}
-                className="composer-modal-input"
-                placeholder={`Option ${i+1}`}
-                value={o}
-                onChange={e => setPollOpts(arr => arr.map((v, j) => j === i ? e.target.value : v))}
-              />
+              <div key={i} className="poll-opt-row">
+                <input
+                  className="composer-modal-input"
+                  placeholder={`Option ${i+1}`}
+                  value={o}
+                  maxLength={80}
+                  onChange={e => setPollOpts(arr => arr.map((v, j) => j === i ? e.target.value : v))}
+                />
+                {pollOpts.length > 2 && (
+                  <button type="button" className="poll-opt-remove" aria-label="Remove option" onClick={() => removePollOption(i)}>
+                    <X size={14}/>
+                  </button>
+                )}
+              </div>
             ))}
-            <button type="button" className="composer-modal-add" onClick={addPollOption}>+ Add Option</button>
+            <button type="button" className="composer-modal-add" disabled={pollOpts.length >= 8} onClick={addPollOption}>
+              + Add Option {pollOpts.length >= 8 && "(max 8)"}
+            </button>
+
+            <div className="poll-settings">
+              <label className="poll-setting">
+                <div>
+                  <div className="poll-setting-t">Show results to members</div>
+                  <div className="poll-setting-s">Hide vote counts until the poll closes</div>
+                </div>
+                <input type="checkbox" checked={pollShowResults} onChange={e => setPollShowResults(e.target.checked)}/>
+              </label>
+              <label className="poll-setting">
+                <div>
+                  <div className="poll-setting-t">Allow multiple answers</div>
+                  <div className="poll-setting-s">Members can pick more than one option</div>
+                </div>
+                <input type="checkbox" checked={pollMulti} onChange={e => setPollMulti(e.target.checked)}/>
+              </label>
+              <label className="poll-setting">
+                <div>
+                  <div className="poll-setting-t">Anonymous voting</div>
+                  <div className="poll-setting-s">Don't reveal who voted for what</div>
+                </div>
+                <input type="checkbox" checked={pollAnonymous} onChange={e => setPollAnonymous(e.target.checked)}/>
+              </label>
+              <div className="poll-setting">
+                <div>
+                  <div className="poll-setting-t">Poll duration</div>
+                  <div className="poll-setting-s">When voting closes</div>
+                </div>
+                <select className="poll-duration" value={pollDuration} onChange={e => setPollDuration(e.target.value as typeof pollDuration)}>
+                  <option value="1d">1 day</option>
+                  <option value="3d">3 days</option>
+                  <option value="7d">1 week</option>
+                  <option value="never">No end date</option>
+                </select>
+              </div>
+            </div>
+
             <div className="composer-modal-foot">
               <button type="button" className="composer-modal-cancel" onClick={() => setOpenPoll(false)}>Cancel</button>
               <button type="button" className="composer-modal-go" onClick={commitPoll}>Add Poll</button>
