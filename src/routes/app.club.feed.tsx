@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Pin } from "lucide-react";
+import { useViewMode } from "@/hooks/use-view-mode";
 
 const MAX_PINNED = 3;
-const IS_ADMIN = true;
 
 export const Route = createFileRoute("/app/club/feed")({
   head: () => ({ meta: [{ title: "Feed — Real Estate Empire" }, { name: "description", content: "Live community feed for your Club members." }] }),
@@ -56,6 +56,7 @@ const SEED: Post[] = [
 ];
 
 function FeedPage() {
+  const { isAdmin: IS_ADMIN } = useViewMode();
   const [posts, setPosts] = useState<Post[]>(SEED);
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");

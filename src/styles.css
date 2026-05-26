@@ -1606,3 +1606,47 @@
 .hm-post-pin-btn,.cc-post-pin-btn{border:0;background:transparent;cursor:pointer;color:#9CA3AF;padding:6px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center}
 .hm-post-pin-btn:hover,.cc-post-pin-btn:hover{background:#F3F4F6;color:#111827}
 .hm-post-pin-btn.on,.cc-post-pin-btn.on{color:#F59E0B}
+
+/* Topbar Admin/Member view toggle */
+.cc-tb-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  margin-right: 6px;
+}
+.cc-tb-view-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #6B7280;
+  padding: 0 6px 0 4px;
+}
+.cc-tb-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px !important;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4B5563;
+  background: transparent;
+  border: 0;
+  border-radius: 6px !important;
+  cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.cc-tb-view-btn:hover { color: #111827; }
+.cc-tb-view-btn.on {
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 0 0 1px rgba(0,0,0,.04);
+}
+.cc-tb-view-btn.on.admin {
+  background: #F5A623;
+  color: #1A1A1A;
+}

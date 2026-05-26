@@ -2,6 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tan
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { ViewModeProvider, useViewMode } from "@/hooks/use-view-mode";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -24,18 +25,20 @@ function AppShell() {
   const pathname = useRouterState({ select: s => s.location.pathname });
   const hideSidebar = pathname.startsWith("/app/account");
   return (
-    <ClubCtx.Provider value={{ active, setActive }}>
-      <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}`}>
-        <IconRail />
-        {!hideSidebar && <CommunitySidebar />}
-        <div className="cc-main-wrap">
-          <Topbar />
-          <main className="cc-main">
-            <Outlet />
-          </main>
+    <ViewModeProvider>
+      <ClubCtx.Provider value={{ active, setActive }}>
+        <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}`}>
+          <IconRail />
+          {!hideSidebar && <CommunitySidebar />}
+          <div className="cc-main-wrap">
+            <Topbar />
+            <main className="cc-main">
+              <Outlet />
+            </main>
+          </div>
         </div>
-      </div>
-    </ClubCtx.Provider>
+      </ClubCtx.Provider>
+    </ViewModeProvider>
   );
 }
 
@@ -336,6 +339,7 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
+        <ViewModeToggle />
         <button className="cc-tb-icon" data-tip="Notifications" onClick={()=>nav({to:"/app/notifications"})}><Bell size={16}/></button>
         <button className="cc-tb-icon" data-tip="Messages" onClick={()=>nav({to:"/app/messages"})}><MessageCircle size={16}/></button>
         <button className="cc-tb-icon" data-tip="Bookmarks" onClick={()=>nav({to:"/app/bookmarks"})}><Bookmark size={16}/></button>
@@ -368,6 +372,30 @@ function Topbar() {
     </header>
   );
 }
+
+function ViewModeToggle() {
+  const { mode, setMode } = useViewMode();
+  return (
+    <div className="cc-tb-view" role="group" aria-label="View as">
+      <span className="cc-tb-view-label">View:</span>
+      <button
+        className={`cc-tb-view-btn ${mode === "admin" ? "on admin" : ""}`}
+        onClick={() => setMode("admin")}
+        aria-pressed={mode === "admin"}
+      >
+        <ShieldCheck size={13}/> Admin
+      </button>
+      <button
+        className={`cc-tb-view-btn ${mode === "member" ? "on" : ""}`}
+        onClick={() => setMode("member")}
+        aria-pressed={mode === "member"}
+      >
+        <User size={13}/> Member
+      </button>
+    </div>
+  );
+}
+
 
 
 function MenuItem({ icon, label, right, onClick }: { icon: React.ReactNode; label: string; right?: string; onClick?: () => void }) {
