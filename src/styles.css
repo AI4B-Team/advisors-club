@@ -1517,10 +1517,13 @@
 .btn-ghost:hover{background:#F9FAFB;border-color:#D1D5DB}
 
 /* ============ APP HOME (/app) ============ */
-.cc-main:has(.hm){background:#fff}
-.hm{max-width:1200px;margin:0 auto}
-.hm-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
-@media (max-width:980px){.hm-grid{grid-template-columns:1fr}}
+.cc-main:has(.hm){background:#fff;overflow:hidden;padding:0}
+.hm{max-width:1200px;margin:0 auto;height:100%;padding:24px 32px 0}
+.hm-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:stretch;height:100%}
+.hm-feed{overflow-y:auto;min-height:0;padding-bottom:60px;padding-right:4px}
+.hm-feed::-webkit-scrollbar,.hm-side::-webkit-scrollbar{width:8px}
+.hm-feed::-webkit-scrollbar-thumb,.hm-side::-webkit-scrollbar-thumb{background:#E5E7EB;border-radius:8px}
+@media (max-width:980px){.hm-grid{grid-template-columns:1fr;height:auto}.cc-main:has(.hm){overflow:auto}.hm-feed{overflow:visible;padding-bottom:0}}
 .hm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
 .hm-head h1{font-size:26px;font-weight:800;color:#111827;margin:0;letter-spacing:-.02em}
 .hm-head-actions{display:flex;align-items:center;gap:8px}
