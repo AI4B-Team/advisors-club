@@ -1558,8 +1558,8 @@
 .hm-composer-plus:hover{background:#E5E7EB}
 .hm-composer-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #F3F4F6;padding-top:10px}
 .hm-composer-tools{display:flex;gap:2px}
-.hm-composer-tools button{width:32px;height:32px;border-radius:8px;border:0;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.hm-composer-tools button:hover{background:#F3F4F6;color:#111827}
+.hm-composer-tools > button{width:32px;height:32px;border-radius:8px;border:0;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.hm-composer-tools > button:hover{background:#F3F4F6;color:#111827}
 .hm-send{display:inline-flex;align-items:center;gap:6px;background:#111827;color:#fff;border:0;padding:8px 14px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer}
 .hm-send:disabled{opacity:.5;cursor:not-allowed}
 
