@@ -277,6 +277,8 @@ function CommunitySidebar() {
         )}
       </div>
 
+      <ViewModeToggle />
+
       {TOP_LINKS.map(link => (
         <SidebarTopLink key={link.label} link={link} />
       ))}
