@@ -88,7 +88,8 @@ function HomePage() {
     });
   }
 
-  const base = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const filtered = activeTab === "all" ? posts : posts.filter(p => p.category === activeTab);
+  const base = sort === "top" ? [...filtered].sort((a,b)=>b.likes-a.likes) : filtered;
   const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
@@ -137,6 +138,7 @@ function HomePage() {
               <ComposerTools draft={draft} setDraft={setDraft} className="hm-composer-tools"/>
 
               <div className="hm-composer-right">
+                <ComposerCategoryPicker value={composerCat} onChange={setComposerCat} open={catOpen} setOpen={setCatOpen}/>
                 <AivaComposerMenu
                   onWrite={()=>setDraft(d => d + (d ? "\n\n" : "") + "Draft started with AIVA — refine the angle, add a hook, and end with a question.")}
                   onPrompt={()=>{ setTitle(t => t || "Discussion: What's your biggest unlock this week?"); setDraft(d => d + (d ? "\n\n" : "") + "Share one thing you learned, one thing you shipped, and one thing you're stuck on. Tag a member who could help."); }}
@@ -150,7 +152,15 @@ function HomePage() {
             </div>
           </div>
 
+          <FeedTabs posts={posts} activeTab={activeTab} onChange={setActiveTab}/>
+
           <div className="hm-posts">
+            {sorted.length === 0 && (
+              <div className="fp-empty">
+                No {CATEGORY_META[activeTab as PostCategory]?.label.toLowerCase() ?? ""}s yet.
+                <button type="button" className="fp-empty-link" onClick={()=>setActiveTab("all")}>View all</button>
+              </div>
+            )}
             {sorted.map(p => (
               <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
                 <header className="hm-post-head">
@@ -160,7 +170,10 @@ function HomePage() {
                   </span>
                   <div className="hm-post-meta">
                     <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
-                    <div className="hm-post-sub">Posted in Discussions</div>
+                    <div className="hm-post-sub" style={{display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
+                      {p.pinned && <PinBadge/>}
+                      <PostBadge category={p.category}/>
+                    </div>
                   </div>
                   <PostHeaderActions
                     isAdmin={IS_ADMIN}
@@ -171,7 +184,7 @@ function HomePage() {
                   />
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}
-                <div className="hm-post-body">{p.body}</div>
+                <div className="hm-post-body"><PostBody text={p.body}/></div>
                 <footer className="hm-post-foot">
                   <button className={`hm-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
                     <Heart size={16} fill={p.liked ? "currentColor":"none"}/> {p.likes}
@@ -179,6 +192,7 @@ function HomePage() {
                   <button className="hm-post-act">
                     <MessageCircle size={16}/> {p.comments}
                   </button>
+                  <BookmarkButton saved={!!p.saved} onToggle={()=>toggleSave(p.id)}/>
                   {p.comments > 0 && (
                     <CommenterStack
                       seed={p.id}
@@ -191,6 +205,7 @@ function HomePage() {
             ))}
           </div>
         </section>
+
 
         <aside className="hm-side">
           <div className="hm-card hm-profile">
