@@ -1960,8 +1960,10 @@
 .fp-badge-pin{background:#FEF3C7;color:#92400E}
 
 .fp-cat-picker{position:relative;display:inline-flex}
-.fp-cat-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:7px 11px;border-radius:8px;border:0;cursor:pointer;transition:filter .15s}
-.fp-cat-btn:hover{filter:brightness(.95)}
+.fp-cat-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;border:1px solid hsl(var(--border));background:hsl(var(--background));color:hsl(var(--foreground));cursor:pointer;transition:background .15s}
+.fp-cat-btn:hover{background:hsl(var(--muted))}
+.fp-cat-current{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:2px}
+
 .fp-cat-menu{position:absolute;bottom:calc(100% + 6px);left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 30px -10px rgba(17,24,39,.2);padding:5px;min-width:180px;z-index:50}
 .fp-cat-item{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;background:transparent;border:0;border-radius:7px;font-size:13px;font-weight:600;color:#1F2937;cursor:pointer;text-align:left}
 .fp-cat-item:hover{background:#F9FAFB}
