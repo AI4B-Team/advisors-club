@@ -169,7 +169,7 @@ function HomePage() {
                   <div className="hm-post-meta">
                     <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
                     <div className="hm-post-sub" style={{display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
-                      {p.pinned && <PinBadge/>}
+                      
                       <PostBadge category={p.category}/>
                     </div>
                   </div>
