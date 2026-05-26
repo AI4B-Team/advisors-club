@@ -91,8 +91,21 @@ function HomePage() {
   function toggleSave(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, saved: !po.saved} : po));
   }
+  function togglePin(id: string) {
+    setPosts(p => {
+      const target = p.find(po => po.id === id);
+      if (!target) return p;
+      const pinnedCount = p.filter(po => po.pinned).length;
+      if (!target.pinned && pinnedCount >= MAX_PINNED) {
+        alert(`You can pin up to ${MAX_PINNED} posts.`);
+        return p;
+      }
+      return p.map(po => po.id === id ? {...po, pinned: !po.pinned} : po);
+    });
+  }
 
-  const sorted = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const base = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
     <div className="hm">
