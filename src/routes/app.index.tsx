@@ -246,6 +246,29 @@ function HomePage() {
             </div>
           </div>
 
+          <div className="hm-card">
+            <h3 className="hm-card-title">Leaderboard</h3>
+            <ul className="hm-leaderboard">
+              {[
+                { initials: "JM", color: "#4F46E5", name: "Judith M.", points: 1842 },
+                { initials: "GD", color: "#0EA5E9", name: "Greg D.", points: 1567 },
+                { initials: "AL", color: "#F5A623", name: "Albert Lott", points: 1320 },
+                { initials: "SK", color: "#10B981", name: "Sarah K.", points: 1184 },
+                { initials: "MA", color: "#EF4444", name: "Michael A.", points: 1042 },
+              ].map((u, i) => (
+                <li key={i} className="hm-lb-row">
+                  <span className={`hm-lb-rank r${i+1}`}>{i+1}</span>
+                  <span className="hm-av sm" style={{background:u.color}}>{u.initials}</span>
+                  <div className="hm-lb-meta">
+                    <div className="hm-lb-name">{u.name}</div>
+                    <div className="hm-lb-pts">{u.points.toLocaleString()} pts</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+
 
           <FeaturedEvent
             title="Fail Forward — Live Workshop"
