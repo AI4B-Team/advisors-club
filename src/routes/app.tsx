@@ -360,7 +360,7 @@ function Topbar() {
             <div className="cc-tb-menu">
               {viewAs && (
                 <div className="cc-tb-menu-viewbar">
-                  Viewing as <strong>{viewAs.name}</strong>
+                  Viewing As: <strong>{viewAs.name}</strong>
                   <button onClick={()=>{setMode("admin");}}>Exit</button>
                 </div>
               )}
