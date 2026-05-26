@@ -41,7 +41,8 @@ function HomePage() {
   const [posts, setPosts] = useState<Post[]>(SEED);
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
-  const [sort, setSort] = useState<"latest"|"top">("latest");
+  const [sort, setSort] = useState<"latest"|"top"|"unread">("latest");
+  const [sortOpen, setSortOpen] = useState(false);
   const [emailBlast, setEmailBlast] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("all");
   const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
