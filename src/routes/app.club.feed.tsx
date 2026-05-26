@@ -167,7 +167,7 @@ function FeedPage() {
               <button className={`cc-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
                 <Heart size={16} fill={p.liked ? "currentColor":"none"}/> {p.likes}
               </button>
-              <button className="cc-post-act">
+              <button className={`cc-post-act ${openComments[p.id] ? "on" : ""}`} onClick={() => setOpenComments(o => ({ ...o, [p.id]: !o[p.id] }))}>
                 <MessageCircle size={16}/> {p.comments}
               </button>
               {p.comments > 0 && (
@@ -178,6 +178,7 @@ function FeedPage() {
                 />
               )}
             </footer>
+            {openComments[p.id] && <PostComments postId={p.id} />}
           </article>
         ))}
       </div>
