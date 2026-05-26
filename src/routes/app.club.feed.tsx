@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Pin } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
+import { CommenterStack } from "@/components/commenter-stack";
 
 const MAX_PINNED = 3;
 
