@@ -30,7 +30,7 @@ function CoursesPage() {
       <div className="lt-ph">
         <div>
           <h1>Courses</h1>
-          <p>Sample preview — no courses yet. Generate your first with AIVA in seconds.</p>
+          <p>No courses yet. Generate your first with AIVA in seconds.</p>
         </div>
         <div style={{display:"flex",gap:8}}>
           <button className="btn-ghost"><Upload size={14}/> Upload Existing</button>
