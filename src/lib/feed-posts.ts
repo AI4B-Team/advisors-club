@@ -18,12 +18,14 @@ export type FeedPost = {
   category: PostCategory;
 };
 
-export const CATEGORY_META: Record<PostCategory, { label: string; emoji: string; bg: string; fg: string }> = {
-  discussion:   { label: "Discussion",   emoji: "💬", bg: "#F3F4F6", fg: "#374151" },
-  announcement: { label: "Announcement", emoji: "📣", bg: "#DBEAFE", fg: "#1E40AF" },
-  win:          { label: "Win",          emoji: "🏆", bg: "#FEF3C7", fg: "#92400E" },
-  question:     { label: "Question",     emoji: "❓", bg: "#EDE9FE", fg: "#6D28D9" },
-  resource:     { label: "Resource",     emoji: "📚", bg: "#D1FAE5", fg: "#047857" },
+import { MessageCircle, Megaphone, Trophy, HelpCircle, BookOpen, type LucideIcon } from "lucide-react";
+
+export const CATEGORY_META: Record<PostCategory, { label: string; icon: LucideIcon; bg: string; fg: string }> = {
+  discussion:   { label: "Discussion",   icon: MessageCircle, bg: "#F3F4F6", fg: "#374151" },
+  announcement: { label: "Announcement", icon: Megaphone,     bg: "#DBEAFE", fg: "#1E40AF" },
+  win:          { label: "Win",          icon: Trophy,        bg: "#FEF3C7", fg: "#92400E" },
+  question:     { label: "Question",     icon: HelpCircle,    bg: "#EDE9FE", fg: "#6D28D9" },
+  resource:     { label: "Resource",     icon: BookOpen,      bg: "#D1FAE5", fg: "#047857" },
 };
 
 export const FEED_TABS: { id: "all" | PostCategory; label: string }[] = [
