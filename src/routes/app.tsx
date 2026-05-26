@@ -2,6 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tan
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { ViewModeProvider, useViewMode } from "@/hooks/use-view-mode";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -24,18 +25,20 @@ function AppShell() {
   const pathname = useRouterState({ select: s => s.location.pathname });
   const hideSidebar = pathname.startsWith("/app/account");
   return (
-    <ClubCtx.Provider value={{ active, setActive }}>
-      <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}`}>
-        <IconRail />
-        {!hideSidebar && <CommunitySidebar />}
-        <div className="cc-main-wrap">
-          <Topbar />
-          <main className="cc-main">
-            <Outlet />
-          </main>
+    <ViewModeProvider>
+      <ClubCtx.Provider value={{ active, setActive }}>
+        <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}`}>
+          <IconRail />
+          {!hideSidebar && <CommunitySidebar />}
+          <div className="cc-main-wrap">
+            <Topbar />
+            <main className="cc-main">
+              <Outlet />
+            </main>
+          </div>
         </div>
-      </div>
-    </ClubCtx.Provider>
+      </ClubCtx.Provider>
+    </ViewModeProvider>
   );
 }
 
