@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tan
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { ViewModeProvider, useViewMode } from "@/hooks/use-view-mode";
+import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -345,14 +345,24 @@ function Topbar() {
         <button className="cc-tb-icon" data-tip="Bookmarks" onClick={()=>nav({to:"/app/bookmarks"})}><Bookmark size={16}/></button>
 
         <div className="cc-tb-pf" ref={ref}>
-          <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">{initial}</button>
+          <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">
+            {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+          </button>
           {open && (
             <div className="cc-tb-menu">
+              {viewAs && (
+                <div className="cc-tb-menu-viewbar">
+                  Viewing as <strong>{viewAs.name}</strong>
+                  <button onClick={()=>{setMode("admin");}}>Exit</button>
+                </div>
+              )}
               <div className="cc-tb-menu-head">
-                <span className="cc-tb-menu-av">{initial}</span>
+                <span className="cc-tb-menu-av">
+                  {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+                </span>
                 <div>
-                  <div className="cc-tb-menu-n">{displayName || "Guest"}</div>
-                  <div className="cc-tb-menu-e">{user?.email ?? ""}</div>
+                  <div className="cc-tb-menu-n">{viewAs ? viewAs.name : (displayName || "Guest")}</div>
+                  <div className="cc-tb-menu-e">{viewAs ? viewAs.email : (user?.email ?? "")}</div>
                 </div>
               </div>
               <button className="cc-tb-menu-cta amber" onClick={()=>{setOpen(false);nav({to:"/pricing"})}}><Zap size={15} strokeWidth={3}/> Upgrade</button>
