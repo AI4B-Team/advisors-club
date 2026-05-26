@@ -366,9 +366,10 @@ function Topbar() {
           className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
           type="button"
           aria-label="AIVA Summary"
+          data-tip="AIVA Summary"
           onClick={()=>setAiOpen(o=>!o)}
         >
-          <Sparkles size={14}/> <span>Summarize</span>
+          <Sparkles size={16}/>
         </button>
         {showPostActions && (
           <>
