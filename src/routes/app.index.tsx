@@ -159,9 +159,12 @@ function HomePage() {
                 <button data-tip="Poll"><BarChart3 size={18}/></button>
                 <button data-tip="Voice"><Mic size={18}/></button>
               </div>
-              <button className="hm-send" onClick={publish} disabled={!draft.trim()}>
-                <Send size={14}/> Publish
-              </button>
+              <div className="hm-composer-right">
+                {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
+                <button className="hm-send" onClick={publish} disabled={!draft.trim()}>
+                  <Send size={14}/> Publish
+                </button>
+              </div>
             </div>
           </div>
 
