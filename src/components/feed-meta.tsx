@@ -120,7 +120,7 @@ export function ComposerCategoryPicker({
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        <Tag size={12} aria-hidden /> {value === "discussion" ? "Category" : meta.label}
+        <Tag size={12} aria-hidden /> {value === "general" ? "Category" : meta.label}
         <ChevronDown size={12} aria-hidden />
       </button>
 
