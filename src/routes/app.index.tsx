@@ -106,12 +106,6 @@ function HomePage() {
     <div className="hm">
       <div className="hm-grid">
         <section className="hm-feed">
-          <div className="hm-head">
-            <h1>Feed</h1>
-            <div className="hm-head-actions">
-              <button className="hm-iconbtn" aria-label="More"><MoreHorizontal size={16}/></button>
-            </div>
-          </div>
 
 
           <div className="hm-composer">
