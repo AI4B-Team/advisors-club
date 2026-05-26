@@ -134,13 +134,15 @@ export const SEED_POSTS: FeedPost[] = [
   },
 ];
 
-/** Render simple **bold**, *italic*, `code` markdown into React nodes. */
-export function renderMarkdown(text: string): React.ReactNode[] {
+/** Parse simple **bold**, *italic*, `code` markdown into tagged segments. */
+export type MdSegment = { kind: "text" | "bold" | "italic" | "code"; value: string };
+export function parseMarkdown(text: string): MdSegment[] {
   const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g);
-  return parts.map((p, i) => {
-    if (p.startsWith("**") && p.endsWith("**")) return <strong key={i}>{p.slice(2,-2)}</strong>;
-    if (p.startsWith("*") && p.endsWith("*"))   return <em key={i}>{p.slice(1,-1)}</em>;
-    if (p.startsWith("`") && p.endsWith("`"))   return <code key={i}>{p.slice(1,-1)}</code>;
-    return <span key={i}>{p}</span>;
+  return parts.map((p) => {
+    if (p.startsWith("**") && p.endsWith("**")) return { kind: "bold",   value: p.slice(2,-2) };
+    if (p.startsWith("*")  && p.endsWith("*"))  return { kind: "italic", value: p.slice(1,-1) };
+    if (p.startsWith("`")  && p.endsWith("`"))  return { kind: "code",   value: p.slice(1,-1) };
+    return { kind: "text", value: p };
   });
 }
+
