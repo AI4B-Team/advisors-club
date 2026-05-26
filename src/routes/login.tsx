@@ -53,7 +53,7 @@ function LoginPage() {
             <div style={{textAlign:"right",marginTop:-4,marginBottom:8}}>
               <a href="#" style={{fontSize:13,color:"#F5A623",fontWeight:600}}>Forgot Password?</a>
             </div>
-            <button type="submit" className="lt-cta-full">Log In <ArrowRight size={16} strokeWidth={3} /></button>
+            <button type="submit" className="lt-cta-full">Sign In <ArrowRight size={16} strokeWidth={3} /></button>
           </form>
           <div className="lt-divider">Or Continue With</div>
           <button type="button" className="lt-google">
