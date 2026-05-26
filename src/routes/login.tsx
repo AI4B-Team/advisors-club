@@ -2,6 +2,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye, EyeOff, ArrowRight, Sparkles, Users, Zap, Shield, MessageSquare } from "lucide-react";
 import logoUrl from "@/assets/advisorsclub-logo-real.png";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
+import { toast } from "sonner";
 
 
 export const Route = createFileRoute("/login")({
@@ -19,10 +22,31 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const nav = useNavigate();
   const [showPw, setShowPw] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     nav({ to: "/app/dashboard" });
+  }
+
+  async function onGoogle() {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/app/dashboard`,
+    });
+    if (result.error) toast.error(result.error.message);
   }
 
   return (
@@ -41,11 +65,11 @@ function LoginPage() {
           <form onSubmit={onSubmit}>
             <div className="lt-field">
               <label>Email</label>
-              <input type="email" required placeholder="You@YourClub.com" />
+              <input type="email" required placeholder="You@YourClub.com" value={email} onChange={e=>setEmail(e.target.value)} />
             </div>
             <div className="lt-field lt-field-rel">
               <label>Password</label>
-              <input type={showPw ? "text" : "password"} required placeholder="••••••••" />
+              <input type={showPw ? "text" : "password"} required placeholder="••••••••" value={password} onChange={e=>setPassword(e.target.value)} />
               <button type="button" onClick={() => setShowPw(!showPw)} aria-label="Toggle Password">
                 {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -53,10 +77,12 @@ function LoginPage() {
             <div style={{textAlign:"right",marginTop:-4,marginBottom:8}}>
               <a href="#" style={{fontSize:13,color:"#F5A623",fontWeight:600}}>Forgot Password?</a>
             </div>
-            <button type="submit" className="lt-cta-full">Sign In <ArrowRight size={16} strokeWidth={3} /></button>
+            <button type="submit" className="lt-cta-full" disabled={loading}>
+              {loading ? "Signing In..." : <>Sign In <ArrowRight size={16} strokeWidth={3} /></>}
+            </button>
           </form>
           <div className="lt-divider">Or Continue With</div>
-          <button type="button" className="lt-google">
+          <button type="button" className="lt-google" onClick={onGoogle}>
             <GoogleG /> <span>Continue With Google</span>
           </button>
           <div className="lt-auth-foot">

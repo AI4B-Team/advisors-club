@@ -1,6 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowRight, Sparkles, Users, Zap, Shield, MessageSquare } from "lucide-react";
 import logoUrl from "@/assets/advisorsclub-logo-real.png";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -16,10 +20,41 @@ export const Route = createFileRoute("/signup")({
 
 function SignupPage() {
   const nav = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    const fn = firstName.trim();
+    const ln = lastName.trim();
+    const fullName = `${fn} ${ln}`.trim();
+    const { error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/app/getting-started`,
+        data: { first_name: fn, last_name: ln, full_name: fullName },
+      },
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Account created — welcome!");
     nav({ to: "/app/getting-started" });
+  }
+
+  async function onGoogle() {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/app/getting-started`,
+    });
+    if (result.error) toast.error(result.error.message);
   }
 
   return (
@@ -44,23 +79,29 @@ function SignupPage() {
             <div className="lt-row-2">
               <div className="lt-field">
                 <label>First Name</label>
-                <input required placeholder="John" maxLength={60} />
+                <input required placeholder="John" maxLength={60} value={firstName} onChange={e=>setFirstName(e.target.value)} />
               </div>
               <div className="lt-field">
                 <label>Last Name</label>
-                <input required placeholder="Doe" maxLength={60} />
+                <input required placeholder="Doe" maxLength={60} value={lastName} onChange={e=>setLastName(e.target.value)} />
               </div>
             </div>
             <div className="lt-field">
               <label>Email Address</label>
-              <input type="email" required placeholder="john@example.com" maxLength={255} />
+              <input type="email" required placeholder="john@example.com" maxLength={255} value={email} onChange={e=>setEmail(e.target.value)} />
             </div>
-            <button type="submit" className="lt-cta-full lt-cta-green">Continue</button>
+            <div className="lt-field">
+              <label>Password</label>
+              <input type="password" required placeholder="At least 8 characters" minLength={8} maxLength={72} value={password} onChange={e=>setPassword(e.target.value)} />
+            </div>
+            <button type="submit" className="lt-cta-full lt-cta-green" disabled={loading}>
+              {loading ? "Creating account..." : "Continue"}
+            </button>
           </form>
 
           <div className="lt-divider">Or</div>
 
-          <button type="button" className="lt-google">
+          <button type="button" className="lt-google" onClick={onGoogle}>
             <GoogleG /> <span>Sign Up With Google</span>
           </button>
 
@@ -68,6 +109,7 @@ function SignupPage() {
             Already Have An Account? <Link to="/login">Log In</Link>
           </div>
         </div>
+
 
         <div className="lt-auth-right">
           <h2>Everything Your Club Needs. None Of The Stack.</h2>

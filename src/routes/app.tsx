@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -272,6 +273,7 @@ function CommunitySidebar() {
 /* ============ TOP BAR ============ */
 function Topbar() {
   const nav = useNavigate();
+  const { displayName, initial, user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -289,6 +291,12 @@ function Topbar() {
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+
+  async function handleLogout() {
+    setOpen(false);
+    await signOut();
+    nav({ to: "/" });
+  }
 
   return (
     <header className="cc-tb">
@@ -333,14 +341,14 @@ function Topbar() {
         <button className="cc-tb-icon" data-tip="Bookmarks" onClick={()=>nav({to:"/app/bookmarks"})}><Bookmark size={16}/></button>
 
         <div className="cc-tb-pf" ref={ref}>
-          <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">Z</button>
+          <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">{initial}</button>
           {open && (
             <div className="cc-tb-menu">
               <div className="cc-tb-menu-head">
-                <span className="cc-tb-menu-av">Z</span>
+                <span className="cc-tb-menu-av">{initial}</span>
                 <div>
-                  <div className="cc-tb-menu-n">Zaddy</div>
-                  <div className="cc-tb-menu-e">zaddy@advisorsclub.com</div>
+                  <div className="cc-tb-menu-n">{displayName || "Guest"}</div>
+                  <div className="cc-tb-menu-e">{user?.email ?? ""}</div>
                 </div>
               </div>
               <button className="cc-tb-menu-cta amber" onClick={()=>{setOpen(false);nav({to:"/pricing"})}}><Zap size={15} strokeWidth={3}/> Upgrade</button>
@@ -348,11 +356,11 @@ function Topbar() {
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
               <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
-              
+
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
               <MenuItem icon={<Sun size={15}/>} label="Theme:" right="Light ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
-              <button className="cc-tb-menu-logout" onClick={()=>{setOpen(false);nav({to:"/"})}}><LogOut size={15}/> Log Out</button>
+              <button className="cc-tb-menu-logout" onClick={handleLogout}><LogOut size={15}/> Log Out</button>
             </div>
           )}
         </div>

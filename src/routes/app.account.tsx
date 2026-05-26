@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye, Pin, RefreshCw, Users, User, Share2, Wallet, UserCog, Bell, MessageSquare, CreditCard, Receipt, BarChart3, Settings, Palette, FileText, Send, Zap, Bot, Inbox, DollarSign, Layers, Monitor, Code, Moon, Keyboard, UserPlus } from "lucide-react";
 import heroImg from "@/assets/account-hero.jpg";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/app/account")({
   head: () => ({
@@ -117,13 +118,15 @@ const ACTIVITY = [
 ];
 
 function AccountOverview() {
+  const { displayName } = useAuth();
+  const first = (displayName || "there").split(" ")[0];
   return (
     <div className="sh">
       <div className="sh-row">
         <div className="sh-welcome">
           <div className="sh-welcome-t">
             <div className="sh-date">January 15, 2026</div>
-            <h2>Welcome Back, Zaddy</h2>
+            <h2>Welcome Back, {first}</h2>
             <h1>Ready to set up your club's <span>Loyalty Card?</span></h1>
             <button className="sh-set-up">Set Up</button>
           </div>
