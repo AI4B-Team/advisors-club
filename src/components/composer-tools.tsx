@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 import { PlusCircle, Hash, Paperclip, Video, Image as ImageIcon, Smile, BarChart3, Mic, Square, X } from "lucide-react";
+import { EmojiPicker } from "./emoji-picker";
 
 type Props = {
   draft: string;
   setDraft: (v: string | ((p: string) => string)) => void;
   className?: string;
 };
-
-const EMOJIS = ["😀","😂","😍","🙌","🔥","🎉","💯","👍","👏","🚀","💪","🤔","❤️","✨","🙏","😎","👀","💡","📈","🏠"];
 
 export function ComposerTools({ draft, setDraft, className = "hm-composer-tools" }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
