@@ -4,6 +4,7 @@ import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Cale
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
+import { GoLiveModal } from "@/components/go-live-modal";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
