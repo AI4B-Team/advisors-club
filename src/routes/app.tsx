@@ -373,6 +373,30 @@ function Topbar() {
   );
 }
 
+function ViewModeToggle() {
+  const { mode, setMode } = useViewMode();
+  return (
+    <div className="cc-tb-view" role="group" aria-label="View as">
+      <span className="cc-tb-view-label">View:</span>
+      <button
+        className={`cc-tb-view-btn ${mode === "admin" ? "on admin" : ""}`}
+        onClick={() => setMode("admin")}
+        aria-pressed={mode === "admin"}
+      >
+        <ShieldCheck size={13}/> Admin
+      </button>
+      <button
+        className={`cc-tb-view-btn ${mode === "member" ? "on" : ""}`}
+        onClick={() => setMode("member")}
+        aria-pressed={mode === "member"}
+      >
+        <User size={13}/> Member
+      </button>
+    </div>
+  );
+}
+
+
 
 function MenuItem({ icon, label, right, onClick }: { icon: React.ReactNode; label: string; right?: string; onClick?: () => void }) {
   return (
