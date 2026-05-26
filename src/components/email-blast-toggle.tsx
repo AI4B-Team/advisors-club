@@ -27,7 +27,7 @@ export function EmailBlastToggle({ on, onChange }: Props) {
       </button>
       {hover && (
         <span className="email-blast-tip" role="tooltip">
-          <b>{on ? "Email blast: ON" : "Email blast: OFF"}</b>
+          <b>{on ? "Email Blast: ON" : "Email Blast: OFF"}</b>
           <span>Click to {on ? "stop emailing" : "also email"} this post to ALL members. Limit: once every 72 hours.</span>
         </span>
       )}
