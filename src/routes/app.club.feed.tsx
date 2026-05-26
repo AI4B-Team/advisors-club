@@ -7,7 +7,8 @@ import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { PostComments } from "@/components/post-comments";
-import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
+import { SEED_POSTS, CATEGORY_META, type FeedPost as Post, type PostCategory } from "@/lib/feed-posts";
+import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId } from "@/components/feed-meta";
 
 const MAX_PINNED = 3;
 
@@ -28,26 +29,31 @@ function FeedPage() {
   const SORT_LABEL = { latest: "Latest", top: "Top", unread: "Unread" } as const;
   const [emailBlast, setEmailBlast] = useState(false);
   const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
+  const [activeTab, setActiveTab] = useState<TabId>("all");
+  const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
+  const [catOpen, setCatOpen] = useState(false);
 
   function publish() {
     const text = draft.trim();
     const t = title.trim();
     if (!text || !t) return;
-    const body = `**${t}**\n\n${text}`;
     setPosts(p => [{
       id: crypto.randomUUID(),
       author: "Zaddy",
       initials: "Z",
       color: "#F5A623",
       time: "Just now",
-      body,
+      title: t,
+      body: text,
       likes: 0, comments: 0,
       photo: "https://i.pravatar.cc/120?img=11",
       level: 1,
+      category: composerCat,
     }, ...p]);
     setDraft("");
     setTitle("");
   }
+
 
   function toggleLike(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, liked: !po.liked, likes: po.likes + (po.liked ? -1 : 1)} : po));
