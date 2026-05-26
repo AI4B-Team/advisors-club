@@ -68,8 +68,9 @@ function FeedPage() {
 
   function publish() {
     const text = draft.trim();
-    if (!text) return;
-    const body = title.trim() ? `**${title.trim()}**\n\n${text}` : text;
+    const t = title.trim();
+    if (!text || !t) return;
+    const body = `**${t}**\n\n${text}`;
     setPosts(p => [{
       id: crypto.randomUUID(),
       author: "Zaddy",
