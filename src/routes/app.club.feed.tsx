@@ -167,13 +167,22 @@ function FeedPage() {
 
       <div className="cc-posts">
         {sorted.map(p => (
-          <article key={p.id} className="cc-post">
+          <article key={p.id} className={`cc-post${p.pinned?" pinned":""}`}>
+            {p.pinned && <span className="cc-post-pinned"><Pin size={13}/> Pinned</span>}
             <header className="cc-post-head">
               <span className="cc-post-av" style={{background:p.color}}>{p.initials}</span>
               <div className="cc-post-meta">
                 <div className="cc-post-name">{p.author}</div>
                 <div className="cc-post-time">{p.time}</div>
               </div>
+              {IS_ADMIN && (
+                <button
+                  className={`cc-post-pin-btn${p.pinned?" on":""}`}
+                  onClick={()=>togglePin(p.id)}
+                  aria-label={p.pinned?"Unpin":"Pin"}
+                  title={p.pinned?"Unpin post":"Pin post"}
+                ><Pin size={16} fill={p.pinned?"currentColor":"none"}/></button>
+              )}
               <button className="cc-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
             </header>
             <div className="cc-post-body">{p.body}</div>
