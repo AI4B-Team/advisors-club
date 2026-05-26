@@ -1,4 +1,4 @@
-import { Bookmark } from "lucide-react";
+import { Bookmark, Pin } from "lucide-react";
 import { CATEGORY_META, FEED_TABS, parseMarkdown, type FeedPost, type PostCategory } from "@/lib/feed-posts";
 
 /* ============ Markdown body ============ */
