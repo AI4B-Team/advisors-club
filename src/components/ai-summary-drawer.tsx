@@ -166,7 +166,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
             )}
           </div>
 
-          <div className="ai-section-label"><Zap size={12}/> Quick actions</div>
+          <div className="ai-section-label"><Zap size={12}/> Quick Actions</div>
           <div className="ai-quick-list">
             {QUICK.map(q => (
               <button key={q.label} className="ai-quick-item">
