@@ -35,7 +35,7 @@ const SEED: Post[] = [
     title: "2026.05.21 Fail Forward",
     body: "Live replay from this week's Fail Forward session — drop your biggest takeaway below and tag a teammate who needs to hear it.",
     likes: 87, comments: 24,
-  },
+    pinned: true,
   {
     id: "2",
     author: "Sarah K.",
