@@ -223,7 +223,7 @@ function HomePage() {
             <div className="hm-profile-cover">
               <img className="hm-profile-cover-img" src={reCover} alt="" loading="lazy" />
               <h2 className="hm-profile-logo">Real Estate Empire</h2>
-              <span className="hm-profile-badge"><Globe size={12}/> PUBLIC</span>
+              
             </div>
             <div className="hm-profile-body">
               <h3 className="hm-profile-name">Real Estate Empire</h3>
