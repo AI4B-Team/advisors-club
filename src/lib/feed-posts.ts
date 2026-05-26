@@ -34,7 +34,7 @@ export const FEED_TABS: { id: "all" | PostCategory; label: string }[] = [
   { id: "announcement", label: "Announcements" },
   { id: "win",          label: "Wins" },
   { id: "question",     label: "Questions" },
-  { id: "question",     label: "Questions" },
+
 ];
 
 export const SEED_POSTS: FeedPost[] = [
