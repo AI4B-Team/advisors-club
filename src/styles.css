@@ -2408,3 +2408,23 @@
 .vm-rec-dot{position:absolute;top:10px;left:10px;background:rgba(220,38,38,.95);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:999px;letter-spacing:.04em}
 .vm-record-actions{display:flex;justify-content:center;gap:8px}
 .vm-stop{background:#DC2626 !important}
+
+/* Poll modal */
+.composer-modal-foot button{white-space:nowrap;flex-shrink:0}
+.composer-modal-add{white-space:nowrap}
+.composer-modal-add:disabled{color:#9CA3AF;cursor:not-allowed}
+.poll-modal{max-width:480px;max-height:90vh;overflow-y:auto}
+.poll-opt-row{position:relative;display:flex;align-items:center;gap:6px}
+.poll-opt-row .composer-modal-input{flex:1}
+.poll-opt-remove{flex-shrink:0;width:28px;height:28px;border-radius:7px;border:1px solid #E5E7EB;background:#fff;color:#6B7280;cursor:pointer;display:grid;place-items:center}
+.poll-opt-remove:hover{background:#FEF2F2;border-color:#FCA5A5;color:#DC2626}
+.poll-settings{display:flex;flex-direction:column;gap:2px;margin-top:8px;padding-top:12px;border-top:1px solid #F1F5F9}
+.poll-setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 4px;cursor:pointer}
+.poll-setting-t{font-size:13px;font-weight:600;color:#0F172A}
+.poll-setting-s{font-size:11.5px;color:#64748B;margin-top:1px}
+.poll-setting input[type="checkbox"]{width:38px;height:22px;appearance:none;background:#E5E7EB;border-radius:999px;position:relative;cursor:pointer;flex-shrink:0;transition:background .15s ease}
+.poll-setting input[type="checkbox"]::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .15s ease}
+.poll-setting input[type="checkbox"]:checked{background:#F5A623}
+.poll-setting input[type="checkbox"]:checked::after{transform:translateX(16px)}
+.poll-duration{border:1px solid #E5E7EB;border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;background:#fff;cursor:pointer;flex-shrink:0}
+.poll-duration:focus{outline:none;border-color:#F5A623}
