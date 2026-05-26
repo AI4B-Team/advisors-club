@@ -247,6 +247,14 @@ function HomePage() {
           </div>
 
 
+          <FeaturedEvent
+            title="Fail Forward — Live Workshop"
+            subtitle="Bring one stuck deal. Leave with a 7-day action plan."
+            whenISO="2026-05-28T15:00:00-04:00"
+            whenLabel="Thu, May 28 · 3:00 PM EDT"
+            host="Michael A."
+          />
+
           <div className="hm-card">
             <h3 className="hm-card-title">Upcoming events</h3>
             <ul className="hm-events">
