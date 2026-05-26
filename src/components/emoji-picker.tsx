@@ -58,7 +58,7 @@ const CATEGORIES: Category[] = [
       ["🥋","martial"],["🎽","running"],["🛹","skateboard"],["🛼","skates"],["🛷","sled"],["⛸️","ice skate"],["🥌","curling"],["🎿","ski"],["⛷️","skier"],["🏂","snowboard"],["🏋️","weights"],["🤸","cartwheel"],
       ["🤼","wrestle"],["🤽","water polo"],["🤾","handball"],["🤺","fencing"],["🏇","horse race"],["🧘","yoga"],["🏄","surf"],["🏊","swim"],["🚴","cycle"],["🚵","mountain bike"],["🎯","bullseye"],["🎮","gaming"],
       ["🎲","dice"],["🧩","puzzle"],["♟️","chess"],["🎭","theater"],["🎨","art"],["🎬","clapper"],["🎤","mic"],["🎧","headphones"],["🎼","score"],["🎹","piano"],["🥁","drum"],["🎷","sax"],
-      ["🎺","trumpet"],["🎸","guitar"],["🪕","banjo"],["🎻","violin"],["🎲","dice"],["🎰","slot"],["🎳","bowling"],["🏆","trophy"],["🥇","gold"],["🥈","silver"],["🥉","bronze"],["🎖️","medal"],
+      ["🎺","trumpet"],["🎸","guitar"],["🪕","banjo"],["🎻","violin"],["🎰","slot"],["🎳","bowling"],["🏆","trophy"],["🥇","gold"],["🥈","silver"],["🥉","bronze"],["🎖️","medal"],
     ].map(([e,n])=>({e,n})),
   },
   {
@@ -66,7 +66,7 @@ const CATEGORIES: Category[] = [
     label: "Travel & Places",
     items: [
       ["🚗","car"],["🚕","taxi"],["🚙","suv"],["🚌","bus"],["🚎","trolley"],["🏎️","race car"],["🚓","police"],["🚑","ambulance"],["🚒","fire truck"],["🚐","van"],["🛻","pickup"],["🚚","truck"],
-      ["🚛","big rig"],["🚜","tractor"],["🛵","scooter"],["🏍️","motorcycle"],["🚲","bicycle"],["🛴","kick scooter"],["🛹","skateboard"],["🚂","steam"],["🚆","train"],["🚇","metro"],["🚊","tram"],["🚝","monorail"],
+      ["🚛","big rig"],["🚜","tractor"],["🛵","scooter"],["🏍️","motorcycle"],["🚲","bicycle"],["🛴","kick scooter"],["🚂","steam"],["🚆","train"],["🚇","metro"],["🚊","tram"],["🚝","monorail"],
       ["🚄","bullet"],["🚅","speed train"],["🚈","light rail"],["🛫","takeoff"],["🛬","landing"],["🛩️","small plane"],["✈️","plane"],["🚀","rocket"],["🛸","ufo"],["🚁","helicopter"],["⛵","sailboat"],["🚤","speedboat"],
       ["🛥️","motorboat"],["🛳️","cruise"],["⛴️","ferry"],["🚢","ship"],["⚓","anchor"],["⛽","fuel"],["🚧","construction"],["🚦","signal"],["🚥","traffic light"],["🗺️","map"],["🗿","moai"],["🗽","liberty"],
       ["🗼","tokyo tower"],["🏰","castle"],["🏯","japanese castle"],["🏟️","stadium"],["🎡","ferris wheel"],["🎢","roller coaster"],["🎠","carousel"],["⛲","fountain"],["⛱️","umbrella"],["🏖️","beach"],["🏝️","island"],["🏜️","desert"],
@@ -116,11 +116,34 @@ const CATEGORIES: Category[] = [
   },
 ];
 
-type Props = { onPick: (e: string) => void; onClose: () => void };
+const TONES = [
+  { id: "default", label: "Default", color: "#FCD34D", mod: "" },
+  { id: "light", label: "Light", color: "#F5D6BA", mod: "\u{1F3FB}" },
+  { id: "medium-light", label: "Medium-Light", color: "#E8B98A", mod: "\u{1F3FC}" },
+  { id: "medium", label: "Medium", color: "#C68642", mod: "\u{1F3FD}" },
+  { id: "medium-dark", label: "Medium-Dark", color: "#8D5524", mod: "\u{1F3FE}" },
+  { id: "dark", label: "Dark", color: "#4A2C19", mod: "\u{1F3FF}" },
+];
 
-export function EmojiPicker({ onPick, onClose }: Props) {
+const TONE_SUPPORT = new Set([
+  "👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🫰","🤟","🤘","🤙","👈","👉","👆","🖕","👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","💅","🤳","💪","🦵","🦶","👂","🦻","👃","👶","🧒","👦","👧","🧑","👨","👩","🧓","👴","👵","🙍","🙎","🙅","🙆","💁","🙋","🧏","🙇","🤦","🤷","💆","💇","🚶","🧍","🧎","🏃","💃","🕺","🕴️","🧖","🧗","🤺","🏇","⛷️","🏂","🏌️","🏄","🚣","🏊","⛹️","🏋️","🚴","🚵","🤸","🤼","🤽","🤾","🤹","🧘","🛀","🛌","🫵","🫱","🫲","🫳","🫴","🫶","🦾","🦿"
+]);
+
+function applyTone(emoji: string, mod: string): string {
+  if (!mod) return emoji;
+  if (!TONE_SUPPORT.has(emoji)) return emoji;
+  // Strip trailing VS16 (FE0F) before inserting modifier, append once
+  const base = emoji.replace(/\uFE0F$/, "");
+  return base + mod;
+}
+
+type Props = { onPick: (e: string) => void; onClose: () => void; direction?: "up" | "down" };
+
+export function EmojiPicker({ onPick, onClose, direction = "up" }: Props) {
   const [query, setQuery] = useState("");
   const [activeCat, setActiveCat] = useState(CATEGORIES[0].id);
+  const [tone, setTone] = useState(TONES[0]);
+  const [toneOpen, setToneOpen] = useState(false);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -135,8 +158,10 @@ export function EmojiPicker({ onPick, onClose }: Props) {
     travel: "✈️", objects: "💡", symbols: "❤️", flags: "🏳️",
   };
 
+  const pick = (e: string) => onPick(applyTone(e, tone.mod));
+
   return (
-    <div className="emoji-picker" onMouseLeave={onClose}>
+    <div className={`emoji-picker emoji-picker-${direction}`} onMouseLeave={onClose}>
       <div className="emoji-picker-search">
         <input
           autoFocus
@@ -144,6 +169,31 @@ export function EmojiPicker({ onPick, onClose }: Props) {
           onChange={e => setQuery(e.target.value)}
           placeholder="Search emoji"
         />
+        <div className="emoji-tone-wrap">
+          <button
+            type="button"
+            className="emoji-tone-trigger"
+            onClick={() => setToneOpen(v => !v)}
+            title={`Skin tone: ${tone.label}`}
+          >
+            <span className="emoji-tone-dot" style={{ background: tone.color }} />
+          </button>
+          {toneOpen && (
+            <div className="emoji-tone-menu">
+              {TONES.map(t => (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={`emoji-tone-item${t.id === tone.id ? " on" : ""}`}
+                  onClick={() => { setTone(t); setToneOpen(false); }}
+                >
+                  <span className="emoji-tone-dot" style={{ background: t.color }} />
+                  <span>{t.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
       {!results && (
         <div className="emoji-picker-tabs">
@@ -166,7 +216,7 @@ export function EmojiPicker({ onPick, onClose }: Props) {
             <div className="emoji-picker-label">{results.length} result{results.length===1?"":"s"}</div>
             <div className="emoji-grid">
               {results.map((i, idx) => (
-                <button key={idx} type="button" className="composer-emoji-btn" title={i.n} onClick={() => onPick(i.e)}>{i.e}</button>
+                <button key={idx} type="button" className="composer-emoji-btn" title={i.n} onClick={() => pick(i.e)}>{applyTone(i.e, tone.mod)}</button>
               ))}
               {results.length === 0 && <div className="emoji-empty">No emoji found</div>}
             </div>
@@ -176,7 +226,7 @@ export function EmojiPicker({ onPick, onClose }: Props) {
             <div className="emoji-picker-label">{active.label}</div>
             <div className="emoji-grid">
               {active.items.map((i, idx) => (
-                <button key={idx} type="button" className="composer-emoji-btn" title={i.n} onClick={() => onPick(i.e)}>{i.e}</button>
+                <button key={idx} type="button" className="composer-emoji-btn" title={i.n} onClick={() => pick(i.e)}>{applyTone(i.e, tone.mod)}</button>
               ))}
             </div>
           </>

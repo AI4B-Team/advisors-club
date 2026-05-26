@@ -150,7 +150,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
       
 
       {openEmoji && (
-        <EmojiPicker onPick={insertEmoji} onClose={() => setOpenEmoji(false)} />
+        <EmojiPicker direction="down" onPick={insertEmoji} onClose={() => setOpenEmoji(false)} />
       )}
 
       {openPoll && (
