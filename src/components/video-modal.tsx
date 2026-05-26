@@ -155,7 +155,7 @@ export function VideoModal({ open, onClose, onInsert }: Props) {
             { id: "upload", icon: <UploadCloud size={14}/>, label: "Upload" },
             { id: "link", icon: <Link2 size={14}/>, label: "Paste Link" },
             { id: "record", icon: <VideoIcon size={14}/>, label: "Record" },
-          ] as { id: Tab; icon: JSX.Element; label: string }[]).map(t => (
+          ] as { id: Tab; icon: React.ReactNode; label: string }[]).map(t => (
             <button
               key={t.id}
               type="button"
