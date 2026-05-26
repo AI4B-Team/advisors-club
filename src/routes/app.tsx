@@ -360,6 +360,17 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
+        {showPostActions && (
+          <>
+            <button className="cc-tb-golive" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}>
+              <span className="cc-tb-golive-dot"/>
+              <Video size={14}/> Go Live
+            </button>
+            <button className="cc-tb-newpost" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:new-post"))}>
+              <Plus size={15} strokeWidth={3}/> New Post
+            </button>
+          </>
+        )}
         <button className="cc-tb-icon" data-tip="Calendar" onClick={()=>nav({to:"/app/calendar"})}><Calendar size={16}/></button>
         <button className="cc-tb-icon" data-tip="Notifications" onClick={()=>nav({to:"/app/notifications"})}><Bell size={16}/></button>
         <button className="cc-tb-icon" data-tip="Messages" onClick={()=>nav({to:"/app/messages"})}><MessageCircle size={16}/></button>
