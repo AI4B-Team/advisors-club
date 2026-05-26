@@ -6,6 +6,7 @@ import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
+import { PostComments } from "@/components/post-comments";
 import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
 
 const MAX_PINNED = 3;
