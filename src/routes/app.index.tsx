@@ -183,15 +183,11 @@ function HomePage() {
                     <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
                     <div className="hm-post-sub">Posted in Discussions</div>
                   </div>
-                  {IS_ADMIN && !p.pinned && (
-                    <button
-                      className="hm-post-pin-btn"
-                      onClick={()=>togglePin(p.id)}
-                      aria-label="Pin"
-                      title="Pin post"
-                    ><Pin size={16}/></button>
-                  )}
-                  <button className="hm-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
+                  <PostHeaderActions
+                    isAdmin={IS_ADMIN}
+                    isPinned={!!p.pinned}
+                    onPinToFeed={() => togglePin(p.id)}
+                  />
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}
                 <div className="hm-post-body">{p.body}</div>
