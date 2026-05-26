@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { PlusCircle, Hash, Paperclip, Video, Image as ImageIcon, Smile, BarChart3, Mic, Square, X } from "lucide-react";
 import { EmojiPicker } from "./emoji-picker";
+import { VideoModal } from "./video-modal";
 
 type Props = {
   draft: string;
@@ -11,7 +12,7 @@ type Props = {
 export function ComposerTools({ draft, setDraft, className = "hm-composer-tools" }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLInputElement>(null);
-  const vidRef = useRef<HTMLInputElement>(null);
+  const [openVideo, setOpenVideo] = useState(false);
   const [openEmoji, setOpenEmoji] = useState(false);
   const [openPoll, setOpenPoll] = useState(false);
   const [pollQ, setPollQ] = useState("");
@@ -92,7 +93,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
     <div className={className} style={{position:"relative"}}>
       <button data-tip="Attach" type="button" onClick={() => fileRef.current?.click()}><Paperclip size={18}/></button>
       <button data-tip="Image" type="button" onClick={() => imgRef.current?.click()}><ImageIcon size={18}/></button>
-      <button data-tip="Video" type="button" onClick={() => vidRef.current?.click()}><Video size={18}/></button>
+      <button data-tip="Video" type="button" onClick={() => setOpenVideo(true)}><Video size={18}/></button>
       <button data-tip="GIF" type="button" onClick={() => append(" [gif] ")} style={{fontSize:10,fontWeight:800,letterSpacing:".02em"}}>GIF</button>
       <button data-tip="Emoji" type="button" onClick={() => setOpenEmoji(v => !v)}><Smile size={18}/></button>
       <button data-tip="Poll" type="button" onClick={() => setOpenPoll(true)}><BarChart3 size={18}/></button>
@@ -110,7 +111,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
 
       <input ref={fileRef} type="file" multiple hidden onChange={e => { attachFiles(e.target.files, "file"); e.target.value=""; }}/>
       <input ref={imgRef} type="file" accept="image/*" multiple hidden onChange={e => { attachFiles(e.target.files, "image"); e.target.value=""; }}/>
-      <input ref={vidRef} type="file" accept="video/*" hidden onChange={e => { attachFiles(e.target.files, "video"); e.target.value=""; }}/>
+      
 
       {openEmoji && (
         <EmojiPicker onPick={insertEmoji} onClose={() => setOpenEmoji(false)} />
@@ -146,6 +147,8 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
           </div>
         </div>
       )}
+
+      <VideoModal open={openVideo} onClose={() => setOpenVideo(false)} onInsert={(t) => append(t)} />
     </div>
   );
 }
