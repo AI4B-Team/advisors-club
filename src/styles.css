@@ -512,7 +512,7 @@
 .lt-auth{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
 .lt-auth-rev .lt-auth-left{order:2}
 .lt-auth-rev .lt-auth-right{order:1}
-.lt-auth-left{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 64px;max-width:480px;width:100%;margin:0 auto}
+.lt-auth-left{display:flex;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;padding:72px 64px;max-width:480px;width:100%;margin:0 auto}
 .lt-auth-left form{width:100%;text-align:left}
 .lt-auth-left h1{text-align:center}
 .lt-auth-logo{display:inline-flex;margin-bottom:40px}
