@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
@@ -66,26 +66,25 @@ function FeedPage() {
 
   return (
     <div className="cc-feed">
-      <div className="cc-feed-head">
-        <div className="cc-feed-title">
-          <span className="cc-feed-emoji">🚀</span>
-          <h1>Space</h1>
-          <ChevronDown size={18}/>
-        </div>
-
-        <div className="cc-feed-actions">
-          <button className="cc-feed-sort" onClick={()=>setSort(s=>s==="latest"?"top":"latest")}>
+      <div className="hm-head">
+        <h1>
+          <span className="cc-feed-emoji" style={{marginRight:8}}>🚀</span>
+          Space
+          <ChevronDown size={18} style={{marginLeft:6,verticalAlign:"-3px"}}/>
+        </h1>
+        <div className="hm-head-actions">
+          <button className="hm-iconbtn" aria-label="AI"><Sparkles size={16}/></button>
+          <button className="hm-sort" onClick={()=>setSort(s=>s==="latest"?"top":"latest")}>
             {sort === "latest" ? "Latest" : "Top"} <ChevronDown size={14}/>
           </button>
-          <div className="cc-feed-avs">
-            <span className="cc-feed-av" style={{background:"#84cc16"}}>A</span>
-            <span className="cc-feed-av" style={{background:"#65a30d"}}>B</span>
-            <span className="cc-feed-av" style={{background:"#4d7c0f"}}>C</span>
-            <span className="cc-feed-av-plus">+30</span>
-          </div>
-          <button className="cc-feed-new" onClick={publish}>
+          <button className="hm-golive" type="button">
+            <span className="hm-golive-dot"/>
+            <Video size={14}/> Go Live
+          </button>
+          <button className="hm-new" onClick={publish}>
             <Plus size={15} strokeWidth={3}/> New Post
           </button>
+          <button className="hm-iconbtn" aria-label="More"><MoreHorizontal size={16}/></button>
         </div>
       </div>
 
