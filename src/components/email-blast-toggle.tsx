@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info } from "lucide-react";
+import { Mail } from "lucide-react";
 
 type Props = {
   on: boolean;
@@ -9,33 +9,28 @@ type Props = {
 export function EmailBlastToggle({ on, onChange }: Props) {
   const [hover, setHover] = useState(false);
   return (
-    <div className="email-blast">
-      <span
-        className="email-blast-info"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        tabIndex={0}
-        onFocus={() => setHover(true)}
-        onBlur={() => setHover(false)}
-        aria-label="Email blast info"
-      >
-        <Info size={14}/>
-        {hover && (
-          <span className="email-blast-tip" role="tooltip">
-            Turning this on will also send this post to ALL members of your group via email. You can only do this once every 72 hours.
-          </span>
-        )}
-      </span>
-      <span className="email-blast-label">Send email to all members</span>
+    <span className="email-blast">
       <button
         type="button"
         role="switch"
         aria-checked={on}
-        className={`email-blast-switch${on ? " on" : ""}`}
+        aria-label="Send email to all members"
+        className={`email-blast-icon${on ? " on" : ""}`}
         onClick={() => onChange(!on)}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setHover(true)}
+        onBlur={() => setHover(false)}
       >
-        <span className="email-blast-knob" />
+        <Mail size={16} />
+        {on && <span className="email-blast-dot" aria-hidden />}
       </button>
-    </div>
+      {hover && (
+        <span className="email-blast-tip" role="tooltip">
+          <b>{on ? "Email blast: ON" : "Email blast: OFF"}</b>
+          <span>Click to {on ? "stop emailing" : "also email"} this post to ALL members. Limit: once every 72 hours.</span>
+        </span>
+      )}
+    </span>
   );
 }
