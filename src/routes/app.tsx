@@ -57,7 +57,7 @@ function IconRail() {
           {it.label.slice(0,1)}
         </button>
       ))}
-      <button className="cc-rail-add" data-tip="Create Community" onClick={() => nav({ to: "/discover" })}><Plus size={18}/></button>
+      <button className="cc-rail-add" data-tip="Create Club" onClick={() => nav({ to: "/discover" })}><Plus size={18}/></button>
     </aside>
   );
 }
