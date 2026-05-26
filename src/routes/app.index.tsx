@@ -195,7 +195,7 @@ function HomePage() {
                     <CommenterStack
                       seed={p.id}
                       count={Math.min(5, p.comments)}
-                      lastLabel={`New comment ${p.time} ago`}
+                      lastLabel={`New Comment ${p.time.replace(/\b\w/g, c => c.toUpperCase())}`}
                     />
                   )}
                 </footer>
