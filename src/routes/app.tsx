@@ -24,8 +24,14 @@ const ClubCtx = createContext<{
 
 function AppShell() {
   const [active, setActive] = useState<Club>(CLUBS[0]);
+  const [liveOpen, setLiveOpen] = useState(false);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const hideSidebar = pathname.startsWith("/app/account");
+  useEffect(() => {
+    const onLive = () => setLiveOpen(true);
+    window.addEventListener("cc:go-live", onLive);
+    return () => window.removeEventListener("cc:go-live", onLive);
+  }, []);
   return (
     <ViewModeProvider>
       <ClubCtx.Provider value={{ active, setActive }}>
@@ -38,6 +44,7 @@ function AppShell() {
               <Outlet />
             </main>
           </div>
+          <GoLiveModal open={liveOpen} onClose={() => setLiveOpen(false)} />
         </div>
       </ClubCtx.Provider>
     </ViewModeProvider>
