@@ -116,7 +116,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
             <span className="ai-drawer-spark"><Sparkles size={16}/></span>
             <div>
               <div className="ai-drawer-h1">AIVA Summary</div>
-              <div className="ai-drawer-h2">Catch up on your community</div>
+              <div className="ai-drawer-h2">Catch Up On Your Community</div>
             </div>
           </div>
           <button className="ai-drawer-x" onClick={onClose} aria-label="Close"><X size={16}/></button>
