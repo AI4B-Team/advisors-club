@@ -519,7 +519,7 @@
 .lt-auth-logo img{height:72px;width:auto;display:block}
 
 .lt-auth h1{font-size:32px;margin-bottom:8px}
-.lt-auth-sub{color:var(--muted);font-size:15px;margin-bottom:32px}
+.lt-auth-sub{color:var(--muted);font-size:15px;margin-bottom:32px;padding-bottom:12px}
 .lt-nowrap{white-space:nowrap;font-size:14px}
 .lt-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
 .lt-field label{font-size:13px;font-weight:600;color:var(--ink)}
