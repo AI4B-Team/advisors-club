@@ -89,8 +89,17 @@ function intent(text: string): { reply: string; steps?: string[] } {
   };
 }
 
+const MODES = [
+  { k: "create", label: "Create", i: <Palette size={16}/>, color: "#10b981", hint: "Write a Club post about " },
+  { k: "research", label: "Research", i: <Search size={16}/>, color: "#3b82f6", hint: "Research the latest trends in " },
+  { k: "plan", label: "Plan", i: <Map size={16}/>, color: "#f59e0b", hint: "Plan a 30-day launch for " },
+  { k: "automate", label: "Automate", i: <Zap size={16}/>, color: "#ef4444", hint: "Automate onboarding emails for " },
+];
+
 function AivaConsole() {
   const [input, setInput] = useState("");
+  const [hero, setHero] = useState("");
+  const [mode, setMode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([
     { id: 0, from: "ai", text: "Hey Zaddy — I'm AIVA. Ask me to build a course, write emails, plan a challenge, or anything else for your Club." },
@@ -115,6 +124,14 @@ function AivaConsole() {
     }, 900);
   }
 
+  function generateHero() {
+    const v = hero.trim();
+    if (!v) return;
+    send(v);
+    setHero("");
+    setMode(null);
+  }
+
   function newChat() {
     setMsgs([{ id: 0, from: "ai", text: "New chat. What should we build?" }]);
     setInput("");
@@ -128,6 +145,39 @@ function AivaConsole() {
           <p>Your 24/7 AI Community Operator.</p>
         </div>
       </div>
+
+      <div className="aiva-hero">
+        <h2>What Would You Like To Do Today?</h2>
+        <div className="aiva-modes">
+          {MODES.map(m => (
+            <button
+              key={m.k}
+              type="button"
+              className={`aiva-mode${mode === m.k ? " on" : ""}`}
+              onClick={() => setMode(mode === m.k ? null : m.k)}
+            >
+              <span style={{color:m.color}}>{m.i}</span>
+              <span>{m.label}</span>
+            </button>
+          ))}
+        </div>
+        <div className="aiva-hero-box">
+          <textarea
+            value={hero}
+            onChange={e => setHero(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) generateHero(); }}
+            placeholder={mode ? MODES.find(x => x.k === mode)!.hint + "..." : "What do you want to do?"}
+          />
+          <div className="aiva-hero-row">
+            <button type="button" className="aiva-mic" aria-label="Voice"><Mic size={16}/></button>
+            <button type="button" className="aiva-gen" disabled={!hero.trim() || loading} onClick={generateHero}>
+              <Send size={14}/> Generate For Free!
+            </button>
+          </div>
+        </div>
+      </div>
+
+
 
       <div className="lt-aiva-wrap">
         <div className="lt-aiva-chat">
