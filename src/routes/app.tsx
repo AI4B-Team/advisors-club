@@ -424,12 +424,14 @@ function ViewModeToggle() {
       <div className="cc-tb-view-member" ref={ref}>
         <button
           className="cc-tb-view-btn"
-          onClick={() => { setMode("member"); setOpen(true); }}
+          onClick={() => setOpen(o => !o)}
           aria-pressed={false}
+          aria-haspopup="menu"
+          aria-expanded={open}
         >
           <User size={13}/>
           <span>{viewAs ? viewAs.name.split(" ")[0] : "Member"}</span>
-          <ChevronDown size={12} onClick={(e)=>{e.stopPropagation();setOpen(o=>!o);}}/>
+          <ChevronDown size={12}/>
         </button>
         {open && (
           <div className="cc-tb-view-menu">
