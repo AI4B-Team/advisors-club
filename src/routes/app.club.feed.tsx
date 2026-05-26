@@ -186,15 +186,11 @@ function FeedPage() {
                 <div className="cc-post-name">{p.author}</div>
                 <div className="cc-post-time">{p.time}</div>
               </div>
-              {IS_ADMIN && !p.pinned && (
-                <button
-                  className="cc-post-pin-btn"
-                  onClick={()=>togglePin(p.id)}
-                  aria-label="Pin"
-                  title="Pin post"
-                ><Pin size={16}/></button>
-              )}
-              <button className="cc-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
+              <PostHeaderActions
+                isAdmin={IS_ADMIN}
+                isPinned={!!p.pinned}
+                onPinToFeed={() => togglePin(p.id)}
+              />
             </header>
             <div className="cc-post-body">{p.body}</div>
             <footer className="cc-post-foot">
