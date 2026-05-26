@@ -55,6 +55,8 @@ function HomePage() {
       title: t,
       body: text,
       likes: 0, comments: 0,
+      photo: "https://i.pravatar.cc/120?img=11",
+      level: 1,
     }, ...p]);
     setDraft("");
     setTitle("");
@@ -140,7 +142,10 @@ function HomePage() {
             {sorted.map(p => (
               <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
                 <header className="hm-post-head">
-                  <span className="hm-av" style={{background:p.color}}>{p.initials}</span>
+                  <span className="post-av-wrap">
+                    <img className="post-av-img" src={p.photo} alt={p.author} loading="lazy"/>
+                    <span className="post-av-level">{p.level}</span>
+                  </span>
                   <div className="hm-post-meta">
                     <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
                     <div className="hm-post-sub">Posted in Discussions</div>
