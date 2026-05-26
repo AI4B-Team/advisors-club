@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Eye, Pin, RefreshCw, Users, User, Share2, Wallet, UserCog, Bell, MessageSquare, CreditCard, Receipt, BarChart3, Settings, Palette, FileText, Send, Zap, Bot, Inbox, DollarSign, Layers, Monitor, Code, Moon, Keyboard, UserPlus } from "lucide-react";
 import heroImg from "@/assets/account-hero.jpg";
 import { useAuth } from "@/hooks/use-auth";
+import { useViewMode } from "@/hooks/use-view-mode";
 
 export const Route = createFileRoute("/app/account")({
   head: () => ({
@@ -119,9 +120,21 @@ const ACTIVITY = [
 
 function AccountOverview() {
   const { displayName } = useAuth();
-  const first = (displayName || "there").split(" ")[0];
+  const { viewAs, setMode } = useViewMode();
+  const activeName = viewAs ? viewAs.name : displayName;
+  const first = (activeName || "there").split(" ")[0];
   return (
     <div className="sh">
+      {viewAs && (
+        <div className="sh-impersonate">
+          <img src={viewAs.avatar} alt="" />
+          <div>
+            <strong>Viewing account as {viewAs.name}</strong>
+            <span>{viewAs.role} · {viewAs.email}</span>
+          </div>
+          <button onClick={()=>setMode("admin")}>Exit member view</button>
+        </div>
+      )}
       <div className="sh-row">
         <div className="sh-welcome">
           <div className="sh-welcome-t">

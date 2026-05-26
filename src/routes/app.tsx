@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tan
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { ViewModeProvider, useViewMode } from "@/hooks/use-view-mode";
+import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -277,6 +277,7 @@ function CommunitySidebar() {
 function Topbar() {
   const nav = useNavigate();
   const { displayName, initial, user, signOut } = useAuth();
+  const { viewAs, setMode } = useViewMode();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -345,14 +346,24 @@ function Topbar() {
         <button className="cc-tb-icon" data-tip="Bookmarks" onClick={()=>nav({to:"/app/bookmarks"})}><Bookmark size={16}/></button>
 
         <div className="cc-tb-pf" ref={ref}>
-          <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">{initial}</button>
+          <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">
+            {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+          </button>
           {open && (
             <div className="cc-tb-menu">
+              {viewAs && (
+                <div className="cc-tb-menu-viewbar">
+                  Viewing as <strong>{viewAs.name}</strong>
+                  <button onClick={()=>{setMode("admin");}}>Exit</button>
+                </div>
+              )}
               <div className="cc-tb-menu-head">
-                <span className="cc-tb-menu-av">{initial}</span>
+                <span className="cc-tb-menu-av">
+                  {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+                </span>
                 <div>
-                  <div className="cc-tb-menu-n">{displayName || "Guest"}</div>
-                  <div className="cc-tb-menu-e">{user?.email ?? ""}</div>
+                  <div className="cc-tb-menu-n">{viewAs ? viewAs.name : (displayName || "Guest")}</div>
+                  <div className="cc-tb-menu-e">{viewAs ? viewAs.email : (user?.email ?? "")}</div>
                 </div>
               </div>
               <button className="cc-tb-menu-cta amber" onClick={()=>{setOpen(false);nav({to:"/pricing"})}}><Zap size={15} strokeWidth={3}/> Upgrade</button>
@@ -374,7 +385,21 @@ function Topbar() {
 }
 
 function ViewModeToggle() {
-  const { mode, setMode } = useViewMode();
+  const { mode, setMode, viewAs, setViewAs } = useViewMode();
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+  const filtered = SAMPLE_MEMBERS.filter(m =>
+    m.name.toLowerCase().includes(q.toLowerCase()) ||
+    m.role.toLowerCase().includes(q.toLowerCase())
+  );
   return (
     <div className="cc-tb-view" role="group" aria-label="View as">
       <span className="cc-tb-view-label">View:</span>
@@ -385,16 +410,53 @@ function ViewModeToggle() {
       >
         <ShieldCheck size={13}/> Admin
       </button>
-      <button
-        className={`cc-tb-view-btn ${mode === "member" ? "on" : ""}`}
-        onClick={() => setMode("member")}
-        aria-pressed={mode === "member"}
-      >
-        <User size={13}/> Member
-      </button>
+      <div className="cc-tb-view-member" ref={ref}>
+        <button
+          className={`cc-tb-view-btn ${mode === "member" ? "on" : ""}`}
+          onClick={() => { setMode("member"); setOpen(true); }}
+          aria-pressed={mode === "member"}
+        >
+          <User size={13}/>
+          <span>{viewAs ? viewAs.name.split(" ")[0] : "Member"}</span>
+          <ChevronDown size={12} onClick={(e)=>{e.stopPropagation();setOpen(o=>!o);}}/>
+        </button>
+        {open && (
+          <div className="cc-tb-view-menu">
+            <div className="cc-tb-view-search">
+              <Search size={13}/>
+              <input
+                autoFocus
+                placeholder="Search members"
+                value={q}
+                onChange={(e)=>setQ(e.target.value)}
+              />
+            </div>
+            <div className="cc-tb-view-list">
+              {filtered.length === 0 && (
+                <div className="cc-tb-view-empty">No members found</div>
+              )}
+              {filtered.map(m => (
+                <button
+                  key={m.id}
+                  className={`cc-tb-view-item ${viewAs?.id === m.id ? "on" : ""}`}
+                  onClick={()=>{ setViewAs(m); setOpen(false); setQ(""); }}
+                >
+                  <img src={m.avatar} alt="" />
+                  <div className="cc-tb-view-item-meta">
+                    <div className="cc-tb-view-item-n">{m.name}</div>
+                    <div className="cc-tb-view-item-r">{m.role}</div>
+                  </div>
+                  {viewAs?.id === m.id && <span className="cc-tb-view-item-check">✓</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
 
 
 
