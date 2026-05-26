@@ -171,17 +171,6 @@ function FeedPage() {
       <div className="cc-posts">
         {sorted.map(p => (
           <article key={p.id} className={`cc-post${p.pinned?" pinned":""}`}>
-            {p.pinned && (
-              <button
-                type="button"
-                className="cc-post-pinned"
-                onClick={()=> IS_ADMIN && togglePin(p.id)}
-                title={IS_ADMIN ? "Click to unpin" : "Pinned by admin"}
-                disabled={!IS_ADMIN}
-              >
-                <Pin size={13}/> Pinned
-              </button>
-            )}
             <header className="cc-post-head">
               <span className="cc-post-av" style={{background:p.color}}>{p.initials}</span>
               <div className="cc-post-meta">
@@ -192,6 +181,8 @@ function FeedPage() {
                 isAdmin={IS_ADMIN}
                 isPinned={!!p.pinned}
                 onPinToFeed={() => togglePin(p.id)}
+                saved={!!p.saved}
+                onToggleSave={() => toggleSave(p.id)}
               />
             </header>
             <div className="cc-post-body">{p.body}</div>
