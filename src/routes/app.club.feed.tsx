@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Pin } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { PostHeaderActions } from "@/components/post-header-actions";
 
 const MAX_PINNED = 3;
 
@@ -186,15 +187,11 @@ function FeedPage() {
                 <div className="cc-post-name">{p.author}</div>
                 <div className="cc-post-time">{p.time}</div>
               </div>
-              {IS_ADMIN && !p.pinned && (
-                <button
-                  className="cc-post-pin-btn"
-                  onClick={()=>togglePin(p.id)}
-                  aria-label="Pin"
-                  title="Pin post"
-                ><Pin size={16}/></button>
-              )}
-              <button className="cc-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
+              <PostHeaderActions
+                isAdmin={IS_ADMIN}
+                isPinned={!!p.pinned}
+                onPinToFeed={() => togglePin(p.id)}
+              />
             </header>
             <div className="cc-post-body">{p.body}</div>
             <footer className="cc-post-foot">

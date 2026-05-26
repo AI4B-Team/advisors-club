@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2, Globe, Link2, Pin } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { PostHeaderActions } from "@/components/post-header-actions";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
@@ -183,15 +184,11 @@ function HomePage() {
                     <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
                     <div className="hm-post-sub">Posted in Discussions</div>
                   </div>
-                  {IS_ADMIN && !p.pinned && (
-                    <button
-                      className="hm-post-pin-btn"
-                      onClick={()=>togglePin(p.id)}
-                      aria-label="Pin"
-                      title="Pin post"
-                    ><Pin size={16}/></button>
-                  )}
-                  <button className="hm-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
+                  <PostHeaderActions
+                    isAdmin={IS_ADMIN}
+                    isPinned={!!p.pinned}
+                    onPinToFeed={() => togglePin(p.id)}
+                  />
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}
                 <div className="hm-post-body">{p.body}</div>
