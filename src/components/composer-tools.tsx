@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { PlusCircle, Hash, Paperclip, Video, Image as ImageIcon, Smile, BarChart3, Mic, Square, X } from "lucide-react";
 import { EmojiPicker } from "./emoji-picker";
+import { VideoModal } from "./video-modal";
 
 type Props = {
   draft: string;
