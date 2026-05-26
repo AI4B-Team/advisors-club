@@ -33,14 +33,15 @@ export function PinBadge() {
 
 /* ============ Tab row ============ */
 export type TabId = "all" | PostCategory;
-export type FeedSort = "latest" | "top" | "unread";
+export type FeedSort = "latest" | "likes" | "popular" | "oldest";
 const SORT_OPTS: { id: FeedSort; label: string }[] = [
   { id: "latest", label: "Latest" },
-  { id: "top", label: "Top" },
-  { id: "unread", label: "Unread" },
+  { id: "likes", label: "Likes" },
+  { id: "popular", label: "Popular" },
+  { id: "oldest", label: "Oldest" },
 ];
 export function FeedTabs({
-  posts, activeTab, onChange, sort, onSortChange,
+  activeTab, onChange, sort, onSortChange,
 }: {
   posts: FeedPost[];
   activeTab: TabId;
@@ -48,34 +49,45 @@ export function FeedTabs({
   sort?: FeedSort;
   onSortChange?: (s: FeedSort) => void;
 }) {
-  const counts: Record<string, number> = { all: posts.length };
-  for (const p of posts) counts[p.category] = (counts[p.category] ?? 0) + 1;
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
+  const sortLabel = SORT_OPTS.find(o => o.id === sort)?.label ?? "Latest";
   return (
     <div className="fp-tabs">
+      {FEED_TABS.map(t => {
+        const active = activeTab === t.id;
+        return (
+          <button
+            key={t.id}
+            type="button"
+            className={`fp-tab${active ? " on" : ""}`}
+            onClick={() => onChange(t.id)}
+          >
+            {t.label}
+          </button>
+        );
+      })}
       {sort && onSortChange && (
-        <div className="fp-filter-wrap">
+        <div className="fp-sort-wrap">
           <button
             type="button"
-            className={`fp-filter-btn${filterOpen ? " is-open" : ""}`}
-            aria-label="Filter posts"
-            aria-expanded={filterOpen}
-            onClick={() => setFilterOpen(o => !o)}
+            className={`fp-sort-btn${sortOpen ? " is-open" : ""}`}
+            aria-haspopup="menu"
+            aria-expanded={sortOpen}
+            onClick={() => setSortOpen(o => !o)}
           >
-            <span>All</span>
+            <span>{sortLabel}</span>
             <ChevronDown size={12}/>
           </button>
-
-          {filterOpen && (
+          {sortOpen && (
             <>
-              <div className="fp-filter-backdrop" onClick={() => setFilterOpen(false)}/>
-              <div className="fp-filter-menu" role="menu">
+              <div className="fp-filter-backdrop" onClick={() => setSortOpen(false)}/>
+              <div className="fp-sort-menu" role="menu">
                 {SORT_OPTS.map(o => (
                   <button
                     key={o.id}
                     type="button"
                     className={`fp-filter-item${sort === o.id ? " is-active" : ""}`}
-                    onClick={() => { onSortChange(o.id); setFilterOpen(false); }}
+                    onClick={() => { onSortChange(o.id); setSortOpen(false); }}
                   >
                     <span>{o.label}</span>
                     {sort === o.id && <Check size={14}/>}
@@ -86,24 +98,10 @@ export function FeedTabs({
           )}
         </div>
       )}
-      {FEED_TABS.filter(t => t.id !== "all").map(t => {
-        const active = activeTab === t.id;
-        const n = counts[t.id] ?? 0;
-        return (
-          <button
-            key={t.id}
-            type="button"
-            className={`fp-tab${active ? " on" : ""}`}
-            onClick={() => onChange(t.id)}
-          >
-            {t.label}
-            <span className="fp-tab-count">{n}</span>
-          </button>
-        );
-      })}
     </div>
   );
 }
+
 
 /* ============ Composer category picker ============ */
 export function ComposerCategoryPicker({

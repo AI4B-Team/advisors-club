@@ -7,7 +7,7 @@ import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
-import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId } from "@/components/feed-meta";
+import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
@@ -41,7 +41,7 @@ function HomePage() {
   const [posts, setPosts] = useState<Post[]>(SEED);
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
-  const [sort, setSort] = useState<"latest"|"top"|"unread">("latest");
+  const [sort, setSort] = useState<FeedSort>("latest");
   
   const [emailBlast, setEmailBlast] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("all");
@@ -90,7 +90,9 @@ function HomePage() {
   }
 
   const filtered = activeTab === "all" ? posts : posts.filter(p => p.category === activeTab);
-  const base = sort === "top" ? [...filtered].sort((a,b)=>b.likes-a.likes) : filtered;
+  const base = (sort === "likes" || sort === "popular") ? [...filtered].sort((a,b)=>b.likes-a.likes)
+    : sort === "oldest" ? [...filtered].reverse()
+    : filtered;
   const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
