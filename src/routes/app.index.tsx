@@ -295,7 +295,7 @@ function HomePage() {
             <ul className="hm-trending">
               {TRENDING.map((t,i)=>(
                 <li key={i} className="hm-trend">
-                  <span className="hm-av sm" style={{background:t.color}}>{t.initials}</span>
+                  <img className="hm-av sm" src={t.photo} alt={t.who} loading="lazy" style={{objectFit:"cover"}}/>
                   <div>
                     <div className="hm-trend-title">{t.title}</div>
                     <div className="hm-trend-who">{t.who}</div>
