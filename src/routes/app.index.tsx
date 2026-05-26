@@ -76,14 +76,15 @@ function HomePage() {
 
   function publish() {
     const text = draft.trim();
-    if (!text) return;
+    const t = title.trim();
+    if (!text || !t) return;
     setPosts(p => [{
       id: crypto.randomUUID(),
       author: "Zaddy",
       initials: "Z",
       color: "#F5A623",
       time: "Just now",
-      title: title.trim() || undefined,
+      title: t,
       body: text,
       likes: 0, comments: 0,
     }, ...p]);
