@@ -158,6 +158,7 @@ function AivaConsole() {
             >
               <span style={{color:m.color}}>{m.i}</span>
               <span>{m.label}</span>
+              <Plus size={14} className="aiva-mode-plus"/>
             </button>
           ))}
         </div>
