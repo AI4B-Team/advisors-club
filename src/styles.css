@@ -1741,8 +1741,10 @@
   border: 0; background: transparent; color: #6B7280; border-radius: 999px; cursor: pointer;
   transition: background .12s, color .12s;
 }
-.post-actions-bell:hover, .post-actions-more:hover { background: #F3F4F6; color: #111827; }
+.post-actions-bookmark:hover, .post-actions-bell:hover, .post-actions-more:hover { background: #F3F4F6; color: #111827; }
 .post-actions-bell.on { color: #B45309; }
+.post-actions-bookmark.on { color: #111827; }
+.post-actions-item.on { color: #B45309; }
 .post-actions-menu {
   position: absolute; top: calc(100% + 6px); right: 0; min-width: 220px;
   background: #fff; border: 1px solid #E5E7EB; border-radius: 12px;
