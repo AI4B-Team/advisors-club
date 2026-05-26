@@ -163,7 +163,7 @@ function FeedPage() {
           <div className="cc-composer-right">
             {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
             <span className="cc-composer-target">Posting in: <b>Community</b></span>
-            <button className="cc-composer-send" onClick={publish} disabled={!draft.trim()}>
+            <button className="cc-composer-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
               <Send size={14}/> Publish
             </button>
           </div>
