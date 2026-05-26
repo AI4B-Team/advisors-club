@@ -7,6 +7,7 @@ import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
+import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId } from "@/components/feed-meta";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
@@ -16,9 +17,10 @@ export const Route = createFileRoute("/app/")({
   component: HomePage,
 });
 
-import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
+import { SEED_POSTS, CATEGORY_META, type FeedPost as Post, type PostCategory } from "@/lib/feed-posts";
 
 const SEED: Post[] = SEED_POSTS;
+
 
 const EVENTS = [
   { day: "26", mo: "MAY", title: "Hotline", time: "5:30 – 6:30 PM EDT" },
@@ -41,6 +43,9 @@ function HomePage() {
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<"latest"|"top">("latest");
   const [emailBlast, setEmailBlast] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabId>("all");
+  const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
+  const [catOpen, setCatOpen] = useState(false);
 
   function publish() {
     const text = draft.trim();
@@ -57,10 +62,12 @@ function HomePage() {
       likes: 0, comments: 0,
       photo: "https://i.pravatar.cc/120?img=11",
       level: 1,
+      category: composerCat,
     }, ...p]);
     setDraft("");
     setTitle("");
   }
+
 
   function toggleLike(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, liked: !po.liked, likes: po.likes + (po.liked ? -1 : 1)} : po));
@@ -81,7 +88,8 @@ function HomePage() {
     });
   }
 
-  const base = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const filtered = activeTab === "all" ? posts : posts.filter(p => p.category === activeTab);
+  const base = sort === "top" ? [...filtered].sort((a,b)=>b.likes-a.likes) : filtered;
   const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
@@ -130,6 +138,7 @@ function HomePage() {
               <ComposerTools draft={draft} setDraft={setDraft} className="hm-composer-tools"/>
 
               <div className="hm-composer-right">
+                <ComposerCategoryPicker value={composerCat} onChange={setComposerCat} open={catOpen} setOpen={setCatOpen}/>
                 <AivaComposerMenu
                   onWrite={()=>setDraft(d => d + (d ? "\n\n" : "") + "Draft started with AIVA — refine the angle, add a hook, and end with a question.")}
                   onPrompt={()=>{ setTitle(t => t || "Discussion: What's your biggest unlock this week?"); setDraft(d => d + (d ? "\n\n" : "") + "Share one thing you learned, one thing you shipped, and one thing you're stuck on. Tag a member who could help."); }}
@@ -143,7 +152,15 @@ function HomePage() {
             </div>
           </div>
 
+          <FeedTabs posts={posts} activeTab={activeTab} onChange={setActiveTab}/>
+
           <div className="hm-posts">
+            {sorted.length === 0 && (
+              <div className="fp-empty">
+                No {CATEGORY_META[activeTab as PostCategory]?.label.toLowerCase() ?? ""}s yet.
+                <button type="button" className="fp-empty-link" onClick={()=>setActiveTab("all")}>View all</button>
+              </div>
+            )}
             {sorted.map(p => (
               <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
                 <header className="hm-post-head">
@@ -153,7 +170,10 @@ function HomePage() {
                   </span>
                   <div className="hm-post-meta">
                     <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
-                    <div className="hm-post-sub">Posted in Discussions</div>
+                    <div className="hm-post-sub" style={{display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
+                      {p.pinned && <PinBadge/>}
+                      <PostBadge category={p.category}/>
+                    </div>
                   </div>
                   <PostHeaderActions
                     isAdmin={IS_ADMIN}
@@ -164,7 +184,7 @@ function HomePage() {
                   />
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}
-                <div className="hm-post-body">{p.body}</div>
+                <div className="hm-post-body"><PostBody text={p.body}/></div>
                 <footer className="hm-post-foot">
                   <button className={`hm-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
                     <Heart size={16} fill={p.liked ? "currentColor":"none"}/> {p.likes}
@@ -172,6 +192,7 @@ function HomePage() {
                   <button className="hm-post-act">
                     <MessageCircle size={16}/> {p.comments}
                   </button>
+                  <BookmarkButton saved={!!p.saved} onToggle={()=>toggleSave(p.id)}/>
                   {p.comments > 0 && (
                     <CommenterStack
                       seed={p.id}
@@ -184,6 +205,7 @@ function HomePage() {
             ))}
           </div>
         </section>
+
 
         <aside className="hm-side">
           <div className="hm-card hm-profile">

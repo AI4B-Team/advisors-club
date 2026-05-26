@@ -7,7 +7,8 @@ import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { PostComments } from "@/components/post-comments";
-import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
+import { SEED_POSTS, CATEGORY_META, type FeedPost as Post, type PostCategory } from "@/lib/feed-posts";
+import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId } from "@/components/feed-meta";
 
 const MAX_PINNED = 3;
 
@@ -28,26 +29,31 @@ function FeedPage() {
   const SORT_LABEL = { latest: "Latest", top: "Top", unread: "Unread" } as const;
   const [emailBlast, setEmailBlast] = useState(false);
   const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
+  const [activeTab, setActiveTab] = useState<TabId>("all");
+  const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
+  const [catOpen, setCatOpen] = useState(false);
 
   function publish() {
     const text = draft.trim();
     const t = title.trim();
     if (!text || !t) return;
-    const body = `**${t}**\n\n${text}`;
     setPosts(p => [{
       id: crypto.randomUUID(),
       author: "Zaddy",
       initials: "Z",
       color: "#F5A623",
       time: "Just now",
-      body,
+      title: t,
+      body: text,
       likes: 0, comments: 0,
       photo: "https://i.pravatar.cc/120?img=11",
       level: 1,
+      category: composerCat,
     }, ...p]);
     setDraft("");
     setTitle("");
   }
+
 
   function toggleLike(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, liked: !po.liked, likes: po.likes + (po.liked ? -1 : 1)} : po));
@@ -68,7 +74,8 @@ function FeedPage() {
     });
   }
 
-  const base = sort === "top" ? [...posts].sort((a,b)=>b.likes-a.likes) : posts;
+  const filtered = activeTab === "all" ? posts : posts.filter(p => p.category === activeTab);
+  const base = sort === "top" ? [...filtered].sort((a,b)=>b.likes-a.likes) : filtered;
   const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
@@ -131,7 +138,7 @@ function FeedPage() {
           <ComposerTools draft={draft} setDraft={setDraft} className="cc-composer-tools"/>
 
           <div className="cc-composer-right">
-            <span className="cc-composer-target">Posted In: <b>Community</b></span>
+            <ComposerCategoryPicker value={composerCat} onChange={setComposerCat} open={catOpen} setOpen={setCatOpen}/>
             {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
             <button className="cc-composer-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
               <Send size={14}/> Publish
@@ -140,8 +147,15 @@ function FeedPage() {
         </div>
       </div>
 
+      <FeedTabs posts={posts} activeTab={activeTab} onChange={setActiveTab}/>
 
       <div className="cc-posts">
+        {sorted.length === 0 && (
+          <div className="fp-empty">
+            No {CATEGORY_META[activeTab as PostCategory]?.label.toLowerCase() ?? ""}s yet.
+            <button type="button" className="fp-empty-link" onClick={()=>setActiveTab("all")}>View all</button>
+          </div>
+        )}
         {sorted.map(p => (
           <article key={p.id} className={`cc-post${p.pinned?" pinned":""}`}>
             <header className="cc-post-head">
@@ -151,7 +165,11 @@ function FeedPage() {
               </span>
               <div className="cc-post-meta">
                 <div className="cc-post-name">{p.author}</div>
-                <div className="cc-post-time">{p.time}</div>
+                <div className="cc-post-time" style={{display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
+                  <span>{p.time}</span>
+                  {p.pinned && <PinBadge/>}
+                  <PostBadge category={p.category}/>
+                </div>
               </div>
               <PostHeaderActions
                 isAdmin={IS_ADMIN}
@@ -162,7 +180,7 @@ function FeedPage() {
               />
             </header>
             {p.title && <h2 className="cc-post-title">{p.title}</h2>}
-            <div className="cc-post-body">{p.body}</div>
+            <div className="cc-post-body"><PostBody text={p.body}/></div>
             <footer className="cc-post-foot">
               <button className={`cc-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
                 <Heart size={16} fill={p.liked ? "currentColor":"none"}/> {p.likes}
@@ -170,6 +188,7 @@ function FeedPage() {
               <button className={`cc-post-act ${openComments[p.id] ? "on" : ""}`} onClick={() => setOpenComments(o => ({ ...o, [p.id]: !o[p.id] }))}>
                 <MessageCircle size={16}/> {p.comments}
               </button>
+              <BookmarkButton saved={!!p.saved} onToggle={()=>toggleSave(p.id)}/>
               {p.comments > 0 && (
                 <CommenterStack
                   seed={p.id}
@@ -185,3 +204,4 @@ function FeedPage() {
     </div>
   );
 }
+
