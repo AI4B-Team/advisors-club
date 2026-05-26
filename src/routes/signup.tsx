@@ -38,6 +38,8 @@ function SignupPage() {
           <h1>Create Your Account</h1>
           <p className="lt-auth-sub">Start Automating Your Business In Under 3 Minutes</p>
 
+          <div className="lt-trust"><span className="lt-trust-stars">★★★★★</span> 4.9 From 2,000+ Creators</div>
+
           <form onSubmit={onSubmit}>
             <div className="lt-row-2">
               <div className="lt-field">
@@ -71,10 +73,10 @@ function SignupPage() {
           <h2>Everything Your Club Needs. None Of The Stack.</h2>
           <p style={{color:"rgba(255,255,255,0.7)"}}>Replace 7 Tools With One Focused Platform.</p>
           <div style={{display:"flex",flexDirection:"column",gap:18,marginTop:10}}>
-            <Prop i={<Sparkles size={16}/>} t="AIVA — Your AI Operator" d="Drafts posts, emails, course outlines, replies." />
+            <Prop i={<Sparkles size={16}/>} t="AIVA — Your AI Operator" d="Posts, emails & outlines in seconds." />
             <Prop i={<Users size={16}/>} t="Community + Courses + Coaching" d="One platform. One subscription. One brand." />
             <Prop i={<Zap size={16}/>} t="Native Payments & Memberships" d="Stripe Connect. Tiered access. Free trials." />
-            <Prop i={<MessageSquare size={16}/>} t="Live Events & Hot-Seat Calls" d="Built-in video. No Zoom links to share." />
+            <Prop i={<MessageSquare size={16}/>} t="Live Events & Hot-Seat Calls" d="Built-in video. Zero Zoom links." />
             <Prop i={<Shield size={16}/>} t="Your Brand, Your Domain" d="Full white-label from day one." />
           </div>
           <div className="lt-testimonial">
