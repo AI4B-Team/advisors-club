@@ -44,7 +44,6 @@ export function ViewModeProvider({ children }: { children: ReactNode }) {
   function setMode(m: ViewMode) {
     setModeState(m);
     if (m === "admin") setViewAsState(null);
-    else if (!viewAs) setViewAsState(SAMPLE_MEMBERS[0]);
   }
 
   function setViewAs(m: MemberSample | null) {
