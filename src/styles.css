@@ -2344,7 +2344,7 @@
 .ai-drawer-x:hover{background:#F1F5F9}
 
 .ai-drawer-body{padding:14px 18px 28px;overflow-y:auto;flex:1}
-.ai-section-label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#64748B;margin:18px 0 8px}
+.ai-section-label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B;margin:18px 0 8px}
 .ai-section-label:first-child{margin-top:4px}
 
 .ai-range-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
