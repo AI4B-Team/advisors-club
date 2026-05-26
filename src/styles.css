@@ -2494,3 +2494,29 @@
 .gl-ended-ic{width:56px;height:56px;border-radius:999px;background:#FEE2E2;color:#DC2626;display:flex;align-items:center;justify-content:center}
 .gl-ended h4{margin:0;font-size:16px;font-weight:800;color:#111827}
 .gl-ended p{margin:0;color:#6B7280;font-size:13px;max-width:360px}
+
+/* Voice recorder modal */
+.vr-back{position:fixed;inset:0;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;z-index:200}
+.vr-modal{background:#fff;border-radius:16px;width:min(460px,92vw);box-shadow:0 24px 64px rgba(0,0,0,.24);overflow:hidden;display:flex;flex-direction:column}
+.vr-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #F1F5F9}
+.vr-head h3{margin:0;font-size:15px;font-weight:700;color:#111827}
+.vr-head button{border:0;background:transparent;cursor:pointer;color:#6B7280;padding:4px;border-radius:6px;display:inline-flex}
+.vr-head button:hover{background:#F3F4F6;color:#111827}
+.vr-err{background:#FEF2F2;color:#991B1B;font-size:13px;padding:10px 14px;border-bottom:1px solid #FECACA}
+.vr-body{padding:24px 20px 8px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.vr-time{font-variant-numeric:tabular-nums;font-size:34px;font-weight:700;color:#111827;letter-spacing:.02em}
+.vr-wave{display:flex;align-items:center;justify-content:center;gap:3px;height:64px;width:100%;padding:0 8px}
+.vr-wave span{display:inline-block;width:5px;border-radius:3px;background:linear-gradient(180deg,#3B82F6,#1D4ED8);transition:height 80ms linear}
+.vr-status{font-size:13px;color:#6B7280;display:inline-flex;align-items:center;gap:6px}
+.vr-dot{width:8px;height:8px;border-radius:50%;background:#DC2626;animation:vr-pulse 1.2s infinite}
+@keyframes vr-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.vr-ctrls{display:flex;gap:8px;padding:14px 16px 16px;border-top:1px solid #F1F5F9;justify-content:center;flex-wrap:wrap}
+.vr-rec,.vr-stop,.vr-ghost,.vr-insert{display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent}
+.vr-rec{background:#DC2626;color:#fff}
+.vr-rec:hover{background:#B91C1C}
+.vr-stop{background:#111827;color:#fff}
+.vr-stop:hover{background:#000}
+.vr-ghost{background:#fff;color:#374151;border-color:#E5E7EB}
+.vr-ghost:hover{background:#F9FAFB}
+.vr-insert{background:#2563EB;color:#fff}
+.vr-insert:hover{background:#1D4ED8}

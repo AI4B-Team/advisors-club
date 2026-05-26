@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
-import { PlusCircle, Hash, Paperclip, Video, Image as ImageIcon, Smile, BarChart3, Mic, Square, X } from "lucide-react";
+import { PlusCircle, Hash, Paperclip, Video, Image as ImageIcon, Smile, BarChart3, Mic, X } from "lucide-react";
 import { EmojiPicker } from "./emoji-picker";
 import { VideoModal } from "./video-modal";
 import { SlashMenu } from "./slash-menu";
+import { VoiceRecorderModal } from "./voice-recorder-modal";
+
 
 type Props = {
   draft: string;
@@ -24,10 +26,8 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
   const [pollMulti, setPollMulti] = useState(false);
   const [pollAnonymous, setPollAnonymous] = useState(false);
   const [pollDuration, setPollDuration] = useState<"1d" | "3d" | "7d" | "never">("7d");
-  const [recording, setRecording] = useState(false);
-  const [recordSec, setRecordSec] = useState(0);
-  const recRef = useRef<MediaRecorder | null>(null);
-  const recTimerRef = useRef<number | null>(null);
+  const [openVoice, setOpenVoice] = useState(false);
+
 
   function append(text: string) {
     setDraft(d => (d ? d.replace(/\s*$/, "") + (d.trim() ? " " : "") : "") + text);
@@ -75,34 +75,8 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
     setPollDuration("7d");
   }
 
-  async function toggleRecord() {
-    if (recording) {
-      recRef.current?.stop();
-      return;
-    }
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mr = new MediaRecorder(stream);
-      const chunks: Blob[] = [];
-      mr.ondataavailable = e => chunks.push(e.data);
-      mr.onstop = () => {
-        stream.getTracks().forEach(t => t.stop());
-        const blob = new Blob(chunks, { type: "audio/webm" });
-        const sec = recordSec;
-        append(`\n🎤 Voice note (${Math.max(1, sec)}s · ${(blob.size/1024).toFixed(0)} KB)\n`);
-        setRecording(false);
-        setRecordSec(0);
-        if (recTimerRef.current) window.clearInterval(recTimerRef.current);
-      };
-      recRef.current = mr;
-      mr.start();
-      setRecording(true);
-      setRecordSec(0);
-      recTimerRef.current = window.setInterval(() => setRecordSec(s => s + 1), 1000);
-    } catch {
-      alert("Microphone permission denied.");
-    }
-  }
+
+
 
   function insertEmoji(e: string) {
     setDraft(d => d + e);
@@ -119,13 +93,13 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
       <button data-tip="Poll" type="button" onClick={() => setOpenPoll(true)}><BarChart3 size={18}/></button>
       <button data-tip="Topic" type="button" onClick={insertHashtag}><Hash size={18}/></button>
       <button
-        data-tip={recording ? "Stop" : "Voice"}
+        data-tip="Voice"
         type="button"
-        onClick={toggleRecord}
-        style={recording ? { color: "#DC2626" } : undefined}
+        onClick={() => setOpenVoice(true)}
       >
-        {recording ? <Square size={16} fill="currentColor"/> : <Mic size={18}/>}
+        <Mic size={18}/>
       </button>
+
       <button data-tip="Open slash commands menu" type="button" onClick={() => setOpenSlash(v => !v)}><PlusCircle size={18}/></button>
       {openSlash && (
         <SlashMenu
@@ -143,7 +117,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
           }}
         />
       )}
-      {recording && <span style={{fontSize:12,fontWeight:700,color:"#DC2626",marginLeft:6,alignSelf:"center"}}>● {recordSec}s</span>}
+      
 
       <input ref={fileRef} type="file" multiple hidden onChange={e => { attachFiles(e.target.files, "file"); e.target.value=""; }}/>
       <input ref={imgRef} type="file" accept="image/*" multiple hidden onChange={e => { attachFiles(e.target.files, "image"); e.target.value=""; }}/>
@@ -232,6 +206,8 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
       )}
 
       <VideoModal open={openVideo} onClose={() => setOpenVideo(false)} onInsert={(t) => append(t)} />
+      <VoiceRecorderModal open={openVoice} onClose={() => setOpenVoice(false)} onInsert={(t) => append(t)} />
+
     </div>
   );
 }
