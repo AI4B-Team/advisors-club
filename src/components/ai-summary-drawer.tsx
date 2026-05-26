@@ -3,11 +3,10 @@ import { X, Sparkles, Clock, FileText, Image as ImageIcon, Video, Megaphone, Tre
 
 type Range = "24h" | "7d" | "30d" | "all";
 
-const RANGES: { id: Range; label: string }[] = [
-  { id: "24h", label: "Last 24 hours" },
-  { id: "7d", label: "Last 7 days" },
-  { id: "30d", label: "Last 30 days" },
-  { id: "all", label: "All time" },
+const RANGES: { id: Exclude<Range,"all">; label: string }[] = [
+  { id: "24h", label: "24 Hours" },
+  { id: "7d", label: "7 Days" },
+  { id: "30d", label: "30 Days" },
 ];
 
 const SUMMARIES: Record<Range, { headline: string; bullets: string[]; stats: { label: string; value: string }[] }> = {
@@ -124,7 +123,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
         </header>
 
         <div className="ai-drawer-body">
-          <div className="ai-section-label"><Clock size={12}/> Summarize period</div>
+          <div className="ai-section-label"><Clock size={12}/> Summarize Period</div>
           <div className="ai-range-grid">
             {RANGES.map(r => (
               <button
@@ -167,7 +166,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
             )}
           </div>
 
-          <div className="ai-section-label"><Zap size={12}/> Quick actions</div>
+          <div className="ai-section-label"><Zap size={12}/> Quick Actions</div>
           <div className="ai-quick-list">
             {QUICK.map(q => (
               <button key={q.label} className="ai-quick-item">
@@ -177,7 +176,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
             ))}
           </div>
 
-          <div className="ai-section-label"><Download size={12}/> Recent admin uploads</div>
+          <div className="ai-section-label"><Download size={12}/> Recent Uploads</div>
           <div className="ai-upload-list">
             {RECENT_UPLOADS.map(u => (
               <button key={u.title} className="ai-upload-item">
