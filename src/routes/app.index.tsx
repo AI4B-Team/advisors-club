@@ -133,6 +133,13 @@ function HomePage() {
             </div>
           </div>
 
+          <div className="hm-golive-row">
+            <button className="hm-golive" type="button">
+              <span className="hm-golive-dot"/>
+              <Video size={14}/> Go Live
+            </button>
+          </div>
+
           <div className="hm-composer">
             <div className="hm-composer-top">
               <span className="hm-av" style={{background:"#F5A623"}}>Z</span>
