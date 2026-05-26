@@ -1940,11 +1940,13 @@
 .aiva-comp-item:hover{background:#F5F3FF;color:#6D28D9}
 
 /* ============ FEED CATEGORY SYSTEM ============ */
-.fp-tabs{display:flex;align-items:center;gap:4px;overflow-x:auto;border-bottom:1px solid #E5E7EB;margin:8px 0 14px;scrollbar-width:none}
+.fp-tabs{display:flex;align-items:center;gap:4px;overflow:visible;border-bottom:1px solid #E5E7EB;margin:8px 0 14px;scrollbar-width:none;flex-wrap:wrap}
 .fp-tabs::-webkit-scrollbar{display:none}
 .fp-filter-wrap{position:relative;display:inline-flex;align-items:center;margin-right:4px;padding-bottom:8px}
-.fp-filter-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border-radius:8px;background:#F3F4F6;border:1px solid #E5E7EB;color:#374151;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,color .15s}
+.fp-filter-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:8px;background:#F3F4F6;border:1px solid #E5E7EB;color:#374151;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
 .fp-filter-btn:hover{background:#E5E7EB;color:#111827}
+.fp-filter-btn.is-open{background:#FEF3C7;border-color:#F5A623;color:#92400E}
+
 
 .fp-filter-backdrop{position:fixed;inset:0;z-index:40}
 .fp-filter-menu{position:absolute;top:calc(100% + 4px);left:0;z-index:50;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:4px;min-width:140px;display:flex;flex-direction:column}
