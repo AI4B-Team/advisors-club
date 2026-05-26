@@ -614,11 +614,11 @@ function Index() {
               <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:8, textTransform:"uppercase", letterSpacing:"0.08em" }}>Client Progress</div>
               <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
                 {[
-                  { name:"Marcus T.", av:"M", avBg:"#F5A623", avC:"#1A1A1A", pct:75, hot:true },
-                  { name:"Sarah K.", av:"S", avBg:"#818CF8", avC:"#fff", pct:48 },
+                  { name:"Marcus T.", img:"https://i.pravatar.cc/80?img=12", pct:75, hot:true },
+                  { name:"Sarah K.", img:"https://i.pravatar.cc/80?img=47", pct:48 },
                 ].map(c=>(
                   <div key={c.name} style={{ display:"flex", alignItems:"center", gap:10, fontSize:11 }}>
-                    <div style={{ width:26, height:26, borderRadius:"50%", background:c.avBg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:900, color:c.avC, flexShrink:0 }}>{c.av}</div>
+                    <img src={c.img} alt={c.name} loading="lazy" width={26} height={26} style={{ width:26, height:26, borderRadius:"50%", objectFit:"cover", flexShrink:0 }} />
                     <div style={{ flex:1 }}>
                       <div style={{ fontWeight:600, marginBottom:3, color:"#0F0F14" }}>{c.name}</div>
                       <div style={{ height:4, background:"rgba(0,0,0,0.07)", borderRadius:2, overflow:"hidden" }}><div style={{ height:"100%", width:`${c.pct}%`, background:"var(--ac-amber)", borderRadius:2 }} /></div>
