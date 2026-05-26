@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CalendarClock, Video } from "lucide-react";
+import hostAvatar from "@/assets/host-michael.jpg";
 
 type Props = {
   title: string;
@@ -45,7 +46,12 @@ export function FeaturedEvent({ title, subtitle, whenISO, whenLabel, host }: Pro
       </div>
 
       <div className="hm-featured-foot">
-        {host && <span className="hm-featured-host">Hosted by {host}</span>}
+        {host && (
+          <span className="hm-featured-host">
+            <img src={hostAvatar} alt={host} width={20} height={20} loading="lazy" className="hm-featured-host-avatar" />
+            Hosted By: {host}
+          </span>
+        )}
         <button className="hm-featured-cta"><Video size={14}/> RSVP</button>
       </div>
     </div>
