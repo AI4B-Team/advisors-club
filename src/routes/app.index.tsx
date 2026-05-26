@@ -69,6 +69,13 @@ function HomePage() {
     setTitle("");
   }
 
+  useEffect(() => {
+    const onNew = () => publish();
+    window.addEventListener("cc:new-post", onNew);
+    return () => window.removeEventListener("cc:new-post", onNew);
+  });
+
+
 
   function toggleLike(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, liked: !po.liked, likes: po.likes + (po.liked ? -1 : 1)} : po));
