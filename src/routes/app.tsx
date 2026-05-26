@@ -396,6 +396,10 @@ function ViewModeToggle() {
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+  // Regular members never see the view-mode toggle. Only the admin (in admin
+  // mode) sees it; when impersonating a member, the toggle hides so the
+  // experience matches a real member. Admin exits via the banner in /account.
+  if (mode !== "admin") return null;
   const filtered = SAMPLE_MEMBERS.filter(m =>
     m.name.toLowerCase().includes(q.toLowerCase()) ||
     m.role.toLowerCase().includes(q.toLowerCase())
