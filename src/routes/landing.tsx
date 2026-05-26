@@ -212,7 +212,7 @@ function Index() {
               </div>
               <div className="mock-post">
                 <div className="mp-hd">
-                  <div className="mp-av" style={{ background: "#F5A623" }}>Z</div>
+                  <img className="mp-av" src="https://i.pravatar.cc/80?img=15" alt="Admin" loading="lazy" width={30} height={30} style={{ objectFit:"cover" }} />
                   <div><div className="mp-name">Admin</div><div className="mp-time">5 min ago</div></div>
                   <div className="mp-badge"><Pin size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:3}} />Pinned</div>
                 </div>
@@ -221,7 +221,7 @@ function Index() {
               </div>
               <div className="mock-post">
                 <div className="mp-hd">
-                  <div className="mp-av" style={{ background: "#4ADE80" }}>M</div>
+                  <img className="mp-av" src="https://i.pravatar.cc/80?img=12" alt="Marcus T." loading="lazy" width={30} height={30} style={{ objectFit:"cover" }} />
                   <div><div className="mp-name">Marcus T. <span style={{ color: "var(--ac-amber)", fontSize: 10 }}><Star size={10} fill="currentColor" strokeWidth={0} style={{display:"inline",verticalAlign:"-1px",marginRight:2}} />Lvl 14</span></div><div className="mp-time">2 hours ago</div></div>
                 </div>
                 <div className="mp-body">Shipped my first GPT-powered customer support bot using the Module 4 playbook — cut response time 87% in the first week. This Club paid for itself 200x.</div>
@@ -229,7 +229,7 @@ function Index() {
               </div>
               <div className="mock-post" style={{ opacity: 0.65 }}>
                 <div className="mp-hd">
-                  <div className="mp-av" style={{ background: "#818CF8" }}>S</div>
+                  <img className="mp-av" src="https://i.pravatar.cc/80?img=47" alt="Sarah K." loading="lazy" width={30} height={30} style={{ objectFit:"cover" }} />
                   <div><div className="mp-name">Sarah K.</div><div className="mp-time">3 hours ago</div></div>
                 </div>
                 <div className="mp-body">Best prompt framework for writing landing pages with Claude right now?</div>
