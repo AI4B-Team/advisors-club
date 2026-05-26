@@ -27,6 +27,7 @@ function FeedPage() {
   const [sortOpen, setSortOpen] = useState(false);
   const SORT_LABEL = { latest: "Latest", top: "Top", unread: "Unread" } as const;
   const [emailBlast, setEmailBlast] = useState(false);
+  const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
 
   function publish() {
     const text = draft.trim();
