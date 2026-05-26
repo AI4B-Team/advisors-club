@@ -296,6 +296,8 @@ function Topbar() {
   const nav = useNavigate();
   const { displayName, initial, user, signOut } = useAuth();
   const { viewAs, setMode } = useViewMode();
+  const pathname = useRouterState({ select: s => s.location.pathname });
+  const showPostActions = pathname === "/app" || pathname === "/app/club/feed";
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
