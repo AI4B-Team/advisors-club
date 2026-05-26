@@ -68,6 +68,12 @@ function DiscoverPage() {
         <div className="dc-min-inner">
           <h1 style={{whiteSpace:"nowrap"}}>Find A Club Worth Joining</h1>
 
+          <Link to="/signup" className="dc-creator-cta">
+            <span className="dc-creator-spark"><Sparkles size={14}/></span>
+            <span>You're A Creator? <b>Start Your Own Club</b> — Built With AIVA</span>
+            <ArrowRight size={16}/>
+          </Link>
+
           <div className="dc-min-search">
             <Search size={20} strokeWidth={2.2} />
             <input
@@ -103,12 +109,6 @@ function DiscoverPage() {
               ))}
             </div>
           )}
-
-          <Link to="/signup" className="dc-creator-cta">
-            <span className="dc-creator-spark"><Sparkles size={14}/></span>
-            <span>You're A Creator? <b>Start Your Own Club</b> — Built With AIVA</span>
-            <ArrowRight size={16}/>
-          </Link>
         </div>
       </section>
 
