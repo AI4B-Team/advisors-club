@@ -110,7 +110,7 @@ export function ComposerCategoryPicker({
   value, onChange, open, setOpen,
 }: { value: PostCategory; onChange: (c: PostCategory) => void; open: boolean; setOpen: (b: boolean) => void }) {
   const meta = CATEGORY_META[value];
-  const MetaIcon = meta.icon;
+
   return (
     <div className="fp-cat-picker">
       <button
