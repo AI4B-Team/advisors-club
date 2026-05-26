@@ -125,7 +125,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
         <div className="composer-modal-back" onClick={() => setOpenPoll(false)}>
           <div className="composer-modal" onClick={e => e.stopPropagation()}>
             <div className="composer-modal-head">
-              <h3>Create poll</h3>
+              <h3>Create Poll</h3>
               <button type="button" onClick={() => setOpenPoll(false)}><X size={16}/></button>
             </div>
             <input
