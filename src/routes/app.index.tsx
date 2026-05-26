@@ -220,6 +220,7 @@ function HomePage() {
             </div>
             <div className="hm-profile-body">
               <h3 className="hm-profile-name">Real Estate Empire</h3>
+              <a className="hm-profile-url" href="https://advisorsclub.com/real-estate-empire" target="_blank" rel="noreferrer">advisorsclub.com/real-estate-empire</a>
               <p className="hm-profile-desc">Build wealth with rentals, flips & syndications — a hands-on community for serious operators.</p>
               <ul className="hm-profile-links">
                 <li><Link2 size={14}/> <a href="#">Join My Newsletter</a></li>
