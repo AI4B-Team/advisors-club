@@ -113,8 +113,8 @@ function FeedPage() {
           <ComposerTools draft={draft} setDraft={setDraft} className="cc-composer-tools"/>
 
           <div className="cc-composer-right">
+            <span className="cc-composer-target">Posted In: <b>Community</b></span>
             {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
-            <span className="cc-composer-target">Posting in: <b>Community</b></span>
             <button className="cc-composer-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
               <Send size={14}/> Publish
             </button>
