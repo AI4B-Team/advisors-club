@@ -1530,6 +1530,12 @@
 .hm-iconbtn{width:34px;height:34px;border-radius:999px;border:1px solid #E5E7EB;background:#fff;color:#374151;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .hm-iconbtn:hover{background:#F9FAFB}
 .hm-sort{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #E5E7EB;color:#111827;font-weight:600;font-size:13px;padding:7px 12px;border-radius:999px;cursor:pointer}
+.hm-sort-wrap{position:relative;display:inline-block}
+.hm-sort-backdrop{position:fixed;inset:0;z-index:40}
+.hm-sort-menu{position:absolute;top:calc(100% + 6px);left:0;z-index:50;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:4px;min-width:140px;display:flex;flex-direction:column}
+.hm-sort-item{background:transparent;border:0;text-align:left;padding:8px 12px;font-size:13px;font-weight:500;color:#111827;border-radius:8px;cursor:pointer}
+.hm-sort-item:hover{background:#F3F4F6}
+.hm-sort-item.is-active{background:#F3F4F6;font-weight:600}
 .hm-new{display:inline-flex;align-items:center;gap:6px;background:#111827;color:#fff;border:0;padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
 .hm-new:hover{background:#000}
 
