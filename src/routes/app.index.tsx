@@ -43,6 +43,9 @@ function HomePage() {
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<"latest"|"top">("latest");
   const [emailBlast, setEmailBlast] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabId>("all");
+  const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
+  const [catOpen, setCatOpen] = useState(false);
 
   function publish() {
     const text = draft.trim();
@@ -59,10 +62,12 @@ function HomePage() {
       likes: 0, comments: 0,
       photo: "https://i.pravatar.cc/120?img=11",
       level: 1,
+      category: composerCat,
     }, ...p]);
     setDraft("");
     setTitle("");
   }
+
 
   function toggleLike(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, liked: !po.liked, likes: po.likes + (po.liked ? -1 : 1)} : po));
