@@ -67,9 +67,6 @@ function DiscoverPage() {
       <section className="dc-min">
         <div className="dc-min-inner">
           <h1 style={{whiteSpace:"nowrap"}}>Find A Club Worth Joining</h1>
-          <p className="dc-emotion">
-            Join the rooms where transformation happens. Real people, real wins, real proof — every Club is <b>powered by AIVA</b>.
-          </p>
 
           <div className="dc-min-search">
             <Search size={20} strokeWidth={2.2} />
