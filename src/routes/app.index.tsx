@@ -273,7 +273,7 @@ function HomePage() {
           />
 
           <div className="hm-card">
-            <h3 className="hm-card-title">Upcoming events</h3>
+            <h3 className="hm-card-title">Upcoming Events</h3>
             <ul className="hm-events">
               {EVENTS.map((e,i)=>(
                 <li key={i} className="hm-event">
