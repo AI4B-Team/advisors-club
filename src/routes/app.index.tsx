@@ -222,6 +222,10 @@ function HomePage() {
             </div>
           </div>
 
+          <AivaInsightsCard />
+
+
+
           <div className="hm-card">
             <h3 className="hm-card-title">Leaderboard</h3>
             {(() => {
