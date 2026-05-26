@@ -294,6 +294,7 @@ function HomePage() {
                       </li>
                     ))}
                   </ul>
+                  <a className="lb-see-all" href="#">See full leaderboard <span aria-hidden>→</span></a>
                 </>
               );
             })()}
