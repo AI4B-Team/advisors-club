@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles } from "lucide-react";
+import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
@@ -107,17 +108,8 @@ function FeedPage() {
           </div>
         </div>
         <div className="cc-composer-foot">
-          <div className="cc-composer-tools">
-            <button data-tip="Add"><PlusCircle size={18}/></button>
-            <button data-tip="Topic"><Hash size={18}/></button>
-            <button data-tip="Attach file"><Paperclip size={18}/></button>
-            <button data-tip="Video"><Video size={18}/></button>
-            <button data-tip="GIF"><span style={{fontSize:10,fontWeight:800,letterSpacing:.5}}>GIF</span></button>
-            <button data-tip="Image"><ImageIcon size={18}/></button>
-            <button data-tip="Emoji"><Smile size={18}/></button>
-            <button data-tip="Poll"><BarChart3 size={18}/></button>
-            <button data-tip="Voice note"><Mic size={18}/></button>
-          </div>
+          <ComposerTools draft={draft} setDraft={setDraft} className="cc-composer-tools"/>
+
           <div className="cc-composer-right">
             {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
             <span className="cc-composer-target">Posting in: <b>Community</b></span>

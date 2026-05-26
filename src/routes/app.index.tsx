@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Globe, Link2 } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles, Link2 } from "lucide-react";
+import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
@@ -124,16 +125,8 @@ function HomePage() {
               
             </div>
             <div className="hm-composer-foot">
-              <div className="hm-composer-tools">
-                <button data-tip="Add"><PlusCircle size={18}/></button>
-                <button data-tip="Topic"><Hash size={18}/></button>
-                <button data-tip="Attach"><Paperclip size={18}/></button>
-                <button data-tip="Video"><Video size={18}/></button>
-                <button data-tip="Image"><ImageIcon size={18}/></button>
-                <button data-tip="Emoji"><Smile size={18}/></button>
-                <button data-tip="Poll"><BarChart3 size={18}/></button>
-                <button data-tip="Voice"><Mic size={18}/></button>
-              </div>
+              <ComposerTools draft={draft} setDraft={setDraft} className="hm-composer-tools"/>
+
               <div className="hm-composer-right">
                 {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
                 <button className="hm-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
