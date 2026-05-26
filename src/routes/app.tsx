@@ -277,6 +277,7 @@ function CommunitySidebar() {
 function Topbar() {
   const nav = useNavigate();
   const { displayName, initial, user, signOut } = useAuth();
+  const { viewAs, setMode } = useViewMode();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
