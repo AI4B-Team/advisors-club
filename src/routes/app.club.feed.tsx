@@ -5,6 +5,7 @@ import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
+import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
 
 const MAX_PINNED = 3;
 
@@ -13,50 +14,7 @@ export const Route = createFileRoute("/app/club/feed")({
   component: FeedPage,
 });
 
-type Post = {
-  id: string;
-  author: string;
-  initials: string;
-  color: string;
-  time: string;
-  body: string;
-  likes: number;
-  comments: number;
-  liked?: boolean;
-  saved?: boolean;
-  pinned?: boolean;
-};
-
-const SEED: Post[] = [
-  {
-    id: "1",
-    author: "Michael A.",
-    initials: "MA",
-    color: "#4F46E5",
-    time: "1 month ago",
-    body: "Welcome to **Real Estate Empire** 🚀 — drop your city + niche below so we can match you with the right deal flow this week.",
-    likes: 42, comments: 18,
-    pinned: true,
-  },
-  {
-    id: "2",
-    author: "Sarah K.",
-    initials: "SK",
-    color: "#10B981",
-    time: "3 days ago",
-    body: "Just closed my 3rd wholesale deal using the framework from week 2 — $14k net. Happy to walk anyone through the script that worked.",
-    likes: 87, comments: 24,
-  },
-  {
-    id: "3",
-    author: "Devon R.",
-    initials: "DR",
-    color: "#F5A623",
-    time: "5 hours ago",
-    body: "Question for the group: anyone using AIVA for cold caller training? Looking for prompts that simulate seller objections.",
-    likes: 12, comments: 6,
-  },
-];
+const SEED: Post[] = SEED_POSTS;
 
 function FeedPage() {
   const { isAdmin: IS_ADMIN } = useViewMode();
@@ -189,6 +147,7 @@ function FeedPage() {
                 onToggleSave={() => toggleSave(p.id)}
               />
             </header>
+            {p.title && <h2 className="cc-post-title">{p.title}</h2>}
             <div className="cc-post-body">{p.body}</div>
             <footer className="cc-post-foot">
               <button className={`cc-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
