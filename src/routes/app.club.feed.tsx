@@ -147,6 +147,7 @@ function FeedPage() {
                 onToggleSave={() => toggleSave(p.id)}
               />
             </header>
+            {p.title && <h2 className="cc-post-title">{p.title}</h2>}
             <div className="cc-post-body">{p.body}</div>
             <footer className="cc-post-foot">
               <button className={`cc-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
