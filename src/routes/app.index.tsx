@@ -55,6 +55,8 @@ function HomePage() {
       title: t,
       body: text,
       likes: 0, comments: 0,
+      photo: "https://i.pravatar.cc/120?img=11",
+      level: 1,
     }, ...p]);
     setDraft("");
     setTitle("");
