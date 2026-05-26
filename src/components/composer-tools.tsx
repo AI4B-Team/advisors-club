@@ -147,6 +147,8 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
           </div>
         </div>
       )}
+
+      <VideoModal open={openVideo} onClose={() => setOpenVideo(false)} onInsert={(t) => append(t)} />
     </div>
   );
 }
