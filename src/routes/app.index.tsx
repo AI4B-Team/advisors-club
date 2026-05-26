@@ -126,6 +126,10 @@ function HomePage() {
               <button className="hm-sort" onClick={()=>setSort(s=>s==="latest"?"top":"latest")}>
                 {sort === "latest" ? "Latest" : "Top"} <ChevronDown size={14}/>
               </button>
+              <button className="hm-golive" type="button">
+                <span className="hm-golive-dot"/>
+                <Video size={14}/> Go Live
+              </button>
               <button className="hm-new" onClick={publish}>
                 <Plus size={15} strokeWidth={3}/> New Post
               </button>
@@ -133,12 +137,6 @@ function HomePage() {
             </div>
           </div>
 
-          <div className="hm-golive-row">
-            <button className="hm-golive" type="button">
-              <span className="hm-golive-dot"/>
-              <Video size={14}/> Go Live
-            </button>
-          </div>
 
           <div className="hm-composer">
             <div className="hm-composer-top">
