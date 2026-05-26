@@ -6,6 +6,7 @@ import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
+import { PostComments } from "@/components/post-comments";
 import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
 
 const MAX_PINNED = 3;
@@ -26,6 +27,7 @@ function FeedPage() {
   const [sortOpen, setSortOpen] = useState(false);
   const SORT_LABEL = { latest: "Latest", top: "Top", unread: "Unread" } as const;
   const [emailBlast, setEmailBlast] = useState(false);
+  const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
 
   function publish() {
     const text = draft.trim();
@@ -165,7 +167,7 @@ function FeedPage() {
               <button className={`cc-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
                 <Heart size={16} fill={p.liked ? "currentColor":"none"}/> {p.likes}
               </button>
-              <button className="cc-post-act">
+              <button className={`cc-post-act ${openComments[p.id] ? "on" : ""}`} onClick={() => setOpenComments(o => ({ ...o, [p.id]: !o[p.id] }))}>
                 <MessageCircle size={16}/> {p.comments}
               </button>
               {p.comments > 0 && (
@@ -176,6 +178,7 @@ function FeedPage() {
                 />
               )}
             </footer>
+            {openComments[p.id] && <PostComments postId={p.id} />}
           </article>
         ))}
       </div>
