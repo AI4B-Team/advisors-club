@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles, Link2, TrendingUp, Users, Clock, MessageSquare, Flame, ArrowRight, PenLine, Wand2, Film } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles, Link2, TrendingUp, Users, Clock, MessageSquare, Flame, ArrowRight, PenLine, Wand2, Film, RefreshCw } from "lucide-react";
 import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
@@ -138,11 +138,8 @@ function HomePage() {
               <ComposerTools draft={draft} setDraft={setDraft} className="hm-composer-tools"/>
 
               <div className="hm-composer-right">
-                <AivaComposerMenu
-                  onWrite={()=>setDraft(d => d + (d ? "\n\n" : "") + "Draft started with AIVA — refine the angle, add a hook, and end with a question.")}
-                  onPrompt={()=>{ setTitle(t => t || "Discussion: What's your biggest unlock this week?"); setDraft(d => d + (d ? "\n\n" : "") + "Share one thing you learned, one thing you shipped, and one thing you're stuck on. Tag a member who could help."); }}
-                  onReplay={()=>{ setTitle(t => t || "Live Replay Recap — Key Takeaways"); setDraft(d => d + (d ? "\n\n" : "") + "Top moments from yesterday's live:\n• Insight 1\n• Insight 2\n• Action step\n\nFull replay inside."); }}
-                />
+                <AivaComposerMenu setTitle={setTitle} setDraft={setDraft} />
+
                 <ComposerCategoryPicker value={composerCat} onChange={setComposerCat} open={catOpen} setOpen={setCatOpen}/>
                 {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
                 <button className="hm-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
@@ -377,8 +374,57 @@ function AivaInsightsCard() {
 }
 
 /* ============ AIVA COMPOSER MENU ============ */
-function AivaComposerMenu({ onWrite, onPrompt, onReplay }: { onWrite: () => void; onPrompt: () => void; onReplay: () => void }) {
+type AivaKind = "write" | "prompt" | "replay";
+const AIVA_VARIANTS: Record<AivaKind, { title?: string[]; body: string[] }> = {
+  write: {
+    body: [
+      "Draft started with AIVA — refine the angle, add a hook, and end with a question.",
+      "Here's a starting draft from AIVA. Tighten the opener, add a specific example, and close with a CTA.",
+      "AIVA draft: lead with the outcome, share the steps, and invite replies from members who've tried it.",
+      "Quick draft from AIVA — swap the generic claim for a number, then ask the group to weigh in.",
+    ],
+  },
+  prompt: {
+    title: [
+      "Discussion: What's your biggest unlock this week?",
+      "Discussion: What's one thing you'd do differently if you started today?",
+      "Discussion: Drop your best deal-finding tactic this month",
+      "Discussion: What's the smallest win that moved your business forward?",
+    ],
+    body: [
+      "Share one thing you learned, one thing you shipped, and one thing you're stuck on. Tag a member who could help.",
+      "Drop a 3-sentence answer: what worked, what didn't, what you'd try next. Reply to two other members.",
+      "Tell us the tactic, the number it moved, and where you got stuck. We'll trade notes in the comments.",
+      "One sentence on the win, one on the lesson, one on what you need help with. Tag someone who'd benefit.",
+    ],
+  },
+  replay: {
+    title: [
+      "Live Replay Recap — Key Takeaways",
+      "Live Replay: Top 3 Moments + Your Next Step",
+      "Replay Notes — What hit hardest from yesterday's live",
+      "Live Recap: The plays you can run this week",
+    ],
+    body: [
+      "Top moments from yesterday's live:\n• Insight 1\n• Insight 2\n• Action step\n\nFull replay inside.",
+      "Three things worth rewinding:\n• Moment 1 — the framing\n• Moment 2 — the tactic\n• Moment 3 — the Q&A\n\nReplay link below.",
+      "Replay highlights:\n• Biggest unlock\n• Most-asked question\n• One action to take this week\n\nWatch the full session inside.",
+      "Notes from the live:\n• What was new\n• What surprised the room\n• What to try before next week\n\nReplay attached.",
+    ],
+  },
+};
+
+function pickDifferent<T>(arr: T[], current: T | undefined): T {
+  if (arr.length <= 1) return arr[0];
+  const others = arr.filter(x => x !== current);
+  return others[Math.floor(Math.random() * others.length)];
+}
+
+function AivaComposerMenu({ setTitle, setDraft }: { setTitle: (u: (t: string) => string) => void; setDraft: (u: (d: string) => string) => void }) {
   const [open, setOpen] = useState(false);
+  const [lastKind, setLastKind] = useState<AivaKind | null>(null);
+  const lastTitleRef = useRef<string | undefined>(undefined);
+  const lastBodyRef = useRef<string | undefined>(undefined);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -387,6 +433,36 @@ function AivaComposerMenu({ onWrite, onPrompt, onReplay }: { onWrite: () => void
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+
+  function run(kind: AivaKind, regenerate = false) {
+    const variants = AIVA_VARIANTS[kind];
+    const nextBody = pickDifferent(variants.body, regenerate ? lastBodyRef.current : undefined);
+    const nextTitle = variants.title ? pickDifferent(variants.title, regenerate ? lastTitleRef.current : undefined) : undefined;
+
+    if (regenerate) {
+      // Replace previous AIVA insertion in place
+      setDraft(d => {
+        const prev = lastBodyRef.current;
+        if (prev && d.includes(prev)) return d.replace(prev, nextBody);
+        return d + (d ? "\n\n" : "") + nextBody;
+      });
+      if (nextTitle) {
+        setTitle(t => {
+          const prev = lastTitleRef.current;
+          if (prev && t === prev) return nextTitle;
+          return t || nextTitle;
+        });
+      }
+    } else {
+      setDraft(d => d + (d ? "\n\n" : "") + nextBody);
+      if (nextTitle) setTitle(t => t || nextTitle);
+    }
+
+    lastBodyRef.current = nextBody;
+    lastTitleRef.current = nextTitle;
+    setLastKind(kind);
+  }
+
   return (
     <div className="aiva-comp" ref={ref}>
       <button type="button" className="aiva-comp-btn" onClick={()=>setOpen(o=>!o)} aria-label="Write with AIVA">
@@ -394,17 +470,26 @@ function AivaComposerMenu({ onWrite, onPrompt, onReplay }: { onWrite: () => void
       </button>
       {open && (
         <div className="aiva-comp-menu" role="menu">
-          <button type="button" className="aiva-comp-item" onClick={()=>{onWrite();setOpen(false);}}>
+          <button type="button" className="aiva-comp-item" onClick={()=>{run("write");setOpen(false);}}>
             <PenLine size={14}/> <span>Write with AIVA</span>
           </button>
-          <button type="button" className="aiva-comp-item" onClick={()=>{onPrompt();setOpen(false);}}>
+          <button type="button" className="aiva-comp-item" onClick={()=>{run("prompt");setOpen(false);}}>
             <Wand2 size={14}/> <span>Generate discussion prompt</span>
           </button>
-          <button type="button" className="aiva-comp-item" onClick={()=>{onReplay();setOpen(false);}}>
+          <button type="button" className="aiva-comp-item" onClick={()=>{run("replay");setOpen(false);}}>
             <Film size={14}/> <span>Turn live replay into post</span>
           </button>
+          {lastKind && (
+            <>
+              <div className="aiva-comp-sep" />
+              <button type="button" className="aiva-comp-item" onClick={()=>{run(lastKind, true);setOpen(false);}}>
+                <RefreshCw size={14}/> <span>Regenerate suggestion</span>
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>
   );
 }
+
