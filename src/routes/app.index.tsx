@@ -248,24 +248,47 @@ function HomePage() {
 
           <div className="hm-card">
             <h3 className="hm-card-title">Leaderboard</h3>
-            <ul className="hm-leaderboard">
-              {[
-                { initials: "JM", color: "#4F46E5", name: "Judith M.", points: 1842 },
-                { initials: "GD", color: "#0EA5E9", name: "Greg D.", points: 1567 },
-                { initials: "AL", color: "#F5A623", name: "Albert Lott", points: 1320 },
-                { initials: "SK", color: "#10B981", name: "Sarah K.", points: 1184 },
-                { initials: "MA", color: "#EF4444", name: "Michael A.", points: 1042 },
-              ].map((u, i) => (
-                <li key={i} className="hm-lb-row">
-                  <span className={`hm-lb-rank r${i+1}`}>{i+1}</span>
-                  <span className="hm-av sm" style={{background:u.color}}>{u.initials}</span>
-                  <div className="hm-lb-meta">
-                    <div className="hm-lb-name">{u.name}</div>
-                    <div className="hm-lb-pts">{u.points.toLocaleString()} pts</div>
+            {(() => {
+              const all = [
+                { initials: "EH", color: "#F5A623", name: "Esther H.",      points: 680 },
+                { initials: "RF", color: "#7BA77B", name: "Robert Fox",     points: 530 },
+                { initials: "JW", color: "#8B5A4A", name: "Jenny W.",       points: 420 },
+                { initials: "DG", color: "#A85A3A", name: "Dustin Gedlich", points: 400 },
+                { initials: "AM", color: "#D4A574", name: "Arielle Mason",  points: 350 },
+                { initials: "JL", color: "#5BA4D4", name: "Jasper Lin",     points: 345 },
+                { initials: "CO", color: "#9CA3AF", name: "Camila Ortiz",   points: 320 },
+              ];
+              const podium = [all[1], all[0], all[2]];
+              const ranks  = [2, 1, 3];
+              const rest   = all.slice(3);
+              return (
+                <>
+                  <div className="lb-podium">
+                    {podium.map((u, i) => (
+                      <div key={u.name} className={`lb-pod r${ranks[i]}`}>
+                        <div className="lb-pod-av-wrap">
+                          <span className="lb-pod-av" style={{background:u.color}}>{u.initials}</span>
+                          <span className={`lb-pod-badge r${ranks[i]}`}>{ranks[i]}</span>
+                        </div>
+                        <div className="lb-pod-name">{u.name}</div>
+                        <div className="lb-pod-pts"><span className="lb-pts-star">✦</span>{u.points}</div>
+                      </div>
+                    ))}
                   </div>
-                </li>
-              ))}
-            </ul>
+                  <div className="lb-divider"/>
+                  <ul className="lb-list">
+                    {rest.map((u, i) => (
+                      <li key={u.name} className="lb-row">
+                        <span className="lb-rank">{i + 4}</span>
+                        <span className="lb-av" style={{background:u.color}}>{u.initials}</span>
+                        <div className="lb-name">{u.name}</div>
+                        <div className="lb-pts">{u.points}</div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              );
+            })()}
           </div>
 
 
