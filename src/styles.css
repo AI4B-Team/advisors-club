@@ -1093,22 +1093,27 @@
 .cc-sb-row.on .cc-sb-row-c{background:#fff}
 .cc-sb-item{margin-bottom:2px}
 .cc-sb-item-row{position:relative;display:flex;align-items:center}
-.cc-sb-item-row .cc-sb-feed,.cc-sb-item-row .cc-sb-pill{flex:1;margin-bottom:0;padding-right:56px}
+.cc-sb-item-row .cc-sb-feed,.cc-sb-item-row .cc-sb-pill{flex:1;margin-bottom:0;padding-right:84px}
 .cc-sb-item-l{flex:1}
-.cc-sb-caret,.cc-sb-more{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:6px;border:0;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cc-sb-caret,.cc-sb-more,.cc-sb-add{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:6px;border:0;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cc-sb-caret{right:30px;opacity:0;transition:opacity .12s}
-.cc-sb-item-row:hover .cc-sb-caret{opacity:1}
+.cc-sb-add{right:54px;opacity:0;transition:opacity .12s}
+.cc-sb-item-row:hover .cc-sb-caret,.cc-sb-item-row:hover .cc-sb-add{opacity:1}
 .cc-sb-more-wrap{position:absolute;right:6px;top:50%;transform:translateY(-50%);z-index:1}
 .cc-sb-more-wrap:has(.cc-sb-more-menu){z-index:200}
 .cc-sb-more{position:static;transform:none;opacity:0;transition:opacity .12s}
 .cc-sb-item-row:hover .cc-sb-more{opacity:1}
-.cc-sb-caret:hover,.cc-sb-more:hover{background:rgba(0,0,0,0.06);color:#111827}
+.cc-sb-caret:hover,.cc-sb-more:hover,.cc-sb-add:hover{background:rgba(0,0,0,0.06);color:#111827}
 .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-caret,
 .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-caret,
+.cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-add,
+.cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-add,
 .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-more-wrap .cc-sb-more,
 .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-more-wrap .cc-sb-more{color:rgba(255,255,255,.85)}
 .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-caret:hover,
 .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-caret:hover,
+.cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-add:hover,
+.cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-add:hover,
 .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-more-wrap .cc-sb-more:hover,
 .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-more-wrap .cc-sb-more:hover{background:rgba(255,255,255,0.15);color:#fff}
 .cc-sb-more-menu{position:absolute;right:0;top:calc(100% + 4px);background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.12);min-width:180px;padding:4px;z-index:200}
