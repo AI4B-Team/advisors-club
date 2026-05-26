@@ -90,7 +90,9 @@ function HomePage() {
   }
 
   const filtered = activeTab === "all" ? posts : posts.filter(p => p.category === activeTab);
-  const base = sort === "top" ? [...filtered].sort((a,b)=>b.likes-a.likes) : filtered;
+  const base = (sort === "likes" || sort === "popular") ? [...filtered].sort((a,b)=>b.likes-a.likes)
+    : sort === "oldest" ? [...filtered].reverse()
+    : filtered;
   const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
 
   return (
