@@ -706,6 +706,25 @@
 .lt-prompt svg{color:var(--amber-2);flex-shrink:0}
 @media (max-width:1000px){.lt-aiva-wrap{grid-template-columns:1fr;height:auto}}
 
+/* AIVA hero prompt box */
+.aiva-hero{background:#fff;border:1px solid var(--line);border-radius:16px;padding:32px 28px;margin-bottom:18px}
+.aiva-hero h2{font-size:28px;font-weight:800;letter-spacing:-0.02em;text-align:center;color:var(--ink);margin:0 0 20px}
+.aiva-modes{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.aiva-mode{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;border:1px solid var(--line-2);background:#fff;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s}
+.aiva-mode:hover{border-color:var(--ink);color:var(--ink)}
+.aiva-mode.on{border-color:var(--ink);color:var(--ink);background:#fafafa;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.aiva-hero-box{border:1.5px solid var(--amber);border-radius:14px;padding:14px 16px;background:#fff;transition:border-color .15s}
+.aiva-hero-box:focus-within{border-color:var(--amber-2)}
+.aiva-hero-box textarea{width:100%;min-height:96px;border:0;outline:none;resize:none;font-size:15px;font-family:inherit;color:var(--ink);background:transparent}
+.aiva-hero-box textarea::placeholder{color:#9ca3af}
+.aiva-hero-row{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:8px}
+.aiva-mic{width:36px;height:36px;border-radius:9px;border:1px solid var(--line-2);background:#f6f7f9;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.aiva-mic:hover{background:#eceef2;color:var(--ink)}
+.aiva-gen{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--amber);color:#1a1408;font-weight:700;font-size:14px;border:0;cursor:pointer;transition:all .15s}
+.aiva-gen:hover:not(:disabled){background:var(--amber-2)}
+.aiva-gen:disabled{opacity:0.5;cursor:not-allowed}
+
+
 /* stub pages */
 .lt-stub{background:#fff;border:1px solid var(--line);border-radius:16px;padding:48px;text-align:center}
 .lt-stub-i{width:56px;height:56px;border-radius:16px;background:var(--amber-tint);color:var(--amber-2);display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px}
