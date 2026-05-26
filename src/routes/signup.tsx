@@ -38,6 +38,8 @@ function SignupPage() {
           <h1>Create Your Account</h1>
           <p className="lt-auth-sub">Start Automating Your Business In Under 3 Minutes</p>
 
+          <div className="lt-trust"><span className="lt-trust-stars">★★★★★</span> 4.9 From 2,000+ Creators</div>
+
           <form onSubmit={onSubmit}>
             <div className="lt-row-2">
               <div className="lt-field">
