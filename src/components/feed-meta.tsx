@@ -33,13 +33,56 @@ export function PinBadge() {
 
 /* ============ Tab row ============ */
 export type TabId = "all" | PostCategory;
+export type FeedSort = "latest" | "top" | "unread";
+const SORT_OPTS: { id: FeedSort; label: string }[] = [
+  { id: "latest", label: "Latest" },
+  { id: "top", label: "Top" },
+  { id: "unread", label: "Unread" },
+];
 export function FeedTabs({
-  posts, activeTab, onChange,
-}: { posts: FeedPost[]; activeTab: TabId; onChange: (t: TabId) => void }) {
+  posts, activeTab, onChange, sort, onSortChange,
+}: {
+  posts: FeedPost[];
+  activeTab: TabId;
+  onChange: (t: TabId) => void;
+  sort?: FeedSort;
+  onSortChange?: (s: FeedSort) => void;
+}) {
   const counts: Record<string, number> = { all: posts.length };
   for (const p of posts) counts[p.category] = (counts[p.category] ?? 0) + 1;
+  const [filterOpen, setFilterOpen] = useState(false);
   return (
     <div className="fp-tabs">
+      {sort && onSortChange && (
+        <div className="fp-filter-wrap">
+          <button
+            type="button"
+            className="fp-filter-btn"
+            aria-label="Filter posts"
+            onClick={() => setFilterOpen(o => !o)}
+          >
+            <SlidersHorizontal size={14}/>
+          </button>
+          {filterOpen && (
+            <>
+              <div className="fp-filter-backdrop" onClick={() => setFilterOpen(false)}/>
+              <div className="fp-filter-menu" role="menu">
+                {SORT_OPTS.map(o => (
+                  <button
+                    key={o.id}
+                    type="button"
+                    className={`fp-filter-item${sort === o.id ? " is-active" : ""}`}
+                    onClick={() => { onSortChange(o.id); setFilterOpen(false); }}
+                  >
+                    <span>{o.label}</span>
+                    {sort === o.id && <Check size={14}/>}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
       {FEED_TABS.map(t => {
         const active = activeTab === t.id;
         const n = counts[t.id] ?? 0;
