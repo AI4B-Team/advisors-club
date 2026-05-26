@@ -1576,7 +1576,7 @@
 .hm-post-act:hover{background:#F3F4F6;color:#111827}
 .hm-post-act.on{color:#E11D48}
 
-.hm-side{display:flex;flex-direction:column;gap:16px;position:sticky;top:16px}
+.hm-side{display:flex;flex-direction:column;gap:16px;overflow-y:auto;min-height:0;padding-bottom:60px;padding-right:4px}
 .hm-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:16px}
 .hm-card-title{font-size:15px;font-weight:800;color:#111827;margin:0 0 12px;letter-spacing:-.01em}
 .hm-events{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
