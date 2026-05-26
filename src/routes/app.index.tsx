@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2 } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2, Globe, Link2 } from "lucide-react";
 
 export const Route = createFileRoute("/app/")({
   head: () => ({ meta: [{ title: "Home — Real Estate Empire" }, { name: "description", content: "Your Club home feed." }] }),
@@ -174,6 +174,34 @@ function HomePage() {
         </section>
 
         <aside className="hm-side">
+          <div className="hm-card hm-profile">
+            <div className="hm-profile-cover">
+              <h2 className="hm-profile-logo">Real Estate Empire</h2>
+              <span className="hm-profile-badge"><Globe size={12}/> PUBLIC</span>
+            </div>
+            <div className="hm-profile-body">
+              <h3 className="hm-profile-name">Real Estate Empire</h3>
+              <p className="hm-profile-desc">Build wealth with rentals, flips & syndications — a hands-on community for serious operators.</p>
+              <ul className="hm-profile-links">
+                <li><Link2 size={14}/> <a href="#">Join My Newsletter</a></li>
+                <li><Link2 size={14}/> <a href="#">My Top Online Resources</a></li>
+                <li><Link2 size={14}/> <a href="#">Schedule Your Call</a></li>
+              </ul>
+              <div className="hm-profile-stats">
+                <div><strong>3.5k</strong><span>Members</span></div>
+                <div><strong>221<i/></strong><span>Online</span></div>
+                <div><strong>3</strong><span>Admins</span></div>
+              </div>
+              <div className="hm-profile-avs">
+                {["#F5A623","#10B981","#4F46E5","#E11D48","#0EA5E9","#8B5CF6","#F97316","#14B8A6"].map((c,i)=>(
+                  <span key={i} className="hm-profile-av" style={{background:c}}/>
+                ))}
+                <span className="hm-profile-av more">+</span>
+              </div>
+            </div>
+          </div>
+
+
           <div className="hm-card">
             <h3 className="hm-card-title">Upcoming events</h3>
             <ul className="hm-events">
