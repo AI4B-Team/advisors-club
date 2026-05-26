@@ -200,9 +200,6 @@ function FeedPage() {
                   lastLabel={`New comment ${p.time} ago`}
                 />
               )}
-              <button className={`cc-post-act ${p.saved?"on":""}`} onClick={()=>toggleSave(p.id)} style={{marginLeft:"auto"}}>
-                <Bookmark size={16} fill={p.saved?"currentColor":"none"}/>
-              </button>
             </footer>
           </article>
         ))}
