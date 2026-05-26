@@ -123,7 +123,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
         </header>
 
         <div className="ai-drawer-body">
-          <div className="ai-section-label"><Clock size={12}/> Summarize period</div>
+          <div className="ai-section-label"><Clock size={12}/> Summarize Period</div>
           <div className="ai-range-grid">
             {RANGES.map(r => (
               <button
