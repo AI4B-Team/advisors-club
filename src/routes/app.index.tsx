@@ -221,8 +221,14 @@ function HomePage() {
                 <div><strong>3</strong><span>Admins</span></div>
               </div>
               <div className="hm-profile-avs">
-                {["#F5A623","#10B981","#4F46E5","#E11D48","#0EA5E9","#8B5CF6","#F97316","#14B8A6"].map((c,i)=>(
-                  <span key={i} className="hm-profile-av" style={{background:c}}/>
+                {[12,32,45,5,9,68,15,47].map((id,i)=>(
+                  <img
+                    key={i}
+                    className="hm-profile-av"
+                    src={`https://i.pravatar.cc/80?img=${id}`}
+                    alt=""
+                    loading="lazy"
+                  />
                 ))}
                 <span className="hm-profile-av more">+</span>
               </div>
