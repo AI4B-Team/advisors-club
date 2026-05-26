@@ -168,17 +168,6 @@ function HomePage() {
           <div className="hm-posts">
             {sorted.map(p => (
               <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
-                {p.pinned && (
-                  <button
-                    type="button"
-                    className="hm-post-pinned"
-                    onClick={()=> IS_ADMIN && togglePin(p.id)}
-                    title={IS_ADMIN ? "Click to unpin" : "Pinned by admin"}
-                    disabled={!IS_ADMIN}
-                  >
-                    <Pin size={13}/> Pinned
-                  </button>
-                )}
                 <header className="hm-post-head">
                   <span className="hm-av" style={{background:p.color}}>{p.initials}</span>
                   <div className="hm-post-meta">
@@ -189,6 +178,8 @@ function HomePage() {
                     isAdmin={IS_ADMIN}
                     isPinned={!!p.pinned}
                     onPinToFeed={() => togglePin(p.id)}
+                    saved={!!p.saved}
+                    onToggleSave={() => toggleSave(p.id)}
                   />
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}
