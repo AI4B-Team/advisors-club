@@ -3,11 +3,10 @@ import { X, Sparkles, Clock, FileText, Image as ImageIcon, Video, Megaphone, Tre
 
 type Range = "24h" | "7d" | "30d" | "all";
 
-const RANGES: { id: Range; label: string }[] = [
-  { id: "24h", label: "Last 24 hours" },
-  { id: "7d", label: "Last 7 days" },
-  { id: "30d", label: "Last 30 days" },
-  { id: "all", label: "All time" },
+const RANGES: { id: Exclude<Range,"all">; label: string }[] = [
+  { id: "24h", label: "24 Hours" },
+  { id: "7d", label: "7 Days" },
+  { id: "30d", label: "30 Days" },
 ];
 
 const SUMMARIES: Record<Range, { headline: string; bullets: string[]; stats: { label: string; value: string }[] }> = {
