@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowRight, Sparkles, Users, Zap, Shield, MessageSquare } from "lucide-react";
 import logoUrl from "@/assets/advisorsclub-logo-real.png";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/signup")({
@@ -50,11 +51,10 @@ function SignupPage() {
   }
 
   async function onGoogle() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/app/getting-started` },
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/app/getting-started`,
     });
-    if (error) toast.error(error.message);
+    if (result.error) toast.error(result.error.message);
   }
 
   return (
