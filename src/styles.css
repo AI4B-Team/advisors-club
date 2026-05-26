@@ -1862,4 +1862,4 @@
 /* Post avatar with leaderboard level badge */
 .post-av-wrap{position:relative;display:inline-block;width:40px;height:40px;flex-shrink:0}
 .post-av-img{width:40px;height:40px;border-radius:50%;object-fit:cover;display:block}
-.post-av-level{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#4F46E5;color:#fff;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff;line-height:1}
+.post-av-level{position:absolute;bottom:-2px;right:-2px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#F5A623;color:#fff;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff;line-height:1}
