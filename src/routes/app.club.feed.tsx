@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video } from "lucide-react";
 import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
@@ -95,7 +95,6 @@ function FeedPage() {
           <ChevronDown size={18} style={{marginLeft:6,verticalAlign:"-3px"}}/>
         </h1>
         <div className="hm-head-actions">
-          <button className="hm-iconbtn" aria-label="AI"><Sparkles size={16}/></button>
           <div style={{position:"relative"}}>
             <button className="hm-sort" onClick={()=>setSortOpen(o=>!o)}>
               {SORT_LABEL[sort]} <ChevronDown size={14}/>

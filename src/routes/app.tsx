@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
+import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -300,6 +301,7 @@ function Topbar() {
   const showPostActions = pathname === "/app" || pathname === "/app/club/feed";
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -360,6 +362,14 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
+        <button
+          className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
+          type="button"
+          aria-label="AIVA Summary"
+          onClick={()=>setAiOpen(o=>!o)}
+        >
+          <Sparkles size={14}/> <span>Summarize</span>
+        </button>
         {showPostActions && (
           <>
             <button className="cc-tb-golive" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}>
@@ -411,6 +421,7 @@ function Topbar() {
           )}
         </div>
       </div>
+      <AISummaryDrawer open={aiOpen} onClose={()=>setAiOpen(false)} />
     </header>
   );
 }
