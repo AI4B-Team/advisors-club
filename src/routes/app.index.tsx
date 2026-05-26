@@ -125,16 +125,8 @@ function HomePage() {
               
             </div>
             <div className="hm-composer-foot">
-              <div className="hm-composer-tools">
-                <button data-tip="Add"><PlusCircle size={18}/></button>
-                <button data-tip="Topic"><Hash size={18}/></button>
-                <button data-tip="Attach"><Paperclip size={18}/></button>
-                <button data-tip="Video"><Video size={18}/></button>
-                <button data-tip="Image"><ImageIcon size={18}/></button>
-                <button data-tip="Emoji"><Smile size={18}/></button>
-                <button data-tip="Poll"><BarChart3 size={18}/></button>
-                <button data-tip="Voice"><Mic size={18}/></button>
-              </div>
+              <ComposerTools draft={draft} setDraft={setDraft} className="hm-composer-tools"/>
+
               <div className="hm-composer-right">
                 {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
                 <button className="hm-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
