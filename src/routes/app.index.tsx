@@ -42,7 +42,7 @@ function HomePage() {
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<"latest"|"top"|"unread">("latest");
-  const [sortOpen, setSortOpen] = useState(false);
+  
   const [emailBlast, setEmailBlast] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("all");
   const [composerCat, setComposerCat] = useState<PostCategory>("discussion");
@@ -101,23 +101,6 @@ function HomePage() {
             <h1>Feed</h1>
             <div className="hm-head-actions">
               <button className="hm-iconbtn" aria-label="AI"><Sparkles size={16}/></button>
-              <div className="hm-sort-wrap">
-                <button className="hm-sort" onClick={()=>setSortOpen(o=>!o)}>
-                  {sort === "latest" ? "Latest" : sort === "top" ? "Top" : "Unread"} <ChevronDown size={14}/>
-                </button>
-                {sortOpen && (
-                  <>
-                    <div className="hm-sort-backdrop" onClick={()=>setSortOpen(false)}/>
-                    <div className="hm-sort-menu">
-                      {(["latest","top","unread"] as const).map(opt => (
-                        <button key={opt} className={`hm-sort-item${sort===opt?" is-active":""}`} onClick={()=>{setSort(opt);setSortOpen(false);}}>
-                          {opt === "latest" ? "Latest" : opt === "top" ? "Top" : "Unread"}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
               <button className="hm-golive" type="button">
                 <span className="hm-golive-dot"/>
                 <Video size={14}/> Go Live
@@ -167,7 +150,7 @@ function HomePage() {
             </div>
           </div>
 
-          <FeedTabs posts={posts} activeTab={activeTab} onChange={setActiveTab}/>
+          <FeedTabs posts={posts} activeTab={activeTab} onChange={setActiveTab} sort={sort} onSortChange={setSort}/>
 
           <div className="hm-posts">
             {sorted.length === 0 && (
