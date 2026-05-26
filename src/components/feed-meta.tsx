@@ -120,12 +120,10 @@ export function ComposerCategoryPicker({
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        <Tag size={12} aria-hidden /> Category
-        <span className="fp-cat-current" style={{ background: meta.bg, color: meta.fg }}>
-          <MetaIcon size={10} aria-hidden /> {meta.label}
-        </span>
+        <Tag size={12} aria-hidden /> {value === "discussion" ? "Category" : meta.label}
         <ChevronDown size={12} aria-hidden />
       </button>
+
       {open && (
         <>
           <div onClick={() => setOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
