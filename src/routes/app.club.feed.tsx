@@ -188,7 +188,7 @@ function FeedPage() {
               <button className={`cc-post-act ${openComments[p.id] ? "on" : ""}`} onClick={() => setOpenComments(o => ({ ...o, [p.id]: !o[p.id] }))}>
                 <MessageCircle size={16}/> {p.comments}
               </button>
-              <BookmarkButton saved={!!p.saved} onToggle={()=>toggleSave(p.id)}/>
+              
               {p.comments > 0 && (
                 <CommenterStack
                   seed={p.id}
