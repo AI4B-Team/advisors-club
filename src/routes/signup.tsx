@@ -44,14 +44,16 @@ const AVATAR_COLORS = [
   "#EC4899","#0EA5E9","#F59E0B","#14B8A6","#6366F1",
 ];
 
-const PLANS = [
+type Plan = { id: string; name: string; monthly: number; annual: number; blurb: string; popular?: boolean; features: string[] };
+const PLANS: Plan[] = [
   { id: "starter", name: "Starter", monthly: 0,  annual: 0,  blurb: "Try the platform",
     features: ["100 members","1 course","5% transaction fee","AIVA: 10 generations/mo"] },
   { id: "advisor", name: "Advisor", monthly: 47, annual: 34, blurb: "Most builders start here", popular: true,
     features: ["Unlimited members","Unlimited courses","Custom domain","AIVA: unlimited","Events: 200/mo","2% transaction fee"] },
   { id: "pro",     name: "Club Pro", monthly: 97, annual: 69, blurb: "Scale + monetize",
     features: ["Everything in Advisor","0% transaction fees","Multiple clubs","Email marketing 100k","Funnel builder","Mobile app"] },
-] as const;
+];
+
 
 const STEPS = ["Account","Club","Personalize","Plan"] as const;
 
