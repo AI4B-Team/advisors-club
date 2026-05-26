@@ -373,7 +373,7 @@ function AivaInsightsCard() {
         <span className="aiva-ins-badge"><Sparkles size={13}/></span>
         <div className="aiva-ins-titles">
           <h3 className="aiva-ins-title">AIVA Insights</h3>
-          <span className="aiva-ins-sub">Live community intelligence</span>
+          <span className="aiva-ins-sub">LIVE Community Intelligence</span>
         </div>
         <span className="aiva-ins-pulse" aria-hidden/>
       </div>
