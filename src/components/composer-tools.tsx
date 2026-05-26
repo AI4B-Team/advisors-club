@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 import { PlusCircle, Hash, Paperclip, Video, Image as ImageIcon, Smile, BarChart3, Mic, Square, X } from "lucide-react";
+import { EmojiPicker } from "./emoji-picker";
 
 type Props = {
   draft: string;
   setDraft: (v: string | ((p: string) => string)) => void;
   className?: string;
 };
-
-const EMOJIS = ["😀","😂","😍","🙌","🔥","🎉","💯","👍","👏","🚀","💪","🤔","❤️","✨","🙏","😎","👀","💡","📈","🏠"];
 
 export function ComposerTools({ draft, setDraft, className = "hm-composer-tools" }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -114,11 +113,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
       <input ref={vidRef} type="file" accept="video/*" hidden onChange={e => { attachFiles(e.target.files, "video"); e.target.value=""; }}/>
 
       {openEmoji && (
-        <div className="composer-emoji-pop" onMouseLeave={() => setOpenEmoji(false)}>
-          {EMOJIS.map(e => (
-            <button key={e} type="button" className="composer-emoji-btn" onClick={() => insertEmoji(e)}>{e}</button>
-          ))}
-        </div>
+        <EmojiPicker onPick={insertEmoji} onClose={() => setOpenEmoji(false)} />
       )}
 
       {openPoll && (
