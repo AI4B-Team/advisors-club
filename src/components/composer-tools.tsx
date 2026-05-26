@@ -125,7 +125,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
         <div className="composer-modal-back" onClick={() => setOpenPoll(false)}>
           <div className="composer-modal" onClick={e => e.stopPropagation()}>
             <div className="composer-modal-head">
-              <h3>Create poll</h3>
+              <h3>Create Poll</h3>
               <button type="button" onClick={() => setOpenPoll(false)}><X size={16}/></button>
             </div>
             <input
@@ -143,10 +143,10 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
                 onChange={e => setPollOpts(arr => arr.map((v, j) => j === i ? e.target.value : v))}
               />
             ))}
-            <button type="button" className="composer-modal-add" onClick={addPollOption}>+ Add option</button>
+            <button type="button" className="composer-modal-add" onClick={addPollOption}>+ Add Option</button>
             <div className="composer-modal-foot">
               <button type="button" className="composer-modal-cancel" onClick={() => setOpenPoll(false)}>Cancel</button>
-              <button type="button" className="composer-modal-go" onClick={commitPoll}>Add poll</button>
+              <button type="button" className="composer-modal-go" onClick={commitPoll}>Add Poll</button>
             </div>
           </div>
         </div>
