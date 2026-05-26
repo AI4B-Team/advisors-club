@@ -4,6 +4,7 @@ import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Cale
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
+import { GoLiveModal } from "@/components/go-live-modal";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -23,8 +24,14 @@ const ClubCtx = createContext<{
 
 function AppShell() {
   const [active, setActive] = useState<Club>(CLUBS[0]);
+  const [liveOpen, setLiveOpen] = useState(false);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const hideSidebar = pathname.startsWith("/app/account");
+  useEffect(() => {
+    const onLive = () => setLiveOpen(true);
+    window.addEventListener("cc:go-live", onLive);
+    return () => window.removeEventListener("cc:go-live", onLive);
+  }, []);
   return (
     <ViewModeProvider>
       <ClubCtx.Provider value={{ active, setActive }}>
@@ -37,6 +44,7 @@ function AppShell() {
               <Outlet />
             </main>
           </div>
+          <GoLiveModal open={liveOpen} onClose={() => setLiveOpen(false)} />
         </div>
       </ClubCtx.Provider>
     </ViewModeProvider>
