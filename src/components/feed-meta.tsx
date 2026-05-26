@@ -138,7 +138,7 @@ export function ComposerCategoryPicker({
                   className="fp-cat-item"
                   onClick={() => { onChange(k); setOpen(false); }}
                 >
-                  <span className="fp-cat-dot" style={{ background: m.fg }}/>
+                  
                   <ItemIcon size={12} aria-hidden /> {m.label}
                   {k === value && <Check size={12} style={{marginLeft:"auto"}} aria-hidden />}
                 </button>
