@@ -1593,7 +1593,7 @@
 .hm-profile-stats strong i{width:6px;height:6px;border-radius:50%;background:#10B981;display:inline-block}
 .hm-profile-stats span{font-size:11px;color:#6B7280;font-weight:500}
 .hm-profile-avs{display:flex;align-items:center}
-.hm-profile-av{width:24px;height:24px;border-radius:999px;border:2px solid #fff;margin-left:-6px;flex-shrink:0}
+.hm-profile-av{width:24px;height:24px;border-radius:999px;border:2px solid #fff;margin-left:-6px;flex-shrink:0;object-fit:cover;background:#E5E7EB}
 .hm-profile-av:first-child{margin-left:0}
 .hm-profile-av.more{background:#F3F4F6!important;color:#6B7280;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
 
