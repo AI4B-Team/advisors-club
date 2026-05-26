@@ -1,4 +1,4 @@
-import { Bookmark, Pin, SlidersHorizontal, Check, ChevronDown } from "lucide-react";
+import { Bookmark, Pin, SlidersHorizontal, Check, ChevronDown, Tag } from "lucide-react";
 import { useState } from "react";
 import { CATEGORY_META, FEED_TABS, parseMarkdown, type FeedPost, type PostCategory } from "@/lib/feed-posts";
 
@@ -116,10 +116,15 @@ export function ComposerCategoryPicker({
       <button
         type="button"
         className="fp-cat-btn"
-        style={{ background: meta.bg, color: meta.fg }}
         onClick={() => setOpen(!open)}
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
-        <MetaIcon size={12} aria-hidden /> {meta.label}
+        <Tag size={12} aria-hidden /> Category
+        <span className="fp-cat-current" style={{ background: meta.bg, color: meta.fg }}>
+          <MetaIcon size={10} aria-hidden /> {meta.label}
+        </span>
+        <ChevronDown size={12} aria-hidden />
       </button>
       {open && (
         <>
@@ -137,6 +142,7 @@ export function ComposerCategoryPicker({
                 >
                   <span className="fp-cat-dot" style={{ background: m.fg }}/>
                   <ItemIcon size={12} aria-hidden /> {m.label}
+                  {k === value && <Check size={12} style={{marginLeft:"auto"}} aria-hidden />}
                 </button>
               );
             })}
@@ -146,6 +152,7 @@ export function ComposerCategoryPicker({
     </div>
   );
 }
+
 
 /* ============ Footer bookmark ============ */
 export function BookmarkButton({ saved, onToggle }: { saved: boolean; onToggle: () => void }) {
