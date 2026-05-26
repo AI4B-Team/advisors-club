@@ -277,6 +277,8 @@ function CommunitySidebar() {
         )}
       </div>
 
+      <ViewModeToggle />
+
       {TOP_LINKS.map(link => (
         <SidebarTopLink key={link.label} link={link} />
       ))}
@@ -356,7 +358,6 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
-        <ViewModeToggle />
         <button className="cc-tb-icon" data-tip="Calendar" onClick={()=>nav({to:"/app/calendar"})}><Calendar size={16}/></button>
         <button className="cc-tb-icon" data-tip="Notifications" onClick={()=>nav({to:"/app/notifications"})}><Bell size={16}/></button>
         <button className="cc-tb-icon" data-tip="Messages" onClick={()=>nav({to:"/app/messages"})}><MessageCircle size={16}/></button>

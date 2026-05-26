@@ -2270,16 +2270,17 @@
 }
 
 /* Topbar VIEW pill (admin/member dropdown) */
-.cc-tb-vw{position:relative;display:inline-flex;margin-right:6px}
-.cc-tb-vw-trigger{display:inline-flex;align-items:center;gap:8px;padding:5px 10px 5px 12px;background:#F3F4F6;border:1px solid #E5E7EB;border-radius:999px;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s}
+.cc-tb-vw{position:relative;display:flex;margin:0 8px 10px}
+.cc-tb-vw-trigger{display:inline-flex;align-items:center;gap:8px;padding:6px 10px 6px 12px;background:#F3F4F6;border:1px solid #E5E7EB;border-radius:999px;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;width:100%}
 .cc-tb-vw-trigger:hover{background:#EBEDF0;border-color:#D1D5DB}
 .cc-tb-vw-label{font-size:10px;font-weight:800;letter-spacing:.08em;color:#9CA3AF;text-transform:uppercase}
-.cc-tb-vw-current{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+.cc-tb-vw-current{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;flex:1;min-width:0}
 .cc-tb-vw-current.admin{background:#F5A623;color:#1A1A1A}
 .cc-tb-vw-current.member{background:#fff;color:#111827;border:1px solid #E5E7EB}
-.cc-tb-vw-av{width:16px;height:16px;border-radius:999px;object-fit:cover}
-.cc-tb-vw-caret{color:#6B7280;flex-shrink:0}
-.cc-tb-vw-menu{position:absolute;top:calc(100% + 8px);right:0;width:300px;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.14),0 0 0 1px rgba(0,0,0,.02);z-index:100;overflow:hidden;padding:6px}
+.cc-tb-vw-current>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cc-tb-vw-av{width:16px;height:16px;border-radius:999px;object-fit:cover;flex-shrink:0}
+.cc-tb-vw-caret{color:#6B7280;flex-shrink:0;margin-left:auto}
+.cc-tb-vw-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;width:auto;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.14),0 0 0 1px rgba(0,0,0,.02);z-index:100;overflow:hidden;padding:6px}
 .cc-tb-vw-opt{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;background:transparent;border:0;cursor:pointer;text-align:left;border-radius:8px;font-family:inherit}
 .cc-tb-vw-opt:hover{background:#F9FAFB}
 .cc-tb-vw-opt.on{background:#FEF3C7}
