@@ -362,6 +362,14 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
+        <button
+          className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
+          type="button"
+          aria-label="AIVA Summary"
+          onClick={()=>setAiOpen(o=>!o)}
+        >
+          <Sparkles size={14}/> <span>Summarize</span>
+        </button>
         {showPostActions && (
           <>
             <button className="cc-tb-golive" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}>
