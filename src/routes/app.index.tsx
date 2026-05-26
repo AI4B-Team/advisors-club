@@ -168,12 +168,6 @@ function HomePage() {
                   </span>
                   <div className="hm-post-meta">
                     <div className="hm-post-name">{p.author}</div>
-                    <div className="hm-post-sub" style={{display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
-                      <span className="hm-post-time">{p.time}</span>
-                      <span className="hm-post-dot">·</span>
-                      <PostBadge category={p.category}/>
-                    </div>
-
                   </div>
                   <PostHeaderActions
                     isAdmin={IS_ADMIN}
@@ -199,7 +193,12 @@ function HomePage() {
                       lastLabel={`New Comment ${p.time.replace(/\b\w/g, c => c.toUpperCase())}`}
                     />
                   )}
+                  <div className="hm-post-foot-meta">
+                    <PostBadge category={p.category}/>
+                    <span className="hm-post-time">{p.time}</span>
+                  </div>
                 </footer>
+
               </article>
             ))}
           </div>
