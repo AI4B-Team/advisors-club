@@ -163,7 +163,8 @@ function HomePage() {
 
           <div className="hm-posts">
             {sorted.map(p => (
-              <article key={p.id} className="hm-post">
+              <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
+                {p.pinned && <span className="hm-post-pinned"><Pin size={13}/> Pinned</span>}
                 <header className="hm-post-head">
                   <span className="hm-av" style={{background:p.color}}>{p.initials}</span>
                   <div className="hm-post-meta">
@@ -171,6 +172,14 @@ function HomePage() {
                     <div className="hm-post-sub">Posted in Discussions</div>
                   </div>
                   <button className="hm-post-share"><Share2 size={14}/> Share</button>
+                  {IS_ADMIN && (
+                    <button
+                      className={`hm-post-pin-btn${p.pinned?" on":""}`}
+                      onClick={()=>togglePin(p.id)}
+                      aria-label={p.pinned?"Unpin":"Pin"}
+                      title={p.pinned?"Unpin post":"Pin post"}
+                    ><Pin size={16} fill={p.pinned?"currentColor":"none"}/></button>
+                  )}
                   <button className="hm-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}
