@@ -2428,3 +2428,11 @@
 .poll-setting input[type="checkbox"]:checked::after{transform:translateX(16px)}
 .poll-duration{border:1px solid #E5E7EB;border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;background:#fff;cursor:pointer;flex-shrink:0}
 .poll-duration:focus{outline:none;border-color:#F5A623}
+
+/* Slash commands menu */
+.slash-menu{position:absolute;bottom:calc(100% + 8px);left:0;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);padding:8px;width:280px;max-height:420px;overflow-y:auto;z-index:300}
+.slash-section + .slash-section{margin-top:6px;padding-top:6px;border-top:1px solid #F3F4F6}
+.slash-section-title{font-size:10px;font-weight:800;letter-spacing:.08em;color:#9CA3AF;text-transform:uppercase;padding:6px 10px 4px}
+.slash-item{display:flex !important;align-items:center;gap:10px;width:100% !important;height:auto !important;padding:8px 10px !important;border:0;background:transparent;border-radius:8px;color:#111827 !important;font-size:14px;font-weight:500;cursor:pointer;text-align:left;justify-content:flex-start !important}
+.slash-item:hover{background:#F3F4F6 !important}
+.slash-item-icon{display:inline-flex;align-items:center;justify-content:center;width:22px;color:#6B7280}

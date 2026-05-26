@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { PlusCircle, Hash, Paperclip, Video, Image as ImageIcon, Smile, BarChart3, Mic, Square, X } from "lucide-react";
 import { EmojiPicker } from "./emoji-picker";
 import { VideoModal } from "./video-modal";
+import { SlashMenu } from "./slash-menu";
 
 type Props = {
   draft: string;
@@ -14,6 +15,8 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
   const imgRef = useRef<HTMLInputElement>(null);
   const [openVideo, setOpenVideo] = useState(false);
   const [openEmoji, setOpenEmoji] = useState(false);
+  const [openSlash, setOpenSlash] = useState(false);
+  const pickAcceptRef = useRef<string>("");
   const [openPoll, setOpenPoll] = useState(false);
   const [pollQ, setPollQ] = useState("");
   const [pollOpts, setPollOpts] = useState(["", ""]);
@@ -123,7 +126,23 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
       >
         {recording ? <Square size={16} fill="currentColor"/> : <Mic size={18}/>}
       </button>
-      <button data-tip="More" type="button" onClick={() => fileRef.current?.click()}><PlusCircle size={18}/></button>
+      <button data-tip="Open slash commands menu" type="button" onClick={() => setOpenSlash(v => !v)}><PlusCircle size={18}/></button>
+      {openSlash && (
+        <SlashMenu
+          onClose={() => setOpenSlash(false)}
+          insert={append}
+          openPoll={() => setOpenPoll(true)}
+          openVideo={() => setOpenVideo(true)}
+          openEmoji={() => setOpenEmoji(true)}
+          pickFile={(accept) => {
+            pickAcceptRef.current = accept || "";
+            if (fileRef.current) {
+              fileRef.current.accept = accept || "";
+              fileRef.current.click();
+            }
+          }}
+        />
+      )}
       {recording && <span style={{fontSize:12,fontWeight:700,color:"#DC2626",marginLeft:6,alignSelf:"center"}}>● {recordSec}s</span>}
 
       <input ref={fileRef} type="file" multiple hidden onChange={e => { attachFiles(e.target.files, "file"); e.target.value=""; }}/>
