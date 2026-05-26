@@ -167,11 +167,13 @@ function HomePage() {
                     <span className="post-av-level">{p.level}</span>
                   </span>
                   <div className="hm-post-meta">
-                    <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
+                    <div className="hm-post-name">{p.author}</div>
                     <div className="hm-post-sub" style={{display:"flex",gap:6,alignItems:"center",flexWrap:"wrap"}}>
-                      
+                      <span className="hm-post-time">{p.time}</span>
+                      <span className="hm-post-dot">·</span>
                       <PostBadge category={p.category}/>
                     </div>
+
                   </div>
                   <PostHeaderActions
                     isAdmin={IS_ADMIN}
