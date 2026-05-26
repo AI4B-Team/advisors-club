@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { Bell, BellOff, MoreHorizontal, Link2, FolderInput, Pin, MessageSquareOff, Flag, Trash2, UserX } from "lucide-react";
+import { Bookmark, MoreVertical, Pin, Link2, FolderInput, MessageSquareOff, Flag, Trash2, UserX, Bell, BellOff } from "lucide-react";
 
 type Props = {
   isAdmin?: boolean;
   isPinned?: boolean;
   onPinToFeed?: () => void;
+  saved?: boolean;
+  onToggleSave?: () => void;
 };
 
-export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFeed }: Props) {
+export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFeed, saved = false, onToggleSave }: Props) {
   const [muted, setMuted] = useState(false);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -21,23 +23,40 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
 
   return (
     <div className="post-actions" ref={ref}>
+      {isPinned && (
+        <button
+          type="button"
+          className="post-actions-pinned"
+          onClick={() => isAdmin && onPinToFeed?.()}
+          title={isAdmin ? "Click to unpin" : "Pinned by admin"}
+          disabled={!isAdmin}
+        >
+          <Pin size={13}/> Pinned
+        </button>
+      )}
       <button
-        className={`post-actions-bell${muted ? " on" : ""}`}
-        aria-label={muted ? "Unmute post" : "Mute post notifications"}
-        title={muted ? "Notifications muted" : "Notifications on"}
-        onClick={() => setMuted(m => !m)}
+        className={`post-actions-bookmark${saved ? " on" : ""}`}
+        aria-label={saved ? "Remove bookmark" : "Bookmark post"}
+        title={saved ? "Bookmarked" : "Bookmark"}
+        onClick={onToggleSave}
       >
-        {muted ? <BellOff size={16}/> : <Bell size={16}/>}
+        <Bookmark size={18} fill={saved ? "currentColor" : "none"}/>
       </button>
       <button
         className="post-actions-more"
         aria-label="More options"
         onClick={() => setOpen(o => !o)}
       >
-        <MoreHorizontal size={18}/>
+        <MoreVertical size={18}/>
       </button>
       {open && (
         <div className="post-actions-menu" role="menu">
+          <button
+            className={`post-actions-item${muted ? " on" : ""}`}
+            onClick={() => { setMuted(m => !m); setOpen(false); }}
+          >
+            {muted ? <BellOff size={14}/> : <Bell size={14}/>} {muted ? "Unmute notifications" : "Mute notifications"}
+          </button>
           <button className="post-actions-item" onClick={() => setOpen(false)}>
             <Link2 size={14}/> Copy link
           </button>
