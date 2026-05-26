@@ -1965,7 +1965,7 @@
 .fp-filter-item.is-active{color:#6D28D9;font-weight:600}
 .fp-tab{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border:0;background:transparent;color:#6B7280;font-size:13px;font-weight:600;cursor:pointer;transition:color .15s}
 .fp-tab:hover{color:#374151}
-.fp-tab.on{color:#111827}
+.fp-tab.on{color:#111827;background:#F3F4F6;border-radius:8px}
 .fp-sort-wrap{position:relative;margin-left:auto}
 .fp-sort-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:0;background:transparent;color:#374151;font-size:13px;font-weight:600;cursor:pointer;border-radius:8px;transition:background .15s}
 .fp-sort-btn:hover{background:#F3F4F6}
