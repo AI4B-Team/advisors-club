@@ -408,17 +408,17 @@ function ViewModeToggle() {
     <div className="cc-tb-view" role="group" aria-label="View as">
       <span className="cc-tb-view-label">View:</span>
       <button
-        className={`cc-tb-view-btn ${mode === "admin" ? "on admin" : ""}`}
+        className="cc-tb-view-btn on admin"
         onClick={() => setMode("admin")}
-        aria-pressed={mode === "admin"}
+        aria-pressed={true}
       >
         <ShieldCheck size={13}/> Admin
       </button>
       <div className="cc-tb-view-member" ref={ref}>
         <button
-          className={`cc-tb-view-btn ${mode === "member" ? "on" : ""}`}
+          className="cc-tb-view-btn"
           onClick={() => { setMode("member"); setOpen(true); }}
-          aria-pressed={mode === "member"}
+          aria-pressed={false}
         >
           <User size={13}/>
           <span>{viewAs ? viewAs.name.split(" ")[0] : "Member"}</span>
