@@ -1,4 +1,4 @@
-import { Bookmark, Pin, SlidersHorizontal, Check, ChevronDown } from "lucide-react";
+import { Bookmark, Pin, SlidersHorizontal, Check, ChevronDown, Tag } from "lucide-react";
 import { useState } from "react";
 import { CATEGORY_META, FEED_TABS, parseMarkdown, type FeedPost, type PostCategory } from "@/lib/feed-posts";
 
