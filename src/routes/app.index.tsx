@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2, Globe, Link2, Pin } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
+import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
 
@@ -204,6 +205,7 @@ function HomePage() {
         <aside className="hm-side">
           <div className="hm-card hm-profile">
             <div className="hm-profile-cover">
+              <img className="hm-profile-cover-img" src={reCover} alt="" loading="lazy" />
               <h2 className="hm-profile-logo">Real Estate Empire</h2>
               <span className="hm-profile-badge"><Globe size={12}/> PUBLIC</span>
             </div>
