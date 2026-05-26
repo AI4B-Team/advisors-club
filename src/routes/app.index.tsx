@@ -166,21 +166,30 @@ function HomePage() {
           <div className="hm-posts">
             {sorted.map(p => (
               <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
-                {p.pinned && <span className="hm-post-pinned"><Pin size={13}/> Pinned</span>}
+                {p.pinned && (
+                  <button
+                    type="button"
+                    className="hm-post-pinned"
+                    onClick={()=> IS_ADMIN && togglePin(p.id)}
+                    title={IS_ADMIN ? "Click to unpin" : "Pinned by admin"}
+                    disabled={!IS_ADMIN}
+                  >
+                    <Pin size={13}/> Pinned
+                  </button>
+                )}
                 <header className="hm-post-head">
                   <span className="hm-av" style={{background:p.color}}>{p.initials}</span>
                   <div className="hm-post-meta">
                     <div className="hm-post-name">{p.author} <span className="hm-post-dot">·</span> <span className="hm-post-time">{p.time}</span></div>
                     <div className="hm-post-sub">Posted in Discussions</div>
                   </div>
-                  <button className="hm-post-share"><Share2 size={14}/> Share</button>
-                  {IS_ADMIN && (
+                  {IS_ADMIN && !p.pinned && (
                     <button
-                      className={`hm-post-pin-btn${p.pinned?" on":""}`}
+                      className="hm-post-pin-btn"
                       onClick={()=>togglePin(p.id)}
-                      aria-label={p.pinned?"Unpin":"Pin"}
-                      title={p.pinned?"Unpin post":"Pin post"}
-                    ><Pin size={16} fill={p.pinned?"currentColor":"none"}/></button>
+                      aria-label="Pin"
+                      title="Pin post"
+                    ><Pin size={16}/></button>
                   )}
                   <button className="hm-post-more" aria-label="More"><MoreHorizontal size={18}/></button>
                 </header>
