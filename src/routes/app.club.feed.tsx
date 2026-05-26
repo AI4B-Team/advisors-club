@@ -79,9 +79,23 @@ function FeedPage() {
         </h1>
         <div className="hm-head-actions">
           <button className="hm-iconbtn" aria-label="AI"><Sparkles size={16}/></button>
-          <button className="hm-sort" onClick={()=>setSort(s=>s==="latest"?"top":"latest")}>
-            {sort === "latest" ? "Latest" : "Top"} <ChevronDown size={14}/>
-          </button>
+          <div style={{position:"relative"}}>
+            <button className="hm-sort" onClick={()=>setSortOpen(o=>!o)}>
+              {SORT_LABEL[sort]} <ChevronDown size={14}/>
+            </button>
+            {sortOpen && (
+              <>
+                <div onClick={()=>setSortOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
+                <div style={{position:"absolute",top:"calc(100% + 6px)",right:0,minWidth:140,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 24px -8px rgba(0,0,0,.15)",padding:6,zIndex:50}}>
+                  {(["latest","top","unread"] as const).map(opt => (
+                    <button key={opt} onClick={()=>{setSort(opt);setSortOpen(false);}} style={{display:"block",width:"100%",textAlign:"left",padding:"8px 10px",borderRadius:6,border:0,background:sort===opt?"#FEF3C7":"transparent",fontSize:13,fontWeight:600,color:"#111827",cursor:"pointer"}}>
+                      {SORT_LABEL[opt]}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
           <button className="hm-golive" type="button">
             <span className="hm-golive-dot"/>
             <Video size={14}/> Go Live
