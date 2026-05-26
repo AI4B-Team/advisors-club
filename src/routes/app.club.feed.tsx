@@ -4,6 +4,7 @@ import { ChevronDown, Plus, Heart, MessageCircle, Image as ImageIcon, Smile, Has
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
+import { EmailBlastToggle } from "@/components/email-blast-toggle";
 
 const MAX_PINNED = 3;
 
@@ -63,6 +64,7 @@ function FeedPage() {
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<"latest"|"top">("latest");
+  const [emailBlast, setEmailBlast] = useState(false);
 
   function publish() {
     const text = draft.trim();
@@ -159,6 +161,7 @@ function FeedPage() {
             <button data-tip="Voice note"><Mic size={18}/></button>
           </div>
           <div className="cc-composer-right">
+            {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
             <span className="cc-composer-target">Posting in: <b>Community</b></span>
             <button className="cc-composer-send" onClick={publish} disabled={!draft.trim()}>
               <Send size={14}/> Publish

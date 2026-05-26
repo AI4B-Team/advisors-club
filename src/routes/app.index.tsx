@@ -4,6 +4,7 @@ import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Image as Image
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
+import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 
 const MAX_PINNED = 3;
@@ -71,6 +72,7 @@ function HomePage() {
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<"latest"|"top">("latest");
+  const [emailBlast, setEmailBlast] = useState(false);
 
   function publish() {
     const text = draft.trim();
@@ -159,9 +161,12 @@ function HomePage() {
                 <button data-tip="Poll"><BarChart3 size={18}/></button>
                 <button data-tip="Voice"><Mic size={18}/></button>
               </div>
-              <button className="hm-send" onClick={publish} disabled={!draft.trim()}>
-                <Send size={14}/> Publish
-              </button>
+              <div className="hm-composer-right">
+                {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
+                <button className="hm-send" onClick={publish} disabled={!draft.trim()}>
+                  <Send size={14}/> Publish
+                </button>
+              </div>
             </div>
           </div>
 
