@@ -63,6 +63,7 @@ export function ComposerCategoryPicker({
   value, onChange, open, setOpen,
 }: { value: PostCategory; onChange: (c: PostCategory) => void; open: boolean; setOpen: (b: boolean) => void }) {
   const meta = CATEGORY_META[value];
+  const MetaIcon = meta.icon;
   return (
     <div className="fp-cat-picker">
       <button
@@ -71,7 +72,7 @@ export function ComposerCategoryPicker({
         style={{ background: meta.bg, color: meta.fg }}
         onClick={() => setOpen(!open)}
       >
-        <span aria-hidden>{meta.emoji}</span> {meta.label}
+        <MetaIcon size={12} aria-hidden /> {meta.label}
       </button>
       {open && (
         <>
@@ -79,6 +80,7 @@ export function ComposerCategoryPicker({
           <div className="fp-cat-menu" role="menu">
             {(Object.keys(CATEGORY_META) as PostCategory[]).map(k => {
               const m = CATEGORY_META[k];
+              const ItemIcon = m.icon;
               return (
                 <button
                   key={k}
@@ -87,7 +89,7 @@ export function ComposerCategoryPicker({
                   onClick={() => { onChange(k); setOpen(false); }}
                 >
                   <span className="fp-cat-dot" style={{ background: m.fg }}/>
-                  <span aria-hidden>{m.emoji}</span> {m.label}
+                  <ItemIcon size={12} aria-hidden /> {m.label}
                 </button>
               );
             })}
