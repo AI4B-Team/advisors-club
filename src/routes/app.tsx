@@ -392,7 +392,7 @@ function Topbar() {
 }
 
 function ViewModeToggle() {
-  const { mode, viewAs, setViewAs } = useViewMode();
+  const { mode, setMode, viewAs, setViewAs } = useViewMode();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const ref = useRef<HTMLDivElement>(null);
