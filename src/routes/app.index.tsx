@@ -103,13 +103,6 @@ function HomePage() {
             <h1>Feed</h1>
             <div className="hm-head-actions">
               <button className="hm-iconbtn" aria-label="AI"><Sparkles size={16}/></button>
-              <button className="hm-golive" type="button">
-                <span className="hm-golive-dot"/>
-                <Video size={14}/> Go Live
-              </button>
-              <button className="hm-new" onClick={publish}>
-                <Plus size={15} strokeWidth={3}/> New Post
-              </button>
               <button className="hm-iconbtn" aria-label="More"><MoreHorizontal size={16}/></button>
             </div>
           </div>
