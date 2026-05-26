@@ -385,7 +385,21 @@ function Topbar() {
 }
 
 function ViewModeToggle() {
-  const { mode, setMode } = useViewMode();
+  const { mode, setMode, viewAs, setViewAs } = useViewMode();
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+  const filtered = SAMPLE_MEMBERS.filter(m =>
+    m.name.toLowerCase().includes(q.toLowerCase()) ||
+    m.role.toLowerCase().includes(q.toLowerCase())
+  );
   return (
     <div className="cc-tb-view" role="group" aria-label="View as">
       <span className="cc-tb-view-label">View:</span>
@@ -396,16 +410,53 @@ function ViewModeToggle() {
       >
         <ShieldCheck size={13}/> Admin
       </button>
-      <button
-        className={`cc-tb-view-btn ${mode === "member" ? "on" : ""}`}
-        onClick={() => setMode("member")}
-        aria-pressed={mode === "member"}
-      >
-        <User size={13}/> Member
-      </button>
+      <div className="cc-tb-view-member" ref={ref}>
+        <button
+          className={`cc-tb-view-btn ${mode === "member" ? "on" : ""}`}
+          onClick={() => { setMode("member"); setOpen(true); }}
+          aria-pressed={mode === "member"}
+        >
+          <User size={13}/>
+          <span>{viewAs ? viewAs.name.split(" ")[0] : "Member"}</span>
+          <ChevronDown size={12} onClick={(e)=>{e.stopPropagation();setOpen(o=>!o);}}/>
+        </button>
+        {open && (
+          <div className="cc-tb-view-menu">
+            <div className="cc-tb-view-search">
+              <Search size={13}/>
+              <input
+                autoFocus
+                placeholder="Search members"
+                value={q}
+                onChange={(e)=>setQ(e.target.value)}
+              />
+            </div>
+            <div className="cc-tb-view-list">
+              {filtered.length === 0 && (
+                <div className="cc-tb-view-empty">No members found</div>
+              )}
+              {filtered.map(m => (
+                <button
+                  key={m.id}
+                  className={`cc-tb-view-item ${viewAs?.id === m.id ? "on" : ""}`}
+                  onClick={()=>{ setViewAs(m); setOpen(false); setQ(""); }}
+                >
+                  <img src={m.avatar} alt="" />
+                  <div className="cc-tb-view-item-meta">
+                    <div className="cc-tb-view-item-n">{m.name}</div>
+                    <div className="cc-tb-view-item-r">{m.role}</div>
+                  </div>
+                  {viewAs?.id === m.id && <span className="cc-tb-view-item-check">✓</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
 
 
 
