@@ -163,7 +163,7 @@ function HomePage() {
               </div>
               <div className="hm-composer-right">
                 {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
-                <button className="hm-send" onClick={publish} disabled={!draft.trim()}>
+                <button className="hm-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
                   <Send size={14}/> Publish
                 </button>
               </div>
