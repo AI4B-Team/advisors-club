@@ -1902,3 +1902,34 @@
 .pc-reply-bar button{margin-left:auto;border:0;background:transparent;font-size:16px;line-height:1;color:#92400E;cursor:pointer}
 .pc-send{width:36px;height:36px;border-radius:50%;border:0;background:#111827;color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .pc-send:disabled{background:#D1D5DB;cursor:not-allowed}
+
+/* ============ AIVA INSIGHTS CARD ============ */
+.aiva-ins{background:linear-gradient(180deg,#FAFBFF 0%,#FFFFFF 60%);border:1px solid #E5E7EB;position:relative;overflow:hidden}
+.aiva-ins::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 60% at 0% 0%,rgba(139,92,246,.08),transparent 60%),radial-gradient(80% 50% at 100% 0%,rgba(59,130,246,.06),transparent 60%);pointer-events:none}
+.aiva-ins-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;position:relative}
+.aiva-ins-badge{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#8B5CF6,#3B82F6);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 12px -4px rgba(139,92,246,.5)}
+.aiva-ins-titles{display:flex;flex-direction:column;line-height:1.15;flex:1;min-width:0}
+.aiva-ins-title{font-size:14px;font-weight:800;color:#111827;margin:0;letter-spacing:-.01em}
+.aiva-ins-sub{font-size:11px;color:#6B7280;font-weight:500}
+.aiva-ins-pulse{width:8px;height:8px;border-radius:999px;background:#10B981;box-shadow:0 0 0 0 rgba(16,185,129,.6);animation:aiva-pulse 2s ease-out infinite}
+@keyframes aiva-pulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,.6)}70%{box-shadow:0 0 0 8px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+.aiva-ins-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;position:relative}
+.aiva-ins-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;background:#fff;border:1px solid #EEF0F3;transition:border-color .15s,box-shadow .15s,transform .15s}
+.aiva-ins-item:hover{border-color:#D1D5DB;box-shadow:0 2px 8px -2px rgba(17,24,39,.06);transform:translateY(-1px)}
+.aiva-ins-i{width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.aiva-ins-item.tone-warn .aiva-ins-i{background:#FEF3C7;color:#B45309}
+.aiva-ins-item.tone-info .aiva-ins-i{background:#DBEAFE;color:#1D4ED8}
+.aiva-ins-item.tone-good .aiva-ins-i{background:#D1FAE5;color:#047857}
+.aiva-ins-t{flex:1;font-size:12.5px;color:#1F2937;font-weight:500;line-height:1.3}
+.aiva-ins-cta{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#6D28D9;background:transparent;border:0;padding:4px 6px;border-radius:6px;cursor:pointer;flex-shrink:0}
+.aiva-ins-cta:hover{background:#F5F3FF}
+.aiva-ins-all{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:12.5px;font-weight:700;color:#6D28D9;text-decoration:none;position:relative}
+.aiva-ins-all:hover{color:#5B21B6}
+
+/* ============ AIVA COMPOSER MENU ============ */
+.aiva-comp{position:relative}
+.aiva-comp-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:7px 10px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#6D28D9;cursor:pointer;transition:background .15s,border-color .15s}
+.aiva-comp-btn:hover{background:#F5F3FF;border-color:#DDD6FE}
+.aiva-comp-menu{position:absolute;bottom:calc(100% + 6px);right:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 30px -10px rgba(17,24,39,.2);padding:5px;min-width:230px;z-index:30}
+.aiva-comp-item{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;background:transparent;border:0;border-radius:7px;font-size:13px;color:#1F2937;cursor:pointer;text-align:left}
+.aiva-comp-item:hover{background:#F5F3FF;color:#6D28D9}

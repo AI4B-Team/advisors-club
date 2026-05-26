@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles, Link2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles, Link2, TrendingUp, Users, Clock, MessageSquare, Flame, ArrowRight, PenLine, Wand2, Film } from "lucide-react";
 import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
@@ -130,6 +130,11 @@ function HomePage() {
               <ComposerTools draft={draft} setDraft={setDraft} className="hm-composer-tools"/>
 
               <div className="hm-composer-right">
+                <AivaComposerMenu
+                  onWrite={()=>setDraft(d => d + (d ? "\n\n" : "") + "Draft started with AIVA — refine the angle, add a hook, and end with a question.")}
+                  onPrompt={()=>{ setTitle(t => t || "Discussion: What's your biggest unlock this week?"); setDraft(d => d + (d ? "\n\n" : "") + "Share one thing you learned, one thing you shipped, and one thing you're stuck on. Tag a member who could help."); }}
+                  onReplay={()=>{ setTitle(t => t || "Live Replay Recap — Key Takeaways"); setDraft(d => d + (d ? "\n\n" : "") + "Top moments from yesterday's live:\n• Insight 1\n• Insight 2\n• Action step\n\nFull replay inside."); }}
+                />
                 {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
                 <button className="hm-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
                   <Send size={14}/> Publish
@@ -181,6 +186,8 @@ function HomePage() {
         </section>
 
         <aside className="hm-side">
+          <AivaInsightsCard />
+
           <div className="hm-card hm-profile">
             <div className="hm-profile-cover">
               <img className="hm-profile-cover-img" src={reCover} alt="" loading="lazy" />
@@ -306,6 +313,73 @@ function HomePage() {
           </div>
         </aside>
       </div>
+    </div>
+  );
+}
+
+/* ============ AIVA INSIGHTS ============ */
+const AIVA_INSIGHTS = [
+  { icon: <Users size={14}/>, text: "12 members likely to disengage", tone: "warn" as const, cta: "Review" },
+  { icon: <Clock size={14}/>, text: "Best posting time: 3PM EST", tone: "info" as const, cta: "Schedule" },
+  { icon: <TrendingUp size={14}/>, text: "Challenge engagement up 18%", tone: "good" as const, cta: "View" },
+  { icon: <MessageSquare size={14}/>, text: "3 unanswered questions need attention", tone: "warn" as const, cta: "Answer" },
+  { icon: <Flame size={14}/>, text: "Top topic: seller financing", tone: "info" as const, cta: "Explore" },
+];
+
+function AivaInsightsCard() {
+  return (
+    <div className="hm-card aiva-ins">
+      <div className="aiva-ins-head">
+        <span className="aiva-ins-badge"><Sparkles size={13}/></span>
+        <div className="aiva-ins-titles">
+          <h3 className="aiva-ins-title">AIVA Insights</h3>
+          <span className="aiva-ins-sub">Live community intelligence</span>
+        </div>
+        <span className="aiva-ins-pulse" aria-hidden/>
+      </div>
+      <ul className="aiva-ins-list">
+        {AIVA_INSIGHTS.map((i, idx) => (
+          <li key={idx} className={`aiva-ins-item tone-${i.tone}`}>
+            <span className="aiva-ins-i">{i.icon}</span>
+            <span className="aiva-ins-t">{i.text}</span>
+            <button className="aiva-ins-cta">{i.cta} <ArrowRight size={11}/></button>
+          </li>
+        ))}
+      </ul>
+      <a className="aiva-ins-all" href="#">Ask AIVA anything <ArrowRight size={12}/></a>
+    </div>
+  );
+}
+
+/* ============ AIVA COMPOSER MENU ============ */
+function AivaComposerMenu({ onWrite, onPrompt, onReplay }: { onWrite: () => void; onPrompt: () => void; onReplay: () => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function onDoc(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+  return (
+    <div className="aiva-comp" ref={ref}>
+      <button type="button" className="aiva-comp-btn" onClick={()=>setOpen(o=>!o)} aria-label="Write with AIVA">
+        <Sparkles size={13}/> <span>AIVA</span>
+      </button>
+      {open && (
+        <div className="aiva-comp-menu" role="menu">
+          <button type="button" className="aiva-comp-item" onClick={()=>{onWrite();setOpen(false);}}>
+            <PenLine size={14}/> <span>Write with AIVA</span>
+          </button>
+          <button type="button" className="aiva-comp-item" onClick={()=>{onPrompt();setOpen(false);}}>
+            <Wand2 size={14}/> <span>Generate discussion prompt</span>
+          </button>
+          <button type="button" className="aiva-comp-item" onClick={()=>{onReplay();setOpen(false);}}>
+            <Film size={14}/> <span>Turn live replay into post</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
