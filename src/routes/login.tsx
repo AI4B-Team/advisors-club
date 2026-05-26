@@ -30,6 +30,12 @@ function LoginPage() {
       <div className="lt-auth lt-auth-rev">
         <div className="lt-auth-left">
           <Link to="/landing" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
+
+          <div className="lt-tabs">
+            <button type="button" className="lt-tab on">Login</button>
+            <Link to="/signup" className="lt-tab">Sign Up</Link>
+          </div>
+
           <h1>Welcome Back</h1>
           <p className="lt-auth-sub lt-nowrap">Log In To Run Your Club &amp; Check In With Your Members.</p>
           <form onSubmit={onSubmit}>
