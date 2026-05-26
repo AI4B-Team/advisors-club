@@ -470,8 +470,19 @@ function ViewModeToggle() {
             </span>
             {isAdmin && <span className="cc-tb-vw-opt-check">✓</span>}
           </button>
+          <button
+            className={`cc-tb-vw-opt ${!isAdmin && !viewAs ? "on" : ""}`}
+            onClick={() => { setViewAs(null); setMode("member"); setOpen(false); }}
+          >
+            <span className="cc-tb-vw-opt-ic" style={{background:"#E5E7EB",color:"#374151"}}><User size={14}/></span>
+            <span className="cc-tb-vw-opt-meta">
+              <span className="cc-tb-vw-opt-n">Member</span>
+              <span className="cc-tb-vw-opt-r">Default member view</span>
+            </span>
+            {!isAdmin && !viewAs && <span className="cc-tb-vw-opt-check">✓</span>}
+          </button>
           <div className="cc-tb-vw-sep"/>
-          <div className="cc-tb-vw-section">View as member</div>
+          <div className="cc-tb-vw-section">View as specific member</div>
           <div className="cc-tb-vw-search">
             <Search size={13}/>
             <input
