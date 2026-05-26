@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, Send, RefreshCw, CheckCircle2, Copy, Check, BookOpen, Mail, Flame, Megaphone, MessageSquare, Calendar, Palette, Search, Map, Zap, Mic } from "lucide-react";
+import { Sparkles, Send, RefreshCw, CheckCircle2, Copy, Check, BookOpen, Mail, Flame, Megaphone, MessageSquare, Calendar, Palette, Search, Map, Zap, Mic, Plus } from "lucide-react";
 
 export const Route = createFileRoute("/app/aiva")({
   head: () => ({
