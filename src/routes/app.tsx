@@ -421,6 +421,7 @@ function Topbar() {
           )}
         </div>
       </div>
+      <AISummaryDrawer open={aiOpen} onClose={()=>setAiOpen(false)} />
     </header>
   );
 }
