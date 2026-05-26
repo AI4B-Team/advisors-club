@@ -33,6 +33,7 @@ const SEED: Post[] = [
     time: "1 month ago",
     body: "Welcome to **Real Estate Empire** 🚀 — drop your city + niche below so we can match you with the right deal flow this week.",
     likes: 42, comments: 18,
+    pinned: true,
   },
   {
     id: "2",
