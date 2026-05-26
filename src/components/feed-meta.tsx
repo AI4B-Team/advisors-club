@@ -1,4 +1,4 @@
-import { Bookmark } from "lucide-react";
+import { Bookmark, Pin } from "lucide-react";
 import { CATEGORY_META, FEED_TABS, parseMarkdown, type FeedPost, type PostCategory } from "@/lib/feed-posts";
 
 /* ============ Markdown body ============ */
@@ -18,15 +18,16 @@ export function PostBody({ text }: { text: string }) {
 /* ============ Category badge ============ */
 export function PostBadge({ category }: { category: PostCategory }) {
   const m = CATEGORY_META[category];
+  const Icon = m.icon;
   return (
     <span className="fp-badge" style={{ background: m.bg, color: m.fg }}>
-      <span aria-hidden>{m.emoji}</span> {m.label}
+      <Icon size={12} aria-hidden /> {m.label}
     </span>
   );
 }
 
 export function PinBadge() {
-  return <span className="fp-badge fp-badge-pin">📌 Pinned</span>;
+  return <span className="fp-badge fp-badge-pin"><Pin size={12} aria-hidden/> Pinned</span>;
 }
 
 /* ============ Tab row ============ */
@@ -62,6 +63,7 @@ export function ComposerCategoryPicker({
   value, onChange, open, setOpen,
 }: { value: PostCategory; onChange: (c: PostCategory) => void; open: boolean; setOpen: (b: boolean) => void }) {
   const meta = CATEGORY_META[value];
+  const MetaIcon = meta.icon;
   return (
     <div className="fp-cat-picker">
       <button
@@ -70,7 +72,7 @@ export function ComposerCategoryPicker({
         style={{ background: meta.bg, color: meta.fg }}
         onClick={() => setOpen(!open)}
       >
-        <span aria-hidden>{meta.emoji}</span> {meta.label}
+        <MetaIcon size={12} aria-hidden /> {meta.label}
       </button>
       {open && (
         <>
@@ -78,6 +80,7 @@ export function ComposerCategoryPicker({
           <div className="fp-cat-menu" role="menu">
             {(Object.keys(CATEGORY_META) as PostCategory[]).map(k => {
               const m = CATEGORY_META[k];
+              const ItemIcon = m.icon;
               return (
                 <button
                   key={k}
@@ -86,7 +89,7 @@ export function ComposerCategoryPicker({
                   onClick={() => { onChange(k); setOpen(false); }}
                 >
                   <span className="fp-cat-dot" style={{ background: m.fg }}/>
-                  <span aria-hidden>{m.emoji}</span> {m.label}
+                  <ItemIcon size={12} aria-hidden /> {m.label}
                 </button>
               );
             })}
