@@ -1,5 +1,19 @@
 import { useState, useRef, useEffect } from "react";
-import { Bookmark, MoreVertical, Pin, Link2, FolderInput, MessageSquareOff, Flag, Trash2, UserX, Bell, BellOff } from "lucide-react";
+import {
+  Bookmark,
+  MoreVertical,
+  Pin,
+  Pencil,
+  Copy,
+  Flag,
+  Trash2,
+  Share2,
+  Rss,
+  Heart,
+  MessageSquare,
+  MessageSquareOff,
+  Star,
+} from "lucide-react";
 
 type Props = {
   isAdmin?: boolean;
@@ -9,10 +23,27 @@ type Props = {
   onToggleSave?: () => void;
 };
 
+type Toggles = {
+  follow: boolean;
+  pin: boolean;
+  hideLikes: boolean;
+  hideComments: boolean;
+  closeComments: boolean;
+  hideFeatured: boolean;
+};
+
 export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFeed, saved = false, onToggleSave }: Props) {
-  const [muted, setMuted] = useState(false);
   const [open, setOpen] = useState(false);
+  const [toggles, setToggles] = useState<Toggles>({
+    follow: false,
+    pin: isPinned,
+    hideLikes: false,
+    hideComments: false,
+    closeComments: false,
+    hideFeatured: false,
+  });
   const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function onDoc(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -20,6 +51,14 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+
+  const setT = (k: keyof Toggles) => setToggles(t => ({ ...t, [k]: !t[k] }));
+
+  const Toggle = ({ on }: { on: boolean }) => (
+    <span className={`pa-toggle${on ? " on" : ""}`} aria-hidden>
+      <span className="pa-toggle-knob" />
+    </span>
+  );
 
   return (
     <div className="post-actions" ref={ref}>
@@ -51,47 +90,55 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
       </button>
       {open && (
         <div className="post-actions-menu" role="menu">
-          <button
-            className={`post-actions-item${muted ? " on" : ""}`}
-            onClick={() => { setMuted(m => !m); setOpen(false); }}
-          >
-            {muted ? <BellOff size={14}/> : <Bell size={14}/>} {muted ? "Unmute Notifications" : "Mute Notifications"}
+          <button className="post-actions-item" onClick={() => { onToggleSave?.(); setOpen(false); }}>
+            <Bookmark size={15}/> {saved ? "Remove bookmark" : "Bookmark post"}
           </button>
           <button className="post-actions-item" onClick={() => setOpen(false)}>
-            <Link2 size={14}/> Copy Link
+            <Pencil size={15}/> Edit post
           </button>
-          {isAdmin && (
-            <button className="post-actions-item" onClick={() => setOpen(false)}>
-              <FolderInput size={14}/> Change Category
-            </button>
-          )}
+          <button className="post-actions-item" onClick={() => setOpen(false)}>
+            <Copy size={15}/> Duplicate post
+          </button>
+          <button className="post-actions-item" onClick={() => setOpen(false)}>
+            <Flag size={15}/> Report post
+          </button>
+          <button className="post-actions-item danger" onClick={() => setOpen(false)}>
+            <Trash2 size={15}/> Delete post
+          </button>
+
+          <div className="post-actions-sep" />
+
+          <button className="post-actions-item" onClick={() => setOpen(false)}>
+            <Share2 size={15}/>
+            <span>Share via broadcast</span>
+            <span className="pa-badge-new">New</span>
+          </button>
+
+          <div className="post-actions-sep" />
+
+          <button className="post-actions-item pa-row" onClick={() => setT("follow")}>
+            <Rss size={15}/> <span>Follow post</span> <Toggle on={toggles.follow}/>
+          </button>
           {isAdmin && (
             <button
-              className="post-actions-item"
-              onClick={() => { onPinToFeed?.(); setOpen(false); }}
+              className="post-actions-item pa-row"
+              onClick={() => { setT("pin"); onPinToFeed?.(); }}
             >
-              <Pin size={14}/> {isPinned ? "Unpin From Feed" : "Pin To Feed"}
+              <Pin size={15}/> <span>Pin to top</span> <Toggle on={toggles.pin}/>
             </button>
           )}
-          {isAdmin && (
-            <button className="post-actions-item" onClick={() => setOpen(false)}>
-              <MessageSquareOff size={14}/> Turn Off Comments
-            </button>
-          )}
-          <button className="post-actions-item" onClick={() => setOpen(false)}>
-            <Flag size={14}/> Report To Admins
+          <button className="post-actions-item pa-row" onClick={() => setT("hideLikes")}>
+            <Heart size={15}/> <span>Hide likes</span> <Toggle on={toggles.hideLikes}/>
           </button>
-          {isAdmin && (
-            <>
-              <div className="post-actions-sep" />
-              <button className="post-actions-item danger" onClick={() => setOpen(false)}>
-                <Trash2 size={14}/> Delete
-              </button>
-              <button className="post-actions-item danger" onClick={() => setOpen(false)}>
-                <UserX size={14}/> Delete And Ban User
-              </button>
-            </>
-          )}
+          <button className="post-actions-item pa-row" onClick={() => setT("hideComments")}>
+            <MessageSquare size={15}/> <span>Hide comments</span> <Toggle on={toggles.hideComments}/>
+          </button>
+          <button className="post-actions-item pa-row" onClick={() => setT("closeComments")}>
+            <MessageSquareOff size={15}/> <span>Close comments</span> <Toggle on={toggles.closeComments}/>
+          </button>
+          <button className="post-actions-item pa-row" onClick={() => setT("hideFeatured")}>
+            <Star size={15}/> <span>Hide from featured areas</span> <Toggle on={toggles.hideFeatured}/>
+          </button>
         </div>
       )}
     </div>
