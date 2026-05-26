@@ -199,6 +199,13 @@ function HomePage() {
                   <button className="hm-post-act">
                     <MessageCircle size={16}/> {p.comments}
                   </button>
+                  {p.comments > 0 && (
+                    <CommenterStack
+                      seed={p.id}
+                      count={Math.min(5, p.comments)}
+                      lastLabel={`New comment ${p.time} ago`}
+                    />
+                  )}
                   <button className={`hm-post-act ${p.saved?"on":""}`} onClick={()=>toggleSave(p.id)} style={{marginLeft:"auto"}}>
                     <Bookmark size={16} fill={p.saved?"currentColor":"none"}/>
                   </button>
