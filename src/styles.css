@@ -1520,7 +1520,7 @@
 .cc-main:has(.hm){background:#fff;overflow:hidden;padding:0}
 .hm{max-width:1200px;margin:0 auto;height:100%;padding:24px 32px 0}
 .hm-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:stretch;height:100%}
-.hm-feed{overflow-y:auto;min-height:0;padding-bottom:60px;padding-right:4px}
+.hm-feed{overflow-y:auto;min-height:0;padding-bottom:60px;padding-left:4px;padding-right:4px}
 .hm-feed,.hm-side{scrollbar-width:none;-ms-overflow-style:none}
 .hm-feed::-webkit-scrollbar,.hm-side::-webkit-scrollbar{width:0;height:0;display:none}
 @media (max-width:980px){.hm-grid{grid-template-columns:1fr;height:auto}.cc-main:has(.hm){overflow:auto}.hm-feed{overflow:visible;padding-bottom:0}}
