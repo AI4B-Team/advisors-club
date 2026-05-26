@@ -130,6 +130,11 @@ function HomePage() {
               <ComposerTools draft={draft} setDraft={setDraft} className="hm-composer-tools"/>
 
               <div className="hm-composer-right">
+                <AivaComposerMenu
+                  onWrite={()=>setDraft(d => d + (d ? "\n\n" : "") + "Draft started with AIVA — refine the angle, add a hook, and end with a question.")}
+                  onPrompt={()=>{ setTitle(t => t || "Discussion: What's your biggest unlock this week?"); setDraft(d => d + (d ? "\n\n" : "") + "Share one thing you learned, one thing you shipped, and one thing you're stuck on. Tag a member who could help."); }}
+                  onReplay={()=>{ setTitle(t => t || "Live Replay Recap — Key Takeaways"); setDraft(d => d + (d ? "\n\n" : "") + "Top moments from yesterday's live:\n• Insight 1\n• Insight 2\n• Action step\n\nFull replay inside."); }}
+                />
                 {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
                 <button className="hm-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
                   <Send size={14}/> Publish
