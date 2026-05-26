@@ -57,15 +57,15 @@ export function FeedTabs({
         <div className="fp-filter-wrap">
           <button
             type="button"
-            className="fp-filter-btn fp-tab on"
+            className={`fp-filter-btn${filterOpen ? " is-open" : ""}`}
             aria-label="Filter posts"
+            aria-expanded={filterOpen}
             onClick={() => setFilterOpen(o => !o)}
           >
-            <SlidersHorizontal size={14}/>
             <span>All</span>
-            <span className="fp-tab-count">{counts.all ?? 0}</span>
             <ChevronDown size={12}/>
           </button>
+
           {filterOpen && (
             <>
               <div className="fp-filter-backdrop" onClick={() => setFilterOpen(false)}/>
