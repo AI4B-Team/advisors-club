@@ -15,43 +15,9 @@ export const Route = createFileRoute("/app/")({
   component: HomePage,
 });
 
-type Post = {
-  id: string;
-  author: string;
-  initials: string;
-  color: string;
-  time: string;
-  title?: string;
-  body: string;
-  likes: number;
-  comments: number;
-  liked?: boolean;
-  saved?: boolean;
-  pinned?: boolean;
-};
+import { SEED_POSTS, type FeedPost as Post } from "@/lib/feed-posts";
 
-const SEED: Post[] = [
-  {
-    id: "1",
-    author: "Michael A.",
-    initials: "MA",
-    color: "#F5A623",
-    time: "3d",
-    title: "2026.05.21 Fail Forward",
-    body: "Live replay from this week's Fail Forward session — drop your biggest takeaway below and tag a teammate who needs to hear it.",
-    likes: 87, comments: 24,
-    pinned: true,
-  },
-  {
-    id: "2",
-    author: "Sarah K.",
-    initials: "SK",
-    color: "#10B981",
-    time: "5h",
-    body: "Just closed my 3rd wholesale deal using the framework from week 2 — $14k net. Happy to walk anyone through the script that worked.",
-    likes: 42, comments: 12,
-  },
-];
+const SEED: Post[] = SEED_POSTS;
 
 const EVENTS = [
   { day: "26", mo: "MAY", title: "Hotline", time: "5:30 – 6:30 PM EDT" },
