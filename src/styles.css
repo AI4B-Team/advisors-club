@@ -1771,3 +1771,15 @@
 .commenters-av:first-child { margin-left: 0; }
 .commenters-label { font-size: 13px; font-weight: 600; color: #2563EB; cursor: pointer; }
 .commenters-label:hover { text-decoration: underline; }
+
+/* Email blast toggle (admin-only) */
+.email-blast { display:inline-flex; align-items:center; gap:8px; color:#6B7280; font-size:13px; font-weight:600; }
+.email-blast-info { position:relative; display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; color:#9CA3AF; cursor:help; outline:none; }
+.email-blast-info:hover, .email-blast-info:focus { color:#6B7280; }
+.email-blast-tip { position:absolute; bottom:calc(100% + 8px); right:-8px; width:280px; background:#111827; color:#fff; font-size:12.5px; font-weight:500; line-height:1.45; padding:10px 12px; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.18); z-index:60; text-align:center; }
+.email-blast-tip::after { content:""; position:absolute; top:100%; right:14px; border:6px solid transparent; border-top-color:#111827; }
+.email-blast-label { color:#6B7280; }
+.email-blast-switch { width:34px; height:20px; border-radius:999px; border:0; background:#D1D5DB; padding:0; position:relative; cursor:pointer; transition:background .15s; }
+.email-blast-switch.on { background:#10B981; }
+.email-blast-knob { position:absolute; top:2px; left:2px; width:16px; height:16px; background:#fff; border-radius:50%; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:transform .15s; }
+.email-blast-switch.on .email-blast-knob { transform:translateX(14px); }
