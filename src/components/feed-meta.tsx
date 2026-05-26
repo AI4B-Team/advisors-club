@@ -117,6 +117,7 @@ export function ComposerCategoryPicker({
         onClick={() => setOpen(!open)}
         aria-haspopup="menu"
         aria-expanded={open}
+        data-tip="Select Category"
       >
         <Tag size={12} aria-hidden /> {value === "general" ? "Category" : meta.label}
         <ChevronDown size={12} aria-hidden />
