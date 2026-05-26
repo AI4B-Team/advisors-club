@@ -68,8 +68,9 @@ function FeedPage() {
 
   function publish() {
     const text = draft.trim();
-    if (!text) return;
-    const body = title.trim() ? `**${title.trim()}**\n\n${text}` : text;
+    const t = title.trim();
+    if (!text || !t) return;
+    const body = `**${t}**\n\n${text}`;
     setPosts(p => [{
       id: crypto.randomUUID(),
       author: "Zaddy",
@@ -138,7 +139,7 @@ function FeedPage() {
               className="cc-composer-title"
               value={title}
               onChange={e=>setTitle(e.target.value)}
-              placeholder="Title (optional)"
+              placeholder="Title"
             />
             <textarea
               value={draft}
@@ -163,7 +164,7 @@ function FeedPage() {
           <div className="cc-composer-right">
             {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
             <span className="cc-composer-target">Posting in: <b>Community</b></span>
-            <button className="cc-composer-send" onClick={publish} disabled={!draft.trim()}>
+            <button className="cc-composer-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
               <Send size={14}/> Publish
             </button>
           </div>

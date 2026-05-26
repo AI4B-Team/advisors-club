@@ -76,14 +76,15 @@ function HomePage() {
 
   function publish() {
     const text = draft.trim();
-    if (!text) return;
+    const t = title.trim();
+    if (!text || !t) return;
     setPosts(p => [{
       id: crypto.randomUUID(),
       author: "Zaddy",
       initials: "Z",
       color: "#F5A623",
       time: "Just now",
-      title: title.trim() || undefined,
+      title: t,
       body: text,
       likes: 0, comments: 0,
     }, ...p]);
@@ -139,7 +140,7 @@ function HomePage() {
                   className="hm-composer-title"
                   value={title}
                   onChange={e=>setTitle(e.target.value)}
-                  placeholder="Title (optional)"
+                  placeholder="Title"
                 />
                 <textarea
                   value={draft}
@@ -163,7 +164,7 @@ function HomePage() {
               </div>
               <div className="hm-composer-right">
                 {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
-                <button className="hm-send" onClick={publish} disabled={!draft.trim()}>
+                <button className="hm-send" onClick={publish} disabled={!draft.trim() || !title.trim()}>
                   <Send size={14}/> Publish
                 </button>
               </div>
