@@ -150,7 +150,7 @@ function SidebarTopLink({ link }: { link: TopLink }) {
   const baseCls = link.pill ? "cc-sb-pill" : "cc-sb-feed";
   const isAiva = link.label === AIVA_LABEL;
   return (
-    <div className={`cc-sb-item${isAiva ? " cc-sb-item-aiva" : ""}`}>
+    <div className={`cc-sb-item${isAiva ? " cc-sb-item-aiva" : ""}${expanded ? " expanded" : ""}`}>
       <div className={`cc-sb-item-row ${baseCls}-wrap`}>
         <Link
           to={link.to}
