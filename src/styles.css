@@ -1526,8 +1526,8 @@
 .hm-iconbtn{width:34px;height:34px;border-radius:999px;border:1px solid #E5E7EB;background:#fff;color:#374151;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .hm-iconbtn:hover{background:#F9FAFB}
 .hm-sort{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #E5E7EB;color:#111827;font-weight:600;font-size:13px;padding:7px 12px;border-radius:999px;cursor:pointer}
-.hm-new{display:inline-flex;align-items:center;gap:6px;background:#E11D2E;color:#fff;border:0;padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
-.hm-new:hover{background:#C5172A}
+.hm-new{display:inline-flex;align-items:center;gap:6px;background:#111827;color:#fff;border:0;padding:9px 16px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer}
+.hm-new:hover{background:#000}
 
 .hm-av{width:40px;height:40px;border-radius:999px;color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .hm-av.sm{width:32px;height:32px;font-size:12px}
