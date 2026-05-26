@@ -57,11 +57,14 @@ export function FeedTabs({
         <div className="fp-filter-wrap">
           <button
             type="button"
-            className="fp-filter-btn"
+            className="fp-filter-btn fp-tab on"
             aria-label="Filter posts"
             onClick={() => setFilterOpen(o => !o)}
           >
             <SlidersHorizontal size={14}/>
+            <span>All</span>
+            <span className="fp-tab-count">{counts.all ?? 0}</span>
+            <ChevronDown size={12}/>
           </button>
           {filterOpen && (
             <>
@@ -83,7 +86,7 @@ export function FeedTabs({
           )}
         </div>
       )}
-      {FEED_TABS.map(t => {
+      {FEED_TABS.filter(t => t.id !== "all").map(t => {
         const active = activeTab === t.id;
         const n = counts[t.id] ?? 0;
         return (
