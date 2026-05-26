@@ -2304,3 +2304,10 @@
 .cc-tb-vw-item-n{font-size:13px;font-weight:700;color:#111827}
 .cc-tb-vw-item-r{font-size:11px;color:#6B7280}
 .cc-tb-vw-item-check{color:#F59E0B;font-weight:800}
+
+/* Topbar Go Live / New Post (mirrors home feed buttons, slightly compact) */
+.cc-tb-golive{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;border:none;cursor:pointer;background:linear-gradient(135deg,#EF4444 0%,#DC2626 100%);color:#fff;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(220,38,38,.3);transition:transform .15s ease,box-shadow .15s ease,background .15s ease;margin-right:4px;font-family:inherit}
+.cc-tb-golive:hover{transform:translateY(-1px);background:linear-gradient(135deg,#DC2626 0%,#B91C1C 100%);box-shadow:0 6px 16px rgba(220,38,38,.4)}
+.cc-tb-golive-dot{width:8px;height:8px;border-radius:999px;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9);animation:hm-golive-pulse 1.6s ease-out infinite}
+.cc-tb-newpost{display:inline-flex;align-items:center;gap:6px;background:#111827;color:#fff;border:0;padding:7px 14px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer;margin-right:8px;font-family:inherit}
+.cc-tb-newpost:hover{background:#000}

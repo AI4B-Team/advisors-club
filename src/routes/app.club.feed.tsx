@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles } from "lucide-react";
 import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -54,6 +54,14 @@ function FeedPage() {
     setTitle("");
   }
 
+  useEffect(() => {
+    const onNew = () => publish();
+    window.addEventListener("cc:new-post", onNew);
+    return () => window.removeEventListener("cc:new-post", onNew);
+  });
+
+
+
 
   function toggleLike(id: string) {
     setPosts(p => p.map(po => po.id === id ? {...po, liked: !po.liked, likes: po.likes + (po.liked ? -1 : 1)} : po));
@@ -105,13 +113,6 @@ function FeedPage() {
               </>
             )}
           </div>
-          <button className="hm-golive" type="button">
-            <span className="hm-golive-dot"/>
-            <Video size={14}/> Go Live
-          </button>
-          <button className="hm-new" onClick={publish}>
-            <Plus size={15} strokeWidth={3}/> New Post
-          </button>
           <button className="hm-iconbtn" aria-label="More"><MoreHorizontal size={16}/></button>
         </div>
       </div>
