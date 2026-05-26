@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Share2, Globe, Link2, Pin } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Sparkles, Globe, Link2 } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
@@ -168,17 +168,6 @@ function HomePage() {
           <div className="hm-posts">
             {sorted.map(p => (
               <article key={p.id} className={`hm-post${p.pinned?" pinned":""}`}>
-                {p.pinned && (
-                  <button
-                    type="button"
-                    className="hm-post-pinned"
-                    onClick={()=> IS_ADMIN && togglePin(p.id)}
-                    title={IS_ADMIN ? "Click to unpin" : "Pinned by admin"}
-                    disabled={!IS_ADMIN}
-                  >
-                    <Pin size={13}/> Pinned
-                  </button>
-                )}
                 <header className="hm-post-head">
                   <span className="hm-av" style={{background:p.color}}>{p.initials}</span>
                   <div className="hm-post-meta">
@@ -189,6 +178,8 @@ function HomePage() {
                     isAdmin={IS_ADMIN}
                     isPinned={!!p.pinned}
                     onPinToFeed={() => togglePin(p.id)}
+                    saved={!!p.saved}
+                    onToggleSave={() => toggleSave(p.id)}
                   />
                 </header>
                 {p.title && <h2 className="hm-post-title">{p.title}</h2>}
@@ -207,9 +198,6 @@ function HomePage() {
                       lastLabel={`New comment ${p.time} ago`}
                     />
                   )}
-                  <button className={`hm-post-act ${p.saved?"on":""}`} onClick={()=>toggleSave(p.id)} style={{marginLeft:"auto"}}>
-                    <Bookmark size={16} fill={p.saved?"currentColor":"none"}/>
-                  </button>
                 </footer>
               </article>
             ))}

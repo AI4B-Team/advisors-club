@@ -1733,14 +1733,18 @@
 }
 
 /* Post header actions (bell + more menu) */
-.post-actions { position: relative; margin-left: auto; display: inline-flex; align-items: center; gap: 4px; }
-.post-actions-bell, .post-actions-more {
+.post-actions { position: relative; margin-left: auto; display: inline-flex; align-items: center; gap: 6px; }
+.post-actions-pinned { display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:#92400E; background:#FEF3C7; border:1px solid #FDE68A; padding:4px 9px; border-radius:999px; letter-spacing:.01em; margin-right:2px; }
+.post-actions-pinned:disabled { cursor: default; }
+.post-actions-bookmark, .post-actions-bell, .post-actions-more {
   width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;
   border: 0; background: transparent; color: #6B7280; border-radius: 999px; cursor: pointer;
   transition: background .12s, color .12s;
 }
-.post-actions-bell:hover, .post-actions-more:hover { background: #F3F4F6; color: #111827; }
+.post-actions-bookmark:hover, .post-actions-bell:hover, .post-actions-more:hover { background: #F3F4F6; color: #111827; }
 .post-actions-bell.on { color: #B45309; }
+.post-actions-bookmark.on { color: #111827; }
+.post-actions-item.on { color: #B45309; }
 .post-actions-menu {
   position: absolute; top: calc(100% + 6px); right: 0; min-width: 220px;
   background: #fff; border: 1px solid #E5E7EB; border-radius: 12px;

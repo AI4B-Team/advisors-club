@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Rocket, ChevronDown, Plus, Heart, MessageCircle, Bookmark, MoreHorizontal, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle, Pin } from "lucide-react";
+import { ChevronDown, Plus, Heart, MessageCircle, Image as ImageIcon, Smile, Hash, Send, Paperclip, Video, Mic, BarChart3, PlusCircle } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
@@ -171,17 +171,6 @@ function FeedPage() {
       <div className="cc-posts">
         {sorted.map(p => (
           <article key={p.id} className={`cc-post${p.pinned?" pinned":""}`}>
-            {p.pinned && (
-              <button
-                type="button"
-                className="cc-post-pinned"
-                onClick={()=> IS_ADMIN && togglePin(p.id)}
-                title={IS_ADMIN ? "Click to unpin" : "Pinned by admin"}
-                disabled={!IS_ADMIN}
-              >
-                <Pin size={13}/> Pinned
-              </button>
-            )}
             <header className="cc-post-head">
               <span className="cc-post-av" style={{background:p.color}}>{p.initials}</span>
               <div className="cc-post-meta">
@@ -192,6 +181,8 @@ function FeedPage() {
                 isAdmin={IS_ADMIN}
                 isPinned={!!p.pinned}
                 onPinToFeed={() => togglePin(p.id)}
+                saved={!!p.saved}
+                onToggleSave={() => toggleSave(p.id)}
               />
             </header>
             <div className="cc-post-body">{p.body}</div>
@@ -209,9 +200,6 @@ function FeedPage() {
                   lastLabel={`New comment ${p.time} ago`}
                 />
               )}
-              <button className={`cc-post-act ${p.saved?"on":""}`} onClick={()=>toggleSave(p.id)} style={{marginLeft:"auto"}}>
-                <Bookmark size={16} fill={p.saved?"currentColor":"none"}/>
-              </button>
             </footer>
           </article>
         ))}
