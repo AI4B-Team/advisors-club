@@ -458,7 +458,7 @@ function AivaComposerMenu({ setTitle, setDraft }: { setTitle: (u: (t: string) =>
 
   return (
     <div className="aiva-comp" ref={ref}>
-      <button type="button" className="aiva-comp-btn" onClick={()=>setOpen(o=>!o)} aria-label="Write with AIVA">
+      <button type="button" className="aiva-comp-btn" onClick={()=>setOpen(o=>!o)} aria-label="Write with AIVA" data-tip="Write With AIVA">
         <Sparkles size={13}/> <span>AIVA</span>
       </button>
       {open && (
