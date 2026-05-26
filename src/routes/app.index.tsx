@@ -29,9 +29,9 @@ const EVENTS = [
 ];
 
 const TRENDING = [
-  { initials: "JM", color: "#4F46E5", title: "Skip tracing playbook", who: "Judith M." },
-  { initials: "GD", color: "#0EA5E9", title: "Give your first deal a chance", who: "Greg D." },
-  { initials: "AL", color: "#F5A623", title: "Doubling down on door knocks", who: "Albert Lott" },
+  { photo: "https://i.pravatar.cc/80?img=48", title: "Skip tracing playbook", who: "Judith M." },
+  { photo: "https://i.pravatar.cc/80?img=13", title: "Give your first deal a chance", who: "Greg D." },
+  { photo: "https://i.pravatar.cc/80?img=68", title: "Doubling down on door knocks", who: "Albert Lott" },
 ];
 
 function HomePage() {
@@ -295,7 +295,7 @@ function HomePage() {
             <ul className="hm-trending">
               {TRENDING.map((t,i)=>(
                 <li key={i} className="hm-trend">
-                  <span className="hm-av sm" style={{background:t.color}}>{t.initials}</span>
+                  <img className="hm-av sm" src={t.photo} alt={t.who} loading="lazy" style={{objectFit:"cover"}}/>
                   <div>
                     <div className="hm-trend-title">{t.title}</div>
                     <div className="hm-trend-who">{t.who}</div>
