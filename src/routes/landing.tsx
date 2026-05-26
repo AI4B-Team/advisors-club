@@ -536,12 +536,12 @@ function Index() {
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", margin:"12px 2px 10px" }}>
                 <div style={{ display:"flex" }}>
                   {[
-                    {l:"M",bg:"#F5A623",c:"#1A1A1A"},
-                    {l:"S",bg:"#818CF8",c:"#fff"},
-                    {l:"R",bg:"#4ADE80",c:"#1A1A1A"},
-                    {l:"J",bg:"#FB923C",c:"#fff"},
+                    { src:"https://i.pravatar.cc/80?img=12", alt:"Marcus T." },
+                    { src:"https://i.pravatar.cc/80?img=47", alt:"Sarah K." },
+                    { src:"https://i.pravatar.cc/80?img=33", alt:"Ryan P." },
+                    { src:"https://i.pravatar.cc/80?img=68", alt:"Jamie L." },
                   ].map((a,i)=>(
-                    <div key={i} style={{ width:22, height:22, borderRadius:"50%", background:a.bg, border:"2px solid #fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, fontWeight:900, color:a.c, marginRight:-6 }}>{a.l}</div>
+                    <img key={i} src={a.src} alt={a.alt} loading="lazy" width={22} height={22} style={{ width:22, height:22, borderRadius:"50%", border:"2px solid #fff", objectFit:"cover", marginRight:-6 }} />
                   ))}
                   <div style={{ height:22, padding:"0 7px", borderRadius:11, background:"#FAFAF7", border:"2px solid #fff", display:"flex", alignItems:"center", fontSize:9, fontWeight:700, color:"#6B6B75", marginLeft:2 }}>+2.8k</div>
                 </div>
