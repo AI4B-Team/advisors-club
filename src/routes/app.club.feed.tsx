@@ -159,6 +159,7 @@ function FeedPage() {
             <button data-tip="Voice note"><Mic size={18}/></button>
           </div>
           <div className="cc-composer-right">
+            {IS_ADMIN && <EmailBlastToggle on={emailBlast} onChange={setEmailBlast} />}
             <span className="cc-composer-target">Posting in: <b>Community</b></span>
             <button className="cc-composer-send" onClick={publish} disabled={!draft.trim()}>
               <Send size={14}/> Publish
