@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Sparkles, Clock, FileText, Image as ImageIcon, Video, Megaphone, TrendingUp, Users, MessageSquare, Download, Calendar, Zap } from "lucide-react";
 
 type Range = "24h" | "7d" | "30d" | "all";
