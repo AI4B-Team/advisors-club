@@ -145,6 +145,8 @@ function OnboardingPage() {
 
         {step === 1 && (
           <StepPersonalize
+            firstName={firstName} lastName={lastName}
+            niche={niche} clubName={clubName}
             avatarColor={avatarColor} setAvatarColor={setAvatarColor}
             bio={bio} setBio={setBio}
             theme={theme} setTheme={setTheme}
