@@ -388,7 +388,7 @@ function RightClub({ niche, clubName, slug }: { niche: string; clubName: string;
         <div className="sf-pc-cover">{niche && <span className="sf-pc-niche">{niche}</span>}</div>
         <div className="sf-pc-body">
           <h3 className="sf-pc-name">{clubName || "Your Club Name"}</h3>
-          <div className="sf-pc-url">{slug || "your-club"}.advisorsclub.com</div>
+          <div className="sf-pc-url">advisorsclub.com/{slug || "your-club"}</div>
           <div className="sf-pc-stats">
             <div><strong>0</strong><span>Members</span></div>
             <div><strong>1</strong><span>Admin</span></div>
