@@ -2385,7 +2385,7 @@
 .ai-summary-bullets strong{color:#0F172A;font-weight:700}
 @keyframes ai-rise{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-.ai-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;padding-top:12px;border-top:1px dashed #E9D5FF}
+.ai-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 6px;margin-top:12px;padding-top:12px;border-top:1px dashed #E9D5FF}
 .ai-stat{text-align:center}
 .ai-stat-v{font-size:15px;font-weight:800;color:#5B21B6}
 .ai-stat-l{font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
