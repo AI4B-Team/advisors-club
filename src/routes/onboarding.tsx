@@ -168,7 +168,7 @@ function OnboardingPage() {
 
       <aside className="sf-right">
         {step === 0 && <RightClub niche={niche} clubName={clubName} slug={slug} />}
-        {step === 1 && <RightPersonalize firstName={firstName} lastName={lastName} bio={bio} avatarColor={avatarColor} initials={initials} theme={theme} />}
+        {step === 1 && <RightPersonalize firstName={firstName} lastName={lastName} clubName={clubName} bio={bio} avatarColor={avatarColor} initials={initials} theme={theme} />}
       </aside>
     </div>
   );
@@ -441,17 +441,18 @@ function RightClub({ niche, clubName, slug }: { niche: string; clubName: string;
 }
 
 function RightPersonalize({
-  firstName, lastName, bio, avatarColor, initials, theme,
+  firstName, lastName, clubName, bio, avatarColor, initials, theme,
 }: {
-  firstName: string; lastName: string; bio: string; avatarColor: string; initials: string; theme: "light"|"dark";
+  firstName: string; lastName: string; clubName: string; bio: string; avatarColor: string; initials: string; theme: "light"|"dark";
 }) {
+  const displayName = `${firstName} ${lastName}`.trim() || clubName.trim() || "Your Club";
   return (
     <div className="sf-right-inner">
       <h2 className="sf-right-title">Your Advisor Profile</h2>
       <p className="sf-right-sub">This is how you'll show up across your Club.</p>
       <div className={`sf-profile-card ${theme}`}>
         <div className="sf-profile-av" style={{background:avatarColor}}>{initials}</div>
-        <div className="sf-profile-name">{`${firstName} ${lastName}`.trim() || "Your Name"}</div>
+        <div className="sf-profile-name">{displayName}</div>
         <div className="sf-profile-bio">{bio || "Your short bio will appear here."}</div>
         <div className="sf-profile-tags"><span>Founder</span><span>Coach</span><span>Advisor</span></div>
       </div>
