@@ -94,7 +94,9 @@ function GettingStarted() {
   const [stepIdx, setStepIdx] = useState<number>(0);
   const [building, setBuilding] = useState<boolean>(false);
   const [buildStep, setBuildStep] = useState<number>(0);
+  const [showQuickstart, setShowQuickstart] = useState<boolean>(false);
   const initRef = useRef(false);
+
 
   // Sync local state with store
   useEffect(() => {
