@@ -82,9 +82,10 @@ function AppShell() {
 function IconRail() {
   const nav = useNavigate();
   const { active, setActive } = useContext(ClubCtx);
+  const clubs = useClubsFromGS();
   return (
     <aside className="cc-rail">
-      {CLUBS.map(it => (
+      {clubs.map((it: Club) => (
         <button
           key={it.id}
           className={`cc-rail-bubble ${active.id === it.id ? "on":""}`}
