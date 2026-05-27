@@ -72,10 +72,10 @@ export type GSStore = {
 const KEY = "gs-store-v1";
 
 const DEFAULTS: GSStore = {
-  clubName: "Real Estate Empire",
+  clubName: "Your Club",
   clubTagline: "",
   clubDesc: "",
-  niche: "Real Estate",
+  niche: "Business",
   coverColor: "#F5A623",
   course: null,
   coaching: [],
