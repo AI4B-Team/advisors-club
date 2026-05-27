@@ -79,10 +79,10 @@ function CalendarPage() {
       <div className="cal-head">
         <h1 className="cal-title"><CalIcon size={22}/> Calendar</h1>
         <div className="cal-views">
+          <button className={`cal-vbtn ${view==="grid"?"on":""}`} onClick={()=>setView("grid")}><LayoutGrid size={14}/> Grid</button>
           <button className={`cal-vbtn ${view==="month"?"on":""}`} onClick={()=>setView("month")}><CalendarDays size={14}/> Month</button>
           <button className={`cal-vbtn ${view==="week"?"on":""}`} onClick={()=>setView("week")}><CalendarRange size={14}/> Week</button>
           <button className={`cal-vbtn ${view==="day"?"on":""}`} onClick={()=>setView("day")}><CalDay size={14}/> Day</button>
-          <button className={`cal-vbtn ${view==="grid"?"on":""}`} onClick={()=>setView("grid")}><LayoutGrid size={14}/> Grid</button>
         </div>
       </div>
 
