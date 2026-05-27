@@ -177,7 +177,7 @@ function GettingStarted() {
           <div className="gs2-nav-title">Getting Started</div>
         </div>
         <div className="gs2-prog-bar"><span className="gs2-prog-fill" style={{ width: `${progress}%` }}/></div>
-        <div className="gs2-prog-meta">{gs.completedSteps.length} of {STEPS.length} steps complete</div>
+        <div className="gs2-prog-meta">{gs.completedSteps.length} Of {STEPS.length} Steps Complete</div>
         <nav className="gs2-nav-list">
           {STEPS.map((s, i) => {
             const done = gs.completedSteps.includes(s.id);
@@ -192,7 +192,7 @@ function GettingStarted() {
             );
           })}
         </nav>
-        <button className="gs2-skip-all" onClick={() => nav({ to: "/app" })}>Skip setup → go to app</button>
+        <button className="gs2-skip-all" onClick={() => nav({ to: "/app" })}>Skip Setup → Go To App</button>
       </aside>
 
       {/* MAIN */}
@@ -214,7 +214,7 @@ function GettingStarted() {
           <div className="gs2-pv-club-name">{gs.clubName || "Your Club"}</div>
           <div className="gs2-pv-club-tag">{gs.clubTagline || "Your tagline appears here."}</div>
         </div>
-        <div className="gs2-pv-h">What AIVA is building</div>
+        <div className="gs2-pv-h">What AIVA Is Building</div>
         <ul className="gs2-pv-list">
           {STEPS.slice(0, 7).map(s => {
             const done = gs.completedSteps.includes(s.id);
@@ -448,18 +448,18 @@ function WelcomeStep({ gs, content, onSave, onSkip, stepIdx }: any) {
 
 function LaunchStep({ gs, onLaunch, stepIdx }: any) {
   const built = [
-    { label: "Club identity",    done: !!gs.clubTagline },
+    { label: "Club Identity",    done: !!gs.clubTagline },
     { label: "Course",           done: !!gs.course },
-    { label: "Coaching programs",done: gs.coaching.length > 0 },
+    { label: "Coaching Programs",done: gs.coaching.length > 0 },
     { label: "Challenge",        done: !!gs.challenge },
-    { label: "First event",      done: gs.events.length > 0 },
-    { label: "Welcome post",     done: gs.welcomePost.published },
+    { label: "First Event",      done: gs.events.length > 0 },
+    { label: "Welcome Post",     done: gs.welcomePost.published },
   ];
   const allDone = built.every(b => b.done);
   return (
     <div className="gs2-card">
       <StepHeader stepIdx={stepIdx} title="Launch Your Club" syncTo="Goes live to members"/>
-      <AivaNote>Everything's ready. Review what AIVA built — when you launch, members can start joining.</AivaNote>
+      <AivaNote>Everything's Ready. Review What AIVA Built — When You Launch, Members Can Start Joining.</AivaNote>
       <div className="gs2-launch-list">
         {built.map(b => (
           <div key={b.label} className={`gs2-launch-row${b.done?" done":""}`}>
@@ -469,7 +469,7 @@ function LaunchStep({ gs, onLaunch, stepIdx }: any) {
         ))}
       </div>
       <button className="gs2-btn-launch" onClick={onLaunch} disabled={!allDone}>
-        <Rocket size={15}/> {allDone ? "Launch Club" : "Complete remaining steps first"}
+        <Rocket size={15}/> {allDone ? "Launch Club" : "Complete Remaining Steps First"}
       </button>
     </div>
   );
