@@ -83,7 +83,27 @@ function AccountPage() {
         <section className="acct-panel">
           {tab === "Clubs" && <Communities/>}
           {tab === "Account" && <AccountOverview/>}
-          {tab !== "Clubs" && tab !== "Account" && <Empty label={tab}/>}
+          {tab === "Profile" && <ProfilePanel/>}
+          {tab === "Audience" && <AudiencePanel/>}
+          {tab === "Content" && <ContentPanel/>}
+          {tab === "Marketing" && <MarketingPanel/>}
+          {tab === "Workflows" && <WorkflowsPanel/>}
+          {tab === "AI Agents" && <AIAgentsPanel/>}
+          {tab === "AI Inbox" && <AIInboxPanel/>}
+          {tab === "Paywalls" && <PaywallsPanel/>}
+          {tab === "Affiliates" && <AffiliatesPanel/>}
+          {tab === "Plans" && <PlansPanel/>}
+          {tab === "Payouts" && <PayoutsPanel/>}
+          {tab === "Notifications" && <NotificationsPanel/>}
+          {tab === "Chat" && <ChatPanel/>}
+          {tab === "Payment Methods" && <PaymentMethodsPanel/>}
+          {tab === "Payment History" && <PaymentHistoryPanel/>}
+          {tab === "Analytics" && <AnalyticsPanel/>}
+          {tab === "Site" && <SitePanel/>}
+          {tab === "Developers" && <DevelopersPanel/>}
+          {tab === "Settings" && <SettingsPanel/>}
+          {tab === "Site builder" && <SiteBuilderPanel/>}
+          {tab === "Customize theme" && <CustomizeThemePanel/>}
         </section>
       </div>
     </div>
