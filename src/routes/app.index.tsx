@@ -9,6 +9,11 @@ import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
+import { getGS, subscribeGS } from "@/lib/gs-store";
+
+function slugifyClub(s: string) {
+  return s.toLowerCase().trim().replace(/['']/g,"").replace(/[^a-z0-9]+/g,"").slice(0,40) || "yourclub";
+}
 
 const MAX_PINNED = 3;
 
@@ -42,6 +47,10 @@ function HomePage() {
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<FeedSort>("latest");
+  const [gs, setGsState] = useState(() => getGS());
+  useEffect(() => subscribeGS(setGsState), []);
+  const clubSlug = slugifyClub(gs.clubName);
+  
   
   const [emailBlast, setEmailBlast] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("all");
@@ -202,12 +211,12 @@ function HomePage() {
 
             <div className="hm-profile-cover">
               <img className="hm-profile-cover-img" src={reCover} alt="" loading="lazy" />
-              <h2 className="hm-profile-logo">Real Estate Empire</h2>
+              <h2 className="hm-profile-logo">{gs.clubName}</h2>
               
             </div>
             <div className="hm-profile-body">
-              <h3 className="hm-profile-name">Real Estate Empire</h3>
-              <a className="hm-profile-url" href="https://advisorsclub.com/real-estate-empire" target="_blank" rel="noreferrer">advisorsclub.com/real-estate-empire</a>
+              <h3 className="hm-profile-name">{gs.clubName}</h3>
+              <a className="hm-profile-url" href={`https://advisorsclub.com/${clubSlug}`} target="_blank" rel="noreferrer">advisorsclub.com/{clubSlug}</a>
               <p className="hm-profile-desc">Build wealth with rentals, flips & syndications — a hands-on community for serious operators.</p>
               <ul className="hm-profile-links">
                 <li><Link2 size={14}/> <a href="#">Join My Newsletter</a></li>
