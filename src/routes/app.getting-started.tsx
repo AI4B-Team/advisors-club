@@ -4,6 +4,7 @@ import { Sparkles, Check, ArrowRight, SkipForward, Rocket } from "lucide-react";
 import { getGS, setGS, markStep, type GSStore, type GSCoachingProgram, type GSChallenge, type GSCourse, type GSEvent } from "@/lib/gs-store";
 import { getSignupData } from "@/lib/signup-store";
 import { QuickstartModal } from "@/components/QuickstartModal";
+import { AivaBuildFlow } from "@/components/AivaBuildFlow";
 
 
 
