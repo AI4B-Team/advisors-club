@@ -31,6 +31,7 @@ import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
 import { Route as AppClubFeedRouteImport } from './routes/app.club.feed'
 import { Route as AppClubEventsRouteImport } from './routes/app.club.events'
 import { Route as AppClubCoursesRouteImport } from './routes/app.club.courses'
+import { Route as AppClubCoachingRouteImport } from './routes/app.club.coaching'
 import { Route as AppClubChallengesRouteImport } from './routes/app.club.challenges'
 import { Route as AppClubAnalyticsRouteImport } from './routes/app.club.analytics'
 
@@ -144,6 +145,11 @@ const AppClubCoursesRoute = AppClubCoursesRouteImport.update({
   path: '/club/courses',
   getParentRoute: () => AppRoute,
 } as any)
+const AppClubCoachingRoute = AppClubCoachingRouteImport.update({
+  id: '/club/coaching',
+  path: '/club/coaching',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppClubChallengesRoute = AppClubChallengesRouteImport.update({
   id: '/club/challenges',
   path: '/club/challenges',
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
+  '/app/club/coaching': typeof AppClubCoachingRoute
   '/app/club/courses': typeof AppClubCoursesRoute
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
+  '/app/club/coaching': typeof AppClubCoachingRoute
   '/app/club/courses': typeof AppClubCoursesRoute
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
+  '/app/club/coaching': typeof AppClubCoachingRoute
   '/app/club/courses': typeof AppClubCoursesRoute
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
+    | '/app/club/coaching'
     | '/app/club/courses'
     | '/app/club/events'
     | '/app/club/feed'
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/club/analytics'
     | '/app/club/challenges'
+    | '/app/club/coaching'
     | '/app/club/courses'
     | '/app/club/events'
     | '/app/club/feed'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
+    | '/app/club/coaching'
     | '/app/club/courses'
     | '/app/club/events'
     | '/app/club/feed'
@@ -480,6 +492,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClubCoursesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/club/coaching': {
+      id: '/app/club/coaching'
+      path: '/club/coaching'
+      fullPath: '/app/club/coaching'
+      preLoaderRoute: typeof AppClubCoachingRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/club/challenges': {
       id: '/app/club/challenges'
       path: '/club/challenges'
@@ -509,6 +528,7 @@ interface AppRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
   AppClubAnalyticsRoute: typeof AppClubAnalyticsRoute
   AppClubChallengesRoute: typeof AppClubChallengesRoute
+  AppClubCoachingRoute: typeof AppClubCoachingRoute
   AppClubCoursesRoute: typeof AppClubCoursesRoute
   AppClubEventsRoute: typeof AppClubEventsRoute
   AppClubFeedRoute: typeof AppClubFeedRoute
@@ -528,6 +548,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppIndexRoute: AppIndexRoute,
   AppClubAnalyticsRoute: AppClubAnalyticsRoute,
   AppClubChallengesRoute: AppClubChallengesRoute,
+  AppClubCoachingRoute: AppClubCoachingRoute,
   AppClubCoursesRoute: AppClubCoursesRoute,
   AppClubEventsRoute: AppClubEventsRoute,
   AppClubFeedRoute: AppClubFeedRoute,
