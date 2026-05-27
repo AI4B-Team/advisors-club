@@ -922,7 +922,7 @@
 /* === Account/Settings page (Skool style) === */
 .acct-wrap{background:#fff;min-height:calc(100vh - 56px);margin:-28px -32px;padding:32px 32px 40px 0}
 .acct{display:grid;grid-template-columns:240px 1fr;gap:32px;max-width:1200px;margin:0}
-.acct-nav{display:flex;flex-direction:column;gap:4px;position:sticky;top:80px;align-self:start;padding:4px 8px}
+.acct-nav{display:flex;flex-direction:column;gap:4px;position:sticky;top:80px;align-self:start;padding:4px 16px 4px 8px;border-right:1px solid var(--line)}
 .acct-nav-group{display:flex;flex-direction:column;gap:4px}
 .acct-nav-group-sep{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
 .acct-tab{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#111827;background:transparent;border:0;text-align:left;cursor:pointer}
