@@ -242,7 +242,7 @@ function StepClub({
         {clubName.trim().length > 0 && (
           <div className="sf-slug-preview">
             <span className="sf-slug-url">
-              <span className="sf-slug-domain">{slug || "your-club"}</span>.advisorsclub.com
+              advisorsclub.com/<span className="sf-slug-domain">{slug || "your-club"}</span>
             </span>
             <button type="button" className="sf-slug-copy" onClick={onCopy} aria-label="Copy URL">
               {copied ? <CheckCheck size={14}/> : <Copy size={14}/>}
