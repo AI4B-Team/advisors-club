@@ -486,7 +486,7 @@ function ViewModeToggle() {
             <span className="cc-tb-vw-opt-ic admin"><ShieldCheck size={14}/></span>
             <span className="cc-tb-vw-opt-meta">
               <span className="cc-tb-vw-opt-n">Admin</span>
-              <span className="cc-tb-vw-opt-r">Full access & moderation</span>
+              <span className="cc-tb-vw-opt-r">Full Access</span>
             </span>
             {isAdmin && <span className="cc-tb-vw-opt-check">✓</span>}
           </button>
@@ -497,7 +497,7 @@ function ViewModeToggle() {
             <span className="cc-tb-vw-opt-ic" style={{background:"#E5E7EB",color:"#374151"}}><User size={14}/></span>
             <span className="cc-tb-vw-opt-meta">
               <span className="cc-tb-vw-opt-n">Member</span>
-              <span className="cc-tb-vw-opt-r">Default member view</span>
+              <span className="cc-tb-vw-opt-r">Default Member View</span>
             </span>
             {!isAdmin && !viewAs && <span className="cc-tb-vw-opt-check">✓</span>}
           </button>
