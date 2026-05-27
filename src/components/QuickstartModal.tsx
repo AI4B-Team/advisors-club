@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { X, Upload, Palette, ArrowRight, ArrowLeft, Check, Sparkles, Loader2 } from "lucide-react";
+import { X, ImagePlus, Palette, ArrowRight, ArrowLeft, Check, Sparkles, Loader2 } from "lucide-react";
 import { getGS, setGS } from "@/lib/gs-store";
 import aivaAvatar from "@/assets/aiva-avatar.jpg";
 
@@ -99,7 +99,7 @@ export function QuickstartModal({ onClose }: Props) {
         {step === 0 && (
           <div style={S.body}>
             <button style={{ ...S.logoSlot, borderColor: color + "55" }} onClick={() => fileRef.current?.click()}>
-              {logoUrl ? <img src={logoUrl} alt="Logo" style={S.logoImg}/> : <Upload size={22} color="#6B7280"/>}
+              {logoUrl ? <img src={logoUrl} alt="Logo" style={S.logoImg}/> : <ImagePlus size={26} color="#6B7280"/>}
               <span style={S.plusBadge} aria-hidden>+</span>
             </button>
             <input ref={fileRef} type="file" accept="image/*" hidden onChange={handleLogoPick}/>
