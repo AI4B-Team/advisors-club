@@ -507,7 +507,7 @@ function ViewModeToggle() {
             <Search size={13}/>
             <input
               autoFocus
-              placeholder="Search members"
+              placeholder="Search Members"
               value={q}
               onChange={(e)=>setQ(e.target.value)}
             />
