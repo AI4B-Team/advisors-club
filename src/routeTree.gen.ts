@@ -32,7 +32,6 @@ import { Route as AppClubFeedRouteImport } from './routes/app.club.feed'
 import { Route as AppClubEventsRouteImport } from './routes/app.club.events'
 import { Route as AppClubCoursesRouteImport } from './routes/app.club.courses'
 import { Route as AppClubCoachingRouteImport } from './routes/app.club.coaching'
-import { Route as AppClubCoachingRouteImport } from './routes/app.club.coaching'
 import { Route as AppClubChallengesRouteImport } from './routes/app.club.challenges'
 import { Route as AppClubAnalyticsRouteImport } from './routes/app.club.analytics'
 
