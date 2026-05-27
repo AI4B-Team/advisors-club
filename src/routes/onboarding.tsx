@@ -67,8 +67,8 @@ function slugify(s: string) {
 function OnboardingPage() {
   const nav = useNavigate();
   const saved = useMemo(() => getSignupData(), []);
-  // Step within this route: 0 Club, 1 Personalize, 2 Plan  (global step = +1)
-  const [step, setStep] = useState<0|1|2>(0);
+  // Step within this route: 0 Club, 1 Personalize  (global step = +1)
+  const [step, setStep] = useState<0|1>(0);
 
   const firstName = saved.firstName;
   const lastName = saved.lastName;
