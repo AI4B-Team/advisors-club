@@ -31,16 +31,6 @@ const STEPS = [
 
 type StepId = typeof STEPS[number]["id"];
 
-const BUILD_ITEMS = [
-  { ms: 0,    label: "Reading your Club details…",   step: "identity"  as const },
-  { ms: 600,  label: "Writing your tagline & description…", step: "identity" as const },
-  { ms: 1200, label: "Generating course outline…",   step: "course"    as const },
-  { ms: 1800, label: "Designing coaching tiers…",    step: "coaching"  as const },
-  { ms: 2400, label: "Building your 30-day challenge…", step: "challenge" as const },
-  { ms: 3000, label: "Scheduling your first event…", step: "event"     as const },
-  { ms: 3600, label: "Drafting your welcome post…",  step: "welcome"   as const },
-  { ms: 4200, label: "Almost ready…",                step: null        as null   },
-];
 
 
 function makeContent(niche: string, clubName: string) {
