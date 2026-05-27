@@ -150,18 +150,9 @@ function OnboardingPage() {
             avatarColor={avatarColor} setAvatarColor={setAvatarColor}
             bio={bio} setBio={setBio}
             theme={theme} setTheme={setTheme}
-            onNext={() => setStep(2)}
+            onNext={finishSignup}
             onBack={() => setStep(0)}
-          />
-        )}
-
-        {step === 2 && (
-          <StepPlan
-            billing={billing} setBilling={setBilling}
-            planId={planId} setPlanId={setPlanId}
             finishing={finishing}
-            onFinish={finishSignup}
-            onBack={() => setStep(1)}
           />
         )}
       </div>
@@ -169,7 +160,6 @@ function OnboardingPage() {
       <aside className="sf-right">
         {step === 0 && <RightClub niche={niche} clubName={clubName} slug={slug} />}
         {step === 1 && <RightPersonalize firstName={firstName} lastName={lastName} bio={bio} avatarColor={avatarColor} initials={initials} theme={theme} />}
-        {step === 2 && <RightPlan billing={billing} planId={planId} />}
       </aside>
     </div>
   );
