@@ -113,10 +113,10 @@ const TOP_LINKS: TopLink[] = [
       {label:"Completed",to:"/app/club/courses", icon:<CheckCircle2 size={14}/>},
     ],
     menu: DEFAULT_MENU },
-  { label: "Coaching", to: "/app/club/members", icon: <UserCheck size={16}/>,
+  { label: "Coaching", to: "/app/club/coaching", icon: <UserCheck size={16}/>,
     subs: [
-      {label:"1:1 Sessions",to:"/app/club/members", icon:<User size={14}/>},
-      {label:"Group Coaching",to:"/app/club/members", icon:<Users size={14}/>},
+      {label:"All Programs",to:"/app/club/coaching", icon:<Users size={14}/>},
+      {label:"1:1 Sessions",to:"/app/club/coaching", icon:<User size={14}/>},
       {label:"Bookings",to:"/app/calendar", icon:<CalendarDays size={14}/>},
     ],
     menu: DEFAULT_MENU },

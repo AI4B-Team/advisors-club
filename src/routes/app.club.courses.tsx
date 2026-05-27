@@ -1,42 +1,52 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, Upload, Play, Award, Clock, Users, Wand2, ArrowRight, BookOpen, TrendingUp } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Sparkles, Upload, Award, Wand2, ArrowRight, Edit3 } from "lucide-react";
+import { getGS, type GSCourse } from "@/lib/gs-store";
 
 export const Route = createFileRoute("/app/club/courses")({
   head: () => ({ meta: [{ title: "Courses — AdvisorsClub" }, { name: "description", content: "Deliver video courses with progress tracking and certificates." }] }),
   component: CoursesPage,
 });
 
-type SampleCourse = {
-  title: string; lessons: number; minutes: number; learners: number;
-  progress: number; tag: string; gradient: string;
-};
-
-const SAMPLES: SampleCourse[] = [
-  { title: "Real Estate Wholesaling 101", lessons: 24, minutes: 312, learners: 184, progress: 62, tag: "Bestseller", gradient: "#1F2937" },
-  { title: "Cold Outreach Mastery", lessons: 12, minutes: 148, learners: 96,  progress: 28, tag: "New",        gradient: "#1F2937" },
-  { title: "Closing High-Ticket Deals", lessons: 18, minutes: 240, learners: 142, progress: 0,  tag: "Live Cohort", gradient: "#1F2937" },
-];
-
-const AIVA_PROMPTS = [
-  "Build a 6-week real estate wholesaling course for beginners.",
-  "Generate a 5-day cold-call challenge with daily lessons.",
-  "Create a closing-objections masterclass with worksheets.",
-];
-
 function CoursesPage() {
+  const [course, setCourse] = useState<GSCourse | null>(null);
+  useEffect(() => {
+    setCourse(getGS().course);
+    const h = () => setCourse(getGS().course);
+    window.addEventListener("storage", h);
+    return () => window.removeEventListener("storage", h);
+  }, []);
+
   return (
     <>
+      {course && (
+        <div className="gs-course-banner">
+          <div className="gs-course-banner-inner">
+            <span className="gs-course-banner-tag"><Sparkles size={11}/> AIVA Built</span>
+            <h2>{course.title}</h2>
+            <div className="gs-course-banner-meta">
+              {course.modules.length} modules · {course.modules.reduce((a,m) => a + m.lessons, 0)} lessons · ${course.price}
+            </div>
+          </div>
+          <div className="gs-course-banner-actions">
+            <button className="gs-course-banner-edit"><Edit3 size={13}/> Edit Course</button>
+            <button className="gs-course-banner-pub">{course.published ? "Published" : "Publish"}</button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="lt-ph">
         <div>
           <h1>Courses</h1>
-          <p>No courses yet. Generate your first with AIVA in seconds.</p>
+          <p>{course ? "Your course is live. Generate more anytime." : "No courses yet. Generate your first with AIVA in seconds."}</p>
         </div>
         <div style={{display:"flex",gap:8}}>
           <button className="btn-ghost"><Upload size={14}/> Upload Existing</button>
           <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
         </div>
       </div>
+
 
       {/* AIVA generator panel */}
       <div className="aiva-panel">
