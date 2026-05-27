@@ -4,6 +4,7 @@ import { Sparkles, Check, ArrowRight, SkipForward, Rocket } from "lucide-react";
 import { getGS, setGS, markStep, type GSStore, type GSCoachingProgram, type GSChallenge, type GSCourse, type GSEvent } from "@/lib/gs-store";
 import { getSignupData } from "@/lib/signup-store";
 import { QuickstartModal } from "@/components/QuickstartModal";
+import { AivaBuildFlow } from "@/components/AivaBuildFlow";
 
 
 
@@ -30,16 +31,6 @@ const STEPS = [
 
 type StepId = typeof STEPS[number]["id"];
 
-const BUILD_ITEMS = [
-  { ms: 0,    label: "Reading your Club details…",   step: "identity"  as const },
-  { ms: 600,  label: "Writing your tagline & description…", step: "identity" as const },
-  { ms: 1200, label: "Generating course outline…",   step: "course"    as const },
-  { ms: 1800, label: "Designing coaching tiers…",    step: "coaching"  as const },
-  { ms: 2400, label: "Building your 30-day challenge…", step: "challenge" as const },
-  { ms: 3000, label: "Scheduling your first event…", step: "event"     as const },
-  { ms: 3600, label: "Drafting your welcome post…",  step: "welcome"   as const },
-  { ms: 4200, label: "Almost ready…",                step: null        as null   },
-];
 
 
 function makeContent(niche: string, clubName: string) {
@@ -93,7 +84,7 @@ function GettingStarted() {
   const [gs, setGSState] = useState<GSStore>(() => getGS());
   const [stepIdx, setStepIdx] = useState<number>(0);
   const [building, setBuilding] = useState<boolean>(false);
-  const [buildStep, setBuildStep] = useState<number>(0);
+  
   const [showQuickstart, setShowQuickstart] = useState<boolean>(false);
   const initRef = useRef(false);
 
@@ -140,30 +131,6 @@ function GettingStarted() {
   }, [hash]);
 
 
-  // Building animation — also pre-fills every AIVA-built section
-  useEffect(() => {
-    if (!building) return;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    BUILD_ITEMS.forEach((b, i) => {
-      timers.push(setTimeout(() => setBuildStep(i + 1), b.ms + 250));
-    });
-    timers.push(setTimeout(() => {
-      const s = getGS();
-      const c = makeContent(s.niche, s.clubName);
-      setGS({
-        clubTagline: c.tagline,
-        clubDesc: c.desc,
-        course: { id: "c1", ...c.course, published: true },
-        coaching: c.coaching.map((p, i) => ({ id: `co${i+1}`, ...p })),
-        challenge: { id: "ch1", published: true, ...c.challenge },
-        events: [{ id: "ev1", ...c.event }],
-        welcomePost: { title: c.welcome.title, body: c.welcome.body, published: false },
-      });
-      setBuilding(false);
-      setGSState(getGS());
-    }, BUILD_ITEMS[BUILD_ITEMS.length - 1].ms + 700));
-    return () => timers.forEach(clearTimeout);
-  }, [building]);
 
 
   const progress = Math.round((gs.completedSteps.length / STEPS.length) * 100);
@@ -182,29 +149,23 @@ function GettingStarted() {
 
   if (building) {
     return (
-      <div className="gs2-build">
-        <div className="gs2-build-card">
-          <div className="gs2-build-head">
-            <span className="gs2-build-av"><Sparkles size={18}/></span>
-            <div>
-              <div className="gs2-build-t">AIVA is building your club…</div>
-              <div className="gs2-build-s">Sit tight — this takes about 2 seconds.</div>
-            </div>
-          </div>
-          <ul className="gs2-build-list">
-            {BUILD_ITEMS.map((b, i) => {
-              const done = buildStep > i + 1;
-              const active = buildStep === i + 1;
-              return (
-                <li key={i} className={`gs2-build-item${done ? " done" : ""}${active ? " active" : ""}`}>
-                  <span className="gs2-build-dot">{done ? <Check size={11} strokeWidth={3}/> : (i+1)}</span>
-                  <span>{b.label}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
+      <AivaBuildFlow
+        onComplete={() => {
+          const s = getGS();
+          const c = makeContent(s.niche, s.clubName);
+          setGS({
+            clubTagline: s.clubTagline || c.tagline,
+            clubDesc: s.clubDesc || c.desc,
+            course: s.course || { id: "c1", ...c.course, published: true },
+            coaching: s.coaching.length ? s.coaching : c.coaching.map((p, i) => ({ id: `co${i+1}`, ...p })),
+            challenge: s.challenge || { id: "ch1", published: true, ...c.challenge },
+            events: s.events.length ? s.events : [{ id: "ev1", ...c.event }],
+            welcomePost: s.welcomePost.body ? s.welcomePost : { title: c.welcome.title, body: c.welcome.body, published: false },
+          });
+          setBuilding(false);
+          setGSState(getGS());
+        }}
+      />
     );
   }
 
