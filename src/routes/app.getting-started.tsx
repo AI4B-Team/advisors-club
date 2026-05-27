@@ -202,6 +202,9 @@ function GettingStarted() {
 
   return (
     <div className="gs2-shell">
+      {showQuickstart && (
+        <QuickstartModal onClose={() => { setShowQuickstart(false); setGSState(getGS()); }} />
+      )}
       {/* LEFT NAV */}
       <aside className="gs2-nav">
         <div className="gs2-nav-head">
