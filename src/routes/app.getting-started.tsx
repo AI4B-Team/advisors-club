@@ -131,30 +131,6 @@ function GettingStarted() {
   }, [hash]);
 
 
-  // Building animation — also pre-fills every AIVA-built section
-  useEffect(() => {
-    if (!building) return;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    BUILD_ITEMS.forEach((b, i) => {
-      timers.push(setTimeout(() => setBuildStep(i + 1), b.ms + 250));
-    });
-    timers.push(setTimeout(() => {
-      const s = getGS();
-      const c = makeContent(s.niche, s.clubName);
-      setGS({
-        clubTagline: c.tagline,
-        clubDesc: c.desc,
-        course: { id: "c1", ...c.course, published: true },
-        coaching: c.coaching.map((p, i) => ({ id: `co${i+1}`, ...p })),
-        challenge: { id: "ch1", published: true, ...c.challenge },
-        events: [{ id: "ev1", ...c.event }],
-        welcomePost: { title: c.welcome.title, body: c.welcome.body, published: false },
-      });
-      setBuilding(false);
-      setGSState(getGS());
-    }, BUILD_ITEMS[BUILD_ITEMS.length - 1].ms + 700));
-    return () => timers.forEach(clearTimeout);
-  }, [building]);
 
 
   const progress = Math.round((gs.completedSteps.length / STEPS.length) * 100);
