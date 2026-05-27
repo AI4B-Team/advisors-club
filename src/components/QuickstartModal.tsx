@@ -89,7 +89,7 @@ export function QuickstartModal({ onClose }: Props) {
               </button>
             ) : <span/>}
             {showSkip && (
-              <button style={S.skip} onClick={skip}>Skip setup</button>
+              <button style={S.skip} onClick={skip}>Skip Setup</button>
             )}
             <button style={S.iconBtn} onClick={skip} aria-label="Close"><X size={16}/></button>
           </div>
@@ -103,8 +103,8 @@ export function QuickstartModal({ onClose }: Props) {
               <span style={S.plusBadge} aria-hidden>+</span>
             </button>
             <input ref={fileRef} type="file" accept="image/*" hidden onChange={handleLogoPick}/>
-            <div style={S.sub}>Add your logo (optional)</div>
-            <h2 style={S.h1}>Let's make it yours</h2>
+            <div style={S.sub}>Add Your Logo (Optional)</div>
+            <h2 style={S.h1}>Let's Make It Yours</h2>
             <div style={S.label}>What's your business called?</div>
             <input
               style={S.input}
@@ -125,7 +125,7 @@ export function QuickstartModal({ onClose }: Props) {
             <div style={{ ...S.iconCircle, background: color + "22", color }}>
               <Palette size={28}/>
             </div>
-            <h2 style={S.h1}>Pick your brand color</h2>
+            <h2 style={S.h1}>Pick Your Brand Color</h2>
             <div style={S.sub}>Used for buttons, accents, and your platform's vibe</div>
             <div style={S.swatches}>
               {BRAND_COLORS.map(c => (
