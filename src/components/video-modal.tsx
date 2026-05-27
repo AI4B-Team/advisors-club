@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { X, UploadCloud, Link2, Video as VideoIcon, Square, Youtube } from "lucide-react";
+import { X, UploadCloud, Link2, Video as VideoIcon, Square, Link as LinkIcon } from "lucide-react";
+
+const PROVIDER_BADGES = [
+  { name: "YouTube", slug: "youtube", color: "#FF0033" },
+  { name: "Vimeo", slug: "vimeo", color: "#1AB7EA" },
+  { name: "Loom", slug: "loom", color: "#625DF5" },
+  { name: "Wistia", slug: "wistia", color: "#58B7FE" },
+];
 
 type Tab = "upload" | "link" | "record";
 
