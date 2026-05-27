@@ -193,6 +193,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
           </div>
         </div>
       </aside>
-    </>
+    </>,
+    document.body
   );
 }
