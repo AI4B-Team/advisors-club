@@ -210,6 +210,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
 
       <VideoModal open={openVideo} onClose={() => setOpenVideo(false)} onInsert={(t) => append(t)} />
       <VoiceRecorderModal open={openVoice} onClose={() => setOpenVoice(false)} onInsert={(t) => append(t)} />
+      <GifPicker open={openGif} onClose={() => setOpenGif(false)} onPick={(url) => append(`\n![gif](${url})\n`)} />
 
     </div>
   );
