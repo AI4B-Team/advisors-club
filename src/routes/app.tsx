@@ -10,9 +10,10 @@ export const Route = createFileRoute("/app")({
   component: AppShell,
 });
 
+import { getGS, subscribeGS } from "@/lib/gs-store";
+
 type Club = { id: string; label: string; color: string };
-const CLUBS: Club[] = [
-  { id: "re", label: "Real Estate Empire", color: "#F5A623" },
+const STATIC_CLUBS: Club[] = [
   { id: "c1", label: "Coaches Circle", color: "#0EA5E9" },
   { id: "c2", label: "Creators Hub", color: "#A78BFA" },
 ];
@@ -20,10 +21,25 @@ const CLUBS: Club[] = [
 const ClubCtx = createContext<{
   active: Club;
   setActive: (c: Club) => void;
-}>({ active: CLUBS[0], setActive: () => {} });
+}>({ active: STATIC_CLUBS[0], setActive: () => {} });
+
+function useClubsFromGS(): Club[] {
+  const [gs, setGsState] = useState(() => getGS());
+  useEffect(() => subscribeGS(setGsState), []);
+  return [
+    { id: "re", label: gs.clubName || "Your Club", color: gs.coverColor || "#F5A623" },
+    ...STATIC_CLUBS,
+  ];
+}
 
 function AppShell() {
-  const [active, setActive] = useState<Club>(CLUBS[0]);
+  const clubs = useClubsFromGS();
+  const [active, setActive] = useState<Club>(clubs[0]);
+  // Keep active in sync if the primary club name/color changes
+  useEffect(() => {
+    if (active.id === "re") setActive(clubs[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clubs[0].label, clubs[0].color]);
   const [liveOpen, setLiveOpen] = useState(false);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const hideSidebar = pathname.startsWith("/app/account");
