@@ -414,7 +414,7 @@ function RightPersonalize({
       <p className="sf-right-sub">This is how you'll show up across your Club.</p>
       <div className={`sf-profile-card ${theme}`}>
         <div className="sf-profile-av" style={{background:avatarColor}}>{initials}</div>
-        <div className="sf-profile-name">{`${firstName} ${lastName}`.trim() || "Your name"}</div>
+        <div className="sf-profile-name">{`${firstName} ${lastName}`.trim() || "Your Name"}</div>
         <div className="sf-profile-bio">{bio || "Your short bio will appear here."}</div>
         <div className="sf-profile-tags"><span>Founder</span><span>Coach</span><span>Advisor</span></div>
       </div>
