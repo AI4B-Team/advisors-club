@@ -12,7 +12,7 @@ import reCover from "@/assets/real-estate-empire-cover.jpg";
 import { getGS, subscribeGS } from "@/lib/gs-store";
 
 function slugifyClub(s: string) {
-  return s.toLowerCase().trim().replace(/['']/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40) || "your-club";
+  return s.toLowerCase().trim().replace(/['']/g,"").replace(/[^a-z0-9]+/g,"").slice(0,40) || "yourclub";
 }
 
 const MAX_PINNED = 3;
