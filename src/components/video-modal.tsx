@@ -207,11 +207,19 @@ export function VideoModal({ open, onClose, onInsert }: Props) {
         {tab === "link" && (
           <>
             <div className="vm-providers">
-              <span className="vm-prov"><Youtube size={12}/> YouTube</span>
-              <span className="vm-prov">Vimeo</span>
-              <span className="vm-prov">Loom</span>
-              <span className="vm-prov">Wistia</span>
-              <span className="vm-prov">Direct URL</span>
+              {PROVIDER_BADGES.map(p => (
+                <span key={p.slug} className="vm-prov" style={{ color: p.color }}>
+                  <img
+                    src={`https://cdn.simpleicons.org/${p.slug}/${p.color.replace("#","")}`}
+                    alt=""
+                    width={12}
+                    height={12}
+                    style={{ display: "inline-block" }}
+                  />
+                  {p.name}
+                </span>
+              ))}
+              <span className="vm-prov"><LinkIcon size={12}/> Direct URL</span>
             </div>
             <input
               className="composer-modal-input"
