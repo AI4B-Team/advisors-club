@@ -149,7 +149,7 @@ export function VoiceRecorderModal({ open, onClose, onInsert }: Props) {
     <div className="vr-back" onClick={onClose}>
       <div className="vr-modal" onClick={e => e.stopPropagation()}>
         <div className="vr-head">
-          <h3>Record voice note</h3>
+          <h3>Record Voice Note</h3>
           <button type="button" onClick={onClose}><X size={16}/></button>
         </div>
 
@@ -164,9 +164,9 @@ export function VoiceRecorderModal({ open, onClose, onInsert }: Props) {
           </div>
 
           <div className="vr-status">
-            {phase === "idle" && "Tap record to start"}
+            {phase === "idle" && "Tap Record To Start"}
             {phase === "recording" && <><span className="vr-dot"/> Recording…</>}
-            {phase === "review" && "Preview your recording"}
+            {phase === "review" && "Preview Your Recording"}
           </div>
 
           {phase === "review" && blobUrl && (
