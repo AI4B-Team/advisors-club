@@ -31,6 +31,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
   const [pollDuration, setPollDuration] = useState<"1d" | "3d" | "7d" | "never">("7d");
   const [openVoice, setOpenVoice] = useState(false);
   const [openGif, setOpenGif] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
 
 
   function append(text: string) {
