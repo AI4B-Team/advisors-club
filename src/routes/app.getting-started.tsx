@@ -127,7 +127,10 @@ function GettingStarted() {
       const firstIncomplete = STEPS.findIndex(s => !cur.completedSteps.includes(s.id));
       setStepIdx(firstIncomplete === -1 ? STEPS.length - 1 : firstIncomplete);
     }
+    // Show quickstart modal on very first visit
+    if (!cur.quickstartCompleted) setShowQuickstart(true);
   }, []);
+
 
   // Building animation — also pre-fills every AIVA-built section
   useEffect(() => {
