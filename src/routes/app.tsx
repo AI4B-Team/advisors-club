@@ -102,7 +102,7 @@ function IconRail() {
 }
 
 /* ============ COMMUNITY SIDEBAR ============ */
-type SubLink = { label: string; to: string; icon: ReactNode };
+type SubLink = { label: string; to: string; icon: ReactNode; hash?: string };
 type TopLink = {
   label: string; to: string; icon: React.ReactNode;
   exact?: boolean; pill?: boolean;
@@ -112,11 +112,16 @@ type TopLink = {
 const DEFAULT_MENU = ["Pin to top", "Mute notifications", "Mark all read", "Hide"];
 
 const TOP_LINKS: TopLink[] = [
-  { label: "Getting Started", to: "/app/dashboard", icon: <Rocket size={16}/>,
+  { label: "Getting Started", to: "/app/getting-started", icon: <Rocket size={16}/>,
     subs: [
-      {label:"Start Here",to:"/app/getting-started", icon:<PlayCircle size={14}/>},
-      {label:"Say Hello",to:"/app/club/feed", icon:<Hand size={14}/>},
-      {label:"Resources",to:"/app/club/courses", icon:<Book size={14}/>},
+      {label:"Club Identity",   to:"/app/getting-started", hash:"identity",  icon:<Sparkles size={14}/>},
+      {label:"Course",          to:"/app/getting-started", hash:"course",    icon:<BookOpen size={14}/>},
+      {label:"Coaching Program",to:"/app/getting-started", hash:"coaching",  icon:<UserCheck size={14}/>},
+      {label:"Challenge",       to:"/app/getting-started", hash:"challenge", icon:<Flame size={14}/>},
+      {label:"First Event",     to:"/app/getting-started", hash:"event",     icon:<Calendar size={14}/>},
+      {label:"Membership",      to:"/app/getting-started", hash:"pricing",   icon:<CreditCard size={14}/>},
+      {label:"Welcome Post",    to:"/app/getting-started", hash:"welcome",   icon:<Hand size={14}/>},
+      {label:"Launch",          to:"/app/getting-started", hash:"launch",    icon:<Rocket size={14}/>},
     ],
     menu: DEFAULT_MENU },
   { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
@@ -249,7 +254,7 @@ function SidebarTopLink({ link }: { link: TopLink }) {
         <div className="cc-sb-subs">
           {link.subs.map(s => (
             <div key={s.label} className="cc-sb-sub-row">
-              <Link to={s.to} className="cc-sb-sub" activeProps={{ className: "cc-sb-sub on" }}>
+              <Link to={s.to} hash={s.hash} className="cc-sb-sub" activeProps={{ className: "cc-sb-sub on" }}>
                 <span className="cc-sb-sub-i">{s.icon}</span>
                 <span className="cc-sb-sub-l">{s.label}</span>
               </Link>
