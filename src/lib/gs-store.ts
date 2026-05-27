@@ -59,6 +59,11 @@ export type GSStore = {
   clubDesc: string;
   niche: string;
   coverColor: string;
+  logoUrl: string;
+  audience: string;
+  goal: string;
+  tone: string;
+  quickstartCompleted: boolean;
   course: GSCourse | null;
   coaching: GSCoachingProgram[];
   challenge: GSChallenge | null;
@@ -77,6 +82,11 @@ const DEFAULTS: GSStore = {
   clubDesc: "",
   niche: "Business",
   coverColor: "#F5A623",
+  logoUrl: "",
+  audience: "",
+  goal: "",
+  tone: "",
+  quickstartCompleted: false,
   course: null,
   coaching: [],
   challenge: null,

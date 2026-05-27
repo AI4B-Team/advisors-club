@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Sparkles, Check, ArrowRight, SkipForward, Rocket } from "lucide-react";
 import { getGS, setGS, markStep, type GSStore, type GSCoachingProgram, type GSChallenge, type GSCourse, type GSEvent } from "@/lib/gs-store";
 import { getSignupData } from "@/lib/signup-store";
+import { QuickstartModal } from "@/components/QuickstartModal";
+
 
 
 export const Route = createFileRoute("/app/getting-started")({
@@ -92,7 +94,9 @@ function GettingStarted() {
   const [stepIdx, setStepIdx] = useState<number>(0);
   const [building, setBuilding] = useState<boolean>(false);
   const [buildStep, setBuildStep] = useState<number>(0);
+  const [showQuickstart, setShowQuickstart] = useState<boolean>(false);
   const initRef = useRef(false);
+
 
   // Sync local state with store
   useEffect(() => {
@@ -123,7 +127,10 @@ function GettingStarted() {
       const firstIncomplete = STEPS.findIndex(s => !cur.completedSteps.includes(s.id));
       setStepIdx(firstIncomplete === -1 ? STEPS.length - 1 : firstIncomplete);
     }
+    // Show quickstart modal on very first visit
+    if (!cur.quickstartCompleted) setShowQuickstart(true);
   }, []);
+
 
   // Building animation — also pre-fills every AIVA-built section
   useEffect(() => {
@@ -195,6 +202,9 @@ function GettingStarted() {
 
   return (
     <div className="gs2-shell">
+      {showQuickstart && (
+        <QuickstartModal onClose={() => { setShowQuickstart(false); setGSState(getGS()); }} />
+      )}
       {/* LEFT NAV */}
       <aside className="gs2-nav">
         <div className="gs2-nav-head">
