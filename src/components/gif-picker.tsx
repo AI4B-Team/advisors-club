@@ -9,8 +9,8 @@ type Props = {
   onPick: (gifUrl: string) => void;
 };
 
-// Tenor public demo key — works for low-volume demos.
-const TENOR_KEY = "LIVDSRZULELA";
+// Giphy public beta key — fine for demos / low volume.
+const GIPHY_KEY = "dc6zaTOxFJmzC";
 
 export function GifPicker({ open, onClose, onPick }: Props) {
   const [q, setQ] = useState("");
@@ -34,21 +34,16 @@ export function GifPicker({ open, onClose, onPick }: Props) {
     setLoading(true);
     try {
       const endpoint = query.trim()
-        ? `https://g.tenor.com/v1/search?q=${encodeURIComponent(query.trim())}&key=${TENOR_KEY}&limit=24&media_filter=minimal&contentfilter=high`
-        : `https://g.tenor.com/v1/trending?key=${TENOR_KEY}&limit=24&media_filter=minimal&contentfilter=high`;
+        ? `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_KEY}&q=${encodeURIComponent(query.trim())}&limit=24&rating=pg-13`
+        : `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_KEY}&limit=24&rating=pg-13`;
       const res = await fetch(endpoint);
       const data = await res.json();
-      const list: GifItem[] = (data.results || []).map((r: any) => {
-        const media = (r.media && r.media[0]) || {};
-        const tinygif = media.tinygif || media.nanogif || media.gif;
-        const gif = media.gif || media.mediumgif || tinygif;
-        return {
-          id: r.id,
-          url: gif?.url || "",
-          preview: tinygif?.url || gif?.url || "",
-          title: r.content_description || r.title || "",
-        };
-      }).filter((g: GifItem) => g.url && g.preview);
+      const list: GifItem[] = (data.data || []).map((r: any) => ({
+        id: r.id,
+        url: r.images?.original?.url || r.images?.downsized?.url || "",
+        preview: r.images?.fixed_width?.url || r.images?.preview_gif?.url || r.images?.original?.url || "",
+        title: r.title || "",
+      })).filter((g: GifItem) => g.url && g.preview);
       setItems(list);
     } catch {
       setItems([]);
