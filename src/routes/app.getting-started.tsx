@@ -469,7 +469,7 @@ function LaunchStep({ gs, onLaunch, stepIdx }: any) {
         ))}
       </div>
       <button className="gs2-btn-launch" onClick={onLaunch} disabled={!allDone}>
-        <Rocket size={15}/> {allDone ? "Launch Club" : "Complete remaining steps first"}
+        <Rocket size={15}/> {allDone ? "Launch Club" : "Complete Remaining Steps First"}
       </button>
     </div>
   );
