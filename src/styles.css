@@ -2769,3 +2769,96 @@
 .gs-course-banner-actions { display: flex; gap: 8px; }
 .gs-course-banner-edit { display: inline-flex; gap: 6px; align-items: center; padding: 8px 14px; background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.15); border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
 .gs-course-banner-pub { padding: 8px 14px; background: #F5A623; color: #fff; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+/* ============ Club Sales Page ============ */
+.cs-hero{background:linear-gradient(180deg,#FAF8F3 0%,#fff 100%);border-bottom:1px solid #ECECEF}
+.cs-hero-inner{max-width:1200px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+@media (max-width:900px){.cs-hero-inner{grid-template-columns:1fr;gap:32px;padding:40px 20px}}
+.cs-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#B8801A;text-transform:uppercase;margin-bottom:14px}
+.cs-eyebrow.center{text-align:center;margin-bottom:10px}
+.cs-h1{font-size:54px;font-weight:900;letter-spacing:-1.5px;line-height:1.05;color:#0F0F12;margin:0 0 18px}
+@media (max-width:700px){.cs-h1{font-size:38px}}
+.cs-h2{font-size:36px;font-weight:900;letter-spacing:-0.8px;color:#0F0F12;margin:0;text-align:center;line-height:1.15}
+@media (max-width:700px){.cs-h2{font-size:28px}}
+.cs-lede{font-size:18px;color:#52525B;line-height:1.55;margin:0 0 22px;max-width:560px}
+.cs-meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.cs-meta-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#fff;border:1px solid #ECECEF;border-radius:999px;font-size:12.5px;font-weight:600;color:#0F0F12}
+.cs-meta-pill.ai{background:linear-gradient(135deg,#FFF8E8,#FEEFC7);border-color:#F5D78A;color:#7A5A0F}
+.cs-cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px}
+.cs-cta-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;background:#0F0F12;color:#fff;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;transition:transform .15s,box-shadow .2s}
+.cs-cta-primary:hover{transform:translateY(-2px);box-shadow:0 18px 36px -16px rgba(15,15,18,.4)}
+.cs-cta-primary.big{padding:16px 28px;font-size:16px}
+.cs-cta-primary.light{background:#F5A623;color:#0F0F12}
+.cs-cta-ghost{display:inline-flex;align-items:center;gap:8px;padding:14px 18px;background:transparent;color:#0F0F12;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;border:1px solid #E4E4E7}
+.cs-cta-ghost:hover{background:#fafafa}
+.cs-trust{display:flex;flex-wrap:wrap;gap:18px;font-size:12.5px;color:#737380}
+.cs-trust span{display:inline-flex;align-items:center;gap:6px}
+.cs-trust.center{justify-content:center;margin-top:16px}
+.cs-hero-media{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 30px 70px -28px rgba(15,15,18,.35)}
+.cs-hero-media img{width:100%;height:100%;object-fit:cover;display:block}
+.cs-hero-badge{position:absolute;top:18px;right:18px;padding:8px 14px;background:#0F0F12;color:#fff;border-radius:999px;font-weight:800;font-size:13px}
+
+.cs-band{background:#0F0F12;color:#fff}
+.cs-band-inner{max-width:1200px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
+@media (max-width:700px){.cs-band-inner{grid-template-columns:repeat(2,1fr)}}
+.cs-band-inner > div{display:flex;flex-direction:column;gap:4px}
+.cs-band-inner strong{font-size:28px;font-weight:900;letter-spacing:-0.5px}
+.cs-band-inner span{font-size:12px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+
+.cs-section{max-width:1200px;margin:0 auto;padding:72px 24px}
+.cs-section.alt{background:#FAFAFB;max-width:none;padding-left:24px;padding-right:24px}
+.cs-section.alt > *{max-width:1200px;margin-left:auto;margin-right:auto}
+.cs-section-head{margin-bottom:36px}
+
+.cs-outcome-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:8px}
+@media (max-width:800px){.cs-outcome-grid{grid-template-columns:1fr}}
+.cs-outcome{padding:28px;border:1px solid #ECECEF;border-radius:16px;background:#fff}
+.cs-outcome-num{font-size:12px;font-weight:800;color:#B8801A;letter-spacing:1.5px;margin-bottom:14px}
+.cs-outcome-title{font-size:19px;font-weight:800;color:#0F0F12;margin-bottom:8px;letter-spacing:-0.3px}
+.cs-outcome-body{font-size:14.5px;color:#52525B;line-height:1.55}
+
+.cs-inside-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:800px){.cs-inside-grid{grid-template-columns:1fr}}
+.cs-inside-card{padding:24px;border:1px solid #ECECEF;border-radius:14px;background:#fff;transition:transform .2s,box-shadow .2s}
+.cs-inside-card:hover{transform:translateY(-3px);box-shadow:0 18px 36px -18px rgba(15,15,18,.18)}
+.cs-inside-icon{width:38px;height:38px;border-radius:10px;background:#FFF1D6;color:#B8801A;display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px}
+.cs-inside-title{font-size:16px;font-weight:800;color:#0F0F12;margin-bottom:6px}
+.cs-inside-body{font-size:14px;color:#52525B;line-height:1.55}
+
+.cs-advisor-card{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:36px;border:1px solid #ECECEF;border-radius:20px;background:linear-gradient(180deg,#FAF8F3,#fff)}
+@media (max-width:700px){.cs-advisor-card{grid-template-columns:1fr;text-align:center;justify-items:center}}
+.cs-advisor-av{width:112px;height:112px;border-radius:50%;background:#0F0F12;color:#fff;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:900;letter-spacing:-1px}
+.cs-advisor-name{font-size:30px;font-weight:900;letter-spacing:-0.6px;margin:4px 0 12px}
+.cs-advisor-bio{font-size:15px;color:#52525B;line-height:1.6;margin:0 0 16px;max-width:680px}
+.cs-advisor-tags{display:flex;flex-wrap:wrap;gap:8px}
+.cs-advisor-tags span{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:#fff;border:1px solid #ECECEF;border-radius:999px;font-size:12.5px;font-weight:600;color:#0F0F12}
+
+.cs-test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.cs-test-grid{grid-template-columns:1fr}}
+.cs-test{padding:24px;border:1px solid #ECECEF;border-radius:14px;background:#fff;margin:0}
+.cs-test-stars{display:flex;gap:2px;margin-bottom:12px}
+.cs-test blockquote{font-size:15px;color:#0F0F12;line-height:1.55;margin:0 0 16px;font-weight:500}
+.cs-test figcaption{display:flex;align-items:center;gap:10px}
+.cs-test-av{width:34px;height:34px;border-radius:50%;background:#F5A623;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.cs-test figcaption strong{display:block;font-size:13.5px;color:#0F0F12}
+.cs-test figcaption em{font-style:normal;font-size:12px;color:#737380}
+
+.cs-pricing{max-width:560px;margin:0 auto;text-align:center;padding:40px;border:1px solid #ECECEF;border-radius:22px;background:#fff;box-shadow:0 30px 60px -30px rgba(15,15,18,.18)}
+.cs-pricing .cs-h2{margin-bottom:24px}
+.cs-price-list{list-style:none;padding:0;margin:0 0 28px;text-align:left;display:flex;flex-direction:column;gap:10px}
+.cs-price-list li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:#0F0F12}
+.cs-price-list li svg{color:#16A34A;flex-shrink:0;margin-top:3px}
+
+.cs-faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.cs-faq-item{border:1px solid #ECECEF;border-radius:12px;background:#fff;padding:0}
+.cs-faq-item summary{cursor:pointer;padding:18px 22px;font-weight:700;font-size:15px;color:#0F0F12;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.cs-faq-item summary::after{content:"+";font-size:20px;color:#737380;font-weight:400}
+.cs-faq-item[open] summary::after{content:"−"}
+.cs-faq-item p{margin:0;padding:0 22px 18px;color:#52525B;font-size:14px;line-height:1.6}
+
+.cs-final{background:linear-gradient(180deg,#0F0F12,#1A1A20);color:#fff}
+.cs-final-inner{max-width:760px;margin:0 auto;padding:80px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.cs-final svg{color:#F5A623}
+.cs-final h2{font-size:38px;font-weight:900;letter-spacing:-0.8px;margin:0}
+@media (max-width:700px){.cs-final h2{font-size:28px}}
+.cs-final p{font-size:16px;color:rgba(255,255,255,.7);margin:0 0 12px}
