@@ -448,12 +448,12 @@ function WelcomeStep({ gs, content, onSave, onSkip, stepIdx }: any) {
 
 function LaunchStep({ gs, onLaunch, stepIdx }: any) {
   const built = [
-    { label: "Club identity",    done: !!gs.clubTagline },
+    { label: "Club Identity",    done: !!gs.clubTagline },
     { label: "Course",           done: !!gs.course },
-    { label: "Coaching programs",done: gs.coaching.length > 0 },
+    { label: "Coaching Programs",done: gs.coaching.length > 0 },
     { label: "Challenge",        done: !!gs.challenge },
-    { label: "First event",      done: gs.events.length > 0 },
-    { label: "Welcome post",     done: gs.welcomePost.published },
+    { label: "First Event",      done: gs.events.length > 0 },
+    { label: "Welcome Post",     done: gs.welcomePost.published },
   ];
   const allDone = built.every(b => b.done);
   return (
