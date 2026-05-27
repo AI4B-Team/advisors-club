@@ -264,8 +264,9 @@ function StepPersonalize({
   avatarColor: string; setAvatarColor: (s: string) => void;
   bio: string; setBio: (s: string) => void;
   theme: "light"|"dark"; setTheme: (t: "light"|"dark") => void;
-  onNext: () => void; onBack: () => void;
+  onNext: () => void; onBack: () => void; finishing?: boolean;
 }) {
+  const { finishing = false } = arguments[0] as { finishing?: boolean };
   const writeBioFn = useServerFn(writeBio);
   const [writing, setWriting] = useState(false);
 
