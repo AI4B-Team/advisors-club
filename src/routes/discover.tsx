@@ -263,9 +263,6 @@ function ClubCard({ c }: { c: Club }) {
     <div className="dc-card">
       <div className="dc-card-cover">
         <img src={c.cover} alt={c.name} loading="lazy" width={1024} height={640} />
-        {c.price === 0
-          ? <span className="dc-badge free">Free</span>
-          : <span className="dc-badge price">${c.price}/mo</span>}
         {isAI && <span className="dc-aiva-badge"><Zap size={10}/> Built with AIVA</span>}
       </div>
       <div className="dc-card-body">
@@ -274,16 +271,14 @@ function ClubCard({ c }: { c: Club }) {
         <div className="dc-card-tagline">{c.tagline}</div>
         <LifeChip life={life}/>
         <div className="dc-card-meta">
-          <div className="dc-advisor">
-            <span className="dc-avatar">{c.advisor.split(" ").map(p=>p[0]).join("").slice(0,2)}</span>
-            {c.advisor}
-          </div>
           <div className="dc-rating">
             <Users size={12} strokeWidth={2.4}/>
             <span style={{fontWeight:700}}>{c.members >= 1000 ? `${(c.members/1000).toFixed(1)}k` : c.members}</span>
-            <Star size={12} fill="#F5A623" strokeWidth={0} style={{marginLeft:6}}/>
-            <span style={{fontWeight:700}}>{c.rating}</span>
+            <span style={{color:"#737380",fontWeight:500,marginLeft:4}}>Members</span>
           </div>
+          {c.price === 0
+            ? <span className="dc-badge free" style={{position:"static"}}>Free</span>
+            : <span className="dc-badge price" style={{position:"static"}}>${c.price}/mo</span>}
         </div>
       </div>
     </div>
