@@ -266,7 +266,7 @@ function EventCard({ e, rsvp, onRsvp }: { e: EventItem; rsvp: Rsvp; onRsvp: (v: 
         <h3 className="cal-ec-title">{e.title}</h3>
         <p className="cal-ec-desc">{e.description}</p>
         <div className="cal-ec-meta"><MapPin size={12}/> {e.location} · Hosted by {e.host}</div>
-        <RsvpRow value={rsvp} onChange={onRsvp} />
+        <div className="cal-rsvp"><button className="cal-rsvp-join"><Video size={12}/> Join</button></div>
       </div>
     </article>
   );
