@@ -119,6 +119,15 @@ function OnboardingPage() {
       clubName: clubName.trim() || "Your Club",
       niche: niche || "Business",
       coverColor: avatarColor,
+      clubTagline: "",
+      clubDesc: "",
+      course: null,
+      coaching: [],
+      challenge: null,
+      events: [],
+      welcomePost: { title: "", body: "", published: false },
+      completedSteps: [],
+      launched: false,
     });
     toast.success("Club created — let's get you set up.");
     setTimeout(() => {
