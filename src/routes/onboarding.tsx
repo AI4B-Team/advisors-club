@@ -168,7 +168,7 @@ function OnboardingPage() {
 
       <aside className="sf-right">
         {step === 0 && <RightClub niche={niche} clubName={clubName} slug={slug} />}
-        {step === 1 && <RightPersonalize firstName={firstName} lastName={lastName} bio={bio} avatarColor={avatarColor} initials={initials} theme={theme} />}
+        {step === 1 && <RightPersonalize firstName={firstName} lastName={lastName} clubName={clubName} bio={bio} avatarColor={avatarColor} initials={initials} theme={theme} />}
       </aside>
     </div>
   );
