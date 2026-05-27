@@ -267,13 +267,35 @@ function StepClub({
 
 /* ============ Step: Personalize ============ */
 function StepPersonalize({
+  firstName, lastName, niche, clubName,
   avatarColor, setAvatarColor, bio, setBio, theme, setTheme, onNext, onBack,
 }: {
+  firstName: string; lastName: string; niche: string; clubName: string;
   avatarColor: string; setAvatarColor: (s: string) => void;
   bio: string; setBio: (s: string) => void;
   theme: "light"|"dark"; setTheme: (t: "light"|"dark") => void;
   onNext: () => void; onBack: () => void;
 }) {
+  const writeBioFn = useServerFn(writeBio);
+  const [writing, setWriting] = useState(false);
+
+  async function handleWrite() {
+    setWriting(true);
+    try {
+      const res = await writeBioFn({ data: { firstName, lastName, niche, clubName, current: bio } });
+      if (res.error || !res.bio) {
+        toast.error(res.error || "Couldn't generate a bio. Try again.");
+      } else {
+        setBio(res.bio);
+        toast.success("AIVA drafted your bio.");
+      }
+    } catch {
+      toast.error("AI writer is unavailable right now.");
+    } finally {
+      setWriting(false);
+    }
+  }
+
   return (
     <>
       <h1 className="sf-title">Make It Yours</h1>
@@ -290,10 +312,20 @@ function StepPersonalize({
           </div>
         </Field>
 
-        <Field label={`Short Bio (${bio.length}/150)`}>
+        <div className="sf-field">
+          <div className="sf-bio-label">
+            <span className="sf-field-label">Short Bio ({bio.length}/150)</span>
+            <button type="button" className="sf-ai-write" onClick={handleWrite} disabled={writing}>
+              {writing ? (
+                <><span className="sf-aiva-dot"/><span className="sf-aiva-dot"/><span className="sf-aiva-dot"/></>
+              ) : (
+                <><Wand2 size={12}/> {bio.trim() ? "Rewrite with AIVA" : "Write with AIVA"}</>
+              )}
+            </button>
+          </div>
           <textarea rows={3} maxLength={150} value={bio} onChange={e=>setBio(e.target.value)}
             placeholder="One line about you and what you help people with."/>
-        </Field>
+        </div>
 
         <Field label="Theme">
           <div className="sf-themes">
