@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useRef, useState } from "react";
-import { Search, SlidersHorizontal, Star, ChevronLeft, ChevronRight, Sparkles, Users, Zap, Radio, ArrowRight, Plus } from "lucide-react";
+import { Search, SlidersHorizontal, ChevronLeft, ChevronRight, Sparkles, Users, Zap, Radio, ArrowRight, Plus } from "lucide-react";
 import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
 
@@ -166,7 +166,7 @@ function FeaturedRow({ clubs }: { clubs: Club[] }) {
 function FeaturedCard({ c }: { c: Club }) {
   const life = lifeFor(c);
   return (
-    <article className="dc-feat-card">
+    <Link to="/clubs/$clubId" params={{ clubId: c.id }} className="dc-feat-card">
       <div className="dc-feat-cover">
         <img src={c.cover} alt={c.name} loading="lazy" />
         <div className="dc-feat-overlay">
@@ -191,7 +191,7 @@ function FeaturedCard({ c }: { c: Club }) {
             : <span className="dc-badge price" style={{position:"static"}}>${c.price}/mo</span>}
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -260,7 +260,7 @@ function ClubCard({ c }: { c: Club }) {
   const life = lifeFor(c);
   const isAI = c.category === "AI & Tech" || c.tags.includes("ai");
   return (
-    <div className="dc-card">
+    <Link to="/clubs/$clubId" params={{ clubId: c.id }} className="dc-card">
       <div className="dc-card-cover">
         <img src={c.cover} alt={c.name} loading="lazy" width={1024} height={640} />
         {isAI && <span className="dc-aiva-badge"><Zap size={10}/> Built with AIVA</span>}
@@ -281,6 +281,6 @@ function ClubCard({ c }: { c: Club }) {
             : <span className="dc-badge price" style={{position:"static"}}>${c.price}/mo</span>}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
