@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LandingRouteImport } from './routes/landing'
 import { Route as DiscoverRouteImport } from './routes/discover'
@@ -44,6 +45,11 @@ const SignupRoute = SignupRouteImport.update({
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/discover': typeof DiscoverRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/discover': typeof DiscoverRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/discover': typeof DiscoverRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
@@ -259,6 +268,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/landing'
     | '/login'
+    | '/onboarding'
     | '/setup'
     | '/signup'
     | '/app/account'
@@ -286,6 +296,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/landing'
     | '/login'
+    | '/onboarding'
     | '/setup'
     | '/signup'
     | '/app/account'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/landing'
     | '/login'
+    | '/onboarding'
     | '/setup'
     | '/signup'
     | '/app/account'
@@ -343,6 +355,7 @@ export interface RootRouteChildren {
   DiscoverRoute: typeof DiscoverRoute
   LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
+  OnboardingRoute: typeof OnboardingRoute
   SetupRoute: typeof SetupRoute
   SignupRoute: typeof SignupRoute
   ClubSplatRoute: typeof ClubSplatRoute
@@ -362,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/setup'
       fullPath: '/setup'
       preLoaderRoute: typeof SetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -585,6 +605,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiscoverRoute: DiscoverRoute,
   LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
+  OnboardingRoute: OnboardingRoute,
   SetupRoute: SetupRoute,
   SignupRoute: SignupRoute,
   ClubSplatRoute: ClubSplatRoute,
