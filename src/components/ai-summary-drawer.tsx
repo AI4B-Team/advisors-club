@@ -105,11 +105,12 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
   const data = SUMMARIES[shownRange];
 
-  return (
+  return createPortal(
     <>
+
       <div className="ai-drawer-scrim" onClick={onClose} />
       <aside className="ai-drawer" role="dialog" aria-label="AI community summary">
         <header className="ai-drawer-head">
