@@ -85,18 +85,18 @@ type TopLink = {
 const DEFAULT_MENU = ["Pin to top", "Mute notifications", "Mark all read", "Hide"];
 
 const TOP_LINKS: TopLink[] = [
-  { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
-    subs: [
-      {label:"Dashboard",to:"/app/dashboard", icon:<LayoutDashboard size={14}/>},
-      {label:"Activity",to:"/app", icon:<Activity size={14}/>},
-      {label:"Bookmarks",to:"/app/bookmarks", icon:<Bookmark size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
   { label: "Getting Started", to: "/app/dashboard", icon: <Rocket size={16}/>,
     subs: [
       {label:"Start Here",to:"/app/getting-started", icon:<PlayCircle size={14}/>},
       {label:"Say Hello",to:"/app/club/feed", icon:<Hand size={14}/>},
       {label:"Resources",to:"/app/club/courses", icon:<Book size={14}/>},
+    ],
+    menu: DEFAULT_MENU },
+  { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
+    subs: [
+      {label:"Dashboard",to:"/app/dashboard", icon:<LayoutDashboard size={14}/>},
+      {label:"Activity",to:"/app", icon:<Activity size={14}/>},
+      {label:"Bookmarks",to:"/app/bookmarks", icon:<Bookmark size={14}/>},
     ],
     menu: DEFAULT_MENU },
   { label: "Community", to: "/app/club/feed", icon: <MessageSquare size={16}/>,
