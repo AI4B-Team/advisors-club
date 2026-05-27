@@ -209,7 +209,7 @@ function GettingStarted() {
 
       {/* RIGHT PREVIEW */}
       <aside className="gs2-preview">
-        <div className="gs2-pv-club" style={{ background: `linear-gradient(135deg, ${gs.coverColor}, #1a1a28)` }}>
+        <div className="gs2-pv-club" style={{ background: gs.coverColor }}>
           <div className="gs2-pv-badge">LIVE PREVIEW</div>
           <div className="gs2-pv-club-name">{gs.clubName || "Your Club"}</div>
           <div className="gs2-pv-club-tag">{gs.clubTagline || "Your tagline appears here."}</div>
