@@ -324,7 +324,7 @@ function IdentityStep({ gs, onSave, onSkip, stepIdx }: any) {
       <label className="gs2-field"><span>Club name</span><input value={name} onChange={e=>setName(e.target.value)}/></label>
       <label className="gs2-field"><span>Tagline</span><input value={tagline} onChange={e=>setTagline(e.target.value)}/></label>
       <label className="gs2-field"><span>Description</span><textarea rows={3} value={desc} onChange={e=>setDesc(e.target.value)}/></label>
-      <div className="gs2-field"><span>Club colour</span>
+      <div className="gs2-field"><span>Color</span>
         <div className="gs2-swatches">
           {swatches.map(s => (
             <button key={s} className={`gs2-sw${color===s?" on":""}`} style={{background:s}} onClick={()=>setColor(s)} aria-label={s}/>
