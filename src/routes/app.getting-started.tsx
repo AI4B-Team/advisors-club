@@ -192,7 +192,7 @@ function GettingStarted() {
             );
           })}
         </nav>
-        <button className="gs2-skip-all" onClick={() => nav({ to: "/app" })}>Skip setup → go to app</button>
+        <button className="gs2-skip-all" onClick={() => nav({ to: "/app" })}>Skip Setup → Go To App</button>
       </aside>
 
       {/* MAIN */}
