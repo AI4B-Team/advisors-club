@@ -100,7 +100,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
         <Mic size={18}/>
       </button>
 
-      <button data-tip="Open slash commands menu" type="button" onClick={() => setOpenSlash(v => !v)}><PlusCircle size={18}/></button>
+      <button data-tip="Slash Commands" type="button" onClick={() => setOpenSlash(v => !v)}><PlusCircle size={18}/></button>
       {openSlash && (
         <SlashMenu
           onClose={() => setOpenSlash(false)}
