@@ -145,7 +145,7 @@ function MonthView({ cursor, setCursor, selected, setSelected, eventsByDate, rsv
                 <div className="cal-side-evt-meta"><Clock size={12}/> {fmtRange(e.start, e.end)}</div>
                 <div className="cal-side-evt-meta">Hosted by {e.host}</div>
                 <CountdownChip target={eventStart(e)} />
-                <RsvpRow value={rsvps[e.id] ?? null} onChange={v => setRsvps({...rsvps, [e.id]: v})} compact />
+                <div className="cal-rsvp compact"><button className="cal-rsvp-join"><Video size={12}/> Join</button></div>
               </li>
             ))}
           </ul>
