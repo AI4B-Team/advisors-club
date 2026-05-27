@@ -51,3 +51,48 @@ export const aivaChat = createServerFn({ method: "POST" })
       return { reply: "", error: "AIVA is unavailable right now." };
     }
   });
+
+const BioInputSchema = z.object({
+  firstName: z.string().max(60).optional().default(""),
+  lastName: z.string().max(60).optional().default(""),
+  niche: z.string().max(60).optional().default(""),
+  clubName: z.string().max(80).optional().default(""),
+  current: z.string().max(300).optional().default(""),
+});
+
+export const writeBio = createServerFn({ method: "POST" })
+  .inputValidator((input) => BioInputSchema.parse(input))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { bio: "", error: "AI is not configured." };
+    const prompt = `Write a single-sentence advisor bio (max 140 characters, no quotes, no emojis, no hashtags). Confident, specific, with a concrete outcome or number when reasonable.
+
+Name: ${data.firstName} ${data.lastName}
+Niche: ${data.niche || "(unspecified)"}
+Club: ${data.clubName || "(unspecified)"}
+${data.current ? `User draft to improve: ${data.current}` : ""}
+
+Return ONLY the bio sentence — no preamble, no markdown.`;
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [
+            { role: "system", content: "You write concise, high-converting advisor bios. Output one sentence only." },
+            { role: "user", content: prompt },
+          ],
+        }),
+      });
+      if (resp.status === 429) return { bio: "", error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { bio: "", error: "Out of AI credits." };
+      if (!resp.ok) return { bio: "", error: "AI writer is unavailable." };
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const raw = (json.choices?.[0]?.message?.content ?? "").trim().replace(/^["']|["']$/g, "");
+      return { bio: raw.slice(0, 150), error: null };
+    } catch (e) {
+      console.error("writeBio error", e);
+      return { bio: "", error: "AI writer is unavailable." };
+    }
+  });
