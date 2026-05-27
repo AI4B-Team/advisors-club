@@ -2051,7 +2051,7 @@
 .sf-divider span{background:#FAFAFB;padding:0 10px;position:relative}
 
 /* Form */
-.sf-form{display:flex;flex-direction:column;gap:14px}
+.sf-form{display:flex;flex-direction:column;gap:22px}
 .sf-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sf-field{display:flex;flex-direction:column;gap:6px}
 .sf-field-label{font-size:12px;font-weight:600;color:#374151}
