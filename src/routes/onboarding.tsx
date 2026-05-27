@@ -5,6 +5,7 @@ import { ArrowRight, Sparkles, Check, Copy, CheckCheck, Wand2 } from "lucide-rea
 import logoUrl from "@/assets/advisorsclub-logo-real.png";
 import { toast } from "sonner";
 import { getSignupData, setSignupData, clearSignupData } from "@/lib/signup-store";
+import { setGS } from "@/lib/gs-store";
 import { writeBio } from "@/lib/ai.functions";
 
 export const Route = createFileRoute("/onboarding")({
@@ -115,6 +116,11 @@ function OnboardingPage() {
 
   function finishSignup() {
     setFinishing(true);
+    setGS({
+      clubName: clubName.trim() || "Your Club",
+      niche: niche || "Business",
+      coverColor: avatarColor,
+    });
     toast.success("Club created — let's get you set up.");
     setTimeout(() => {
       clearSignupData();
@@ -129,7 +135,8 @@ function OnboardingPage() {
           <img src={logoUrl} alt="AdvisorsClub" />
         </Link>
 
-        <ProgressStepper current={step + 1} />
+
+
 
 
 
