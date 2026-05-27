@@ -2165,7 +2165,7 @@
 
 /* Live club preview */
 .sf-preview-club{background:#fff;border-radius:14px;overflow:hidden;color:#0F0F12;box-shadow:0 20px 50px -20px rgba(0,0,0,.5)}
-.sf-pc-cover{height:90px;background:linear-gradient(135deg,#F5A623 0%,#EC4899 100%);position:relative;display:flex;align-items:flex-end;padding:12px}
+.sf-pc-cover{height:90px;background:#F3F4F6;border-bottom:1px solid #E5E7EB;position:relative;display:flex;align-items:flex-end;padding:12px}
 .sf-pc-niche{background:rgba(255,255,255,.95);color:#0F0F12;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px}
 .sf-pc-body{padding:18px}
 .sf-pc-name{font-size:18px;font-weight:800;margin:0 0 4px}

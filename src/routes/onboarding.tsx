@@ -106,7 +106,7 @@ function OnboardingPage() {
   }, [niche]);
 
   function copySlug() {
-    navigator.clipboard.writeText(`${slug}.advisorsclub.com`);
+    navigator.clipboard.writeText(`advisorsclub.com/${slug}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -242,7 +242,7 @@ function StepClub({
         {clubName.trim().length > 0 && (
           <div className="sf-slug-preview">
             <span className="sf-slug-url">
-              <span className="sf-slug-domain">{slug || "your-club"}</span>.advisorsclub.com
+              advisorsclub.com/<span className="sf-slug-domain">{slug || "your-club"}</span>
             </span>
             <button type="button" className="sf-slug-copy" onClick={onCopy} aria-label="Copy URL">
               {copied ? <CheckCheck size={14}/> : <Copy size={14}/>}
@@ -388,7 +388,7 @@ function RightClub({ niche, clubName, slug }: { niche: string; clubName: string;
         <div className="sf-pc-cover">{niche && <span className="sf-pc-niche">{niche}</span>}</div>
         <div className="sf-pc-body">
           <h3 className="sf-pc-name">{clubName || "Your Club Name"}</h3>
-          <div className="sf-pc-url">{slug || "your-club"}.advisorsclub.com</div>
+          <div className="sf-pc-url">advisorsclub.com/{slug || "your-club"}</div>
           <div className="sf-pc-stats">
             <div><strong>0</strong><span>Members</span></div>
             <div><strong>1</strong><span>Admin</span></div>
