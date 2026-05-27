@@ -18,6 +18,7 @@ import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as ClubsClubIdRouteImport } from './routes/clubs.$clubId'
 import { Route as ClubSplatRouteImport } from './routes/club.$'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
@@ -81,6 +82,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const ClubsClubIdRoute = ClubsClubIdRouteImport.update({
+  id: '/clubs/$clubId',
+  path: '/clubs/$clubId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ClubSplatRoute = ClubSplatRouteImport.update({
   id: '/club/$',
@@ -191,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
+  '/clubs/$clubId': typeof ClubsClubIdRoute
   '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -219,6 +226,7 @@ export interface FileRoutesByTo {
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
+  '/clubs/$clubId': typeof ClubsClubIdRoute
   '/app': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -249,6 +257,7 @@ export interface FileRoutesById {
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
+  '/clubs/$clubId': typeof ClubsClubIdRoute
   '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -280,6 +289,7 @@ export interface FileRouteTypes {
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
+    | '/clubs/$clubId'
     | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -308,6 +318,7 @@ export interface FileRouteTypes {
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
+    | '/clubs/$clubId'
     | '/app'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -337,6 +348,7 @@ export interface FileRouteTypes {
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
+    | '/clubs/$clubId'
     | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -359,6 +371,7 @@ export interface RootRouteChildren {
   SetupRoute: typeof SetupRoute
   SignupRoute: typeof SignupRoute
   ClubSplatRoute: typeof ClubSplatRoute
+  ClubsClubIdRoute: typeof ClubsClubIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -425,6 +438,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/clubs/$clubId': {
+      id: '/clubs/$clubId'
+      path: '/clubs/$clubId'
+      fullPath: '/clubs/$clubId'
+      preLoaderRoute: typeof ClubsClubIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/club/$': {
       id: '/club/$'
@@ -609,6 +629,7 @@ const rootRouteChildren: RootRouteChildren = {
   SetupRoute: SetupRoute,
   SignupRoute: SignupRoute,
   ClubSplatRoute: ClubSplatRoute,
+  ClubsClubIdRoute: ClubsClubIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
