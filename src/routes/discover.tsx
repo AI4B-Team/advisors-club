@@ -166,7 +166,7 @@ function FeaturedRow({ clubs }: { clubs: Club[] }) {
 function FeaturedCard({ c }: { c: Club }) {
   const life = lifeFor(c);
   return (
-    <article className="dc-feat-card">
+    <Link to="/clubs/$clubId" params={{ clubId: c.id }} className="dc-feat-card">
       <div className="dc-feat-cover">
         <img src={c.cover} alt={c.name} loading="lazy" />
         <div className="dc-feat-overlay">
@@ -191,7 +191,7 @@ function FeaturedCard({ c }: { c: Club }) {
             : <span className="dc-badge price" style={{position:"static"}}>${c.price}/mo</span>}
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
