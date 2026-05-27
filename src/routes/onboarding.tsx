@@ -335,8 +335,10 @@ function StepPersonalize({
         </Field>
 
         <div className="sf-nav">
-          <button type="button" className="sf-back" onClick={onBack}>Back</button>
-          <button type="button" className="sf-cta" onClick={onNext}>Continue <ArrowRight size={16}/></button>
+          <button type="button" className="sf-back" onClick={onBack} disabled={finishing}>Back</button>
+          <button type="button" className="sf-cta" onClick={onNext} disabled={finishing}>
+            {finishing ? "Launching your Club..." : <>Continue <ArrowRight size={16}/></>}
+          </button>
         </div>
       </div>
     </>
