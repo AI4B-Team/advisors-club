@@ -459,7 +459,7 @@ function LaunchStep({ gs, onLaunch, stepIdx }: any) {
   return (
     <div className="gs2-card">
       <StepHeader stepIdx={stepIdx} title="Launch Your Club" syncTo="Goes live to members"/>
-      <AivaNote>Everything's ready. Review what AIVA built — when you launch, members can start joining.</AivaNote>
+      <AivaNote>Everything's Ready. Review What AIVA Built — When You Launch, Members Can Start Joining.</AivaNote>
       <div className="gs2-launch-list">
         {built.map(b => (
           <div key={b.label} className={`gs2-launch-row${b.done?" done":""}`}>
