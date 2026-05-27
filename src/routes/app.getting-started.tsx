@@ -245,13 +245,13 @@ function StepCard({ step, stepIdx, gs, onSave, onSkip, onLaunch }: {
 
   // Per-step local state
   switch (step.id) {
-    case "identity": return <IdentityStep gs={gs} onSave={(p) => onSave("identity", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
-    case "course":   return <CourseStep gs={gs} content={content} onSave={(p) => onSave("course", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
-    case "coaching": return <CoachingStep gs={gs} content={content} onSave={(p) => onSave("coaching", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
-    case "challenge":return <ChallengeStep gs={gs} content={content} onSave={(p) => onSave("challenge", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
-    case "event":    return <EventStep gs={gs} content={content} onSave={(p) => onSave("event", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
-    case "pricing":  return <PricingStep gs={gs} onSave={(p) => onSave("pricing", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
-    case "welcome":  return <WelcomeStep gs={gs} content={content} onSave={(p) => onSave("welcome", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
+    case "identity": return <IdentityStep gs={gs} onSave={(p: Partial<GSStore>) => onSave("identity", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
+    case "course":   return <CourseStep gs={gs} content={content} onSave={(p: Partial<GSStore>) => onSave("course", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
+    case "coaching": return <CoachingStep gs={gs} content={content} onSave={(p: Partial<GSStore>) => onSave("coaching", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
+    case "challenge":return <ChallengeStep gs={gs} content={content} onSave={(p: Partial<GSStore>) => onSave("challenge", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
+    case "event":    return <EventStep gs={gs} content={content} onSave={(p: Partial<GSStore>) => onSave("event", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
+    case "pricing":  return <PricingStep gs={gs} onSave={(p: Partial<GSStore>) => onSave("pricing", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
+    case "welcome":  return <WelcomeStep gs={gs} content={content} onSave={(p: Partial<GSStore>) => onSave("welcome", p)} onSkip={onSkip} stepIdx={stepIdx}/>;
     case "launch":   return <LaunchStep gs={gs} onLaunch={onLaunch} stepIdx={stepIdx}/>;
   }
 }
