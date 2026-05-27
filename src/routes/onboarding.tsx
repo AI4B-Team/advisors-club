@@ -53,7 +53,7 @@ const PLANS: Plan[] = [
     features: ["Everything in Advisor","0% transaction fees","Multiple clubs","Email marketing 100k","Funnel builder","Mobile app"] },
 ];
 
-const STEPS = ["Account","Club","Personalize","Plan"] as const;
+const STEPS = ["Account","Club","Personalize"] as const;
 
 function slugify(s: string) {
   return s.toLowerCase().trim()
