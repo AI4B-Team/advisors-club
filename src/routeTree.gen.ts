@@ -27,6 +27,7 @@ import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
+import { Route as AppClubResourcesRouteImport } from './routes/app.club.resources'
 import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
 import { Route as AppClubFeedRouteImport } from './routes/app.club.feed'
 import { Route as AppClubEventsRouteImport } from './routes/app.club.events'
@@ -125,6 +126,11 @@ const AppClubSettingsRoute = AppClubSettingsRouteImport.update({
   path: '/club/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppClubResourcesRoute = AppClubResourcesRouteImport.update({
+  id: '/club/resources',
+  path: '/club/resources',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppClubMembersRoute = AppClubMembersRouteImport.update({
   id: '/club/members',
   path: '/club/members',
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
   '/app/club/members': typeof AppClubMembersRoute
+  '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
 }
 export interface FileRoutesByTo {
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
   '/app/club/members': typeof AppClubMembersRoute
+  '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
 }
 export interface FileRoutesById {
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
   '/app/club/members': typeof AppClubMembersRoute
+  '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
 }
 export interface FileRouteTypes {
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/app/club/events'
     | '/app/club/feed'
     | '/app/club/members'
+    | '/app/club/resources'
     | '/app/club/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/app/club/events'
     | '/app/club/feed'
     | '/app/club/members'
+    | '/app/club/resources'
     | '/app/club/settings'
   id:
     | '__root__'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/app/club/events'
     | '/app/club/feed'
     | '/app/club/members'
+    | '/app/club/resources'
     | '/app/club/settings'
   fileRoutesById: FileRoutesById
 }
@@ -464,6 +476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClubSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/club/resources': {
+      id: '/app/club/resources'
+      path: '/club/resources'
+      fullPath: '/app/club/resources'
+      preLoaderRoute: typeof AppClubResourcesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/club/members': {
       id: '/app/club/members'
       path: '/club/members'
@@ -533,6 +552,7 @@ interface AppRouteChildren {
   AppClubEventsRoute: typeof AppClubEventsRoute
   AppClubFeedRoute: typeof AppClubFeedRoute
   AppClubMembersRoute: typeof AppClubMembersRoute
+  AppClubResourcesRoute: typeof AppClubResourcesRoute
   AppClubSettingsRoute: typeof AppClubSettingsRoute
 }
 
@@ -553,6 +573,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppClubEventsRoute: AppClubEventsRoute,
   AppClubFeedRoute: AppClubFeedRoute,
   AppClubMembersRoute: AppClubMembersRoute,
+  AppClubResourcesRoute: AppClubResourcesRoute,
   AppClubSettingsRoute: AppClubSettingsRoute,
 }
 
