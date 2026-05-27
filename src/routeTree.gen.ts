@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SetupRouteImport } from './routes/setup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LandingRouteImport } from './routes/landing'
 import { Route as DiscoverRouteImport } from './routes/discover'
@@ -36,6 +37,11 @@ import { Route as AppClubAnalyticsRouteImport } from './routes/app.club.analytic
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupRoute = SetupRouteImport.update({
+  id: '/setup',
+  path: '/setup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/discover': typeof DiscoverRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/discover': typeof DiscoverRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/discover': typeof DiscoverRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/landing'
     | '/login'
+    | '/setup'
     | '/signup'
     | '/app/account'
     | '/app/aiva'
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/landing'
     | '/login'
+    | '/setup'
     | '/signup'
     | '/app/account'
     | '/app/aiva'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/landing'
     | '/login'
+    | '/setup'
     | '/signup'
     | '/app/account'
     | '/app/aiva'
@@ -307,6 +319,7 @@ export interface RootRouteChildren {
   DiscoverRoute: typeof DiscoverRoute
   LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
+  SetupRoute: typeof SetupRoute
   SignupRoute: typeof SignupRoute
   ClubSplatRoute: typeof ClubSplatRoute
 }
@@ -318,6 +331,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup': {
+      id: '/setup'
+      path: '/setup'
+      fullPath: '/setup'
+      preLoaderRoute: typeof SetupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -523,19 +543,10 @@ const rootRouteChildren: RootRouteChildren = {
   DiscoverRoute: DiscoverRoute,
   LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
+  SetupRoute: SetupRoute,
   SignupRoute: SignupRoute,
   ClubSplatRoute: ClubSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
