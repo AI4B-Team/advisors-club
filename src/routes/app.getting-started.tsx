@@ -259,13 +259,21 @@ function GettingStarted() {
         </div>
         <div className="gs2-pv-h">What AIVA Is Building</div>
         <ul className="gs2-pv-list">
-          {STEPS.slice(0, 7).map(s => {
+          {[
+            { label: "Identity",    id: "identity"  },
+            { label: "Community",   id: "welcome"   },
+            { label: "Content",     id: "welcome"   },
+            { label: "Challenges",  id: "challenge" },
+            { label: "Courses",     id: "course"    },
+            { label: "Conferences", id: "event"     },
+            { label: "Coaching",    id: "coaching"  },
+          ].map((s, i) => {
             const done = gs.completedSteps.includes(s.id);
             const active = s.id === step.id;
             return (
-              <li key={s.id} className={`gs2-pv-item${done ? " done" : ""}${active ? " active" : ""}`}>
+              <li key={i} className={`gs2-pv-item${done ? " done" : ""}${active ? " active" : ""}`}>
                 <span className="gs2-pv-dot">{done ? <Check size={10} strokeWidth={3}/> : "•"}</span>
-                {s.short}
+                {s.label}
               </li>
             );
           })}
