@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Sparkles, Check, ArrowRight, SkipForward, Rocket } from "lucide-react";
 import { getGS, setGS, markStep, type GSStore, type GSCoachingProgram, type GSChallenge, type GSCourse, type GSEvent } from "@/lib/gs-store";
+import { getSignupData } from "@/lib/signup-store";
+
 
 export const Route = createFileRoute("/app/getting-started")({
   head: () => ({
@@ -27,14 +29,16 @@ const STEPS = [
 type StepId = typeof STEPS[number]["id"];
 
 const BUILD_ITEMS = [
-  { ms: 0,    label: "Reading your Club details…" },
-  { ms: 250,  label: "Generating course outline…" },
-  { ms: 500,  label: "Writing your description…" },
-  { ms: 750,  label: "Designing coaching tiers…" },
-  { ms: 1000, label: "Building your 30-day challenge…" },
-  { ms: 1250, label: "Drafting your welcome post…" },
-  { ms: 1500, label: "Almost ready…" },
+  { ms: 0,    label: "Reading your Club details…",   step: "identity"  as const },
+  { ms: 600,  label: "Writing your tagline & description…", step: "identity" as const },
+  { ms: 1200, label: "Generating course outline…",   step: "course"    as const },
+  { ms: 1800, label: "Designing coaching tiers…",    step: "coaching"  as const },
+  { ms: 2400, label: "Building your 30-day challenge…", step: "challenge" as const },
+  { ms: 3000, label: "Scheduling your first event…", step: "event"     as const },
+  { ms: 3600, label: "Drafting your welcome post…",  step: "welcome"   as const },
+  { ms: 4200, label: "Almost ready…",                step: null        as null   },
 ];
+
 
 function makeContent(niche: string, clubName: string) {
   return {
@@ -101,16 +105,27 @@ function GettingStarted() {
   useEffect(() => {
     if (initRef.current) return;
     initRef.current = true;
-    const cur = getGS();
+    let cur = getGS();
+    // Seed from /onboarding signup data on first arrival
     if (cur.completedSteps.length === 0 && !cur.clubTagline) {
+      const signup = getSignupData();
+      const seedPatch: Partial<GSStore> = {};
+      if (signup.clubName) seedPatch.clubName = signup.clubName;
+      if (signup.niche) seedPatch.niche = signup.niche;
+      if (signup.avatarColor) seedPatch.coverColor = signup.avatarColor;
+      if (Object.keys(seedPatch).length) {
+        setGS(seedPatch);
+        cur = getGS();
+      }
       setBuilding(true);
+      setGSState(cur);
     } else {
       const firstIncomplete = STEPS.findIndex(s => !cur.completedSteps.includes(s.id));
       setStepIdx(firstIncomplete === -1 ? STEPS.length - 1 : firstIncomplete);
     }
   }, []);
 
-  // Building animation
+  // Building animation — also pre-fills every AIVA-built section
   useEffect(() => {
     if (!building) return;
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -118,13 +133,23 @@ function GettingStarted() {
       timers.push(setTimeout(() => setBuildStep(i + 1), b.ms + 250));
     });
     timers.push(setTimeout(() => {
-      const c = makeContent(getGS().niche, getGS().clubName);
-      setGS({ clubTagline: c.tagline, clubDesc: c.desc });
+      const s = getGS();
+      const c = makeContent(s.niche, s.clubName);
+      setGS({
+        clubTagline: c.tagline,
+        clubDesc: c.desc,
+        course: { id: "c1", ...c.course, published: true },
+        coaching: c.coaching.map((p, i) => ({ id: `co${i+1}`, ...p })),
+        challenge: { id: "ch1", published: true, ...c.challenge },
+        events: [{ id: "ev1", ...c.event }],
+        welcomePost: { title: c.welcome.title, body: c.welcome.body, published: false },
+      });
       setBuilding(false);
       setGSState(getGS());
-    }, BUILD_ITEMS[BUILD_ITEMS.length - 1].ms + 600));
+    }, BUILD_ITEMS[BUILD_ITEMS.length - 1].ms + 700));
     return () => timers.forEach(clearTimeout);
   }, [building]);
+
 
   const progress = Math.round((gs.completedSteps.length / STEPS.length) * 100);
   const step = STEPS[stepIdx];
@@ -211,7 +236,7 @@ function GettingStarted() {
       <aside className="gs2-preview">
         <div className="gs2-pv-club" style={{ background: gs.coverColor }}>
           <div className="gs2-pv-badge">LIVE PREVIEW</div>
-          <div className="gs2-pv-club-name">{gs.clubName || "Your Club"}</div>
+          <div className="gs2-pv-club-name">{gs.clubName || "Club Name"}</div>
           <div className="gs2-pv-club-tag">{gs.clubTagline || "Your tagline appears here."}</div>
         </div>
         <div className="gs2-pv-h">What AIVA Is Building</div>
