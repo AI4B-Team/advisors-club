@@ -2622,7 +2622,7 @@
 .gs2-build-item.active .gs2-build-dot { background: #F5A623; color: #fff; }
 .gs2-build-item.done .gs2-build-dot { background: #F5A623; color: #fff; }
 
-.gs2-shell { display: grid; grid-template-columns: 240px 1fr 280px; gap: 20px; padding: 20px; min-height: calc(100vh - 56px); background: #F7F7F9; }
+.gs2-shell { display: grid; grid-template-columns: 240px 1fr 280px; gap: 20px; padding: 20px; min-height: 100vh; background: #F7F7F9; }
 .gs2-nav { background: #fff; border: 1px solid #E5E7EB; border-radius: 14px; padding: 18px 14px; position: sticky; top: 76px; align-self: start; }
 .gs2-nav-head { margin-bottom: 14px; }
 .gs2-nav-chip { display: inline-flex; gap: 4px; align-items: center; padding: 3px 8px; background: rgba(245,166,35,.12); color: #F5A623; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }

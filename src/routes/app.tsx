@@ -27,11 +27,21 @@ function AppShell() {
   const [liveOpen, setLiveOpen] = useState(false);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const hideSidebar = pathname.startsWith("/app/account");
+  const fullBleed = pathname.startsWith("/app/getting-started");
   useEffect(() => {
     const onLive = () => setLiveOpen(true);
     window.addEventListener("cc:go-live", onLive);
     return () => window.removeEventListener("cc:go-live", onLive);
   }, []);
+  if (fullBleed) {
+    return (
+      <ViewModeProvider>
+        <ClubCtx.Provider value={{ active, setActive }}>
+          <Outlet />
+        </ClubCtx.Provider>
+      </ViewModeProvider>
+    );
+  }
   return (
     <ViewModeProvider>
       <ClubCtx.Provider value={{ active, setActive }}>
