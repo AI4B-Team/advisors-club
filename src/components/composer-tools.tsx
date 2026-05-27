@@ -4,6 +4,8 @@ import { EmojiPicker } from "./emoji-picker";
 import { VideoModal } from "./video-modal";
 import { SlashMenu } from "./slash-menu";
 import { VoiceRecorderModal } from "./voice-recorder-modal";
+import { GifPicker } from "./gif-picker";
+
 
 
 type Props = {
