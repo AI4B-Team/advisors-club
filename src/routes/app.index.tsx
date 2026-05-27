@@ -47,6 +47,10 @@ function HomePage() {
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
   const [sort, setSort] = useState<FeedSort>("latest");
+  const [gs, setGsState] = useState(() => getGS());
+  useEffect(() => subscribeGS(setGsState), []);
+  const clubSlug = slugifyClub(gs.clubName);
+  
   
   const [emailBlast, setEmailBlast] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("all");
