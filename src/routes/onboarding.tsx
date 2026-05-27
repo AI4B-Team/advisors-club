@@ -116,6 +116,11 @@ function OnboardingPage() {
 
   function finishSignup() {
     setFinishing(true);
+    setGS({
+      clubName: clubName.trim() || "Your Club",
+      niche: niche || "Business",
+      coverColor: avatarColor,
+    });
     toast.success("Club created — let's get you set up.");
     setTimeout(() => {
       clearSignupData();
