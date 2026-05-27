@@ -2340,8 +2340,8 @@
 .cc-tb-aiva:hover{border-color:#C4B5FD;background:#FAF5FF;box-shadow:0 2px 8px rgba(139,92,246,.15)}
 .cc-tb-aiva.on{border-color:#8B5CF6;background:#F5F3FF;color:#5B21B6}
 
-.ai-drawer-scrim{position:fixed;inset:0;background:rgba(15,23,42,.35);backdrop-filter:blur(2px);z-index:80;animation:ai-fade .18s ease}
-.ai-drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:#fff;z-index:81;display:flex;flex-direction:column;box-shadow:-12px 0 40px -10px rgba(15,23,42,.25);animation:ai-slide-in .28s cubic-bezier(.2,.8,.2,1)}
+.ai-drawer-scrim{position:fixed;inset:0;background:rgba(15,23,42,.35);backdrop-filter:blur(2px);z-index:9998;animation:ai-fade .18s ease}
+.ai-drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:#fff;z-index:9999;display:flex;flex-direction:column;box-shadow:-12px 0 40px -10px rgba(15,23,42,.25);animation:ai-slide-in .28s cubic-bezier(.2,.8,.2,1)}
 @keyframes ai-slide-in{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
 @keyframes ai-fade{from{opacity:0}to{opacity:1}}
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Sparkles, Clock, FileText, Image as ImageIcon, Video, Megaphone, TrendingUp, Users, MessageSquare, Download, Calendar, Zap } from "lucide-react";
 
 type Range = "24h" | "7d" | "30d" | "all";
@@ -104,11 +105,12 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
   const data = SUMMARIES[shownRange];
 
-  return (
+  return createPortal(
     <>
+
       <div className="ai-drawer-scrim" onClick={onClose} />
       <aside className="ai-drawer" role="dialog" aria-label="AI community summary">
         <header className="ai-drawer-head">
@@ -191,6 +193,7 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
           </div>
         </div>
       </aside>
-    </>
+    </>,
+    document.body
   );
 }
