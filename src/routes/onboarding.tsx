@@ -53,7 +53,7 @@ const PLANS: Plan[] = [
     features: ["Everything in Advisor","0% transaction fees","Multiple clubs","Email marketing 100k","Funnel builder","Mobile app"] },
 ];
 
-const STEPS = ["Account","Club","Personalize","Plan"] as const;
+const STEPS = ["Account","Club","Personalize"] as const;
 
 function slugify(s: string) {
   return s.toLowerCase().trim()
@@ -67,8 +67,8 @@ function slugify(s: string) {
 function OnboardingPage() {
   const nav = useNavigate();
   const saved = useMemo(() => getSignupData(), []);
-  // Step within this route: 0 Club, 1 Personalize, 2 Plan  (global step = +1)
-  const [step, setStep] = useState<0|1|2>(0);
+  // Step within this route: 0 Club, 1 Personalize  (global step = +1)
+  const [step, setStep] = useState<0|1>(0);
 
   const firstName = saved.firstName;
   const lastName = saved.lastName;
@@ -150,18 +150,9 @@ function OnboardingPage() {
             avatarColor={avatarColor} setAvatarColor={setAvatarColor}
             bio={bio} setBio={setBio}
             theme={theme} setTheme={setTheme}
-            onNext={() => setStep(2)}
+            onNext={finishSignup}
             onBack={() => setStep(0)}
-          />
-        )}
-
-        {step === 2 && (
-          <StepPlan
-            billing={billing} setBilling={setBilling}
-            planId={planId} setPlanId={setPlanId}
             finishing={finishing}
-            onFinish={finishSignup}
-            onBack={() => setStep(1)}
           />
         )}
       </div>
@@ -169,7 +160,6 @@ function OnboardingPage() {
       <aside className="sf-right">
         {step === 0 && <RightClub niche={niche} clubName={clubName} slug={slug} />}
         {step === 1 && <RightPersonalize firstName={firstName} lastName={lastName} bio={bio} avatarColor={avatarColor} initials={initials} theme={theme} />}
-        {step === 2 && <RightPlan billing={billing} planId={planId} />}
       </aside>
     </div>
   );
@@ -268,13 +258,13 @@ function StepClub({
 /* ============ Step: Personalize ============ */
 function StepPersonalize({
   firstName, lastName, niche, clubName,
-  avatarColor, setAvatarColor, bio, setBio, theme, setTheme, onNext, onBack,
+  avatarColor, setAvatarColor, bio, setBio, theme, setTheme, onNext, onBack, finishing = false,
 }: {
   firstName: string; lastName: string; niche: string; clubName: string;
   avatarColor: string; setAvatarColor: (s: string) => void;
   bio: string; setBio: (s: string) => void;
   theme: "light"|"dark"; setTheme: (t: "light"|"dark") => void;
-  onNext: () => void; onBack: () => void;
+  onNext: () => void; onBack: () => void; finishing?: boolean;
 }) {
   const writeBioFn = useServerFn(writeBio);
   const [writing, setWriting] = useState(false);
@@ -345,8 +335,10 @@ function StepPersonalize({
         </Field>
 
         <div className="sf-nav">
-          <button type="button" className="sf-back" onClick={onBack}>Back</button>
-          <button type="button" className="sf-cta" onClick={onNext}>Continue <ArrowRight size={16}/></button>
+          <button type="button" className="sf-back" onClick={onBack} disabled={finishing}>Back</button>
+          <button type="button" className="sf-cta" onClick={onNext} disabled={finishing}>
+            {finishing ? "Launching your Club..." : <>Continue <ArrowRight size={16}/></>}
+          </button>
         </div>
       </div>
     </>

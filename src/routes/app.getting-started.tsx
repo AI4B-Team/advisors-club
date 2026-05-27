@@ -471,6 +471,12 @@ function WelcomeStep({ gs, content, onSave, onSkip, stepIdx }: any) {
   );
 }
 
+const LAUNCH_PLANS = [
+  { id: "starter", name: "Starter", price: 0,  blurb: "Try the platform", features: ["100 members","1 course","AIVA: 10 generations/mo","5% transaction fee"] },
+  { id: "advisor", name: "Advisor", price: 47, blurb: "Most builders start here", popular: true, features: ["Unlimited members","Unlimited courses","Custom domain","AIVA: unlimited","2% transaction fee"] },
+  { id: "pro",     name: "Club Pro", price: 97, blurb: "Scale + monetize", features: ["Everything in Advisor","0% transaction fees","Multiple clubs","Email marketing 100k","Funnel builder"] },
+];
+
 function LaunchStep({ gs, onLaunch, stepIdx }: any) {
   const built = [
     { label: "Club Identity",    done: !!gs.clubTagline },
@@ -481,10 +487,14 @@ function LaunchStep({ gs, onLaunch, stepIdx }: any) {
     { label: "Welcome Post",     done: gs.welcomePost.published },
   ];
   const allDone = built.every(b => b.done);
+  const [planId, setPlanId] = useState<string>("advisor");
+  const selected = LAUNCH_PLANS.find(p => p.id === planId)!;
+
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="Launch Your Club" syncTo="Goes Live To Members"/>
-      <AivaNote>Everything's Ready. Review What AIVA Built — When You Launch, Members Can Start Joining.</AivaNote>
+      <StepHeader stepIdx={stepIdx} title="Your Platform Is Ready ✨" syncTo="Launches Your Club"/>
+      <AivaNote>Start your 14-day free trial — no card required. You can upgrade or cancel anytime.</AivaNote>
+
       <div className="gs2-launch-list">
         {built.map(b => (
           <div key={b.label} className={`gs2-launch-row${b.done?" done":""}`}>
@@ -493,9 +503,31 @@ function LaunchStep({ gs, onLaunch, stepIdx }: any) {
           </div>
         ))}
       </div>
+
+      <div className="gs2-plan-h">Pick A Plan To Activate</div>
+      <div className="gs2-plan-grid">
+        {LAUNCH_PLANS.map(p => {
+          const on = planId === p.id;
+          return (
+            <button type="button" key={p.id}
+              className={`gs2-plan-card${on?" on":""}${p.popular?" hot":""}`}
+              onClick={() => setPlanId(p.id)}>
+              {p.popular && <span className="gs2-plan-pop">★ Most Popular</span>}
+              <div className="gs2-plan-name">{p.name}</div>
+              <div className="gs2-plan-price"><span className="gs2-plan-amt">${p.price}</span><span className="gs2-plan-per">/mo</span></div>
+              <div className="gs2-plan-blurb">{p.blurb}</div>
+              <ul className="gs2-plan-feats">
+                {p.features.map(f => <li key={f}><Check size={11} strokeWidth={3}/> {f}</li>)}
+              </ul>
+            </button>
+          );
+        })}
+      </div>
+
       <button className="gs2-btn-launch" onClick={onLaunch} disabled={!allDone}>
-        <Rocket size={15}/> {allDone ? "Launch Club" : "Complete Remaining Steps First"}
+        <Rocket size={15}/> {allDone ? `Activate ${selected.name} — Start 14-Day Free Trial` : "Complete Remaining Steps First"}
       </button>
+      <div className="gs2-launch-note">14-day free trial · no card required · cancel anytime</div>
     </div>
   );
 }
