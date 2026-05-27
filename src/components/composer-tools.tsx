@@ -29,6 +29,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
   const [pollAnonymous, setPollAnonymous] = useState(false);
   const [pollDuration, setPollDuration] = useState<"1d" | "3d" | "7d" | "never">("7d");
   const [openVoice, setOpenVoice] = useState(false);
+  const [openGif, setOpenGif] = useState(false);
 
 
   function append(text: string) {
