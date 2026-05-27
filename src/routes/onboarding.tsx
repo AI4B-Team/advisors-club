@@ -258,7 +258,7 @@ function StepClub({
 /* ============ Step: Personalize ============ */
 function StepPersonalize({
   firstName, lastName, niche, clubName,
-  avatarColor, setAvatarColor, bio, setBio, theme, setTheme, onNext, onBack,
+  avatarColor, setAvatarColor, bio, setBio, theme, setTheme, onNext, onBack, finishing = false,
 }: {
   firstName: string; lastName: string; niche: string; clubName: string;
   avatarColor: string; setAvatarColor: (s: string) => void;
@@ -266,7 +266,6 @@ function StepPersonalize({
   theme: "light"|"dark"; setTheme: (t: "light"|"dark") => void;
   onNext: () => void; onBack: () => void; finishing?: boolean;
 }) {
-  const { finishing = false } = arguments[0] as { finishing?: boolean };
   const writeBioFn = useServerFn(writeBio);
   const [writing, setWriting] = useState(false);
 
