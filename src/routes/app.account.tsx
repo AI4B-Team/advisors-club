@@ -4,6 +4,13 @@ import { Eye, Pin, RefreshCw, Users, User, Share2, Wallet, UserCog, Bell, Messag
 import heroImg from "@/assets/account-hero.jpg";
 import { useAuth } from "@/hooks/use-auth";
 import { useViewMode } from "@/hooks/use-view-mode";
+import {
+  ProfilePanel, AudiencePanel, ContentPanel, MarketingPanel, WorkflowsPanel,
+  AIAgentsPanel, AIInboxPanel, PaywallsPanel, AffiliatesPanel, PlansPanel,
+  PayoutsPanel, NotificationsPanel, ChatPanel, PaymentMethodsPanel,
+  PaymentHistoryPanel, AnalyticsPanel, SitePanel, DevelopersPanel,
+  SettingsPanel, SiteBuilderPanel, CustomizeThemePanel,
+} from "@/components/account-panels";
 
 export const Route = createFileRoute("/app/account")({
   head: () => ({
