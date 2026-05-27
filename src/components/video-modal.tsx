@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { X, UploadCloud, Link2, Video as VideoIcon, Square, Youtube } from "lucide-react";
+import { X, UploadCloud, Link2, Video as VideoIcon, Square, Link as LinkIcon } from "lucide-react";
+
+const PROVIDER_BADGES = [
+  { name: "YouTube", slug: "youtube", color: "#FF0033" },
+  { name: "Vimeo", slug: "vimeo", color: "#1AB7EA" },
+  { name: "Loom", slug: "loom", color: "#625DF5" },
+  { name: "Wistia", slug: "wistia", color: "#58B7FE" },
+];
 
 type Tab = "upload" | "link" | "record";
 
@@ -200,11 +207,19 @@ export function VideoModal({ open, onClose, onInsert }: Props) {
         {tab === "link" && (
           <>
             <div className="vm-providers">
-              <span className="vm-prov"><Youtube size={12}/> YouTube</span>
-              <span className="vm-prov">Vimeo</span>
-              <span className="vm-prov">Loom</span>
-              <span className="vm-prov">Wistia</span>
-              <span className="vm-prov">Direct URL</span>
+              {PROVIDER_BADGES.map(p => (
+                <span key={p.slug} className="vm-prov" style={{ color: p.color }}>
+                  <img
+                    src={`https://cdn.simpleicons.org/${p.slug}/${p.color.replace("#","")}`}
+                    alt=""
+                    width={12}
+                    height={12}
+                    style={{ display: "inline-block" }}
+                  />
+                  {p.name}
+                </span>
+              ))}
+              <span className="vm-prov"><LinkIcon size={12}/> Direct URL</span>
             </div>
             <input
               className="composer-modal-input"
