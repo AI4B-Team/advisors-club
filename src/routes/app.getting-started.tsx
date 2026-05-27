@@ -177,7 +177,7 @@ function GettingStarted() {
           <div className="gs2-nav-title">Getting Started</div>
         </div>
         <div className="gs2-prog-bar"><span className="gs2-prog-fill" style={{ width: `${progress}%` }}/></div>
-        <div className="gs2-prog-meta">{gs.completedSteps.length} of {STEPS.length} steps complete</div>
+        <div className="gs2-prog-meta">{gs.completedSteps.length} Of {STEPS.length} Steps Complete</div>
         <nav className="gs2-nav-list">
           {STEPS.map((s, i) => {
             const done = gs.completedSteps.includes(s.id);
