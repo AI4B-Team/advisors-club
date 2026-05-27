@@ -267,6 +267,7 @@ function SidebarTopLink({ link }: { link: TopLink }) {
 function CommunitySidebar() {
   const { active, setActive } = useContext(ClubCtx);
   const nav = useNavigate();
+  const clubs = useClubsFromGS();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
