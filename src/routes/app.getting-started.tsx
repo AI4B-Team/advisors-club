@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Sparkles, Check, ArrowRight, SkipForward, Rocket } from "lucide-react";
 import { getGS, setGS, markStep, type GSStore, type GSCoachingProgram, type GSChallenge, type GSCourse, type GSEvent } from "@/lib/gs-store";
@@ -130,6 +130,14 @@ function GettingStarted() {
     // Show quickstart modal on very first visit
     if (!cur.quickstartCompleted) setShowQuickstart(true);
   }, []);
+
+  // Jump to step from URL hash (set by sidebar sublinks)
+  const hash = useRouterState({ select: s => s.location.hash });
+  useEffect(() => {
+    if (!hash) return;
+    const idx = STEPS.findIndex(s => s.id === hash);
+    if (idx >= 0) setStepIdx(idx);
+  }, [hash]);
 
 
   // Building animation — also pre-fills every AIVA-built section
