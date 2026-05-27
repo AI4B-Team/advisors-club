@@ -263,7 +263,7 @@ function StepHeader({ stepIdx, title, syncTo }: { stepIdx: number; title: string
         <div className="gs2-step-no">Step {stepIdx + 1} of {STEPS.length}</div>
         <h1 className="gs2-step-t">{title}</h1>
       </div>
-      <span className="gs2-step-sync">Syncs to {syncTo}</span>
+      <span className="gs2-step-sync">Syncs To {syncTo}</span>
     </div>
   );
 }
@@ -294,7 +294,7 @@ function IdentityStep({ gs, onSave, onSkip, stepIdx }: any) {
   const swatches = ["#F5A623","#0EA5E9","#A78BFA","#10B981","#EF4444","#FB7185","#6366F1","#0F172A"];
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="Club Identity" syncTo="Public cover · page header"/>
+      <StepHeader stepIdx={stepIdx} title="Club Identity" syncTo="Public Cover · Page Header"/>
       <AivaNote>I've drafted a tagline and description based on your niche. Edit anything that doesn't sound like you.</AivaNote>
       <label className="gs2-field"><span>Club name</span><input value={name} onChange={e=>setName(e.target.value)}/></label>
       <label className="gs2-field"><span>Tagline</span><input value={tagline} onChange={e=>setTagline(e.target.value)}/></label>
@@ -318,7 +318,7 @@ function CourseStep({ gs, content, onSave, onSkip, stepIdx }: any) {
   const [price, setPrice] = useState(c.price);
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="Your First Course" syncTo="Courses page"/>
+      <StepHeader stepIdx={stepIdx} title="Your First Course" syncTo="Courses Page"/>
       <AivaNote>I've outlined a 6-module course based on your niche. {content.course.modules.length} modules · {content.course.modules.reduce((a:number,m:any)=>a+m.lessons,0)} lessons.</AivaNote>
       <label className="gs2-field"><span>Course title</span><input value={title} onChange={e=>setTitle(e.target.value)}/></label>
       <label className="gs2-field"><span>Tagline</span><input value={tagline} onChange={e=>setTagline(e.target.value)}/></label>
@@ -341,7 +341,7 @@ function CoachingStep({ gs, content, onSave, onSkip, stepIdx }: any) {
   }
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="Coaching Programs" syncTo="Coaching page (new menu)"/>
+      <StepHeader stepIdx={stepIdx} title="Coaching Programs" syncTo="Coaching Page (New Menu)"/>
       <AivaNote>I've designed two tiers — 1:1 and group. You can edit names, descriptions, sessions/month and price.</AivaNote>
       {items.map((it, i) => (
         <div key={it.id} className="gs2-subcard">
@@ -369,7 +369,7 @@ function ChallengeStep({ gs, content, onSave, onSkip, stepIdx }: any) {
   const [days, setDays] = useState<7|14|30>(initial.days);
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="30-Day Challenge" syncTo="Challenges page"/>
+      <StepHeader stepIdx={stepIdx} title="30-Day Challenge" syncTo="Challenges Page"/>
       <AivaNote>Built a 3-task challenge using {gs.niche}-specific language. Tasks land on Day 1, 7 and 14.</AivaNote>
       <label className="gs2-field"><span>Challenge name</span><input value={name} onChange={e=>setName(e.target.value)}/></label>
       <label className="gs2-field"><span>Tagline</span><input value={tagline} onChange={e=>setTagline(e.target.value)}/></label>
@@ -417,7 +417,7 @@ function PricingStep({ gs, onSave, onSkip, stepIdx }: any) {
   const [price, setPrice] = useState(gs.membership.paidPrice);
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="Membership & Pricing" syncTo="Future billing"/>
+      <StepHeader stepIdx={stepIdx} title="Membership & Pricing" syncTo="Future Billing"/>
       <AivaNote>Most clubs start with a free tier + one paid tier. You can add more later.</AivaNote>
       <label className="gs2-toggle-row">
         <span>Add a paid tier</span>
@@ -437,7 +437,7 @@ function WelcomeStep({ gs, content, onSave, onSkip, stepIdx }: any) {
   const [body, setBody] = useState(w.body);
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="Welcome Post" syncTo="Community feed (pinned)"/>
+      <StepHeader stepIdx={stepIdx} title="Welcome Post" syncTo="Community Feed (Pinned)"/>
       <AivaNote>Pinned to the top of your feed. First impression matters — keep it warm and specific.</AivaNote>
       <label className="gs2-field"><span>Post title</span><input value={title} onChange={e=>setTitle(e.target.value)}/></label>
       <label className="gs2-field"><span>Body</span><textarea rows={8} value={body} onChange={e=>setBody(e.target.value)}/></label>
@@ -458,7 +458,7 @@ function LaunchStep({ gs, onLaunch, stepIdx }: any) {
   const allDone = built.every(b => b.done);
   return (
     <div className="gs2-card">
-      <StepHeader stepIdx={stepIdx} title="Launch Your Club" syncTo="Goes live to members"/>
+      <StepHeader stepIdx={stepIdx} title="Launch Your Club" syncTo="Goes Live To Members"/>
       <AivaNote>Everything's Ready. Review What AIVA Built — When You Launch, Members Can Start Joining.</AivaNote>
       <div className="gs2-launch-list">
         {built.map(b => (
