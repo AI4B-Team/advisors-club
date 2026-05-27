@@ -129,7 +129,7 @@ function OnboardingPage() {
           <img src={logoUrl} alt="AdvisorsClub" />
         </Link>
 
-        <ProgressStepper current={step + 1} />
+
 
         {step === 0 && (
           <StepClub
