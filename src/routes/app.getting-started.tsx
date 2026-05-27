@@ -214,7 +214,7 @@ function GettingStarted() {
           <div className="gs2-pv-club-name">{gs.clubName || "Your Club"}</div>
           <div className="gs2-pv-club-tag">{gs.clubTagline || "Your tagline appears here."}</div>
         </div>
-        <div className="gs2-pv-h">What AIVA is building</div>
+        <div className="gs2-pv-h">What AIVA Is Building</div>
         <ul className="gs2-pv-list">
           {STEPS.slice(0, 7).map(s => {
             const done = gs.completedSteps.includes(s.id);
