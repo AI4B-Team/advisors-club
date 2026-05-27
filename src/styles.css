@@ -2641,7 +2641,7 @@
 .gs2-skip-all { margin-top: 16px; background: transparent; border: none; color: #6B7280; font-size: 12px; cursor: pointer; padding: 8px; width: 100%; text-align: left; }
 .gs2-skip-all:hover { color: #0F0F12; }
 
-.gs2-main { min-width: 0; }
+.gs2-main { min-width: 0; padding-top: 12px; }
 .gs2-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 14px; padding: 24px; }
 .gs2-step-h { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; gap: 12px; }
 .gs2-step-no { font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
