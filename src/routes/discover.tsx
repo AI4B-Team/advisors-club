@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useRef, useState } from "react";
-import { Search, SlidersHorizontal, Star, ChevronLeft, ChevronRight, Sparkles, Users, Zap, Radio, ArrowRight, Plus } from "lucide-react";
+import { Search, SlidersHorizontal, ChevronLeft, ChevronRight, Sparkles, Users, Zap, Radio, ArrowRight, Plus } from "lucide-react";
 import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
 
