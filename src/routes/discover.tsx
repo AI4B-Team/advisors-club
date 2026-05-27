@@ -181,14 +181,14 @@ function FeaturedCard({ c }: { c: Club }) {
         <h3 className="dc-feat-title">{c.name}</h3>
         <p className="dc-feat-tagline">{c.tagline}</p>
         <div className="dc-feat-foot">
-          <div className="dc-advisor">
-            <span className="dc-avatar">{c.advisor.split(" ").map(p=>p[0]).join("").slice(0,2)}</span>
-            {c.advisor}
-          </div>
           <div className="dc-rating">
-            <Star size={13} fill="#F5A623" strokeWidth={0} />
-            {c.rating} <span style={{color:"#737380",fontWeight:500}}>({(c.members/1000).toFixed(1)}k)</span>
+            <Users size={12} strokeWidth={2.4}/>
+            <span style={{fontWeight:700}}>{c.members >= 1000 ? `${(c.members/1000).toFixed(1)}k` : c.members}</span>
+            <span style={{color:"#737380",fontWeight:500,marginLeft:4}}>Members</span>
           </div>
+          {c.price === 0
+            ? <span className="dc-badge free" style={{position:"static"}}>Free</span>
+            : <span className="dc-badge price" style={{position:"static"}}>${c.price}/mo</span>}
         </div>
       </div>
     </article>
