@@ -106,7 +106,7 @@ function OnboardingPage() {
   }, [niche]);
 
   function copySlug() {
-    navigator.clipboard.writeText(`${slug}.advisorsclub.com`);
+    navigator.clipboard.writeText(`advisorsclub.com/${slug}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
