@@ -2021,7 +2021,7 @@
 /* ============================================================
    SIGNUP FLOW (sf-)
    ============================================================ */
-.sf-shell{display:grid;grid-template-columns:480px 1fr;min-height:100vh;background:#FAFAFB}
+.sf-shell{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;background:#FAFAFB}
 @media (max-width: 900px){.sf-shell{grid-template-columns:1fr}.sf-right{display:none}}
 
 .sf-left{padding:32px 40px 48px;display:flex;flex-direction:column;overflow-y:auto;max-height:100vh}
