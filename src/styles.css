@@ -2681,6 +2681,22 @@
 .gs2-launch-check.done { background: #10B981; border-color: #10B981; color: #fff; }
 .gs2-btn-launch { width: 100%; display: inline-flex; gap: 8px; align-items: center; justify-content: center; padding: 14px; background: linear-gradient(135deg,#F5A623,#F97316); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
 .gs2-btn-launch:disabled { background: #E5E7EB; color: #9CA3AF; cursor: not-allowed; }
+.gs2-plan-h { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #6B7280; margin: 8px 0 12px; }
+.gs2-plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.gs2-plan-card { position: relative; text-align: left; padding: 14px; background: #fff; border: 2px solid #E5E7EB; border-radius: 12px; cursor: pointer; transition: all .15s ease; }
+.gs2-plan-card:hover { border-color: #D1D5DB; }
+.gs2-plan-card.on { border-color: #F5A623; background: #FFFBEB; }
+.gs2-plan-card.hot { box-shadow: 0 0 0 1px #F5A62333; }
+.gs2-plan-pop { position: absolute; top: -8px; right: 10px; background: linear-gradient(135deg,#F5A623,#F97316); color: #fff; font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 999px; letter-spacing: .04em; }
+.gs2-plan-name { font-size: 13px; font-weight: 700; color: #111827; }
+.gs2-plan-price { margin: 6px 0 4px; }
+.gs2-plan-amt { font-size: 22px; font-weight: 800; color: #111827; }
+.gs2-plan-per { font-size: 11px; color: #6B7280; margin-left: 2px; }
+.gs2-plan-blurb { font-size: 11px; color: #6B7280; margin-bottom: 10px; }
+.gs2-plan-feats { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+.gs2-plan-feats li { display: flex; gap: 5px; align-items: flex-start; font-size: 11px; color: #374151; line-height: 1.35; }
+.gs2-plan-feats svg { color: #10B981; flex-shrink: 0; margin-top: 2px; }
+.gs2-launch-note { text-align: center; font-size: 11px; color: #6B7280; margin-top: 10px; }
 
 .gs2-preview { background: #fff; border: 1px solid #E5E7EB; border-radius: 14px; padding: 16px; position: sticky; top: 76px; align-self: start; }
 .gs2-pv-club { border-radius: 12px; padding: 18px; color: #fff; margin-bottom: 14px; min-height: 130px; }
