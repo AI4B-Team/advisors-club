@@ -91,7 +91,7 @@ export function ComposerTools({ draft, setDraft, className = "hm-composer-tools"
       <button data-tip="Attach" type="button" onClick={() => fileRef.current?.click()}><Paperclip size={18}/></button>
       <button data-tip="Image" type="button" onClick={() => imgRef.current?.click()}><ImageIcon size={18}/></button>
       <button data-tip="Video" type="button" onClick={() => setOpenVideo(true)}><Video size={18}/></button>
-      <button data-tip="GIF" type="button" onClick={() => append(" [gif] ")} style={{fontSize:10,fontWeight:800,letterSpacing:".02em"}}>GIF</button>
+      <button data-tip="GIF" type="button" onClick={() => setOpenGif(true)} style={{fontSize:10,fontWeight:800,letterSpacing:".02em"}}>GIF</button>
       <button data-tip="Emoji" type="button" onClick={() => setOpenEmoji(v => !v)}><Smile size={18}/></button>
       <button data-tip="Poll" type="button" onClick={() => setOpenPoll(true)}><BarChart3 size={18}/></button>
       <button data-tip="Topic" type="button" onClick={insertHashtag}><Hash size={18}/></button>
