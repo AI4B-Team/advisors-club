@@ -5,6 +5,7 @@ import { VideoModal } from "./video-modal";
 import { SlashMenu } from "./slash-menu";
 import { VoiceRecorderModal } from "./voice-recorder-modal";
 import { GifPicker } from "./gif-picker";
+import { ImagePicker } from "./image-picker";
 
 
 
