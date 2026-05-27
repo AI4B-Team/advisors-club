@@ -373,8 +373,8 @@ function Topbar() {
         <button
           className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
           type="button"
-          aria-label="AIVA Summary"
-          data-tip="AIVA Summary"
+          aria-label="AI Summary"
+          data-tip="AI Summary"
           onClick={()=>setAiOpen(o=>!o)}
         >
           <Sparkles size={16}/>
