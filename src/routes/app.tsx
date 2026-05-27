@@ -112,11 +112,16 @@ type TopLink = {
 const DEFAULT_MENU = ["Pin to top", "Mute notifications", "Mark all read", "Hide"];
 
 const TOP_LINKS: TopLink[] = [
-  { label: "Getting Started", to: "/app/dashboard", icon: <Rocket size={16}/>,
+  { label: "Getting Started", to: "/app/getting-started", icon: <Rocket size={16}/>,
     subs: [
-      {label:"Start Here",to:"/app/getting-started", icon:<PlayCircle size={14}/>},
-      {label:"Say Hello",to:"/app/club/feed", icon:<Hand size={14}/>},
-      {label:"Resources",to:"/app/club/courses", icon:<Book size={14}/>},
+      {label:"Club Identity",   to:"/app/getting-started", icon:<Sparkles size={14}/>},
+      {label:"Course",          to:"/app/getting-started", icon:<BookOpen size={14}/>},
+      {label:"Coaching Program",to:"/app/getting-started", icon:<UserCheck size={14}/>},
+      {label:"Challenge",       to:"/app/getting-started", icon:<Flame size={14}/>},
+      {label:"First Event",     to:"/app/getting-started", icon:<Calendar size={14}/>},
+      {label:"Membership",      to:"/app/getting-started", icon:<CreditCard size={14}/>},
+      {label:"Welcome Post",    to:"/app/getting-started", icon:<Hand size={14}/>},
+      {label:"Launch",          to:"/app/getting-started", icon:<Rocket size={14}/>},
     ],
     menu: DEFAULT_MENU },
   { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
