@@ -1,9 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Sparkles, Check, Copy, CheckCheck } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { ArrowRight, Sparkles, Check, Copy, CheckCheck, Wand2 } from "lucide-react";
 import logoUrl from "@/assets/advisorsclub-logo-real.png";
 import { toast } from "sonner";
 import { getSignupData, setSignupData, clearSignupData } from "@/lib/signup-store";
+import { writeBio } from "@/lib/ai.functions";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
