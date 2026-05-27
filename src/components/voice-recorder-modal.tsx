@@ -198,10 +198,10 @@ export function VoiceRecorderModal({ open, onClose, onInsert }: Props) {
                 {playing ? "Pause" : "Play"}
               </button>
               <button type="button" className="vr-ghost" onClick={reRecord}>
-                <RotateCcw size={16}/> Re-record
+                <RotateCcw size={16}/> Re-Record
               </button>
               <button type="button" className="vr-insert" onClick={insert}>
-                <Check size={16}/> Add to post
+                <Check size={16}/> Add To Post
               </button>
             </>
           )}
