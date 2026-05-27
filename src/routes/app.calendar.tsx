@@ -63,7 +63,7 @@ function useCountdown(target: Date) {
 }
 
 function CalendarPage() {
-  const [view, setView] = useState<View>("month");
+  const [view, setView] = useState<View>("grid");
   const [cursor, setCursor] = useState(new Date(2026, 4, 26));
   const [selected, setSelected] = useState("2026-05-28");
   const [rsvps, setRsvps] = useState<Record<string, Rsvp>>({});
