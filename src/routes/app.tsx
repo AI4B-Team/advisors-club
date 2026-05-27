@@ -306,7 +306,7 @@ function CommunitySidebar() {
             </button>
             <div className="cc-sb-switch-sep" />
             <div className="cc-sb-switch-head">Your Clubs</div>
-            {CLUBS.filter(c => c.label.toLowerCase().includes(query.toLowerCase())).map(c => (
+            {clubs.filter((c: Club) => c.label.toLowerCase().includes(query.toLowerCase())).map((c: Club) => (
               <button
                 key={c.id}
                 className={`cc-sb-switch-item ${active.id === c.id ? "on":""}`}
