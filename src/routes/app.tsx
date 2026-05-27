@@ -134,12 +134,12 @@ const TOP_LINKS: TopLink[] = [
       {label:"Past",to:"/app/club/events", icon:<CalendarCheck size={14}/>},
     ],
     menu: DEFAULT_MENU },
-  { label: "Resources", to: "/app/club/courses", icon: <FolderOpen size={16}/>,
+  { label: "Resources", to: "/app/club/resources", icon: <FolderOpen size={16}/>,
     subs: [
-      {label:"Library",to:"/app/club/courses", icon:<Library size={14}/>},
-      {label:"Templates",to:"/app/club/courses", icon:<FileText size={14}/>},
-      {label:"Links",to:"/app/club/courses", icon:<Link2 size={14}/>},
-      {label:"Downloads",to:"/app/club/courses", icon:<Download size={14}/>},
+      {label:"Library",to:"/app/club/resources", icon:<Library size={14}/>},
+      {label:"Templates",to:"/app/club/resources", icon:<FileText size={14}/>},
+      {label:"Links",to:"/app/club/resources", icon:<Link2 size={14}/>},
+      {label:"Downloads",to:"/app/club/resources", icon:<Download size={14}/>},
     ],
     menu: DEFAULT_MENU },
 
