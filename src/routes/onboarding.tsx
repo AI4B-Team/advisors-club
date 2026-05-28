@@ -139,9 +139,7 @@ function OnboardingPage() {
   return (
     <div className="sf-shell">
       <div className="sf-left">
-        <Link to="/landing" className="sf-logo" aria-label="AdvisorsClub">
-          <img src={logoUrl} alt="AdvisorsClub" />
-        </Link>
+
 
 
 
