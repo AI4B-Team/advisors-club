@@ -53,6 +53,14 @@ export type GSWelcomePost = {
   published: boolean;
 };
 
+export type GSSocialDraft = { id: string; caption: string; platform: "x" | "linkedin" | "instagram" };
+export type GSLinkInBio = { handle: string; links: { label: string; url: string }[] };
+export type GSNewsletter = { name: string; cadence: "weekly" | "biweekly" | "monthly"; configured: boolean };
+export type GSQuizFunnel = { title: string; questions: number; published: boolean };
+export type GSMarketplaceListing = { headline: string; listed: boolean };
+export type GSCoachingAgreement = { title: string; drafted: boolean };
+export type GSTestimonial = { name: string; body: string };
+
 export type GSStore = {
   clubName: string;
   clubTagline: string;
@@ -60,6 +68,7 @@ export type GSStore = {
   niche: string;
   coverColor: string;
   logoUrl: string;
+  headshotUrl: string;
   audience: string;
   goal: string;
   tone: string;
@@ -70,6 +79,15 @@ export type GSStore = {
   events: GSEvent[];
   membership: GSMembership;
   welcomePost: GSWelcomePost;
+  schedulingLink: string;
+  websiteUrl: string;
+  linkInBio: GSLinkInBio | null;
+  newsletter: GSNewsletter | null;
+  quizFunnel: GSQuizFunnel | null;
+  socialDrafts: GSSocialDraft[];
+  marketplaceListing: GSMarketplaceListing | null;
+  coachingAgreement: GSCoachingAgreement | null;
+  testimonials: GSTestimonial[];
   completedSteps: string[];
   launched: boolean;
 };
@@ -83,6 +101,7 @@ const DEFAULTS: GSStore = {
   niche: "Business",
   coverColor: "#F5A623",
   logoUrl: "",
+  headshotUrl: "",
   audience: "",
   goal: "",
   tone: "",
@@ -99,6 +118,15 @@ const DEFAULTS: GSStore = {
     stripeConnected: false,
   },
   welcomePost: { title: "", body: "", published: false },
+  schedulingLink: "",
+  websiteUrl: "",
+  linkInBio: null,
+  newsletter: null,
+  quizFunnel: null,
+  socialDrafts: [],
+  marketplaceListing: null,
+  coachingAgreement: null,
+  testimonials: [],
   completedSteps: [],
   launched: false,
 };

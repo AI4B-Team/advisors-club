@@ -151,17 +151,6 @@ function GettingStarted() {
     return (
       <AivaBuildFlow
         onComplete={() => {
-          const s = getGS();
-          const c = makeContent(s.niche, s.clubName);
-          setGS({
-            clubTagline: s.clubTagline || c.tagline,
-            clubDesc: s.clubDesc || c.desc,
-            course: s.course || { id: "c1", ...c.course, published: true },
-            coaching: s.coaching.length ? s.coaching : c.coaching.map((p, i) => ({ id: `co${i+1}`, ...p })),
-            challenge: s.challenge || { id: "ch1", published: true, ...c.challenge },
-            events: s.events.length ? s.events : [{ id: "ev1", ...c.event }],
-            welcomePost: s.welcomePost.body ? s.welcomePost : { title: c.welcome.title, body: c.welcome.body, published: false },
-          });
           setBuilding(false);
           setGSState(getGS());
         }}
