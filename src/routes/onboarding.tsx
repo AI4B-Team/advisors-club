@@ -423,14 +423,35 @@ function StepPlan({
 }
 
 /* ============ Right panels ============ */
+const NICHE_THEME: Record<string, { gradient: string; emoji: string }> = {
+  "Real Estate": { gradient: "linear-gradient(135deg,#0c2340 0%,#2d8a9e 100%)", emoji: "🏠" },
+  "Business":    { gradient: "linear-gradient(135deg,#1a1a2e 0%,#4f46e5 100%)", emoji: "💼" },
+  "AI & Tech":   { gradient: "linear-gradient(135deg,#0d1b2a 0%,#2dd4a8 100%)", emoji: "🤖" },
+  "Finance":     { gradient: "linear-gradient(135deg,#064e3b 0%,#c9a84c 100%)", emoji: "📈" },
+  "Fitness":     { gradient: "linear-gradient(135deg,#5c2018 0%,#e85d3a 100%)", emoji: "💪" },
+  "Mindset":     { gradient: "linear-gradient(135deg,#1a3c2a 0%,#a0c49d 100%)", emoji: "🧠" },
+  "Marketing":   { gradient: "linear-gradient(135deg,#c44569 0%,#ff6b6b 100%)", emoji: "📣" },
+  "Sales":       { gradient: "linear-gradient(135deg,#6b3a2a 0%,#e8c07a 100%)", emoji: "🎯" },
+  "Crypto":      { gradient: "linear-gradient(135deg,#1a1a1a 0%,#f59e0b 100%)", emoji: "₿" },
+  "Ecommerce":   { gradient: "linear-gradient(135deg,#574b90 0%,#ee5a70 100%)", emoji: "🛍️" },
+  "Speaking":    { gradient: "linear-gradient(135deg,#2d3748 0%,#a78bfa 100%)", emoji: "🎤" },
+  "Leadership":  { gradient: "linear-gradient(135deg,#0f1b3d 0%,#3b6fa0 100%)", emoji: "👑" },
+};
+
 function RightClub({ niche, clubName, slug }: { niche: string; clubName: string; slug: string }) {
+  const theme = NICHE_THEME[niche] ?? { gradient: "linear-gradient(135deg,#1a1a2e 0%,#4f46e5 100%)", emoji: "✨" };
+  const monogram = (clubName.trim()[0] || "C").toUpperCase();
   return (
     <div className="sf-right-inner">
       <h2 className="sf-right-title">Live Preview</h2>
       <p className="sf-right-sub">This is what members will see.</p>
       <div className="sf-preview-club">
-        <div className="sf-pc-cover">{niche && <span className="sf-pc-niche">{niche}</span>}</div>
+        <div className="sf-pc-cover" style={{ background: theme.gradient }}>
+          <span className="sf-pc-cover-emoji" aria-hidden>{theme.emoji}</span>
+          {niche && <span className="sf-pc-niche">{niche}</span>}
+        </div>
         <div className="sf-pc-body">
+          <div className="sf-pc-logo" style={{ background: theme.gradient }}>{monogram}</div>
           <h3 className="sf-pc-name">{clubName || "Your Club Name"}</h3>
           <div className="sf-pc-url">advisorsclub.com/{slug || "your-club"}</div>
           <div className="sf-pc-stats">
@@ -446,6 +467,7 @@ function RightClub({ niche, clubName, slug }: { niche: string; clubName: string;
     </div>
   );
 }
+
 
 function RightPersonalize({
   firstName, lastName, clubName, bio, avatarColor, initials, theme,
