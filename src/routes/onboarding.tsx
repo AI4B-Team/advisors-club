@@ -1,8 +1,8 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowRight, Sparkles, Check, Copy, CheckCheck, Wand2 } from "lucide-react";
-import logoUrl from "@/assets/advisorsclub-logo-real.png";
+
 import { toast } from "sonner";
 import { getSignupData, setSignupData, clearSignupData } from "@/lib/signup-store";
 import { setGS } from "@/lib/gs-store";
