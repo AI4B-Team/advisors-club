@@ -3146,6 +3146,8 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .abf-avatar.sm { width: 40px; height: 40px; }
 .abf-aiva-name { color: #0F0F12; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px; }
 .abf-aiva-bubble { background: #FFFFFF; color: #0F0F12; padding: 12px 16px; border-radius: 14px 14px 14px 4px; font-size: 14px; line-height: 1.5; max-width: 560px; border: 1px solid #E5E7EB; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.abf-aiva-sub { font-size: 12px; color: #10B981; margin-top: 6px; padding-left: 4px; font-weight: 500; }
+.abf-fu-hint { color: #6B7280; font-weight: 400; font-size: 12px; }
 
 .abf-meta { color: #6B7280; font-size: 13px; margin-bottom: 16px; display: flex; gap: 6px; align-items: baseline; }
 .abf-count { font-size: 22px; font-weight: 800; }
