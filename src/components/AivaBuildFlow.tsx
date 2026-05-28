@@ -9,31 +9,38 @@ type Pillar = { id: string; name: string; items: Item[] };
 
 function buildPillars(gs: GSStore): Pillar[] {
   const niche = gs.niche || "your niche";
+  const club = gs.clubName || "your club";
   return [
     { id: "identity", name: "Identity", items: [
-      { id: "brand", label: "Brand identity", sub: `Logo, color, tagline for ${gs.clubName || "your club"}`, required: true },
-      { id: "about", label: "About page", sub: "Your story + mission" },
+      { id: "brand",   label: "Club branding",       sub: `Logo, colors & tagline for ${club}`, required: true },
+      { id: "domain",  label: "Custom club URL",     sub: `advisorsclub.com/${club.toLowerCase().replace(/[^a-z0-9]+/g,"")}` },
+      { id: "founder", label: "Founder profile",     sub: "Your bio + credibility on every page" },
     ]},
     { id: "community", name: "Community", items: [
-      { id: "welcome", label: "Welcome post", sub: "Pinned to your feed", required: true },
-      { id: "directory", label: "Member directory", sub: "Searchable profiles" },
+      { id: "welcome",   label: "Welcome post",      sub: "Pinned to your feed for new members", required: true },
+      { id: "directory", label: "Member directory",  sub: "Searchable member profiles" },
+      { id: "dms",       label: "Direct messages",   sub: "1:1 chat between members" },
     ]},
     { id: "content", name: "Content", items: [
-      { id: "leadmag", label: "Lead magnet", sub: `Free ${niche} guide to attract signups` },
-      { id: "socials", label: "Social drafts", sub: "5 launch posts, ready to publish" },
+      { id: "leadmag", label: "Lead magnet",         sub: `Free ${niche} guide to capture signups` },
+      { id: "library", label: "Resource library",    sub: "Templates, downloads & swipe files" },
+      { id: "socials", label: "Launch posts",        sub: "5 ready-to-publish social posts" },
     ]},
     { id: "challenges", name: "Challenges", items: [
-      { id: "challenge", label: "30-day challenge", sub: `${niche} kickstart for new members`, required: true },
+      { id: "challenge",   label: "30-day challenge", sub: `${niche} kickstart for new members`, required: true },
+      { id: "challengeq",  label: "Daily prompts",    sub: "Auto-posted to your feed each day" },
     ]},
     { id: "courses", name: "Courses", items: [
-      { id: "course", label: "Signature course", sub: `6 modules · 24 lessons`, required: true },
+      { id: "course",  label: "Signature course",    sub: "6 modules · 24 lessons outlined", required: true },
+      { id: "preview", label: "Free preview lesson", sub: "Public lesson to drive enrollments" },
     ]},
     { id: "conferences", name: "Conferences", items: [
-      { id: "event", label: "Live Q&A event", sub: "Scheduled 7 days out" },
+      { id: "event",   label: "Live Q&A",            sub: "Scheduled 7 days from launch" },
+      { id: "monthly", label: "Monthly webinar",     sub: "Recurring members-only session" },
     ]},
     { id: "coaching", name: "Coaching", items: [
-      { id: "oneonone", label: "1:1 coaching", sub: "Private weekly call tier" },
-      { id: "group", label: "Group coaching", sub: "Twice-weekly hot-seat call" },
+      { id: "oneonone", label: "1:1 coaching tier",   sub: "Private weekly call package" },
+      { id: "group",    label: "Group coaching tier", sub: "Twice-weekly hot-seat call" },
     ]},
   ];
 }
@@ -42,20 +49,27 @@ function buildPillars(gs: GSStore): Pillar[] {
 type BuildLine = { label: string; pillar: string };
 function buildLines(enabled: Set<string>): BuildLine[] {
   const all: { id: string; label: string; pillar: string }[] = [
-    { id: "brand",      label: "Crafting your brand identity…",        pillar: "identity"    },
-    { id: "about",      label: "Writing your About page…",             pillar: "identity"    },
-    { id: "welcome",    label: "Drafting your welcome post…",          pillar: "community"   },
-    { id: "directory",  label: "Setting up member directory…",         pillar: "community"   },
-    { id: "leadmag",    label: "Generating lead magnet…",              pillar: "content"     },
-    { id: "socials",    label: "Writing 5 social launch posts…",       pillar: "content"     },
-    { id: "challenge",  label: "Designing your 30-day challenge…",     pillar: "challenges"  },
-    { id: "course",     label: "Outlining your signature course…",     pillar: "courses"     },
-    { id: "event",      label: "Scheduling your live Q&A…",            pillar: "conferences" },
-    { id: "oneonone",   label: "Building 1:1 coaching tier…",          pillar: "coaching"    },
-    { id: "group",      label: "Building group coaching tier…",        pillar: "coaching"    },
+    { id: "brand",       label: "Crafting your club branding…",           pillar: "identity"    },
+    { id: "domain",      label: "Reserving your custom URL…",             pillar: "identity"    },
+    { id: "founder",     label: "Building your founder profile…",         pillar: "identity"    },
+    { id: "welcome",     label: "Drafting your welcome post…",            pillar: "community"   },
+    { id: "directory",   label: "Setting up member directory…",           pillar: "community"   },
+    { id: "dms",         label: "Enabling direct messages…",              pillar: "community"   },
+    { id: "leadmag",     label: "Generating your lead magnet…",           pillar: "content"     },
+    { id: "library",     label: "Stocking your resource library…",        pillar: "content"     },
+    { id: "socials",     label: "Writing 5 social launch posts…",         pillar: "content"     },
+    { id: "challenge",   label: "Designing your 30-day challenge…",       pillar: "challenges"  },
+    { id: "challengeq",  label: "Scheduling daily prompts…",              pillar: "challenges"  },
+    { id: "course",      label: "Outlining your signature course…",       pillar: "courses"     },
+    { id: "preview",     label: "Publishing your free preview lesson…",   pillar: "courses"     },
+    { id: "event",       label: "Scheduling your live Q&A…",              pillar: "conferences" },
+    { id: "monthly",     label: "Setting up monthly webinar series…",     pillar: "conferences" },
+    { id: "oneonone",    label: "Building 1:1 coaching tier…",            pillar: "coaching"    },
+    { id: "group",       label: "Building group coaching tier…",          pillar: "coaching"    },
   ];
   return all.filter(a => enabled.has(a.id)).map(({ label, pillar }) => ({ label, pillar }));
 }
+
 
 type Phase = "plan" | "build" | "done";
 
