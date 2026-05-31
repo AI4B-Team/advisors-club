@@ -368,7 +368,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               </button>
             )}
             <button className="btn-ghost"><Upload size={14}/> Upload Existing</button>
-            <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create Course</button>
+            <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create</button>
           </div>
         </div>
         {createOpen && renderCreateModal()}
@@ -430,7 +430,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             <Archive size={14}/> Archives{archived.length > 0 ? ` (${archived.length})` : ""}
           </button>
           <button className="btn-ghost"><Upload size={14}/> Upload</button>
-          <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create Course</button>
+          <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create</button>
         </div>
       </div>
       {createOpen && renderCreateModal()}
