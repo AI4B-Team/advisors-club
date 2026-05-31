@@ -136,6 +136,10 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showArchived, setShowArchived] = useState(false);
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createMode, setCreateMode] = useState<"choose" | "aiva" | "manual">("choose");
+  const [aivaPrompt, setAivaPrompt] = useState("");
+  const [manualForm, setManualForm] = useState({ title: "", blurb: "", price: "" });
 
   // Merge AIVA built course (if any) as a virtual non-archived course
   const merged = useMemo<AdminCourse[]>(() => {
