@@ -301,9 +301,10 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               </button>
             )}
             <button className="btn-ghost"><Upload size={14}/> Upload Existing</button>
-            <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
+            <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create Course</button>
           </div>
         </div>
+        {createOpen && renderCreateModal()}
 
         <div className="aiva-panel">
           <div className="aiva-panel-glow"/>
