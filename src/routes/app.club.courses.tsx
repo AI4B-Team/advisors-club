@@ -87,7 +87,7 @@ const SEED: AdminCourse[] = [
     blurb: "Attract cash buyers, qualify them fast, and never sit on a contract again.",
     cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80",
     price: 197, published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
-    updatedAt: "Draft",
+    updatedAt: "draft",
     modules: [
       { title: "Where to Find Buyers", lessons: [
         { title: "Networking Strategies", duration: "9:10" },
