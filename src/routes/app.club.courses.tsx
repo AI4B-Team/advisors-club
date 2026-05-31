@@ -137,7 +137,8 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   const [showArchived, setShowArchived] = useState(false);
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
-  const [createMode, setCreateMode] = useState<"choose" | "aiva" | "manual">("choose");
+  const [createMode, setCreateMode] = useState<"type" | "choose" | "aiva" | "manual">("type");
+  const [courseType, setCourseType] = useState<"self-paced" | "structured" | "scheduled">("self-paced");
   const [aivaPrompt, setAivaPrompt] = useState("");
   const [manualForm, setManualForm] = useState({ title: "", blurb: "", price: "" });
 
