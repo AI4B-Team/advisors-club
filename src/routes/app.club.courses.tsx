@@ -238,6 +238,73 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
     setSelectedId(c.id);
   }
 
+  function renderCreateModal() {
+    return (
+      <div onClick={() => setCreateOpen(false)} style={{position:"fixed",inset:0,background:"rgba(15,15,18,.55)",backdropFilter:"blur(4px)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+        <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:16,width:"100%",maxWidth:520,boxShadow:"0 30px 60px -20px rgba(0,0,0,.35)",overflow:"hidden"}}>
+          <div style={{padding:"18px 20px",borderBottom:"1px solid #F1F2F4",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+            <div style={{fontWeight:700,fontSize:16,color:"#111827"}}>
+              {createMode === "choose" ? "Create a new course" : createMode === "aiva" ? "Create with AIVA" : "Build manually"}
+            </div>
+            <button onClick={() => setCreateOpen(false)} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:4,display:"flex"}}><X size={18}/></button>
+          </div>
+          <div style={{padding:20}}>
+            {createMode === "choose" && (
+              <div style={{display:"grid",gap:10}}>
+                <button onClick={() => setCreateMode("aiva")} style={{display:"flex",gap:12,alignItems:"flex-start",padding:14,borderRadius:12,border:"1px solid #E5E7EB",background:"linear-gradient(135deg,#FAF7FF,#F0F7FF)",cursor:"pointer",textAlign:"left"}}>
+                  <div style={{width:36,height:36,borderRadius:9,background:"#0F0F12",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Sparkles size={16}/></div>
+                  <div>
+                    <div style={{fontWeight:700,color:"#111827",marginBottom:2}}>Create with AIVA</div>
+                    <div style={{fontSize:13,color:"#6B7280"}}>Describe your course and AIVA builds the outline, lessons, and certificates.</div>
+                  </div>
+                </button>
+                <button onClick={() => setCreateMode("manual")} style={{display:"flex",gap:12,alignItems:"flex-start",padding:14,borderRadius:12,border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",textAlign:"left"}}>
+                  <div style={{width:36,height:36,borderRadius:9,background:"#F3F4F6",color:"#111827",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Edit3 size={16}/></div>
+                  <div>
+                    <div style={{fontWeight:700,color:"#111827",marginBottom:2}}>Build manually</div>
+                    <div style={{fontSize:13,color:"#6B7280"}}>Start with a blank course and add modules & lessons yourself.</div>
+                  </div>
+                </button>
+              </div>
+            )}
+            {createMode === "aiva" && (
+              <div style={{display:"grid",gap:12}}>
+                <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>What's your course about?</label>
+                <textarea autoFocus value={aivaPrompt} onChange={e => setAivaPrompt(e.target.value)} rows={4} placeholder="e.g. A 6-week course teaching beginners how to wholesale real estate without using their own money." style={{width:"100%",padding:12,borderRadius:10,border:"1px solid #E5E7EB",fontSize:14,fontFamily:"inherit",resize:"vertical"}}/>
+                <div style={{display:"flex",gap:8,justifyContent:"flex-end"}}>
+                  <button className="btn-ghost" onClick={() => setCreateMode("choose")}>Back</button>
+                  <button className="aiva-cta" onClick={createWithAiva}><Sparkles size={14}/> Generate Course</button>
+                </div>
+              </div>
+            )}
+            {createMode === "manual" && (
+              <div style={{display:"grid",gap:12}}>
+                <div style={{display:"grid",gap:6}}>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Course title</label>
+                  <input autoFocus value={manualForm.title} onChange={e => setManualForm(f => ({...f, title: e.target.value}))} placeholder="e.g. Wholesaling Fundamentals" style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14}}/>
+                </div>
+                <div style={{display:"grid",gap:6}}>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Short description</label>
+                  <textarea value={manualForm.blurb} onChange={e => setManualForm(f => ({...f, blurb: e.target.value}))} rows={3} placeholder="One sentence about what members will learn." style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14,fontFamily:"inherit",resize:"vertical"}}/>
+                </div>
+                <div style={{display:"grid",gap:6,maxWidth:180}}>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Price (USD)</label>
+                  <input type="number" value={manualForm.price} onChange={e => setManualForm(f => ({...f, price: e.target.value}))} placeholder="0" style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14}}/>
+                </div>
+                <div style={{display:"flex",gap:8,justifyContent:"flex-end",marginTop:4}}>
+                  <button className="btn-ghost" onClick={() => setCreateMode("choose")}>Back</button>
+                  <button className="aiva-cta" onClick={createManual} disabled={!manualForm.title.trim()} style={{opacity: manualForm.title.trim() ? 1 : .5}}>Create Course</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
+
   // Course detail view
   if (selected) {
     return <CourseDetail course={selected} onBack={() => setSelectedId(null)} onArchive={() => archiveCourse(selected.id)} onDelete={() => deleteCourse(selected.id)} onTogglePublish={() => togglePublish(selected.id)} />;
