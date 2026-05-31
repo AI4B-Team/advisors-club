@@ -244,12 +244,38 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
       <div onClick={() => setCreateOpen(false)} style={{position:"fixed",inset:0,background:"rgba(15,15,18,.55)",backdropFilter:"blur(4px)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
         <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:16,width:"100%",maxWidth:520,boxShadow:"0 30px 60px -20px rgba(0,0,0,.35)",overflow:"hidden"}}>
           <div style={{padding:"18px 20px",borderBottom:"1px solid #F1F2F4",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <div style={{fontWeight:700,fontSize:16,color:"#111827"}}>
-              {createMode === "choose" ? "Create a new course" : createMode === "aiva" ? "Create with AIVA" : "Build manually"}
+            <div style={{fontWeight:700,fontSize:16,color:"#111827",display:"flex",alignItems:"center",gap:8}}>
+              {createMode !== "type" && (
+                <button onClick={() => setCreateMode(createMode === "choose" ? "type" : "choose")} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:0,display:"flex"}}><ArrowLeft size={16}/></button>
+              )}
+              {createMode === "type" ? "Choose course type" : createMode === "choose" ? "How do you want to build it?" : createMode === "aiva" ? "Create with AIVA" : "Build manually"}
             </div>
             <button onClick={() => setCreateOpen(false)} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:4,display:"flex"}}><X size={18}/></button>
           </div>
           <div style={{padding:20}}>
+            {createMode === "type" && (
+              <div style={{display:"grid",gap:10}}>
+                {([
+                  { id: "self-paced", title: "Self-paced", desc: "Course starts when a member enrolls. All content is available immediately." },
+                  { id: "structured", title: "Structured", desc: "Course starts when a member enrolls. Sections are dripped relative to their enrollment date." },
+                  { id: "scheduled", title: "Scheduled", desc: "Course starts on a specific date. Sections are dripped relative to that date." },
+                ] as const).map(opt => {
+                  const active = courseType === opt.id;
+                  return (
+                    <button key={opt.id} onClick={() => setCourseType(opt.id)} style={{display:"flex",gap:12,alignItems:"flex-start",padding:14,borderRadius:12,border:active?"2px solid #111827":"1px solid #E5E7EB",background:active?"#F9FAFB":"#fff",cursor:"pointer",textAlign:"left"}}>
+                      <div style={{flex:1}}>
+                        <div style={{fontWeight:700,color:"#111827",marginBottom:2,display:"flex",alignItems:"center",gap:8}}>
+                          {opt.title}
+                          {active && <CheckCircle2 size={14} color="#111827"/>}
+                        </div>
+                        <div style={{fontSize:13,color:"#6B7280"}}>{opt.desc}</div>
+                      </div>
+                    </button>
+                  );
+                })}
+                <button className="aiva-cta" onClick={() => setCreateMode("choose")} style={{marginTop:6,justifyContent:"center"}}>Next</button>
+              </div>
+            )}
             {createMode === "choose" && (
               <div style={{display:"grid",gap:10}}>
                 <button onClick={() => setCreateMode("aiva")} style={{display:"flex",gap:12,alignItems:"flex-start",padding:14,borderRadius:12,border:"1px solid #E5E7EB",background:"linear-gradient(135deg,#FAF7FF,#F0F7FF)",cursor:"pointer",textAlign:"left"}}>
