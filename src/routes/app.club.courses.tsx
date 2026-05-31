@@ -192,7 +192,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
     persist(merged.map(c => c.id === id ? { ...c, published: !c.published } : c));
   }
 
-  function openCreate() { setCreateMode("choose"); setAivaPrompt(""); setManualForm({ title: "", blurb: "", price: "" }); setCreateOpen(true); }
+  function openCreate() { setCreateMode("type"); setCourseType("self-paced"); setAivaPrompt(""); setManualForm({ title: "", blurb: "", price: "" }); setCreateOpen(true); }
   function createWithAiva() {
     const title = aivaPrompt.trim() || "Untitled AIVA Course";
     const c: AdminCourse = {
