@@ -191,6 +191,53 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
     persist(merged.map(c => c.id === id ? { ...c, published: !c.published } : c));
   }
 
+  function openCreate() { setCreateMode("choose"); setAivaPrompt(""); setManualForm({ title: "", blurb: "", price: "" }); setCreateOpen(true); }
+  function createWithAiva() {
+    const title = aivaPrompt.trim() || "Untitled AIVA Course";
+    const c: AdminCourse = {
+      id: `c-${Date.now()}`,
+      title: title.length > 60 ? title.slice(0, 60) : title,
+      blurb: "AIVA-generated course outline. Edit modules & lessons to customize.",
+      cover: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80",
+      price: 197, published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
+      updatedAt: "just now",
+      modules: [
+        { title: "Module 1 · Foundations", lessons: [
+          { title: "Welcome & Overview", duration: "6:00" },
+          { title: "Core Concepts", duration: "12:00" },
+          { title: "Your First Win", duration: "9:30" },
+        ]},
+        { title: "Module 2 · Frameworks", lessons: [
+          { title: "The 3-Part System", duration: "14:20" },
+          { title: "Hands-On Walkthrough", duration: "18:00" },
+        ]},
+        { title: "Module 3 · Execution", lessons: [
+          { title: "Putting It Into Practice", duration: "11:45" },
+          { title: "Common Pitfalls", duration: "8:50" },
+        ]},
+      ],
+    };
+    persist([c, ...list]);
+    setCreateOpen(false);
+    setSelectedId(c.id);
+  }
+  function createManual() {
+    if (!manualForm.title.trim()) return;
+    const c: AdminCourse = {
+      id: `c-${Date.now()}`,
+      title: manualForm.title.trim(),
+      blurb: manualForm.blurb.trim() || "New course — add a description.",
+      cover: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=80",
+      price: Number(manualForm.price) || 0,
+      published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
+      updatedAt: "just now",
+      modules: [{ title: "Module 1", lessons: [{ title: "Lesson 1", duration: "0:00" }] }],
+    };
+    persist([c, ...list]);
+    setCreateOpen(false);
+    setSelectedId(c.id);
+  }
+
   // Course detail view
   if (selected) {
     return <CourseDetail course={selected} onBack={() => setSelectedId(null)} onArchive={() => archiveCourse(selected.id)} onDelete={() => deleteCourse(selected.id)} onTogglePublish={() => togglePublish(selected.id)} />;
