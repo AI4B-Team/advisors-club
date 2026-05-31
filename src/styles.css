@@ -2915,7 +2915,7 @@
 .mc-card-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.4))}
 .mc-card-play{position:absolute;inset:0;margin:auto;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.95);border:none;display:flex;align-items:center;justify-content:center;color:#0F0F12;cursor:pointer;z-index:1;opacity:0;transition:opacity .15s}
 .mc-card:hover .mc-card-play{opacity:1}
-.mc-card-tag{position:absolute;top:10px;left:10px;z-index:1;padding:4px 9px;border-radius:6px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#0F0F12;color:#fff}
+.mc-card-tag{position:absolute;top:10px;left:10px;z-index:1;padding:4px 9px;border-radius:6px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#0F0F12;color:#fff;display:inline-flex;align-items:center;gap:4px;line-height:1;white-space:nowrap}
 .mc-tag-new{background:#F5A623;color:#fff}
 .mc-tag-completed{background:#16A34A;color:#fff}
 .mc-tag-in-progress{background:#0F0F12;color:#fff}
