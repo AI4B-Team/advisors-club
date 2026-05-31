@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, CheckCircle2, Clock, BookOpen,
-  MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock,
+  MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Plus, X,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -136,6 +136,10 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showArchived, setShowArchived] = useState(false);
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createMode, setCreateMode] = useState<"choose" | "aiva" | "manual">("choose");
+  const [aivaPrompt, setAivaPrompt] = useState("");
+  const [manualForm, setManualForm] = useState({ title: "", blurb: "", price: "" });
 
   // Merge AIVA built course (if any) as a virtual non-archived course
   const merged = useMemo<AdminCourse[]>(() => {
@@ -186,6 +190,120 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   function togglePublish(id: string) {
     persist(merged.map(c => c.id === id ? { ...c, published: !c.published } : c));
   }
+
+  function openCreate() { setCreateMode("choose"); setAivaPrompt(""); setManualForm({ title: "", blurb: "", price: "" }); setCreateOpen(true); }
+  function createWithAiva() {
+    const title = aivaPrompt.trim() || "Untitled AIVA Course";
+    const c: AdminCourse = {
+      id: `c-${Date.now()}`,
+      title: title.length > 60 ? title.slice(0, 60) : title,
+      blurb: "AIVA-generated course outline. Edit modules & lessons to customize.",
+      cover: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80",
+      price: 197, published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
+      updatedAt: "just now",
+      modules: [
+        { title: "Module 1 · Foundations", lessons: [
+          { title: "Welcome & Overview", duration: "6:00" },
+          { title: "Core Concepts", duration: "12:00" },
+          { title: "Your First Win", duration: "9:30" },
+        ]},
+        { title: "Module 2 · Frameworks", lessons: [
+          { title: "The 3-Part System", duration: "14:20" },
+          { title: "Hands-On Walkthrough", duration: "18:00" },
+        ]},
+        { title: "Module 3 · Execution", lessons: [
+          { title: "Putting It Into Practice", duration: "11:45" },
+          { title: "Common Pitfalls", duration: "8:50" },
+        ]},
+      ],
+    };
+    persist([c, ...list]);
+    setCreateOpen(false);
+    setSelectedId(c.id);
+  }
+  function createManual() {
+    if (!manualForm.title.trim()) return;
+    const c: AdminCourse = {
+      id: `c-${Date.now()}`,
+      title: manualForm.title.trim(),
+      blurb: manualForm.blurb.trim() || "New course — add a description.",
+      cover: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=80",
+      price: Number(manualForm.price) || 0,
+      published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
+      updatedAt: "just now",
+      modules: [{ title: "Module 1", lessons: [{ title: "Lesson 1", duration: "0:00" }] }],
+    };
+    persist([c, ...list]);
+    setCreateOpen(false);
+    setSelectedId(c.id);
+  }
+
+  function renderCreateModal() {
+    return (
+      <div onClick={() => setCreateOpen(false)} style={{position:"fixed",inset:0,background:"rgba(15,15,18,.55)",backdropFilter:"blur(4px)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+        <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:16,width:"100%",maxWidth:520,boxShadow:"0 30px 60px -20px rgba(0,0,0,.35)",overflow:"hidden"}}>
+          <div style={{padding:"18px 20px",borderBottom:"1px solid #F1F2F4",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+            <div style={{fontWeight:700,fontSize:16,color:"#111827"}}>
+              {createMode === "choose" ? "Create a new course" : createMode === "aiva" ? "Create with AIVA" : "Build manually"}
+            </div>
+            <button onClick={() => setCreateOpen(false)} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:4,display:"flex"}}><X size={18}/></button>
+          </div>
+          <div style={{padding:20}}>
+            {createMode === "choose" && (
+              <div style={{display:"grid",gap:10}}>
+                <button onClick={() => setCreateMode("aiva")} style={{display:"flex",gap:12,alignItems:"flex-start",padding:14,borderRadius:12,border:"1px solid #E5E7EB",background:"linear-gradient(135deg,#FAF7FF,#F0F7FF)",cursor:"pointer",textAlign:"left"}}>
+                  <div style={{width:36,height:36,borderRadius:9,background:"#0F0F12",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Sparkles size={16}/></div>
+                  <div>
+                    <div style={{fontWeight:700,color:"#111827",marginBottom:2}}>Create with AIVA</div>
+                    <div style={{fontSize:13,color:"#6B7280"}}>Describe your course and AIVA builds the outline, lessons, and certificates.</div>
+                  </div>
+                </button>
+                <button onClick={() => setCreateMode("manual")} style={{display:"flex",gap:12,alignItems:"flex-start",padding:14,borderRadius:12,border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",textAlign:"left"}}>
+                  <div style={{width:36,height:36,borderRadius:9,background:"#F3F4F6",color:"#111827",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Edit3 size={16}/></div>
+                  <div>
+                    <div style={{fontWeight:700,color:"#111827",marginBottom:2}}>Build manually</div>
+                    <div style={{fontSize:13,color:"#6B7280"}}>Start with a blank course and add modules & lessons yourself.</div>
+                  </div>
+                </button>
+              </div>
+            )}
+            {createMode === "aiva" && (
+              <div style={{display:"grid",gap:12}}>
+                <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>What's your course about?</label>
+                <textarea autoFocus value={aivaPrompt} onChange={e => setAivaPrompt(e.target.value)} rows={4} placeholder="e.g. A 6-week course teaching beginners how to wholesale real estate without using their own money." style={{width:"100%",padding:12,borderRadius:10,border:"1px solid #E5E7EB",fontSize:14,fontFamily:"inherit",resize:"vertical"}}/>
+                <div style={{display:"flex",gap:8,justifyContent:"flex-end"}}>
+                  <button className="btn-ghost" onClick={() => setCreateMode("choose")}>Back</button>
+                  <button className="aiva-cta" onClick={createWithAiva}><Sparkles size={14}/> Generate Course</button>
+                </div>
+              </div>
+            )}
+            {createMode === "manual" && (
+              <div style={{display:"grid",gap:12}}>
+                <div style={{display:"grid",gap:6}}>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Course title</label>
+                  <input autoFocus value={manualForm.title} onChange={e => setManualForm(f => ({...f, title: e.target.value}))} placeholder="e.g. Wholesaling Fundamentals" style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14}}/>
+                </div>
+                <div style={{display:"grid",gap:6}}>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Short description</label>
+                  <textarea value={manualForm.blurb} onChange={e => setManualForm(f => ({...f, blurb: e.target.value}))} rows={3} placeholder="One sentence about what members will learn." style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14,fontFamily:"inherit",resize:"vertical"}}/>
+                </div>
+                <div style={{display:"grid",gap:6,maxWidth:180}}>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Price (USD)</label>
+                  <input type="number" value={manualForm.price} onChange={e => setManualForm(f => ({...f, price: e.target.value}))} placeholder="0" style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14}}/>
+                </div>
+                <div style={{display:"flex",gap:8,justifyContent:"flex-end",marginTop:4}}>
+                  <button className="btn-ghost" onClick={() => setCreateMode("choose")}>Back</button>
+                  <button className="aiva-cta" onClick={createManual} disabled={!manualForm.title.trim()} style={{opacity: manualForm.title.trim() ? 1 : .5}}>Create Course</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
 
   // Course detail view
   if (selected) {
@@ -250,9 +368,10 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               </button>
             )}
             <button className="btn-ghost"><Upload size={14}/> Upload Existing</button>
-            <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
+            <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create Course</button>
           </div>
         </div>
+        {createOpen && renderCreateModal()}
 
         <div className="aiva-panel">
           <div className="aiva-panel-glow"/>
@@ -263,8 +382,8 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             </div>
             <div className="aiva-prompt-row">
               <Wand2 size={16} className="aiva-prompt-i"/>
-              <input className="aiva-prompt" placeholder="e.g. Build a 6-week real estate wholesaling course for beginners…"/>
-              <button className="aiva-prompt-go">Generate <ArrowRight size={14}/></button>
+              <input className="aiva-prompt" placeholder="e.g. Build a 6-week real estate wholesaling course for beginners…" value={aivaPrompt} onChange={e => setAivaPrompt(e.target.value)}/>
+              <button className="aiva-prompt-go" onClick={createWithAiva}>Generate <ArrowRight size={14}/></button>
             </div>
           </div>
         </div>
@@ -311,9 +430,10 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             <Archive size={14}/> Archives{archived.length > 0 ? ` (${archived.length})` : ""}
           </button>
           <button className="btn-ghost"><Upload size={14}/> Upload</button>
-          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
+          <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create Course</button>
         </div>
       </div>
+      {createOpen && renderCreateModal()}
 
       {/* Quick stats */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:12,marginBottom:24}}>
