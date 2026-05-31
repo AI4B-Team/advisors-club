@@ -363,9 +363,10 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             <Archive size={14}/> Archives{archived.length > 0 ? ` (${archived.length})` : ""}
           </button>
           <button className="btn-ghost"><Upload size={14}/> Upload</button>
-          <Link to="/app/aiva" className="aiva-cta"><Sparkles size={14}/> Generate With AIVA</Link>
+          <button className="aiva-cta" onClick={openCreate}><Plus size={14}/> Create Course</button>
         </div>
       </div>
+      {createOpen && renderCreateModal()}
 
       {/* Quick stats */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:12,marginBottom:24}}>
