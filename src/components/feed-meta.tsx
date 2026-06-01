@@ -158,7 +158,7 @@ export function BookmarkButton({ saved, onToggle }: { saved: boolean; onToggle: 
       type="button"
       className={`fp-bookmark${saved ? " on" : ""}`}
       onClick={onToggle}
-      aria-label={saved ? "Remove bookmark" : "Bookmark post"}
+      aria-label={saved ? "Remove Bookmark" : "Bookmark Post"}
     >
       <Bookmark size={16} fill={saved ? "currentColor" : "none"} />
     </button>

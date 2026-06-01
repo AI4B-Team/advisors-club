@@ -116,7 +116,7 @@ type TopLink = {
   subs: SubLink[]; menu: string[];
 };
 
-const DEFAULT_MENU = ["Pin to top", "Mute notifications", "Mark all read", "Hide"];
+const DEFAULT_MENU = ["Pin To Top", "Mute Notifications", "Mark All Read", "Hide"];
 
 const TOP_LINKS: TopLink[] = [
   { label: "Getting Started", to: "/app/getting-started", icon: <Rocket size={16}/>,
@@ -369,8 +369,8 @@ function Topbar() {
   const ref = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  const recentSearches = ["Real Estate funnel", "AIVA prompts", "Stripe Connect", "Course builder"];
-  const trending = ["Live events", "Member onboarding", "Challenges"];
+  const recentSearches = ["Real Estate Funnel", "AIVA Prompts", "Stripe Connect", "Course Builder"];
+  const trending = ["Live Events", "Member Onboarding", "Challenges"];
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {

@@ -50,9 +50,9 @@ function eventMo(e: EventItem) {
 
 
 const TRENDING = [
-  { photo: "https://i.pravatar.cc/80?img=48", title: "Skip tracing playbook", who: "Judith M." },
-  { photo: "https://i.pravatar.cc/80?img=13", title: "Give your first deal a chance", who: "Greg D." },
-  { photo: "https://i.pravatar.cc/80?img=68", title: "Doubling down on door knocks", who: "Albert Lott" },
+  { photo: "https://i.pravatar.cc/80?img=48", title: "Skip Tracing Playbook", who: "Judith M." },
+  { photo: "https://i.pravatar.cc/80?img=13", title: "Give Your First Deal A Chance", who: "Greg D." },
+  { photo: "https://i.pravatar.cc/80?img=68", title: "Doubling Down On Door Knocks", who: "Albert Lott" },
 ];
 
 function HomePage() {
