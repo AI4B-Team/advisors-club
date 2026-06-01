@@ -67,7 +67,7 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
           type="button"
           className="post-actions-pinned"
           onClick={() => isAdmin && onPinToFeed?.()}
-          title={isAdmin ? "Click to unpin" : "Pinned by admin"}
+          title={isAdmin ? "Click To Unpin" : "Pinned By Admin"}
           disabled={!isAdmin}
         >
           <Pin size={13}/> Pinned
@@ -75,7 +75,7 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
       )}
       <button
         className={`post-actions-bookmark${saved ? " on" : ""}`}
-        aria-label={saved ? "Remove bookmark" : "Bookmark post"}
+        aria-label={saved ? "Remove Bookmark" : "Bookmark Post"}
         title={saved ? "Bookmarked" : "Bookmark"}
         onClick={onToggleSave}
       >
@@ -83,7 +83,7 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
       </button>
       <button
         className="post-actions-more"
-        aria-label="More options"
+        aria-label="More Options"
         onClick={() => setOpen(o => !o)}
       >
         <MoreVertical size={18}/>
@@ -91,53 +91,53 @@ export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFe
       {open && (
         <div className="post-actions-menu" role="menu">
           <button className="post-actions-item" onClick={() => { onToggleSave?.(); setOpen(false); }}>
-            <Bookmark size={15}/> {saved ? "Remove bookmark" : "Bookmark post"}
+            <Bookmark size={15}/> {saved ? "Remove Bookmark" : "Bookmark Post"}
           </button>
           <button className="post-actions-item" onClick={() => setOpen(false)}>
-            <Pencil size={15}/> Edit post
+            <Pencil size={15}/> Edit Post
           </button>
           <button className="post-actions-item" onClick={() => setOpen(false)}>
-            <Copy size={15}/> Duplicate post
+            <Copy size={15}/> Duplicate Post
           </button>
           <button className="post-actions-item" onClick={() => setOpen(false)}>
-            <Flag size={15}/> Report post
+            <Flag size={15}/> Report Post
           </button>
           <button className="post-actions-item danger" onClick={() => setOpen(false)}>
-            <Trash2 size={15}/> Delete post
+            <Trash2 size={15}/> Delete Post
           </button>
 
           <div className="post-actions-sep" />
 
           <button className="post-actions-item" onClick={() => setOpen(false)}>
             <Share2 size={15}/>
-            <span>Share via broadcast</span>
+            <span>Share Via Broadcast</span>
             <span className="pa-badge-new">New</span>
           </button>
 
           <div className="post-actions-sep" />
 
           <button className="post-actions-item pa-row" onClick={() => setT("follow")}>
-            <Rss size={15}/> <span>Follow post</span> <Toggle on={toggles.follow}/>
+            <Rss size={15}/> <span>Follow Post</span> <Toggle on={toggles.follow}/>
           </button>
           {isAdmin && (
             <button
               className="post-actions-item pa-row"
               onClick={() => { setT("pin"); onPinToFeed?.(); }}
             >
-              <Pin size={15}/> <span>Pin to top</span> <Toggle on={toggles.pin}/>
+              <Pin size={15}/> <span>Pin To Top</span> <Toggle on={toggles.pin}/>
             </button>
           )}
           <button className="post-actions-item pa-row" onClick={() => setT("hideLikes")}>
-            <Heart size={15}/> <span>Hide likes</span> <Toggle on={toggles.hideLikes}/>
+            <Heart size={15}/> <span>Hide Likes</span> <Toggle on={toggles.hideLikes}/>
           </button>
           <button className="post-actions-item pa-row" onClick={() => setT("hideComments")}>
-            <MessageSquare size={15}/> <span>Hide comments</span> <Toggle on={toggles.hideComments}/>
+            <MessageSquare size={15}/> <span>Hide Comments</span> <Toggle on={toggles.hideComments}/>
           </button>
           <button className="post-actions-item pa-row" onClick={() => setT("closeComments")}>
-            <MessageSquareOff size={15}/> <span>Close comments</span> <Toggle on={toggles.closeComments}/>
+            <MessageSquareOff size={15}/> <span>Close Comments</span> <Toggle on={toggles.closeComments}/>
           </button>
           <button className="post-actions-item pa-row" onClick={() => setT("hideFeatured")}>
-            <Star size={15}/> <span>Hide from featured areas</span> <Toggle on={toggles.hideFeatured}/>
+            <Star size={15}/> <span>Hide From Featured Areas</span> <Toggle on={toggles.hideFeatured}/>
           </button>
         </div>
       )}
