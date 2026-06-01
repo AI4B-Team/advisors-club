@@ -252,7 +252,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             </div>
             <button onClick={() => setCreateOpen(false)} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:4,display:"flex"}}><X size={18}/></button>
           </div>
-          <div style={{padding:20}}>
+          <div style={{padding:20,overflowY:"auto"}}>
             {createMode === "type" && (
               <div style={{display:"grid",gap:10}}>
                 {([
