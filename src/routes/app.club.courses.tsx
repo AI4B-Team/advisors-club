@@ -4,6 +4,7 @@ import {
   Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, Play, CheckCircle2, Clock, BookOpen,
   MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Plus, X,
   List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download, ChevronDown, ChevronUp, Circle,
+  Heading1, Heading2, Heading3, Heading4, Bold, Italic, Strikethrough, Code2, ListOrdered, Quote, Terminal, Image as ImageIcon, Link2, Minus, Video, FolderPlus, FilePlus, Copy as CopyIcon,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -418,7 +419,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
 
   // Course detail view
   if (selected) {
-    return <CourseDetail course={selected} onBack={() => setSelectedId(null)} onArchive={() => archiveCourse(selected.id)} onDelete={() => deleteCourse(selected.id)} onTogglePublish={() => togglePublish(selected.id)} />;
+    return <CourseDetail course={selected} onBack={() => setSelectedId(null)} onArchive={() => archiveCourse(selected.id)} onDelete={() => deleteCourse(selected.id)} onTogglePublish={() => togglePublish(selected.id)} onUpdateCourse={(updated) => persist(merged.map(c => c.id === updated.id ? updated : c))} />;
   }
 
   // Archives view
@@ -610,13 +611,15 @@ function MenuItem({ icon, label, onClick, danger }: { icon: React.ReactNode; lab
 
 /* ============ COURSE DETAIL (Admin) ============ */
 
-function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: {
+function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, onUpdateCourse }: {
   course: AdminCourse;
   onBack: () => void;
   onArchive: () => void;
   onDelete: () => void;
   onTogglePublish: () => void;
+  onUpdateCourse: (c: AdminCourse) => void;
 }) {
+  const { isAdmin } = useViewMode();
   const [expanded, setExpanded] = useState<number | null>(0);
   const [curView, setCurView] = useState<"toc" | "grid">("grid");
   const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
@@ -628,6 +631,13 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const [newComment, setNewComment] = useState("");
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
+  const [courseMenuOpen, setCourseMenuOpen] = useState(false);
+  const [moduleMenuOpen, setModuleMenuOpen] = useState<number | null>(null);
+  const [lessonMeta, setLessonMeta] = useState<Record<string, { body: string; published: boolean }>>({});
+  const [editing, setEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody] = useState("");
+  const [editPublished, setEditPublished] = useState(true);
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
@@ -648,6 +658,70 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
     setCompleted(prev => { const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k); return n; });
   }
 
+  function updateModules(modules: AdminCourse["modules"]) {
+    onUpdateCourse({ ...course, modules });
+  }
+  function addFolder() {
+    const title = window.prompt("Folder name?", `Section ${course.modules.length + 1}`);
+    if (!title) return;
+    updateModules([...course.modules, { title, lessons: [] }]);
+    setCourseMenuOpen(false);
+  }
+  function addPageRoot() {
+    const title = window.prompt("Page title?", "New Lesson");
+    if (!title) return;
+    const mods = course.modules.length ? course.modules : [{ title: "Section 1", lessons: [] }];
+    const updated = mods.map((m, i) => i === mods.length - 1 ? { ...m, lessons: [...m.lessons, { title, duration: "0:00" }] } : m);
+    updateModules(updated);
+    setCourseMenuOpen(false);
+  }
+  function editFolder(mi: number) {
+    const title = window.prompt("Folder name?", course.modules[mi].title);
+    if (!title) return;
+    updateModules(course.modules.map((m, i) => i === mi ? { ...m, title } : m));
+    setModuleMenuOpen(null);
+  }
+  function addPageInFolder(mi: number) {
+    const title = window.prompt("Page title?", `Lesson ${course.modules[mi].lessons.length + 1}`);
+    if (!title) return;
+    updateModules(course.modules.map((m, i) => i === mi ? { ...m, lessons: [...m.lessons, { title, duration: "0:00" }] } : m));
+    setTocOpen(prev => { const n = new Set(prev); n.add(mi); return n; });
+    setModuleMenuOpen(null);
+  }
+  function duplicateFolder(mi: number) {
+    const src = course.modules[mi];
+    const copy = { title: `${src.title} (Copy)`, lessons: src.lessons.map(l => ({ ...l })) };
+    updateModules([...course.modules.slice(0, mi + 1), copy, ...course.modules.slice(mi + 1)]);
+    setModuleMenuOpen(null);
+  }
+  function deleteFolder(mi: number) {
+    if (!window.confirm(`Delete "${course.modules[mi].title}" and all its lessons?`)) return;
+    updateModules(course.modules.filter((_, i) => i !== mi));
+    if (lesson && lesson.m === mi) setLesson(null);
+    setModuleMenuOpen(null);
+  }
+  function startEdit() {
+    if (!current) return;
+    const k = key(current.m, current.l);
+    setEditTitle(current.lesson.title);
+    setEditBody(lessonMeta[k]?.body ?? "");
+    setEditPublished(lessonMeta[k]?.published ?? true);
+    setEditing(true);
+  }
+  function cancelEdit() { setEditing(false); }
+  function saveEdit() {
+    if (!current) return;
+    const k = key(current.m, current.l);
+    const t = editTitle.trim() || current.lesson.title;
+    updateModules(course.modules.map((m, mi) =>
+      mi === current.m
+        ? { ...m, lessons: m.lessons.map((l, li) => li === current.l ? { ...l, title: t } : l) }
+        : m
+    ));
+    setLessonMeta(prev => ({ ...prev, [k]: { body: editBody, published: editPublished } }));
+    setEditing(false);
+  }
+
   if (current) {
     const k = key(current.m, current.l);
     const done = completed.has(k);
@@ -659,12 +733,28 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
         <div style={{display:"grid",gridTemplateColumns:"300px minmax(0,1fr)",gap:20,alignItems:"start"}}>
           <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
             <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
-                <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{course.title}</div>
-                <div style={{fontSize:12,color:"#6B7280",fontWeight:600}}>{Math.round((completed.size/flat.length)*100)}%</div>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10,gap:8,position:"relative"}}>
+                <div style={{fontWeight:700,color:"#111827",fontSize:14,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{course.title}</div>
+                <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                  {isAdmin && (
+                    <button onClick={() => setCourseMenuOpen(o => !o)} aria-label="Course options" style={{width:26,height:26,borderRadius:"50%",border:0,background:courseMenuOpen?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <MoreHorizontal size={15}/>
+                    </button>
+                  )}
+                  <div style={{fontSize:12,color:"#6B7280",fontWeight:600}}>{Math.round((completed.size/Math.max(1,flat.length))*100)}%</div>
+                </div>
+                {isAdmin && courseMenuOpen && (
+                  <>
+                    <div onClick={() => setCourseMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:20}}/>
+                    <div style={{position:"absolute",top:30,right:48,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:170,zIndex:30}}>
+                      <MenuItem icon={<FilePlus size={13}/>} label="Add page" onClick={addPageRoot}/>
+                      <MenuItem icon={<FolderPlus size={13}/>} label="Add folder" onClick={addFolder}/>
+                    </div>
+                  </>
+                )}
               </div>
               <div style={{height:6,background:"#F3F4F6",borderRadius:999,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${(completed.size/flat.length)*100}%`,background:"#10B981",borderRadius:999,transition:"width .3s ease"}}/>
+                <div style={{height:"100%",width:`${(completed.size/Math.max(1,flat.length))*100}%`,background:"#10B981",borderRadius:999,transition:"width .3s ease"}}/>
               </div>
               <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
             </div>
@@ -680,11 +770,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
                 const isOpen = tocOpen.has(mi);
                 const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
                 return (
-                  <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
+                  <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6", position:"relative"}} className="adm-mod-row">
                     <button
                       onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       disabled={isLocked}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#FAFAFA",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",paddingRight: isAdmin ? 60 : 16,background:"#FAFAFA",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
                     >
                       {isLocked ? (
                         <Lock size={14} color="#9CA3AF"/>
@@ -705,6 +795,26 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
                       {totalMin > 0 && <span style={{fontSize:11,color:"#6B7280",flexShrink:0}}>{totalMin} min</span>}
                       {!isLocked && (isOpen ? <ChevronUp size={14} color="#9CA3AF"/> : <ChevronDown size={14} color="#9CA3AF"/>)}
                     </button>
+                    {isAdmin && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setModuleMenuOpen(moduleMenuOpen === mi ? null : mi); }}
+                        aria-label="Folder options"
+                        className="adm-mod-more"
+                        style={{position:"absolute",top:8,right:36,width:26,height:26,borderRadius:"50%",border:0,background:moduleMenuOpen===mi?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:moduleMenuOpen===mi?1:0,transition:"opacity .12s"}}
+                      ><MoreHorizontal size={15}/></button>
+                    )}
+                    {isAdmin && moduleMenuOpen === mi && (
+                      <>
+                        <div onClick={() => setModuleMenuOpen(null)} style={{position:"fixed",inset:0,zIndex:20}}/>
+                        <div style={{position:"absolute",top:38,right:8,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:180,zIndex:30}}>
+                          <MenuItem icon={<Edit3 size={13}/>} label="Edit folder" onClick={() => editFolder(mi)}/>
+                          <MenuItem icon={<FilePlus size={13}/>} label="Add page in folder" onClick={() => addPageInFolder(mi)}/>
+                          <MenuItem icon={<CopyIcon size={13}/>} label="Duplicate folder" onClick={() => duplicateFolder(mi)}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <MenuItem icon={<Trash2 size={13}/>} label="Delete folder" danger onClick={() => deleteFolder(mi)}/>
+                        </div>
+                      </>
+                    )}
                     {isOpen && !isLocked && m.lessons.map((l, li) => {
                       const isCurrent = current.m === mi && current.l === li;
                       const isDone = completed.has(key(mi, li));
@@ -729,17 +839,73 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
           </div>
 
           <div>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,marginBottom:14}}>
-              <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
-              <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-                <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark complete"} title={done?"Completed":"Mark complete"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                  <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
-                </button>
-                <button aria-label="Edit lesson" title="Edit lesson" style={{width:34,height:34,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#6B7280"}}>
-                  <Edit3 size={15}/>
-                </button>
+            {editing ? (
+              <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,boxShadow:"0 1px 2px rgba(0,0,0,.04)",marginBottom:14,overflow:"hidden"}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap"}}>
+                  {(() => {
+                    type TB = { I: typeof Bold; k: string } | { sep: true };
+                    const items: TB[] = [
+                      {I:Heading1,k:"H1"},{I:Heading2,k:"H2"},{I:Heading3,k:"H3"},{I:Heading4,k:"H4"},
+                      {sep:true},
+                      {I:Bold,k:"B"},{I:Italic,k:"I"},{I:Strikethrough,k:"S"},{I:Code2,k:"code"},
+                      {sep:true},
+                      {I:List,k:"ul"},{I:ListOrdered,k:"ol"},{I:Quote,k:"q"},{I:Terminal,k:"cb"},
+                      {sep:true},
+                      {I:ImageIcon,k:"img"},{I:Link2,k:"link"},{I:Minus,k:"hr"},{I:Video,k:"video"},
+                    ];
+                    return items.map((b,i)=> "sep" in b
+                      ? <span key={i} style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
+                      : <button key={i} type="button" title={b.k} style={{width:30,height:30,borderRadius:6,border:0,background:"transparent",color:"#374151",cursor:"pointer",display:"inline-flex",alignItems:"center",justifyContent:"center"}} onMouseEnter={e=>(e.currentTarget.style.background="#F3F4F6")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
+                          <b.I size={16}/>
+                        </button>
+                    );
+                  })()}
+                </div>
+                <div style={{padding:"14px 18px"}}>
+                  <input
+                    autoFocus
+                    value={editTitle}
+                    onChange={e=>setEditTitle(e.target.value)}
+                    placeholder="Lesson title"
+                    style={{width:"100%",border:0,outline:"none",fontSize:22,fontWeight:800,color:"#111827",background:"transparent",marginBottom:10}}
+                  />
+                  <textarea
+                    value={editBody}
+                    onChange={e=>setEditBody(e.target.value)}
+                    placeholder="Write your lesson content…"
+                    rows={6}
+                    style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
+                  />
+                </div>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA",flexWrap:"wrap"}}>
+                  <button type="button" className="btn-ghost" style={{textTransform:"uppercase",fontWeight:700,fontSize:12,letterSpacing:.5}}><Plus size={13}/> Add <ChevronDown size={12}/></button>
+                  <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
+                    <label style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:13,fontWeight:700,color:editPublished?"#10B981":"#6B7280",cursor:"pointer"}}>
+                      {editPublished?"Published":"Draft"}
+                      <span onClick={()=>setEditPublished(p=>!p)} style={{width:36,height:20,borderRadius:999,background:editPublished?"#10B981":"#D1D5DB",position:"relative",transition:"background .15s",display:"inline-block"}}>
+                        <span style={{position:"absolute",top:2,left:editPublished?18:2,width:16,height:16,borderRadius:"50%",background:"#fff",transition:"left .15s",boxShadow:"0 1px 2px rgba(0,0,0,.2)"}}/>
+                      </span>
+                    </label>
+                    <button type="button" onClick={cancelEdit} style={{background:"transparent",border:0,color:"#6B7280",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:"6px 10px"}}>Cancel</button>
+                    <button type="button" onClick={saveEdit} disabled={!editTitle.trim()} style={{background:editTitle.trim()?"#111827":"#E5E7EB",color:editTitle.trim()?"#fff":"#9CA3AF",border:0,borderRadius:8,padding:"8px 16px",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:editTitle.trim()?"pointer":"not-allowed"}}>Save</button>
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,marginBottom:14}}>
+                <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
+                <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                  <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark as done"} title={done?"Completed":"Mark as done"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
+                  </button>
+                  {isAdmin && (
+                    <button onClick={startEdit} aria-label="Edit lesson" title="Edit lesson" style={{width:34,height:34,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#6B7280"}}>
+                      <Edit3 size={15}/>
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,padding:10,boxShadow:"0 1px 2px rgba(0,0,0,.04)"}}>
               <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#F3F4F6"}}>
