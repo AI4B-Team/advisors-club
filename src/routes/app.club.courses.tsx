@@ -816,7 +816,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         <Circle size={16} color="#D1D5DB"/>
                       )}
                       <span style={{flex:1,fontSize:12,fontWeight:700,color:"#111827",textTransform:"uppercase",letterSpacing:.3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{m.title}</span>
-                      {!isLocked && (isOpen ? <ChevronUp size={14} color="#9CA3AF"/> : <ChevronDown size={14} color="#9CA3AF"/>)}
+                      {isOpen ? <ChevronUp size={14} color="#9CA3AF"/> : <ChevronDown size={14} color="#9CA3AF"/>}
                     </button>
                     {isAdmin && (
                       <button
@@ -824,7 +824,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         aria-label="Folder options"
                         className="adm-mod-more"
                         style={{position:"absolute",top:8,right:36,width:26,height:26,borderRadius:"50%",border:0,background:moduleMenuOpen===mi?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:moduleMenuOpen===mi?1:0,transition:"opacity .12s"}}
-                      ><MoreHorizontal size={15}/></button>
+                      ><MoreVertical size={15}/></button>
                     )}
                     {isAdmin && moduleMenuOpen === mi && (
                       <>
