@@ -347,7 +347,7 @@ function CommunitySidebar() {
       ))}
 
       <div className="cc-sb-foot">
-        <button className="cc-sb-live"><span className="cc-sb-live-dot"/><Video size={15}/> Start Live Session</button>
+        <button className="cc-sb-live" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}><span className="cc-sb-live-dot"/><Video size={15}/> Start Live Session</button>
         
       </div>
     </aside>
