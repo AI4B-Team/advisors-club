@@ -1219,7 +1219,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   )}
 
-                  {lessonTab === "resources" && (
+                  {lessonTab === "resources" && resources.length > 0 && (
                     <div style={{padding:"18px 0"}}>
                       <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
                         {resources.length === 0 && (
