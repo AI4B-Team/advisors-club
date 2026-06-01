@@ -67,7 +67,7 @@ function AppShell() {
   return (
     <ViewModeProvider>
       <ClubCtx.Provider value={{ active, setActive }}>
-        <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}`}>
+        <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}${minSidebar && !hideSidebar ? " cc-min-sidebar" : ""}`}>
           <IconRail />
           {!hideSidebar && <CommunitySidebar />}
           <div className="cc-main-wrap">
