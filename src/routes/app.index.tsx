@@ -69,6 +69,7 @@ function HomePage() {
   const [activeTab, setActiveTab] = useState<TabId>("all");
   const [composerCat, setComposerCat] = useState<PostCategory>("general");
   const [catOpen, setCatOpen] = useState(false);
+  const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
 
   const [events, setEvents] = useState<EventItem[]>(() => getEvents());
   useEffect(() => subscribeEvents(() => setEvents(getEvents())), []);
