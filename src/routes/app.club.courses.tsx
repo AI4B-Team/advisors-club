@@ -1297,7 +1297,14 @@ const FALLBACK_COURSES: MemberCourse[] = [
 ];
 
 function MemberCourses({ course }: { course: GSCourse | null }) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedIdState] = useState<string | null>(() => (typeof window !== "undefined" ? window.sessionStorage.getItem("member-course-sel") : null));
+  const setSelectedId = (id: string | null) => {
+    setSelectedIdState(id);
+    if (typeof window !== "undefined") {
+      if (id) window.sessionStorage.setItem("member-course-sel", id);
+      else window.sessionStorage.removeItem("member-course-sel");
+    }
+  };
 
   const liveCourse: MemberCourse | null = course ? {
     id: "live",
