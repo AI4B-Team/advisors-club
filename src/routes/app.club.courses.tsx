@@ -1079,8 +1079,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   </div>
 
                   {lessonTab === "overview" && (
-                    <div style={{padding:"18px 2px",color:"#374151",fontSize:14,lineHeight:1.6}}>
-                      In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress.
+                    <div style={{padding:"18px 2px",color:"#374151",fontSize:14,lineHeight:1.7,whiteSpace:"pre-wrap"}}>
+                      {lessonMeta[k]?.body?.trim()
+                        ? lessonMeta[k].body
+                        : "In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress."}
                     </div>
                   )}
 
