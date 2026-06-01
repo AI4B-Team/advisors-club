@@ -262,7 +262,7 @@ export function AudiencePanel() {
   const filtered = MEMBERS.filter(m => m.name.toLowerCase().includes(q.toLowerCase()));
   return (
     <div className="ap">
-      <PanelHead title="Audience" sub="Members, segments, tags and lifecycle."
+      <PanelHead title="Members" sub="Members, segments, tags and lifecycle."
         action={<>
           <button className="ap-btn-light"><Download size={14}/> Export</button>
           <button className="ap-btn-primary"><Plus size={14}/> Invite Members</button>

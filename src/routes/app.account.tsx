@@ -27,7 +27,7 @@ const TAB_GROUPS: { items: TabDef[] }[] = [
   { items: [
     { id: "Clubs", icon: Users },
     { id: "Profile", icon: User },
-    { id: "Audience", icon: Users },
+    { id: "Members", icon: Users },
     { id: "Content", icon: FileText },
     { id: "Marketing", icon: Send },
     { id: "Workflows", icon: Zap },
@@ -84,7 +84,7 @@ function AccountPage() {
           {tab === "Clubs" && <Communities/>}
           {tab === "Account" && <AccountOverview/>}
           {tab === "Profile" && <ProfilePanel/>}
-          {tab === "Audience" && <AudiencePanel/>}
+          {tab === "Members" && <AudiencePanel/>}
           {tab === "Content" && <ContentPanel/>}
           {tab === "Marketing" && <MarketingPanel/>}
           {tab === "Workflows" && <WorkflowsPanel/>}
