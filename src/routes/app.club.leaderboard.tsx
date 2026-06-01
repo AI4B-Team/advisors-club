@@ -1,7 +1,8 @@
 import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles } from "lucide-react";
+import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles, Lock } from "lucide-react";
+import { LB_MEMBERS, ME_MEMBER, LB_LEVELS, type LbMember } from "@/lib/leaderboard-data";
 
 export const Route = createFileRoute("/app/club/leaderboard")({
   head: () => ({ meta: [
@@ -13,61 +14,6 @@ export const Route = createFileRoute("/app/club/leaderboard")({
 
 type Period = "week" | "month" | "all";
 type Category = "points" | "streak" | "courses" | "engagement";
-type Trend = "up" | "down" | "same";
-
-type Member = {
-  id: string;
-  name: string;
-  handle: string;
-  avatar: string;
-  color: string;
-  points: number;
-  streak: number;
-  courses: number;
-  engagement: number;
-  level: number;
-  trend: Trend;
-  delta: number;
-  badges: string[];
-  country: string;
-};
-
-const COLORS = ["#F59E0B","#8B5CF6","#06B6D4","#10B981","#EF4444","#3B82F6","#EC4899","#F97316","#14B8A6","#A855F7","#0EA5E9","#84CC16"];
-
-const NAMES = [
-  ["Amara Okonkwo","amara","🇳🇬"],["Sofia Reyes","sofia","🇲🇽"],["Liam Chen","liam","🇸🇬"],
-  ["Noor Hassan","noor","🇦🇪"],["Eli Bennett","eli","🇺🇸"],["Yuki Tanaka","yuki","🇯🇵"],
-  ["Maya Patel","maya","🇮🇳"],["Jonas Weber","jonas","🇩🇪"],["Aria Kowalski","aria","🇵🇱"],
-  ["Theo Laurent","theo","🇫🇷"],["Zara Ahmed","zara","🇵🇰"],["Kai Nakamura","kai","🇯🇵"],
-  ["Ines Costa","ines","🇵🇹"],["Marcus Webb","marcus","🇬🇧"],["Lena Petrov","lena","🇷🇺"],
-  ["Diego Alvarez","diego","🇦🇷"],["Hana Kim","hana","🇰🇷"],["Oscar Lindgren","oscar","🇸🇪"],
-  ["Priya Shah","priya","🇮🇳"],["Tomas Novak","tomas","🇨🇿"],["Chloe Dubois","chloe","🇫🇷"],
-  ["Rafael Silva","rafael","🇧🇷"],["Anya Volkov","anya","🇺🇦"],["Felix Andersen","felix","🇩🇰"],
-];
-
-const BADGES = ["🔥","⭐","👑","💎","🚀","🏆","⚡","🎯"];
-
-function genMembers(): Member[] {
-  return NAMES.map((n, i) => {
-    const base = 4800 - i * 110 + Math.floor(Math.sin(i*1.7)*180);
-    return {
-      id: `m${i+1}`,
-      name: n[0],
-      handle: `@${n[1]}`,
-      avatar: n[0].split(" ").map(p=>p[0]).join(""),
-      color: COLORS[i % COLORS.length],
-      points: Math.max(120, base + (i<3?400:0)),
-      streak: Math.max(1, 84 - i*3 + (i%4)*5),
-      courses: Math.max(0, 22 - Math.floor(i/2)),
-      engagement: Math.max(8, 98 - i*3 + (i%3)*4),
-      level: Math.max(1, 28 - Math.floor(i*1.1)),
-      trend: (["up","up","same","down","up","same","down"] as Trend[])[i%7],
-      delta: ((i*7)%9) + 1,
-      badges: BADGES.slice(0, Math.max(1, 4 - Math.floor(i/4))),
-      country: n[2],
-    };
-  });
-}
 
 const ME_ID = "me";
 
@@ -76,17 +22,9 @@ function LeaderboardPage() {
   const [category, setCategory] = useState<Category>("points");
   const [q, setQ] = useState("");
 
-  const all = useMemo(() => {
-    const list = genMembers();
-    const me: Member = {
-      id: ME_ID, name: "You", handle: "@you", avatar: "YO", color: "#0EA5E9",
-      points: 2840, streak: 42, courses: 11, engagement: 76, level: 17,
-      trend: "up", delta: 3, badges: ["🔥","⭐"], country: "🌍",
-    };
-    return [...list, me];
-  }, []);
+  const all = useMemo(() => [...LB_MEMBERS, ME_MEMBER], []);
 
-  const sortKey: keyof Member =
+  const sortKey: keyof LbMember =
     category === "points" ? "points" :
     category === "streak" ? "streak" :
     category === "courses" ? "courses" : "engagement";
@@ -111,6 +49,11 @@ function LeaderboardPage() {
   };
 
   const periodMeta: Record<Period, string> = { week: "This Week", month: "This Month", all: "All Time" };
+
+  // Period-specific rankings (Skool-style 7-day / 30-day / all-time)
+  const weekRanked = [...LB_MEMBERS].sort((a,b)=>b.weekPoints - a.weekPoints).slice(0, 10);
+  const monthRanked = [...LB_MEMBERS].sort((a,b)=>b.monthPoints - a.monthPoints).slice(0, 10);
+  const allTimeRanked = [...LB_MEMBERS].sort((a,b)=>b.points - a.points).slice(0, 10);
 
   return (
     <div className="lb-page">
@@ -138,6 +81,30 @@ function LeaderboardPage() {
         <StatCard icon={<Trophy size={16}/>} label="Total points" value={totalPoints.toLocaleString()} tint="#F59E0B"/>
         <StatCard icon={<Flame size={16}/>} label="Avg streak" value={`${avgStreak}d`} tint="#EF4444"/>
         <StatCard icon={<Target size={16}/>} label="Your rank" value={`#${myRank}`} tint="#8B5CF6" highlight/>
+      </div>
+
+      {/* Your level + level distribution */}
+      <div className="lb-levels-card">
+        <div className="lb-levels-me">
+          <div className="lb-levels-avwrap">
+            <img className="lb-levels-av" src={ME_MEMBER.photo} alt="You"/>
+            <span className="lb-levels-badge">{ME_MEMBER.level}</span>
+          </div>
+          <strong>You</strong>
+          <span className="lb-levels-lv">Level {ME_MEMBER.level}</span>
+          <span className="lb-levels-pts">531 points to level up</span>
+        </div>
+        <div className="lb-levels-grid">
+          {LB_LEVELS.map(l => (
+            <div key={l.level} className={`lb-level-row ${l.locked?"lb-level-locked":""}`}>
+              <span className="lb-level-num">{l.locked ? <Lock size={11}/> : l.level}</span>
+              <div className="lb-level-body">
+                <div className="lb-level-title">Level {l.level}</div>
+                <div className="lb-level-sub">{l.label || `${l.pct}% of members`}{l.label && ` · ${l.pct}% of members`}</div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Filters */}
@@ -189,7 +156,7 @@ function LeaderboardPage() {
               <div key={m.id} className={`lb-row ${isMe?"lb-row-me":""}`}>
                 <div className="lb-c-rank"><span className="lb-rank-pill">{rank}</span></div>
                 <div className="lb-c-member">
-                  <span className="lb-avatar" style={{background: m.color}}>{m.avatar}</span>
+                  <span className="lb-avatar" style={{background: m.color}}>{m.initials}</span>
                   <div className="lb-meta">
                     <span className="lb-name">{m.name} {isMe && <span className="lb-you">YOU</span>}</span>
                     <span className="lb-handle">{m.handle} · {m.country}</span>
@@ -210,6 +177,13 @@ function LeaderboardPage() {
             );
           })}
         </div>
+      </div>
+
+      {/* Period leaderboards — Skool-style 7-day / 30-day / all-time */}
+      <div className="lb-period-grid">
+        <PeriodBoard title="Leaderboard (7-day)" members={weekRanked} field="weekPoints" showDelta/>
+        <PeriodBoard title="Leaderboard (30-day)" members={monthRanked} field="monthPoints" showDelta/>
+        <PeriodBoard title="Leaderboard (all-time)" members={allTimeRanked} field="points"/>
       </div>
 
       {/* Your position card */}
@@ -241,8 +215,8 @@ function StatCard({ icon, label, value, tint, highlight }:{ icon: React.ReactNod
   );
 }
 
-function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: Member; category: Category; meta:{label:string;icon:React.ReactNode;unit:string} }) {
-  const key: keyof Member = category === "points" ? "points" : category === "streak" ? "streak" : category === "courses" ? "courses" : "engagement";
+function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: LbMember; category: Category; meta:{label:string;icon:React.ReactNode;unit:string} }) {
+  const key: keyof LbMember = category === "points" ? "points" : category === "streak" ? "streak" : category === "courses" ? "courses" : "engagement";
   const icons = { 1: <Crown size={18}/>, 2: <Medal size={16}/>, 3: <Award size={16}/> };
   const grad = {
     1: "linear-gradient(180deg,#FEF3C7,#FDE68A)",
@@ -256,7 +230,7 @@ function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: Me
         <span className="lb-podium-place">#{place}</span>
       </div>
       <div className="lb-podium-avatar-wrap">
-        <div className="lb-podium-avatar" style={{background: member.color}}>{member.avatar}</div>
+        <img className="lb-podium-avatar-img" src={member.photo} alt={member.name}/>
       </div>
       <div className="lb-podium-info">
         <strong>{member.name}</strong>
@@ -274,7 +248,25 @@ function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: Me
   );
 }
 
-function TrendPill({ trend, delta }:{ trend: Trend; delta: number }) {
+function PeriodBoard({ title, members, field, showDelta }:{ title: string; members: LbMember[]; field: keyof LbMember; showDelta?: boolean }) {
+  return (
+    <div className="lb-pboard">
+      <div className="lb-pboard-head">{title}</div>
+      <ul className="lb-pboard-list">
+        {members.map((m, i) => (
+          <li key={m.id} className="lb-pboard-row">
+            <span className={`lb-pboard-rank lb-pboard-rank-${Math.min(i+1, 4)}`}>{i+1}</span>
+            <img className="lb-pboard-av" src={m.photo} alt={m.name}/>
+            <span className="lb-pboard-name">{m.name}</span>
+            <span className="lb-pboard-val">{showDelta ? `+${m[field]}` : (m[field] as number).toLocaleString()}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function TrendPill({ trend, delta }:{ trend: "up"|"down"|"same"; delta: number }) {
   if (trend === "up") return <span className="lb-trend lb-trend-up"><TrendingUp size={11}/> +{delta}</span>;
   if (trend === "down") return <span className="lb-trend lb-trend-down"><TrendingDown size={11}/> -{delta}</span>;
   return <span className="lb-trend lb-trend-same"><Minus size={11}/> 0</span>;
