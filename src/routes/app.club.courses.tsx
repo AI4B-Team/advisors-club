@@ -783,7 +783,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               ); })()}
               <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
             </div>
-            <div style={{maxHeight:"65vh",overflowY:"auto"}}>
+            <div style={{maxHeight:"65vh",overflowY:"auto",display:"flex",flexDirection:"column",gap:10}}>
               {course.modules.map((m, mi) => {
                 const doneCount = m.lessons.filter((_,li) => completed.has(key(mi,li))).length;
                 const allDone = doneCount === m.lessons.length;
