@@ -631,6 +631,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
   const [newComment, setNewComment] = useState("");
   const [completed, setCompleted] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
+    return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
+  }, [lesson]);
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
