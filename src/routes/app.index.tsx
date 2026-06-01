@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Plus, Heart, MessageCircle, MoreHorizontal, Send, Video, Sparkles, Link2, TrendingUp, Users, Clock, MessageSquare, Flame, ArrowRight, PenLine, Wand2, Film, RefreshCw } from "lucide-react";
 import { ComposerTools } from "@/components/composer-tools";
@@ -10,6 +10,7 @@ import { FeaturedEvent } from "@/components/featured-event";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 import { getGS, subscribeGS } from "@/lib/gs-store";
+import { getEvents, subscribeEvents, type EventItem } from "@/lib/events-store";
 
 function slugifyClub(s: string) {
   return s.toLowerCase().trim().replace(/['']/g,"").replace(/[^a-z0-9]+/g,"").slice(0,40) || "yourclub";
@@ -26,14 +27,25 @@ import { SEED_POSTS, CATEGORY_META, type FeedPost as Post, type PostCategory } f
 
 const SEED: Post[] = SEED_POSTS;
 
+const MONTH_ABBR = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+function fmt12(t: string) {
+  const [h,m] = t.split(":").map(Number);
+  const ampm = h >= 12 ? "PM" : "AM";
+  const hh = ((h + 11) % 12) + 1;
+  return `${hh}:${String(m).padStart(2,"0")} ${ampm}`;
+}
+function fmtEventTime(e: EventItem) {
+  return `${fmt12(e.start)} – ${fmt12(e.end)} EDT`;
+}
+function eventDay(e: EventItem) {
+  const [, , d] = e.date.split("-").map(Number);
+  return String(d);
+}
+function eventMo(e: EventItem) {
+  const [, m] = e.date.split("-").map(Number);
+  return MONTH_ABBR[m - 1];
+}
 
-const EVENTS = [
-  { day: "26", mo: "MAY", title: "Hotline", time: "5:30 – 6:30 PM EDT" },
-  { day: "27", mo: "MAY", title: "LIVE Q&A Calls", time: "5:30 – 6:30 PM EDT" },
-  { day: "28", mo: "MAY", title: "REAL Elite Bi-weekly Call", time: "12:00 – 1:00 PM EDT" },
-  { day: "28", mo: "MAY", title: "Fail Forward", time: "3:00 – 4:00 PM EDT" },
-  { day: "28", mo: "MAY", title: "Hotline", time: "5:30 – 6:30 PM EDT" },
-];
 
 const TRENDING = [
   { photo: "https://i.pravatar.cc/80?img=48", title: "Skip tracing playbook", who: "Judith M." },
