@@ -210,8 +210,11 @@ export function GoLiveModal({ open, onClose }: Props) {
   const isStudio = stage === "preview" || stage === "live";
 
   return (
-    <div className="gl-back" onClick={handleClose}>
-      <div className={`gl-modal${isStudio ? " gl-modal-wide" : ""}`} onClick={e => e.stopPropagation()}>
+    <div
+      className="gl-back"
+      onMouseDown={(e) => { if (e.target === e.currentTarget) handleClose(); }}
+    >
+      <div className={`gl-modal${isStudio ? " gl-modal-wide" : ""}`} onMouseDown={e => e.stopPropagation()}>
         <div className="gl-head">
           <div className="gl-head-l">
             <div className="gl-logo"><Radio size={14}/></div>
