@@ -2916,9 +2916,9 @@
 .mc-card-play{position:absolute;inset:0;margin:auto;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.95);border:none;display:flex;align-items:center;justify-content:center;color:#0F0F12;cursor:pointer;z-index:1;opacity:0;transition:opacity .15s}
 .mc-card:hover .mc-card-play{opacity:1}
 .mc-card-tag{position:absolute;top:10px;left:10px;z-index:1;padding:4px 9px;border-radius:6px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#0F0F12;color:#fff;display:inline-flex;align-items:center;gap:4px;line-height:1;white-space:nowrap}
-.mc-tag-new{background:#F5A623;color:#fff}
+.mc-tag-new{background:#2563EB;color:#fff}
 .mc-tag-completed{background:#16A34A;color:#fff}
-.mc-tag-in-progress{background:#0F0F12;color:#fff}
+.mc-tag-in-progress{background:#F5A623;color:#fff}
 .mc-card-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
 .mc-card-body h3{font-size:14.5px;font-weight:700;color:#0F0F12;margin:0;line-height:1.3}
 .mc-card-body p{font-size:12.5px;color:#737380;margin:0;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
