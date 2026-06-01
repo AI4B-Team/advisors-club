@@ -868,7 +868,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
       <div className="lt-section-head">
         <h2><BookOpen size={16}/> Curriculum</h2>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
-          <span style={{fontSize:12,color:"#6B7280"}}>{course.modules.length} modules · {totalLessons} lessons</span>
+          <span style={{fontSize:12,color:"#6B7280"}}>{course.modules.length} Modules · {totalLessons} Lessons</span>
           <div style={{display:"inline-flex",background:"#F3F4F6",borderRadius:8,padding:3,gap:2}}>
             <button onClick={() => setCurView("toc")} title="List view" style={{display:"inline-flex",alignItems:"center",gap:5,padding:"6px 10px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:curView==="toc"?"#fff":"transparent",color:curView==="toc"?"#111827":"#6B7280",boxShadow:curView==="toc"?"0 1px 2px rgba(0,0,0,.06)":"none"}}>
               <List size={13}/> List
