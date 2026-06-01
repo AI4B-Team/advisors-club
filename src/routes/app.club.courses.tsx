@@ -661,6 +661,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [editPublished, setEditPublished] = useState(true);
   const [editMediaType, setEditMediaType] = useState<MediaType>("native");
   const [editMediaUrl, setEditMediaUrl] = useState("");
+  const [titleError, setTitleError] = useState(false);
   const [videoMenuOpen, setVideoMenuOpen] = useState(false);
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
