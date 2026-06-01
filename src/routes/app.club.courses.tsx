@@ -1155,15 +1155,14 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
               <div className="mc-card-meta">
                 <span>{totalLessons(c)} lessons</span><span>·</span><span>{c.hours}</span>
               </div>
-              {c.progress > 0 ? (
-                <div className="mc-progress">
-                  <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}/></div>
-                  <span className="mc-progress-t">
-                    {c.progress === 100 ? <><CheckCircle2 size={12}/> Completed</> : `${c.progress}% complete`}
-                  </span>
-                </div>
-              ) : (
-                <button className="mc-card-cta" onClick={(e) => { e.stopPropagation(); setSelectedId(c.id); }}><PlayCircle size={14}/> Start Course</button>
+              <div className="mc-progress">
+                <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}/></div>
+                <span className="mc-progress-t">
+                  {c.progress === 100 ? <><CheckCircle2 size={12}/> Completed</> : c.progress > 0 ? `${c.progress}% complete` : "Not started"}
+                </span>
+              </div>
+              {c.progress === 0 && (
+                <button className="mc-card-cta" onClick={(e) => { e.stopPropagation(); setSelectedId(c.id); }} style={{marginTop:10}}><PlayCircle size={14}/> Start Course</button>
               )}
             </div>
           </div>
