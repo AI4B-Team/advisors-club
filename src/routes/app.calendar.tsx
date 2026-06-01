@@ -52,16 +52,44 @@ function useCountdown(target: Date) {
 }
 
 function CalendarPage() {
+  const events = useEvents();
+  const search = Route.useSearch();
+  const navigate = useNavigate();
   const [view, setView] = useState<View>("grid");
   const [cursor, setCursor] = useState(new Date(2026, 4, 26));
   const [selected, setSelected] = useState("2026-05-28");
   const [rsvps, setRsvps] = useState<Record<string, Rsvp>>({});
+  const [createOpen, setCreateOpen] = useState(false);
+  const [focusId, setFocusId] = useState<string | null>(null);
 
   const eventsByDate = useMemo(() => {
     const m: Record<string, EventItem[]> = {};
-    for (const e of EVENTS) (m[e.date] ||= []).push(e);
+    for (const e of events) (m[e.date] ||= []).push(e);
     return m;
-  }, []);
+  }, [events]);
+
+  useEffect(() => {
+    if (search.event) {
+      const ev = events.find(e => e.id === search.event);
+      if (ev) {
+        setCursor(parseDate(ev.date));
+        setSelected(ev.date);
+        setFocusId(ev.id);
+        setView("grid");
+        const t = setTimeout(() => {
+          document.getElementById(`cal-evt-${ev.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 80);
+        return () => clearTimeout(t);
+      }
+    }
+  }, [search.event, events]);
+
+  useEffect(() => { if (search.create) setCreateOpen(true); }, [search.create]);
+
+  function closeCreate() {
+    setCreateOpen(false);
+    if (search.create) navigate({ to: "/app/calendar", search: { event: search.event, create: undefined } });
+  }
 
   return (
     <div className="cal-wrap">
@@ -72,13 +100,16 @@ function CalendarPage() {
           <button className={`cal-vbtn ${view==="month"?"on":""}`} onClick={()=>setView("month")}><CalendarDays size={14}/> Month</button>
           <button className={`cal-vbtn ${view==="week"?"on":""}`} onClick={()=>setView("week")}><CalendarRange size={14}/> Week</button>
           <button className={`cal-vbtn ${view==="day"?"on":""}`} onClick={()=>setView("day")}><CalDay size={14}/> Day</button>
+          <button className="cal-vbtn cal-new" onClick={()=>setCreateOpen(true)} style={{background:"#0F172A",color:"#fff",borderColor:"#0F172A"}}><Plus size={14}/> New Event</button>
         </div>
       </div>
 
       {view === "month" && <MonthView cursor={cursor} setCursor={setCursor} selected={selected} setSelected={setSelected} eventsByDate={eventsByDate} rsvps={rsvps} setRsvps={setRsvps} />}
       {view === "week" && <WeekView cursor={cursor} setCursor={setCursor} eventsByDate={eventsByDate} />}
       {view === "day" && <DayView cursor={cursor} setCursor={setCursor} eventsByDate={eventsByDate} />}
-      {view === "grid" && <GridView rsvps={rsvps} setRsvps={setRsvps} />}
+      {view === "grid" && <GridView events={events} rsvps={rsvps} setRsvps={setRsvps} focusId={focusId} />}
+
+      {createOpen && <CreateEventModal onClose={closeCreate} />}
     </div>
   );
 }
