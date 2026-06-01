@@ -622,7 +622,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   onTogglePublish: () => void;
 }) {
   const [expanded, setExpanded] = useState<number | null>(0);
-  const [curView, setCurView] = useState<"toc" | "grid">("toc");
+  const [curView, setCurView] = useState<"toc" | "grid">("grid");
   const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
   const [lessonTab, setLessonTab] = useState<"overview" | "resources" | "comments">("overview");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(true);
