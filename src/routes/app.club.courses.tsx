@@ -673,9 +673,8 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,marginBottom:14}}>
               <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
               <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-                <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark complete"} title={done?"Completed":"Mark complete"} style={{width:34,height:34,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:done?"#10B981":"#9CA3AF"}}>
-                  <CheckCircle2 size={18} fill={done?"#10B981":"none"} color={done?"#fff":"#9CA3AF"} strokeWidth={done?0:2}/>
-                  {done && <CheckCircle2 size={18} color="#fff" style={{position:"absolute"}}/>}
+                <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark complete"} title={done?"Completed":"Mark complete"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
                 </button>
                 <button aria-label="Edit lesson" title="Edit lesson" style={{width:34,height:34,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#6B7280"}}>
                   <Edit3 size={15}/>
