@@ -119,7 +119,17 @@ function LeaderboardPage() {
           <h1>Leaderboard</h1>
           <p>Top performers across your community — {periodMeta[period].toLowerCase()}.</p>
         </div>
-        <Link to="/app/club/challenges" className="cc-page-btn"><Sparkles size={14}/> View Challenges</Link>
+        <div className="lb-head-actions">
+          <div className="lb-period-pill">
+            <select value={period} onChange={e=>setPeriod(e.target.value as Period)} aria-label="Time period">
+              <option value="week">Weekly</option>
+              <option value="month">Monthly</option>
+              <option value="all">All Time</option>
+            </select>
+            <ChevronDown size={16}/>
+          </div>
+          <Link to="/app/club/challenges" className="cc-page-btn"><Sparkles size={14}/> View Challenges</Link>
+        </div>
       </div>
 
       {/* Stats strip */}
@@ -132,28 +142,19 @@ function LeaderboardPage() {
 
       {/* Filters */}
       <div className="lb-controls">
-        <div className="lb-tabs">
-          {(["week","month","all"] as Period[]).map(p => (
-            <button key={p} className={`lb-tab ${period===p?"on":""}`} onClick={()=>setPeriod(p)}>
-              {periodMeta[p]}
-            </button>
-          ))}
+        <div className="lb-search">
+          <Search size={14}/>
+          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search members…"/>
         </div>
-        <div className="lb-controls-r">
-          <div className="lb-search">
-            <Search size={14}/>
-            <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search members…"/>
-          </div>
-          <div className="lb-select-wrap">
-            <Filter size={13}/>
-            <select className="lb-select" value={category} onChange={e=>setCategory(e.target.value as Category)}>
-              <option value="points">Sort: Points</option>
-              <option value="streak">Sort: Streak</option>
-              <option value="courses">Sort: Courses</option>
-              <option value="engagement">Sort: Engagement</option>
-            </select>
-            <ChevronDown size={13}/>
-          </div>
+        <div className="lb-select-wrap">
+          <Filter size={13}/>
+          <select className="lb-select" value={category} onChange={e=>setCategory(e.target.value as Category)}>
+            <option value="points">Sort: Points</option>
+            <option value="streak">Sort: Streak</option>
+            <option value="courses">Sort: Courses</option>
+            <option value="engagement">Sort: Engagement</option>
+          </select>
+          <ChevronDown size={13}/>
         </div>
       </div>
 
