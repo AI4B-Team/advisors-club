@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
-  Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, CheckCircle2, Clock, BookOpen,
+  Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, Play, CheckCircle2, Clock, BookOpen,
   MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Plus, X,
   List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download,
 } from "lucide-react";
