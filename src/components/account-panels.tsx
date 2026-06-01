@@ -58,45 +58,174 @@ function Toggle({ on, onChange, label, sub }: { on: boolean; onChange: (v: boole
 
 /* ============ Profile ============ */
 
+const SKILL_AXES = ["Client mgmt", "Metrics", "User Flow", "User Research", "Accessibility", "Prototyping", "Visual Design"];
+const SKILL_SERIES = [
+  { name: "Achieved",    color: "#22c55e", values: [0.72, 0.65, 0.80, 0.85, 0.78, 0.70, 0.60] },
+  { name: "Progressing", color: "#3b82f6", values: [0.55, 0.50, 0.60, 0.62, 0.58, 0.85, 0.75] },
+  { name: "Want Learn",  color: "#f59e0b", values: [0.90, 0.82, 0.70, 0.55, 0.62, 0.78, 0.88] },
+];
+
+const LEARNING_HISTORY = [
+  { course: "Sales Fundamentals",       cert: "Yes", duration: "16.5h" },
+  { course: "Lead Gen Basics",          cert: "Yes", duration: "12h" },
+  { course: "Cold Outreach Essentials", cert: "—",   duration: "3.5h" },
+  { course: "Creative Finance 101",     cert: "Yes", duration: "8h" },
+  { course: "Closing Mastery",          cert: "Yes", duration: "8h" },
+  { course: "Negotiation",              cert: "Yes", duration: "24.5h" },
+];
+
+const ACHIEVEMENTS = [
+  { name: "Learning master",  pct: 80,  count: "4/5",  tint: "#f59e0b" },
+  { name: "Skill Builder",    pct: 20,  count: "1/5",  tint: "#f59e0b" },
+  { name: "Leadership",       pct: 100, count: "2/2",  tint: "#22c55e" },
+  { name: "Communicator",     pct: 50,  count: "5/10", tint: "#a855f7" },
+];
+
+function SkillRadar() {
+  const size = 280, cx = size / 2, cy = size / 2, r = 110;
+  const n = SKILL_AXES.length;
+  const pt = (i: number, v: number) => {
+    const a = (Math.PI * 2 * i) / n - Math.PI / 2;
+    return [cx + Math.cos(a) * r * v, cy + Math.sin(a) * r * v] as const;
+  };
+  const rings = [0.25, 0.5, 0.75, 1];
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className="pf-radar">
+      {rings.map((rv, i) => (
+        <polygon key={i} className="pf-radar-grid"
+          points={SKILL_AXES.map((_, j) => pt(j, rv).join(",")).join(" ")} />
+      ))}
+      {SKILL_AXES.map((_, i) => {
+        const [x, y] = pt(i, 1);
+        return <line key={i} className="pf-radar-axis" x1={cx} y1={cy} x2={x} y2={y} />;
+      })}
+      {SKILL_SERIES.map(s => (
+        <polygon key={s.name}
+          points={s.values.map((v, i) => pt(i, v).join(",")).join(" ")}
+          fill={s.color} fillOpacity={0.18} stroke={s.color} strokeWidth={2} />
+      ))}
+      {SKILL_AXES.map((label, i) => {
+        const [x, y] = pt(i, 1.18);
+        return <text key={label} x={x} y={y} className="pf-radar-label" textAnchor="middle" dominantBaseline="middle">{label}</text>;
+      })}
+    </svg>
+  );
+}
+
 export function ProfilePanel() {
   const [bio, setBio] = useState("Coach helping real estate operators close more deals with creative financing.");
   const [headline, setHeadline] = useState("Founder · Real Estate Empire");
+  const [editing, setEditing] = useState(false);
   return (
-    <div className="ap">
-      <PanelHead title="Profile" sub="How members see you across the community." />
-      <div className="ap-card">
-        <div className="ap-avatar-row">
-          <div className="ap-avatar"><img src="https://i.pravatar.cc/120?img=15" alt=""/></div>
-          <div>
-            <button className="ap-btn-light"><Upload size={14}/> Upload Photo</button>
-            <button className="ap-btn-text">Remove</button>
+    <div className="ap pf">
+      <PanelHead title="Profile" sub="How members see you across the community."
+        action={<button className="ap-btn-light" onClick={() => setEditing(v => !v)}><Edit3 size={14}/> {editing ? "Done" : "Edit Profile"}</button>} />
+
+      <div className="pf-top">
+        <div className="pf-hero">
+          <div className="pf-hero-bg" />
+          <div className="pf-hero-head">
+            <div className="pf-crumbs">Team · Founders · <b>Michael A.</b></div>
+            <button className="pf-more"><MoreHorizontal size={16}/></button>
+          </div>
+          <div className="pf-id">
+            <h2>Michael A.</h2>
+            <span>{headline}</span>
+            <div className="pf-ring">
+              <img src="https://i.pravatar.cc/200?img=15" alt=""/>
+            </div>
+          </div>
+          <div className="pf-hero-stats">
+            <div><span>Technical Skills</span><b>86%</b></div>
+            <div><span>Soft Skills</span><b>92%</b></div>
+            <div><span>Experience</span><b>8 yrs</b></div>
           </div>
         </div>
-        <div className="ap-grid-2">
-          <Field label="Display Name" value="Michael A." />
-          <Field label="Username" value="@michael" />
-          <Field label="Headline" value={headline} onChange={setHeadline} />
-          <Field label="Location" value="Austin, TX" />
+
+        <div className="pf-skills">
+          <div className="pf-card-h"><h3>Skill Map</h3></div>
+          <SkillRadar/>
+          <div className="pf-legend">
+            {SKILL_SERIES.map(s => (
+              <span key={s.name}><i style={{background:s.color}}/>{s.name}</span>
+            ))}
+          </div>
         </div>
-        <Field label="Bio" textarea value={bio} onChange={setBio} />
-        <div className="ap-divider"/>
-        <h3>Expertise & Tags</h3>
-        <div className="ap-tags">
-          {["Wholesaling","Creative Finance","Cold Outreach","Lead Gen","Coaching"].map(t => (
-            <span key={t} className="ap-tag">{t} <button>×</button></span>
-          ))}
-          <button className="ap-tag-add"><Plus size={12}/> Add</button>
-        </div>
-        <div className="ap-divider"/>
-        <h3>Social Links</h3>
-        <div className="ap-grid-2">
-          <Field label="Website" value="https://realestateempire.com"/>
-          <Field label="Twitter / X" value="@michael"/>
-          <Field label="Instagram" value="@michael"/>
-          <Field label="YouTube" value="@realestateempire"/>
-        </div>
-        <div className="ap-foot"><button className="ap-btn-primary">Save Changes</button></div>
       </div>
+
+      <div className="pf-mid">
+        <div className="pf-history">
+          <div className="pf-card-h"><h3>Learning History</h3><ArrowUpRight size={16}/></div>
+          <div className="pf-table">
+            <div className="pf-tr pf-th"><span>Course</span><span>Certification</span><span>Duration</span></div>
+            {LEARNING_HISTORY.map(r => (
+              <div key={r.course} className="pf-tr">
+                <span>{r.course}</span>
+                <span className={r.cert === "Yes" ? "pf-yes" : ""}>{r.cert}</span>
+                <span className="pf-dur">{r.duration}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="pf-ach">
+          <div className="pf-card-h"><h3>Achievements</h3></div>
+          {ACHIEVEMENTS.map(a => (
+            <div key={a.name} className="pf-ach-row">
+              <div className="pf-ach-medal" style={{background: `color-mix(in oklab, ${a.tint} 20%, transparent)`, color: a.tint}}><Award size={18}/></div>
+              <div className="pf-ach-body">
+                <div className="pf-ach-top"><span>{a.name}</span><b>{a.count}</b></div>
+                <div className="pf-ach-bar"><i style={{width: `${a.pct}%`, background: a.tint}}/></div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="pf-stats">
+          <div className="pf-card-h"><h3>Learning Statistic</h3><ArrowUpRight size={16}/></div>
+          <div className="pf-stat-row"><Clock size={16}/><span>Total learning hours</span><b>254</b></div>
+          <div className="pf-stat-row"><Award size={16}/><span>Certificates completed</span><b>8</b></div>
+          <div className="pf-stat-row"><Activity size={16}/><span>Hands-on practice hours</span><b>14</b></div>
+          <div className="pf-stat-row"><Star size={16}/><span>Courses completed</span><b>12</b></div>
+        </div>
+      </div>
+
+      {editing && (
+        <div className="ap-card">
+          <h3>Edit Profile</h3>
+          <div className="ap-avatar-row">
+            <div className="ap-avatar"><img src="https://i.pravatar.cc/120?img=15" alt=""/></div>
+            <div>
+              <button className="ap-btn-light"><Upload size={14}/> Upload Photo</button>
+              <button className="ap-btn-text">Remove</button>
+            </div>
+          </div>
+          <div className="ap-grid-2">
+            <Field label="Display Name" value="Michael A." />
+            <Field label="Username" value="@michael" />
+            <Field label="Headline" value={headline} onChange={setHeadline} />
+            <Field label="Location" value="Austin, TX" />
+          </div>
+          <Field label="Bio" textarea value={bio} onChange={setBio} />
+          <div className="ap-divider"/>
+          <h3>Expertise & Tags</h3>
+          <div className="ap-tags">
+            {["Wholesaling","Creative Finance","Cold Outreach","Lead Gen","Coaching"].map(t => (
+              <span key={t} className="ap-tag">{t} <button>×</button></span>
+            ))}
+            <button className="ap-tag-add"><Plus size={12}/> Add</button>
+          </div>
+          <div className="ap-divider"/>
+          <h3>Social Links</h3>
+          <div className="ap-grid-2">
+            <Field label="Website" value="https://realestateempire.com"/>
+            <Field label="Twitter / X" value="@michael"/>
+            <Field label="Instagram" value="@michael"/>
+            <Field label="YouTube" value="@realestateempire"/>
+          </div>
+          <div className="ap-foot"><button className="ap-btn-primary">Save Changes</button></div>
+        </div>
+      )}
     </div>
   );
 }
