@@ -1426,17 +1426,20 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
             <p style={{color:"#6B7280",fontSize:14,lineHeight:1.6,marginBottom:18}}>
               Watch the video, then mark the lesson complete to track your progress.
             </p>
-            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
               <button className="aiva-cta" onClick={toggleComplete} style={done?{background:"#10B981"}:undefined}>
                 <CheckCircle2 size={14}/> {done ? "Completed" : "Mark Complete"}
               </button>
-              <button className="btn-ghost" disabled={!prev} onClick={() => prev && setCurrent({ m: prev.m, l: prev.l })} style={!prev?{opacity:.4,cursor:"not-allowed"}:undefined}>
-                <ArrowLeft size={14}/> Previous
-              </button>
-              <button className="btn-ghost" disabled={!next} onClick={() => next && setCurrent({ m: next.m, l: next.l })} style={!next?{opacity:.4,cursor:"not-allowed"}:undefined}>
-                Next <ArrowRight size={14}/>
-              </button>
+              <div style={{marginLeft:"auto",display:"flex",gap:8}}>
+                <button className="btn-ghost" disabled={!prev} onClick={() => prev && setCurrent({ m: prev.m, l: prev.l })} style={!prev?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                  <ArrowLeft size={14}/> Previous
+                </button>
+                <button className="btn-ghost" disabled={!next} onClick={() => next && setCurrent({ m: next.m, l: next.l })} style={!next?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                  Next <ArrowRight size={14}/>
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
 
