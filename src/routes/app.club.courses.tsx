@@ -118,12 +118,21 @@ function saveAdmin(list: AdminCourse[]) {
 
 function CoursesPage() {
   const { isAdmin } = useViewMode();
-  const [course, setCourse] = useState<GSCourse | null>(null);
+  const [course, setCourse] = useState<GSCourse | null>(() => (typeof window !== "undefined" ? getGS().course : null));
   useEffect(() => {
-    setCourse(getGS().course);
-    const h = () => setCourse(getGS().course);
-    window.addEventListener("storage", h);
-    return () => window.removeEventListener("storage", h);
+    const sync = () => {
+      const next = getGS().course;
+      setCourse(prev => {
+        // Only update when content meaningfully changes — avoids ref churn from unrelated storage events.
+        if (prev === next) return prev;
+        if (!prev && !next) return prev;
+        if (prev && next && prev.id === next.id && prev.title === next.title && prev.published === next.published) return prev;
+        return next;
+      });
+    };
+    sync();
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
   }, []);
 
   if (!isAdmin) return <MemberCourses course={course} />;
