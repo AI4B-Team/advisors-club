@@ -3519,19 +3519,19 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .hm-card-all:hover{text-decoration:underline}
 
 /* Leaderboard — levels card + period boards */
-.lb-levels-card{position:relative;background:linear-gradient(180deg,#fff,#FAFBFF);border:1px solid #E5E7EB;border-radius:16px;padding:20px 22px;margin-top:18px;display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:stretch;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.lb-levels-card{position:relative;background:#fff;border:1px solid #E5E7EB;border-radius:16px;padding:24px 26px;margin-top:18px;display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:stretch;box-shadow:0 1px 2px rgba(15,23,42,.04)}
 .lb-levels-cog{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#6B7280;display:grid;place-items:center;cursor:pointer;transition:all .15s;z-index:2}
 .lb-levels-cog:hover{background:#F9FAFB;color:#111827;border-color:#D1D5DB}
 .lb-levels-me{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:8px 4px;border-right:1px dashed #E5E7EB}
-.lb-levels-ring{position:relative;width:104px;height:104px;border-radius:50%;background:conic-gradient(#F59E0B var(--p,0%),#F3F4F6 0);padding:5px;display:grid;place-items:center}
-.lb-levels-ring::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
+.lb-levels-ring{position:relative;width:160px;height:160px;border-radius:50%;background:conic-gradient(#F59E0B var(--p,0%),#F3F4F6 0);padding:6px;display:grid;place-items:center}
+.lb-levels-ring::after{content:"";position:absolute;inset:6px;border-radius:50%;background:#fff}
 .lb-levels-av{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover}
 .lb-levels-badge{position:absolute;bottom:0;right:2px;z-index:2;width:30px;height:30px;border-radius:999px;background:#F59E0B;color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(245,158,11,.4)}
 .lb-levels-me strong{font-size:15px;color:#111827;margin-top:4px}
 .lb-levels-lv{font-size:12px;color:#6B7280;font-weight:600}
 .lb-levels-progress{width:100%;margin-top:6px;display:flex;flex-direction:column;gap:6px}
 .lb-levels-progress-bar{height:8px;background:#F1F5F9;border-radius:999px;overflow:hidden}
-.lb-levels-progress-bar span{display:block;height:100%;background:linear-gradient(90deg,#F59E0B,#F97316);border-radius:999px;transition:width .4s ease}
+.lb-levels-progress-bar span{display:block;height:100%;background:#F59E0B;border-radius:999px;transition:width .4s ease}
 .lb-levels-progress-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#6B7280;font-weight:500}
 .lb-levels-progress-meta strong{color:#0F172A;font-weight:700}
 .lb-levels-pts{color:#F59E0B;font-weight:700}
@@ -3543,7 +3543,10 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .lb-levels-bars{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
 .lb-lbar{display:flex;align-items:flex-start;gap:10px;padding:6px 8px;border-radius:8px;transition:background .12s}
 .lb-lbar:hover{background:#F9FAFB}
-.lb-lbar-me{background:linear-gradient(90deg,#FEF3C7,transparent)!important;box-shadow:inset 2px 0 0 #F59E0B}
+.lb-lbar-me{background:#FEF3C7!important;box-shadow:inset 2px 0 0 #F59E0B}
+.lb-lbar-done .lb-lbar-num{background:#10B981;color:#fff}
+.lb-lbar-done .lb-lbar-pct{color:#10B981}
+.lb-lbar-done .lb-lbar-track span{background:#10B981}
 .lb-lbar-num{width:24px;height:24px;border-radius:999px;background:#FEF3C7;color:#92400E;font-size:11px;font-weight:800;display:grid;place-items:center;flex-shrink:0;margin-top:1px}
 .lb-lbar-locked .lb-lbar-num{background:#F3F4F6;color:#9CA3AF}
 .lb-lbar-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
@@ -3553,7 +3556,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .lb-lbar-here{font-size:9px;padding:2px 6px;background:#F59E0B;color:#fff;border-radius:4px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
 .lb-lbar-pct{font-size:11px;font-weight:700;color:#6B7280;font-variant-numeric:tabular-nums;flex-shrink:0}
 .lb-lbar-track{height:5px;background:#F1F5F9;border-radius:999px;overflow:hidden}
-.lb-lbar-track span{display:block;height:100%;background:linear-gradient(90deg,#F59E0B,#FCD34D);border-radius:999px;transition:width .4s ease}
+.lb-lbar-track span{display:block;height:100%;background:#F59E0B;border-radius:999px;transition:width .4s ease}
 .lb-lbar-locked .lb-lbar-track span{background:#E5E7EB}
 .lb-lbar-perk{font-size:10.5px;color:#6B7280;font-style:italic}
 @media (max-width:880px){.lb-levels-card{grid-template-columns:1fr}.lb-levels-me{border-right:0;border-bottom:1px dashed #E5E7EB;padding-bottom:18px}.lb-levels-bars{grid-template-columns:1fr}}

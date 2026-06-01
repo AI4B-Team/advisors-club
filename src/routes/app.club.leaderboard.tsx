@@ -98,7 +98,6 @@ function LeaderboardPage() {
         const intoLvl = Math.max(0, ME_MEMBER.points - curTarget);
         const pctToNext = Math.min(100, Math.round((intoLvl / span) * 100));
         const ptsToNext = Math.max(0, nextTarget - ME_MEMBER.points);
-        const maxPct = Math.max(...LB_LEVELS.map(l => l.pct), 1);
         return (
           <div className="lb-levels-card">
             <button className="lb-levels-cog" onClick={()=>setEditingLevels(true)} aria-label="Rename Levels" title="Rename Levels">
@@ -121,16 +120,25 @@ function LeaderboardPage() {
             </div>
             <div className="lb-levels-chart">
               <div className="lb-levels-chart-head">
-                <span>Level Distribution</span>
+                <span>Your Level Progress</span>
                 <span className="lb-levels-chart-sub">{all.length} Members</span>
               </div>
               <ul className="lb-levels-bars">
                 {LB_LEVELS.map(l => {
                   const customName = levelNames[l.level-1];
                   const isMe = l.level === meLvl;
-                  const width = l.locked ? 0 : Math.max(2, (l.pct / maxPct) * 100);
+                  const isPast = l.level < meLvl;
+                  const isFuture = l.level > meLvl;
+                  const width = isPast ? 100 : isMe ? pctToNext : 0;
+                  const lvlTarget = LEVEL_TARGETS[l.level - 1] ?? 0;
+                  const ptsAway = Math.max(0, lvlTarget - ME_MEMBER.points);
+                  const statusText = isPast
+                    ? "Completed"
+                    : isMe
+                      ? `${ptsToNext.toLocaleString()} pts to Level ${meLvl + 1}`
+                      : `${ptsAway.toLocaleString()} pts away`;
                   return (
-                    <li key={l.level} className={`lb-lbar ${l.locked?"lb-lbar-locked":""} ${isMe?"lb-lbar-me":""}`}>
+                    <li key={l.level} className={`lb-lbar ${l.locked?"lb-lbar-locked":""} ${isMe?"lb-lbar-me":""} ${isPast?"lb-lbar-done":""}`}>
                       <span className="lb-lbar-num">{l.locked ? <Lock size={11}/> : l.level}</span>
                       <div className="lb-lbar-body">
                         <div className="lb-lbar-top">
@@ -138,7 +146,7 @@ function LeaderboardPage() {
                             {customName ? `Level ${l.level} · ${customName}` : `Level ${l.level}`}
                             {isMe && <span className="lb-lbar-here">You</span>}
                           </span>
-                          <span className="lb-lbar-pct">{l.pct}%</span>
+                          <span className="lb-lbar-pct">{statusText}</span>
                         </div>
                         <div className="lb-lbar-track"><span style={{ width: `${width}%` }}/></div>
                         {l.label && <div className="lb-lbar-perk">{l.label}</div>}
@@ -148,6 +156,7 @@ function LeaderboardPage() {
                 })}
               </ul>
             </div>
+
           </div>
         );
       })()}
@@ -275,13 +284,14 @@ function StatCard({ icon, label, value, tint, highlight }:{ icon: React.ReactNod
 function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: LbMember; category: Category; meta:{label:string;icon:React.ReactNode;unit:string} }) {
   const key: keyof LbMember = category === "points" ? "points" : category === "streak" ? "streak" : category === "courses" ? "courses" : "engagement";
   const icons = { 1: <Crown size={18}/>, 2: <Medal size={16}/>, 3: <Award size={16}/> };
-  const grad = {
-    1: "linear-gradient(180deg,#FEF3C7,#FDE68A)",
-    2: "linear-gradient(180deg,#F1F5F9,#E2E8F0)",
-    3: "linear-gradient(180deg,#FED7AA,#FDBA74)",
+  const bg = {
+    1: "#FFFBEB",
+    2: "#F8FAFC",
+    3: "#FFF7ED",
   };
   return (
-    <div className={`lb-podium-card lb-p-${place}`} style={{background: grad[place]}}>
+    <div className={`lb-podium-card lb-p-${place}`} style={{background: bg[place]}}>
+
       <div className="lb-podium-rank">
         <span className="lb-podium-crown">{icons[place]}</span>
         <span className="lb-podium-place">#{place}</span>
