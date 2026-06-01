@@ -301,6 +301,7 @@ function CommunitySidebar() {
     <aside className="cc-sb">
       <div className="cc-sb-top" ref={ref}>
         <button className="cc-sb-switcher" onClick={() => setOpen(o => !o)}>
+          <span className="cc-sb-mini" style={{background: active.color}}>{active.label.slice(0,1)}</span>
           <span className="cc-sb-name">{active.label}</span>
           <ChevronDown size={16}/>
         </button>

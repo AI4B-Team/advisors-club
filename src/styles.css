@@ -1069,8 +1069,15 @@
 .cc.cc-min-sidebar .cc-sb-name,
 .cc.cc-min-sidebar .cc-sb-switcher>svg,
 .cc.cc-min-sidebar .cc-sb-live .cc-sb-live-dot{display:none}
-.cc.cc-min-sidebar .cc-sb-switcher::before{content:"";display:block;width:28px;height:28px;border-radius:8px;background:#111827}
-.cc.cc-min-sidebar .cc-vm-toggle{display:none}
+.cc-sb-mini{display:none}
+.cc.cc-min-sidebar .cc-sb-mini{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;color:#fff;font-weight:800;font-size:13px;text-transform:uppercase;flex-shrink:0}
+.cc.cc-min-sidebar .cc-tb-vw{margin:0 0 8px;width:100%;display:flex;justify-content:center}
+.cc.cc-min-sidebar .cc-tb-vw-trigger{width:44px;height:44px;padding:0;border-radius:50%;justify-content:center;gap:0}
+.cc.cc-min-sidebar .cc-tb-vw-label,
+.cc.cc-min-sidebar .cc-tb-vw-current>span,
+.cc.cc-min-sidebar .cc-tb-vw-caret{display:none}
+.cc.cc-min-sidebar .cc-tb-vw-current{padding:6px;border-radius:50%;flex:none}
+.cc.cc-min-sidebar .cc-tb-vw-menu{left:auto;right:auto;width:260px;min-width:260px}
 .cc.cc-min-sidebar .cc-sb-item-row .cc-sb-feed,
 .cc.cc-min-sidebar .cc-sb-item-row .cc-sb-pill{padding:10px 0;justify-content:center;width:52px;margin:0 auto}
 .cc.cc-min-sidebar .cc-sb-item-l,
