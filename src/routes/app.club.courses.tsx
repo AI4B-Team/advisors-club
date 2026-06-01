@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, Play, CheckCircle2, Clock, BookOpen,
   MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Plus, X,
-  List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download,
+  List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download, ChevronDown, ChevronUp, Circle,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -631,11 +631,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
   const [newComment, setNewComment] = useState("");
   const [completed, setCompleted] = useState<Set<string>>(new Set());
+  const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
   }, [lesson]);
+  useEffect(() => {
+    if (lesson) setTocOpen(prev => { const n = new Set(prev); n.add(lesson.m); return n; });
+  }, [lesson?.m]);
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
+  const parseMin = (s: string) => { const m = s.match(/\d+/); return m ? parseInt(m[0], 10) : 0; };
 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
   const currentIdx = lesson ? flat.findIndex(x => x.m === lesson.m && x.l === lesson.l) : -1;
@@ -668,24 +673,62 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
               <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto"}}>
-              {course.modules.map((m, mi) => (
-                <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
-                  <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.4,background:"#FAFAFA"}}>{m.title}</div>
-                  {m.lessons.map((l, li) => {
-                    const isCurrent = current.m === mi && current.l === li;
-                    const isDone = completed.has(key(mi, li));
-                    return (
-                      <button key={li} onClick={() => setLesson({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"10px 16px",background:isCurrent?"#FEF3C7":"transparent",border:0,borderLeft:isCurrent?"3px solid #F59E0B":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
-                        <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
-                          {isDone ? <CheckCircle2 size={14} color="#10B981"/> : <PlayCircle size={14} color={isCurrent ? "#F59E0B" : "#9CA3AF"}/>}
-                          <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{l.title}</span>
-                        </div>
-                        <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              ))}
+              {course.modules.map((m, mi) => {
+                const totalMin = m.lessons.reduce((a,l) => a + parseMin(l.duration), 0);
+                const doneCount = m.lessons.filter((_,li) => completed.has(key(mi,li))).length;
+                const allDone = doneCount === m.lessons.length;
+                const inProgress = doneCount > 0 && !allDone;
+                const prevMod = mi > 0 ? course.modules[mi-1] : null;
+                const prevDone = !prevMod || prevMod.lessons.every((_,li) => completed.has(key(mi-1,li)));
+                const isLocked = !prevDone && mi > 0 && current.m !== mi;
+                const isOpen = tocOpen.has(mi);
+                const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
+                return (
+                  <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
+                    <button
+                      onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
+                      disabled={isLocked}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#FAFAFA",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
+                    >
+                      {isLocked ? (
+                        <Lock size={14} color="#9CA3AF"/>
+                      ) : allDone ? (
+                        <CheckCircle2 size={16} color="#10B981"/>
+                      ) : inProgress ? (
+                        <span style={{position:"relative",width:16,height:16,display:"inline-block",flexShrink:0}}>
+                          <Circle size={16} color="#E5E7EB" style={{position:"absolute",inset:0}}/>
+                          <svg width="16" height="16" viewBox="0 0 16 16" style={{position:"absolute",inset:0,transform:"rotate(-90deg)"}}>
+                            <circle cx="8" cy="8" r="7" fill="none" stroke="#10B981" strokeWidth="2"
+                              strokeDasharray={`${(pct/100)*43.98} 43.98`} strokeLinecap="round"/>
+                          </svg>
+                        </span>
+                      ) : (
+                        <Circle size={16} color="#D1D5DB"/>
+                      )}
+                      <span style={{flex:1,fontSize:12,fontWeight:700,color:"#111827",textTransform:"uppercase",letterSpacing:.3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{m.title}</span>
+                      {totalMin > 0 && <span style={{fontSize:11,color:"#6B7280",flexShrink:0}}>{totalMin} min</span>}
+                      {!isLocked && (isOpen ? <ChevronUp size={14} color="#9CA3AF"/> : <ChevronDown size={14} color="#9CA3AF"/>)}
+                    </button>
+                    {isOpen && !isLocked && m.lessons.map((l, li) => {
+                      const isCurrent = current.m === mi && current.l === li;
+                      const isDone = completed.has(key(mi, li));
+                      const points = 8 + ((mi*7 + li*5) % 40); // deterministic pseudo points per lesson
+                      return (
+                        <button key={li} onClick={() => setLesson({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"10px 16px 10px 42px",background:isCurrent?"#FEF3C7":"transparent",border:0,borderLeft:isCurrent?"3px solid #F59E0B":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
+                          <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
+                            <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",fontWeight:isCurrent?600:400}}>{l.title}</span>
+                          </div>
+                          {isDone ? (
+                            <span style={{fontSize:11,color:"#10B981",fontWeight:700,flexShrink:0}}>+{points} points</span>
+                          ) : (
+                            <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
