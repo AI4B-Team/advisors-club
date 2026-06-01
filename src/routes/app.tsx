@@ -41,13 +41,19 @@ function AppShell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clubs[0].label, clubs[0].color]);
   const [liveOpen, setLiveOpen] = useState(false);
+  const [minSidebar, setMinSidebar] = useState(false);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const hideSidebar = pathname.startsWith("/app/account");
   const fullBleed = pathname.startsWith("/app/getting-started");
   useEffect(() => {
     const onLive = () => setLiveOpen(true);
+    const onMin = (e: Event) => setMinSidebar(Boolean((e as CustomEvent).detail));
     window.addEventListener("cc:go-live", onLive);
-    return () => window.removeEventListener("cc:go-live", onLive);
+    window.addEventListener("cc:min-sidebar", onMin as EventListener);
+    return () => {
+      window.removeEventListener("cc:go-live", onLive);
+      window.removeEventListener("cc:min-sidebar", onMin as EventListener);
+    };
   }, []);
   if (fullBleed) {
     return (
