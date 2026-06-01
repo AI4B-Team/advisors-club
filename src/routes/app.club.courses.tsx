@@ -256,7 +256,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             {createMode === "type" && (
               <div style={{display:"grid",gap:10}}>
                 {([
-                  { id: "self-paced", title: "Self-paced", desc: "Course starts when a member enrolls. All content is available immediately." },
+                  { id: "self-paced", title: "Self-Paced", desc: "Course starts when a member enrolls. All content is available immediately." },
                   { id: "structured", title: "Structured", desc: "Course starts when a member enrolls. Sections are dripped relative to their enrollment date." },
                   { id: "scheduled", title: "Scheduled", desc: "Course starts on a specific date. Sections are dripped relative to that date." },
                 ] as const).map(opt => {
