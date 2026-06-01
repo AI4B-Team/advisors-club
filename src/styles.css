@@ -3016,6 +3016,7 @@
 .mc-progress-bar{position:relative;height:24px;background:#E9EBEE;overflow:hidden;width:100%;display:block;border-radius:8px}
 .mc-progress-bar span{display:flex;align-items:center;justify-content:flex-start;padding:0 10px;height:100%;background:#10B981;color:#fff;font-size:12px;font-weight:700;letter-spacing:.01em;transition:width .4s ease;border-radius:8px;min-width:max-content;white-space:nowrap;box-sizing:border-box}
 .mc-progress-bar span:empty{min-width:0;padding:0}
+.mc-progress-bar:has(span:empty)::before{content:"0%";position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:#6B7280;letter-spacing:.01em;z-index:1}
 .mc-progress-fill{display:flex;align-items:center;padding:0 10px;height:100%;background:#10B981;color:#fff;font-size:12px;font-weight:700;transition:width .4s ease;border-radius:8px;min-width:max-content;white-space:nowrap;box-sizing:border-box}
 .mc-progress-t{display:none !important}
 .mc-card-cta{margin-top:10px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;background:#0F0F12;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s}
