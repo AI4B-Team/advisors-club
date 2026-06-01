@@ -631,6 +631,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
   const [newComment, setNewComment] = useState("");
   const [completed, setCompleted] = useState<Set<string>>(new Set());
+  const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
