@@ -243,7 +243,7 @@ export function GoLiveModal({ open, onClose }: Props) {
         {stage === "setup" && (
           <div className="gl-body">
             <label className="gl-field">
-              <span className="gl-lbl">Stream title</span>
+              <span className="gl-lbl">Stream Title</span>
               <input className="gl-input" placeholder="e.g. Weekly Q&A" value={title} maxLength={120} onChange={e => setTitle(e.target.value)}/>
             </label>
             <label className="gl-field">
@@ -385,31 +385,31 @@ export function GoLiveModal({ open, onClose }: Props) {
                   <>
                     <div className="gl-card gl-card-settings">
                       <div className="gl-card-h"><span>Settings</span></div>
-                      <div className="gl-setting"><Wand2 size={14}/> <span>Noise suppression</span>
+                      <div className="gl-setting"><Wand2 size={14}/> <span>Noise Suppression</span>
                         <button type="button" className={`gl-ai-toggle${noiseSup ? " on" : ""}`} onClick={() => setNoiseSup(v => !v)}><span/></button>
                       </div>
-                      <div className="gl-setting"><Sparkles size={14}/> <span>Video stabilization</span>
+                      <div className="gl-setting"><Sparkles size={14}/> <span>Video Stabilization</span>
                         <button type="button" className={`gl-ai-toggle${videoStab ? " on" : ""}`} onClick={() => setVideoStab(v => !v)}><span/></button>
                       </div>
-                      <div className="gl-setting"><FileText size={14}/> <span>Automatic subtitles</span>
+                      <div className="gl-setting"><FileText size={14}/> <span>Automatic Subtitles</span>
                         <button type="button" className={`gl-ai-toggle${autoSub ? " on" : ""}`} onClick={() => setAutoSub(v => !v)}><span/></button>
                       </div>
                     </div>
                     <div className="gl-card gl-card-summary">
                       <div className="gl-card-h"><span><Sparkles size={13}/> AI Summary</span><ChevronDown size={14}/></div>
-                      <div className="gl-key-h">Key points:</div>
+                      <div className="gl-key-h">Key Points:</div>
                       <ul className="gl-key">
-                        <li>Welcome & weekly intro recap</li>
-                        <li>Launch checklist walkthrough</li>
-                        <li className="muted">Open Q&A with members</li>
+                        <li>Welcome & Weekly Intro Recap</li>
+                        <li>Launch Checklist Walkthrough</li>
+                        <li className="muted">Open Q&A With Members</li>
                       </ul>
-                      <button type="button" className="gl-email-btn"><Mail size={14}/> Send by email</button>
+                      <button type="button" className="gl-email-btn"><Mail size={14}/> Send By Email</button>
                     </div>
                     <div className="gl-card">
-                      <div className="gl-card-h"><span>Action items</span><ChevronDown size={14}/></div>
+                      <div className="gl-card-h"><span>Action Items</span><ChevronDown size={14}/></div>
                       <ul>
-                        <li>Share replay in #announcements</li>
-                        <li>Post transcript to Resources</li>
+                        <li>Share Replay In #Announcements</li>
+                        <li>Post Transcript To Resources</li>
                       </ul>
                     </div>
                   </>
@@ -481,7 +481,7 @@ export function GoLiveModal({ open, onClose }: Props) {
         {stage === "schedule" && (
           <div className="gl-body">
             <label className="gl-field">
-              <span className="gl-lbl">Stream title</span>
+              <span className="gl-lbl">Stream Title</span>
               <input className="gl-input" placeholder="e.g. Weekly Q&A" value={title} maxLength={120} onChange={e => setTitle(e.target.value)}/>
             </label>
             <div className="gl-grid2">
