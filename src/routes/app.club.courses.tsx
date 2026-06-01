@@ -758,8 +758,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           <ArrowLeft size={14}/> Back to {course.title}
         </button>
         <div style={{display:"grid",gridTemplateColumns:"300px minmax(0,1fr)",gap:20,alignItems:"start"}}>
-          <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
-            <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
+          <div style={{position:"sticky",top:16,display:"flex",flexDirection:"column",gap:10}}>
+            <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,padding:"14px 16px"}}>
+
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10,gap:8,position:"relative"}}>
                 <div style={{fontWeight:700,color:"#111827",fontSize:14,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{course.title}</div>
                 {isAdmin && (
@@ -782,7 +783,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               ); })()}
               <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
             </div>
-            <div style={{maxHeight:"65vh",overflowY:"auto"}}>
+            <div style={{maxHeight:"65vh",overflowY:"auto",display:"flex",flexDirection:"column",gap:10}}>
               {course.modules.map((m, mi) => {
                 const doneCount = m.lessons.filter((_,li) => completed.has(key(mi,li))).length;
                 const allDone = doneCount === m.lessons.length;
@@ -793,7 +794,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const isOpen = tocOpen.has(mi);
                 const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
                 return (
-                  <div key={mi} style={{background:"transparent",border:0,borderRadius:12,marginBottom:8,position:"relative",overflow:"hidden"}} className="adm-mod-row">
+                  <div key={mi} style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,marginBottom:0,position:"relative",overflow:"hidden"}} className="adm-mod-row">
                     <button
                       onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       disabled={isLocked}
