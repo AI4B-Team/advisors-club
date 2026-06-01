@@ -38,10 +38,22 @@ export const LB_MEMBERS: LbMember[] = [
 ];
 
 // "You" member used on the leaderboard page only
+// Cumulative points required to reach each level (index = level - 1)
+export const LEVEL_TARGETS = [0, 100, 250, 500, 900, 1500, 2300, 3300, 4500];
+
+function levelFromPoints(points: number) {
+  let lvl = 1;
+  for (let i = 0; i < LEVEL_TARGETS.length; i++) {
+    if (points >= LEVEL_TARGETS[i]) lvl = i + 1;
+  }
+  return lvl;
+}
+
+const ME_POINTS = 284;
 export const ME_MEMBER: LbMember = {
   id:"me", name:"You", handle:"@you", initials:"YO", color:"#0EA5E9",
   photo:"https://i.pravatar.cc/80?img=58", country:"🌍",
-  points:284, streak:42, courses:11, engagement:76, level:7,
+  points: ME_POINTS, streak:42, courses:11, engagement:76, level: levelFromPoints(ME_POINTS),
   trend:"up", delta:3, badges:["🔥","⭐"], weekPoints:18, monthPoints:84,
 };
 
