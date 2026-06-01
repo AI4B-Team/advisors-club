@@ -91,27 +91,46 @@ function LeaderboardPage() {
 
       {/* Your level + level distribution */}
       <div className="lb-levels-card">
+        <button className="lb-levels-cog" onClick={()=>setEditingLevels(true)} aria-label="Rename levels" title="Rename levels">
+          <Settings size={15}/>
+        </button>
         <div className="lb-levels-me">
           <div className="lb-levels-avwrap">
             <img className="lb-levels-av" src={ME_MEMBER.photo} alt="You"/>
             <span className="lb-levels-badge">{ME_MEMBER.level}</span>
           </div>
           <strong>You</strong>
-          <span className="lb-levels-lv">Level {ME_MEMBER.level}</span>
+          <span className="lb-levels-lv">{levelNames[ME_MEMBER.level-1] ? `Level ${ME_MEMBER.level} · ${levelNames[ME_MEMBER.level-1]}` : `Level ${ME_MEMBER.level}`}</span>
           <span className="lb-levels-pts">531 points to level up</span>
         </div>
         <div className="lb-levels-grid">
-          {LB_LEVELS.map(l => (
-            <div key={l.level} className={`lb-level-row ${l.locked?"lb-level-locked":""}`}>
-              <span className="lb-level-num">{l.locked ? <Lock size={11}/> : l.level}</span>
-              <div className="lb-level-body">
-                <div className="lb-level-title">Level {l.level}</div>
-                <div className="lb-level-sub">{l.label || `${l.pct}% of members`}{l.label && ` · ${l.pct}% of members`}</div>
+          {LB_LEVELS.map(l => {
+            const customName = levelNames[l.level-1];
+            const title = customName ? `Level ${l.level} · ${customName}` : `Level ${l.level}`;
+            return (
+              <div key={l.level} className={`lb-level-row ${l.locked?"lb-level-locked":""}`}>
+                <span className="lb-level-num">{l.locked ? <Lock size={11}/> : l.level}</span>
+                <div className="lb-level-body">
+                  <div className="lb-level-title">{title}</div>
+                  <div className="lb-level-sub">{l.label || `${l.pct}% of members`}{l.label && ` · ${l.pct}% of members`}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
+      {editingLevels && (
+        <LevelNameModal
+          initial={levelNames}
+          onCancel={()=>setEditingLevels(false)}
+          onSave={(names)=>{
+            setLevelNames(names);
+            try { localStorage.setItem("lb-level-names", JSON.stringify(names)); } catch {}
+            setEditingLevels(false);
+          }}
+        />
+      )}
 
       {/* Filters */}
       <div className="lb-controls">
