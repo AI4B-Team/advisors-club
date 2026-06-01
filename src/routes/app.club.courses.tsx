@@ -747,13 +747,15 @@ function Mini({ label, value }: { label: string; value: string }) {
 
 /* ============ MEMBER VIEW ============ */
 
+type MemberLesson = { title: string; duration: string };
+type MemberModule = { title: string; lessons: MemberLesson[] };
+
 type MemberCourse = {
   id: string;
   title: string;
   blurb: string;
   cover: string;
-  modules: number;
-  lessons: number;
+  modules: MemberModule[];
   hours: string;
   progress: number;
   instructor: string;
@@ -766,43 +768,84 @@ const FALLBACK_COURSES: MemberCourse[] = [
     title: "Wholesaling Fundamentals",
     blurb: "Find motivated sellers, lock contracts, and close your first deal in 30 days.",
     cover: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80",
-    modules: 6, lessons: 28, hours: "4h 20m",
-    progress: 62, instructor: "Michael A.", tag: "In Progress",
+    hours: "4h 20m", progress: 62, instructor: "Michael A.", tag: "In Progress",
+    modules: [
+      { title: "Foundations", lessons: [
+        { title: "Welcome & Mindset", duration: "8:24" },
+        { title: "How Wholesaling Works", duration: "12:10" },
+        { title: "Setting Up Your Business", duration: "15:42" },
+      ]},
+      { title: "Finding Deals", lessons: [
+        { title: "Driving for Dollars", duration: "10:05" },
+        { title: "Direct Mail Campaigns", duration: "18:30" },
+        { title: "Online Lead Sources", duration: "14:22" },
+      ]},
+      { title: "Locking Contracts", lessons: [
+        { title: "Seller Conversations", duration: "20:15" },
+        { title: "The Purchase Agreement", duration: "16:48" },
+      ]},
+    ],
   },
   {
     id: "fc2",
     title: "Creative Financing Masterclass",
     blurb: "Subject-to, seller finance, and lease options — explained with real deal breakdowns.",
     cover: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80",
-    modules: 8, lessons: 34, hours: "6h 05m",
-    progress: 0, instructor: "Priya N.", tag: "New",
+    hours: "6h 05m", progress: 0, instructor: "Priya N.", tag: "New",
+    modules: [
+      { title: "Subject-To Deals", lessons: [
+        { title: "What is Subject-To", duration: "11:20" },
+        { title: "Finding the Right Deal", duration: "14:50" },
+      ]},
+      { title: "Seller Finance", lessons: [
+        { title: "Structuring Terms", duration: "16:00" },
+        { title: "Notes & Mortgages", duration: "12:30" },
+      ]},
+    ],
   },
   {
     id: "fc3",
     title: "Building Your Buyers List",
     blurb: "Attract cash buyers, qualify them fast, and never sit on a contract again.",
     cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80",
-    modules: 4, lessons: 18, hours: "2h 45m",
-    progress: 100, instructor: "Sara K.", tag: "Completed",
+    hours: "2h 45m", progress: 100, instructor: "Sara K.", tag: "Completed",
+    modules: [
+      { title: "Where to Find Buyers", lessons: [
+        { title: "Networking Strategies", duration: "9:10" },
+        { title: "Online Communities", duration: "11:25" },
+      ]},
+      { title: "Qualifying Buyers", lessons: [
+        { title: "Buyer Questionnaire", duration: "8:00" },
+      ]},
+    ],
   },
 ];
 
 function MemberCourses({ course }: { course: GSCourse | null }) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   const liveCourse: MemberCourse | null = course ? {
     id: "live",
     title: course.title,
     blurb: "Just released — start here.",
     cover: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80",
-    modules: course.modules.length,
-    lessons: course.modules.reduce((a,m)=>a+m.lessons,0),
     hours: `${Math.max(1, Math.round(course.modules.reduce((a,m)=>a+m.lessons,0) * 0.25))}h`,
     progress: 0, instructor: "Your Coach", tag: "New",
+    modules: course.modules.map(m => ({
+      title: m.title,
+      lessons: Array.from({ length: m.lessons }, (_, i) => ({ title: `Lesson ${i+1}`, duration: "10:00" })),
+    })),
   } : null;
 
   const list: MemberCourse[] = liveCourse ? [liveCourse, ...FALLBACK_COURSES] : FALLBACK_COURSES;
+  const selected = list.find(c => c.id === selectedId) || null;
+
+  if (selected) return <MemberCourseDetail course={selected} onBack={() => setSelectedId(null)} />;
+
   const inProgress = list.filter(c => c.progress > 0 && c.progress < 100);
   const featured = inProgress[0] || list[0];
   const completedCount = list.filter(c => c.progress === 100).length;
+  const totalLessons = (c: MemberCourse) => c.modules.reduce((a,m)=>a+m.lessons.length,0);
 
   return (
     <>
@@ -819,7 +862,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
       </div>
 
       <div className="mc-hero">
-        <div className="mc-hero-cover" style={{backgroundImage:`url(${featured.cover})`}}>
+        <div className="mc-hero-cover" style={{backgroundImage:`url(${featured.cover})`,cursor:"pointer"}} onClick={() => setSelectedId(featured.id)}>
           <button className="mc-hero-play"><PlayCircle size={44}/></button>
         </div>
         <div className="mc-hero-body">
@@ -827,8 +870,8 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
           <h2>{featured.title}</h2>
           <p>{featured.blurb}</p>
           <div className="mc-hero-meta">
-            <span>{featured.modules} modules</span><span>·</span>
-            <span>{featured.lessons} lessons</span><span>·</span>
+            <span>{featured.modules.length} modules</span><span>·</span>
+            <span>{totalLessons(featured)} lessons</span><span>·</span>
             <span>{featured.hours}</span><span>·</span>
             <span>By {featured.instructor}</span>
           </div>
@@ -836,7 +879,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
             <div className="mc-progress-bar"><span style={{width:`${featured.progress}%`}}/></div>
             <span className="mc-progress-t">{featured.progress}% complete</span>
           </div>
-          <button className="mc-hero-cta">
+          <button className="mc-hero-cta" onClick={() => setSelectedId(featured.id)}>
             <PlayCircle size={16}/> {featured.progress > 0 ? "Resume Course" : "Start Course"}
           </button>
         </div>
@@ -847,7 +890,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
       </div>
       <div className="mc-grid">
         {list.map(c => (
-          <div className="mc-card" key={c.id}>
+          <div className="mc-card" key={c.id} style={{cursor:"pointer"}} onClick={() => setSelectedId(c.id)}>
             <div className="mc-card-cover" style={{backgroundImage:`url(${c.cover})`}}>
               {c.tag && <span className={`mc-card-tag mc-tag-${c.tag.toLowerCase().replace(/\s/g,"-")}`}>{c.tag}</span>}
               <button className="mc-card-play"><PlayCircle size={32}/></button>
@@ -856,7 +899,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
               <h3>{c.title}</h3>
               <p>{c.blurb}</p>
               <div className="mc-card-meta">
-                <span>{c.lessons} lessons</span><span>·</span><span>{c.hours}</span>
+                <span>{totalLessons(c)} lessons</span><span>·</span><span>{c.hours}</span>
               </div>
               {c.progress > 0 ? (
                 <div className="mc-progress">
@@ -866,11 +909,103 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
                   </span>
                 </div>
               ) : (
-                <button className="mc-card-cta"><PlayCircle size={14}/> Start Course</button>
+                <button className="mc-card-cta" onClick={(e) => { e.stopPropagation(); setSelectedId(c.id); }}><PlayCircle size={14}/> Start Course</button>
               )}
             </div>
           </div>
         ))}
+      </div>
+    </>
+  );
+}
+
+function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: () => void }) {
+  const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
+  const key = (mi: number, li: number) => `${mi}-${li}`;
+  // Seed completion from progress %
+  const seedCount = Math.round((course.progress / 100) * flat.length);
+  const [completed, setCompleted] = useState<Set<string>>(() => new Set(flat.slice(0, seedCount).map(f => key(f.m, f.l))));
+  const firstIncomplete = flat.find(f => !completed.has(key(f.m, f.l))) || flat[0];
+  const [current, setCurrent] = useState<{ m: number; l: number }>({ m: firstIncomplete.m, l: firstIncomplete.l });
+
+  const currentIdx = flat.findIndex(x => x.m === current.m && x.l === current.l);
+  const curRec = flat[currentIdx];
+  const prev = currentIdx > 0 ? flat[currentIdx - 1] : null;
+  const next = currentIdx < flat.length - 1 ? flat[currentIdx + 1] : null;
+  const k = key(current.m, current.l);
+  const done = completed.has(k);
+  function toggleComplete() {
+    setCompleted(prev => { const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k); return n; });
+  }
+  const pct = Math.round((completed.size / flat.length) * 100);
+
+  return (
+    <>
+      <button onClick={onBack} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:16,padding:0}}>
+        <ArrowLeft size={14}/> Back to Courses
+      </button>
+      <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) 320px",gap:20,alignItems:"start"}}>
+        <div>
+          <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:14,overflow:"hidden",background:"#0F0F12"}}>
+            <div style={{position:"absolute",inset:0,backgroundImage:`url(${course.cover})`,backgroundSize:"cover",backgroundPosition:"center",opacity:.5}}/>
+            <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(0,0,0,.35)"}}>
+              <button style={{width:72,height:72,borderRadius:"50%",background:"rgba(255,255,255,.95)",border:0,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 10px 30px -10px rgba(0,0,0,.5)"}}>
+                <PlayCircle size={40} color="#111827"/>
+              </button>
+            </div>
+            <div style={{position:"absolute",bottom:14,left:16,right:16,display:"flex",justifyContent:"space-between",alignItems:"center",color:"#fff",fontSize:12,fontWeight:600}}>
+              <span style={{background:"rgba(0,0,0,.55)",padding:"4px 10px",borderRadius:999,backdropFilter:"blur(4px)"}}>Lesson {currentIdx + 1} of {flat.length}</span>
+              <span style={{background:"rgba(0,0,0,.55)",padding:"4px 10px",borderRadius:999,backdropFilter:"blur(4px)",display:"inline-flex",alignItems:"center",gap:4}}><Clock size={11}/> {curRec.lesson.duration}</span>
+            </div>
+          </div>
+
+          <div style={{marginTop:18}}>
+            <div style={{fontSize:12,fontWeight:700,color:"#7C3AED",marginBottom:6,textTransform:"uppercase",letterSpacing:.4}}>{curRec.moduleTitle}</div>
+            <h1 style={{fontSize:24,fontWeight:800,color:"#111827",marginBottom:10}}>{curRec.lesson.title}</h1>
+            <p style={{color:"#6B7280",fontSize:14,lineHeight:1.6,marginBottom:18}}>
+              Watch the video, then mark the lesson complete to track your progress.
+            </p>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              <button className="aiva-cta" onClick={toggleComplete} style={done?{background:"#10B981"}:undefined}>
+                <CheckCircle2 size={14}/> {done ? "Completed" : "Mark Complete"}
+              </button>
+              <button className="btn-ghost" disabled={!prev} onClick={() => prev && setCurrent({ m: prev.m, l: prev.l })} style={!prev?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                <ArrowLeft size={14}/> Previous
+              </button>
+              <button className="btn-ghost" disabled={!next} onClick={() => next && setCurrent({ m: next.m, l: next.l })} style={!next?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                Next <ArrowRight size={14}/>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
+          <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
+            <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{course.title}</div>
+            <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{completed.size} of {flat.length} complete · {pct}%</div>
+            <div className="mc-progress-bar" style={{marginTop:8}}><span style={{width:`${pct}%`}}/></div>
+          </div>
+          <div style={{maxHeight:"60vh",overflowY:"auto"}}>
+            {course.modules.map((m, mi) => (
+              <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
+                <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.4,background:"#FAFAFA"}}>{m.title}</div>
+                {m.lessons.map((l, li) => {
+                  const isCurrent = current.m === mi && current.l === li;
+                  const isDone = completed.has(key(mi, li));
+                  return (
+                    <button key={li} onClick={() => setCurrent({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"10px 16px",background:isCurrent?"#F3F0FF":"transparent",border:0,borderLeft:isCurrent?"3px solid #7C3AED":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
+                        {isDone ? <CheckCircle2 size={14} color="#10B981"/> : <PlayCircle size={14} color={isCurrent ? "#7C3AED" : "#9CA3AF"}/>}
+                        <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{l.title}</span>
+                      </div>
+                      <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
