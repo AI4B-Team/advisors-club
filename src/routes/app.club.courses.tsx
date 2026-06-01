@@ -584,7 +584,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               <span>{c.completionRate > 0 ? `${c.completionRate}% Complete` : "Not Started"}</span>
               <span style={{color:"#9CA3AF"}}>{Array.isArray(c.modules) ? c.modules.length : (c.modules ?? 0)} Modules</span>
             </div>
-            <div className="mc-progress" style={{padding:"0 18px 16px"}} title={`${c.completionRate}% complete`}>
+            <div className="mc-progress" style={{padding:"0 18px 16px"}} title={`${c.completionRate}% Complete`}>
               <div className="mc-progress-bar"><span style={{width:`${c.completionRate}%`}}/></div>
             </div>
           </div>
@@ -1174,7 +1174,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
           </div>
           <div className="mc-progress">
             <div className="mc-progress-bar"><span style={{width:`${featured.progress}%`}}/></div>
-            <span className="mc-progress-t">{featured.progress}% complete</span>
+            <span className="mc-progress-t">{featured.progress}% Complete</span>
           </div>
           <button className="mc-hero-cta" onClick={() => setSelectedId(featured.id)}>
             <PlayCircle size={16}/> {featured.progress > 0 ? "Resume Course" : "Start Course"}
@@ -1201,7 +1201,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
               <div className="mc-progress">
                 <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}/></div>
                 <span className="mc-progress-t">
-                  {c.progress === 100 ? <><CheckCircle2 size={12}/> Completed</> : c.progress > 0 ? `${c.progress}% complete` : "Not started"}
+                  {c.progress === 100 ? <><CheckCircle2 size={12}/> Completed</> : c.progress > 0 ? `${c.progress}% Complete` : "Not Started"}
                 </span>
               </div>
               {c.progress === 0 && (
