@@ -1062,7 +1062,7 @@
 /* ============================ COMMUNITY (CC) SHELL ============================ */
 .cc{display:grid;grid-template-columns:72px 280px 1fr;height:100vh;overflow:hidden;background:#F8F9FB;color:#111827;font-family:var(--font-sans)}
 .cc.cc-no-sidebar{grid-template-columns:72px 1fr}
-.cc.cc-min-sidebar{grid-template-columns:72px 0 1fr}
+.cc.cc-min-sidebar{grid-template-columns:72px 1fr}
 .cc.cc-min-sidebar .cc-sb{display:none}
 
 /* Icon rail */
