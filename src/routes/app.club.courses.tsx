@@ -636,7 +636,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
   }, [lesson]);
+  useEffect(() => {
+    if (lesson) setTocOpen(prev => { const n = new Set(prev); n.add(lesson.m); return n; });
+  }, [lesson?.m]);
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
+  const parseMin = (s: string) => { const m = s.match(/\d+/); return m ? parseInt(m[0], 10) : 0; };
 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
   const currentIdx = lesson ? flat.findIndex(x => x.m === lesson.m && x.l === lesson.l) : -1;
