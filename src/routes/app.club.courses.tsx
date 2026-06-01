@@ -770,11 +770,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const isOpen = tocOpen.has(mi);
                 const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
                 return (
-                  <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
+                  <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6", position:"relative"}} className="adm-mod-row">
                     <button
                       onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       disabled={isLocked}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#FAFAFA",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",paddingRight: isAdmin ? 60 : 16,background:"#FAFAFA",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
                     >
                       {isLocked ? (
                         <Lock size={14} color="#9CA3AF"/>
@@ -795,6 +795,26 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       {totalMin > 0 && <span style={{fontSize:11,color:"#6B7280",flexShrink:0}}>{totalMin} min</span>}
                       {!isLocked && (isOpen ? <ChevronUp size={14} color="#9CA3AF"/> : <ChevronDown size={14} color="#9CA3AF"/>)}
                     </button>
+                    {isAdmin && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setModuleMenuOpen(moduleMenuOpen === mi ? null : mi); }}
+                        aria-label="Folder options"
+                        className="adm-mod-more"
+                        style={{position:"absolute",top:8,right:36,width:26,height:26,borderRadius:"50%",border:0,background:moduleMenuOpen===mi?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:moduleMenuOpen===mi?1:0,transition:"opacity .12s"}}
+                      ><MoreHorizontal size={15}/></button>
+                    )}
+                    {isAdmin && moduleMenuOpen === mi && (
+                      <>
+                        <div onClick={() => setModuleMenuOpen(null)} style={{position:"fixed",inset:0,zIndex:20}}/>
+                        <div style={{position:"absolute",top:38,right:8,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:180,zIndex:30}}>
+                          <MenuItem icon={<Edit3 size={13}/>} label="Edit folder" onClick={() => editFolder(mi)}/>
+                          <MenuItem icon={<FilePlus size={13}/>} label="Add page in folder" onClick={() => addPageInFolder(mi)}/>
+                          <MenuItem icon={<CopyIcon size={13}/>} label="Duplicate folder" onClick={() => duplicateFolder(mi)}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <MenuItem icon={<Trash2 size={13}/>} label="Delete folder" danger onClick={() => deleteFolder(mi)}/>
+                        </div>
+                      </>
+                    )}
                     {isOpen && !isLocked && m.lessons.map((l, li) => {
                       const isCurrent = current.m === mi && current.l === li;
                       const isDone = completed.has(key(mi, li));
@@ -819,17 +839,69 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           </div>
 
           <div>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,marginBottom:14}}>
-              <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
-              <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-                <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark complete"} title={done?"Completed":"Mark complete"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                  <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
-                </button>
-                <button aria-label="Edit lesson" title="Edit lesson" style={{width:34,height:34,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#6B7280"}}>
-                  <Edit3 size={15}/>
-                </button>
+            {editing ? (
+              <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,boxShadow:"0 1px 2px rgba(0,0,0,.04)",marginBottom:14,overflow:"hidden"}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap"}}>
+                  {[
+                    {I:Heading1,k:"H1"},{I:Heading2,k:"H2"},{I:Heading3,k:"H3"},{I:Heading4,k:"H4"},
+                    {sep:true},
+                    {I:Bold,k:"B"},{I:Italic,k:"I"},{I:Strikethrough,k:"S"},{I:Code2,k:"code"},
+                    {sep:true},
+                    {I:List,k:"ul"},{I:ListOrdered,k:"ol"},{I:Quote,k:"q"},{I:Terminal,k:"cb"},
+                    {sep:true},
+                    {I:ImageIcon,k:"img"},{I:Link2,k:"link"},{I:Minus,k:"hr"},{I:Video,k:"video"},
+                  ].map((b,i)=> b.sep
+                    ? <span key={i} style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
+                    : <button key={i} type="button" title={b.k} style={{width:30,height:30,borderRadius:6,border:0,background:"transparent",color:"#374151",cursor:"pointer",display:"inline-flex",alignItems:"center",justifyContent:"center"}} onMouseEnter={e=>(e.currentTarget.style.background="#F3F4F6")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
+                        <b.I size={16}/>
+                      </button>
+                  )}
+                </div>
+                <div style={{padding:"14px 18px"}}>
+                  <input
+                    autoFocus
+                    value={editTitle}
+                    onChange={e=>setEditTitle(e.target.value)}
+                    placeholder="Lesson title"
+                    style={{width:"100%",border:0,outline:"none",fontSize:22,fontWeight:800,color:"#111827",background:"transparent",marginBottom:10}}
+                  />
+                  <textarea
+                    value={editBody}
+                    onChange={e=>setEditBody(e.target.value)}
+                    placeholder="Write your lesson content…"
+                    rows={6}
+                    style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
+                  />
+                </div>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA",flexWrap:"wrap"}}>
+                  <button type="button" className="btn-ghost" style={{textTransform:"uppercase",fontWeight:700,fontSize:12,letterSpacing:.5}}><Plus size={13}/> Add <ChevronDown size={12}/></button>
+                  <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
+                    <label style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:13,fontWeight:700,color:editPublished?"#10B981":"#6B7280",cursor:"pointer"}}>
+                      {editPublished?"Published":"Draft"}
+                      <span onClick={()=>setEditPublished(p=>!p)} style={{width:36,height:20,borderRadius:999,background:editPublished?"#10B981":"#D1D5DB",position:"relative",transition:"background .15s",display:"inline-block"}}>
+                        <span style={{position:"absolute",top:2,left:editPublished?18:2,width:16,height:16,borderRadius:"50%",background:"#fff",transition:"left .15s",boxShadow:"0 1px 2px rgba(0,0,0,.2)"}}/>
+                      </span>
+                    </label>
+                    <button type="button" onClick={cancelEdit} style={{background:"transparent",border:0,color:"#6B7280",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:"6px 10px"}}>Cancel</button>
+                    <button type="button" onClick={saveEdit} disabled={!editTitle.trim()} style={{background:editTitle.trim()?"#111827":"#E5E7EB",color:editTitle.trim()?"#fff":"#9CA3AF",border:0,borderRadius:8,padding:"8px 16px",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:editTitle.trim()?"pointer":"not-allowed"}}>Save</button>
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,marginBottom:14}}>
+                <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
+                <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                  <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark as done"} title={done?"Completed":"Mark as done"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
+                  </button>
+                  {isAdmin && (
+                    <button onClick={startEdit} aria-label="Edit lesson" title="Edit lesson" style={{width:34,height:34,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#6B7280"}}>
+                      <Edit3 size={15}/>
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,padding:10,boxShadow:"0 1px 2px rgba(0,0,0,.04)"}}>
               <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#F3F4F6"}}>
