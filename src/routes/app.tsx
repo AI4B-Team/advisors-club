@@ -516,7 +516,7 @@ function ViewModeToggle() {
         <span className="cc-tb-vw-label">VIEW</span>
         {isAdmin ? (
           <span className="cc-tb-vw-current admin">
-            <ShieldCheck size={13}/> Admin
+            <ShieldCheck size={13}/> <span>Admin</span>
           </span>
         ) : (
           <span className="cc-tb-vw-current member">
