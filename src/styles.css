@@ -3519,7 +3519,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .hm-card-all:hover{text-decoration:underline}
 
 /* Leaderboard — levels card + period boards */
-.lb-levels-card{position:relative;background:linear-gradient(180deg,#fff,#FAFBFF);border:1px solid #E5E7EB;border-radius:16px;padding:20px 22px;margin-top:18px;display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:stretch;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.lb-levels-card{position:relative;background:#fff;border:1px solid #E5E7EB;border-radius:16px;padding:24px 26px;margin-top:18px;display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:stretch;box-shadow:0 1px 2px rgba(15,23,42,.04)}
 .lb-levels-cog{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#6B7280;display:grid;place-items:center;cursor:pointer;transition:all .15s;z-index:2}
 .lb-levels-cog:hover{background:#F9FAFB;color:#111827;border-color:#D1D5DB}
 .lb-levels-me{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:8px 4px;border-right:1px dashed #E5E7EB}
