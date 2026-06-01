@@ -228,9 +228,9 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
       id: `c-${Date.now()}`,
       title: manualForm.title.trim(),
       blurb: manualForm.blurb.trim() || "New course — add a description.",
-      cover: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=80",
+      cover: manualForm.cover || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=80",
       price: Number(manualForm.price) || 0,
-      published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
+      published: manualForm.published, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
       updatedAt: "just now",
       modules: [{ title: "Module 1", lessons: [{ title: "Lesson 1", duration: "0:00" }] }],
     };
