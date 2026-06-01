@@ -565,8 +565,8 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               <p>{c.blurb}</p>
             </div>
             <div className="mc-progress-label">
-              <span>{c.completionRate > 0 ? `${c.completionRate}% complete` : "Not started"}</span>
-              <span style={{color:"#9CA3AF"}}>{Array.isArray(c.modules) ? c.modules.length : (c.modules ?? 0)} modules</span>
+              <span>{c.completionRate > 0 ? `${c.completionRate}% Complete` : "Not Started"}</span>
+              <span style={{color:"#9CA3AF"}}>{Array.isArray(c.modules) ? c.modules.length : (c.modules ?? 0)} Modules</span>
             </div>
             <div className="mc-progress" title={`${c.completionRate}% complete`}>
               {c.completionRate > 0 && <div className="mc-progress-fill" style={{width:`${c.completionRate}%`}}/>}
@@ -645,7 +645,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
               <div style={{height:6,background:"#F3F4F6",borderRadius:999,overflow:"hidden"}}>
                 <div style={{height:"100%",width:`${(completed.size/flat.length)*100}%`,background:"#10B981",borderRadius:999,transition:"width .3s ease"}}/>
               </div>
-              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} lessons complete</div>
+              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto"}}>
               {course.modules.map((m, mi) => (
@@ -868,7 +868,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
       <div className="lt-section-head">
         <h2><BookOpen size={16}/> Curriculum</h2>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
-          <span style={{fontSize:12,color:"#6B7280"}}>{course.modules.length} modules · {totalLessons} lessons</span>
+          <span style={{fontSize:12,color:"#6B7280"}}>{course.modules.length} Modules · {totalLessons} Lessons</span>
           <div style={{display:"inline-flex",background:"#F3F4F6",borderRadius:8,padding:3,gap:2}}>
             <button onClick={() => setCurView("toc")} title="List view" style={{display:"inline-flex",alignItems:"center",gap:5,padding:"6px 10px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:curView==="toc"?"#fff":"transparent",color:curView==="toc"?"#111827":"#6B7280",boxShadow:curView==="toc"?"0 1px 2px rgba(0,0,0,.06)":"none"}}>
               <List size={13}/> List
