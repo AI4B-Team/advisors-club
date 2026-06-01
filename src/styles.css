@@ -2973,8 +2973,10 @@
 .mc-card{background:#fff;border:1px solid #E5E7EB;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(15,15,18,.05);transition:box-shadow .15s,transform .15s}
 .mc-card:hover{box-shadow:0 10px 28px -14px rgba(15,15,18,.2);transform:translateY(-2px)}
 .mc-card-cover{position:relative;aspect-ratio:16/9;background-size:cover;background-position:center;background-color:#F3F4F6}
-.mc-card-play{position:absolute;inset:0;margin:auto;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.95);border:none;display:flex;align-items:center;justify-content:center;color:#0F0F12;cursor:pointer;z-index:1;opacity:0;transition:opacity .15s}
+.mc-card-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;padding:0;border-radius:999px;background:rgba(255,255,255,.95);border:none;display:flex;align-items:center;justify-content:center;color:#0F0F12;cursor:pointer;z-index:1;opacity:0;transition:opacity .15s,transform .15s;box-shadow:0 4px 14px rgba(0,0,0,.2)}
 .mc-card:hover .mc-card-play{opacity:1}
+.mc-card-play:hover{transform:translate(-50%,-50%) scale(1.08)}
+.mc-card-play svg{width:24px;height:24px}
 .mc-card-tag{position:absolute;top:10px;left:10px;z-index:1;padding:4px 9px;border-radius:6px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#0F0F12;color:#fff;display:inline-flex;align-items:center;gap:4px;line-height:1;white-space:nowrap}
 .mc-tag-new{background:#2563EB;color:#fff}
 .mc-tag-completed{background:#16A34A;color:#fff}
