@@ -573,7 +573,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
             <Mini label="Completion" value={`${course.completionRate}%`}/>
           </div>
           <div style={{display:"flex",gap:8,marginTop:"auto",flexWrap:"wrap"}}>
-            <button className="aiva-cta"><Edit3 size={14}/> Edit Course</button>
+            <button className="aiva-cta"><Edit3 size={14}/> Edit</button>
             <button className="btn-ghost" onClick={onTogglePublish}>
               {course.published ? <><Lock size={14}/> Unpublish</> : <><Globe size={14}/> Publish</>}
             </button>
