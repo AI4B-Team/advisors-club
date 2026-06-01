@@ -97,7 +97,7 @@ function IconRail() {
           className={`cc-rail-bubble ${active.id === it.id ? "on":""}`}
           data-tip={it.label}
           style={{background: it.color}}
-          onClick={() => setActive(it)}
+          onClick={() => { setActive(it); nav({ to: "/app" }); }}
         >
           {it.label.slice(0,1)}
         </button>
