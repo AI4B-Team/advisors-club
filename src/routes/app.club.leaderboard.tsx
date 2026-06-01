@@ -98,7 +98,6 @@ function LeaderboardPage() {
         const intoLvl = Math.max(0, ME_MEMBER.points - curTarget);
         const pctToNext = Math.min(100, Math.round((intoLvl / span) * 100));
         const ptsToNext = Math.max(0, nextTarget - ME_MEMBER.points);
-        const maxPct = Math.max(...LB_LEVELS.map(l => l.pct), 1);
         return (
           <div className="lb-levels-card">
             <button className="lb-levels-cog" onClick={()=>setEditingLevels(true)} aria-label="Rename Levels" title="Rename Levels">
