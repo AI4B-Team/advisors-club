@@ -608,6 +608,12 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const [expanded, setExpanded] = useState<number | null>(0);
   const [curView, setCurView] = useState<"toc" | "grid">("toc");
   const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
+  const [lessonTab, setLessonTab] = useState<"overview" | "resources" | "comments">("overview");
+  const [commentsEnabled, setCommentsEnabled] = useState<boolean>(true);
+  const [lessonResources, setLessonResources] = useState<Record<string, { id: string; type: "link" | "file"; title: string; url: string }[]>>({});
+  const [lessonComments, setLessonComments] = useState<Record<string, { id: string; author: string; text: string; at: string }[]>>({});
+  const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
+  const [newComment, setNewComment] = useState("");
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
 
