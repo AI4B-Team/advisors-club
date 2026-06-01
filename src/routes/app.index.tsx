@@ -241,7 +241,7 @@ function HomePage() {
                 <li><Link2 size={14}/> <a href="#">Schedule Your Call</a></li>
               </ul>
               <div className="hm-profile-stats">
-                <div><strong>3.5k</strong><span>Members</span></div>
+                <div><strong>3,541</strong><span>Members</span></div>
                 <div><strong>221<i/></strong><span>Online</span></div>
                 <div><strong>3</strong><span>Admins</span></div>
               </div>
