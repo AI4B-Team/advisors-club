@@ -921,7 +921,7 @@
 
 /* === Account/Settings page (Skool style) === */
 .acct-wrap{background:#fff;min-height:calc(100vh - 56px);margin:-28px -32px;padding:32px 32px 40px 0}
-.acct{display:grid;grid-template-columns:240px 1fr;gap:32px;max-width:1200px;margin:0}
+.acct{display:grid;grid-template-columns:240px 1fr;gap:0;max-width:1200px;margin:0;min-height:calc(100vh - 96px)}
 .acct-nav{display:flex;flex-direction:column;gap:4px;position:sticky;top:80px;align-self:start;padding:4px 16px 4px 8px;border-right:1px solid var(--line)}
 .acct-nav-group{display:flex;flex-direction:column;gap:4px}
 .acct-nav-group-sep{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
@@ -930,7 +930,7 @@
 .acct-tab:hover{background:#F3F4F6}
 .acct-tab.on{background:#111827;color:#fff}
 .acct-tab.on svg{color:#fff}
-.acct-panel{min-width:0}
+.acct-panel{min-width:0;border-left:1px solid var(--line);padding-left:32px}
 .acct-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:32px}
 .acct-box h2{font-size:22px;font-weight:800;margin-bottom:6px;color:var(--ink)}
 .acct-sub{font-size:14px;color:var(--muted);margin-bottom:22px}
