@@ -798,7 +798,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     <button
                       onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       disabled={isLocked}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",paddingRight: isAdmin ? 44 : 16,background:"#fff",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#fff",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
                     >
                       {isLocked ? (
                         <Lock size={14} color="#9CA3AF"/>
@@ -823,7 +823,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         onClick={(e) => { e.stopPropagation(); setModuleMenuOpen(moduleMenuOpen === mi ? null : mi); }}
                         aria-label="Folder options"
                         className="adm-mod-more"
-                        style={{position:"absolute",top:8,right:38,width:26,height:26,borderRadius:"50%",border:0,background:moduleMenuOpen===mi?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:moduleMenuOpen===mi?1:0,transition:"opacity .12s"}}
+                        style={{position:"absolute",top:8,right:40,width:26,height:26,borderRadius:"50%",border:0,background:moduleMenuOpen===mi?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:moduleMenuOpen===mi?1:0,transition:"opacity .12s"}}
                       ><MoreVertical size={15}/></button>
                     )}
                     {isAdmin && moduleMenuOpen === mi && (
