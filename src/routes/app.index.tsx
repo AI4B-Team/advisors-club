@@ -69,6 +69,10 @@ function HomePage() {
   const [composerCat, setComposerCat] = useState<PostCategory>("general");
   const [catOpen, setCatOpen] = useState(false);
 
+  const [events, setEvents] = useState<EventItem[]>(() => getEvents());
+  useEffect(() => subscribeEvents(() => setEvents(getEvents())), []);
+  const upcoming = events.slice(0, 5);
+
   function publish() {
     const text = draft.trim();
     const t = title.trim();
