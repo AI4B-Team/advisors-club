@@ -131,7 +131,7 @@ function MembersMap() {
                 <span style={{fontSize:16}}>{c.flag}</span> {c.name} · {c.members.length}
               </div>
               <div style={{display:"flex",gap:-4}}>
-                {c.members.slice(0,5).map((m,i) => (
+                {c.members.slice(0,5).map((m: LbMember, i: number) => (
                   <img key={m.id} src={m.photo} alt={m.name} style={{width:24,height:24,borderRadius:"50%",border:"2px solid #fff",marginLeft:i===0?0:-6,objectFit:"cover"}}/>
                 ))}
                 {c.members.length > 5 && (
