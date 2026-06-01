@@ -418,7 +418,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
 
   // Course detail view
   if (selected) {
-    return <CourseDetail course={selected} onBack={() => setSelectedId(null)} onArchive={() => archiveCourse(selected.id)} onDelete={() => deleteCourse(selected.id)} onTogglePublish={() => togglePublish(selected.id)} />;
+    return <CourseDetail course={selected} onBack={() => setSelectedId(null)} onArchive={() => archiveCourse(selected.id)} onDelete={() => deleteCourse(selected.id)} onTogglePublish={() => togglePublish(selected.id)} onUpdateCourse={(updated) => persist(merged.map(c => c.id === updated.id ? updated : c))} />;
   }
 
   // Archives view
