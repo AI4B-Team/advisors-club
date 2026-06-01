@@ -983,9 +983,50 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     rows={editMediaType==="none"?14:6}
                     style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
                   />
+                  {(() => {
+                    const resources = lessonResources[k] ?? [];
+                    if (resources.length === 0) return null;
+                    return (
+                      <div style={{marginTop:18,paddingTop:14,borderTop:"1px solid #F3F4F6"}}>
+                        <div style={{fontSize:13,fontWeight:700,color:"#111827",marginBottom:10}}>Resources</div>
+                        <div style={{display:"flex",flexDirection:"column",gap:6}}>
+                          {resources.map(r => (
+                            <div key={r.id} className="adm-res-row" style={{display:"flex",alignItems:"center",gap:10,padding:"6px 4px",position:"relative"}}>
+                              {r.type === "file" ? (
+                                <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24,borderRadius:5,background:"#EF4444",color:"#fff",fontSize:9,fontWeight:800,letterSpacing:.3,flexShrink:0}}>PDF</span>
+                              ) : (
+                                <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24,borderRadius:5,background:"#F3F4F6",color:"#6B7280",flexShrink:0}}><LinkIcon size={13}/></span>
+                              )}
+                              <a href={r.url} target="_blank" rel="noreferrer" style={{flex:1,fontSize:14,fontWeight:600,color:"#2563EB",textTransform:"uppercase",letterSpacing:.3,textDecoration:"none",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.title}</a>
+                              <button type="button" onClick={()=>setResourceMenuOpen(resourceMenuOpen===r.id?null:r.id)} className="adm-res-more" aria-label="Resource options" style={{width:26,height:26,borderRadius:6,border:0,background:"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:resourceMenuOpen===r.id?1:0,transition:"opacity .12s"}}><MoreHorizontal size={15}/></button>
+                              {resourceMenuOpen === r.id && (
+                                <>
+                                  <div onClick={()=>setResourceMenuOpen(null)} style={{position:"fixed",inset:0,zIndex:20}}/>
+                                  <div style={{position:"absolute",top:32,right:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:140,zIndex:30}}>
+                                    <MenuItem icon={<Trash2 size={13}/>} label="Delete" danger onClick={()=>deleteResource(r.id)}/>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
                 <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA",flexWrap:"wrap"}}>
-                  <button type="button" className="btn-ghost" style={{textTransform:"uppercase",fontWeight:700,fontSize:12,letterSpacing:.5}}><Plus size={13}/> Add <ChevronDown size={12}/></button>
+                  <div style={{position:"relative"}}>
+                    <button type="button" onClick={()=>setAddMenuOpen(o=>!o)} className="btn-ghost" style={{textTransform:"uppercase",fontWeight:700,fontSize:12,letterSpacing:.5}}><Plus size={13}/> Add <ChevronDown size={12}/></button>
+                    {addMenuOpen && (
+                      <>
+                        <div onClick={()=>setAddMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
+                        <div style={{position:"absolute",bottom:"100%",left:0,marginBottom:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:160,zIndex:50}}>
+                          <MenuItem icon={<Paperclip size={13}/>} label="File" onClick={()=>openAddModal("file")}/>
+                          <MenuItem icon={<LinkIcon size={13}/>} label="Link" onClick={()=>openAddModal("link")}/>
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
                     <label style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:13,fontWeight:700,color:editPublished?"#10B981":"#6B7280",cursor:"pointer"}}>
                       {editPublished?"Published":"Draft"}
@@ -997,6 +1038,57 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     <button type="button" onClick={saveEdit} disabled={!editTitle.trim()} style={{background:editTitle.trim()?"#111827":"#E5E7EB",color:editTitle.trim()?"#fff":"#9CA3AF",border:0,borderRadius:8,padding:"8px 16px",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:editTitle.trim()?"pointer":"not-allowed"}}>Save</button>
                   </div>
                 </div>
+                {addModal && (
+                  <div onClick={closeAddModal} style={{position:"fixed",inset:0,background:"rgba(17,24,39,.5)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+                    <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:14,width:"100%",maxWidth:480,boxShadow:"0 25px 60px -15px rgba(0,0,0,.35)",overflow:"hidden"}}>
+                      <div style={{padding:"20px 22px 4px"}}>
+                        <h3 style={{margin:0,fontSize:20,fontWeight:800,color:"#111827"}}>{addModal === "file" ? "Add File" : "Add Link"}</h3>
+                      </div>
+                      <div style={{padding:"14px 22px 4px",display:"flex",flexDirection:"column",gap:14}}>
+                        {addModal === "file" && (
+                          addFile ? (
+                            <div style={{display:"flex",alignItems:"center",gap:10}}>
+                              <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:28,height:28,borderRadius:5,background:"#EF4444",color:"#fff",fontSize:10,fontWeight:800}}>PDF</span>
+                              <span style={{fontSize:14,fontWeight:600,color:"#111827",flex:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{addFile.name}</span>
+                              <button type="button" onClick={()=>setAddFile(null)} style={{background:"transparent",border:0,color:"#9CA3AF",cursor:"pointer"}}><X size={16}/></button>
+                            </div>
+                          ) : (
+                            <label style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"18px 12px",border:"1px dashed #D1D5DB",borderRadius:10,background:"#FAFAFA",cursor:"pointer",fontSize:13,color:"#6B7280",fontWeight:600}}>
+                              <Upload size={15}/> Click To Upload A File
+                              <input type="file" style={{display:"none"}} onChange={e=>{
+                                const f = e.target.files?.[0]; if (!f) return;
+                                setAddFile({ name: f.name, url: URL.createObjectURL(f) });
+                                if (!addLabel) setAddLabel(f.name.replace(/\.[^.]+$/, "").slice(0, LABEL_MAX));
+                              }}/>
+                            </label>
+                          )
+                        )}
+                        <div>
+                          <div style={{position:"relative",border:"1px solid #D1D5DB",borderRadius:8,padding:"10px 12px 8px"}}>
+                            <div style={{fontSize:11,color:"#6B7280",fontWeight:600,marginBottom:2}}>Label</div>
+                            <input autoFocus value={addLabel} maxLength={LABEL_MAX} onChange={e=>setAddLabel(e.target.value)} style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#111827",background:"transparent"}}/>
+                          </div>
+                          <div style={{fontSize:11,color:"#9CA3AF",textAlign:"right",marginTop:4}}>{addLabel.length} / {LABEL_MAX}</div>
+                        </div>
+                        {addModal === "link" && (
+                          <div style={{border:"1px solid #D1D5DB",borderRadius:8,padding:"10px 12px 8px"}}>
+                            <div style={{fontSize:11,color:"#6B7280",fontWeight:600,marginBottom:2}}>URL</div>
+                            <input value={addUrl} onChange={e=>setAddUrl(e.target.value)} placeholder="https://..." style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#111827",background:"transparent"}}/>
+                          </div>
+                        )}
+                      </div>
+                      <div style={{display:"flex",justifyContent:"flex-end",alignItems:"center",gap:8,padding:"14px 18px 18px"}}>
+                        <button type="button" onClick={closeAddModal} style={{background:"transparent",border:0,color:"#6B7280",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:"8px 14px"}}>Cancel</button>
+                        {(() => {
+                          const ok = addModal === "file" ? !!(addFile && addLabel.trim()) : !!(addLabel.trim() && addUrl.trim());
+                          return (
+                            <button type="button" onClick={commitAddResource} disabled={!ok} style={{background:ok?"#111827":"#E5E7EB",color:ok?"#fff":"#9CA3AF",border:0,borderRadius:8,padding:"10px 20px",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:ok?"pointer":"not-allowed"}}>Add</button>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,marginBottom:14}}>
