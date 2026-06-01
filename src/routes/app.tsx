@@ -55,29 +55,24 @@ function AppShell() {
       window.removeEventListener("cc:min-sidebar", onMin as EventListener);
     };
   }, []);
-  if (fullBleed) {
-    return (
-      <ViewModeProvider>
-        <ClubCtx.Provider value={{ active, setActive }}>
-          <Outlet />
-        </ClubCtx.Provider>
-      </ViewModeProvider>
-    );
-  }
   return (
     <ViewModeProvider>
       <ClubCtx.Provider value={{ active, setActive }}>
-        <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}${minSidebar && !hideSidebar ? " cc-min-sidebar" : ""}`}>
-          <IconRail />
-          {!hideSidebar && <CommunitySidebar />}
-          <div className="cc-main-wrap">
-            <Topbar />
-            <main className="cc-main">
-              <Outlet />
-            </main>
+        {fullBleed ? (
+          <Outlet />
+        ) : (
+          <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}${minSidebar && !hideSidebar ? " cc-min-sidebar" : ""}`}>
+            <IconRail />
+            {!hideSidebar && <CommunitySidebar />}
+            <div className="cc-main-wrap">
+              <Topbar />
+              <main className="cc-main">
+                <Outlet />
+              </main>
+            </div>
+            <GoLiveModal open={liveOpen} onClose={() => setLiveOpen(false)} />
           </div>
-          <GoLiveModal open={liveOpen} onClose={() => setLiveOpen(false)} />
-        </div>
+        )}
       </ClubCtx.Provider>
     </ViewModeProvider>
   );
