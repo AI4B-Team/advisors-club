@@ -1071,7 +1071,15 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
   } : null;
 
   const list: MemberCourse[] = liveCourse ? [liveCourse, ...FALLBACK_COURSES] : FALLBACK_COURSES;
-  const selected = list.find(c => c.id === selectedId) || null;
+  // Latch the selected course so list churn doesn't drop the detail view back to the grid.
+  const [selectedSnapshot, setSelectedSnapshot] = useState<MemberCourse | null>(null);
+  useEffect(() => {
+    if (!selectedId) { setSelectedSnapshot(null); return; }
+    const found = list.find(c => c.id === selectedId);
+    if (found) setSelectedSnapshot(found);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId, list.length, list.map(c=>c.id).join("|")]);
+  const selected = selectedSnapshot && selectedSnapshot.id === selectedId ? selectedSnapshot : list.find(c => c.id === selectedId) || null;
 
   if (selected) return <MemberCourseDetail course={selected} onBack={() => setSelectedId(null)} />;
 
