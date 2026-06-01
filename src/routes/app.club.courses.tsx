@@ -1016,11 +1016,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 </div>
                 <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA",flexWrap:"wrap"}}>
                   <div style={{position:"relative"}}>
-                    <button type="button" onClick={()=>setAddMenuOpen(o=>!o)} className="btn-ghost" style={{textTransform:"uppercase",fontWeight:700,fontSize:12,letterSpacing:.5}}><Plus size={13}/> Add <ChevronDown size={12}/></button>
+                    <button type="button" onClick={()=>setAddMenuOpen(o=>!o)} className="btn-ghost" style={{textTransform:"uppercase",fontWeight:700,fontSize:12,letterSpacing:.5}}><Plus size={13}/> Add</button>
                     {addMenuOpen && (
                       <>
                         <div onClick={()=>setAddMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
-                        <div style={{position:"absolute",bottom:"100%",left:0,marginBottom:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:160,zIndex:50}}>
+                        <div style={{position:"absolute",left:"100%",bottom:0,marginLeft:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:160,zIndex:50}}>
                           <MenuItem icon={<Paperclip size={13}/>} label="File" onClick={()=>openAddModal("file")}/>
                           <MenuItem icon={<LinkIcon size={13}/>} label="Link" onClick={()=>openAddModal("link")}/>
                         </div>
