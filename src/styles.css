@@ -3543,7 +3543,10 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .lb-levels-bars{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
 .lb-lbar{display:flex;align-items:flex-start;gap:10px;padding:6px 8px;border-radius:8px;transition:background .12s}
 .lb-lbar:hover{background:#F9FAFB}
-.lb-lbar-me{background:linear-gradient(90deg,#FEF3C7,transparent)!important;box-shadow:inset 2px 0 0 #F59E0B}
+.lb-lbar-me{background:#FEF3C7!important;box-shadow:inset 2px 0 0 #F59E0B}
+.lb-lbar-done .lb-lbar-num{background:#10B981;color:#fff}
+.lb-lbar-done .lb-lbar-pct{color:#10B981}
+.lb-lbar-done .lb-lbar-track span{background:#10B981}
 .lb-lbar-num{width:24px;height:24px;border-radius:999px;background:#FEF3C7;color:#92400E;font-size:11px;font-weight:800;display:grid;place-items:center;flex-shrink:0;margin-top:1px}
 .lb-lbar-locked .lb-lbar-num{background:#F3F4F6;color:#9CA3AF}
 .lb-lbar-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
