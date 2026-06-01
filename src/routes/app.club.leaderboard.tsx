@@ -21,6 +21,12 @@ function LeaderboardPage() {
   const [period, setPeriod] = useState<Period>("month");
   const [category, setCategory] = useState<Category>("points");
   const [q, setQ] = useState("");
+  const [editingLevels, setEditingLevels] = useState(false);
+  const [levelNames, setLevelNames] = useState<string[]>(() => {
+    if (typeof window === "undefined") return Array(9).fill("");
+    try { return JSON.parse(localStorage.getItem("lb-level-names") || "[]").concat(Array(9).fill("")).slice(0,9); }
+    catch { return Array(9).fill(""); }
+  });
 
   const all = useMemo(() => [...LB_MEMBERS, ME_MEMBER], []);
 
