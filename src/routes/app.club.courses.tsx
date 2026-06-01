@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, CheckCircle2, Clock, BookOpen,
   MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Plus, X,
-  List, LayoutGrid,
+  List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -608,6 +608,12 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const [expanded, setExpanded] = useState<number | null>(0);
   const [curView, setCurView] = useState<"toc" | "grid">("toc");
   const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
+  const [lessonTab, setLessonTab] = useState<"overview" | "resources" | "comments">("overview");
+  const [commentsEnabled, setCommentsEnabled] = useState<boolean>(true);
+  const [lessonResources, setLessonResources] = useState<Record<string, { id: string; type: "link" | "file"; title: string; url: string }[]>>({});
+  const [lessonComments, setLessonComments] = useState<Record<string, { id: string; author: string; text: string; at: string }[]>>({});
+  const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
+  const [newComment, setNewComment] = useState("");
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
 
@@ -663,12 +669,117 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
               </div>
             </div>
 
-            <div className="lt-section-head" style={{marginTop:32}}>
-              <h2><BookOpen size={16}/> Lesson Resources</h2>
-            </div>
-            <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,padding:16,color:"#6B7280",fontSize:13}}>
-              Attach worksheets, PDFs, or links for this lesson.
-            </div>
+            {/* Lesson tabs: Overview / Resources / Comments */}
+            {(() => {
+              const resources = lessonResources[k] ?? [];
+              const comments = lessonComments[k] ?? [];
+              const TabBtn = ({ id, icon, label, count }: { id: "overview"|"resources"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
+                const active = lessonTab === id;
+                return (
+                  <button onClick={() => setLessonTab(id)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"10px 14px",background:"transparent",border:0,borderBottom: active ? "2px solid #111827" : "2px solid transparent",color: active ? "#111827" : "#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:-1}}>
+                    {icon}{label}{count !== undefined && count > 0 && <span style={{fontSize:11,background:"#F3F4F6",color:"#6B7280",padding:"1px 7px",borderRadius:999,fontWeight:700}}>{count}</span>}
+                  </button>
+                );
+              };
+              return (
+                <div style={{marginTop:24}}>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,borderBottom:"1px solid #E5E7EB"}}>
+                    <div style={{display:"flex",gap:4}}>
+                      <TabBtn id="overview" icon={<BookOpen size={14}/>} label="Overview"/>
+                      <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>
+                      {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Comments" count={comments.length}/>}
+                    </div>
+                    <label style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:12,color:"#6B7280",cursor:"pointer",paddingBottom:8}}>
+                      <input type="checkbox" checked={commentsEnabled} onChange={e=>setCommentsEnabled(e.target.checked)}/>
+                      Enable comments
+                    </label>
+                  </div>
+
+                  {lessonTab === "overview" && (
+                    <div style={{padding:"18px 2px",color:"#374151",fontSize:14,lineHeight:1.6}}>
+                      In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress.
+                    </div>
+                  )}
+
+                  {lessonTab === "resources" && (
+                    <div style={{padding:"18px 0"}}>
+                      <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
+                        {resources.length === 0 && (
+                          <div style={{background:"#FAFAFA",border:"1px dashed #E5E7EB",borderRadius:10,padding:16,color:"#6B7280",fontSize:13,textAlign:"center"}}>
+                            No resources yet. Attach worksheets, PDFs, or helpful links below.
+                          </div>
+                        )}
+                        {resources.map(r => (
+                          <a key={r.id} href={r.url} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",textDecoration:"none"}}>
+                            <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
+                              <span style={{width:32,height:32,borderRadius:8,background:r.type==="file"?"#EEF2FF":"#ECFDF5",color:r.type==="file"?"#4F46E5":"#059669",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                                {r.type === "file" ? <FileText size={15}/> : <LinkIcon size={15}/>}
+                              </span>
+                              <div style={{minWidth:0}}>
+                                <div style={{fontSize:13.5,fontWeight:600,color:"#111827",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.title}</div>
+                                <div style={{fontSize:11.5,color:"#9CA3AF",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.url}</div>
+                              </div>
+                            </div>
+                            <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
+                              <Download size={14} color="#9CA3AF"/>
+                              <button onClick={(e)=>{e.preventDefault();setLessonResources(prev=>({...prev,[k]:(prev[k]??[]).filter(x=>x.id!==r.id)}));}} style={{background:"transparent",border:0,cursor:"pointer",color:"#9CA3AF",padding:4}}><X size={13}/></button>
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                      <div style={{display:"flex",gap:8,padding:12,background:"#FAFAFA",border:"1px solid #E5E7EB",borderRadius:10,flexWrap:"wrap",alignItems:"center"}}>
+                        <div style={{display:"inline-flex",background:"#fff",borderRadius:8,padding:3,border:"1px solid #E5E7EB"}}>
+                          <button onClick={()=>setNewResource(r=>({...r,type:"link"}))} style={{display:"inline-flex",alignItems:"center",gap:4,padding:"5px 9px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:newResource.type==="link"?"#111827":"transparent",color:newResource.type==="link"?"#fff":"#6B7280"}}><LinkIcon size={12}/> Link</button>
+                          <button onClick={()=>setNewResource(r=>({...r,type:"file"}))} style={{display:"inline-flex",alignItems:"center",gap:4,padding:"5px 9px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:newResource.type==="file"?"#111827":"transparent",color:newResource.type==="file"?"#fff":"#6B7280"}}><Paperclip size={12}/> File</button>
+                        </div>
+                        <input value={newResource.title} onChange={e=>setNewResource(r=>({...r,title:e.target.value}))} placeholder="Title" style={{flex:"1 1 140px",padding:"8px 10px",border:"1px solid #E5E7EB",borderRadius:8,fontSize:13,background:"#fff"}}/>
+                        <input value={newResource.url} onChange={e=>setNewResource(r=>({...r,url:e.target.value}))} placeholder={newResource.type==="file"?"File URL (uploaded)":"https://..."} style={{flex:"2 1 220px",padding:"8px 10px",border:"1px solid #E5E7EB",borderRadius:8,fontSize:13,background:"#fff"}}/>
+                        <button className="aiva-cta" onClick={()=>{
+                          if(!newResource.title.trim()||!newResource.url.trim()) return;
+                          const item = { id: Math.random().toString(36).slice(2,9), type: newResource.type, title: newResource.title.trim(), url: newResource.url.trim() };
+                          setLessonResources(prev=>({...prev,[k]:[...(prev[k]??[]),item]}));
+                          setNewResource({type:newResource.type,title:"",url:""});
+                        }}><Plus size={13}/> Add</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {lessonTab === "comments" && commentsEnabled && (
+                    <div style={{padding:"18px 0"}}>
+                      <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:14}}>
+                        {comments.length === 0 && (
+                          <div style={{background:"#FAFAFA",border:"1px dashed #E5E7EB",borderRadius:10,padding:16,color:"#6B7280",fontSize:13,textAlign:"center"}}>
+                            No comments yet. Be the first to start the discussion.
+                          </div>
+                        )}
+                        {comments.map(c => (
+                          <div key={c.id} style={{display:"flex",gap:10,padding:"12px 14px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff"}}>
+                            <div style={{width:32,height:32,borderRadius:"50%",background:"#7C3AED",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,flexShrink:0}}>{c.author.slice(0,1).toUpperCase()}</div>
+                            <div style={{flex:1,minWidth:0}}>
+                              <div style={{display:"flex",alignItems:"baseline",gap:8,marginBottom:2}}>
+                                <span style={{fontSize:13,fontWeight:700,color:"#111827"}}>{c.author}</span>
+                                <span style={{fontSize:11,color:"#9CA3AF"}}>{c.at}</span>
+                              </div>
+                              <div style={{fontSize:13.5,color:"#374151",lineHeight:1.5}}>{c.text}</div>
+                            </div>
+                            <button onClick={()=>setLessonComments(prev=>({...prev,[k]:(prev[k]??[]).filter(x=>x.id!==c.id)}))} style={{background:"transparent",border:0,cursor:"pointer",color:"#9CA3AF",padding:4,alignSelf:"flex-start"}}><X size={13}/></button>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{display:"flex",gap:8,alignItems:"flex-start"}}>
+                        <textarea value={newComment} onChange={e=>setNewComment(e.target.value)} placeholder="Add a comment..." rows={2} style={{flex:1,padding:"10px 12px",border:"1px solid #E5E7EB",borderRadius:10,fontSize:13.5,fontFamily:"inherit",resize:"vertical",background:"#fff"}}/>
+                        <button className="aiva-cta" onClick={()=>{
+                          if(!newComment.trim()) return;
+                          const item = { id: Math.random().toString(36).slice(2,9), author: "You", text: newComment.trim(), at: "just now" };
+                          setLessonComments(prev=>({...prev,[k]:[...(prev[k]??[]),item]}));
+                          setNewComment("");
+                        }}><Send size={13}/> Post</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
 
           <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
