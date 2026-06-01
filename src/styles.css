@@ -1067,8 +1067,9 @@
 .cc.cc-min-sidebar .cc-sb-top{width:100%;padding:0 0 6px;display:flex;justify-content:center}
 .cc.cc-min-sidebar .cc-sb-switcher{justify-content:center;padding:6px}
 .cc.cc-min-sidebar .cc-sb-name,
-.cc.cc-min-sidebar .cc-sb-switcher>svg{display:none}
-.cc.cc-min-sidebar .cc-sb-switcher::before{content:"";display:block;width:28px;height:28px;border-radius:8px;background:var(--cc-active-color,#111827)}
+.cc.cc-min-sidebar .cc-sb-switcher>svg,
+.cc.cc-min-sidebar .cc-sb-live .cc-sb-live-dot{display:none}
+.cc.cc-min-sidebar .cc-sb-switcher::before{content:"";display:block;width:28px;height:28px;border-radius:8px;background:#111827}
 .cc.cc-min-sidebar .cc-vm-toggle{display:none}
 .cc.cc-min-sidebar .cc-sb-item-row .cc-sb-feed,
 .cc.cc-min-sidebar .cc-sb-item-row .cc-sb-pill{padding:10px 0;justify-content:center;width:52px;margin:0 auto}
