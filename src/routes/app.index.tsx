@@ -8,6 +8,7 @@ import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
+import { LB_MEMBERS } from "@/lib/leaderboard-data";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 import { getGS, subscribeGS } from "@/lib/gs-store";
 import { getEvents, subscribeEvents, type EventItem } from "@/lib/events-store";
@@ -266,15 +267,9 @@ function HomePage() {
           <div className="hm-card">
             <h3 className="hm-card-title">Leaderboard</h3>
             {(() => {
-              const all = [
-                { initials: "EH", color: "#F5A623", name: "Esther H.",      points: 680, photo: "https://i.pravatar.cc/120?img=47" },
-                { initials: "RF", color: "#7BA77B", name: "Robert Fox",     points: 530, photo: "https://i.pravatar.cc/120?img=12" },
-                { initials: "JW", color: "#8B5A4A", name: "Jenny W.",       points: 420, photo: "https://i.pravatar.cc/120?img=45" },
-                { initials: "DG", color: "#A85A3A", name: "Dustin Gedlich", points: 400, photo: "https://i.pravatar.cc/80?img=33"  },
-                { initials: "AM", color: "#D4A574", name: "Arielle Mason",  points: 350, photo: "https://i.pravatar.cc/80?img=49"  },
-                { initials: "JL", color: "#5BA4D4", name: "Jasper Lin",     points: 345, photo: "https://i.pravatar.cc/80?img=15"  },
-                { initials: "CO", color: "#9CA3AF", name: "Camila Ortiz",   points: 320, photo: "https://i.pravatar.cc/80?img=44"  },
-              ];
+              const all = LB_MEMBERS.slice(0, 7).map(m => ({
+                initials: m.initials, color: m.color, name: m.name, points: m.points, photo: m.photo,
+              }));
               const podium = [all[1], all[0], all[2]];
               const ranks  = [2, 1, 3];
               const rest   = all.slice(3);
