@@ -894,11 +894,52 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     placeholder="Lesson title"
                     style={{width:"100%",border:0,outline:"none",fontSize:22,fontWeight:800,color:"#111827",background:"transparent",marginBottom:10}}
                   />
+                  <div style={{marginBottom:14,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
+                    <div style={{fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.5,marginBottom:8}}>Media</div>
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:editMediaType==="none"?0:10}}>
+                      {([
+                        {v:"none",label:"None (Text Only)",icon:<FileText size={12}/>},
+                        {v:"native",label:"Upload Video",icon:<Upload size={12}/>},
+                        {v:"youtube",label:"YouTube",icon:<Video size={12}/>},
+                        {v:"vimeo",label:"Vimeo",icon:<Video size={12}/>},
+                        {v:"external",label:"External Link",icon:<LinkIcon size={12}/>},
+                      ] as {v:MediaType;label:string;icon:React.ReactNode}[]).map(opt => {
+                        const sel = editMediaType === opt.v;
+                        return (
+                          <button key={opt.v} type="button" onClick={()=>setEditMediaType(opt.v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 11px",borderRadius:999,fontSize:12,fontWeight:600,border:`1px solid ${sel?"#111827":"#E5E7EB"}`,background:sel?"#111827":"#fff",color:sel?"#fff":"#374151",cursor:"pointer"}}>
+                            {opt.icon}{opt.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {editMediaType === "native" && (
+                      <div>
+                        <label style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",border:"1px dashed #D1D5DB",borderRadius:8,background:"#fff",cursor:"pointer",fontSize:13,color:"#6B7280"}}>
+                          <Upload size={14}/>
+                          <span style={{flex:1}}>{editMediaUrl ? "Replace Video File" : "Click To Upload Video File"}</span>
+                          <input type="file" accept="video/*" style={{display:"none"}} onChange={e=>{
+                            const f = e.target.files?.[0]; if (!f) return;
+                            const url = URL.createObjectURL(f);
+                            setEditMediaUrl(url);
+                          }}/>
+                        </label>
+                        {editMediaUrl && <div style={{fontSize:11,color:"#10B981",marginTop:6,fontWeight:600}}>✓ Video Attached</div>}
+                      </div>
+                    )}
+                    {(editMediaType === "youtube" || editMediaType === "vimeo" || editMediaType === "external") && (
+                      <input
+                        value={editMediaUrl}
+                        onChange={e=>setEditMediaUrl(e.target.value)}
+                        placeholder={editMediaType==="youtube"?"https://youtube.com/watch?v=...":editMediaType==="vimeo"?"https://vimeo.com/...":"https://..."}
+                        style={{width:"100%",padding:"9px 12px",fontSize:13,border:"1px solid #E5E7EB",borderRadius:8,outline:"none",background:"#fff"}}
+                      />
+                    )}
+                  </div>
                   <textarea
                     value={editBody}
                     onChange={e=>setEditBody(e.target.value)}
-                    placeholder="Write your lesson content…"
-                    rows={6}
+                    placeholder={editMediaType==="none"?"Write your full lesson here. Use the toolbar above for headings, lists, and formatting…":"Write your lesson content…"}
+                    rows={editMediaType==="none"?14:6}
                     style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
                   />
                 </div>
