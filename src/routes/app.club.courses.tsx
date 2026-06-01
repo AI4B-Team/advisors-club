@@ -823,33 +823,6 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
               );
             })()}
           </div>
-
-          <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
-            <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
-              <div style={{fontWeight:700,color:"#111827",fontSize:14}}>Course Content</div>
-              <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{completed.size} of {flat.length} complete</div>
-            </div>
-            <div style={{maxHeight:"60vh",overflowY:"auto"}}>
-              {course.modules.map((m, mi) => (
-                <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
-                  <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.4,background:"#FAFAFA"}}>{m.title}</div>
-                  {m.lessons.map((l, li) => {
-                    const isCurrent = current.m === mi && current.l === li;
-                    const isDone = completed.has(key(mi, li));
-                    return (
-                      <button key={li} onClick={() => setLesson({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"10px 16px",background:isCurrent?"#F3F0FF":"transparent",border:0,borderLeft:isCurrent?"3px solid #7C3AED":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
-                        <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
-                          {isDone ? <CheckCircle2 size={14} color="#10B981"/> : <PlayCircle size={14} color={isCurrent ? "#7C3AED" : "#9CA3AF"}/>}
-                          <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{l.title}</span>
-                        </div>
-                        <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </>
     );
