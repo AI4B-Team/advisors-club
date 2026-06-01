@@ -5,6 +5,7 @@ import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
+import { PostComments } from "@/components/post-comments";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
@@ -69,6 +70,7 @@ function HomePage() {
   const [activeTab, setActiveTab] = useState<TabId>("all");
   const [composerCat, setComposerCat] = useState<PostCategory>("general");
   const [catOpen, setCatOpen] = useState(false);
+  const [openComments, setOpenComments] = useState<Record<string, boolean>>({});
 
   const [events, setEvents] = useState<EventItem[]>(() => getEvents());
   useEffect(() => subscribeEvents(() => setEvents(getEvents())), []);
@@ -201,7 +203,7 @@ function HomePage() {
                   <button className={`hm-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
                     <Heart size={16} fill={p.liked ? "currentColor":"none"}/> {p.likes}
                   </button>
-                  <button className="hm-post-act" onClick={()=>setPosts(ps=>ps.map(po=>po.id===p.id?{...po,comments:po.comments+1}:po))}>
+                  <button className={`hm-post-act ${openComments[p.id] ? "on" : ""}`} onClick={()=>setOpenComments(o => ({ ...o, [p.id]: !o[p.id] }))}>
                     <MessageCircle size={16}/> {p.comments}
                   </button>
                   {p.comments > 0 && (
@@ -216,7 +218,7 @@ function HomePage() {
                     <span className="hm-post-time">{p.time}</span>
                   </div>
                 </footer>
-
+                {openComments[p.id] && <PostComments postId={p.id} />}
               </article>
             ))}
           </div>
