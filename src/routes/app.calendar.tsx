@@ -256,16 +256,78 @@ function DayView({ cursor, setCursor, eventsByDate }: { cursor: Date; setCursor:
 }
 
 /* ============ GRID ============ */
-function GridView({ rsvps, setRsvps }: { rsvps: Record<string, Rsvp>; setRsvps: (r: Record<string, Rsvp>)=>void }) {
-  const upcoming = useMemo(() => EVENTS.slice().sort((a,b)=>eventStart(a).getTime()-eventStart(b).getTime()), []);
+function GridView({ events, rsvps, setRsvps, focusId }: { events: EventItem[]; rsvps: Record<string, Rsvp>; setRsvps: (r: Record<string, Rsvp>)=>void; focusId: string | null }) {
+  const upcoming = useMemo(() => events.slice().sort((a,b)=>eventStart(a).getTime()-eventStart(b).getTime()), [events]);
   return (
     <div className="cal-grid-view">
       {upcoming.map(e => (
-        <EventCard key={e.id} e={e} rsvp={rsvps[e.id] ?? null} onRsvp={v => setRsvps({...rsvps, [e.id]: v})} />
+        <div key={e.id} id={`cal-evt-${e.id}`} className={focusId === e.id ? "cal-ec-focus" : undefined}>
+          <EventCard e={e} rsvp={rsvps[e.id] ?? null} onRsvp={v => setRsvps({...rsvps, [e.id]: v})} />
+        </div>
       ))}
     </div>
   );
 }
+
+/* ============ CREATE EVENT MODAL ============ */
+function CreateEventModal({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({
+    title: "", description: "", date: "2026-05-28", start: "17:30", end: "18:30",
+    host: "", location: "Zoom",
+    thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=70",
+  });
+  const valid = form.title.trim() && form.date && form.start && form.end;
+  function submit() {
+    if (!valid) return;
+    addEvent({ ...form, title: form.title.trim(), host: form.host.trim() || "You" });
+    onClose();
+  }
+  return (
+    <div className="cal-modal-bd" onClick={onClose}>
+      <div className="cal-modal" onClick={e => e.stopPropagation()}>
+        <div className="cal-modal-head">
+          <h3>Create event</h3>
+          <button className="cal-modal-x" onClick={onClose} aria-label="Close"><XIcon size={16}/></button>
+        </div>
+        <div className="cal-modal-body">
+          <label className="cal-field"><span>Title</span>
+            <input value={form.title} onChange={e=>setForm({...form, title: e.target.value})} placeholder="e.g. Office Hours" autoFocus/>
+          </label>
+          <label className="cal-field"><span>Description</span>
+            <textarea rows={3} value={form.description} onChange={e=>setForm({...form, description: e.target.value})} placeholder="What's this event about?"/>
+          </label>
+          <div className="cal-field-row">
+            <label className="cal-field"><span>Date</span>
+              <input type="date" value={form.date} onChange={e=>setForm({...form, date: e.target.value})}/>
+            </label>
+            <label className="cal-field"><span>Start</span>
+              <input type="time" value={form.start} onChange={e=>setForm({...form, start: e.target.value})}/>
+            </label>
+            <label className="cal-field"><span>End</span>
+              <input type="time" value={form.end} onChange={e=>setForm({...form, end: e.target.value})}/>
+            </label>
+          </div>
+          <div className="cal-field-row">
+            <label className="cal-field"><span>Host</span>
+              <input value={form.host} onChange={e=>setForm({...form, host: e.target.value})} placeholder="You"/>
+            </label>
+            <label className="cal-field"><span>Location</span>
+              <input value={form.location} onChange={e=>setForm({...form, location: e.target.value})} placeholder="Zoom, Google Meet, etc."/>
+            </label>
+          </div>
+          <label className="cal-field"><span>Cover image URL</span>
+            <input value={form.thumb} onChange={e=>setForm({...form, thumb: e.target.value})}/>
+          </label>
+        </div>
+        <div className="cal-modal-foot">
+          <button className="cal-btn-ghost" onClick={onClose}>Cancel</button>
+          <button className="cal-btn-pri" disabled={!valid} onClick={submit}><Plus size={14}/> Create event</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 function EventCard({ e, rsvp, onRsvp }: { e: EventItem; rsvp: Rsvp; onRsvp: (v: Rsvp)=>void }) {
   const cd = useCountdown(eventStart(e));
