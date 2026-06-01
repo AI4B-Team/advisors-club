@@ -663,6 +663,39 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [editMediaUrl, setEditMediaUrl] = useState("");
   const [titleError, setTitleError] = useState(false);
   const [videoMenuOpen, setVideoMenuOpen] = useState(false);
+  const [addMenuOpen, setAddMenuOpen] = useState(false);
+  const [addModal, setAddModal] = useState<null | "file" | "link">(null);
+  const [addLabel, setAddLabel] = useState("");
+  const [addUrl, setAddUrl] = useState("");
+  const [addFile, setAddFile] = useState<{ name: string; url: string } | null>(null);
+  const [resourceMenuOpen, setResourceMenuOpen] = useState<string | null>(null);
+  const LABEL_MAX = 34;
+  function openAddModal(type: "file" | "link") {
+    setAddModal(type); setAddMenuOpen(false); setAddLabel(""); setAddUrl(""); setAddFile(null);
+  }
+  function closeAddModal() {
+    setAddModal(null); setAddLabel(""); setAddUrl(""); setAddFile(null);
+  }
+  function commitAddResource() {
+    if (!current) return;
+    const k = key(current.m, current.l);
+    if (addModal === "file") {
+      if (!addFile || !addLabel.trim()) return;
+      const item = { id: Math.random().toString(36).slice(2,9), type: "file" as const, title: addLabel.trim(), url: addFile.url };
+      setLessonResources(prev => ({ ...prev, [k]: [...(prev[k] ?? []), item] }));
+    } else if (addModal === "link") {
+      if (!addLabel.trim() || !addUrl.trim()) return;
+      const item = { id: Math.random().toString(36).slice(2,9), type: "link" as const, title: addLabel.trim(), url: addUrl.trim() };
+      setLessonResources(prev => ({ ...prev, [k]: [...(prev[k] ?? []), item] }));
+    }
+    closeAddModal();
+  }
+  function deleteResource(rid: string) {
+    if (!current) return;
+    const k = key(current.m, current.l);
+    setLessonResources(prev => ({ ...prev, [k]: (prev[k] ?? []).filter(r => r.id !== rid) }));
+    setResourceMenuOpen(null);
+  }
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
