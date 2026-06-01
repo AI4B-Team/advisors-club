@@ -83,42 +83,74 @@ function LeaderboardPage() {
 
       {/* Stats strip */}
       <div className="lb-stats">
-        <StatCard icon={<Users size={16}/>} label="Active members" value={all.length.toString()} tint="#0EA5E9"/>
-        <StatCard icon={<Trophy size={16}/>} label="Total points" value={totalPoints.toLocaleString()} tint="#F59E0B"/>
-        <StatCard icon={<Flame size={16}/>} label="Avg streak" value={`${avgStreak}d`} tint="#EF4444"/>
-        <StatCard icon={<Target size={16}/>} label="Your rank" value={`#${myRank}`} tint="#8B5CF6" highlight/>
+        <StatCard icon={<Users size={16}/>} label="Active Members" value={all.length.toString()} tint="#0EA5E9"/>
+        <StatCard icon={<Trophy size={16}/>} label="Total Points" value={totalPoints.toLocaleString()} tint="#F59E0B"/>
+        <StatCard icon={<Flame size={16}/>} label="Avg Streak" value={`${avgStreak}d`} tint="#EF4444"/>
+        <StatCard icon={<Target size={16}/>} label="Your Rank" value={`#${myRank}`} tint="#8B5CF6" highlight/>
       </div>
 
-      {/* Your level + level distribution */}
-      <div className="lb-levels-card">
-        <button className="lb-levels-cog" onClick={()=>setEditingLevels(true)} aria-label="Rename levels" title="Rename levels">
-          <Settings size={15}/>
-        </button>
-        <div className="lb-levels-me">
-          <div className="lb-levels-avwrap">
-            <img className="lb-levels-av" src={ME_MEMBER.photo} alt="You"/>
-            <span className="lb-levels-badge">{ME_MEMBER.level}</span>
-          </div>
-          <strong>You</strong>
-          <span className="lb-levels-lv">{levelNames[ME_MEMBER.level-1] ? `Level ${ME_MEMBER.level} · ${levelNames[ME_MEMBER.level-1]}` : `Level ${ME_MEMBER.level}`}</span>
-          <span className="lb-levels-pts">531 points to level up</span>
-        </div>
-        <div className="lb-levels-grid">
-          {LB_LEVELS.map(l => {
-            const customName = levelNames[l.level-1];
-            const title = customName ? `Level ${l.level} · ${customName}` : `Level ${l.level}`;
-            return (
-              <div key={l.level} className={`lb-level-row ${l.locked?"lb-level-locked":""}`}>
-                <span className="lb-level-num">{l.locked ? <Lock size={11}/> : l.level}</span>
-                <div className="lb-level-body">
-                  <div className="lb-level-title">{title}</div>
-                  <div className="lb-level-sub">{l.label || `${l.pct}% of members`}{l.label && ` · ${l.pct}% of members`}</div>
+      {/* Your level + level distribution — redesigned */}
+      {(() => {
+        const meLvl = ME_MEMBER.level;
+        const curTarget = LEVEL_TARGETS[meLvl - 1] ?? 0;
+        const nextTarget = LEVEL_TARGETS[meLvl] ?? curTarget + 500;
+        const span = Math.max(1, nextTarget - curTarget);
+        const intoLvl = Math.max(0, ME_MEMBER.points - curTarget);
+        const pctToNext = Math.min(100, Math.round((intoLvl / span) * 100));
+        const ptsToNext = Math.max(0, nextTarget - ME_MEMBER.points);
+        const maxPct = Math.max(...LB_LEVELS.map(l => l.pct), 1);
+        return (
+          <div className="lb-levels-card">
+            <button className="lb-levels-cog" onClick={()=>setEditingLevels(true)} aria-label="Rename Levels" title="Rename Levels">
+              <Settings size={15}/>
+            </button>
+            <div className="lb-levels-me">
+              <div className="lb-levels-ring" style={{ "--p": `${pctToNext}%` } as React.CSSProperties}>
+                <img className="lb-levels-av" src={ME_MEMBER.photo} alt="You"/>
+                <span className="lb-levels-badge">{meLvl}</span>
+              </div>
+              <strong>You</strong>
+              <span className="lb-levels-lv">{levelNames[meLvl-1] ? `Level ${meLvl} · ${levelNames[meLvl-1]}` : `Level ${meLvl}`}</span>
+              <div className="lb-levels-progress">
+                <div className="lb-levels-progress-bar"><span style={{ width: `${pctToNext}%` }}/></div>
+                <div className="lb-levels-progress-meta">
+                  <span><strong>{ME_MEMBER.points.toLocaleString()}</strong> / {nextTarget.toLocaleString()} pts</span>
+                  <span className="lb-levels-pts">{ptsToNext.toLocaleString()} to Level {meLvl + 1}</span>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
+            </div>
+            <div className="lb-levels-chart">
+              <div className="lb-levels-chart-head">
+                <span>Level Distribution</span>
+                <span className="lb-levels-chart-sub">{all.length} Members</span>
+              </div>
+              <ul className="lb-levels-bars">
+                {LB_LEVELS.map(l => {
+                  const customName = levelNames[l.level-1];
+                  const isMe = l.level === meLvl;
+                  const width = l.locked ? 0 : Math.max(2, (l.pct / maxPct) * 100);
+                  return (
+                    <li key={l.level} className={`lb-lbar ${l.locked?"lb-lbar-locked":""} ${isMe?"lb-lbar-me":""}`}>
+                      <span className="lb-lbar-num">{l.locked ? <Lock size={11}/> : l.level}</span>
+                      <div className="lb-lbar-body">
+                        <div className="lb-lbar-top">
+                          <span className="lb-lbar-title">
+                            {customName ? `Level ${l.level} · ${customName}` : `Level ${l.level}`}
+                            {isMe && <span className="lb-lbar-here">You</span>}
+                          </span>
+                          <span className="lb-lbar-pct">{l.pct}%</span>
+                        </div>
+                        <div className="lb-lbar-track"><span style={{ width: `${width}%` }}/></div>
+                        {l.label && <div className="lb-lbar-perk">{l.label}</div>}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        );
+      })()}
 
       {editingLevels && (
         <LevelNameModal
@@ -132,24 +164,6 @@ function LeaderboardPage() {
         />
       )}
 
-      {/* Filters */}
-      <div className="lb-controls">
-        <div className="lb-search">
-          <Search size={14}/>
-          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search members…"/>
-        </div>
-        <div className="lb-select-wrap">
-          <Filter size={13}/>
-          <select className="lb-select" value={category} onChange={e=>setCategory(e.target.value as Category)}>
-            <option value="points">Sort: Points</option>
-            <option value="streak">Sort: Streak</option>
-            <option value="courses">Sort: Courses</option>
-            <option value="engagement">Sort: Engagement</option>
-          </select>
-          <ChevronDown size={13}/>
-        </div>
-      </div>
-
       {/* Podium */}
       {top3.length === 3 && (
         <div className="lb-podium">
@@ -162,8 +176,26 @@ function LeaderboardPage() {
       {/* Full ranking table */}
       <div className="lb-table-card">
         <div className="lb-table-head">
-          <h3>Full Rankings</h3>
-          <span className="lb-table-sub">{ranked.length} members · sorted by {categoryMeta[category].label.toLowerCase()}</span>
+          <div className="lb-table-head-l">
+            <h3>Full Rankings</h3>
+            <span className="lb-table-sub">{ranked.length} Members · Sorted By {categoryMeta[category].label}</span>
+          </div>
+          <div className="lb-table-head-r">
+            <div className="lb-search">
+              <Search size={14}/>
+              <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search Members…"/>
+            </div>
+            <div className="lb-select-wrap">
+              <Filter size={13}/>
+              <select className="lb-select" value={category} onChange={e=>setCategory(e.target.value as Category)}>
+                <option value="points">Sort: Points</option>
+                <option value="streak">Sort: Streak</option>
+                <option value="courses">Sort: Courses</option>
+                <option value="engagement">Sort: Engagement</option>
+              </select>
+              <ChevronDown size={13}/>
+            </div>
+          </div>
         </div>
         <div className="lb-table">
           <div className="lb-row lb-row-head">
