@@ -645,7 +645,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
               <div style={{height:6,background:"#F3F4F6",borderRadius:999,overflow:"hidden"}}>
                 <div style={{height:"100%",width:`${(completed.size/flat.length)*100}%`,background:"#10B981",borderRadius:999,transition:"width .3s ease"}}/>
               </div>
-              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} lessons complete</div>
+              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto"}}>
               {course.modules.map((m, mi) => (
