@@ -635,40 +635,79 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
         <button onClick={() => setLesson(null)} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:16,padding:0}}>
           <ArrowLeft size={14}/> Back to {course.title}
         </button>
-        <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) 320px",gap:20,alignItems:"start"}}>
-          <div>
-            <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:14,overflow:"hidden",background:`#0F0F12`}}>
-              <div style={{position:"absolute",inset:0,backgroundImage:`url(${course.cover})`,backgroundSize:"cover",backgroundPosition:"center",opacity:.45}}/>
-              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.45) 100%)"}}>
-                <button aria-label="Play" style={{position:"relative",width:88,height:88,borderRadius:"50%",background:"rgba(255,255,255,.18)",border:"1px solid rgba(255,255,255,.35)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .2s ease, background .2s ease"}} onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1.06)";(e.currentTarget as HTMLButtonElement).style.background="rgba(255,255,255,.28)";}} onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1)";(e.currentTarget as HTMLButtonElement).style.background="rgba(255,255,255,.18)";}}>
-                  <span style={{position:"absolute",inset:8,borderRadius:"50%",background:"#fff",boxShadow:"0 12px 36px -8px rgba(0,0,0,.55)",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                    <Play size={26} color="#111827" fill="#111827" style={{marginLeft:3}}/>
-                  </span>
-                </button>
+        <div style={{display:"grid",gridTemplateColumns:"300px minmax(0,1fr)",gap:20,alignItems:"start"}}>
+          <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
+            <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+                <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{course.title}</div>
+                <div style={{fontSize:12,color:"#6B7280",fontWeight:600}}>{Math.round((completed.size/flat.length)*100)}%</div>
               </div>
-              <div style={{position:"absolute",bottom:14,left:16,right:16,display:"flex",justifyContent:"space-between",alignItems:"center",color:"#fff",fontSize:12,fontWeight:600}}>
-                <span style={{background:"rgba(0,0,0,.55)",padding:"4px 10px",borderRadius:999,backdropFilter:"blur(4px)"}}>Lesson {currentIdx + 1} of {flat.length}</span>
-                <span style={{background:"rgba(0,0,0,.55)",padding:"4px 10px",borderRadius:999,backdropFilter:"blur(4px)",display:"inline-flex",alignItems:"center",gap:4}}><Clock size={11}/> {current.lesson.duration}</span>
+              <div style={{height:6,background:"#F3F4F6",borderRadius:999,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${(completed.size/flat.length)*100}%`,background:"#10B981",borderRadius:999,transition:"width .3s ease"}}/>
+              </div>
+              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} lessons complete</div>
+            </div>
+            <div style={{maxHeight:"65vh",overflowY:"auto"}}>
+              {course.modules.map((m, mi) => (
+                <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
+                  <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.4,background:"#FAFAFA"}}>{m.title}</div>
+                  {m.lessons.map((l, li) => {
+                    const isCurrent = current.m === mi && current.l === li;
+                    const isDone = completed.has(key(mi, li));
+                    return (
+                      <button key={li} onClick={() => setLesson({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"10px 16px",background:isCurrent?"#FEF3C7":"transparent",border:0,borderLeft:isCurrent?"3px solid #F59E0B":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
+                        <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
+                          {isDone ? <CheckCircle2 size={14} color="#10B981"/> : <PlayCircle size={14} color={isCurrent ? "#F59E0B" : "#9CA3AF"}/>}
+                          <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{l.title}</span>
+                        </div>
+                        <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,marginBottom:14}}>
+              <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
+              <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark complete"} title={done?"Completed":"Mark complete"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
+                </button>
+                <button aria-label="Edit lesson" title="Edit lesson" style={{width:34,height:34,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#6B7280"}}>
+                  <Edit3 size={15}/>
+                </button>
               </div>
             </div>
 
-            <div style={{marginTop:18}}>
-              <div style={{fontSize:12,fontWeight:700,color:"#7C3AED",marginBottom:6,textTransform:"uppercase",letterSpacing:.4}}>{current.moduleTitle}</div>
-              <h1 style={{fontSize:24,fontWeight:800,color:"#111827",marginBottom:10}}>{current.lesson.title}</h1>
-              <p style={{color:"#6B7280",fontSize:14,lineHeight:1.6,marginBottom:18}}>
-                In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress.
-              </p>
-              <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                <button className="aiva-cta" onClick={() => toggleComplete(k)} style={done?{background:"#10B981"}:undefined}>
-                  <CheckCircle2 size={14}/> {done ? "Completed" : "Mark Complete"}
-                </button>
-                <button className="btn-ghost" disabled={!prev} onClick={() => prev && setLesson({ m: prev.m, l: prev.l })} style={!prev?{opacity:.4,cursor:"not-allowed"}:undefined}>
-                  <ArrowLeft size={14}/> Previous
-                </button>
-                <button className="btn-ghost" disabled={!next} onClick={() => next && setLesson({ m: next.m, l: next.l })} style={!next?{opacity:.4,cursor:"not-allowed"}:undefined}>
-                  Next <ArrowRight size={14}/>
-                </button>
+            <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,padding:10,boxShadow:"0 1px 2px rgba(0,0,0,.04)"}}>
+              <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#F3F4F6"}}>
+                <div style={{position:"absolute",inset:0,backgroundImage:`url(${course.cover})`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+                <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.25) 100%)"}}>
+                  <button aria-label="Play" style={{position:"relative",width:88,height:88,borderRadius:"50%",background:"rgba(255,255,255,.18)",border:"1px solid rgba(255,255,255,.4)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .2s ease, background .2s ease"}} onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1.06)";}} onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1)";}}>
+                    <span style={{position:"absolute",inset:8,borderRadius:"50%",background:"#fff",boxShadow:"0 12px 36px -8px rgba(0,0,0,.45)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <Play size={26} color="#111827" fill="#111827" style={{marginLeft:3}}/>
+                    </span>
+                  </button>
+                </div>
+                <div style={{position:"absolute",bottom:12,right:14,color:"#fff",fontSize:11,fontWeight:600,background:"rgba(0,0,0,.6)",padding:"3px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:4}}>
+                  <Clock size={11}/> {current.lesson.duration}
+                </div>
               </div>
+            </div>
+
+            <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:14}}>
+              <button className="aiva-cta" onClick={() => toggleComplete(k)} style={done?{background:"#10B981"}:undefined}>
+                <CheckCircle2 size={14}/> {done ? "Completed" : "Mark Complete"}
+              </button>
+              <button className="btn-ghost" disabled={!prev} onClick={() => prev && setLesson({ m: prev.m, l: prev.l })} style={!prev?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                <ArrowLeft size={14}/> Previous
+              </button>
+              <button className="btn-ghost" disabled={!next} onClick={() => next && setLesson({ m: next.m, l: next.l })} style={!next?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                Next <ArrowRight size={14}/>
+              </button>
             </div>
 
             {/* Lesson tabs: Overview / Resources / Comments */}
@@ -782,33 +821,6 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
                 </div>
               );
             })()}
-          </div>
-
-          <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
-            <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
-              <div style={{fontWeight:700,color:"#111827",fontSize:14}}>Course Content</div>
-              <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{completed.size} of {flat.length} complete</div>
-            </div>
-            <div style={{maxHeight:"60vh",overflowY:"auto"}}>
-              {course.modules.map((m, mi) => (
-                <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
-                  <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.4,background:"#FAFAFA"}}>{m.title}</div>
-                  {m.lessons.map((l, li) => {
-                    const isCurrent = current.m === mi && current.l === li;
-                    const isDone = completed.has(key(mi, li));
-                    return (
-                      <button key={li} onClick={() => setLesson({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"10px 16px",background:isCurrent?"#F3F0FF":"transparent",border:0,borderLeft:isCurrent?"3px solid #7C3AED":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
-                        <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
-                          {isDone ? <CheckCircle2 size={14} color="#10B981"/> : <PlayCircle size={14} color={isCurrent ? "#7C3AED" : "#9CA3AF"}/>}
-                          <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{l.title}</span>
-                        </div>
-                        <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </>
