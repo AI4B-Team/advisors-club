@@ -758,8 +758,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           <ArrowLeft size={14}/> Back to {course.title}
         </button>
         <div style={{display:"grid",gridTemplateColumns:"300px minmax(0,1fr)",gap:20,alignItems:"start"}}>
-          <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
-            <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
+          <div style={{position:"sticky",top:16,display:"flex",flexDirection:"column",gap:10}}>
+            <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,padding:"14px 16px"}}>
+
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10,gap:8,position:"relative"}}>
                 <div style={{fontWeight:700,color:"#111827",fontSize:14,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{course.title}</div>
                 {isAdmin && (
