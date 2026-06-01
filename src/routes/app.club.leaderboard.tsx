@@ -296,3 +296,34 @@ function TrendPill({ trend, delta }:{ trend: "up"|"down"|"same"; delta: number }
   if (trend === "down") return <span className="lb-trend lb-trend-down"><TrendingDown size={11}/> -{delta}</span>;
   return <span className="lb-trend lb-trend-same"><Minus size={11}/> 0</span>;
 }
+
+function LevelNameModal({ initial, onCancel, onSave }: { initial: string[]; onCancel: () => void; onSave: (names: string[]) => void }) {
+  const [names, setNames] = useState<string[]>(initial);
+  const dirty = names.some((n, i) => (n || "") !== (initial[i] || ""));
+  return (
+    <div className="lb-modal-backdrop" onClick={onCancel}>
+      <div className="lb-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="lb-modal-close" onClick={onCancel} aria-label="Close"><X size={16}/></button>
+        <h3>Leaderboards</h3>
+        <p className="lb-modal-sub">Make your group fun by naming your levels.</p>
+        <div className="lb-modal-fields">
+          {names.map((n, i) => (
+            <div key={i} className="lb-modal-field">
+              <span className="lb-modal-prefix">Level {i+1} -</span>
+              <input
+                value={n}
+                onChange={(e) => setNames(names.map((x, j) => j === i ? e.target.value : x))}
+                placeholder="Name this level"
+                maxLength={48}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="lb-modal-actions">
+          <button className="lb-modal-cancel" onClick={onCancel}>CANCEL</button>
+          <button className="lb-modal-save" disabled={!dirty} onClick={() => onSave(names)}>SAVE</button>
+        </div>
+      </div>
+    </div>
+  );
+}
