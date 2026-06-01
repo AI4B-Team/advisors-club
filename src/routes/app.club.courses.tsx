@@ -606,6 +606,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   onTogglePublish: () => void;
 }) {
   const [expanded, setExpanded] = useState<number | null>(0);
+  const [curView, setCurView] = useState<"toc" | "grid">("toc");
   const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
