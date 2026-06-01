@@ -562,18 +562,11 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             <div className="mc-card-body" style={{cursor:"pointer"}} onClick={() => setSelectedId(c.id)}>
               <h3>{c.title}</h3>
               <p>{c.blurb}</p>
-              <div className="mc-card-meta">
-                <span>{c.modules.length} modules</span>
-                <span>·</span>
-                <span>{c.modules.reduce((a,m)=>a+m.lessons.length,0)} lessons</span>
-                <span>·</span>
-                <span>${c.price}</span>
-              </div>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:12,paddingTop:12,borderTop:"1px solid #F3F4F6"}}>
-                <div style={{fontSize:12,color:"#6B7280",display:"flex",alignItems:"center",gap:4}}>
-                  <Users size={12}/> {c.enrolled} enrolled
+              <div className="mc-progress" title={`${c.completionRate}% complete`}>
+                <div className="mc-progress-fill" style={{width:`${Math.max(c.completionRate, c.completionRate>0?8:0)}%`}}>
+                  {c.completionRate > 0 && <span>{c.completionRate}%</span>}
                 </div>
-                <div style={{fontSize:12,color:"#6B7280"}}>Updated {c.updatedAt}</div>
+                {c.completionRate === 0 && <span className="mc-progress-zero">0%</span>}
               </div>
             </div>
           </div>
