@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, CheckCircle2, Clock, BookOpen,
   MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Plus, X,
-  List, LayoutGrid,
+  List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
