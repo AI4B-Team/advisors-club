@@ -121,16 +121,25 @@ function LeaderboardPage() {
             </div>
             <div className="lb-levels-chart">
               <div className="lb-levels-chart-head">
-                <span>Level Distribution</span>
+                <span>Your Level Progress</span>
                 <span className="lb-levels-chart-sub">{all.length} Members</span>
               </div>
               <ul className="lb-levels-bars">
                 {LB_LEVELS.map(l => {
                   const customName = levelNames[l.level-1];
                   const isMe = l.level === meLvl;
-                  const width = l.locked ? 0 : Math.max(2, (l.pct / maxPct) * 100);
+                  const isPast = l.level < meLvl;
+                  const isFuture = l.level > meLvl;
+                  const width = isPast ? 100 : isMe ? pctToNext : 0;
+                  const lvlTarget = LEVEL_TARGETS[l.level - 1] ?? 0;
+                  const ptsAway = Math.max(0, lvlTarget - ME_MEMBER.points);
+                  const statusText = isPast
+                    ? "Completed"
+                    : isMe
+                      ? `${ptsToNext.toLocaleString()} pts to Level ${meLvl + 1}`
+                      : `${ptsAway.toLocaleString()} pts away`;
                   return (
-                    <li key={l.level} className={`lb-lbar ${l.locked?"lb-lbar-locked":""} ${isMe?"lb-lbar-me":""}`}>
+                    <li key={l.level} className={`lb-lbar ${l.locked?"lb-lbar-locked":""} ${isMe?"lb-lbar-me":""} ${isPast?"lb-lbar-done":""}`}>
                       <span className="lb-lbar-num">{l.locked ? <Lock size={11}/> : l.level}</span>
                       <div className="lb-lbar-body">
                         <div className="lb-lbar-top">
@@ -138,7 +147,7 @@ function LeaderboardPage() {
                             {customName ? `Level ${l.level} · ${customName}` : `Level ${l.level}`}
                             {isMe && <span className="lb-lbar-here">You</span>}
                           </span>
-                          <span className="lb-lbar-pct">{l.pct}%</span>
+                          <span className="lb-lbar-pct">{statusText}</span>
                         </div>
                         <div className="lb-lbar-track"><span style={{ width: `${width}%` }}/></div>
                         {l.label && <div className="lb-lbar-perk">{l.label}</div>}
@@ -148,6 +157,7 @@ function LeaderboardPage() {
                 })}
               </ul>
             </div>
+
           </div>
         );
       })()}
