@@ -757,7 +757,6 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto"}}>
               {course.modules.map((m, mi) => {
-                const totalMin = m.lessons.reduce((a,l) => a + parseMin(l.duration), 0);
                 const doneCount = m.lessons.filter((_,li) => completed.has(key(mi,li))).length;
                 const allDone = doneCount === m.lessons.length;
                 const inProgress = doneCount > 0 && !allDone;
@@ -767,11 +766,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const isOpen = tocOpen.has(mi);
                 const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
                 return (
-                  <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6", position:"relative"}} className="adm-mod-row">
+                  <div key={mi} style={{background:"#fff",border:"1px solid #F3F4F6",borderRadius:12,marginBottom:8,position:"relative",overflow:"hidden",boxShadow:"0 1px 2px rgba(0,0,0,.03)"}} className="adm-mod-row">
                     <button
                       onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       disabled={isLocked}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",paddingRight: isAdmin ? 60 : 16,background:"#FAFAFA",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",paddingRight: isAdmin ? 60 : 16,background:"#fff",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
                     >
                       {isLocked ? (
                         <Lock size={14} color="#9CA3AF"/>
@@ -789,7 +788,6 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         <Circle size={16} color="#D1D5DB"/>
                       )}
                       <span style={{flex:1,fontSize:12,fontWeight:700,color:"#111827",textTransform:"uppercase",letterSpacing:.3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{m.title}</span>
-                      {totalMin > 0 && <span style={{fontSize:11,color:"#6B7280",flexShrink:0}}>{totalMin} min</span>}
                       {!isLocked && (isOpen ? <ChevronUp size={14} color="#9CA3AF"/> : <ChevronDown size={14} color="#9CA3AF"/>)}
                     </button>
                     {isAdmin && (
