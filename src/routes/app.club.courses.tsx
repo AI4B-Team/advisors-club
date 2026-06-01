@@ -843,10 +843,8 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                             )}
                             <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",fontWeight:isCurrent?600:400}}>{l.title}</span>
                           </div>
-                          {isDone ? (
+                          {isDone && (
                             <span style={{fontSize:11,color:"#10B981",fontWeight:700,flexShrink:0}}>+{points} points</span>
-                          ) : (
-                            <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
                           )}
                         </button>
                       );
