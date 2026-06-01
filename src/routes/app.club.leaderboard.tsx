@@ -1,3 +1,4 @@
+import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles } from "lucide-react";
@@ -102,7 +103,7 @@ function LeaderboardPage() {
   const totalPoints = all.reduce((s,m)=>s+m.points,0);
   const avgStreak = Math.round(all.reduce((s,m)=>s+m.streak,0)/all.length);
 
-  const categoryMeta: Record<Category, { label: string; icon: JSX.Element; unit: string }> = {
+  const categoryMeta: Record<Category, { label: string; icon: React.ReactNode; unit: string }> = {
     points: { label: "Points", icon: <Trophy size={14}/>, unit: "pts" },
     streak: { label: "Streak", icon: <Flame size={14}/>, unit: "days" },
     courses: { label: "Courses", icon: <Award size={14}/>, unit: "" },
@@ -227,7 +228,7 @@ function LeaderboardPage() {
   );
 }
 
-function StatCard({ icon, label, value, tint, highlight }:{ icon: JSX.Element; label: string; value: string; tint: string; highlight?: boolean }) {
+function StatCard({ icon, label, value, tint, highlight }:{ icon: React.ReactNode; label: string; value: string; tint: string; highlight?: boolean }) {
   return (
     <div className={`lb-stat ${highlight?"lb-stat-hi":""}`}>
       <span className="lb-stat-icon" style={{background: `${tint}1A`, color: tint}}>{icon}</span>
@@ -239,7 +240,7 @@ function StatCard({ icon, label, value, tint, highlight }:{ icon: JSX.Element; l
   );
 }
 
-function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: Member; category: Category; meta:{label:string;icon:JSX.Element;unit:string} }) {
+function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: Member; category: Category; meta:{label:string;icon:React.ReactNode;unit:string} }) {
   const key: keyof Member = category === "points" ? "points" : category === "streak" ? "streak" : category === "courses" ? "courses" : "engagement";
   const icons = { 1: <Crown size={18}/>, 2: <Medal size={16}/>, 3: <Award size={16}/> };
   const grad = {
