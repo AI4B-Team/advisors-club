@@ -228,6 +228,7 @@ function SidebarTopLink({ link }: { link: TopLink }) {
           activeOptions={link.exact ? { exact: true } : undefined}
           className={baseCls}
           activeProps={{ className: `${baseCls} on` }}
+          data-tip={link.label}
         >
           {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
           <span className="cc-sb-item-l">{link.label}</span>
