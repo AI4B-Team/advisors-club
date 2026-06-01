@@ -895,10 +895,13 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   <input
                     autoFocus
                     value={editTitle}
-                    onChange={e=>setEditTitle(e.target.value)}
-                    placeholder="Lesson title"
-                    style={{width:"100%",border:0,outline:"none",fontSize:22,fontWeight:800,color:"#111827",background:"transparent",marginBottom:10}}
+                    onChange={e=>{ setEditTitle(e.target.value); if (titleError && e.target.value.trim()) setTitleError(false); }}
+                    placeholder="Title"
+                    style={{width:"100%",border:0,outline:"none",fontSize:22,fontWeight:800,color:"#111827",background:"transparent",padding:"4px 0",borderBottom:`2px solid ${titleError?"#EF4444":"transparent"}`,marginBottom:titleError?4:10,transition:"border-color .15s"}}
                   />
+                  {titleError && (
+                    <div style={{fontSize:12,color:"#EF4444",marginBottom:10,textAlign:"right"}}>Lesson Title Is Required</div>
+                  )}
                   <div style={{marginBottom:14,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
                     <div style={{fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.5,marginBottom:8}}>Media</div>
                     <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:editMediaType==="none"?0:10}}>
