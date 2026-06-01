@@ -5,6 +5,7 @@ import { ComposerTools } from "@/components/composer-tools";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { PostHeaderActions } from "@/components/post-header-actions";
 import { CommenterStack } from "@/components/commenter-stack";
+import { PostComments } from "@/components/post-comments";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
