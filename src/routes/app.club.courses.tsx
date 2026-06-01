@@ -842,20 +842,24 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
             {editing ? (
               <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,boxShadow:"0 1px 2px rgba(0,0,0,.04)",marginBottom:14,overflow:"hidden"}}>
                 <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap"}}>
-                  {[
-                    {I:Heading1,k:"H1"},{I:Heading2,k:"H2"},{I:Heading3,k:"H3"},{I:Heading4,k:"H4"},
-                    {sep:true},
-                    {I:Bold,k:"B"},{I:Italic,k:"I"},{I:Strikethrough,k:"S"},{I:Code2,k:"code"},
-                    {sep:true},
-                    {I:List,k:"ul"},{I:ListOrdered,k:"ol"},{I:Quote,k:"q"},{I:Terminal,k:"cb"},
-                    {sep:true},
-                    {I:ImageIcon,k:"img"},{I:Link2,k:"link"},{I:Minus,k:"hr"},{I:Video,k:"video"},
-                  ].map((b,i)=> b.sep
-                    ? <span key={i} style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
-                    : <button key={i} type="button" title={b.k} style={{width:30,height:30,borderRadius:6,border:0,background:"transparent",color:"#374151",cursor:"pointer",display:"inline-flex",alignItems:"center",justifyContent:"center"}} onMouseEnter={e=>(e.currentTarget.style.background="#F3F4F6")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
-                        <b.I size={16}/>
-                      </button>
-                  )}
+                  {(() => {
+                    type TB = { I: typeof Bold; k: string } | { sep: true };
+                    const items: TB[] = [
+                      {I:Heading1,k:"H1"},{I:Heading2,k:"H2"},{I:Heading3,k:"H3"},{I:Heading4,k:"H4"},
+                      {sep:true},
+                      {I:Bold,k:"B"},{I:Italic,k:"I"},{I:Strikethrough,k:"S"},{I:Code2,k:"code"},
+                      {sep:true},
+                      {I:List,k:"ul"},{I:ListOrdered,k:"ol"},{I:Quote,k:"q"},{I:Terminal,k:"cb"},
+                      {sep:true},
+                      {I:ImageIcon,k:"img"},{I:Link2,k:"link"},{I:Minus,k:"hr"},{I:Video,k:"video"},
+                    ];
+                    return items.map((b,i)=> "sep" in b
+                      ? <span key={i} style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
+                      : <button key={i} type="button" title={b.k} style={{width:30,height:30,borderRadius:6,border:0,background:"transparent",color:"#374151",cursor:"pointer",display:"inline-flex",alignItems:"center",justifyContent:"center"}} onMouseEnter={e=>(e.currentTarget.style.background="#F3F4F6")} onMouseLeave={e=>(e.currentTarget.style.background="transparent")}>
+                          <b.I size={16}/>
+                        </button>
+                    );
+                  })()}
                 </div>
                 <div style={{padding:"14px 18px"}}>
                   <input
