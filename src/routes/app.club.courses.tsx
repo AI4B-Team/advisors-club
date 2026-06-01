@@ -735,12 +735,14 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setEditMediaType(meta?.mediaType ?? "native");
     setEditMediaUrl(meta?.mediaUrl ?? "");
     setEditing(true);
+    setTitleError(false);
   }
-  function cancelEdit() { setEditing(false); }
+  function cancelEdit() { setEditing(false); setTitleError(false); }
   function saveEdit() {
     if (!current) return;
+    if (!editTitle.trim()) { setTitleError(true); return; }
     const k = key(current.m, current.l);
-    const t = editTitle.trim() || current.lesson.title;
+    const t = editTitle.trim();
     updateModules(course.modules.map((m, mi) =>
       mi === current.m
         ? { ...m, lessons: m.lessons.map((l, li) => li === current.l ? { ...l, title: t } : l) }
@@ -748,6 +750,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     ));
     setLessonMeta(prev => ({ ...prev, [k]: { body: editBody, published: editPublished, mediaType: editMediaType, mediaUrl: editMediaUrl } }));
     setEditing(false);
+    setTitleError(false);
   }
 
   if (current) {
