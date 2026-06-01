@@ -629,7 +629,19 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const { isAdmin } = useViewMode();
   const [expanded, setExpanded] = useState<number | null>(0);
   const [curView, setCurView] = useState<"toc" | "grid">("grid");
-  const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
+  const [lesson, setLessonState] = useState<{ m: number; l: number } | null>(() => {
+    if (typeof window === "undefined") return null;
+    const raw = window.sessionStorage.getItem("admin-course-lesson");
+    if (!raw) return null;
+    try { const p = JSON.parse(raw); return (typeof p?.m === "number" && typeof p?.l === "number") ? p : null; } catch { return null; }
+  });
+  const setLesson = (l: { m: number; l: number } | null) => {
+    setLessonState(l);
+    if (typeof window !== "undefined") {
+      if (l) window.sessionStorage.setItem("admin-course-lesson", JSON.stringify(l));
+      else window.sessionStorage.removeItem("admin-course-lesson");
+    }
+  };
   const [lessonTab, setLessonTab] = useState<"overview" | "resources" | "comments">("overview");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(true);
   const [lessonResources, setLessonResources] = useState<Record<string, { id: string; type: "link" | "file"; title: string; url: string }[]>>({});
