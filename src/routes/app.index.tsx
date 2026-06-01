@@ -218,7 +218,7 @@ function HomePage() {
                     <span className="hm-post-time">{p.time}</span>
                   </div>
                 </footer>
-
+                {openComments[p.id] && <PostComments postId={p.id} />}
               </article>
             ))}
           </div>
