@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Users, List, Map as MapIcon } from "lucide-react";
 import { useState, useMemo } from "react";
 import { ClubStub } from "@/components/ClubStub";
-import { LEADERBOARD } from "@/lib/leaderboard-data";
+import { LB_MEMBERS, type LbMember } from "@/lib/leaderboard-data";
 
 export const Route = createFileRoute("/app/club/members")({
   head: () => ({ meta: [{ title: "Members — AdvisorsClub" }, { name: "description", content: "Your full member CRM — filter, message, export and view profiles." }] }),
