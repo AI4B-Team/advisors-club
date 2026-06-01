@@ -1062,8 +1062,26 @@
 /* ============================ COMMUNITY (CC) SHELL ============================ */
 .cc{display:grid;grid-template-columns:72px 280px 1fr;height:100vh;overflow:hidden;background:#F8F9FB;color:#111827;font-family:var(--font-sans)}
 .cc.cc-no-sidebar{grid-template-columns:72px 1fr}
-.cc.cc-min-sidebar{grid-template-columns:72px 1fr}
-.cc.cc-min-sidebar .cc-sb{display:none}
+.cc.cc-min-sidebar{grid-template-columns:72px 64px 1fr}
+.cc.cc-min-sidebar .cc-sb{padding:14px 6px;align-items:center;overflow:visible}
+.cc.cc-min-sidebar .cc-sb-top{width:100%;padding:0 0 6px;display:flex;justify-content:center}
+.cc.cc-min-sidebar .cc-sb-switcher{justify-content:center;padding:6px}
+.cc.cc-min-sidebar .cc-sb-name,
+.cc.cc-min-sidebar .cc-sb-switcher>svg,
+.cc.cc-min-sidebar .cc-sb-live .cc-sb-live-dot{display:none}
+.cc.cc-min-sidebar .cc-sb-switcher::before{content:"";display:block;width:28px;height:28px;border-radius:8px;background:#111827}
+.cc.cc-min-sidebar .cc-vm-toggle{display:none}
+.cc.cc-min-sidebar .cc-sb-item-row .cc-sb-feed,
+.cc.cc-min-sidebar .cc-sb-item-row .cc-sb-pill{padding:10px 0;justify-content:center;width:52px;margin:0 auto}
+.cc.cc-min-sidebar .cc-sb-item-l,
+.cc.cc-min-sidebar .cc-sb-badge-new,
+.cc.cc-min-sidebar .cc-sb-add,
+.cc.cc-min-sidebar .cc-sb-caret,
+.cc.cc-min-sidebar .cc-sb-more-wrap,
+.cc.cc-min-sidebar .cc-sb-subs{display:none}
+.cc.cc-min-sidebar .cc-sb-foot{width:100%;padding:8px 0;display:flex;justify-content:center}
+.cc.cc-min-sidebar .cc-sb-live{width:44px;height:44px;padding:0;border-radius:50%;justify-content:center;gap:0;font-size:0}
+.cc.cc-min-sidebar .cc-sb-live svg{width:18px;height:18px}
 
 /* Icon rail */
 .cc-rail{background:#fff;border-right:1px solid #E5E7EB;display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 0}
