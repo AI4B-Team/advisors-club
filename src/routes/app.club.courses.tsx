@@ -144,7 +144,14 @@ function CoursesPage() {
 
 function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   const [list, setList] = useState<AdminCourse[]>(() => loadAdmin());
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedIdState] = useState<string | null>(() => (typeof window !== "undefined" ? window.sessionStorage.getItem("admin-course-sel") : null));
+  const setSelectedId = (id: string | null) => {
+    setSelectedIdState(id);
+    if (typeof window !== "undefined") {
+      if (id) window.sessionStorage.setItem("admin-course-sel", id);
+      else { window.sessionStorage.removeItem("admin-course-sel"); window.sessionStorage.removeItem("admin-course-lesson"); }
+    }
+  };
   const [showArchived, setShowArchived] = useState(false);
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
