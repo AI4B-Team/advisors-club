@@ -565,7 +565,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             </div>
             <div className="mc-progress-label">
               <span>{c.completionRate > 0 ? `${c.completionRate}% complete` : "Not started"}</span>
-              <span style={{color:"#9CA3AF"}}>{c.modules ?? 0} modules</span>
+              <span style={{color:"#9CA3AF"}}>{Array.isArray(c.modules) ? c.modules.length : (c.modules ?? 0)} modules</span>
             </div>
             <div className="mc-progress" title={`${c.completionRate}% complete`}>
               <div className="mc-progress-fill" style={{width:`${c.completionRate}%`}}/>
