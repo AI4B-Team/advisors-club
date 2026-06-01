@@ -823,7 +823,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         onClick={(e) => { e.stopPropagation(); setModuleMenuOpen(moduleMenuOpen === mi ? null : mi); }}
                         aria-label="Folder options"
                         className="adm-mod-more"
-                        style={{position:"absolute",top:8,right:36,width:26,height:26,borderRadius:"50%",border:0,background:moduleMenuOpen===mi?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:moduleMenuOpen===mi?1:0,transition:"opacity .12s"}}
+                        style={{position:"absolute",top:8,right:38,width:26,height:26,borderRadius:"50%",border:0,background:moduleMenuOpen===mi?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:moduleMenuOpen===mi?1:0,transition:"opacity .12s"}}
                       ><MoreVertical size={15}/></button>
                     )}
                     {isAdmin && moduleMenuOpen === mi && (
