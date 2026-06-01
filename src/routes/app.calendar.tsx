@@ -1,34 +1,23 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar as CalIcon, ChevronLeft, ChevronRight, Clock, Video, LayoutGrid, CalendarDays, CalendarRange, Calendar as CalDay, Check, X as XIcon, HelpCircle, MapPin } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Calendar as CalIcon, ChevronLeft, ChevronRight, Clock, Video, LayoutGrid, CalendarDays, CalendarRange, Calendar as CalDay, Check, X as XIcon, HelpCircle, MapPin, Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { getEvents, addEvent, subscribeEvents, type EventItem } from "@/lib/events-store";
 
 export const Route = createFileRoute("/app/calendar")({
   head: () => ({ meta: [{ title: "Calendar — Real Estate Empire" }] }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    event: typeof s.event === "string" ? s.event : undefined,
+    create: s.create === "1" || s.create === true ? true : undefined,
+  }),
   component: CalendarPage,
 });
 
-type EventItem = {
-  id: string;
-  title: string;
-  description: string;
-  date: string; // YYYY-MM-DD
-  start: string; // HH:MM (24h)
-  end: string;
-  host: string;
-  location: string;
-  thumb: string;
-};
+function useEvents(): EventItem[] {
+  const [list, setList] = useState<EventItem[]>(() => getEvents());
+  useEffect(() => subscribeEvents(() => setList(getEvents())), []);
+  return list;
+}
 
-const EVENTS: EventItem[] = [
-  { id: "e1", title: "Hotline Q&A", description: "Bring your toughest deal questions — Michael answers live on the call.", date: "2026-05-26", start: "17:30", end: "18:30", host: "Michael A.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=70" },
-  { id: "e2", title: "LIVE Q&A Calls", description: "Open floor for members — pitch your deal, get feedback, and network.", date: "2026-05-27", start: "17:30", end: "18:30", host: "Priya N.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&q=70" },
-  { id: "e3", title: "REAL Elite Bi-weekly", description: "Closed-door mastermind for Elite members. Hot seats and accountability.", date: "2026-05-28", start: "12:00", end: "13:00", host: "Sara K.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=70" },
-  { id: "e4", title: "Fail Forward", description: "Story session — members share recent losses and the lessons earned.", date: "2026-05-28", start: "15:00", end: "16:00", host: "Michael A.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=70" },
-  { id: "e5", title: "Hotline", description: "Rapid-fire coaching for live deals.", date: "2026-05-28", start: "17:30", end: "18:30", host: "Michael A.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&q=70" },
-  { id: "e6", title: "Workshop: Skip Tracing", description: "Hands-on workshop — find sellers faster with modern skip tracing stacks.", date: "2026-06-02", start: "13:00", end: "14:30", host: "Judith M.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=70" },
-  { id: "e7", title: "Creative Finance Deep-Dive", description: "Sub-to, wraps, and seller carry — structures that close in 2026.", date: "2026-06-05", start: "14:00", end: "15:30", host: "Dan R.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=70" },
-  { id: "e8", title: "Member Mixer", description: "Casual networking — meet other operators in your market.", date: "2026-06-10", start: "19:00", end: "20:30", host: "Community Team", location: "Zoom", thumb: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=70" },
-];
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
