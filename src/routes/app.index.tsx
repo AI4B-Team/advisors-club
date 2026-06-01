@@ -320,21 +320,27 @@ function HomePage() {
           />
 
           <div className="hm-card">
-            <h3 className="hm-card-title">Upcoming Events</h3>
+            <div className="hm-card-head-row">
+              <h3 className="hm-card-title">Upcoming Events</h3>
+              <Link to="/app/calendar" search={{ create: true }} className="hm-card-add" aria-label="Create event"><Plus size={14}/></Link>
+            </div>
             <ul className="hm-events">
-              {EVENTS.map((e,i)=>(
-                <li key={i} className="hm-event">
-                  <div className="hm-event-date">
-                    <span className="hm-event-day">{e.day}</span>
-                    <span className="hm-event-mo">{e.mo}</span>
-                  </div>
-                  <div className="hm-event-meta">
-                    <div className="hm-event-title">{e.title}</div>
-                    <div className="hm-event-time">{e.time}</div>
-                  </div>
+              {upcoming.map((e)=>(
+                <li key={e.id} className="hm-event">
+                  <Link to="/app/calendar" search={{ event: e.id }} className="hm-event-link">
+                    <div className="hm-event-date">
+                      <span className="hm-event-day">{eventDay(e)}</span>
+                      <span className="hm-event-mo">{eventMo(e)}</span>
+                    </div>
+                    <div className="hm-event-meta">
+                      <div className="hm-event-title">{e.title}</div>
+                      <div className="hm-event-time">{fmtEventTime(e)}</div>
+                    </div>
+                  </Link>
                 </li>
               ))}
             </ul>
+            <Link to="/app/calendar" className="hm-card-all">View calendar →</Link>
           </div>
 
           <div className="hm-card">
