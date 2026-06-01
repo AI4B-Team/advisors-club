@@ -1173,8 +1173,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
             <span>By {featured.instructor}</span>
           </div>
           <div className="mc-progress">
-            <div className="mc-progress-bar"><span style={{width:`${featured.progress}%`}}/></div>
-            <span className="mc-progress-t">{featured.progress}% Complete</span>
+            <div className="mc-progress-bar"><span style={{width:`${featured.progress}%`}}>{featured.progress}%</span></div>
           </div>
           <button className="mc-hero-cta" onClick={() => setSelectedId(featured.id)}>
             <PlayCircle size={16}/> {featured.progress > 0 ? "Resume Course" : "Start Course"}
