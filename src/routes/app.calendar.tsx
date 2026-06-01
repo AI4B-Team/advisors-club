@@ -1,34 +1,23 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Calendar as CalIcon, ChevronLeft, ChevronRight, Clock, Video, LayoutGrid, CalendarDays, CalendarRange, Calendar as CalDay, Check, X as XIcon, HelpCircle, MapPin } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Calendar as CalIcon, ChevronLeft, ChevronRight, Clock, Video, LayoutGrid, CalendarDays, CalendarRange, Calendar as CalDay, Check, X as XIcon, HelpCircle, MapPin, Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { getEvents, addEvent, subscribeEvents, type EventItem } from "@/lib/events-store";
 
 export const Route = createFileRoute("/app/calendar")({
   head: () => ({ meta: [{ title: "Calendar — Real Estate Empire" }] }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    event: typeof s.event === "string" ? s.event : undefined,
+    create: s.create === "1" || s.create === true ? true : undefined,
+  }),
   component: CalendarPage,
 });
 
-type EventItem = {
-  id: string;
-  title: string;
-  description: string;
-  date: string; // YYYY-MM-DD
-  start: string; // HH:MM (24h)
-  end: string;
-  host: string;
-  location: string;
-  thumb: string;
-};
+function useEvents(): EventItem[] {
+  const [list, setList] = useState<EventItem[]>(() => getEvents());
+  useEffect(() => subscribeEvents(() => setList(getEvents())), []);
+  return list;
+}
 
-const EVENTS: EventItem[] = [
-  { id: "e1", title: "Hotline Q&A", description: "Bring your toughest deal questions — Michael answers live on the call.", date: "2026-05-26", start: "17:30", end: "18:30", host: "Michael A.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=70" },
-  { id: "e2", title: "LIVE Q&A Calls", description: "Open floor for members — pitch your deal, get feedback, and network.", date: "2026-05-27", start: "17:30", end: "18:30", host: "Priya N.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&q=70" },
-  { id: "e3", title: "REAL Elite Bi-weekly", description: "Closed-door mastermind for Elite members. Hot seats and accountability.", date: "2026-05-28", start: "12:00", end: "13:00", host: "Sara K.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=70" },
-  { id: "e4", title: "Fail Forward", description: "Story session — members share recent losses and the lessons earned.", date: "2026-05-28", start: "15:00", end: "16:00", host: "Michael A.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=70" },
-  { id: "e5", title: "Hotline", description: "Rapid-fire coaching for live deals.", date: "2026-05-28", start: "17:30", end: "18:30", host: "Michael A.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&q=70" },
-  { id: "e6", title: "Workshop: Skip Tracing", description: "Hands-on workshop — find sellers faster with modern skip tracing stacks.", date: "2026-06-02", start: "13:00", end: "14:30", host: "Judith M.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=70" },
-  { id: "e7", title: "Creative Finance Deep-Dive", description: "Sub-to, wraps, and seller carry — structures that close in 2026.", date: "2026-06-05", start: "14:00", end: "15:30", host: "Dan R.", location: "Zoom", thumb: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=70" },
-  { id: "e8", title: "Member Mixer", description: "Casual networking — meet other operators in your market.", date: "2026-06-10", start: "19:00", end: "20:30", host: "Community Team", location: "Zoom", thumb: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=70" },
-];
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -63,16 +52,44 @@ function useCountdown(target: Date) {
 }
 
 function CalendarPage() {
+  const events = useEvents();
+  const search = Route.useSearch();
+  const navigate = useNavigate();
   const [view, setView] = useState<View>("grid");
   const [cursor, setCursor] = useState(new Date(2026, 4, 26));
   const [selected, setSelected] = useState("2026-05-28");
   const [rsvps, setRsvps] = useState<Record<string, Rsvp>>({});
+  const [createOpen, setCreateOpen] = useState(false);
+  const [focusId, setFocusId] = useState<string | null>(null);
 
   const eventsByDate = useMemo(() => {
     const m: Record<string, EventItem[]> = {};
-    for (const e of EVENTS) (m[e.date] ||= []).push(e);
+    for (const e of events) (m[e.date] ||= []).push(e);
     return m;
-  }, []);
+  }, [events]);
+
+  useEffect(() => {
+    if (search.event) {
+      const ev = events.find(e => e.id === search.event);
+      if (ev) {
+        setCursor(parseDate(ev.date));
+        setSelected(ev.date);
+        setFocusId(ev.id);
+        setView("grid");
+        const t = setTimeout(() => {
+          document.getElementById(`cal-evt-${ev.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 80);
+        return () => clearTimeout(t);
+      }
+    }
+  }, [search.event, events]);
+
+  useEffect(() => { if (search.create) setCreateOpen(true); }, [search.create]);
+
+  function closeCreate() {
+    setCreateOpen(false);
+    if (search.create) navigate({ to: "/app/calendar", search: { event: search.event, create: undefined } });
+  }
 
   return (
     <div className="cal-wrap">
@@ -83,13 +100,16 @@ function CalendarPage() {
           <button className={`cal-vbtn ${view==="month"?"on":""}`} onClick={()=>setView("month")}><CalendarDays size={14}/> Month</button>
           <button className={`cal-vbtn ${view==="week"?"on":""}`} onClick={()=>setView("week")}><CalendarRange size={14}/> Week</button>
           <button className={`cal-vbtn ${view==="day"?"on":""}`} onClick={()=>setView("day")}><CalDay size={14}/> Day</button>
+          <button className="cal-vbtn cal-new" onClick={()=>setCreateOpen(true)} style={{background:"#0F172A",color:"#fff",borderColor:"#0F172A"}}><Plus size={14}/> New Event</button>
         </div>
       </div>
 
       {view === "month" && <MonthView cursor={cursor} setCursor={setCursor} selected={selected} setSelected={setSelected} eventsByDate={eventsByDate} rsvps={rsvps} setRsvps={setRsvps} />}
       {view === "week" && <WeekView cursor={cursor} setCursor={setCursor} eventsByDate={eventsByDate} />}
       {view === "day" && <DayView cursor={cursor} setCursor={setCursor} eventsByDate={eventsByDate} />}
-      {view === "grid" && <GridView rsvps={rsvps} setRsvps={setRsvps} />}
+      {view === "grid" && <GridView events={events} rsvps={rsvps} setRsvps={setRsvps} focusId={focusId} />}
+
+      {createOpen && <CreateEventModal onClose={closeCreate} />}
     </div>
   );
 }
@@ -236,16 +256,78 @@ function DayView({ cursor, setCursor, eventsByDate }: { cursor: Date; setCursor:
 }
 
 /* ============ GRID ============ */
-function GridView({ rsvps, setRsvps }: { rsvps: Record<string, Rsvp>; setRsvps: (r: Record<string, Rsvp>)=>void }) {
-  const upcoming = useMemo(() => EVENTS.slice().sort((a,b)=>eventStart(a).getTime()-eventStart(b).getTime()), []);
+function GridView({ events, rsvps, setRsvps, focusId }: { events: EventItem[]; rsvps: Record<string, Rsvp>; setRsvps: (r: Record<string, Rsvp>)=>void; focusId: string | null }) {
+  const upcoming = useMemo(() => events.slice().sort((a,b)=>eventStart(a).getTime()-eventStart(b).getTime()), [events]);
   return (
     <div className="cal-grid-view">
       {upcoming.map(e => (
-        <EventCard key={e.id} e={e} rsvp={rsvps[e.id] ?? null} onRsvp={v => setRsvps({...rsvps, [e.id]: v})} />
+        <div key={e.id} id={`cal-evt-${e.id}`} className={focusId === e.id ? "cal-ec-focus" : undefined}>
+          <EventCard e={e} rsvp={rsvps[e.id] ?? null} onRsvp={v => setRsvps({...rsvps, [e.id]: v})} />
+        </div>
       ))}
     </div>
   );
 }
+
+/* ============ CREATE EVENT MODAL ============ */
+function CreateEventModal({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({
+    title: "", description: "", date: "2026-05-28", start: "17:30", end: "18:30",
+    host: "", location: "Zoom",
+    thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=70",
+  });
+  const valid = form.title.trim() && form.date && form.start && form.end;
+  function submit() {
+    if (!valid) return;
+    addEvent({ ...form, title: form.title.trim(), host: form.host.trim() || "You" });
+    onClose();
+  }
+  return (
+    <div className="cal-modal-bd" onClick={onClose}>
+      <div className="cal-modal" onClick={e => e.stopPropagation()}>
+        <div className="cal-modal-head">
+          <h3>Create event</h3>
+          <button className="cal-modal-x" onClick={onClose} aria-label="Close"><XIcon size={16}/></button>
+        </div>
+        <div className="cal-modal-body">
+          <label className="cal-field"><span>Title</span>
+            <input value={form.title} onChange={e=>setForm({...form, title: e.target.value})} placeholder="e.g. Office Hours" autoFocus/>
+          </label>
+          <label className="cal-field"><span>Description</span>
+            <textarea rows={3} value={form.description} onChange={e=>setForm({...form, description: e.target.value})} placeholder="What's this event about?"/>
+          </label>
+          <div className="cal-field-row">
+            <label className="cal-field"><span>Date</span>
+              <input type="date" value={form.date} onChange={e=>setForm({...form, date: e.target.value})}/>
+            </label>
+            <label className="cal-field"><span>Start</span>
+              <input type="time" value={form.start} onChange={e=>setForm({...form, start: e.target.value})}/>
+            </label>
+            <label className="cal-field"><span>End</span>
+              <input type="time" value={form.end} onChange={e=>setForm({...form, end: e.target.value})}/>
+            </label>
+          </div>
+          <div className="cal-field-row">
+            <label className="cal-field"><span>Host</span>
+              <input value={form.host} onChange={e=>setForm({...form, host: e.target.value})} placeholder="You"/>
+            </label>
+            <label className="cal-field"><span>Location</span>
+              <input value={form.location} onChange={e=>setForm({...form, location: e.target.value})} placeholder="Zoom, Google Meet, etc."/>
+            </label>
+          </div>
+          <label className="cal-field"><span>Cover image URL</span>
+            <input value={form.thumb} onChange={e=>setForm({...form, thumb: e.target.value})}/>
+          </label>
+        </div>
+        <div className="cal-modal-foot">
+          <button className="cal-btn-ghost" onClick={onClose}>Cancel</button>
+          <button className="cal-btn-pri" disabled={!valid} onClick={submit}><Plus size={14}/> Create event</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 function EventCard({ e, rsvp, onRsvp }: { e: EventItem; rsvp: Rsvp; onRsvp: (v: Rsvp)=>void }) {
   const cd = useCountdown(eventStart(e));
