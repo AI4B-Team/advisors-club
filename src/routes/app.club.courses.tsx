@@ -923,17 +923,20 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               </div>
             </div>
 
-            <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:14}}>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:14,alignItems:"center"}}>
               <button className="aiva-cta" onClick={() => toggleComplete(k)} style={done?{background:"#10B981"}:undefined}>
                 <CheckCircle2 size={14}/> {done ? "Completed" : "Mark Complete"}
               </button>
-              <button className="btn-ghost" disabled={!prev} onClick={() => prev && setLesson({ m: prev.m, l: prev.l })} style={!prev?{opacity:.4,cursor:"not-allowed"}:undefined}>
-                <ArrowLeft size={14}/> Previous
-              </button>
-              <button className="btn-ghost" disabled={!next} onClick={() => next && setLesson({ m: next.m, l: next.l })} style={!next?{opacity:.4,cursor:"not-allowed"}:undefined}>
-                Next <ArrowRight size={14}/>
-              </button>
+              <div style={{marginLeft:"auto",display:"flex",gap:8}}>
+                <button className="btn-ghost" disabled={!prev} onClick={() => prev && setLesson({ m: prev.m, l: prev.l })} style={!prev?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                  <ArrowLeft size={14}/> Previous
+                </button>
+                <button className="btn-ghost" disabled={!next} onClick={() => next && setLesson({ m: next.m, l: next.l })} style={!next?{opacity:.4,cursor:"not-allowed"}:undefined}>
+                  Next <ArrowRight size={14}/>
+                </button>
+              </div>
             </div>
+
 
             {/* Lesson tabs: Overview / Resources / Comments */}
             {(() => {
