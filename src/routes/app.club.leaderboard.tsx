@@ -250,7 +250,7 @@ function LeaderboardPage() {
             <span className="lb-mine-icon"><Medal size={20}/></span>
             <div>
               <h4>You're ranked #{myRank}</h4>
-              <p>Keep your streak going to climb the ranks. {myRank > 1 ? `${(ranked[myRank-2][sortKey] as number) - 2840} ${categoryMeta[category].unit} to next position.` : `You're at the top!`}</p>
+              <p>Keep your streak going to climb the ranks. {myRank > 1 ? `${((ranked[myRank-2][sortKey] as number) - (ME_MEMBER[sortKey] as number) + 1).toLocaleString()} ${categoryMeta[category].unit} to next position.` : `You're at the top!`}</p>
             </div>
           </div>
           <Link to="/app/club/challenges" className="cc-page-btn"><Flame size={14}/> Earn More Points</Link>
