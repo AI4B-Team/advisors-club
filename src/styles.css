@@ -3415,7 +3415,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .lb-podium-badges{display:flex;gap:4px;font-size:14px}
 
 .lb-table-card{background:#fff;border:1px solid #EEF0F2;border-radius:14px;overflow:hidden}
-.lb-table-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid #F1F5F9}
+.lb-table-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid #F1F5F9;flex-wrap:wrap}
 .lb-table-head h3{font-size:15px;font-weight:700;color:#0F172A;margin:0}
 .lb-table-sub{font-size:12px;color:#6B7280}
 .lb-table{display:flex;flex-direction:column}
