@@ -652,11 +652,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
   const [courseMenuOpen, setCourseMenuOpen] = useState(false);
   const [moduleMenuOpen, setModuleMenuOpen] = useState<number | null>(null);
-  const [lessonMeta, setLessonMeta] = useState<Record<string, { body: string; published: boolean }>>({});
+  type MediaType = "none" | "native" | "youtube" | "vimeo" | "external";
+  type LessonMeta = { body: string; published: boolean; mediaType: MediaType; mediaUrl: string };
+  const [lessonMeta, setLessonMeta] = useState<Record<string, LessonMeta>>({});
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editBody, setEditBody] = useState("");
   const [editPublished, setEditPublished] = useState(true);
+  const [editMediaType, setEditMediaType] = useState<MediaType>("native");
+  const [editMediaUrl, setEditMediaUrl] = useState("");
+  const [videoMenuOpen, setVideoMenuOpen] = useState(false);
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
@@ -722,9 +727,12 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   function startEdit() {
     if (!current) return;
     const k = key(current.m, current.l);
+    const meta = lessonMeta[k];
     setEditTitle(current.lesson.title);
-    setEditBody(lessonMeta[k]?.body ?? "");
-    setEditPublished(lessonMeta[k]?.published ?? true);
+    setEditBody(meta?.body ?? "");
+    setEditPublished(meta?.published ?? true);
+    setEditMediaType(meta?.mediaType ?? "native");
+    setEditMediaUrl(meta?.mediaUrl ?? "");
     setEditing(true);
   }
   function cancelEdit() { setEditing(false); }
@@ -737,7 +745,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
         ? { ...m, lessons: m.lessons.map((l, li) => li === current.l ? { ...l, title: t } : l) }
         : m
     ));
-    setLessonMeta(prev => ({ ...prev, [k]: { body: editBody, published: editPublished } }));
+    setLessonMeta(prev => ({ ...prev, [k]: { body: editBody, published: editPublished, mediaType: editMediaType, mediaUrl: editMediaUrl } }));
     setEditing(false);
   }
 
@@ -886,11 +894,52 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     placeholder="Lesson title"
                     style={{width:"100%",border:0,outline:"none",fontSize:22,fontWeight:800,color:"#111827",background:"transparent",marginBottom:10}}
                   />
+                  <div style={{marginBottom:14,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
+                    <div style={{fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.5,marginBottom:8}}>Media</div>
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:editMediaType==="none"?0:10}}>
+                      {([
+                        {v:"none",label:"None (Text Only)",icon:<FileText size={12}/>},
+                        {v:"native",label:"Upload Video",icon:<Upload size={12}/>},
+                        {v:"youtube",label:"YouTube",icon:<Video size={12}/>},
+                        {v:"vimeo",label:"Vimeo",icon:<Video size={12}/>},
+                        {v:"external",label:"External Link",icon:<LinkIcon size={12}/>},
+                      ] as {v:MediaType;label:string;icon:React.ReactNode}[]).map(opt => {
+                        const sel = editMediaType === opt.v;
+                        return (
+                          <button key={opt.v} type="button" onClick={()=>setEditMediaType(opt.v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 11px",borderRadius:999,fontSize:12,fontWeight:600,border:`1px solid ${sel?"#111827":"#E5E7EB"}`,background:sel?"#111827":"#fff",color:sel?"#fff":"#374151",cursor:"pointer"}}>
+                            {opt.icon}{opt.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {editMediaType === "native" && (
+                      <div>
+                        <label style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",border:"1px dashed #D1D5DB",borderRadius:8,background:"#fff",cursor:"pointer",fontSize:13,color:"#6B7280"}}>
+                          <Upload size={14}/>
+                          <span style={{flex:1}}>{editMediaUrl ? "Replace Video File" : "Click To Upload Video File"}</span>
+                          <input type="file" accept="video/*" style={{display:"none"}} onChange={e=>{
+                            const f = e.target.files?.[0]; if (!f) return;
+                            const url = URL.createObjectURL(f);
+                            setEditMediaUrl(url);
+                          }}/>
+                        </label>
+                        {editMediaUrl && <div style={{fontSize:11,color:"#10B981",marginTop:6,fontWeight:600}}>✓ Video Attached</div>}
+                      </div>
+                    )}
+                    {(editMediaType === "youtube" || editMediaType === "vimeo" || editMediaType === "external") && (
+                      <input
+                        value={editMediaUrl}
+                        onChange={e=>setEditMediaUrl(e.target.value)}
+                        placeholder={editMediaType==="youtube"?"https://youtube.com/watch?v=...":editMediaType==="vimeo"?"https://vimeo.com/...":"https://..."}
+                        style={{width:"100%",padding:"9px 12px",fontSize:13,border:"1px solid #E5E7EB",borderRadius:8,outline:"none",background:"#fff"}}
+                      />
+                    )}
+                  </div>
                   <textarea
                     value={editBody}
                     onChange={e=>setEditBody(e.target.value)}
-                    placeholder="Write your lesson content…"
-                    rows={6}
+                    placeholder={editMediaType==="none"?"Write your full lesson here. Use the toolbar above for headings, lists, and formatting…":"Write your lesson content…"}
+                    rows={editMediaType==="none"?14:6}
                     style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
                   />
                 </div>
@@ -924,21 +973,69 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               </div>
             )}
 
-            <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,padding:10,boxShadow:"0 1px 2px rgba(0,0,0,.04)"}}>
-              <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#F3F4F6"}}>
-                <div style={{position:"absolute",inset:0,backgroundImage:`url(${course.cover})`,backgroundSize:"cover",backgroundPosition:"center"}}/>
-                <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.25) 100%)"}}>
-                  <button aria-label="Play" style={{position:"relative",width:88,height:88,borderRadius:"50%",background:"rgba(255,255,255,.18)",border:"1px solid rgba(255,255,255,.4)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .2s ease, background .2s ease"}} onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1.06)";}} onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1)";}}>
-                    <span style={{position:"absolute",inset:8,borderRadius:"50%",background:"#fff",boxShadow:"0 12px 36px -8px rgba(0,0,0,.45)",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                      <Play size={26} color="#111827" fill="#111827" style={{marginLeft:3}}/>
-                    </span>
-                  </button>
+            {(() => {
+              const meta = lessonMeta[k];
+              const mType: MediaType = meta?.mediaType ?? "native";
+              const mUrl = meta?.mediaUrl ?? "";
+              if (mType === "none") return null;
+              const ytId = (u: string) => { const m = u.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{6,})/); return m?.[1] ?? ""; };
+              const vmId = (u: string) => { const m = u.match(/vimeo\.com\/(\d+)/); return m?.[1] ?? ""; };
+              const embedSrc = mType === "youtube" && mUrl ? `https://www.youtube.com/embed/${ytId(mUrl)}`
+                : mType === "vimeo" && mUrl ? `https://player.vimeo.com/video/${vmId(mUrl)}`
+                : "";
+              return (
+                <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,padding:10,boxShadow:"0 1px 2px rgba(0,0,0,.04)"}}>
+                  <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#000"}}>
+                    {mType === "native" && mUrl ? (
+                      <video src={mUrl} controls style={{width:"100%",height:"100%",objectFit:"contain",background:"#000"}}/>
+                    ) : (mType === "youtube" || mType === "vimeo") && embedSrc ? (
+                      <iframe src={embedSrc} title={current.lesson.title} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen style={{width:"100%",height:"100%",border:0}}/>
+                    ) : mType === "external" && mUrl ? (
+                      <iframe src={mUrl} title={current.lesson.title} allowFullScreen style={{width:"100%",height:"100%",border:0,background:"#fff"}}/>
+                    ) : (
+                      <>
+                        <div style={{position:"absolute",inset:0,backgroundImage:`url(${course.cover})`,backgroundSize:"cover",backgroundPosition:"center"}}/>
+                        <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.25) 100%)"}}>
+                          <div style={{position:"relative",width:88,height:88,borderRadius:"50%",background:"rgba(255,255,255,.18)",border:"1px solid rgba(255,255,255,.4)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            <span style={{position:"absolute",inset:8,borderRadius:"50%",background:"#fff",boxShadow:"0 12px 36px -8px rgba(0,0,0,.45)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                              <Play size={26} color="#111827" fill="#111827" style={{marginLeft:3}}/>
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {/* Overlay 3-dot menu */}
+                    <div style={{position:"absolute",top:10,right:10,zIndex:5}}>
+                      <button onClick={()=>setVideoMenuOpen(o=>!o)} aria-label="Video options" style={{width:36,height:36,borderRadius:"50%",background:"rgba(255,255,255,.95)",border:0,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#111827",boxShadow:"0 4px 12px rgba(0,0,0,.25)"}}>
+                        <MoreHorizontal size={16}/>
+                      </button>
+                      {videoMenuOpen && (
+                        <>
+                          <div onClick={()=>setVideoMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:1}}/>
+                          <div style={{position:"absolute",top:42,right:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.35)",padding:6,minWidth:180,zIndex:2}}>
+                            {mType === "native" ? (
+                              <MenuItem icon={<Download size={13}/>} label="Download" onClick={()=>{
+                                setVideoMenuOpen(false);
+                                if (!mUrl) return;
+                                const a = document.createElement("a"); a.href = mUrl; a.download = `${current.lesson.title}.mp4`; a.click();
+                              }}/>
+                            ) : (
+                              <>
+                                <MenuItem icon={<LinkIcon size={13}/>} label="Open Original" onClick={()=>{ setVideoMenuOpen(false); if (mUrl) window.open(mUrl, "_blank"); }}/>
+                                <MenuItem icon={<CopyIcon size={13}/>} label="Copy Link" onClick={()=>{ setVideoMenuOpen(false); if (mUrl) navigator.clipboard?.writeText(mUrl); }}/>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div style={{position:"absolute",bottom:12,right:14,color:"#fff",fontSize:11,fontWeight:600,background:"rgba(0,0,0,.6)",padding:"3px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:4,pointerEvents:"none"}}>
+                      <Clock size={11}/> {current.lesson.duration}
+                    </div>
+                  </div>
                 </div>
-                <div style={{position:"absolute",bottom:12,right:14,color:"#fff",fontSize:11,fontWeight:600,background:"rgba(0,0,0,.6)",padding:"3px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:4}}>
-                  <Clock size={11}/> {current.lesson.duration}
-                </div>
-              </div>
-            </div>
+              );
+            })()}
 
             <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:14,alignItems:"center"}}>
               <button className="aiva-cta" onClick={() => toggleComplete(k)} style={done?{background:"#10B981"}:undefined}>
@@ -982,8 +1079,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   </div>
 
                   {lessonTab === "overview" && (
-                    <div style={{padding:"18px 2px",color:"#374151",fontSize:14,lineHeight:1.6}}>
-                      In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress.
+                    <div style={{padding:"18px 2px",color:"#374151",fontSize:14,lineHeight:1.7,whiteSpace:"pre-wrap"}}>
+                      {lessonMeta[k]?.body?.trim()
+                        ? lessonMeta[k].body
+                        : "In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress."}
                     </div>
                   )}
 
