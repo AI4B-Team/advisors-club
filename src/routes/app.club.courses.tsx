@@ -735,27 +735,24 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
             <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10,gap:8,position:"relative"}}>
                 <div style={{fontWeight:700,color:"#111827",fontSize:14,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{course.title}</div>
-                <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-                  {isAdmin && (
-                    <button onClick={() => setCourseMenuOpen(o => !o)} aria-label="Course options" style={{width:26,height:26,borderRadius:"50%",border:0,background:courseMenuOpen?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                      <MoreHorizontal size={15}/>
-                    </button>
-                  )}
-                  <div style={{fontSize:12,color:"#6B7280",fontWeight:600}}>{Math.round((completed.size/Math.max(1,flat.length))*100)}%</div>
-                </div>
+                {isAdmin && (
+                  <button onClick={() => setCourseMenuOpen(o => !o)} aria-label="Course options" style={{width:26,height:26,borderRadius:"50%",border:0,background:courseMenuOpen?"#E5E7EB":"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                    <MoreHorizontal size={15}/>
+                  </button>
+                )}
                 {isAdmin && courseMenuOpen && (
                   <>
                     <div onClick={() => setCourseMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:20}}/>
-                    <div style={{position:"absolute",top:30,right:48,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:170,zIndex:30}}>
+                    <div style={{position:"absolute",top:30,right:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:170,zIndex:30}}>
                       <MenuItem icon={<FilePlus size={13}/>} label="Add page" onClick={addPageRoot}/>
                       <MenuItem icon={<FolderPlus size={13}/>} label="Add folder" onClick={addFolder}/>
                     </div>
                   </>
                 )}
               </div>
-              <div style={{height:6,background:"#F3F4F6",borderRadius:999,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${(completed.size/Math.max(1,flat.length))*100}%`,background:"#10B981",borderRadius:999,transition:"width .3s ease"}}/>
-              </div>
+              {(() => { const pct = Math.round((completed.size/Math.max(1,flat.length))*100); return (
+                <div className="mc-progress-bar"><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
+              ); })()}
               <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto"}}>
