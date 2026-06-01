@@ -140,7 +140,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   const [createMode, setCreateMode] = useState<"type" | "choose" | "aiva" | "manual">("type");
   const [courseType, setCourseType] = useState<"self-paced" | "structured" | "scheduled">("self-paced");
   const [aivaPrompt, setAivaPrompt] = useState("");
-  const [manualForm, setManualForm] = useState({ title: "", blurb: "", price: "" });
+  const [manualForm, setManualForm] = useState({ title: "", blurb: "", price: "", access: "open" as "open"|"level"|"buy"|"time"|"private", cover: "", published: true });
 
   // Merge AIVA built course (if any) as a virtual non-archived course
   const merged = useMemo<AdminCourse[]>(() => {
