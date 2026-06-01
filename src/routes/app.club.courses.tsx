@@ -167,7 +167,14 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   const active = merged.filter(c => !c.archived);
   const archived = merged.filter(c => c.archived);
 
-  const selected = merged.find(c => c.id === selectedId) || null;
+  // Latch the selected course so list churn (e.g. storage events refreshing aivaCourse) doesn't drop us back to the grid.
+  const [selectedSnapshot, setSelectedSnapshot] = useState<AdminCourse | null>(null);
+  useEffect(() => {
+    if (!selectedId) { setSelectedSnapshot(null); return; }
+    const found = merged.find(c => c.id === selectedId);
+    if (found) setSelectedSnapshot(found);
+  }, [selectedId, merged]);
+  const selected = selectedSnapshot && selectedSnapshot.id === selectedId ? selectedSnapshot : merged.find(c => c.id === selectedId) || null;
 
   function persist(next: AdminCourse[]) {
     // Don't persist the virtual AIVA card
