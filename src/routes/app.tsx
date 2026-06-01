@@ -97,7 +97,13 @@ function IconRail() {
           className={`cc-rail-bubble ${active.id === it.id ? "on":""}`}
           data-tip={it.label}
           style={{background: it.color}}
-          onClick={() => { setActive(it); nav({ to: "/app" }); }}
+          onClick={() => {
+            const isActive = active.id === it.id;
+            setActive(it);
+            // Only navigate home when clicking the already-active club icon,
+            // or when switching to a different club. Stay on current page otherwise.
+            if (isActive) nav({ to: "/app" });
+          }}
         >
           {it.label.slice(0,1)}
         </button>
