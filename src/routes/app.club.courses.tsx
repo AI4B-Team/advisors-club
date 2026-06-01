@@ -652,11 +652,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
   const [courseMenuOpen, setCourseMenuOpen] = useState(false);
   const [moduleMenuOpen, setModuleMenuOpen] = useState<number | null>(null);
-  const [lessonMeta, setLessonMeta] = useState<Record<string, { body: string; published: boolean }>>({});
+  type MediaType = "none" | "native" | "youtube" | "vimeo" | "external";
+  type LessonMeta = { body: string; published: boolean; mediaType: MediaType; mediaUrl: string };
+  const [lessonMeta, setLessonMeta] = useState<Record<string, LessonMeta>>({});
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editBody, setEditBody] = useState("");
   const [editPublished, setEditPublished] = useState(true);
+  const [editMediaType, setEditMediaType] = useState<MediaType>("native");
+  const [editMediaUrl, setEditMediaUrl] = useState("");
+  const [videoMenuOpen, setVideoMenuOpen] = useState(false);
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
