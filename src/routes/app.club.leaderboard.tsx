@@ -2,7 +2,7 @@ import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles, Lock, Settings, X } from "lucide-react";
-import { LB_MEMBERS, ME_MEMBER, LB_LEVELS, type LbMember } from "@/lib/leaderboard-data";
+import { LB_MEMBERS, ME_MEMBER, LB_LEVELS, LEVEL_TARGETS, type LbMember } from "@/lib/leaderboard-data";
 
 export const Route = createFileRoute("/app/club/leaderboard")({
   head: () => ({ meta: [
