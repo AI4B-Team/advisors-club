@@ -84,7 +84,7 @@ function AccountPage() {
           {tab === "Clubs" && <Communities/>}
           {tab === "Account" && <AccountOverview/>}
           {tab === "Profile" && <ProfilePanel/>}
-          {tab === "Audience" && <AudiencePanel/>}
+          {tab === "Members" && <AudiencePanel/>}
           {tab === "Content" && <ContentPanel/>}
           {tab === "Marketing" && <MarketingPanel/>}
           {tab === "Workflows" && <WorkflowsPanel/>}
