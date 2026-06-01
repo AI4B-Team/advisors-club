@@ -3446,3 +3446,38 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .lb-c-badges,.lb-c-trend{display:none}
   .lb-row-head .lb-c-badges,.lb-row-head .lb-c-trend{display:none}
 }
+
+/* ===== Calendar: Create Event modal ===== */
+.cal-modal-bd{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(2px);z-index:80;display:grid;place-items:center;padding:20px;animation:cal-fade .15s ease-out}
+.cal-modal{background:#fff;border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 60px -15px rgba(0,0,0,.35);animation:cal-pop .18s ease-out}
+@keyframes cal-fade{from{opacity:0}to{opacity:1}}
+@keyframes cal-pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.cal-modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #F1F5F9}
+.cal-modal-head h3{margin:0;font-size:16px;font-weight:700;color:#0F172A}
+.cal-modal-x{background:#F3F4F6;border:0;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:#475569}
+.cal-modal-x:hover{background:#E5E7EB}
+.cal-modal-body{padding:18px 20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+.cal-field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.cal-field>span{font-size:12px;font-weight:600;color:#475569}
+.cal-field input,.cal-field textarea{border:1px solid #E5E7EB;border-radius:9px;padding:9px 11px;font-size:13px;color:#0F172A;font-family:inherit;outline:0;transition:border-color .12s}
+.cal-field input:focus,.cal-field textarea:focus{border-color:#0EA5E9;box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.cal-field textarea{resize:vertical;min-height:70px}
+.cal-field-row{display:flex;gap:10px}
+.cal-modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid #F1F5F9;background:#FAFBFC}
+.cal-btn-ghost{background:transparent;border:1px solid #E5E7EB;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;color:#475569;cursor:pointer}
+.cal-btn-ghost:hover{background:#F3F4F6}
+.cal-btn-pri{background:#0F172A;border:0;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.cal-btn-pri:hover:not(:disabled){background:#1E293B}
+.cal-btn-pri:disabled{opacity:.5;cursor:not-allowed}
+.cal-ec-focus .cal-ec{box-shadow:0 0 0 3px #0EA5E9,0 10px 30px -10px rgba(14,165,233,.4);border-radius:12px;animation:cal-pulse 1.5s ease-out}
+@keyframes cal-pulse{0%{box-shadow:0 0 0 0 rgba(14,165,233,.5)}100%{box-shadow:0 0 0 3px #0EA5E9,0 10px 30px -10px rgba(14,165,233,.4)}}
+
+/* Home: Upcoming Events link + add button */
+.hm-card-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.hm-card-head-row .hm-card-title{margin:0}
+.hm-card-add{width:26px;height:26px;border-radius:8px;background:#F3F4F6;color:#475569;display:grid;place-items:center;text-decoration:none;transition:all .12s}
+.hm-card-add:hover{background:#0F172A;color:#fff}
+.hm-event-link{display:flex;align-items:center;gap:12px;padding:6px;margin:-6px;border-radius:10px;text-decoration:none;color:inherit;transition:background .12s;cursor:pointer}
+.hm-event-link:hover{background:#F8FAFC}
+.hm-card-all{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;color:#0EA5E9;text-decoration:none}
+.hm-card-all:hover{text-decoration:underline}
