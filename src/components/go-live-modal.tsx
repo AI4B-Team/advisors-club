@@ -1,8 +1,35 @@
-import { useEffect, useRef, useState } from "react";
-import { X, Video as VideoIcon, Mic, MicOff, Camera, CameraOff, Calendar, Radio, Copy, Check } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  X, Mic, MicOff, Camera, CameraOff, Calendar, Radio, Copy, Check,
+  Phone, Sparkles, Settings, MessageSquare, Users, ScreenShare, Pin,
+  ChevronDown, FileText, Send, Video as VideoIcon, Languages
+} from "lucide-react";
 
 type Props = { open: boolean; onClose: () => void };
 type Stage = "setup" | "preview" | "live" | "schedule" | "rtmp" | "ended";
+type Tab = "summary" | "transcript" | "chat" | "participants";
+
+const PARTICIPANTS = [
+  { name: "Kristin Watson", role: "Co-host", color: "#7C3AED" },
+  { name: "Marcus Lee",     role: "Speaker", color: "#0EA5E9" },
+  { name: "Ana Ruiz",       role: "Viewer",  color: "#F59E0B" },
+  { name: "Devon Carter",   role: "Viewer",  color: "#10B981" },
+];
+
+const LANGS = [
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "es", label: "Spanish", flag: "🇪🇸" },
+  { code: "fr", label: "French",  flag: "🇫🇷" },
+  { code: "de", label: "German",  flag: "🇩🇪" },
+  { code: "id", label: "Indonesia", flag: "🇮🇩" },
+  { code: "ja", label: "Japanese", flag: "🇯🇵" },
+];
+
+const SAMPLE_TRANSCRIPT = [
+  { who: "You",          t: "00:12", text: "Welcome everyone — thanks for jumping on the weekly stream." },
+  { who: "Kristin Watson", t: "00:34", text: "Quick reminder: we'll cover the launch checklist and roadmap updates." },
+  { who: "You",          t: "01:02", text: "Let's start with the wins from last week." },
+];
 
 export function GoLiveModal({ open, onClose }: Props) {
   const [stage, setStage] = useState<Stage>("setup");
@@ -11,6 +38,7 @@ export function GoLiveModal({ open, onClose }: Props) {
   const [audience, setAudience] = useState<"public" | "members" | "pro">("members");
   const [camOn, setCamOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
+  const [screenOn, setScreenOn] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [liveSec, setLiveSec] = useState(0);
   const [viewers, setViewers] = useState(1);
@@ -19,24 +47,35 @@ export function GoLiveModal({ open, onClose }: Props) {
   const [copied, setCopied] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
+  // AI / sidebar state
+  const [tab, setTab] = useState<Tab>("summary");
+  const [srcLang, setSrcLang] = useState("en");
+  const [dstLang, setDstLang] = useState("es");
+  const [aiOn, setAiOn] = useState(true);
+  const [chat, setChat] = useState<{ who: string; text: string }[]>([
+    { who: "Kristin Watson", text: "👋 hi everyone!" },
+    { who: "Ana Ruiz", text: "Audio is super clear today" },
+  ]);
+  const [chatDraft, setChatDraft] = useState("");
+  const [wave, setWave] = useState<number[]>(() => Array(40).fill(0).map(() => Math.random() * 0.4 + 0.1));
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const liveTimerRef = useRef<number | null>(null);
   const viewersTimerRef = useRef<number | null>(null);
   const cdRef = useRef<number | null>(null);
+  const waveTimerRef = useRef<number | null>(null);
 
-  const streamKey = "live_sk_" + Math.random().toString(36).slice(2, 18);
+  const streamKey = useMemo(() => "live_sk_" + Math.random().toString(36).slice(2, 18), []);
   const rtmpUrl = "rtmps://live.aiforbusiness.app/app";
 
   function stopAll() {
     streamRef.current?.getTracks().forEach(t => t.stop());
     streamRef.current = null;
-    if (liveTimerRef.current) window.clearInterval(liveTimerRef.current);
-    if (viewersTimerRef.current) window.clearInterval(viewersTimerRef.current);
-    if (cdRef.current) window.clearInterval(cdRef.current);
-    liveTimerRef.current = null;
-    viewersTimerRef.current = null;
-    cdRef.current = null;
+    [liveTimerRef, viewersTimerRef, cdRef, waveTimerRef].forEach(r => {
+      if (r.current) window.clearInterval(r.current);
+      r.current = null;
+    });
   }
 
   function reset() {
@@ -46,6 +85,7 @@ export function GoLiveModal({ open, onClose }: Props) {
     setCountdown(null); setLiveSec(0); setViewers(1);
     setScheduleDate(""); setScheduleTime("");
     setCopied(false); setErr(null);
+    setTab("summary"); setScreenOn(false);
   }
 
   function handleClose() { reset(); onClose(); }
@@ -102,30 +142,32 @@ export function GoLiveModal({ open, onClose }: Props) {
     setLiveSec(0); setViewers(1);
     liveTimerRef.current = window.setInterval(() => setLiveSec(s => s + 1), 1000);
     viewersTimerRef.current = window.setInterval(
-      () => setViewers(v => Math.max(1, v + Math.floor(Math.random() * 5) - 1)),
+      () => setViewers(v => Math.max(1, v + Math.floor(Math.random() * 5))),
       2500,
     );
+    waveTimerRef.current = window.setInterval(() => {
+      setWave(prev => prev.map(() => Math.random() * (micOn ? 0.95 : 0.15) + 0.05));
+    }, 110);
   }
 
-  function endLive() {
-    stopAll();
-    setStage("ended");
-  }
+  function endLive() { stopAll(); setStage("ended"); }
 
   function commitSchedule() {
-    if (!title.trim() || !scheduleDate || !scheduleTime) {
-      setErr("Title, date and time are required.");
-      return;
-    }
-    setErr(null);
-    setStage("ended");
+    if (!title.trim() || !scheduleDate || !scheduleTime) { setErr("Title, date and time are required."); return; }
+    setErr(null); setStage("ended");
   }
 
   function copyKey(text: string) {
     navigator.clipboard?.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setCopied(true); setTimeout(() => setCopied(false), 1500);
     });
+  }
+
+  function sendChat() {
+    const v = chatDraft.trim();
+    if (!v) return;
+    setChat(c => [...c, { who: "You", text: v }]);
+    setChatDraft("");
   }
 
   function fmtTime(s: number) {
@@ -135,15 +177,32 @@ export function GoLiveModal({ open, onClose }: Props) {
 
   if (!open) return null;
 
+  const isStudio = stage === "preview" || stage === "live";
+
   return (
     <div className="gl-back" onClick={handleClose}>
-      <div className="gl-modal" onClick={e => e.stopPropagation()}>
+      <div className={`gl-modal${isStudio ? " gl-modal-wide" : ""}`} onClick={e => e.stopPropagation()}>
         <div className="gl-head">
           <div className="gl-head-l">
-            <Radio size={18} className="gl-head-ic"/>
-            <h3>{stage === "live" ? "You're Live" : stage === "ended" ? (scheduleDate ? "Stream Scheduled" : "Stream Ended") : "Go Live"}</h3>
+            <div className="gl-logo"><Radio size={14}/></div>
+            <div>
+              <h3>
+                {stage === "live" ? (title || "Live Stream") :
+                 stage === "ended" ? (scheduleDate ? "Stream Scheduled" : "Stream Ended") :
+                 stage === "preview" ? "Studio · Preview" :
+                 stage === "schedule" ? "Schedule Stream" :
+                 stage === "rtmp" ? "Streaming Software" :
+                 "Go Live"}
+              </h3>
+              {isStudio && <div className="gl-sub">AdvisorsClub Weekly · {audience === "pro" ? "PRO members" : audience === "members" ? "All members" : "Public"}</div>}
+            </div>
           </div>
-          <button type="button" onClick={handleClose} aria-label="Close"><X size={18}/></button>
+          <div className="gl-head-r">
+            {stage === "live" && (
+              <span className="gl-head-live"><span className="gl-live-dot"/> LIVE · {fmtTime(liveSec)} · {viewers} watching</span>
+            )}
+            <button type="button" onClick={handleClose} aria-label="Close"><X size={18}/></button>
+          </div>
         </div>
 
         {err && <div className="gl-err">{err}</div>}
@@ -166,49 +225,179 @@ export function GoLiveModal({ open, onClose }: Props) {
                 <option value="pro">PRO members only</option>
               </select>
             </label>
-
+            <div className="gl-feat-grid">
+              <div className="gl-feat"><Sparkles size={14}/> AI summary & key points</div>
+              <div className="gl-feat"><Languages size={14}/> Live translation</div>
+              <div className="gl-feat"><FileText size={14}/> Auto transcript</div>
+              <div className="gl-feat"><Users size={14}/> Multi-guest stage</div>
+            </div>
             <div className="gl-row">
               <button type="button" className="gl-pill" onClick={() => setStage("schedule")}><Calendar size={14}/> Schedule for later</button>
               <button type="button" className="gl-pill" onClick={() => setStage("rtmp")}><VideoIcon size={14}/> Use streaming software</button>
             </div>
-
             <div className="gl-foot">
               <button type="button" className="gl-ghost" onClick={handleClose}>Cancel</button>
-              <button type="button" className="gl-go" onClick={startPreview}><Radio size={14}/> Start broadcast</button>
+              <button type="button" className="gl-go" onClick={startPreview}><Radio size={14}/> Open studio</button>
             </div>
           </div>
         )}
 
-        {(stage === "preview" || stage === "live") && (
-          <div className="gl-body">
-            <div className="gl-video-wrap">
-              <video ref={videoRef} className="gl-video" muted playsInline/>
-              {stage === "live" && (
-                <div className="gl-live-badge"><span className="gl-live-dot"/> LIVE · {fmtTime(liveSec)} · {viewers} watching</div>
-              )}
-              {countdown !== null && <div className="gl-cd">{countdown}</div>}
-            </div>
-            <div className="gl-ctrls">
-              <button type="button" className={`gl-ctrl${camOn ? "" : " off"}`} onClick={toggleCam} aria-label="Toggle camera">
-                {camOn ? <Camera size={16}/> : <CameraOff size={16}/>}
-              </button>
-              <button type="button" className={`gl-ctrl${micOn ? "" : " off"}`} onClick={toggleMic} aria-label="Toggle microphone">
-                {micOn ? <Mic size={16}/> : <MicOff size={16}/>}
-              </button>
-              <div className="gl-title-preview">{title}</div>
-            </div>
-            <div className="gl-foot">
-              {stage === "preview" ? (
-                <>
-                  <button type="button" className="gl-ghost" onClick={() => { stopAll(); setStage("setup"); }}>Back</button>
-                  <button type="button" className="gl-go" disabled={countdown !== null} onClick={startLive}>
-                    <Radio size={14}/> {countdown !== null ? `Starting in ${countdown}…` : "Go live now"}
+        {isStudio && (
+          <div className="gl-studio">
+            <div className="gl-stage">
+              <div className="gl-video-wrap">
+                <video ref={videoRef} className="gl-video" muted playsInline/>
+                <div className="gl-name-tag"><span className="gl-name-dot"/> You · Host</div>
+                {stage === "live" && <div className="gl-mic-bubble"><Mic size={12}/></div>}
+                {countdown !== null && <div className="gl-cd">{countdown}</div>}
+                {screenOn && <div className="gl-screen-hint"><ScreenShare size={12}/> Sharing screen</div>}
+              </div>
+
+              {/* AI assistant strip */}
+              <div className="gl-ai-strip">
+                <div className="gl-ai-left">
+                  <div className="gl-ai-icon"><Sparkles size={14}/></div>
+                  <div>
+                    <div className="gl-ai-title">AI Assistant</div>
+                    <div className="gl-ai-sub">{aiOn ? (stage === "live" ? "Listening & transcribing…" : "Ready when you go live") : "Paused"}</div>
+                  </div>
+                </div>
+                <div className="gl-wave">
+                  {wave.map((h, i) => (
+                    <span key={i} style={{ height: `${Math.max(8, h * 100)}%` }}/>
+                  ))}
+                </div>
+                <div className="gl-ai-right">
+                  <div className="gl-lang">
+                    <select value={srcLang} onChange={e => setSrcLang(e.target.value)}>
+                      {LANGS.map(l => <option key={l.code} value={l.code}>{l.flag} {l.label}</option>)}
+                    </select>
+                    <span className="gl-lang-arrow">→</span>
+                    <select value={dstLang} onChange={e => setDstLang(e.target.value)}>
+                      {LANGS.map(l => <option key={l.code} value={l.code}>{l.flag} {l.label}</option>)}
+                    </select>
+                  </div>
+                  <button type="button" className={`gl-ai-toggle${aiOn ? " on" : ""}`} onClick={() => setAiOn(v => !v)} aria-label="Toggle AI">
+                    <span/>
                   </button>
-                </>
-              ) : (
-                <button type="button" className="gl-end" onClick={endLive}>End stream</button>
-              )}
+                </div>
+              </div>
+
+              {/* Bottom control bar */}
+              <div className="gl-bar">
+                <button type="button" className={`gl-cbtn${micOn ? "" : " off"}`} onClick={toggleMic} title="Mic">
+                  {micOn ? <Mic size={18}/> : <MicOff size={18}/>}
+                </button>
+                <button type="button" className={`gl-cbtn${camOn ? "" : " off"}`} onClick={toggleCam} title="Camera">
+                  {camOn ? <Camera size={18}/> : <CameraOff size={18}/>}
+                </button>
+                <button type="button" className={`gl-cbtn${screenOn ? " active" : ""}`} onClick={() => setScreenOn(v => !v)} title="Share screen">
+                  <ScreenShare size={18}/>
+                </button>
+                <button type="button" className="gl-cbtn" title="Pin"><Pin size={18}/></button>
+                <button type="button" className="gl-cbtn" title="Settings"><Settings size={18}/></button>
+                <div className="gl-bar-spacer"/>
+                {stage === "preview" ? (
+                  <>
+                    <button type="button" className="gl-ghost" onClick={() => { stopAll(); setStage("setup"); }}>Back</button>
+                    <button type="button" className="gl-go" disabled={countdown !== null} onClick={startLive}>
+                      <Radio size={14}/> {countdown !== null ? `Starting in ${countdown}…` : "Go Live"}
+                    </button>
+                  </>
+                ) : (
+                  <button type="button" className="gl-hang" onClick={endLive} title="End stream">
+                    <Phone size={18}/>
+                  </button>
+                )}
+              </div>
             </div>
+
+            {/* Side panel */}
+            <aside className="gl-side">
+              <div className="gl-side-tabs">
+                <button type="button" className={tab === "summary" ? "on" : ""} onClick={() => setTab("summary")}><Sparkles size={13}/> Summary</button>
+                <button type="button" className={tab === "transcript" ? "on" : ""} onClick={() => setTab("transcript")}><FileText size={13}/> Transcript</button>
+                <button type="button" className={tab === "chat" ? "on" : ""} onClick={() => setTab("chat")}><MessageSquare size={13}/> Chat</button>
+                <button type="button" className={tab === "participants" ? "on" : ""} onClick={() => setTab("participants")}><Users size={13}/> People</button>
+              </div>
+
+              <div className="gl-side-body">
+                {tab === "summary" && (
+                  <>
+                    <div className="gl-card">
+                      <div className="gl-card-h"><span>Overview</span><ChevronDown size={14}/></div>
+                      <p>AI is generating a live overview of your stream as you speak. Topics, decisions and questions will appear here in real time.</p>
+                    </div>
+                    <div className="gl-card">
+                      <div className="gl-card-h"><span>Key points</span><ChevronDown size={14}/></div>
+                      <ul>
+                        <li>Welcome & weekly intro</li>
+                        <li>Launch checklist walkthrough</li>
+                        <li>Open Q&A with members</li>
+                      </ul>
+                    </div>
+                    <div className="gl-card">
+                      <div className="gl-card-h"><span>Action items</span><ChevronDown size={14}/></div>
+                      <ul>
+                        <li>Share replay in #announcements</li>
+                        <li>Post transcript to Resources</li>
+                      </ul>
+                    </div>
+                  </>
+                )}
+
+                {tab === "transcript" && (
+                  <div className="gl-tr">
+                    {SAMPLE_TRANSCRIPT.map((m, i) => (
+                      <div key={i} className="gl-tr-row">
+                        <div className="gl-tr-meta"><b>{m.who}</b><span>{m.t}</span></div>
+                        <p>{m.text}</p>
+                      </div>
+                    ))}
+                    {stage === "live" && <div className="gl-tr-live">● Live captions on</div>}
+                  </div>
+                )}
+
+                {tab === "chat" && (
+                  <div className="gl-chat">
+                    <div className="gl-chat-list">
+                      {chat.map((m, i) => (
+                        <div key={i} className={`gl-msg${m.who === "You" ? " me" : ""}`}>
+                          <div className="gl-msg-who">{m.who}</div>
+                          <div className="gl-msg-text">{m.text}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="gl-chat-input">
+                      <input
+                        placeholder="Say something…"
+                        value={chatDraft}
+                        onChange={e => setChatDraft(e.target.value)}
+                        onKeyDown={e => { if (e.key === "Enter") sendChat(); }}
+                      />
+                      <button type="button" onClick={sendChat}><Send size={14}/></button>
+                    </div>
+                  </div>
+                )}
+
+                {tab === "participants" && (
+                  <div className="gl-people">
+                    <div className="gl-people-row gl-me">
+                      <div className="gl-av" style={{ background: "#DC2626" }}>YO</div>
+                      <div className="gl-people-meta"><b>You</b><span>Host · streaming</span></div>
+                      <span className="gl-tag-live">LIVE</span>
+                    </div>
+                    {PARTICIPANTS.map(p => (
+                      <div key={p.name} className="gl-people-row">
+                        <div className="gl-av" style={{ background: p.color }}>{p.name.split(" ").map(s => s[0]).slice(0,2).join("")}</div>
+                        <div className="gl-people-meta"><b>{p.name}</b><span>{p.role}</span></div>
+                        <button type="button" className="gl-mini">Invite</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </aside>
           </div>
         )}
 
@@ -266,12 +455,12 @@ export function GoLiveModal({ open, onClose }: Props) {
         {stage === "ended" && (
           <div className="gl-body">
             <div className="gl-ended">
-              <div className="gl-ended-ic">{scheduleDate ? <Calendar size={28}/> : <Radio size={28}/>}</div>
+              <div className="gl-ended-ic">{scheduleDate ? <Calendar size={28}/> : <Sparkles size={28}/>}</div>
               <h4>{scheduleDate ? "Stream scheduled" : "Stream ended"}</h4>
               <p>
                 {scheduleDate
                   ? `"${title}" is scheduled for ${scheduleDate} at ${scheduleTime}. Members will be notified.`
-                  : `"${title}" ended after ${fmtTime(liveSec)} · peak ${viewers} viewers.`}
+                  : `"${title}" ended after ${fmtTime(liveSec)} · peak ${viewers} viewers. AI summary, transcript and key points are ready in your Library.`}
               </p>
             </div>
             <div className="gl-foot">
