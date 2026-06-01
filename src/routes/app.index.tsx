@@ -203,7 +203,7 @@ function HomePage() {
                   <button className={`hm-post-act ${p.liked?"on":""}`} onClick={()=>toggleLike(p.id)}>
                     <Heart size={16} fill={p.liked ? "currentColor":"none"}/> {p.likes}
                   </button>
-                  <button className="hm-post-act" onClick={()=>setPosts(ps=>ps.map(po=>po.id===p.id?{...po,comments:po.comments+1}:po))}>
+                  <button className={`hm-post-act ${openComments[p.id] ? "on" : ""}`} onClick={()=>setOpenComments(o => ({ ...o, [p.id]: !o[p.id] }))}>
                     <MessageCircle size={16}/> {p.comments}
                   </button>
                   {p.comments > 0 && (
