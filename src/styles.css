@@ -3607,4 +3607,5 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .lb-modal-save:disabled{background:#E5E7EB;color:#9CA3AF;cursor:not-allowed}
 
 .adm-mod-row:hover .adm-mod-more{opacity:1 !important}
+.adm-res-row:hover .adm-res-more{opacity:1 !important}
 
