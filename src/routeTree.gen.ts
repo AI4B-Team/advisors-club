@@ -31,6 +31,7 @@ import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
 import { Route as AppClubResourcesRouteImport } from './routes/app.club.resources'
 import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
+import { Route as AppClubLeaderboardRouteImport } from './routes/app.club.leaderboard'
 import { Route as AppClubFeedRouteImport } from './routes/app.club.feed'
 import { Route as AppClubEventsRouteImport } from './routes/app.club.events'
 import { Route as AppClubCoursesRouteImport } from './routes/app.club.courses'
@@ -148,6 +149,11 @@ const AppClubMembersRoute = AppClubMembersRouteImport.update({
   path: '/club/members',
   getParentRoute: () => AppRoute,
 } as any)
+const AppClubLeaderboardRoute = AppClubLeaderboardRouteImport.update({
+  id: '/club/leaderboard',
+  path: '/club/leaderboard',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppClubFeedRoute = AppClubFeedRouteImport.update({
   id: '/club/feed',
   path: '/club/feed',
@@ -205,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/app/club/courses': typeof AppClubCoursesRoute
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
+  '/app/club/leaderboard': typeof AppClubLeaderboardRoute
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByTo {
   '/app/club/courses': typeof AppClubCoursesRoute
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
+  '/app/club/leaderboard': typeof AppClubLeaderboardRoute
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
@@ -265,6 +273,7 @@ export interface FileRoutesById {
   '/app/club/courses': typeof AppClubCoursesRoute
   '/app/club/events': typeof AppClubEventsRoute
   '/app/club/feed': typeof AppClubFeedRoute
+  '/app/club/leaderboard': typeof AppClubLeaderboardRoute
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
@@ -297,6 +306,7 @@ export interface FileRouteTypes {
     | '/app/club/courses'
     | '/app/club/events'
     | '/app/club/feed'
+    | '/app/club/leaderboard'
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | '/app/club/courses'
     | '/app/club/events'
     | '/app/club/feed'
+    | '/app/club/leaderboard'
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
@@ -356,6 +367,7 @@ export interface FileRouteTypes {
     | '/app/club/courses'
     | '/app/club/events'
     | '/app/club/feed'
+    | '/app/club/leaderboard'
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
@@ -530,6 +542,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClubMembersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/club/leaderboard': {
+      id: '/app/club/leaderboard'
+      path: '/club/leaderboard'
+      fullPath: '/app/club/leaderboard'
+      preLoaderRoute: typeof AppClubLeaderboardRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/club/feed': {
       id: '/app/club/feed'
       path: '/club/feed'
@@ -591,6 +610,7 @@ interface AppRouteChildren {
   AppClubCoursesRoute: typeof AppClubCoursesRoute
   AppClubEventsRoute: typeof AppClubEventsRoute
   AppClubFeedRoute: typeof AppClubFeedRoute
+  AppClubLeaderboardRoute: typeof AppClubLeaderboardRoute
   AppClubMembersRoute: typeof AppClubMembersRoute
   AppClubResourcesRoute: typeof AppClubResourcesRoute
   AppClubSettingsRoute: typeof AppClubSettingsRoute
@@ -612,6 +632,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppClubCoursesRoute: AppClubCoursesRoute,
   AppClubEventsRoute: AppClubEventsRoute,
   AppClubFeedRoute: AppClubFeedRoute,
+  AppClubLeaderboardRoute: AppClubLeaderboardRoute,
   AppClubMembersRoute: AppClubMembersRoute,
   AppClubResourcesRoute: AppClubResourcesRoute,
   AppClubSettingsRoute: AppClubSettingsRoute,

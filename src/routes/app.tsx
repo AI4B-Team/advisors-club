@@ -159,6 +159,13 @@ const TOP_LINKS: TopLink[] = [
       {label:"Past",to:"/app/club/challenges", icon:<History size={14}/>},
     ],
     menu: DEFAULT_MENU },
+  { label: "Leaderboard", to: "/app/club/leaderboard", icon: <Award size={16}/>,
+    subs: [
+      {label:"Top Performers",to:"/app/club/leaderboard", icon:<Award size={14}/>},
+      {label:"Streaks",to:"/app/club/leaderboard", icon:<Flame size={14}/>},
+      {label:"All Time",to:"/app/club/leaderboard", icon:<History size={14}/>},
+    ],
+    menu: DEFAULT_MENU },
   { label: "Events", to: "/app/club/events", icon: <Calendar size={16}/>,
     subs: [
       {label:"Calendar",to:"/app/club/events", icon:<CalendarDays size={14}/>},
