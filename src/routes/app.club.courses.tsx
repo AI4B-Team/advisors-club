@@ -248,7 +248,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               {createMode !== "type" && (
                 <button onClick={() => setCreateMode(createMode === "choose" ? "type" : "choose")} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:0,display:"flex"}}><ArrowLeft size={16}/></button>
               )}
-              {createMode === "type" ? "Choose course type" : createMode === "choose" ? "How do you want to build it?" : createMode === "aiva" ? "Create with AIVA" : "Build manually"}
+              {createMode === "type" ? "Choose Course Type" : createMode === "choose" ? "How Do You Want to Build It?" : createMode === "aiva" ? "Create with AIVA" : "Build Manually"}
             </div>
             <button onClick={() => setCreateOpen(false)} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:4,display:"flex"}}><X size={18}/></button>
           </div>
@@ -288,7 +288,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
                 <button onClick={() => setCreateMode("manual")} style={{display:"flex",gap:12,alignItems:"flex-start",padding:14,borderRadius:12,border:"1px solid #E5E7EB",background:"#fff",cursor:"pointer",textAlign:"left"}}>
                   <div style={{width:36,height:36,borderRadius:9,background:"#F3F4F6",color:"#111827",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Edit3 size={16}/></div>
                   <div>
-                    <div style={{fontWeight:700,color:"#111827",marginBottom:2}}>Build manually</div>
+                    <div style={{fontWeight:700,color:"#111827",marginBottom:2}}>Build Manually</div>
                     <div style={{fontSize:13,color:"#6B7280"}}>Start with a blank course and add modules & lessons yourself.</div>
                   </div>
                 </button>
@@ -307,11 +307,11 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             {createMode === "manual" && (
               <div style={{display:"grid",gap:12}}>
                 <div style={{display:"grid",gap:6}}>
-                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Course title</label>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Course Title</label>
                   <input autoFocus value={manualForm.title} onChange={e => setManualForm(f => ({...f, title: e.target.value}))} placeholder="e.g. Wholesaling Fundamentals" style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14}}/>
                 </div>
                 <div style={{display:"grid",gap:6}}>
-                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Short description</label>
+                  <label style={{fontSize:12,fontWeight:600,color:"#374151"}}>Short Description</label>
                   <textarea value={manualForm.blurb} onChange={e => setManualForm(f => ({...f, blurb: e.target.value}))} rows={3} placeholder="One sentence about what members will learn." style={{padding:"10px 12px",borderRadius:10,border:"1px solid #E5E7EB",fontSize:14,fontFamily:"inherit",resize:"vertical"}}/>
                 </div>
                 <div style={{display:"grid",gap:6,maxWidth:180}}>
