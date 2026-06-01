@@ -581,7 +581,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               <p>{c.blurb}</p>
             </div>
             <div className="mc-progress" style={{padding:"0 18px 16px"}} title={`${c.completionRate}% Complete`}>
-              <div className="mc-progress-bar"><span style={{width:`${c.completionRate}%`}}>{c.completionRate}%</span></div>
+              <div className="mc-progress-bar"><span style={{width:`${c.completionRate}%`}}>{c.completionRate > 0 ? `${c.completionRate}%` : ""}</span></div>
             </div>
           </div>
         ))}
@@ -1169,7 +1169,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
             <span>By {featured.instructor}</span>
           </div>
           <div className="mc-progress">
-            <div className="mc-progress-bar"><span style={{width:`${featured.progress}%`}}>{featured.progress}%</span></div>
+            <div className="mc-progress-bar"><span style={{width:`${featured.progress}%`}}>{featured.progress > 0 ? `${featured.progress}%` : ""}</span></div>
           </div>
           <button className="mc-hero-cta" onClick={() => setSelectedId(featured.id)}>
             <PlayCircle size={16}/> {featured.progress > 0 ? "Resume Course" : "Start Course"}
@@ -1194,7 +1194,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
                 <span>{totalLessons(c)} lessons</span><span>·</span><span>{c.hours}</span>
               </div>
               <div className="mc-progress">
-                <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}>{c.progress}%</span></div>
+                <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}>{c.progress > 0 ? `${c.progress}%` : ""}</span></div>
               </div>
               {c.progress === 0 && (
                 <button className="mc-card-cta" onClick={(e) => { e.stopPropagation(); setSelectedId(c.id); }} style={{marginTop:10}}><PlayCircle size={14}/> Start Course</button>
@@ -1273,7 +1273,7 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
           <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
             <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{course.title}</div>
             <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{completed.size} of {flat.length} complete · {pct}%</div>
-            <div className="mc-progress-bar" style={{marginTop:8}}><span style={{width:`${pct}%`}}>{pct}%</span></div>
+            <div className="mc-progress-bar" style={{marginTop:8}}><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
           </div>
           <div style={{maxHeight:"60vh",overflowY:"auto"}}>
             {course.modules.map((m, mi) => (
