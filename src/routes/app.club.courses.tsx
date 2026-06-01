@@ -585,7 +585,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               <span style={{color:"#9CA3AF"}}>{Array.isArray(c.modules) ? c.modules.length : (c.modules ?? 0)} Modules</span>
             </div>
             <div className="mc-progress" style={{padding:"0 18px 16px"}} title={`${c.completionRate}% Complete`}>
-              <div className="mc-progress-bar"><span style={{width:`${c.completionRate}%`}}/></div>
+              <div className="mc-progress-bar"><span style={{width:`${c.completionRate}%`}}>{c.completionRate}%</span></div>
             </div>
           </div>
         ))}
