@@ -924,16 +924,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     );
                   })()}
                 </div>
-                <div style={{padding:"14px 18px"}}>
+                <div style={{padding:"18px 22px"}}>
                   <input
                     autoFocus
                     value={editTitle}
                     onChange={e=>{ setEditTitle(e.target.value); if (titleError && e.target.value.trim()) setTitleError(false); }}
                     placeholder="Title"
-                    style={{width:"100%",border:0,outline:"none",fontSize:22,fontWeight:800,color:"#111827",background:"transparent",padding:"4px 0",borderBottom:`2px solid ${titleError?"#EF4444":"transparent"}`,marginBottom:titleError?4:10,transition:"border-color .15s"}}
+                    style={{width:"100%",border:0,outline:"none",fontSize:26,fontWeight:800,color:"#111827",background:"transparent",padding:0,marginBottom:14,lineHeight:1.2}}
                   />
                   {titleError && (
-                    <div style={{fontSize:12,color:"#EF4444",marginBottom:10,textAlign:"right"}}>Lesson Title Is Required</div>
+                    <div style={{fontSize:12,color:"#EF4444",marginTop:-10,marginBottom:10}}>Lesson Title Is Required</div>
                   )}
                   <div style={{marginBottom:14,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
                     <div style={{fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.5,marginBottom:8}}>Media</div>
@@ -1202,7 +1202,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,borderBottom:"1px solid #E5E7EB"}}>
                     <div style={{display:"flex",gap:4}}>
                       <TabBtn id="overview" icon={<BookOpen size={14}/>} label="Overview"/>
-                      <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>
+                      {resources.length > 0 && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
                       {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Comments" count={comments.length}/>}
                     </div>
                     <label style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:12,color:"#6B7280",cursor:"pointer",paddingBottom:8}}>
@@ -1219,7 +1219,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   )}
 
-                  {lessonTab === "resources" && (
+                  {lessonTab === "resources" && resources.length > 0 && (
                     <div style={{padding:"18px 0"}}>
                       <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
                         {resources.length === 0 && (
