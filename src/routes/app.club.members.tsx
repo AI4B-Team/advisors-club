@@ -73,8 +73,8 @@ const COUNTRY_COORDS: Record<string,{lat:number;lng:number;name:string}> = {
 function MembersMap() {
   // Aggregate members by country
   const clusters = useMemo(() => {
-    const byCountry = new Map<string, typeof LEADERBOARD>();
-    LEADERBOARD.forEach(m => {
+    const byCountry = new Map<string, LbMember[]>();
+    LB_MEMBERS.forEach((m: LbMember) => {
       if (!COUNTRY_COORDS[m.country]) return;
       const arr = byCountry.get(m.country) ?? [];
       arr.push(m);
