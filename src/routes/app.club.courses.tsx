@@ -947,9 +947,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
               onMouseLeave={e=>{e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none";}}
               onClick={() => setLesson({ m: i, l: 0 })}
             >
-              <div style={{aspectRatio:"16/9",background:`linear-gradient(135deg, hsl(${(i*67)%360} 70% 55%), hsl(${(i*67+40)%360} 70% 45%))`,position:"relative",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                <span style={{position:"absolute",top:10,left:10,padding:"4px 9px",borderRadius:6,fontSize:10.5,fontWeight:700,background:"rgba(0,0,0,.45)",color:"#fff",letterSpacing:".04em"}}>MODULE {i+1}</span>
-                <BookOpen size={42} color="#fff" style={{opacity:.85}}/>
+              <div style={{aspectRatio:"16/9",background:"#F3F4F6",borderBottom:"1px solid #E5E7EB",position:"relative",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <span style={{position:"absolute",top:10,left:10,padding:"4px 9px",borderRadius:6,fontSize:10.5,fontWeight:700,background:"#fff",border:"1px solid #E5E7EB",color:"#6B7280",letterSpacing:".04em"}}>MODULE {i+1}</span>
+                <BookOpen size={42} color="#9CA3AF"/>
               </div>
               <div style={{padding:"14px 16px 10px",flex:1,display:"flex",flexDirection:"column",gap:6}}>
                 <div style={{fontWeight:700,color:"#111827",fontSize:15,lineHeight:1.3}}>{m.title}</div>
