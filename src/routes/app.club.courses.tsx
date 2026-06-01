@@ -1162,9 +1162,11 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
         <div>
           <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:14,overflow:"hidden",background:"#0F0F12"}}>
             <div style={{position:"absolute",inset:0,backgroundImage:`url(${course.cover})`,backgroundSize:"cover",backgroundPosition:"center",opacity:.5}}/>
-            <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(0,0,0,.35)"}}>
-              <button style={{width:72,height:72,borderRadius:"50%",background:"rgba(255,255,255,.95)",border:0,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 10px 30px -10px rgba(0,0,0,.5)"}}>
-                <PlayCircle size={40} color="#111827"/>
+            <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.45) 100%)"}}>
+              <button aria-label="Play" style={{position:"relative",width:88,height:88,borderRadius:"50%",background:"rgba(255,255,255,.18)",border:"1px solid rgba(255,255,255,.35)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .2s ease, background .2s ease"}} onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1.06)";(e.currentTarget as HTMLButtonElement).style.background="rgba(255,255,255,.28)";}} onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1)";(e.currentTarget as HTMLButtonElement).style.background="rgba(255,255,255,.18)";}}>
+                <span style={{position:"absolute",inset:8,borderRadius:"50%",background:"#fff",boxShadow:"0 12px 36px -8px rgba(0,0,0,.55)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <Play size={26} color="#111827" fill="#111827" style={{marginLeft:3}}/>
+                </span>
               </button>
             </div>
             <div style={{position:"absolute",bottom:14,left:16,right:16,display:"flex",justifyContent:"space-between",alignItems:"center",color:"#fff",fontSize:12,fontWeight:600}}>
