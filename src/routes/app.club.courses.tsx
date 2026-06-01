@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, CheckCircle2, Clock, BookOpen,
   MoreHorizontal, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Plus, X,
+  List, LayoutGrid,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -605,6 +606,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   onTogglePublish: () => void;
 }) {
   const [expanded, setExpanded] = useState<number | null>(0);
+  const [curView, setCurView] = useState<"toc" | "grid">("toc");
   const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
@@ -740,8 +742,19 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
       {/* Curriculum */}
       <div className="lt-section-head">
         <h2><BookOpen size={16}/> Curriculum</h2>
-        <span style={{fontSize:12,color:"#6B7280"}}>{course.modules.length} modules · {totalLessons} lessons</span>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <span style={{fontSize:12,color:"#6B7280"}}>{course.modules.length} modules · {totalLessons} lessons</span>
+          <div style={{display:"inline-flex",background:"#F3F4F6",borderRadius:8,padding:3,gap:2}}>
+            <button onClick={() => setCurView("toc")} title="List view" style={{display:"inline-flex",alignItems:"center",gap:5,padding:"6px 10px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:curView==="toc"?"#fff":"transparent",color:curView==="toc"?"#111827":"#6B7280",boxShadow:curView==="toc"?"0 1px 2px rgba(0,0,0,.06)":"none"}}>
+              <List size={13}/> List
+            </button>
+            <button onClick={() => setCurView("grid")} title="Grid view" style={{display:"inline-flex",alignItems:"center",gap:5,padding:"6px 10px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:curView==="grid"?"#fff":"transparent",color:curView==="grid"?"#111827":"#6B7280",boxShadow:curView==="grid"?"0 1px 2px rgba(0,0,0,.06)":"none"}}>
+              <LayoutGrid size={13}/> Grid
+            </button>
+          </div>
+        </div>
       </div>
+      {curView === "toc" ? (
       <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden"}}>
         {course.modules.map((m, i) => {
           const open = expanded === i;
@@ -782,6 +795,33 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
           );
         })}
       </div>
+      ) : (
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))",gap:16}}>
+        {course.modules.map((m, i) => {
+          const doneCount = m.lessons.filter((_, j) => completed.has(key(i, j))).length;
+          const pct = Math.round((doneCount / m.lessons.length) * 100);
+          return (
+            <div key={i} style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",display:"flex",flexDirection:"column",transition:"box-shadow .15s,transform .15s",cursor:"pointer"}}
+              onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 10px 28px -14px rgba(15,15,18,.2)";e.currentTarget.style.transform="translateY(-2px)";}}
+              onMouseLeave={e=>{e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none";}}
+              onClick={() => setLesson({ m: i, l: 0 })}
+            >
+              <div style={{aspectRatio:"16/9",background:`linear-gradient(135deg, hsl(${(i*67)%360} 70% 55%), hsl(${(i*67+40)%360} 70% 45%))`,position:"relative",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <span style={{position:"absolute",top:10,left:10,padding:"4px 9px",borderRadius:6,fontSize:10.5,fontWeight:700,background:"rgba(0,0,0,.45)",color:"#fff",letterSpacing:".04em"}}>MODULE {i+1}</span>
+                <BookOpen size={42} color="#fff" style={{opacity:.85}}/>
+              </div>
+              <div style={{padding:"14px 16px 10px",flex:1,display:"flex",flexDirection:"column",gap:6}}>
+                <div style={{fontWeight:700,color:"#111827",fontSize:15,lineHeight:1.3}}>{m.title}</div>
+                <div style={{fontSize:12,color:"#6B7280"}}>{m.lessons.length} lessons · {doneCount}/{m.lessons.length} done</div>
+              </div>
+              <div style={{height:8,background:"#E9EBEE",margin:"0 16px 16px",borderRadius:4,overflow:"hidden"}}>
+                {pct > 0 && <div style={{width:`${pct}%`,height:"100%",background:"#10B981",borderRadius:4,transition:"width .4s"}}/>}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      )}
 
       {/* Performance */}
       <div className="lt-section-head" style={{marginTop:28}}>
