@@ -1198,10 +1198,7 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
                 <span>{totalLessons(c)} lessons</span><span>·</span><span>{c.hours}</span>
               </div>
               <div className="mc-progress">
-                <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}/></div>
-                <span className="mc-progress-t">
-                  {c.progress === 100 ? <><CheckCircle2 size={12}/> Completed</> : c.progress > 0 ? `${c.progress}% Complete` : "Not Started"}
-                </span>
+                <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}>{c.progress}%</span></div>
               </div>
               {c.progress === 0 && (
                 <button className="mc-card-cta" onClick={(e) => { e.stopPropagation(); setSelectedId(c.id); }} style={{marginTop:10}}><PlayCircle size={14}/> Start Course</button>
