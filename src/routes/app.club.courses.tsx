@@ -118,12 +118,21 @@ function saveAdmin(list: AdminCourse[]) {
 
 function CoursesPage() {
   const { isAdmin } = useViewMode();
-  const [course, setCourse] = useState<GSCourse | null>(null);
+  const [course, setCourse] = useState<GSCourse | null>(() => (typeof window !== "undefined" ? getGS().course : null));
   useEffect(() => {
-    setCourse(getGS().course);
-    const h = () => setCourse(getGS().course);
-    window.addEventListener("storage", h);
-    return () => window.removeEventListener("storage", h);
+    const sync = () => {
+      const next = getGS().course;
+      setCourse(prev => {
+        // Only update when content meaningfully changes — avoids ref churn from unrelated storage events.
+        if (prev === next) return prev;
+        if (!prev && !next) return prev;
+        if (prev && next && prev.id === next.id && prev.title === next.title && prev.published === next.published) return prev;
+        return next;
+      });
+    };
+    sync();
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
   }, []);
 
   if (!isAdmin) return <MemberCourses course={course} />;
@@ -167,7 +176,14 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   const active = merged.filter(c => !c.archived);
   const archived = merged.filter(c => c.archived);
 
-  const selected = merged.find(c => c.id === selectedId) || null;
+  // Latch the selected course so list churn (e.g. storage events refreshing aivaCourse) doesn't drop us back to the grid.
+  const [selectedSnapshot, setSelectedSnapshot] = useState<AdminCourse | null>(null);
+  useEffect(() => {
+    if (!selectedId) { setSelectedSnapshot(null); return; }
+    const found = merged.find(c => c.id === selectedId);
+    if (found) setSelectedSnapshot(found);
+  }, [selectedId, merged]);
+  const selected = selectedSnapshot && selectedSnapshot.id === selectedId ? selectedSnapshot : merged.find(c => c.id === selectedId) || null;
 
   function persist(next: AdminCourse[]) {
     // Don't persist the virtual AIVA card
@@ -1064,7 +1080,15 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
   } : null;
 
   const list: MemberCourse[] = liveCourse ? [liveCourse, ...FALLBACK_COURSES] : FALLBACK_COURSES;
-  const selected = list.find(c => c.id === selectedId) || null;
+  // Latch the selected course so list churn doesn't drop the detail view back to the grid.
+  const [selectedSnapshot, setSelectedSnapshot] = useState<MemberCourse | null>(null);
+  useEffect(() => {
+    if (!selectedId) { setSelectedSnapshot(null); return; }
+    const found = list.find(c => c.id === selectedId);
+    if (found) setSelectedSnapshot(found);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId, list.length, list.map(c=>c.id).join("|")]);
+  const selected = selectedSnapshot && selectedSnapshot.id === selectedId ? selectedSnapshot : list.find(c => c.id === selectedId) || null;
 
   if (selected) return <MemberCourseDetail course={selected} onBack={() => setSelectedId(null)} />;
 
