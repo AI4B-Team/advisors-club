@@ -242,7 +242,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
   function renderCreateModal() {
     return (
       <div onClick={() => setCreateOpen(false)} style={{position:"fixed",inset:0,background:"rgba(15,15,18,.55)",backdropFilter:"blur(4px)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
-        <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:16,width:"100%",maxWidth:520,boxShadow:"0 30px 60px -20px rgba(0,0,0,.35)",overflow:"hidden"}}>
+        <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:16,width:"100%",maxWidth:createMode==="manual"?760:520,boxShadow:"0 30px 60px -20px rgba(0,0,0,.35)",overflow:"hidden",maxHeight:"90vh",display:"flex",flexDirection:"column"}}>
           <div style={{padding:"18px 20px",borderBottom:"1px solid #F1F2F4",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <div style={{fontWeight:700,fontSize:16,color:"#111827",display:"flex",alignItems:"center",gap:8}}>
               {createMode !== "type" && (
