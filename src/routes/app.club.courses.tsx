@@ -994,12 +994,14 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
                 <span style={{position:"absolute",top:10,left:10,padding:"4px 9px",borderRadius:6,fontSize:10.5,fontWeight:700,background:"#fff",border:"1px solid #E5E7EB",color:"#6B7280",letterSpacing:".04em"}}>MODULE {i+1}</span>
                 <BookOpen size={42} color="#9CA3AF"/>
               </div>
-              <div style={{padding:"14px 16px 10px",flex:1,display:"flex",flexDirection:"column",gap:6}}>
-                <div style={{fontWeight:700,color:"#111827",fontSize:15,lineHeight:1.3}}>{m.title}</div>
-                <div style={{fontSize:12,color:"#6B7280"}}>{m.lessons.length} lessons · {doneCount}/{m.lessons.length} done</div>
+              <div style={{padding:"16px 18px 12px",flex:1,display:"flex",flexDirection:"column",gap:6}}>
+                <h3 style={{fontSize:16,fontWeight:700,color:"#0F0F12",margin:0,lineHeight:1.3,letterSpacing:"-.01em"}}>{m.title}</h3>
+                <p style={{fontSize:13,color:"#6B7280",margin:0,lineHeight:1.5,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",minHeight:"2.7em"}}>
+                  {m.lessons.length} lessons · {doneCount}/{m.lessons.length} done
+                </p>
               </div>
-              <div style={{height:8,background:"#E9EBEE",margin:"0 16px 16px",borderRadius:4,overflow:"hidden"}}>
-                {pct > 0 && <div style={{width:`${pct}%`,height:"100%",background:"#10B981",borderRadius:4,transition:"width .4s"}}/>}
+              <div className="mc-progress-bar" style={{margin:"0 18px 16px",width:"auto"}}>
+                <span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span>
               </div>
             </div>
           );
