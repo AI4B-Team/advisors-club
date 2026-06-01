@@ -1173,15 +1173,34 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           const doneCount = m.lessons.filter((_, j) => completed.has(key(i, j))).length;
           const pct = Math.round((doneCount / m.lessons.length) * 100);
           return (
-            <div key={i} style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",display:"flex",flexDirection:"column",transition:"box-shadow .15s,transform .15s",cursor:"pointer"}}
+            <div key={i} style={{position:"relative",background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"visible",display:"flex",flexDirection:"column",transition:"box-shadow .15s,transform .15s",cursor:"pointer"}}
               onMouseEnter={e=>{e.currentTarget.style.boxShadow="0 10px 28px -14px rgba(15,15,18,.2)";e.currentTarget.style.transform="translateY(-2px)";}}
               onMouseLeave={e=>{e.currentTarget.style.boxShadow="none";e.currentTarget.style.transform="none";}}
               onClick={() => setLesson({ m: i, l: 0 })}
             >
-              <div style={{aspectRatio:"16/9",background:"#F3F4F6",borderBottom:"1px solid #E5E7EB",position:"relative",display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <div style={{aspectRatio:"16/9",background:"#F3F4F6",borderBottom:"1px solid #E5E7EB",borderTopLeftRadius:12,borderTopRightRadius:12,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
                 <span style={{position:"absolute",top:10,left:10,padding:"4px 9px",borderRadius:6,fontSize:10.5,fontWeight:700,background:"#fff",border:"1px solid #E5E7EB",color:"#6B7280",letterSpacing:".04em"}}>MODULE {i+1}</span>
                 <BookOpen size={42} color="#9CA3AF"/>
               </div>
+              {isAdmin && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setModuleMenuOpen(moduleMenuOpen === i ? null : i); }}
+                  aria-label="Module options"
+                  style={{position:"absolute",top:10,right:10,width:30,height:30,borderRadius:"50%",border:"1px solid #E5E7EB",background:"#fff",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",zIndex:5,boxShadow:"0 1px 2px rgba(0,0,0,.06)"}}
+                ><MoreHorizontal size={15}/></button>
+              )}
+              {isAdmin && moduleMenuOpen === i && (
+                <>
+                  <div onClick={(e) => { e.stopPropagation(); setModuleMenuOpen(null); }} style={{position:"fixed",inset:0,zIndex:20}}/>
+                  <div onClick={(e) => e.stopPropagation()} style={{position:"absolute",top:46,right:10,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:200,zIndex:30}}>
+                    <MenuItem icon={<Edit3 size={13}/>} label="Edit Module" onClick={() => { setModuleMenuOpen(null); editFolder(i); }}/>
+                    <MenuItem icon={<FilePlus size={13}/>} label="Add Lesson" onClick={() => { setModuleMenuOpen(null); addPageInFolder(i); }}/>
+                    <MenuItem icon={<CopyIcon size={13}/>} label="Duplicate Module" onClick={() => { setModuleMenuOpen(null); duplicateFolder(i); }}/>
+                    <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                    <MenuItem icon={<Trash2 size={13}/>} label="Delete Module" danger onClick={() => { setModuleMenuOpen(null); deleteFolder(i); }}/>
+                  </div>
+                </>
+              )}
               <div style={{padding:"16px 18px 12px",flex:1,display:"flex",flexDirection:"column",gap:6}}>
                 <h3 style={{fontSize:16,fontWeight:700,color:"#0F0F12",margin:0,lineHeight:1.3,letterSpacing:"-.01em"}}>{m.title}</h3>
                 <p style={{fontSize:13,color:"#6B7280",margin:0,lineHeight:1.5,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden",minHeight:"2.7em"}}>
