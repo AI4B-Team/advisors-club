@@ -1277,7 +1277,7 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
           <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
             <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{course.title}</div>
             <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{completed.size} of {flat.length} complete · {pct}%</div>
-            <div className="mc-progress-bar" style={{marginTop:8}}><span style={{width:`${pct}%`}}/></div>
+            <div className="mc-progress-bar" style={{marginTop:8}}><span style={{width:`${pct}%`}}>{pct}%</span></div>
           </div>
           <div style={{maxHeight:"60vh",overflowY:"auto"}}>
             {course.modules.map((m, mi) => (
