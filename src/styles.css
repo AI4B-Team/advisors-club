@@ -3556,7 +3556,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .lb-lbar-here{font-size:9px;padding:2px 6px;background:#F59E0B;color:#fff;border-radius:4px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
 .lb-lbar-pct{font-size:11px;font-weight:700;color:#6B7280;font-variant-numeric:tabular-nums;flex-shrink:0}
 .lb-lbar-track{height:5px;background:#F1F5F9;border-radius:999px;overflow:hidden}
-.lb-lbar-track span{display:block;height:100%;background:linear-gradient(90deg,#F59E0B,#FCD34D);border-radius:999px;transition:width .4s ease}
+.lb-lbar-track span{display:block;height:100%;background:#F59E0B;border-radius:999px;transition:width .4s ease}
 .lb-lbar-locked .lb-lbar-track span{background:#E5E7EB}
 .lb-lbar-perk{font-size:10.5px;color:#6B7280;font-style:italic}
 @media (max-width:880px){.lb-levels-card{grid-template-columns:1fr}.lb-levels-me{border-right:0;border-bottom:1px dashed #E5E7EB;padding-bottom:18px}.lb-levels-bars{grid-template-columns:1fr}}
