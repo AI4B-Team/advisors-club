@@ -584,8 +584,8 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
               <span>{c.completionRate > 0 ? `${c.completionRate}% Complete` : "Not Started"}</span>
               <span style={{color:"#9CA3AF"}}>{Array.isArray(c.modules) ? c.modules.length : (c.modules ?? 0)} Modules</span>
             </div>
-            <div className="mc-progress" title={`${c.completionRate}% complete`}>
-              {c.completionRate > 0 && <div className="mc-progress-fill" style={{width:`${c.completionRate}%`}}/>}
+            <div className="mc-progress" style={{padding:"0 18px 16px"}} title={`${c.completionRate}% complete`}>
+              <div className="mc-progress-bar"><span style={{width:`${c.completionRate}%`}}/></div>
             </div>
           </div>
         ))}
@@ -1155,15 +1155,14 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
               <div className="mc-card-meta">
                 <span>{totalLessons(c)} lessons</span><span>·</span><span>{c.hours}</span>
               </div>
-              {c.progress > 0 ? (
-                <div className="mc-progress">
-                  <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}/></div>
-                  <span className="mc-progress-t">
-                    {c.progress === 100 ? <><CheckCircle2 size={12}/> Completed</> : `${c.progress}% complete`}
-                  </span>
-                </div>
-              ) : (
-                <button className="mc-card-cta" onClick={(e) => { e.stopPropagation(); setSelectedId(c.id); }}><PlayCircle size={14}/> Start Course</button>
+              <div className="mc-progress">
+                <div className="mc-progress-bar"><span style={{width:`${c.progress}%`}}/></div>
+                <span className="mc-progress-t">
+                  {c.progress === 100 ? <><CheckCircle2 size={12}/> Completed</> : c.progress > 0 ? `${c.progress}% complete` : "Not started"}
+                </span>
+              </div>
+              {c.progress === 0 && (
+                <button className="mc-card-cta" onClick={(e) => { e.stopPropagation(); setSelectedId(c.id); }} style={{marginTop:10}}><PlayCircle size={14}/> Start Course</button>
               )}
             </div>
           </div>
