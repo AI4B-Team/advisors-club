@@ -562,12 +562,13 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
             <div className="mc-card-body" style={{cursor:"pointer"}} onClick={() => setSelectedId(c.id)}>
               <h3>{c.title}</h3>
               <p>{c.blurb}</p>
-              <div className="mc-progress" title={`${c.completionRate}% complete`}>
-                <div className="mc-progress-fill" style={{width:`${Math.max(c.completionRate, c.completionRate>0?8:0)}%`}}>
-                  {c.completionRate > 0 && <span>{c.completionRate}%</span>}
-                </div>
-                {c.completionRate === 0 && <span className="mc-progress-zero">0%</span>}
-              </div>
+            </div>
+            <div className="mc-progress-label">
+              <span>{c.completionRate > 0 ? `${c.completionRate}% complete` : "Not started"}</span>
+              <span style={{color:"#9CA3AF"}}>{Array.isArray(c.modules) ? c.modules.length : (c.modules ?? 0)} modules</span>
+            </div>
+            <div className="mc-progress" title={`${c.completionRate}% complete`}>
+              <div className="mc-progress-fill" style={{width:`${c.completionRate}%`}}/>
             </div>
           </div>
         ))}
