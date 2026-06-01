@@ -798,7 +798,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     <button
                       onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       disabled={isLocked}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",paddingRight: isAdmin ? 44 : 16,background:"#fff",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#fff",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
                     >
                       {isLocked ? (
                         <Lock size={14} color="#9CA3AF"/>
