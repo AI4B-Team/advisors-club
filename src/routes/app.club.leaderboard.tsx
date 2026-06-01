@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles, Lock } from "lucide-react";
+import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles, Lock, Settings, X } from "lucide-react";
 import { LB_MEMBERS, ME_MEMBER, LB_LEVELS, type LbMember } from "@/lib/leaderboard-data";
 
 export const Route = createFileRoute("/app/club/leaderboard")({
@@ -21,6 +21,12 @@ function LeaderboardPage() {
   const [period, setPeriod] = useState<Period>("month");
   const [category, setCategory] = useState<Category>("points");
   const [q, setQ] = useState("");
+  const [editingLevels, setEditingLevels] = useState(false);
+  const [levelNames, setLevelNames] = useState<string[]>(() => {
+    if (typeof window === "undefined") return Array(9).fill("");
+    try { return JSON.parse(localStorage.getItem("lb-level-names") || "[]").concat(Array(9).fill("")).slice(0,9); }
+    catch { return Array(9).fill(""); }
+  });
 
   const all = useMemo(() => [...LB_MEMBERS, ME_MEMBER], []);
 
@@ -85,27 +91,46 @@ function LeaderboardPage() {
 
       {/* Your level + level distribution */}
       <div className="lb-levels-card">
+        <button className="lb-levels-cog" onClick={()=>setEditingLevels(true)} aria-label="Rename levels" title="Rename levels">
+          <Settings size={15}/>
+        </button>
         <div className="lb-levels-me">
           <div className="lb-levels-avwrap">
             <img className="lb-levels-av" src={ME_MEMBER.photo} alt="You"/>
             <span className="lb-levels-badge">{ME_MEMBER.level}</span>
           </div>
           <strong>You</strong>
-          <span className="lb-levels-lv">Level {ME_MEMBER.level}</span>
+          <span className="lb-levels-lv">{levelNames[ME_MEMBER.level-1] ? `Level ${ME_MEMBER.level} · ${levelNames[ME_MEMBER.level-1]}` : `Level ${ME_MEMBER.level}`}</span>
           <span className="lb-levels-pts">531 points to level up</span>
         </div>
         <div className="lb-levels-grid">
-          {LB_LEVELS.map(l => (
-            <div key={l.level} className={`lb-level-row ${l.locked?"lb-level-locked":""}`}>
-              <span className="lb-level-num">{l.locked ? <Lock size={11}/> : l.level}</span>
-              <div className="lb-level-body">
-                <div className="lb-level-title">Level {l.level}</div>
-                <div className="lb-level-sub">{l.label || `${l.pct}% of members`}{l.label && ` · ${l.pct}% of members`}</div>
+          {LB_LEVELS.map(l => {
+            const customName = levelNames[l.level-1];
+            const title = customName ? `Level ${l.level} · ${customName}` : `Level ${l.level}`;
+            return (
+              <div key={l.level} className={`lb-level-row ${l.locked?"lb-level-locked":""}`}>
+                <span className="lb-level-num">{l.locked ? <Lock size={11}/> : l.level}</span>
+                <div className="lb-level-body">
+                  <div className="lb-level-title">{title}</div>
+                  <div className="lb-level-sub">{l.label || `${l.pct}% of members`}{l.label && ` · ${l.pct}% of members`}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
+      {editingLevels && (
+        <LevelNameModal
+          initial={levelNames}
+          onCancel={()=>setEditingLevels(false)}
+          onSave={(names)=>{
+            setLevelNames(names);
+            try { localStorage.setItem("lb-level-names", JSON.stringify(names)); } catch {}
+            setEditingLevels(false);
+          }}
+        />
+      )}
 
       {/* Filters */}
       <div className="lb-controls">
@@ -270,4 +295,35 @@ function TrendPill({ trend, delta }:{ trend: "up"|"down"|"same"; delta: number }
   if (trend === "up") return <span className="lb-trend lb-trend-up"><TrendingUp size={11}/> +{delta}</span>;
   if (trend === "down") return <span className="lb-trend lb-trend-down"><TrendingDown size={11}/> -{delta}</span>;
   return <span className="lb-trend lb-trend-same"><Minus size={11}/> 0</span>;
+}
+
+function LevelNameModal({ initial, onCancel, onSave }: { initial: string[]; onCancel: () => void; onSave: (names: string[]) => void }) {
+  const [names, setNames] = useState<string[]>(initial);
+  const dirty = names.some((n, i) => (n || "") !== (initial[i] || ""));
+  return (
+    <div className="lb-modal-backdrop" onClick={onCancel}>
+      <div className="lb-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="lb-modal-close" onClick={onCancel} aria-label="Close"><X size={16}/></button>
+        <h3>Leaderboards</h3>
+        <p className="lb-modal-sub">Make your group fun by naming your levels.</p>
+        <div className="lb-modal-fields">
+          {names.map((n, i) => (
+            <div key={i} className="lb-modal-field">
+              <span className="lb-modal-prefix">Level {i+1} -</span>
+              <input
+                value={n}
+                onChange={(e) => setNames(names.map((x, j) => j === i ? e.target.value : x))}
+                placeholder="Name this level"
+                maxLength={48}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="lb-modal-actions">
+          <button className="lb-modal-cancel" onClick={onCancel}>CANCEL</button>
+          <button className="lb-modal-save" disabled={!dirty} onClick={() => onSave(names)}>SAVE</button>
+        </div>
+      </div>
+    </div>
+  );
 }
