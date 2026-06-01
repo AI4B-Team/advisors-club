@@ -542,7 +542,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
       <div className="lt-ph">
         <div>
           <h1>Courses</h1>
-          <p>{active.length} {active.length === 1 ? "course" : "courses"} · {publishedCount} published · {totalEnrolled} enrolled</p>
+          <p>{active.length} {active.length === 1 ? "Course" : "Courses"} · {publishedCount} Published · {totalEnrolled} Enrolled</p>
         </div>
         <div style={{display:"flex",gap:8,alignItems:"center"}}>
           <button className="btn-ghost" onClick={() => setShowArchived(true)}>
