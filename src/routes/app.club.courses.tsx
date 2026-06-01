@@ -794,7 +794,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const isOpen = tocOpen.has(mi);
                 const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
                 return (
-                  <div key={mi} style={{background:"transparent",border:0,borderRadius:12,marginBottom:8,position:"relative",overflow:"hidden"}} className="adm-mod-row">
+                  <div key={mi} style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,marginBottom:0,position:"relative",overflow:"hidden"}} className="adm-mod-row">
                     <button
                       onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       disabled={isLocked}
