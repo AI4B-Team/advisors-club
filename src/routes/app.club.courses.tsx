@@ -611,13 +611,15 @@ function MenuItem({ icon, label, onClick, danger }: { icon: React.ReactNode; lab
 
 /* ============ COURSE DETAIL (Admin) ============ */
 
-function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: {
+function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, onUpdateCourse }: {
   course: AdminCourse;
   onBack: () => void;
   onArchive: () => void;
   onDelete: () => void;
   onTogglePublish: () => void;
+  onUpdateCourse: (c: AdminCourse) => void;
 }) {
+  const { isAdmin } = useViewMode();
   const [expanded, setExpanded] = useState<number | null>(0);
   const [curView, setCurView] = useState<"toc" | "grid">("grid");
   const [lesson, setLesson] = useState<{ m: number; l: number } | null>(null);
@@ -629,6 +631,13 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const [newComment, setNewComment] = useState("");
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
+  const [courseMenuOpen, setCourseMenuOpen] = useState(false);
+  const [moduleMenuOpen, setModuleMenuOpen] = useState<number | null>(null);
+  const [lessonMeta, setLessonMeta] = useState<Record<string, { body: string; published: boolean }>>({});
+  const [editing, setEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody] = useState("");
+  const [editPublished, setEditPublished] = useState(true);
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
@@ -647,6 +656,70 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish }: 
   const key = (mi: number, li: number) => `${mi}-${li}`;
   function toggleComplete(k: string) {
     setCompleted(prev => { const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k); return n; });
+  }
+
+  function updateModules(modules: AdminCourse["modules"]) {
+    onUpdateCourse({ ...course, modules });
+  }
+  function addFolder() {
+    const title = window.prompt("Folder name?", `Section ${course.modules.length + 1}`);
+    if (!title) return;
+    updateModules([...course.modules, { title, lessons: [] }]);
+    setCourseMenuOpen(false);
+  }
+  function addPageRoot() {
+    const title = window.prompt("Page title?", "New Lesson");
+    if (!title) return;
+    const mods = course.modules.length ? course.modules : [{ title: "Section 1", lessons: [] }];
+    const updated = mods.map((m, i) => i === mods.length - 1 ? { ...m, lessons: [...m.lessons, { title, duration: "0:00" }] } : m);
+    updateModules(updated);
+    setCourseMenuOpen(false);
+  }
+  function editFolder(mi: number) {
+    const title = window.prompt("Folder name?", course.modules[mi].title);
+    if (!title) return;
+    updateModules(course.modules.map((m, i) => i === mi ? { ...m, title } : m));
+    setModuleMenuOpen(null);
+  }
+  function addPageInFolder(mi: number) {
+    const title = window.prompt("Page title?", `Lesson ${course.modules[mi].lessons.length + 1}`);
+    if (!title) return;
+    updateModules(course.modules.map((m, i) => i === mi ? { ...m, lessons: [...m.lessons, { title, duration: "0:00" }] } : m));
+    setTocOpen(prev => { const n = new Set(prev); n.add(mi); return n; });
+    setModuleMenuOpen(null);
+  }
+  function duplicateFolder(mi: number) {
+    const src = course.modules[mi];
+    const copy = { title: `${src.title} (Copy)`, lessons: src.lessons.map(l => ({ ...l })) };
+    updateModules([...course.modules.slice(0, mi + 1), copy, ...course.modules.slice(mi + 1)]);
+    setModuleMenuOpen(null);
+  }
+  function deleteFolder(mi: number) {
+    if (!window.confirm(`Delete "${course.modules[mi].title}" and all its lessons?`)) return;
+    updateModules(course.modules.filter((_, i) => i !== mi));
+    if (lesson && lesson.m === mi) setLesson(null);
+    setModuleMenuOpen(null);
+  }
+  function startEdit() {
+    if (!current) return;
+    const k = key(current.m, current.l);
+    setEditTitle(current.lesson.title);
+    setEditBody(lessonMeta[k]?.body ?? "");
+    setEditPublished(lessonMeta[k]?.published ?? true);
+    setEditing(true);
+  }
+  function cancelEdit() { setEditing(false); }
+  function saveEdit() {
+    if (!current) return;
+    const k = key(current.m, current.l);
+    const t = editTitle.trim() || current.lesson.title;
+    updateModules(course.modules.map((m, mi) =>
+      mi === current.m
+        ? { ...m, lessons: m.lessons.map((l, li) => li === current.l ? { ...l, title: t } : l) }
+        : m
+    ));
+    setLessonMeta(prev => ({ ...prev, [k]: { body: editBody, published: editPublished } }));
+    setEditing(false);
   }
 
   if (current) {
