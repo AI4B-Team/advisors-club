@@ -275,13 +275,14 @@ function StatCard({ icon, label, value, tint, highlight }:{ icon: React.ReactNod
 function PodiumCard({ place, member, category, meta }:{ place: 1|2|3; member: LbMember; category: Category; meta:{label:string;icon:React.ReactNode;unit:string} }) {
   const key: keyof LbMember = category === "points" ? "points" : category === "streak" ? "streak" : category === "courses" ? "courses" : "engagement";
   const icons = { 1: <Crown size={18}/>, 2: <Medal size={16}/>, 3: <Award size={16}/> };
-  const grad = {
-    1: "linear-gradient(180deg,#FEF3C7,#FDE68A)",
-    2: "linear-gradient(180deg,#F1F5F9,#E2E8F0)",
-    3: "linear-gradient(180deg,#FED7AA,#FDBA74)",
+  const bg = {
+    1: "#FFFBEB",
+    2: "#F8FAFC",
+    3: "#FFF7ED",
   };
   return (
-    <div className={`lb-podium-card lb-p-${place}`} style={{background: grad[place]}}>
+    <div className={`lb-podium-card lb-p-${place}`} style={{background: bg[place]}}>
+
       <div className="lb-podium-rank">
         <span className="lb-podium-crown">{icons[place]}</span>
         <span className="lb-podium-place">#{place}</span>
