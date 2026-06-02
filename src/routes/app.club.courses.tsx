@@ -1139,11 +1139,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     const items: TB[] = [
                       {I:Heading1,k:"H1"},{I:Heading2,k:"H2"},{I:Heading3,k:"H3"},{I:Heading4,k:"H4"},
                       {sep:true},
-                      {I:Bold,k:"B"},{I:Italic,k:"I"},{I:Strikethrough,k:"S"},{I:Code2,k:"code"},
+                      {I:Bold,k:"Bold"},{I:Italic,k:"Italic"},{I:Underline,k:"Underline"},{I:Strikethrough,k:"Strikethrough"},
                       {sep:true},
-                      {I:List,k:"ul"},{I:ListOrdered,k:"ol"},{I:Quote,k:"q"},{I:Terminal,k:"cb"},
+                      {I:List,k:"Bullets"},{I:ListOrdered,k:"Numbered"},{I:Quote,k:"Quote"},{I:Code2,k:"Code"},
                       {sep:true},
-                      {I:ImageIcon,k:"img"},{I:Link2,k:"link"},{I:Minus,k:"hr"},{I:Video,k:"video"},
+                      {I:ImageIcon,k:"Image"},{I:Paperclip,k:"File"},{I:Link2,k:"Link"},{I:Video,k:"Video"},
                     ];
                     return items.map((b,i)=> "sep" in b
                       ? <span key={i} style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
@@ -1152,6 +1152,35 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         </button>
                     );
                   })()}
+                  <span style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
+                  {/* AIVA toolbar button */}
+                  <div style={{position:"relative"}}>
+                    <button type="button" title="AIVA — generate, rewrite, expand" onClick={()=>setAivaMenuOpen(o=>!o)} disabled={!!aivaRunning} style={{display:"inline-flex",alignItems:"center",gap:6,height:30,padding:"0 12px",borderRadius:6,border:0,background:"linear-gradient(135deg,#7C3AED 0%,#EC4899 100%)",color:"#fff",cursor:aivaRunning?"wait":"pointer",fontSize:12,fontWeight:800,letterSpacing:.2,boxShadow:"0 1px 3px rgba(124,58,237,.4)"}}>
+                      {aivaRunning ? <Loader2 size={13} style={{animation:"spin 1s linear infinite"}}/> : <Sparkles size={13}/>}
+                      {aivaRunning ? "AIVA…" : "AIVA"}
+                      <ChevronDown size={11}/>
+                    </button>
+                    {aivaMenuOpen && (
+                      <>
+                        <div onClick={()=>setAivaMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
+                        <div style={{position:"absolute",top:36,left:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 14px 40px -8px rgba(0,0,0,.25)",padding:6,minWidth:260,zIndex:50}}>
+                          <div style={{padding:"8px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Generate</div>
+                          <MenuItem icon={<FileText size={13}/>} label="Generate Lesson Outline" onClick={()=>runAivaEditorAction("outline","Lesson Outline")}/>
+                          <MenuItem icon={<HelpCircle size={13}/>} label="Generate Quiz" onClick={()=>runAivaEditorAction("quiz","Quiz")}/>
+                          <MenuItem icon={<ClipboardList size={13}/>} label="Generate Worksheet" onClick={()=>runAivaEditorAction("worksheet","Worksheet")}/>
+                          <MenuItem icon={<ListChecks size={13}/>} label="Generate Action Plan" onClick={()=>runAivaEditorAction("action_plan","Action Plan")}/>
+                          <MenuItem icon={<MessageSquare size={13}/>} label="Generate Discussion Prompt" onClick={()=>runAivaEditorAction("discussion_prompt","Discussion Prompts")}/>
+                          <MenuItem icon={<FileText size={13}/>} label="Generate Summary" onClick={()=>runAivaEditorAction("summarize","Summary")}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Transform Content</div>
+                          <MenuItem icon={<Wand2 size={13}/>} label="Rewrite Content" onClick={()=>runAivaEditorAction("rewrite","Rewrite")}/>
+                          <MenuItem icon={<ArrowRight size={13}/>} label="Expand Content" onClick={()=>runAivaEditorAction("expand","Expanded Version")}/>
+                          <MenuItem icon={<Lightbulb size={13}/>} label="Simplify Content" onClick={()=>runAivaEditorAction("simplify","Simplified Version")}/>
+                          <MenuItem icon={<ListChecks size={13}/>} label="Create Action Steps" onClick={()=>runAivaEditorAction("action_plan","Action Steps")}/>
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <div style={{marginLeft:"auto",display:"inline-flex",alignItems:"center",gap:8,position:"relative"}}>
                     <div style={{display:"inline-flex",alignItems:"center",background:"#F3F4F6",borderRadius:8,padding:2}}>
                       <button type="button" onClick={()=>setEditPublished(false)} style={{padding:"4px 10px",borderRadius:6,border:0,cursor:"pointer",fontSize:11,fontWeight:700,background:!editPublished?"#fff":"transparent",color:!editPublished?"#111827":"#6B7280",boxShadow:!editPublished?"0 1px 2px rgba(0,0,0,.06)":"none"}}>Draft</button>
