@@ -987,7 +987,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               {(() => { const pct = Math.round((completed.size/Math.max(1,flat.length))*100); return (
                 <div className="mc-progress-bar"><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
               ); })()}
-              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
+              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete · Estimated Time: {estimatedTime}</div>
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto",display:"flex",flexDirection:"column",gap:10}}>
               {course.modules.map((m, mi) => {
