@@ -2514,7 +2514,7 @@
 
 /* Go Live modal */
 .gl-back{position:fixed;inset:0;background:rgba(11,15,25,.62);backdrop-filter:blur(6px);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px}
-.gl-modal{background:#fff;border-radius:18px;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(8,12,24,.35);display:flex;flex-direction:column}
+.gl-modal{background:#fff;border-radius:18px;width:100%;max-width:540px;max-height:92vh;overflow:hidden;box-shadow:0 30px 80px rgba(8,12,24,.35);display:flex;flex-direction:column;min-height:0}
 .gl-modal-wide{max-width:1080px}
 .gl-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #EEF1F6;background:#fff;border-radius:18px 18px 0 0}
 .gl-head-l{display:flex;align-items:center;gap:10px}
