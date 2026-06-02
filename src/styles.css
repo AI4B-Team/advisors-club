@@ -2531,6 +2531,7 @@
 .gl-lbl{font-size:12px;font-weight:700;color:#334155;letter-spacing:.01em}
 .gl-input{width:100%;border:1px solid #E2E8F0;border-radius:9px;padding:9px 12px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:#0F172A}
 .gl-input:focus{border-color:#DC2626;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
+select.gl-input option{background:#fff;color:#0F172A}
 .gl-ta{min-height:72px;resize:vertical}
 .gl-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .gl-row{display:flex;gap:8px;flex-wrap:wrap}
