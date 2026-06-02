@@ -1584,8 +1584,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 </div>
               );
             })()}
+            {current?.lesson?.title && (
+              <AivaLessonAssistant
+                courseTitle={course.title}
+                moduleTitle={course.modules[current.m]?.title || ""}
+                lessonTitle={current.lesson.title}
+              />
+            )}
           </div>
         </div>
+
       </>
     );
   }
