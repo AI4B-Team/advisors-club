@@ -894,10 +894,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setEditPublished(meta?.published ?? true);
     setEditMediaType(meta?.mediaType ?? "native");
     setEditMediaUrl(meta?.mediaUrl ?? "");
+    const ex = lessonExtras[k];
+    setEditCommentsOn(ex?.commentsOn ?? true);
+    setEditFeatured(ex?.featured ?? false);
+    setEditTranscript(ex?.transcript ?? "");
+    setTranscriptOpen(!!ex?.transcript);
+    setToolMenuOpen(false);
     setEditing(true);
     setTitleError(false);
   }
-  function cancelEdit() { setEditing(false); setTitleError(false); }
+  function cancelEdit() { setEditing(false); setTitleError(false); setToolMenuOpen(false); }
   function saveEdit() {
     if (!current) return;
     if (!editTitle.trim()) { setTitleError(true); return; }
@@ -909,8 +915,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
         : m
     ));
     setLessonMeta(prev => ({ ...prev, [k]: { body: editBody, published: editPublished, mediaType: editMediaType, mediaUrl: editMediaUrl } }));
+    setLessonExtras(prev => ({ ...prev, [k]: { commentsOn: editCommentsOn, featured: editFeatured, transcript: editTranscript } }));
     setEditing(false);
     setTitleError(false);
+    setToolMenuOpen(false);
   }
 
   if (current) {
