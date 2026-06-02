@@ -1458,7 +1458,36 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                           </a>
                         ))}
                       </div>
+                      {isAdmin && (
+                        <div style={{position:"relative",overflow:"hidden",padding:14,marginBottom:12,borderRadius:12,border:"1px solid #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)"}}>
+                          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12,flexWrap:"wrap",marginBottom:10}}>
+                            <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
+                              <div style={{width:32,height:32,borderRadius:8,background:"#111827",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Sparkles size={15}/></div>
+                              <div style={{minWidth:0}}>
+                                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:13.5,fontWeight:800,color:"#111827"}}>AIVA Resource Generator <span style={{fontSize:9.5,fontWeight:800,color:"#6D28D9",background:"#EDE9FE",padding:"2px 6px",borderRadius:999,letterSpacing:.5,textTransform:"uppercase"}}>Admin</span></div>
+                                <div style={{fontSize:12,color:"#4B5563",marginTop:2}}>Turn this lesson into ready-to-share supplemental materials in seconds.</div>
+                              </div>
+                            </div>
+                            <button onClick={()=>runAivaResourceGen(k, current?.lesson?.title || "")} disabled={!!aiGenRunning || Object.values(aiGenSelected).every(v=>!v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",border:0,borderRadius:8,background: aiGenRunning ? "#6B7280" : "#111827",color:"#fff",fontSize:12.5,fontWeight:700,cursor: aiGenRunning ? "wait" : "pointer",opacity: Object.values(aiGenSelected).every(v=>!v) ? .5 : 1}}>
+                              <Sparkles size={13}/> {aiGenRunning ? "Generating…" : "Generate Resources"}
+                            </button>
+                          </div>
+                          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                            {RESOURCE_KINDS.map(rk => {
+                              const on = aiGenSelected[rk.key];
+                              const busy = aiGenRunning === rk.key;
+                              return (
+                                <button key={rk.key} onClick={()=>setAiGenSelected(s=>({...s,[rk.key]:!s[rk.key]}))} disabled={!!aiGenRunning} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"5px 10px",borderRadius:999,border: on ? "1px solid #111827" : "1px solid #E5E7EB",background: busy ? "#FEF3C7" : on ? "#111827" : "#fff",color: busy ? "#92400E" : on ? "#fff" : "#374151",fontSize:11.5,fontWeight:700,cursor: aiGenRunning ? "default" : "pointer"}}>
+                                  {busy ? <Sparkles size={11} className="aiva-spin"/> : on ? <CheckCircle2 size={11}/> : <Plus size={11}/>}
+                                  {rk.label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                       <div style={{display:"flex",gap:8,padding:12,background:"#FAFAFA",border:"1px solid #E5E7EB",borderRadius:10,flexWrap:"wrap",alignItems:"center"}}>
+
                         <div style={{display:"inline-flex",background:"#fff",borderRadius:8,padding:3,border:"1px solid #E5E7EB"}}>
                           <button onClick={()=>setNewResource(r=>({...r,type:"link"}))} style={{display:"inline-flex",alignItems:"center",gap:4,padding:"5px 9px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:newResource.type==="link"?"#111827":"transparent",color:newResource.type==="link"?"#fff":"#6B7280"}}><LinkIcon size={12}/> Link</button>
                           <button onClick={()=>setNewResource(r=>({...r,type:"file"}))} style={{display:"inline-flex",alignItems:"center",gap:4,padding:"5px 9px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:newResource.type==="file"?"#111827":"transparent",color:newResource.type==="file"?"#fff":"#6B7280"}}><Paperclip size={12}/> File</button>
