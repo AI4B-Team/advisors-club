@@ -826,6 +826,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const prev = currentIdx > 0 ? flat[currentIdx - 1] : null;
   const next = currentIdx >= 0 && currentIdx < flat.length - 1 ? flat[currentIdx + 1] : null;
   const key = (mi: number, li: number) => `${mi}-${li}`;
+  const currentPinnedPosts: PinnedPost[] = useMemo(() => {
+    if (!current?.lesson?.title) return [];
+    void pinnedTick;
+    return getPinnedForPage(current.lesson.title);
+  }, [current, pinnedTick]);
   function toggleComplete(k: string) {
     setCompleted(prev => { const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k); return n; });
   }
