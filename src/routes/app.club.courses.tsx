@@ -853,7 +853,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setLessonResources(prev => ({ ...prev, [k]: (prev[k] ?? []).filter(r => r.id !== rid) }));
     setResourceMenuOpen(null);
   }
-  // Left menu stays open — no sidebar minimization
+  // Auto-collapse the platform sidebar while inside a lesson for a focused editor experience
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
+    return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
+  }, [lesson]);
   useEffect(() => {
     if (lesson) setTocOpen(prev => { const n = new Set(prev); n.add(lesson.m); return n; });
   }, [lesson?.m]);
