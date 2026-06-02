@@ -1429,11 +1429,12 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
             </div>
 
 
-            {/* Lesson tabs: Overview / Resources / Comments */}
+            {/* Lesson tabs: Resources / Comments */}
             {(() => {
               const resources = lessonResources[k] ?? [];
               const comments = lessonComments[k] ?? [];
-              const TabBtn = ({ id, icon, label, count }: { id: "overview"|"resources"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
+              const commentsEnabled = lessonExtras[k]?.commentsOn ?? false;
+              const TabBtn = ({ id, icon, label, count }: { id: "resources"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
                 const active = lessonTab === id;
                 return (
                   <button onClick={() => setLessonTab(id)} style={{position:"relative",display:"inline-flex",alignItems:"center",gap:6,padding:"10px 14px",background:"transparent",border:0,borderRadius:0,color: active ? "#111827" : "#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:-1,outline:"none"}}>
@@ -1442,52 +1443,47 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   </button>
                 );
               };
+              const visibleTabs = [
+                { id: "resources" as const, show: resources.length > 0 },
+                { id: "comments" as const, show: commentsEnabled },
+              ].filter(t => t.show);
+              if (visibleTabs.length === 0) return null;
+              const activeTab = visibleTabs.some(t => t.id === lessonTab) ? lessonTab : visibleTabs[0].id;
               return (
                 <div style={{marginTop:24}}>
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,borderBottom:"1px solid #E5E7EB"}}>
                     <div style={{display:"flex",gap:4}}>
-                      <TabBtn id="overview" icon={<BookOpen size={14}/>} label="Overview"/>
                       {resources.length > 0 && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
                       {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Comments" count={comments.length}/>}
                     </div>
-                    <label style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:12,color:"#6B7280",cursor:"pointer",paddingBottom:8}}>
-                      <input type="checkbox" checked={commentsEnabled} onChange={e=>setCommentsEnabled(e.target.checked)}/>
-                      Enable Comments
-                    </label>
                   </div>
 
-                  {lessonTab === "overview" && (
-                    <div style={{padding:"18px 2px",color:"#374151",fontSize:14,lineHeight:1.7,whiteSpace:"pre-wrap"}}>
-                      {lessonMeta[k]?.body?.trim()
-                        ? lessonMeta[k].body
-                        : "In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress."}
-                      {currentPinnedPosts.length > 0 && (
-                        <div style={{marginTop:22,paddingTop:18,borderTop:"1px solid #F3F4F6"}}>
-                          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10,fontSize:13,fontWeight:700,color:"#111827"}}>
-                            <Pin size={14}/> Pinned Community Posts
+                  {currentPinnedPosts.length > 0 && activeTab === "resources" && (
+                    <div style={{padding:"18px 2px 0"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10,fontSize:13,fontWeight:700,color:"#111827"}}>
+                        <Pin size={14}/> Pinned Community Posts
+                      </div>
+                      <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                        {currentPinnedPosts.map(pp => (
+                          <div key={pp.postId} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:"#FEF3C7",border:"1px solid #FDE68A",borderRadius:10}}>
+                            <Pin size={13} color="#B45309" style={{flexShrink:0}}/>
+                            <div style={{flex:1,minWidth:0}}>
+                              <div style={{fontSize:13,fontWeight:600,color:"#111827",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{pp.postTitle}</div>
+                              <div style={{fontSize:11,color:"#6B7280",marginTop:1}}>by {pp.postAuthor}</div>
+                            </div>
+                            {isAdmin && current?.lesson?.title && (
+                              <button onClick={() => unpinPostFromPage(current.lesson.title, pp.postId)} aria-label="Unpin" style={{background:"transparent",border:0,color:"#92400E",cursor:"pointer",padding:4,display:"flex"}}>
+                                <X size={14}/>
+                              </button>
+                            )}
                           </div>
-                          <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                            {currentPinnedPosts.map(pp => (
-                              <div key={pp.postId} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:"#FEF3C7",border:"1px solid #FDE68A",borderRadius:10}}>
-                                <Pin size={13} color="#B45309" style={{flexShrink:0}}/>
-                                <div style={{flex:1,minWidth:0}}>
-                                  <div style={{fontSize:13,fontWeight:600,color:"#111827",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{pp.postTitle}</div>
-                                  <div style={{fontSize:11,color:"#6B7280",marginTop:1}}>by {pp.postAuthor}</div>
-                                </div>
-                                {isAdmin && current?.lesson?.title && (
-                                  <button onClick={() => unpinPostFromPage(current.lesson.title, pp.postId)} aria-label="Unpin" style={{background:"transparent",border:0,color:"#92400E",cursor:"pointer",padding:4,display:"flex"}}>
-                                    <X size={14}/>
-                                  </button>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                        ))}
+                      </div>
                     </div>
                   )}
 
-                  {lessonTab === "resources" && resources.length > 0 && (
+                  {activeTab === "resources" && resources.length > 0 && (
+
                     <div style={{padding:"18px 0"}}>
                       <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
                         {resources.length === 0 && (
