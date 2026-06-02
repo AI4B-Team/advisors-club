@@ -885,6 +885,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
   const parseDurationSec = (s: string) => { const p = s.split(":").map(Number); if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2]; if (p.length === 2) return p[0]*60 + p[1]; return 0; };
   const formatDuration = (totalSec: number) => { const h = Math.floor(totalSec/3600); const m = Math.floor((totalSec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
+  const formatLessonTime = (s: string) => { const sec = parseDurationSec(s); const h = Math.floor(sec/3600); const m = Math.round((sec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m} min`; };
 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
   const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
@@ -1845,7 +1846,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   <span style={{width:28,height:28,borderRadius:8,background:"#F3F4F6",color:"#111827",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>{i+1}</span>
                   <div>
                     <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{m.title}</div>
-                    <div style={{fontSize:12,color:"#6B7280"}}>{m.lessons.length} lessons</div>
+                    <div style={{fontSize:12,color:"#6B7280"}}>{m.lessons.length} lessons · Module Time: {formatDuration(m.lessons.reduce((a,l)=>a+parseDurationSec(l.duration),0))}</div>
                   </div>
                 </div>
                 <ArrowRight size={14} style={{color:"#9CA3AF",transform:open?"rotate(90deg)":"rotate(0)",transition:"transform .15s"}}/>
@@ -1865,10 +1866,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       >
                         <div style={{display:"flex",alignItems:"center",gap:10,color:"#111827"}}>
                           {isDone ? <CheckCircle2 size={16} color={iconColor}/> : <PlayCircle size={16} style={{color:iconColor}}/>}
-                          <span style={{color:isDone ? "#065F46" : isCurrent ? "#92400E" : "#111827",fontWeight:isCurrent ? 600 : 400}}>{l.title}</span>
+                        <span style={{color:isDone ? "#065F46" : isCurrent ? "#92400E" : "#111827",fontWeight:isCurrent ? 600 : 400}}>{l.title}</span>
                         </div>
                         <span style={{color:"#6B7280",fontSize:12,display:"inline-flex",alignItems:"center",gap:4}}>
-                          <Clock size={11}/> {l.duration}
+                          <Clock size={11}/> {formatLessonTime(l.duration)}
                         </span>
                       </button>
                     );
@@ -2139,6 +2140,7 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
   const parseDurationSec = (s: string) => { const p = s.split(":").map(Number); if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2]; if (p.length === 2) return p[0]*60 + p[1]; return 0; };
   const formatDuration = (totalSec: number) => { const h = Math.floor(totalSec/3600); const m = Math.floor((totalSec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
+  const formatLessonTime = (s: string) => { const sec = parseDurationSec(s); const h = Math.floor(sec/3600); const m = Math.round((sec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m} min`; };
   const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
   const estimatedTime = formatDuration(totalDurationSec);
   const key = (mi: number, li: number) => `${mi}-${li}`;
@@ -2231,7 +2233,10 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
           <div style={{maxHeight:"60vh",overflowY:"auto"}}>
             {course.modules.map((m, mi) => (
               <div key={mi} style={{borderTop: mi === 0 ? "none" : "1px solid #F3F4F6"}}>
-                <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.4,background:"#FAFAFA"}}>{m.title}</div>
+                <div style={{padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.4,background:"#FAFAFA",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                  <span>{m.title}</span>
+                  <span style={{fontSize:10,fontWeight:600,color:"#9CA3AF",textTransform:"none",letterSpacing:0}}>Module Time: {formatDuration(m.lessons.reduce((a,l)=>a+parseDurationSec(l.duration),0))}</span>
+                </div>
                 {m.lessons.map((l, li) => {
                   const isCurrent = current.m === mi && current.l === li;
                   const isDone = completed.has(key(mi, li));
@@ -2239,9 +2244,9 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
                     <button key={li} onClick={() => setCurrent({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"10px 16px",background:isCurrent?"#F3F0FF":"transparent",border:0,borderLeft:isCurrent?"3px solid #7C3AED":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
                       <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
                         {isDone ? <CheckCircle2 size={14} color="#10B981"/> : <PlayCircle size={14} color={isCurrent ? "#7C3AED" : "#9CA3AF"}/>}
-                        <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{l.title}</span>
+                       <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{l.title}</span>
                       </div>
-                      <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{l.duration}</span>
+                      <span style={{fontSize:11,color:"#9CA3AF",flexShrink:0}}>{formatLessonTime(l.duration)}</span>
                     </button>
                   );
                 })}
