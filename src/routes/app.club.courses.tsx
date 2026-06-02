@@ -824,6 +824,22 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [editCommentsOn, setEditCommentsOn] = useState(true);
   const [editFeatured, setEditFeatured] = useState(false);
   const [editTranscript, setEditTranscript] = useState("");
+  type DripMode = "immediate" | "days" | "date";
+  type Drip = { mode: DripMode; days: number; date: string };
+  const [lessonDrip, setLessonDrip] = useState<Record<string, Drip>>({});
+  function getDrip(k: string): Drip { return lessonDrip[k] ?? { mode: "immediate", days: 7, date: "" }; }
+  function setDrip(k: string, patch: Partial<Drip>) {
+    setLessonDrip(prev => ({ ...prev, [k]: { ...getDrip(k), ...patch } }));
+  }
+  function dripLabel(d: Drip): string {
+    if (d.mode === "immediate") return "Available Immediately";
+    if (d.mode === "days") return `Unlocks ${d.days} Day${d.days===1?"":"s"} After Enrollment`;
+    if (d.mode === "date" && d.date) {
+      const dt = new Date(d.date);
+      return `Releases ${dt.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}`;
+    }
+    return "Scheduled Release";
+  }
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [toolMenuOpen, setToolMenuOpen] = useState(false);
   const [aivaMenuOpen, setAivaMenuOpen] = useState(false);
@@ -1259,6 +1275,36 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Paperclip size={13}/> {resCount} Resource{resCount === 1 ? "" : "s"}</span>
                       <span style={{color:"#D1D5DB"}}>·</span>
                       <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Clock size={13}/> {current.lesson.duration || "—"}</span>
+                    </div>
+                  );
+                })()}
+                {(() => {
+                  const k0 = key(current.m, current.l);
+                  const d = getDrip(k0);
+                  const Opt = ({ m, icon, label }: { m: DripMode; icon: React.ReactNode; label: string }) => {
+                    const active = d.mode === m;
+                    return (
+                      <button type="button" onClick={()=>setDrip(k0,{mode:m})} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 11px",borderRadius:8,border:active?"1px solid #111827":"1px solid #E5E7EB",background:active?"#111827":"#fff",color:active?"#fff":"#374151",fontSize:12,fontWeight:700,cursor:"pointer",transition:"all .12s"}}>
+                        {icon}{label}
+                      </button>
+                    );
+                  };
+                  return (
+                    <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 22px",borderBottom:"1px solid #F3F4F6",background:"#fff",flexWrap:"wrap"}}>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:11,fontWeight:800,color:"#6B7280",textTransform:"uppercase",letterSpacing:.6,marginRight:4}}><Clock size={12}/> Drip</span>
+                      <Opt m="immediate" icon={<Unlock size={12}/>} label="Immediately"/>
+                      <Opt m="days" icon={<Clock size={12}/>} label="Days After Enrollment"/>
+                      <Opt m="date" icon={<CalendarIcon size={12}/>} label="Specific Date"/>
+                      {d.mode === "days" && (
+                        <span style={{display:"inline-flex",alignItems:"center",gap:6,marginLeft:4}}>
+                          <input type="number" min={0} max={365} value={d.days} onChange={e=>setDrip(k0,{days:Math.max(0,Math.min(365,Number(e.target.value)||0))})} style={{width:64,padding:"5px 8px",border:"1px solid #E5E7EB",borderRadius:6,fontSize:12,fontWeight:700,color:"#111827",textAlign:"center",outline:"none"}}/>
+                          <span style={{fontSize:12,color:"#6B7280",fontWeight:600}}>day{d.days===1?"":"s"} after a member enrolls</span>
+                        </span>
+                      )}
+                      {d.mode === "date" && (
+                        <input type="date" value={d.date} onChange={e=>setDrip(k0,{date:e.target.value})} style={{marginLeft:4,padding:"5px 9px",border:"1px solid #E5E7EB",borderRadius:6,fontSize:12,fontWeight:700,color:"#111827",outline:"none"}}/>
+                      )}
+                      <span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:"#6B7280"}}>{dripLabel(d)}</span>
                     </div>
                   );
                 })()}
