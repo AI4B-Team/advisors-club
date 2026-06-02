@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { LessonVideoPlayer } from "@/components/lesson-video-player";
 
 export const Route = createFileRoute("/app/club/courses")({
   head: () => ({ meta: [{ title: "Courses — AdvisorsClub" }, { name: "description", content: "Deliver video courses with progress tracking and certificates." }] }),
