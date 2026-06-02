@@ -2043,6 +2043,13 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
       else window.sessionStorage.removeItem("member-course-sel");
     }
   };
+  useEffect(() => {
+    const onHome = () => setSelectedIdState(null);
+    window.addEventListener("courses:home", onHome);
+    return () => window.removeEventListener("courses:home", onHome);
+  }, []);
+
+
 
   const liveCourse: MemberCourse | null = course ? {
     id: "live",
