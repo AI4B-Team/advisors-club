@@ -1141,6 +1141,27 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     rows={12}
                     style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
                   />
+                  {transcriptOpen && (
+                    <div style={{marginTop:14,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                        <div style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:12,fontWeight:800,color:"#111827",textTransform:"uppercase",letterSpacing:.5}}>
+                          <Captions size={13}/> Transcript
+                        </div>
+                        <button type="button" onClick={()=>{ setTranscriptOpen(false); setEditTranscript(""); }} style={{background:"transparent",border:0,color:"#6B7280",cursor:"pointer",fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:.5}}>Remove</button>
+                      </div>
+                      <textarea
+                        value={editTranscript}
+                        onChange={e=>setEditTranscript(e.target.value)}
+                        placeholder="Paste or write the lesson transcript here…"
+                        rows={6}
+                        style={{width:"100%",border:"1px solid #E5E7EB",borderRadius:8,padding:"10px 12px",fontSize:13,color:"#374151",background:"#fff",resize:"vertical",fontFamily:"inherit",lineHeight:1.55,outline:"none"}}
+                      />
+                    </div>
+                  )}
+                  <div style={{marginTop:10,display:"flex",gap:8,flexWrap:"wrap"}}>
+                    {!editCommentsOn && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#6B7280",background:"#F3F4F6",padding:"3px 8px",borderRadius:999}}><MessageSquare size={11}/> Comments off</span>}
+                    {editFeatured && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#92400E",background:"#FEF3C7",padding:"3px 8px",borderRadius:999}}><Star size={11}/> Featured</span>}
+                  </div>
                   <div style={{marginTop:14,paddingTop:14,borderTop:"1px solid #F3F4F6"}}>
                     <button type="button" onClick={()=>setEditMediaOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:12,fontWeight:700,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:0}}>
                       <Video size={13}/> {editMediaOpen ? "Hide Media Settings" : "Change Media"}
