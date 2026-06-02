@@ -1233,7 +1233,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   return (
                     <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#000"}}>
                       {mType === "native" && mUrl ? (
-                        <video src={mUrl} controls style={{width:"100%",height:"100%",objectFit:"contain",background:"#000"}}/>
+                        <LessonVideoPlayer src={mUrl} title={current.lesson.title} />
                       ) : (mType === "youtube" || mType === "vimeo") && embedSrc ? (
                         <iframe src={embedSrc} title={current.lesson.title} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen style={{width:"100%",height:"100%",border:0}}/>
                       ) : mType === "external" && mUrl ? (
