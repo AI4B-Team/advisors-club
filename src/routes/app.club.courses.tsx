@@ -1286,7 +1286,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   );
                 })()}
-                {(() => {
+                {dripPanelOpen && (() => {
                   const k0 = key(current.m, current.l);
                   const d = getDrip(k0);
                   const Opt = ({ m, icon, label }: { m: DripMode; icon: React.ReactNode; label: string }) => {
@@ -1313,6 +1313,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         <input type="date" value={d.date} onChange={e=>setDrip(k0,{date:e.target.value})} style={{marginLeft:4,padding:"5px 9px",border:"1px solid #E5E7EB",borderRadius:6,fontSize:12,fontWeight:700,color:"#111827",outline:"none"}}/>
                       )}
                       <span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:"#6B7280"}}>{dripLabel(d)}</span>
+                      <button type="button" onClick={()=>setDripPanelOpen(false)} title="Close" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24,borderRadius:6,border:"1px solid #E5E7EB",background:"#fff",color:"#6B7280",cursor:"pointer"}}><X size={12}/></button>
                     </div>
                   );
                 })()}
