@@ -1070,7 +1070,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const pct = Math.round((completed.size/Math.max(1,flat.length))*100);
                 return (
                   <>
-                    <div style={{display:"flex",alignItems:"baseline",justifyContent:"flex-end",marginBottom:6}}>
+                    <div style={{display:"flex",alignItems:"baseline",justifyContent:"flex-start",marginBottom:6}}>
                       <span style={{fontSize:11,fontWeight:700,color:"#6B7280",letterSpacing:.3,textTransform:"uppercase"}}>{completed.size} / {flat.length} Lessons</span>
                     </div>
                     <div className="mc-progress-bar"><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
