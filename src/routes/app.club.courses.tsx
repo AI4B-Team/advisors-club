@@ -1825,6 +1825,15 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
     setCompleted(prev => { const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k); return n; });
   }
   const pct = Math.round((completed.size / flat.length) * 100);
+  const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
+    try { const raw = localStorage.getItem("lesson-bookmarks-v1"); return raw ? new Set(JSON.parse(raw) as string[]) : new Set(); } catch { return new Set(); }
+  });
+  const isBookmarked = bookmarks.has(k);
+  const toggleBookmark = () => setBookmarks(prev => {
+    const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k);
+    try { localStorage.setItem("lesson-bookmarks-v1", JSON.stringify([...n])); } catch {}
+    return n;
+  });
 
   return (
     <>
