@@ -1658,14 +1658,18 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 <div style={{padding:"4px 18px 14px 58px"}}>
                   {m.lessons.map((l, j) => {
                     const isDone = completed.has(key(i, j));
+                    const isCurrent = lesson?.m === i && lesson?.l === j;
+                    const bg = isDone ? "#ECFDF5" : isCurrent ? "#FFFBEB" : "transparent";
+                    const border = isDone ? "1px solid #A7F3D0" : isCurrent ? "1px solid #FDE68A" : "1px solid transparent";
+                    const iconColor = isDone ? "#10B981" : isCurrent ? "#D97706" : "#7C3AED";
                     return (
-                      <button key={j} onClick={() => setLesson({ m: i, l: j })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:8,fontSize:13,background:"transparent",border:0,cursor:"pointer",textAlign:"left"}}
-                        onMouseEnter={e=> e.currentTarget.style.background = "#F9FAFB"}
-                        onMouseLeave={e=> e.currentTarget.style.background = "transparent"}
+                      <button key={j} onClick={() => setLesson({ m: i, l: j })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:8,fontSize:13,background:bg,border:border,cursor:"pointer",textAlign:"left",transition:"background .12s"}}
+                        onMouseEnter={e=> { if(!isDone && !isCurrent) e.currentTarget.style.background = "#F9FAFB"; }}
+                        onMouseLeave={e=> { if(!isDone && !isCurrent) e.currentTarget.style.background = "transparent"; }}
                       >
                         <div style={{display:"flex",alignItems:"center",gap:10,color:"#111827"}}>
-                          {isDone ? <CheckCircle2 size={16} color="#10B981"/> : <PlayCircle size={16} style={{color:"#7C3AED"}}/>}
-                          {l.title}
+                          {isDone ? <CheckCircle2 size={16} color={iconColor}/> : <PlayCircle size={16} style={{color:iconColor}}/>}
+                          <span style={{color:isDone ? "#065F46" : isCurrent ? "#92400E" : "#111827",fontWeight:isCurrent ? 600 : 400}}>{l.title}</span>
                         </div>
                         <span style={{color:"#6B7280",fontSize:12,display:"inline-flex",alignItems:"center",gap:4}}>
                           <Clock size={11}/> {l.duration}
