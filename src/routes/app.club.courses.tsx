@@ -11,6 +11,7 @@ import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { LessonVideoPlayer } from "@/components/lesson-video-player";
 import { getPinnedForPage, unpinPostFromPage, subscribePinnedPosts, type PinnedPost } from "@/lib/pinned-posts";
+import { AivaLessonAssistant } from "@/components/AivaLessonAssistant";
 
 export const Route = createFileRoute("/app/club/courses")({
   head: () => ({ meta: [{ title: "Courses — AdvisorsClub" }, { name: "description", content: "Deliver video courses with progress tracking and certificates." }] }),
