@@ -1844,19 +1844,17 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
       <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) 320px",gap:20,alignItems:"start"}}>
         <div>
           <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:14,overflow:"hidden",background:"#0F0F12"}}>
-            <div style={{position:"absolute",inset:0,backgroundImage:`url(${course.cover})`,backgroundSize:"cover",backgroundPosition:"center",opacity:.5}}/>
-            <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.45) 100%)"}}>
-              <button aria-label="Play" style={{position:"relative",width:88,height:88,borderRadius:"50%",background:"rgba(255,255,255,.18)",border:"1px solid rgba(255,255,255,.35)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .2s ease, background .2s ease"}} onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1.06)";(e.currentTarget as HTMLButtonElement).style.background="rgba(255,255,255,.28)";}} onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.transform="scale(1)";(e.currentTarget as HTMLButtonElement).style.background="rgba(255,255,255,.18)";}}>
-                <span style={{position:"absolute",inset:8,borderRadius:"50%",background:"#fff",boxShadow:"0 12px 36px -8px rgba(0,0,0,.55)",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                  <Play size={26} color="#111827" fill="#111827" style={{marginLeft:3}}/>
-                </span>
-              </button>
-            </div>
-            <div style={{position:"absolute",bottom:14,left:16,right:16,display:"flex",justifyContent:"space-between",alignItems:"center",color:"#fff",fontSize:12,fontWeight:600}}>
+            <LessonVideoPlayer
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              poster={course.cover}
+              title={curRec.lesson.title}
+            />
+            <div style={{position:"absolute",top:14,left:16,display:"flex",gap:8,color:"#fff",fontSize:12,fontWeight:600,pointerEvents:"none",zIndex:2}}>
               <span style={{background:"rgba(0,0,0,.55)",padding:"4px 10px",borderRadius:999,backdropFilter:"blur(4px)"}}>Lesson {currentIdx + 1} of {flat.length}</span>
               <span style={{background:"rgba(0,0,0,.55)",padding:"4px 10px",borderRadius:999,backdropFilter:"blur(4px)",display:"inline-flex",alignItems:"center",gap:4}}><Clock size={11}/> {curRec.lesson.duration}</span>
             </div>
           </div>
+
 
           <div style={{marginTop:18}}>
             <div style={{fontSize:12,fontWeight:700,color:"#7C3AED",marginBottom:6,textTransform:"uppercase",letterSpacing:.4}}>{curRec.moduleTitle}</div>
