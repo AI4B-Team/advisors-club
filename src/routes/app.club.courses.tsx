@@ -783,12 +783,6 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [pinHelpOpen, setPinHelpOpen] = useState(false);
   const [pinnedTick, setPinnedTick] = useState(0);
   useEffect(() => subscribePinnedPosts(() => setPinnedTick(t => t + 1)), []);
-  const currentPinnedPosts: PinnedPost[] = useMemo(() => {
-    if (!current?.lesson?.title) return [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    pinnedTick;
-    return getPinnedForPage(current.lesson.title);
-  }, [current?.lesson?.title, pinnedTick]);
   const LABEL_MAX = 34;
   function openAddModal(type: "file" | "link") {
     setAddModal(type); setAddMenuOpen(false); setAddLabel(""); setAddUrl(""); setAddFile(null);
