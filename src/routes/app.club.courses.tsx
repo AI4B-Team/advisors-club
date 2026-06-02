@@ -1035,7 +1035,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           <div>
             {editing ? (
               <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,boxShadow:"0 1px 2px rgba(0,0,0,.04)",marginBottom:14,overflow:"hidden"}}>
-                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap",position:"relative"}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap",position:"sticky",top:0,zIndex:30,background:"#fff",borderTopLeftRadius:14,borderTopRightRadius:14}}>
                   {(() => {
                     type TB = { I: typeof Bold; k: string } | { sep: true };
                     const items: TB[] = [
@@ -1054,7 +1054,14 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         </button>
                     );
                   })()}
-                  <div style={{marginLeft:"auto",position:"relative"}}>
+                  <div style={{marginLeft:"auto",display:"inline-flex",alignItems:"center",gap:8,position:"relative"}}>
+                    <div style={{display:"inline-flex",alignItems:"center",background:"#F3F4F6",borderRadius:8,padding:2}}>
+                      <button type="button" onClick={()=>setEditPublished(false)} style={{padding:"4px 10px",borderRadius:6,border:0,cursor:"pointer",fontSize:11,fontWeight:700,background:!editPublished?"#fff":"transparent",color:!editPublished?"#111827":"#6B7280",boxShadow:!editPublished?"0 1px 2px rgba(0,0,0,.06)":"none"}}>Draft</button>
+                      <button type="button" onClick={()=>setEditPublished(true)} style={{padding:"4px 10px",borderRadius:6,border:0,cursor:"pointer",fontSize:11,fontWeight:700,background:editPublished?"#fff":"transparent",color:editPublished?"#10B981":"#6B7280",boxShadow:editPublished?"0 1px 2px rgba(0,0,0,.06)":"none"}}>Published</button>
+                    </div>
+                    <button type="button" onClick={cancelEdit} style={{height:30,padding:"0 12px",borderRadius:6,border:"1px solid #E5E7EB",background:"#fff",color:"#374151",cursor:"pointer",fontSize:12,fontWeight:700}}>Preview</button>
+                    <button type="button" onClick={saveEdit} disabled={!editTitle.trim()} style={{height:30,padding:"0 14px",borderRadius:6,border:0,background:editTitle.trim()?"#111827":"#E5E7EB",color:editTitle.trim()?"#fff":"#9CA3AF",cursor:editTitle.trim()?"pointer":"not-allowed",fontSize:12,fontWeight:700}}>Save</button>
+
                     <button type="button" title="Lesson tools" onClick={()=>setToolMenuOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,height:30,padding:"0 10px",borderRadius:6,border:"1px solid #E5E7EB",background:toolMenuOpen?"#F3F4F6":"#fff",color:"#374151",cursor:"pointer",fontSize:12,fontWeight:700}}>
                       <SlidersHorizontal size={14}/> More
                       <ChevronDown size={12}/>
@@ -1157,19 +1164,6 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   <div style={{marginTop:10,display:"flex",gap:8,flexWrap:"wrap"}}>
                     {!editCommentsOn && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#6B7280",background:"#F3F4F6",padding:"3px 8px",borderRadius:999}}><MessageSquare size={11}/> Comments off</span>}
                     {editFeatured && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#92400E",background:"#FEF3C7",padding:"3px 8px",borderRadius:999}}><Star size={11}/> Featured</span>}
-                  </div>
-                </div>
-                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA",flexWrap:"wrap"}}>
-                  <div/>
-                  <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
-                    <label style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:13,fontWeight:700,color:editPublished?"#10B981":"#6B7280",cursor:"pointer"}}>
-                      {editPublished?"Published":"Draft"}
-                      <span onClick={()=>setEditPublished(p=>!p)} style={{width:36,height:20,borderRadius:999,background:editPublished?"#10B981":"#D1D5DB",position:"relative",transition:"background .15s",display:"inline-block"}}>
-                        <span style={{position:"absolute",top:2,left:editPublished?18:2,width:16,height:16,borderRadius:"50%",background:"#fff",transition:"left .15s",boxShadow:"0 1px 2px rgba(0,0,0,.2)"}}/>
-                      </span>
-                    </label>
-                    <button type="button" onClick={cancelEdit} style={{background:"transparent",border:0,color:"#6B7280",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:"6px 10px"}}>Cancel</button>
-                    <button type="button" onClick={saveEdit} disabled={!editTitle.trim()} style={{background:editTitle.trim()?"#111827":"#E5E7EB",color:editTitle.trim()?"#fff":"#9CA3AF",border:0,borderRadius:8,padding:"8px 16px",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:editTitle.trim()?"pointer":"not-allowed"}}>Save</button>
                   </div>
                 </div>
                 {addModal && (
