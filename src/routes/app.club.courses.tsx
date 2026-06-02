@@ -1478,7 +1478,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                               const busy = aiGenRunning === rk.key;
                               return (
                                 <button key={rk.key} onClick={()=>setAiGenSelected(s=>({...s,[rk.key]:!s[rk.key]}))} disabled={!!aiGenRunning} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"5px 10px",borderRadius:999,border: on ? "1px solid #111827" : "1px solid #E5E7EB",background: busy ? "#FEF3C7" : on ? "#111827" : "#fff",color: busy ? "#92400E" : on ? "#fff" : "#374151",fontSize:11.5,fontWeight:700,cursor: aiGenRunning ? "default" : "pointer"}}>
-                                  {busy ? <Sparkles size={11} className="aiva-spin"/> : on ? <CheckCircle2 size={11}/> : <Plus size={11}/>}
+                                  {busy ? <Sparkles size={11} style={{animation:"spin 1s linear infinite"}}/> : on ? <CheckCircle2 size={11}/> : <Plus size={11}/>}
                                   {rk.label}
                                 </button>
                               );
