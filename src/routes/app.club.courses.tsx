@@ -1411,9 +1411,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         {resources.map(r => (
                           <a key={r.id} href={r.url} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",textDecoration:"none"}}>
                             <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
-                              <span style={{width:32,height:32,borderRadius:8,background:r.type==="file"?"#EEF2FF":"#ECFDF5",color:r.type==="file"?"#4F46E5":"#059669",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                                {r.type === "file" ? <FileText size={15}/> : <LinkIcon size={15}/>}
-                              </span>
+                              {r.type === "file" ? (
+                                <span style={{width:32,height:32,borderRadius:8,background:"#EF4444",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:10,fontWeight:800,letterSpacing:.3}}>PDF</span>
+                              ) : (
+                                <span style={{width:32,height:32,borderRadius:8,background:"#ECFDF5",color:"#059669",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><LinkIcon size={15}/></span>
+                              )}
                               <div style={{minWidth:0}}>
                                 <div style={{fontSize:13.5,fontWeight:600,color:"#111827",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.title}</div>
                                 <div style={{fontSize:11.5,color:"#9CA3AF",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.url}</div>
