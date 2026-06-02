@@ -1390,9 +1390,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 );
               };
               const visibleTabs = [
-                { id: "resources" as const, show: resources.length > 0 },
+                { id: "resources" as const, show: resources.length > 0 || isAdmin },
                 { id: "comments" as const, show: commentsEnabled },
               ].filter(t => t.show);
+
               if (visibleTabs.length === 0) return null;
               const activeTab = visibleTabs.some(t => t.id === lessonTab) ? lessonTab : visibleTabs[0].id;
               return (
