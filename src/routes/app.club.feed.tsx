@@ -177,6 +177,9 @@ function FeedPage() {
                 onPinToFeed={() => togglePin(p.id)}
                 saved={!!p.saved}
                 onToggleSave={() => toggleSave(p.id)}
+                postId={p.id}
+                postTitle={p.title || p.body.slice(0, 60)}
+                postAuthor={p.author}
               />
             </header>
             {p.title && <h2 className="cc-post-title">{p.title}</h2>}
