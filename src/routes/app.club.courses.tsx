@@ -1861,7 +1861,7 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
             <div style={{fontSize:12,fontWeight:700,color:"#7C3AED",marginBottom:6,textTransform:"uppercase",letterSpacing:.4}}>{curRec.moduleTitle}</div>
             <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12,marginBottom:10}}>
               <h1 style={{fontSize:24,fontWeight:800,color:"#111827",margin:0}}>{curRec.lesson.title}</h1>
-              <button onClick={toggleBookmark} aria-label={isBookmarked?"Remove bookmark":"Bookmark lesson"} title={isBookmarked?"Bookmarked":"Bookmark"} style={{flexShrink:0,width:36,height:36,borderRadius:"50%",border:`1px solid ${isBookmarked?"#F59E0B":"#E5E7EB"}`,background:isBookmarked?"#FEF3C7":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <button onClick={toggleBookmark} aria-label={isBookmarked?"Remove bookmark":"Bookmark lesson"} data-tip={isBookmarked?"Bookmarked":"Bookmark"} style={{flexShrink:0,width:36,height:36,borderRadius:"50%",border:`1px solid ${isBookmarked?"#F59E0B":"#E5E7EB"}`,background:isBookmarked?"#FEF3C7":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
                 <Bookmark size={16} fill={isBookmarked?"#F59E0B":"none"} color={isBookmarked?"#B45309":"#9CA3AF"}/>
               </button>
             </div>
