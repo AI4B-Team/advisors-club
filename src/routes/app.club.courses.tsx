@@ -1658,7 +1658,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 <div style={{padding:"4px 18px 14px 58px"}}>
                   {m.lessons.map((l, j) => {
                     const isDone = completed.has(key(i, j));
-                    const isCurrent = current?.m === i && current?.l === j;
+                    const isCurrent = lesson?.m === i && lesson?.l === j;
                     const bg = isDone ? "#ECFDF5" : isCurrent ? "#FFFBEB" : "transparent";
                     const border = isDone ? "1px solid #A7F3D0" : isCurrent ? "1px solid #FDE68A" : "1px solid transparent";
                     const iconColor = isDone ? "#10B981" : isCurrent ? "#D97706" : "#7C3AED";
