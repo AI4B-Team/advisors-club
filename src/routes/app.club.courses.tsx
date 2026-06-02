@@ -707,6 +707,41 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   type CommentItem = { id: string; author: string; text: string; at: string; attachments?: CommentAttachment[] };
   const [lessonComments, setLessonComments] = useState<Record<string, CommentItem[]>>({});
   const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
+  const RESOURCE_KINDS = [
+    { key: "worksheet", label: "Worksheet" },
+    { key: "summary", label: "PDF Summary" },
+    { key: "quiz", label: "Quiz" },
+    { key: "action", label: "Action Plan" },
+    { key: "checklist", label: "Checklist" },
+    { key: "discussion", label: "Discussion Prompt" },
+  ] as const;
+  type ResourceKind = typeof RESOURCE_KINDS[number]["key"];
+  const [aiGenSelected, setAiGenSelected] = useState<Record<ResourceKind, boolean>>({
+    worksheet: true, summary: true, quiz: true, action: true, checklist: true, discussion: true,
+  });
+  const [aiGenRunning, setAiGenRunning] = useState<ResourceKind | null>(null);
+  function runAivaResourceGen(k: string, lessonTitle: string) {
+    const queue = RESOURCE_KINDS.filter(r => aiGenSelected[r.key]);
+    if (queue.length === 0) return;
+    let i = 0;
+    const step = () => {
+      if (i >= queue.length) { setAiGenRunning(null); return; }
+      const kind = queue[i];
+      setAiGenRunning(kind.key);
+      setTimeout(() => {
+        const item = {
+          id: Math.random().toString(36).slice(2,9),
+          type: "file" as const,
+          title: `${kind.label} — ${lessonTitle || "Lesson"}`,
+          url: `#aiva-${kind.key}-${Date.now()}`,
+        };
+        setLessonResources(prev => ({ ...prev, [k]: [...(prev[k] ?? []), item] }));
+        i++; step();
+      }, 600);
+    };
+    step();
+  }
+
   const [newComment, setNewComment] = useState("");
   const [pendingAttachments, setPendingAttachments] = useState<CommentAttachment[]>([]);
   const [emojiOpen, setEmojiOpen] = useState(false);
