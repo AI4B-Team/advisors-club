@@ -859,10 +859,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
   const parseDurationSec = (s: string) => { const p = s.split(":").map(Number); if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2]; if (p.length === 2) return p[0]*60 + p[1]; return 0; };
   const formatDuration = (totalSec: number) => { const h = Math.floor(totalSec/3600); const m = Math.floor((totalSec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
-  const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
-  const estimatedTime = formatDuration(totalDurationSec);
 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
+  const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
+  const estimatedTime = formatDuration(totalDurationSec);
   const currentIdx = lesson ? flat.findIndex(x => x.m === lesson.m && x.l === lesson.l) : -1;
   const current = currentIdx >= 0 ? flat[currentIdx] : null;
   const prev = currentIdx > 0 ? flat[currentIdx - 1] : null;
