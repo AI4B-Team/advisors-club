@@ -1209,6 +1209,19 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   </div>
                 )}
+                {pinHelpOpen && (
+                  <div onClick={()=>setPinHelpOpen(false)} style={{position:"fixed",inset:0,background:"rgba(17,24,39,.5)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+                    <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:14,width:"100%",maxWidth:440,boxShadow:"0 25px 60px -15px rgba(0,0,0,.35)",overflow:"hidden",padding:"26px 28px"}}>
+                      <h3 style={{margin:"0 0 12px",fontSize:20,fontWeight:800,color:"#111827"}}>Pin Community Post</h3>
+                      <p style={{margin:"0 0 22px",fontSize:14,color:"#374151",lineHeight:1.55}}>
+                        To pin a post to this page, go to the post you want to pin and in the "..." context menu, select "Pin To Course Page", and type in the name of this page (<strong>{current?.lesson?.title}</strong>).
+                      </p>
+                      <div style={{display:"flex",justifyContent:"flex-end"}}>
+                        <button type="button" onClick={()=>setPinHelpOpen(false)} style={{background:"#F59E0B",color:"#111827",border:0,borderRadius:8,padding:"10px 22px",fontWeight:800,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer"}}>Got It</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,padding:10,boxShadow:"0 1px 2px rgba(0,0,0,.04)"}}>
