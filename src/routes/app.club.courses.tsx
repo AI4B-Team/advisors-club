@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { aivaLessonAssistant } from "@/lib/ai.functions";
 import {
   Sparkles, Upload, Award, Wand2, ArrowRight, Edit3, PlayCircle, Play, CheckCircle2, Clock, BookOpen,
   MoreHorizontal, MoreVertical, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Unlock, Plus, X,
   List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download, ChevronDown, ChevronUp, Circle,
-  Heading1, Heading2, Heading3, Heading4, Bold, Italic, Strikethrough, Code2, ListOrdered, Quote, Terminal, Image as ImageIcon, Link2, Minus, Video, FolderPlus, FilePlus, Copy as CopyIcon,
-  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen, Pin, SlidersHorizontal, Captions, Star, ListChecks,
+  Heading1, Heading2, Heading3, Heading4, Bold, Italic, Underline, Strikethrough, Code2, ListOrdered, Quote, Terminal, Image as ImageIcon, Link2, Minus, Video, FolderPlus, FilePlus, Copy as CopyIcon,
+  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen, Pin, SlidersHorizontal, Captions, Star, ListChecks, Loader2, ClipboardList, Lightbulb,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -702,7 +704,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
       else window.sessionStorage.removeItem("admin-course-lesson");
     }
   };
-  const [lessonTab, setLessonTab] = useState<"resources" | "comments">("resources");
+  const [lessonTab, setLessonTab] = useState<"resources" | "assignments" | "comments">("resources");
   const [lessonResources, setLessonResources] = useState<Record<string, { id: string; type: "link" | "file"; title: string; url: string }[]>>({});
   type CommentAttachment = { id: string; kind: "image" | "gif" | "file"; name: string; url: string };
   type CommentItem = { id: string; author: string; text: string; at: string; attachments?: CommentAttachment[] };
@@ -824,6 +826,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [editTranscript, setEditTranscript] = useState("");
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [toolMenuOpen, setToolMenuOpen] = useState(false);
+  const [aivaMenuOpen, setAivaMenuOpen] = useState(false);
+  const [aivaRunning, setAivaRunning] = useState<string | null>(null);
+  const aivaAsk = useServerFn(aivaLessonAssistant);
   const [pinnedTick, setPinnedTick] = useState(0);
   useEffect(() => subscribePinnedPosts(() => setPinnedTick(t => t + 1)), []);
   const LABEL_MAX = 34;
@@ -853,7 +858,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setLessonResources(prev => ({ ...prev, [k]: (prev[k] ?? []).filter(r => r.id !== rid) }));
     setResourceMenuOpen(null);
   }
-  // Left menu stays open — no sidebar minimization
+  // Auto-collapse the platform sidebar while inside a lesson for a focused editor experience
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
+    return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
+  }, [lesson]);
   useEffect(() => {
     if (lesson) setTocOpen(prev => { const n = new Set(prev); n.add(lesson.m); return n; });
   }, [lesson?.m]);
@@ -956,6 +965,56 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setToolMenuOpen(false);
   }
 
+  // ============= AIVA EDITOR ACTIONS =============
+  type AivaAction = "summarize" | "action_plan" | "quiz" | "worksheet" | "explain_simpler" | "rewrite" | "expand" | "simplify" | "discussion_prompt" | "outline";
+  async function runAivaEditorAction(action: AivaAction, label: string) {
+    if (!current || aivaRunning) return;
+    setAivaRunning(action);
+    setAivaMenuOpen(false);
+    try {
+      const actionMap: Record<AivaAction, { serverAction: "summarize"|"action_plan"|"quiz"|"explain_simpler"|"worksheet"|"ask"; question?: string }> = {
+        summarize: { serverAction: "summarize" },
+        action_plan: { serverAction: "action_plan" },
+        quiz: { serverAction: "quiz" },
+        worksheet: { serverAction: "worksheet" },
+        explain_simpler: { serverAction: "explain_simpler" },
+        rewrite: { serverAction: "ask", question: "Rewrite the current lesson content in a more engaging, modern voice while keeping every key point. Return clean markdown only." },
+        expand: { serverAction: "ask", question: "Expand the current lesson into a deeper, longer-form version with richer examples and clearer structure. Return clean markdown only." },
+        simplify: { serverAction: "ask", question: "Simplify the current lesson — shorter sentences, plainer language, no jargon — while keeping all key points. Return clean markdown only." },
+        discussion_prompt: { serverAction: "ask", question: "Write 3 high-engagement discussion prompts for this lesson that invite real opinions and personal experience. Numbered list, no preamble." },
+        outline: { serverAction: "ask", question: "Generate a complete lesson outline with 4–6 sections, each with 2–3 bullets. Return clean markdown only." },
+      };
+      const cfg = actionMap[action];
+      const ctx = editBody ? `\n\nCURRENT LESSON DRAFT:\n${editBody.slice(0, 3500)}` : "";
+      const res = await aivaAsk({ data: {
+        courseTitle: course.title,
+        moduleTitle: course.modules[current.m]?.title || "",
+        lessonTitle: editTitle || current.lesson.title,
+        lessonDescription: editBody.slice(0, 2000),
+        action: cfg.serverAction,
+        question: cfg.question ? `${cfg.question}${ctx}` : "",
+      }});
+      if (res.error) { window.alert(res.error); return; }
+      const text = res.reply || "";
+      if (!text) return;
+      // For rewrite / simplify / expand: replace body. For others: append.
+      if (action === "rewrite" || action === "simplify" || action === "expand") {
+        if (window.confirm(`Replace lesson content with AIVA's ${label.toLowerCase()} version?`)) {
+          setEditBody(text);
+        } else {
+          setEditBody(b => `${b}\n\n---\n\n## AIVA — ${label}\n\n${text}`);
+        }
+      } else {
+        setEditBody(b => `${b}${b ? "\n\n---\n\n" : ""}## ✨ ${label}\n\n${text}`);
+      }
+    } catch (e) {
+      console.error(e);
+      window.alert("AIVA is unavailable right now.");
+    } finally {
+      setAivaRunning(null);
+    }
+  }
+
   if (current) {
     const k = key(current.m, current.l);
     const done = completed.has(k);
@@ -985,10 +1044,23 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   </>
                 )}
               </div>
-              {(() => { const pct = Math.round((completed.size/Math.max(1,flat.length))*100); return (
-                <div className="mc-progress-bar"><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
-              ); })()}
-              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete · Estimated Time: {estimatedTime}</div>
+              {(() => {
+                const pct = Math.round((completed.size/Math.max(1,flat.length))*100);
+                return (
+                  <>
+                    <div style={{display:"flex",alignItems:"baseline",justifyContent:"space-between",marginBottom:6}}>
+                      <span style={{fontSize:22,fontWeight:800,color:"#111827",lineHeight:1}}>{pct}%</span>
+                      <span style={{fontSize:11,fontWeight:700,color:"#6B7280",letterSpacing:.3,textTransform:"uppercase"}}>{completed.size} / {flat.length} Lessons</span>
+                    </div>
+                    <div className="mc-progress-bar"><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
+                    <div style={{display:"flex",alignItems:"center",gap:10,marginTop:10,flexWrap:"wrap",fontSize:11.5,color:"#4B5563",fontWeight:600}}>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:4}}><Clock size={12}/> {estimatedTime}</span>
+                      <span style={{color:"#D1D5DB"}}>·</span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:4,color:"#B45309"}}><Award size={12}/> Certificate Included</span>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto",display:"flex",flexDirection:"column",gap:10}}>
               {course.modules.map((m, mi) => {
@@ -1080,11 +1152,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     const items: TB[] = [
                       {I:Heading1,k:"H1"},{I:Heading2,k:"H2"},{I:Heading3,k:"H3"},{I:Heading4,k:"H4"},
                       {sep:true},
-                      {I:Bold,k:"B"},{I:Italic,k:"I"},{I:Strikethrough,k:"S"},{I:Code2,k:"code"},
+                      {I:Bold,k:"Bold"},{I:Italic,k:"Italic"},{I:Underline,k:"Underline"},{I:Strikethrough,k:"Strikethrough"},
                       {sep:true},
-                      {I:List,k:"ul"},{I:ListOrdered,k:"ol"},{I:Quote,k:"q"},{I:Terminal,k:"cb"},
+                      {I:List,k:"Bullets"},{I:ListOrdered,k:"Numbered"},{I:Quote,k:"Quote"},{I:Code2,k:"Code"},
                       {sep:true},
-                      {I:ImageIcon,k:"img"},{I:Link2,k:"link"},{I:Minus,k:"hr"},{I:Video,k:"video"},
+                      {I:ImageIcon,k:"Image"},{I:Paperclip,k:"File"},{I:Link2,k:"Link"},{I:Video,k:"Video"},
                     ];
                     return items.map((b,i)=> "sep" in b
                       ? <span key={i} style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
@@ -1093,6 +1165,35 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         </button>
                     );
                   })()}
+                  <span style={{width:1,height:18,background:"#E5E7EB",margin:"0 4px"}}/>
+                  {/* AIVA toolbar button */}
+                  <div style={{position:"relative"}}>
+                    <button type="button" title="AIVA — generate, rewrite, expand" onClick={()=>setAivaMenuOpen(o=>!o)} disabled={!!aivaRunning} style={{display:"inline-flex",alignItems:"center",gap:6,height:30,padding:"0 12px",borderRadius:6,border:0,background:"linear-gradient(135deg,#7C3AED 0%,#EC4899 100%)",color:"#fff",cursor:aivaRunning?"wait":"pointer",fontSize:12,fontWeight:800,letterSpacing:.2,boxShadow:"0 1px 3px rgba(124,58,237,.4)"}}>
+                      {aivaRunning ? <Loader2 size={13} style={{animation:"spin 1s linear infinite"}}/> : <Sparkles size={13}/>}
+                      {aivaRunning ? "AIVA…" : "AIVA"}
+                      <ChevronDown size={11}/>
+                    </button>
+                    {aivaMenuOpen && (
+                      <>
+                        <div onClick={()=>setAivaMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
+                        <div style={{position:"absolute",top:36,left:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 14px 40px -8px rgba(0,0,0,.25)",padding:6,minWidth:260,zIndex:50}}>
+                          <div style={{padding:"8px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Generate</div>
+                          <MenuItem icon={<FileText size={13}/>} label="Generate Lesson Outline" onClick={()=>runAivaEditorAction("outline","Lesson Outline")}/>
+                          <MenuItem icon={<HelpCircle size={13}/>} label="Generate Quiz" onClick={()=>runAivaEditorAction("quiz","Quiz")}/>
+                          <MenuItem icon={<ClipboardList size={13}/>} label="Generate Worksheet" onClick={()=>runAivaEditorAction("worksheet","Worksheet")}/>
+                          <MenuItem icon={<ListChecks size={13}/>} label="Generate Action Plan" onClick={()=>runAivaEditorAction("action_plan","Action Plan")}/>
+                          <MenuItem icon={<MessageSquare size={13}/>} label="Generate Discussion Prompt" onClick={()=>runAivaEditorAction("discussion_prompt","Discussion Prompts")}/>
+                          <MenuItem icon={<FileText size={13}/>} label="Generate Summary" onClick={()=>runAivaEditorAction("summarize","Summary")}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Transform Content</div>
+                          <MenuItem icon={<Wand2 size={13}/>} label="Rewrite Content" onClick={()=>runAivaEditorAction("rewrite","Rewrite")}/>
+                          <MenuItem icon={<ArrowRight size={13}/>} label="Expand Content" onClick={()=>runAivaEditorAction("expand","Expanded Version")}/>
+                          <MenuItem icon={<Lightbulb size={13}/>} label="Simplify Content" onClick={()=>runAivaEditorAction("simplify","Simplified Version")}/>
+                          <MenuItem icon={<ListChecks size={13}/>} label="Create Action Steps" onClick={()=>runAivaEditorAction("action_plan","Action Steps")}/>
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <div style={{marginLeft:"auto",display:"inline-flex",alignItems:"center",gap:8,position:"relative"}}>
                     <div style={{display:"inline-flex",alignItems:"center",background:"#F3F4F6",borderRadius:8,padding:2}}>
                       <button type="button" onClick={()=>setEditPublished(false)} style={{padding:"4px 10px",borderRadius:6,border:0,cursor:"pointer",fontSize:11,fontWeight:700,background:!editPublished?"#fff":"transparent",color:!editPublished?"#111827":"#6B7280",boxShadow:!editPublished?"0 1px 2px rgba(0,0,0,.06)":"none"}}>Draft</button>
@@ -1115,7 +1216,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                           <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
                           <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Content</div>
                           <MenuItem icon={<Captions size={13}/>} label={editTranscript ? "Edit Transcript" : "Add Transcript"} onClick={()=>{ setTranscriptOpen(true); setToolMenuOpen(false); }}/>
-                          <MenuItem icon={<Pin size={13}/>} label="Add Community Post" onClick={()=>{ setToolMenuOpen(false); setPinHelpOpen(true); }}/>
+                          <MenuItem icon={<Pin size={13}/>} label="Discussion Prompt" onClick={()=>{ setToolMenuOpen(false); setPinHelpOpen(true); }}/>
                           <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
                           <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Settings</div>
                           <button type="button" onClick={()=>setEditCommentsOn(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
@@ -1144,6 +1245,23 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     )}
                   </div>
                 </div>
+                {(() => {
+                  const k0 = key(current.m, current.l);
+                  const resCount = (lessonResources[k0] ?? []).length;
+                  const discCount = (lessonComments[k0] ?? []).length;
+                  const completionPct = Math.round(50 + Math.random() * 50); // demo metric
+                  return (
+                    <div style={{display:"flex",alignItems:"center",gap:14,padding:"10px 22px",borderBottom:"1px solid #F3F4F6",background:"#FAFAFA",fontSize:12,color:"#4B5563",fontWeight:600,flexWrap:"wrap"}}>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Users size={13}/> {completionPct}% Completion</span>
+                      <span style={{color:"#D1D5DB"}}>·</span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><MessageSquare size={13}/> {discCount} Discussion{discCount === 1 ? "" : "s"}</span>
+                      <span style={{color:"#D1D5DB"}}>·</span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Paperclip size={13}/> {resCount} Resource{resCount === 1 ? "" : "s"}</span>
+                      <span style={{color:"#D1D5DB"}}>·</span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Clock size={13}/> {current.lesson.duration || "—"}</span>
+                    </div>
+                  );
+                })()}
                 <div style={{padding:"18px 22px"}}>
                   <input
                     autoFocus
@@ -1384,7 +1502,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               const resources = lessonResources[k] ?? [];
               const comments = lessonComments[k] ?? [];
               const commentsEnabled = lessonExtras[k]?.commentsOn ?? false;
-              const TabBtn = ({ id, icon, label, count }: { id: "resources"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
+              const TabBtn = ({ id, icon, label, count }: { id: "resources"|"assignments"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
                 const active = lessonTab === id;
                 return (
                   <button onClick={() => setLessonTab(id)} style={{position:"relative",display:"inline-flex",alignItems:"center",gap:6,padding:"10px 14px",background:"transparent",border:0,borderRadius:0,color: active ? "#111827" : "#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:-1,outline:"none"}}>
@@ -1395,6 +1513,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               };
               const visibleTabs = [
                 { id: "resources" as const, show: resources.length > 0 || isAdmin },
+                { id: "assignments" as const, show: isAdmin },
                 { id: "comments" as const, show: commentsEnabled },
               ].filter(t => t.show);
 
@@ -1405,7 +1524,8 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,borderBottom:"1px solid #E5E7EB"}}>
                     <div style={{display:"flex",gap:4}}>
                       {(resources.length > 0 || isAdmin) && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
-                      {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Comments" count={comments.length}/>}
+                      {isAdmin && <TabBtn id="assignments" icon={<ClipboardList size={14}/>} label="Assignments"/>}
+                      {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Discussion" count={comments.length}/>}
                     </div>
                   </div>
 
@@ -1504,6 +1624,24 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                           setLessonResources(prev=>({...prev,[k]:[...(prev[k]??[]),item]}));
                           setNewResource({type:newResource.type,title:"",url:""});
                         }}><Plus size={13}/> Add</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "assignments" && (
+                    <div style={{padding:"18px 0"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:12,padding:"16px 18px",border:"1px dashed #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)",borderRadius:12,marginBottom:12}}>
+                        <div style={{width:36,height:36,borderRadius:10,background:"#111827",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><ClipboardList size={17}/></div>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontSize:13.5,fontWeight:800,color:"#111827"}}>Assignments &amp; Homework</div>
+                          <div style={{fontSize:12,color:"#4B5563",marginTop:2}}>Create tasks, homework, and submission requests for this lesson. Generate one in seconds with AIVA.</div>
+                        </div>
+                        <button type="button" onClick={()=>runAivaEditorAction("worksheet","Assignment")} disabled={!!aivaRunning} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",border:0,borderRadius:8,background:"#111827",color:"#fff",fontSize:12.5,fontWeight:700,cursor:aivaRunning?"wait":"pointer",flexShrink:0}}>
+                          <Sparkles size={13}/> Generate With AIVA
+                        </button>
+                      </div>
+                      <div style={{background:"#FAFAFA",border:"1px dashed #E5E7EB",borderRadius:10,padding:24,color:"#6B7280",fontSize:13,textAlign:"center"}}>
+                        No assignments yet. Click "Generate With AIVA" to create one from this lesson.
                       </div>
                     </div>
                   )}
