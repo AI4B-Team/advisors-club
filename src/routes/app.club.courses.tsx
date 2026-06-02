@@ -1055,54 +1055,82 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   {titleError && (
                     <div style={{fontSize:12,color:"#EF4444",marginTop:-10,marginBottom:10}}>Lesson Title Is Required</div>
                   )}
-                  <div style={{marginBottom:14,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
-                    <div style={{fontSize:11,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.5,marginBottom:8}}>Media</div>
-                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:editMediaType==="none"?0:10}}>
-                      {([
-                        {v:"none",label:"None (Text Only)",icon:<FileText size={12}/>},
-                        {v:"native",label:"Upload Video",icon:<Upload size={12}/>},
-                        {v:"youtube",label:"YouTube",icon:<Video size={12}/>},
-                        {v:"vimeo",label:"Vimeo",icon:<Video size={12}/>},
-                        {v:"external",label:"External Link",icon:<LinkIcon size={12}/>},
-                      ] as {v:MediaType;label:string;icon:React.ReactNode}[]).map(opt => {
-                        const sel = editMediaType === opt.v;
-                        return (
-                          <button key={opt.v} type="button" onClick={()=>setEditMediaType(opt.v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 11px",borderRadius:999,fontSize:12,fontWeight:600,border:`1px solid ${sel?"#111827":"#E5E7EB"}`,background:sel?"#111827":"#fff",color:sel?"#fff":"#374151",cursor:"pointer"}}>
-                            {opt.icon}{opt.label}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {editMediaType === "native" && (
-                      <div>
-                        <label style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",border:"1px dashed #D1D5DB",borderRadius:8,background:"#fff",cursor:"pointer",fontSize:13,color:"#6B7280"}}>
-                          <Upload size={14}/>
-                          <span style={{flex:1}}>{editMediaUrl ? "Replace Video File" : "Click To Upload Video File"}</span>
-                          <input type="file" accept="video/*" style={{display:"none"}} onChange={e=>{
-                            const f = e.target.files?.[0]; if (!f) return;
-                            const url = URL.createObjectURL(f);
-                            setEditMediaUrl(url);
-                          }}/>
-                        </label>
-                        {editMediaUrl && <div style={{fontSize:11,color:"#10B981",marginTop:6,fontWeight:600}}>✓ Video Attached</div>}
+                  {(() => {
+                    if (editMediaType === "none") return null;
+                    const ytId = (u: string) => { const m = u.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{6,})/); return m?.[1] ?? ""; };
+                    const vmId = (u: string) => { const m = u.match(/vimeo\.com\/(\d+)/); return m?.[1] ?? ""; };
+                    const embedSrc = editMediaType === "youtube" && editMediaUrl ? `https://www.youtube.com/embed/${ytId(editMediaUrl)}`
+                      : editMediaType === "vimeo" && editMediaUrl ? `https://player.vimeo.com/video/${vmId(editMediaUrl)}`
+                      : "";
+                    return (
+                      <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#000",marginBottom:14}}>
+                        {editMediaType === "native" && editMediaUrl ? (
+                          <LessonVideoPlayer src={editMediaUrl} title={editTitle || "Lesson"} />
+                        ) : (editMediaType === "youtube" || editMediaType === "vimeo") && embedSrc ? (
+                          <iframe src={embedSrc} title={editTitle || "Lesson"} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen style={{width:"100%",height:"100%",border:0}}/>
+                        ) : editMediaType === "external" && editMediaUrl ? (
+                          <iframe src={editMediaUrl} title={editTitle || "Lesson"} allowFullScreen style={{width:"100%",height:"100%",border:0,background:"#fff"}}/>
+                        ) : (
+                          <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",color:"#9CA3AF",fontSize:13,fontWeight:600,background:"#111827"}}>No Media Attached</div>
+                        )}
                       </div>
-                    )}
-                    {(editMediaType === "youtube" || editMediaType === "vimeo" || editMediaType === "external") && (
-                      <input
-                        value={editMediaUrl}
-                        onChange={e=>setEditMediaUrl(e.target.value)}
-                        placeholder={editMediaType==="youtube"?"https://youtube.com/watch?v=...":editMediaType==="vimeo"?"https://vimeo.com/...":"https://..."}
-                        style={{width:"100%",padding:"9px 12px",fontSize:13,border:"1px solid #E5E7EB",borderRadius:8,outline:"none",background:"#fff"}}
-                      />
-                    )}
-                  </div>
+                    );
+                  })()}
                   <textarea
                     value={editBody}
                     onChange={e=>setEditBody(e.target.value)}
-                    placeholder={editMediaType==="none"?"Write your full lesson here. Use the toolbar above for headings, lists, and formatting…":"Write your lesson content…"}
-                    rows={editMediaType==="none"?14:6}
+                    placeholder="Write your lesson content. Use the toolbar above for headings, lists, and formatting…"
+                    rows={12}
                     style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
                   />
+                  <div style={{marginTop:14,paddingTop:14,borderTop:"1px solid #F3F4F6"}}>
+                    <button type="button" onClick={()=>setEditMediaOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:12,fontWeight:700,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:0}}>
+                      <Video size={13}/> {editMediaOpen ? "Hide Media Settings" : "Change Media"}
+                    </button>
+                    {editMediaOpen && (
+                      <div style={{marginTop:10,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
+                        <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:editMediaType==="none"?0:10}}>
+                          {([
+                            {v:"none",label:"None (Text Only)",icon:<FileText size={12}/>},
+                            {v:"native",label:"Upload Video",icon:<Upload size={12}/>},
+                            {v:"youtube",label:"YouTube",icon:<Video size={12}/>},
+                            {v:"vimeo",label:"Vimeo",icon:<Video size={12}/>},
+                            {v:"external",label:"External Link",icon:<LinkIcon size={12}/>},
+                          ] as {v:MediaType;label:string;icon:React.ReactNode}[]).map(opt => {
+                            const sel = editMediaType === opt.v;
+                            return (
+                              <button key={opt.v} type="button" onClick={()=>setEditMediaType(opt.v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 11px",borderRadius:999,fontSize:12,fontWeight:600,border:`1px solid ${sel?"#111827":"#E5E7EB"}`,background:sel?"#111827":"#fff",color:sel?"#fff":"#374151",cursor:"pointer"}}>
+                                {opt.icon}{opt.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {editMediaType === "native" && (
+                          <div>
+                            <label style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",border:"1px dashed #D1D5DB",borderRadius:8,background:"#fff",cursor:"pointer",fontSize:13,color:"#6B7280"}}>
+                              <Upload size={14}/>
+                              <span style={{flex:1}}>{editMediaUrl ? "Replace Video File" : "Click To Upload Video File"}</span>
+                              <input type="file" accept="video/*" style={{display:"none"}} onChange={e=>{
+                                const f = e.target.files?.[0]; if (!f) return;
+                                const url = URL.createObjectURL(f);
+                                setEditMediaUrl(url);
+                              }}/>
+                            </label>
+                            {editMediaUrl && <div style={{fontSize:11,color:"#10B981",marginTop:6,fontWeight:600}}>✓ Video Attached</div>}
+                          </div>
+                        )}
+                        {(editMediaType === "youtube" || editMediaType === "vimeo" || editMediaType === "external") && (
+                          <input
+                            value={editMediaUrl}
+                            onChange={e=>setEditMediaUrl(e.target.value)}
+                            placeholder={editMediaType==="youtube"?"https://youtube.com/watch?v=...":editMediaType==="vimeo"?"https://vimeo.com/...":"https://..."}
+                            style={{width:"100%",padding:"9px 12px",fontSize:13,border:"1px solid #E5E7EB",borderRadius:8,outline:"none",background:"#fff"}}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
+
                   {(() => {
                     const resources = lessonResources[k] ?? [];
                     if (resources.length === 0) return null;
