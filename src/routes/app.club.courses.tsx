@@ -773,6 +773,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [editMediaType, setEditMediaType] = useState<MediaType>("native");
   const [editMediaUrl, setEditMediaUrl] = useState("");
   const [titleError, setTitleError] = useState(false);
+  const [editMediaOpen, setEditMediaOpen] = useState(false);
   const [videoMenuOpen, setVideoMenuOpen] = useState(false);
   const [addMenuOpen, setAddMenuOpen] = useState(false);
   const [addModal, setAddModal] = useState<null | "file" | "link">(null);
