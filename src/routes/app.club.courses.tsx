@@ -5,7 +5,7 @@ import {
   MoreHorizontal, MoreVertical, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Unlock, Plus, X,
   List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download, ChevronDown, ChevronUp, Circle,
   Heading1, Heading2, Heading3, Heading4, Bold, Italic, Strikethrough, Code2, ListOrdered, Quote, Terminal, Image as ImageIcon, Link2, Minus, Video, FolderPlus, FilePlus, Copy as CopyIcon,
-  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign,
+  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -750,6 +750,14 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   };
   const EMOJIS = ["😀","😂","😍","🥳","👍","🙏","🔥","💯","🎉","❤️","😎","🤔","👏","✨","🚀","💡","✅","❌","😢","😅","🤝","🙌"];
   const [completed, setCompleted] = useState<Set<string>>(new Set());
+  const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
+    try { const raw = localStorage.getItem("lesson-bookmarks-v1"); return raw ? new Set(JSON.parse(raw) as string[]) : new Set(); } catch { return new Set(); }
+  });
+  const toggleBookmark = (key: string) => setBookmarks(prev => {
+    const n = new Set(prev); if (n.has(key)) n.delete(key); else n.add(key);
+    try { localStorage.setItem("lesson-bookmarks-v1", JSON.stringify([...n])); } catch {}
+    return n;
+  });
   const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
   const [courseMenuOpen, setCourseMenuOpen] = useState(false);
   const [moduleMenuOpen, setModuleMenuOpen] = useState<number | null>(null);
@@ -1196,6 +1204,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,padding:"6px 8px 12px"}}>
                   <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
                   <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                    {(() => { const bm = bookmarks.has(k); return (
+                      <button onClick={() => toggleBookmark(k)} aria-label={bm?"Remove bookmark":"Bookmark lesson"} title={bm?"Bookmarked":"Bookmark"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${bm?"#F59E0B":"#E5E7EB"}`,background:bm?"#FEF3C7":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:bm?"#B45309":"#9CA3AF"}}>
+                        <Bookmark size={16} fill={bm?"#F59E0B":"none"} color={bm?"#B45309":"#9CA3AF"}/>
+                      </button>
+                    ); })()}
                     <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark as done"} title={done?"Completed":"Mark as done"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
                       <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
                     </button>
@@ -1812,6 +1825,15 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
     setCompleted(prev => { const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k); return n; });
   }
   const pct = Math.round((completed.size / flat.length) * 100);
+  const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
+    try { const raw = localStorage.getItem("lesson-bookmarks-v1"); return raw ? new Set(JSON.parse(raw) as string[]) : new Set(); } catch { return new Set(); }
+  });
+  const isBookmarked = bookmarks.has(k);
+  const toggleBookmark = () => setBookmarks(prev => {
+    const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k);
+    try { localStorage.setItem("lesson-bookmarks-v1", JSON.stringify([...n])); } catch {}
+    return n;
+  });
 
   return (
     <>
@@ -1837,7 +1859,12 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
 
           <div style={{marginTop:18}}>
             <div style={{fontSize:12,fontWeight:700,color:"#7C3AED",marginBottom:6,textTransform:"uppercase",letterSpacing:.4}}>{curRec.moduleTitle}</div>
-            <h1 style={{fontSize:24,fontWeight:800,color:"#111827",marginBottom:10}}>{curRec.lesson.title}</h1>
+            <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12,marginBottom:10}}>
+              <h1 style={{fontSize:24,fontWeight:800,color:"#111827",margin:0}}>{curRec.lesson.title}</h1>
+              <button onClick={toggleBookmark} aria-label={isBookmarked?"Remove bookmark":"Bookmark lesson"} title={isBookmarked?"Bookmarked":"Bookmark"} style={{flexShrink:0,width:36,height:36,borderRadius:"50%",border:`1px solid ${isBookmarked?"#F59E0B":"#E5E7EB"}`,background:isBookmarked?"#FEF3C7":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <Bookmark size={16} fill={isBookmarked?"#F59E0B":"none"} color={isBookmarked?"#B45309":"#9CA3AF"}/>
+              </button>
+            </div>
             <p style={{color:"#6B7280",fontSize:14,lineHeight:1.6,marginBottom:18}}>
               Watch the video, then mark the lesson complete to track your progress.
             </p>
