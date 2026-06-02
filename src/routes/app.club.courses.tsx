@@ -21,20 +21,20 @@ export type QuizQuestion = { id: string; q: string; choices: string[]; correctIn
 export type Quiz = { id: string; title: string; questions: QuizQuestion[]; passingScore: number };
 
 export type AdminLesson = {
-  id: string;
+  id?: string;           // assigned by migrate()
   title: string;
   duration: string;
-  published?: boolean;   // default true
+  published?: boolean;
   locked?: boolean;
-  dripDays?: number;     // days after enrollment / scheduled start
+  dripDays?: number;
   quiz?: Quiz | null;
 };
 
 export type AdminModule = {
-  id: string;
+  id?: string;           // assigned by migrate()
   title: string;
   lessons: AdminLesson[];
-  published?: boolean;   // default true
+  published?: boolean;
   locked?: boolean;
   dripDays?: number;
   quiz?: Quiz | null;
