@@ -2029,8 +2029,14 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
               </div>
             </div>
 
+            <AivaLessonAssistant
+              courseTitle={course.title}
+              moduleTitle={curRec.moduleTitle}
+              lessonTitle={curRec.lesson.title}
+            />
           </div>
         </div>
+
 
         <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
           <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
