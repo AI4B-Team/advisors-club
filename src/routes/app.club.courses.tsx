@@ -1353,7 +1353,15 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 {(() => {
                   const meta = lessonMeta[k];
                   const mType: MediaType = meta?.mediaType ?? "native";
-                  const mUrl = meta?.mediaUrl ?? "";
+                  const SAMPLE_VIDEOS = [
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                  ];
+                  const sampleIdx = Math.abs(k.split("").reduce((a,c)=>a+c.charCodeAt(0),0)) % SAMPLE_VIDEOS.length;
+                  const mUrl = meta?.mediaUrl ?? (mType === "native" ? SAMPLE_VIDEOS[sampleIdx] : "");
                   if (mType === "none") return null;
                   const ytId = (u: string) => { const m = u.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{6,})/); return m?.[1] ?? ""; };
                   const vmId = (u: string) => { const m = u.match(/vimeo\.com\/(\d+)/); return m?.[1] ?? ""; };
@@ -1363,7 +1371,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   return (
                     <div style={{position:"relative",width:"100%",aspectRatio:"16/9",borderRadius:10,overflow:"hidden",background:"#000"}}>
                       {mType === "native" && mUrl ? (
-                        <LessonVideoPlayer src={mUrl} title={current.lesson.title} />
+                        <LessonVideoPlayer src={mUrl} poster={course.cover} title={current.lesson.title} />
                       ) : (mType === "youtube" || mType === "vimeo") && embedSrc ? (
                         <iframe src={embedSrc} title={current.lesson.title} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen style={{width:"100%",height:"100%",border:0}}/>
                       ) : mType === "external" && mUrl ? (
@@ -1405,9 +1413,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                           </>
                         )}
                       </div>
-                      <div style={{position:"absolute",bottom:12,right:14,color:"#fff",fontSize:11,fontWeight:600,background:"rgba(0,0,0,.6)",padding:"3px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:4,pointerEvents:"none"}}>
-                        <Clock size={11}/> {current.lesson.duration}
-                      </div>
+                      {!(mType === "native" && mUrl) && (
+                        <div style={{position:"absolute",bottom:12,right:14,color:"#fff",fontSize:11,fontWeight:600,background:"rgba(0,0,0,.6)",padding:"3px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:4,pointerEvents:"none"}}>
+                          <Clock size={11}/> {current.lesson.duration}
+                        </div>
+                      )}
                     </div>
                   );
                 })()}
