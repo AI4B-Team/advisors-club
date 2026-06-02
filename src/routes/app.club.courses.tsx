@@ -857,9 +857,12 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     if (lesson) setTocOpen(prev => { const n = new Set(prev); n.add(lesson.m); return n; });
   }, [lesson?.m]);
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
-  const parseMin = (s: string) => { const m = s.match(/\d+/); return m ? parseInt(m[0], 10) : 0; };
+  const parseDurationSec = (s: string) => { const p = s.split(":").map(Number); if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2]; if (p.length === 2) return p[0]*60 + p[1]; return 0; };
+  const formatDuration = (totalSec: number) => { const h = Math.floor(totalSec/3600); const m = Math.floor((totalSec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
+  const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
+  const estimatedTime = formatDuration(totalDurationSec);
   const currentIdx = lesson ? flat.findIndex(x => x.m === lesson.m && x.l === lesson.l) : -1;
   const current = currentIdx >= 0 ? flat[currentIdx] : null;
   const prev = currentIdx > 0 ? flat[currentIdx - 1] : null;
@@ -984,7 +987,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               {(() => { const pct = Math.round((completed.size/Math.max(1,flat.length))*100); return (
                 <div className="mc-progress-bar"><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
               ); })()}
-              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete</div>
+              <div style={{fontSize:11,color:"#9CA3AF",marginTop:8}}>{completed.size} of {flat.length} Lessons Complete · Estimated Time: {estimatedTime}</div>
             </div>
             <div style={{maxHeight:"65vh",overflowY:"auto",display:"flex",flexDirection:"column",gap:10}}>
               {course.modules.map((m, mi) => {
@@ -1941,6 +1944,10 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
 
 function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: () => void }) {
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
+  const parseDurationSec = (s: string) => { const p = s.split(":").map(Number); if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2]; if (p.length === 2) return p[0]*60 + p[1]; return 0; };
+  const formatDuration = (totalSec: number) => { const h = Math.floor(totalSec/3600); const m = Math.floor((totalSec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
+  const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
+  const estimatedTime = formatDuration(totalDurationSec);
   const key = (mi: number, li: number) => `${mi}-${li}`;
   // Seed completion from progress %
   const seedCount = Math.round((course.progress / 100) * flat.length);
@@ -2019,7 +2026,7 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
         <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
           <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
             <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{course.title}</div>
-            <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{completed.size} of {flat.length} complete · {pct}%</div>
+            <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{completed.size} of {flat.length} complete · {pct}% · Estimated Time: {estimatedTime}</div>
             <div className="mc-progress-bar" style={{marginTop:8}}><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
           </div>
           <div style={{maxHeight:"60vh",overflowY:"auto"}}>
