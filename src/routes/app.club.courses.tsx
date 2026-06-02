@@ -1526,7 +1526,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   )}
 
-                  {lessonTab === "comments" && commentsEnabled && (
+                  {activeTab === "comments" && commentsEnabled && (
                     <div style={{padding:"18px 0"}}>
                       <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:14}}>
                         {comments.length === 0 && (
