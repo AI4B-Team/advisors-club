@@ -702,9 +702,53 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [lessonTab, setLessonTab] = useState<"overview" | "resources" | "comments">("overview");
   const [commentsEnabled, setCommentsEnabled] = useState<boolean>(true);
   const [lessonResources, setLessonResources] = useState<Record<string, { id: string; type: "link" | "file"; title: string; url: string }[]>>({});
-  const [lessonComments, setLessonComments] = useState<Record<string, { id: string; author: string; text: string; at: string }[]>>({});
+  type CommentAttachment = { id: string; kind: "image" | "gif" | "file"; name: string; url: string };
+  type CommentItem = { id: string; author: string; text: string; at: string; attachments?: CommentAttachment[] };
+  const [lessonComments, setLessonComments] = useState<Record<string, CommentItem[]>>({});
   const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
   const [newComment, setNewComment] = useState("");
+  const [pendingAttachments, setPendingAttachments] = useState<CommentAttachment[]>([]);
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const commentInputRef = useRef<HTMLTextAreaElement | null>(null);
+  const commentImageRef = useRef<HTMLInputElement | null>(null);
+  const commentFileRef = useRef<HTMLInputElement | null>(null);
+  const insertAtCursor = (s: string) => {
+    const el = commentInputRef.current;
+    if (!el) { setNewComment(v => v + s); return; }
+    const start = el.selectionStart ?? el.value.length;
+    const end = el.selectionEnd ?? el.value.length;
+    const next = el.value.slice(0, start) + s + el.value.slice(end);
+    setNewComment(next);
+    requestAnimationFrame(() => { el.focus(); const pos = start + s.length; el.setSelectionRange(pos, pos); });
+  };
+  const readFileAsDataURL = (file: File) => new Promise<string>((resolve, reject) => {
+    const r = new FileReader(); r.onload = () => resolve(String(r.result)); r.onerror = reject; r.readAsDataURL(file);
+  });
+  const handleAttachImage = async (files: FileList | null) => {
+    if (!files) return;
+    const adds: CommentAttachment[] = [];
+    for (const f of Array.from(files)) {
+      if (!f.type.startsWith("image/")) continue;
+      const url = await readFileAsDataURL(f);
+      adds.push({ id: Math.random().toString(36).slice(2,9), kind: "image", name: f.name, url });
+    }
+    if (adds.length) setPendingAttachments(p => [...p, ...adds]);
+  };
+  const handleAttachFile = async (files: FileList | null) => {
+    if (!files) return;
+    const adds: CommentAttachment[] = [];
+    for (const f of Array.from(files)) {
+      const url = await readFileAsDataURL(f);
+      adds.push({ id: Math.random().toString(36).slice(2,9), kind: "file", name: f.name, url });
+    }
+    if (adds.length) setPendingAttachments(p => [...p, ...adds]);
+  };
+  const handleAddGif = () => {
+    const url = window.prompt("Paste a GIF URL (.gif)");
+    if (!url) return;
+    setPendingAttachments(p => [...p, { id: Math.random().toString(36).slice(2,9), kind: "gif", name: "GIF", url }]);
+  };
+  const EMOJIS = ["😀","😂","😍","🥳","👍","🙏","🔥","💯","🎉","❤️","😎","🤔","👏","✨","🚀","💡","✅","❌","😢","😅","🤝","🙌"];
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
   const [courseMenuOpen, setCourseMenuOpen] = useState(false);
