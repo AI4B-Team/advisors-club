@@ -879,11 +879,12 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setLessonResources(prev => ({ ...prev, [k]: (prev[k] ?? []).filter(r => r.id !== rid) }));
     setResourceMenuOpen(null);
   }
-  // Auto-collapse the platform sidebar while inside a lesson for a focused editor experience
+  // Auto-collapse the platform sidebar only in editor (admin) mode for a focused editing experience
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
+    const shouldMin = isAdmin && !!lesson;
+    window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: shouldMin }));
     return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
-  }, [lesson]);
+  }, [lesson, isAdmin]);
   useEffect(() => {
     if (lesson) setTocOpen(prev => { const n = new Set(prev); n.add(lesson.m); return n; });
   }, [lesson?.m]);
