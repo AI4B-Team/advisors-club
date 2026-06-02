@@ -1502,7 +1502,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               const resources = lessonResources[k] ?? [];
               const comments = lessonComments[k] ?? [];
               const commentsEnabled = lessonExtras[k]?.commentsOn ?? false;
-              const TabBtn = ({ id, icon, label, count }: { id: "resources"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
+              const TabBtn = ({ id, icon, label, count }: { id: "resources"|"assignments"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
                 const active = lessonTab === id;
                 return (
                   <button onClick={() => setLessonTab(id)} style={{position:"relative",display:"inline-flex",alignItems:"center",gap:6,padding:"10px 14px",background:"transparent",border:0,borderRadius:0,color: active ? "#111827" : "#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:-1,outline:"none"}}>
@@ -1513,6 +1513,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               };
               const visibleTabs = [
                 { id: "resources" as const, show: resources.length > 0 || isAdmin },
+                { id: "assignments" as const, show: isAdmin },
                 { id: "comments" as const, show: commentsEnabled },
               ].filter(t => t.show);
 
@@ -1523,7 +1524,8 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,borderBottom:"1px solid #E5E7EB"}}>
                     <div style={{display:"flex",gap:4}}>
                       {(resources.length > 0 || isAdmin) && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
-                      {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Comments" count={comments.length}/>}
+                      {isAdmin && <TabBtn id="assignments" icon={<ClipboardList size={14}/>} label="Assignments"/>}
+                      {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Discussion" count={comments.length}/>}
                     </div>
                   </div>
 
