@@ -1204,6 +1204,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,padding:"6px 8px 12px"}}>
                   <h1 style={{fontSize:22,fontWeight:800,color:"#111827",margin:0,minWidth:0,overflow:"hidden",textOverflow:"ellipsis"}}>{current.lesson.title}</h1>
                   <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                    {(() => { const bm = bookmarks.has(k); return (
+                      <button onClick={() => toggleBookmark(k)} aria-label={bm?"Remove bookmark":"Bookmark lesson"} title={bm?"Bookmarked":"Bookmark"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${bm?"#F59E0B":"#E5E7EB"}`,background:bm?"#FEF3C7":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:bm?"#B45309":"#9CA3AF"}}>
+                        <Bookmark size={16} fill={bm?"#F59E0B":"none"} color={bm?"#B45309":"#9CA3AF"}/>
+                      </button>
+                    ); })()}
                     <button onClick={() => toggleComplete(k)} aria-label={done?"Mark incomplete":"Mark as done"} title={done?"Completed":"Mark as done"} style={{width:34,height:34,borderRadius:"50%",border:`1px solid ${done?"#10B981":"#E5E7EB"}`,background:done?"#10B981":"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
                       <CheckCircle2 size={18} color={done?"#fff":"#9CA3AF"}/>
                     </button>
