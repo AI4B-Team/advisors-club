@@ -847,6 +847,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   }
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [toolMenuOpen, setToolMenuOpen] = useState(false);
+  const [dripPanelOpen, setDripPanelOpen] = useState(false);
   const [aivaMenuOpen, setAivaMenuOpen] = useState(false);
   const [aivaRunning, setAivaRunning] = useState<string | null>(null);
   const aivaAsk = useServerFn(aivaLessonAssistant);
@@ -1241,6 +1242,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                           <MenuItem icon={<Pin size={13}/>} label="Discussion Prompt" onClick={()=>{ setToolMenuOpen(false); setPinHelpOpen(true); }}/>
                           <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
                           <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Settings</div>
+                          <MenuItem icon={<Clock size={13}/>} label="Drip Schedule" onClick={()=>{ setToolMenuOpen(false); setDripPanelOpen(true); }}/>
                           <button type="button" onClick={()=>setEditCommentsOn(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
                             <MessageSquare size={13}/>
                             <span style={{flex:1}}>Allow Comments</span>
@@ -1284,7 +1286,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   );
                 })()}
-                {(() => {
+                {dripPanelOpen && (() => {
                   const k0 = key(current.m, current.l);
                   const d = getDrip(k0);
                   const Opt = ({ m, icon, label }: { m: DripMode; icon: React.ReactNode; label: string }) => {
@@ -1311,6 +1313,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         <input type="date" value={d.date} onChange={e=>setDrip(k0,{date:e.target.value})} style={{marginLeft:4,padding:"5px 9px",border:"1px solid #E5E7EB",borderRadius:6,fontSize:12,fontWeight:700,color:"#111827",outline:"none"}}/>
                       )}
                       <span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:"#6B7280"}}>{dripLabel(d)}</span>
+                      <button type="button" onClick={()=>setDripPanelOpen(false)} title="Close" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24,borderRadius:6,border:"1px solid #E5E7EB",background:"#fff",color:"#6B7280",cursor:"pointer"}}><X size={12}/></button>
                     </div>
                   );
                 })()}
