@@ -136,6 +136,16 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
             ))}
           </div>
 
+          <div className="ai-stats-grid" style={{marginTop:12}}>
+            {data.stats.map(s => (
+              <div key={s.label} className="ai-stat">
+                <div className="ai-stat-v">{s.value}</div>
+                <div className="ai-stat-l">{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="ai-section-label"><Sparkles size={12}/> Highlights</div>
           <div className="ai-summary-card">
             {loading ? (
               <div className="ai-summary-loading">
@@ -156,17 +166,10 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
                     <li key={i} style={{animationDelay:`${i*80}ms`}} dangerouslySetInnerHTML={{__html: b.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")}}/>
                   ))}
                 </ul>
-                <div className="ai-stats-grid">
-                  {data.stats.map(s => (
-                    <div key={s.label} className="ai-stat">
-                      <div className="ai-stat-v">{s.value}</div>
-                      <div className="ai-stat-l">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
               </div>
             )}
           </div>
+
 
           <div className="ai-section-label"><Zap size={12}/> Quick Actions</div>
           <div className="ai-quick-list">
