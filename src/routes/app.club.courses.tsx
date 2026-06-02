@@ -1054,7 +1054,14 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         </button>
                     );
                   })()}
-                  <div style={{marginLeft:"auto",position:"relative"}}>
+                  <div style={{marginLeft:"auto",display:"inline-flex",alignItems:"center",gap:8,position:"relative"}}>
+                    <div style={{display:"inline-flex",alignItems:"center",background:"#F3F4F6",borderRadius:8,padding:2}}>
+                      <button type="button" onClick={()=>setEditPublished(false)} style={{padding:"4px 10px",borderRadius:6,border:0,cursor:"pointer",fontSize:11,fontWeight:700,background:!editPublished?"#fff":"transparent",color:!editPublished?"#111827":"#6B7280",boxShadow:!editPublished?"0 1px 2px rgba(0,0,0,.06)":"none"}}>Draft</button>
+                      <button type="button" onClick={()=>setEditPublished(true)} style={{padding:"4px 10px",borderRadius:6,border:0,cursor:"pointer",fontSize:11,fontWeight:700,background:editPublished?"#fff":"transparent",color:editPublished?"#10B981":"#6B7280",boxShadow:editPublished?"0 1px 2px rgba(0,0,0,.06)":"none"}}>Published</button>
+                    </div>
+                    <button type="button" onClick={cancelEdit} style={{height:30,padding:"0 12px",borderRadius:6,border:"1px solid #E5E7EB",background:"#fff",color:"#374151",cursor:"pointer",fontSize:12,fontWeight:700}}>Preview</button>
+                    <button type="button" onClick={saveEdit} disabled={!editTitle.trim()} style={{height:30,padding:"0 14px",borderRadius:6,border:0,background:editTitle.trim()?"#111827":"#E5E7EB",color:editTitle.trim()?"#fff":"#9CA3AF",cursor:editTitle.trim()?"pointer":"not-allowed",fontSize:12,fontWeight:700}}>Save</button>
+
                     <button type="button" title="Lesson tools" onClick={()=>setToolMenuOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,height:30,padding:"0 10px",borderRadius:6,border:"1px solid #E5E7EB",background:toolMenuOpen?"#F3F4F6":"#fff",color:"#374151",cursor:"pointer",fontSize:12,fontWeight:700}}>
                       <SlidersHorizontal size={14}/> More
                       <ChevronDown size={12}/>
