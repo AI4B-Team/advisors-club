@@ -5,7 +5,7 @@ import {
   MoreHorizontal, MoreVertical, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Unlock, Plus, X,
   List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download, ChevronDown, ChevronUp, Circle,
   Heading1, Heading2, Heading3, Heading4, Bold, Italic, Strikethrough, Code2, ListOrdered, Quote, Terminal, Image as ImageIcon, Link2, Minus, Video, FolderPlus, FilePlus, Copy as CopyIcon,
-  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen, Pin,
+  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen, Pin, SlidersHorizontal, Captions, Star, ListChecks,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
@@ -782,6 +782,13 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [addFile, setAddFile] = useState<{ name: string; url: string } | null>(null);
   const [resourceMenuOpen, setResourceMenuOpen] = useState<string | null>(null);
   const [pinHelpOpen, setPinHelpOpen] = useState(false);
+  type LessonExtras = { commentsOn: boolean; featured: boolean; transcript: string };
+  const [lessonExtras, setLessonExtras] = useState<Record<string, LessonExtras>>({});
+  const [editCommentsOn, setEditCommentsOn] = useState(true);
+  const [editFeatured, setEditFeatured] = useState(false);
+  const [editTranscript, setEditTranscript] = useState("");
+  const [transcriptOpen, setTranscriptOpen] = useState(false);
+  const [toolMenuOpen, setToolMenuOpen] = useState(false);
   const [pinnedTick, setPinnedTick] = useState(0);
   useEffect(() => subscribePinnedPosts(() => setPinnedTick(t => t + 1)), []);
   const LABEL_MAX = 34;
@@ -887,10 +894,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setEditPublished(meta?.published ?? true);
     setEditMediaType(meta?.mediaType ?? "native");
     setEditMediaUrl(meta?.mediaUrl ?? "");
+    const ex = lessonExtras[k];
+    setEditCommentsOn(ex?.commentsOn ?? true);
+    setEditFeatured(ex?.featured ?? false);
+    setEditTranscript(ex?.transcript ?? "");
+    setTranscriptOpen(!!ex?.transcript);
+    setToolMenuOpen(false);
     setEditing(true);
     setTitleError(false);
   }
-  function cancelEdit() { setEditing(false); setTitleError(false); }
+  function cancelEdit() { setEditing(false); setTitleError(false); setToolMenuOpen(false); }
   function saveEdit() {
     if (!current) return;
     if (!editTitle.trim()) { setTitleError(true); return; }
@@ -902,8 +915,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
         : m
     ));
     setLessonMeta(prev => ({ ...prev, [k]: { body: editBody, published: editPublished, mediaType: editMediaType, mediaUrl: editMediaUrl } }));
+    setLessonExtras(prev => ({ ...prev, [k]: { commentsOn: editCommentsOn, featured: editFeatured, transcript: editTranscript } }));
     setEditing(false);
     setTitleError(false);
+    setToolMenuOpen(false);
   }
 
   if (current) {
@@ -1024,7 +1039,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           <div>
             {editing ? (
               <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,boxShadow:"0 1px 2px rgba(0,0,0,.04)",marginBottom:14,overflow:"hidden"}}>
-                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap"}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap",position:"relative"}}>
                   {(() => {
                     type TB = { I: typeof Bold; k: string } | { sep: true };
                     const items: TB[] = [
@@ -1043,6 +1058,49 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         </button>
                     );
                   })()}
+                  <div style={{marginLeft:"auto",position:"relative"}}>
+                    <button type="button" title="Lesson tools" onClick={()=>setToolMenuOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,height:30,padding:"0 10px",borderRadius:6,border:"1px solid #E5E7EB",background:toolMenuOpen?"#F3F4F6":"#fff",color:"#374151",cursor:"pointer",fontSize:12,fontWeight:700}}>
+                      <SlidersHorizontal size={14}/> More
+                      <ChevronDown size={12}/>
+                    </button>
+                    {toolMenuOpen && (
+                      <>
+                        <div onClick={()=>setToolMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
+                        <div style={{position:"absolute",top:36,right:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:230,zIndex:50}}>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Resources</div>
+                          <MenuItem icon={<Paperclip size={13}/>} label="Add File" onClick={()=>{ setToolMenuOpen(false); openAddModal("file"); }}/>
+                          <MenuItem icon={<LinkIcon size={13}/>} label="Add Link" onClick={()=>{ setToolMenuOpen(false); openAddModal("link"); }}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Content</div>
+                          <MenuItem icon={<Captions size={13}/>} label={editTranscript ? "Edit Transcript" : "Add Transcript"} onClick={()=>{ setTranscriptOpen(true); setToolMenuOpen(false); }}/>
+                          <MenuItem icon={<Pin size={13}/>} label="Add Community Post" onClick={()=>{ setToolMenuOpen(false); setPinHelpOpen(true); }}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Settings</div>
+                          <button type="button" onClick={()=>setEditCommentsOn(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
+                            <MessageSquare size={13}/>
+                            <span style={{flex:1}}>Allow Comments</span>
+                            <span style={{width:30,height:16,borderRadius:999,background:editCommentsOn?"#10B981":"#D1D5DB",position:"relative",flexShrink:0}}>
+                              <span style={{position:"absolute",top:2,left:editCommentsOn?16:2,width:12,height:12,borderRadius:"50%",background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.2)",transition:"left .15s"}}/>
+                            </span>
+                          </button>
+                          <button type="button" onClick={()=>setEditFeatured(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
+                            <Star size={13}/>
+                            <span style={{flex:1}}>Mark As Featured</span>
+                            <span style={{width:30,height:16,borderRadius:999,background:editFeatured?"#F59E0B":"#D1D5DB",position:"relative",flexShrink:0}}>
+                              <span style={{position:"absolute",top:2,left:editFeatured?16:2,width:12,height:12,borderRadius:"50%",background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.2)",transition:"left .15s"}}/>
+                            </span>
+                          </button>
+                          <button type="button" onClick={()=>setEditPublished(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
+                            <Globe size={13}/>
+                            <span style={{flex:1}}>{editPublished ? "Published" : "Draft"}</span>
+                            <span style={{width:30,height:16,borderRadius:999,background:editPublished?"#10B981":"#D1D5DB",position:"relative",flexShrink:0}}>
+                              <span style={{position:"absolute",top:2,left:editPublished?16:2,width:12,height:12,borderRadius:"50%",background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.2)",transition:"left .15s"}}/>
+                            </span>
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div style={{padding:"18px 22px"}}>
                   <input
@@ -1083,6 +1141,27 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     rows={12}
                     style={{width:"100%",border:0,outline:"none",fontSize:14,color:"#374151",background:"transparent",resize:"vertical",fontFamily:"inherit",lineHeight:1.6}}
                   />
+                  {transcriptOpen && (
+                    <div style={{marginTop:14,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                        <div style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:12,fontWeight:800,color:"#111827",textTransform:"uppercase",letterSpacing:.5}}>
+                          <Captions size={13}/> Transcript
+                        </div>
+                        <button type="button" onClick={()=>{ setTranscriptOpen(false); setEditTranscript(""); }} style={{background:"transparent",border:0,color:"#6B7280",cursor:"pointer",fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:.5}}>Remove</button>
+                      </div>
+                      <textarea
+                        value={editTranscript}
+                        onChange={e=>setEditTranscript(e.target.value)}
+                        placeholder="Paste or write the lesson transcript here…"
+                        rows={6}
+                        style={{width:"100%",border:"1px solid #E5E7EB",borderRadius:8,padding:"10px 12px",fontSize:13,color:"#374151",background:"#fff",resize:"vertical",fontFamily:"inherit",lineHeight:1.55,outline:"none"}}
+                      />
+                    </div>
+                  )}
+                  <div style={{marginTop:10,display:"flex",gap:8,flexWrap:"wrap"}}>
+                    {!editCommentsOn && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#6B7280",background:"#F3F4F6",padding:"3px 8px",borderRadius:999}}><MessageSquare size={11}/> Comments off</span>}
+                    {editFeatured && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#92400E",background:"#FEF3C7",padding:"3px 8px",borderRadius:999}}><Star size={11}/> Featured</span>}
+                  </div>
                   <div style={{marginTop:14,paddingTop:14,borderTop:"1px solid #F3F4F6"}}>
                     <button type="button" onClick={()=>setEditMediaOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:12,fontWeight:700,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:0}}>
                       <Video size={13}/> {editMediaOpen ? "Hide Media Settings" : "Change Media"}
