@@ -701,8 +701,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
       else window.sessionStorage.removeItem("admin-course-lesson");
     }
   };
-  const [lessonTab, setLessonTab] = useState<"overview" | "resources" | "comments">("overview");
-  const [commentsEnabled, setCommentsEnabled] = useState<boolean>(true);
+  const [lessonTab, setLessonTab] = useState<"resources" | "comments">("resources");
   const [lessonResources, setLessonResources] = useState<Record<string, { id: string; type: "link" | "file"; title: string; url: string }[]>>({});
   type CommentAttachment = { id: string; kind: "image" | "gif" | "file"; name: string; url: string };
   type CommentItem = { id: string; author: string; text: string; at: string; attachments?: CommentAttachment[] };
