@@ -725,7 +725,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   ] as const;
   type ResourceKind = typeof RESOURCE_KINDS[number]["key"];
   const [aiGenSelected, setAiGenSelected] = useState<Record<ResourceKind, boolean>>({
-    worksheet: true, summary: true, quiz: true, action: true, checklist: true, discussion: true,
+    worksheet: false, summary: false, quiz: false, action: false, checklist: false, discussion: false,
   });
   const [aiGenRunning, setAiGenRunning] = useState<ResourceKind | null>(null);
   function runAivaResourceGen(k: string, lessonTitle: string) {
