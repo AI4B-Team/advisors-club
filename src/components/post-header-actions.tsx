@@ -39,8 +39,10 @@ type Toggles = {
   hideFeatured: boolean;
 };
 
-export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFeed, saved = false, onToggleSave }: Props) {
+export function PostHeaderActions({ isAdmin = false, isPinned = false, onPinToFeed, saved = false, onToggleSave, postId, postTitle, postAuthor }: Props) {
   const [open, setOpen] = useState(false);
+  const [pinDialog, setPinDialog] = useState(false);
+  const [pinPageName, setPinPageName] = useState("");
   const [toggles, setToggles] = useState<Toggles>({
     follow: false,
     pin: isPinned,
