@@ -11,6 +11,7 @@ import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { LessonVideoPlayer } from "@/components/lesson-video-player";
 import { getPinnedForPage, unpinPostFromPage, subscribePinnedPosts, type PinnedPost } from "@/lib/pinned-posts";
+import { AivaLessonAssistant } from "@/components/AivaLessonAssistant";
 
 export const Route = createFileRoute("/app/club/courses")({
   head: () => ({ meta: [{ title: "Courses — AdvisorsClub" }, { name: "description", content: "Deliver video courses with progress tracking and certificates." }] }),
@@ -1583,8 +1584,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 </div>
               );
             })()}
+            {current?.lesson?.title && (
+              <AivaLessonAssistant
+                courseTitle={course.title}
+                moduleTitle={course.modules[current.m]?.title || ""}
+                lessonTitle={current.lesson.title}
+              />
+            )}
           </div>
         </div>
+
       </>
     );
   }
@@ -2020,8 +2029,14 @@ function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: 
               </div>
             </div>
 
+            <AivaLessonAssistant
+              courseTitle={course.title}
+              moduleTitle={curRec.moduleTitle}
+              lessonTitle={curRec.lesson.title}
+            />
           </div>
         </div>
+
 
         <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,overflow:"hidden",position:"sticky",top:16}}>
           <div style={{padding:"14px 16px",borderBottom:"1px solid #F3F4F6"}}>
