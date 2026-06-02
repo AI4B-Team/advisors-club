@@ -99,23 +99,23 @@ const SEED: AdminCourse[] = migrate([
     price: 297, paid: true, published: true, enrolled: 142, completionRate: 68, revenue: 42174, archived: false,
     updatedAt: "2 days ago",
     modules: [
-      { id:"", title: "Foundations", lessons: [
-        { id:"", title: "Welcome & Mindset", duration: "8:24" },
-        { id:"", title: "How Wholesaling Works", duration: "12:10" },
-        { id:"", title: "Setting Up Your Business", duration: "15:42" },
+      { title: "Foundations", lessons: [
+        { title: "Welcome & Mindset", duration: "8:24" },
+        { title: "How Wholesaling Works", duration: "12:10" },
+        { title: "Setting Up Your Business", duration: "15:42" },
       ]},
-      { id:"", title: "Finding Deals", lessons: [
-        { id:"", title: "Driving for Dollars", duration: "10:05" },
-        { id:"", title: "Direct Mail Campaigns", duration: "18:30" },
-        { id:"", title: "Online Lead Sources", duration: "14:22" },
+      { title: "Finding Deals", lessons: [
+        { title: "Driving for Dollars", duration: "10:05" },
+        { title: "Direct Mail Campaigns", duration: "18:30" },
+        { title: "Online Lead Sources", duration: "14:22" },
       ]},
-      { id:"", title: "Locking Contracts", lessons: [
-        { id:"", title: "Seller Conversations", duration: "20:15" },
-        { id:"", title: "The Purchase Agreement", duration: "16:48" },
+      { title: "Locking Contracts", lessons: [
+        { title: "Seller Conversations", duration: "20:15" },
+        { title: "The Purchase Agreement", duration: "16:48" },
       ]},
-      { id:"", title: "Closing the Deal", lessons: [
-        { id:"", title: "Assigning to Buyers", duration: "12:30" },
-        { id:"", title: "Title & Escrow", duration: "10:18" },
+      { title: "Closing the Deal", lessons: [
+        { title: "Assigning to Buyers", duration: "12:30" },
+        { title: "Title & Escrow", duration: "10:18" },
       ]},
     ],
   } as AdminCourse,
@@ -127,16 +127,16 @@ const SEED: AdminCourse[] = migrate([
     price: 497, paid: true, published: true, enrolled: 89, completionRate: 54, revenue: 44233, archived: false,
     updatedAt: "1 week ago",
     modules: [
-      { id:"", title: "Subject-To Deals", lessons: [
-        { id:"", title: "What is Subject-To", duration: "11:20" },
-        { id:"", title: "Finding the Right Deal", duration: "14:50" },
+      { title: "Subject-To Deals", lessons: [
+        { title: "What is Subject-To", duration: "11:20" },
+        { title: "Finding the Right Deal", duration: "14:50" },
       ]},
-      { id:"", title: "Seller Finance", lessons: [
-        { id:"", title: "Structuring Terms", duration: "16:00" },
-        { id:"", title: "Notes & Mortgages", duration: "12:30" },
+      { title: "Seller Finance", lessons: [
+        { title: "Structuring Terms", duration: "16:00" },
+        { title: "Notes & Mortgages", duration: "12:30" },
       ]},
-      { id:"", title: "Lease Options", lessons: [
-        { id:"", title: "Sandwich Lease Options", duration: "18:45" },
+      { title: "Lease Options", lessons: [
+        { title: "Sandwich Lease Options", duration: "18:45" },
       ]},
     ],
   } as AdminCourse,
@@ -148,12 +148,12 @@ const SEED: AdminCourse[] = migrate([
     price: 197, paid: true, published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
     updatedAt: "draft",
     modules: [
-      { id:"", title: "Where to Find Buyers", lessons: [
-        { id:"", title: "Networking Strategies", duration: "9:10" },
-        { id:"", title: "Online Communities", duration: "11:25" },
+      { title: "Where to Find Buyers", lessons: [
+        { title: "Networking Strategies", duration: "9:10" },
+        { title: "Online Communities", duration: "11:25" },
       ]},
-      { id:"", title: "Qualifying Buyers", lessons: [
-        { id:"", title: "Buyer Questionnaire", duration: "8:00" },
+      { title: "Qualifying Buyers", lessons: [
+        { title: "Buyer Questionnaire", duration: "8:00" },
       ]},
     ],
   } as AdminCourse,
