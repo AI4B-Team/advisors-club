@@ -1166,19 +1166,6 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     {editFeatured && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#92400E",background:"#FEF3C7",padding:"3px 8px",borderRadius:999}}><Star size={11}/> Featured</span>}
                   </div>
                 </div>
-                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA",flexWrap:"wrap"}}>
-                  <div/>
-                  <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
-                    <label style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:13,fontWeight:700,color:editPublished?"#10B981":"#6B7280",cursor:"pointer"}}>
-                      {editPublished?"Published":"Draft"}
-                      <span onClick={()=>setEditPublished(p=>!p)} style={{width:36,height:20,borderRadius:999,background:editPublished?"#10B981":"#D1D5DB",position:"relative",transition:"background .15s",display:"inline-block"}}>
-                        <span style={{position:"absolute",top:2,left:editPublished?18:2,width:16,height:16,borderRadius:"50%",background:"#fff",transition:"left .15s",boxShadow:"0 1px 2px rgba(0,0,0,.2)"}}/>
-                      </span>
-                    </label>
-                    <button type="button" onClick={cancelEdit} style={{background:"transparent",border:0,color:"#6B7280",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:"6px 10px"}}>Cancel</button>
-                    <button type="button" onClick={saveEdit} disabled={!editTitle.trim()} style={{background:editTitle.trim()?"#111827":"#E5E7EB",color:editTitle.trim()?"#fff":"#9CA3AF",border:0,borderRadius:8,padding:"8px 16px",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:editTitle.trim()?"pointer":"not-allowed"}}>Save</button>
-                  </div>
-                </div>
                 {addModal && (
                   <div onClick={closeAddModal} style={{position:"fixed",inset:0,background:"rgba(17,24,39,.5)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
                     <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:14,width:"100%",maxWidth:480,boxShadow:"0 25px 60px -15px rgba(0,0,0,.35)",overflow:"hidden"}}>
