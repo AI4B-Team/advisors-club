@@ -1400,7 +1400,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 <div style={{marginTop:24}}>
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,borderBottom:"1px solid #E5E7EB"}}>
                     <div style={{display:"flex",gap:4}}>
-                      {resources.length > 0 && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
+                      {(resources.length > 0 || isAdmin) && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
                       {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Comments" count={comments.length}/>}
                     </div>
                   </div>
