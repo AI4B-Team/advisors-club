@@ -1139,9 +1139,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     {addMenuOpen && (
                       <>
                         <div onClick={()=>setAddMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
-                        <div style={{position:"absolute",left:"100%",bottom:0,marginLeft:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:160,zIndex:50}}>
+                        <div style={{position:"absolute",left:"100%",bottom:0,marginLeft:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:170,zIndex:50}}>
                           <MenuItem icon={<Paperclip size={13}/>} label="File" onClick={()=>openAddModal("file")}/>
                           <MenuItem icon={<LinkIcon size={13}/>} label="Link" onClick={()=>openAddModal("link")}/>
+                          <MenuItem icon={<Pin size={13}/>} label="Pinned Post" onClick={()=>{ setAddMenuOpen(false); setPinHelpOpen(true); }}/>
                         </div>
                       </>
                     )}
