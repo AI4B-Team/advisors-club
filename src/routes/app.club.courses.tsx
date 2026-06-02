@@ -976,7 +976,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       <>
                         <div onClick={() => setModuleMenuOpen(null)} style={{position:"fixed",inset:0,zIndex:20}}/>
                         <div style={{position:"absolute",top:38,right:8,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:180,zIndex:30}}>
-                          <MenuItem icon={<Edit3 size={13}/>} label="Edit folder" onClick={() => editFolder(mi)}/>
+                          <MenuItem icon={<Edit3 size={13}/>} label="Edit Module" onClick={() => editFolder(mi)}/>
                           <MenuItem icon={<FilePlus size={13}/>} label="Add page in folder" onClick={() => addPageInFolder(mi)}/>
                           <MenuItem icon={<CopyIcon size={13}/>} label="Duplicate folder" onClick={() => duplicateFolder(mi)}/>
                           <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
