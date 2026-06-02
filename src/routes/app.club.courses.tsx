@@ -750,6 +750,14 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   };
   const EMOJIS = ["😀","😂","😍","🥳","👍","🙏","🔥","💯","🎉","❤️","😎","🤔","👏","✨","🚀","💡","✅","❌","😢","😅","🤝","🙌"];
   const [completed, setCompleted] = useState<Set<string>>(new Set());
+  const [bookmarks, setBookmarks] = useState<Set<string>>(() => {
+    try { const raw = localStorage.getItem("lesson-bookmarks-v1"); return raw ? new Set(JSON.parse(raw) as string[]) : new Set(); } catch { return new Set(); }
+  });
+  const toggleBookmark = (key: string) => setBookmarks(prev => {
+    const n = new Set(prev); if (n.has(key)) n.delete(key); else n.add(key);
+    try { localStorage.setItem("lesson-bookmarks-v1", JSON.stringify([...n])); } catch {}
+    return n;
+  });
   const [tocOpen, setTocOpen] = useState<Set<number>>(new Set([0]));
   const [courseMenuOpen, setCourseMenuOpen] = useState(false);
   const [moduleMenuOpen, setModuleMenuOpen] = useState<number | null>(null);
