@@ -1944,6 +1944,10 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
 
 function MemberCourseDetail({ course, onBack }: { course: MemberCourse; onBack: () => void }) {
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
+  const parseDurationSec = (s: string) => { const p = s.split(":").map(Number); if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2]; if (p.length === 2) return p[0]*60 + p[1]; return 0; };
+  const formatDuration = (totalSec: number) => { const h = Math.floor(totalSec/3600); const m = Math.floor((totalSec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
+  const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
+  const estimatedTime = formatDuration(totalDurationSec);
   const key = (mi: number, li: number) => `${mi}-${li}`;
   // Seed completion from progress %
   const seedCount = Math.round((course.progress / 100) * flat.length);
