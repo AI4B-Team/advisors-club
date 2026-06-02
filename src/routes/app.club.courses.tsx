@@ -1158,99 +1158,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     {!editCommentsOn && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#6B7280",background:"#F3F4F6",padding:"3px 8px",borderRadius:999}}><MessageSquare size={11}/> Comments off</span>}
                     {editFeatured && <span style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:11,fontWeight:700,color:"#92400E",background:"#FEF3C7",padding:"3px 8px",borderRadius:999}}><Star size={11}/> Featured</span>}
                   </div>
-                  <div style={{marginTop:14,paddingTop:14,borderTop:"1px solid #F3F4F6"}}>
-                    <button type="button" onClick={()=>setEditMediaOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:12,fontWeight:700,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer",padding:0}}>
-                      <Video size={13}/> {editMediaOpen ? "Hide Media Settings" : "Change Media"}
-                    </button>
-                    {editMediaOpen && (
-                      <div style={{marginTop:10,padding:"12px 14px",background:"#FAFAFA",border:"1px solid #F3F4F6",borderRadius:10}}>
-                        <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:editMediaType==="none"?0:10}}>
-                          {([
-                            {v:"none",label:"None (Text Only)",icon:<FileText size={12}/>},
-                            {v:"native",label:"Upload Video",icon:<Upload size={12}/>},
-                            {v:"youtube",label:"YouTube",icon:<Video size={12}/>},
-                            {v:"vimeo",label:"Vimeo",icon:<Video size={12}/>},
-                            {v:"external",label:"External Link",icon:<LinkIcon size={12}/>},
-                          ] as {v:MediaType;label:string;icon:React.ReactNode}[]).map(opt => {
-                            const sel = editMediaType === opt.v;
-                            return (
-                              <button key={opt.v} type="button" onClick={()=>setEditMediaType(opt.v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 11px",borderRadius:999,fontSize:12,fontWeight:600,border:`1px solid ${sel?"#111827":"#E5E7EB"}`,background:sel?"#111827":"#fff",color:sel?"#fff":"#374151",cursor:"pointer"}}>
-                                {opt.icon}{opt.label}
-                              </button>
-                            );
-                          })}
-                        </div>
-                        {editMediaType === "native" && (
-                          <div>
-                            <label style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",border:"1px dashed #D1D5DB",borderRadius:8,background:"#fff",cursor:"pointer",fontSize:13,color:"#6B7280"}}>
-                              <Upload size={14}/>
-                              <span style={{flex:1}}>{editMediaUrl ? "Replace Video File" : "Click To Upload Video File"}</span>
-                              <input type="file" accept="video/*" style={{display:"none"}} onChange={e=>{
-                                const f = e.target.files?.[0]; if (!f) return;
-                                const url = URL.createObjectURL(f);
-                                setEditMediaUrl(url);
-                              }}/>
-                            </label>
-                            {editMediaUrl && <div style={{fontSize:11,color:"#10B981",marginTop:6,fontWeight:600}}>✓ Video Attached</div>}
-                          </div>
-                        )}
-                        {(editMediaType === "youtube" || editMediaType === "vimeo" || editMediaType === "external") && (
-                          <input
-                            value={editMediaUrl}
-                            onChange={e=>setEditMediaUrl(e.target.value)}
-                            placeholder={editMediaType==="youtube"?"https://youtube.com/watch?v=...":editMediaType==="vimeo"?"https://vimeo.com/...":"https://..."}
-                            style={{width:"100%",padding:"9px 12px",fontSize:13,border:"1px solid #E5E7EB",borderRadius:8,outline:"none",background:"#fff"}}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {(() => {
-                    const resources = lessonResources[k] ?? [];
-                    if (resources.length === 0) return null;
-                    return (
-                      <div style={{marginTop:18,paddingTop:14,borderTop:"1px solid #F3F4F6"}}>
-                        <div style={{fontSize:13,fontWeight:700,color:"#111827",marginBottom:10}}>Resources</div>
-                        <div style={{display:"flex",flexDirection:"column",gap:6}}>
-                          {resources.map(r => (
-                            <div key={r.id} className="adm-res-row" style={{display:"flex",alignItems:"center",gap:10,padding:"6px 4px",position:"relative"}}>
-                              {r.type === "file" ? (
-                                <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24,borderRadius:5,background:"#EF4444",color:"#fff",fontSize:9,fontWeight:800,letterSpacing:.3,flexShrink:0}}>PDF</span>
-                              ) : (
-                                <span style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24,borderRadius:5,background:"#F3F4F6",color:"#6B7280",flexShrink:0}}><LinkIcon size={13}/></span>
-                              )}
-                              <a href={r.url} target="_blank" rel="noreferrer" style={{flex:1,fontSize:14,fontWeight:600,color:"#2563EB",textTransform:"uppercase",letterSpacing:.3,textDecoration:"none",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.title}</a>
-                              <button type="button" onClick={()=>setResourceMenuOpen(resourceMenuOpen===r.id?null:r.id)} className="adm-res-more" aria-label="Resource options" style={{width:26,height:26,borderRadius:6,border:0,background:"transparent",color:"#6B7280",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",opacity:resourceMenuOpen===r.id?1:0,transition:"opacity .12s"}}><MoreHorizontal size={15}/></button>
-                              {resourceMenuOpen === r.id && (
-                                <>
-                                  <div onClick={()=>setResourceMenuOpen(null)} style={{position:"fixed",inset:0,zIndex:20}}/>
-                                  <div style={{position:"absolute",top:32,right:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:140,zIndex:30}}>
-                                    <MenuItem icon={<Trash2 size={13}/>} label="Delete" danger onClick={()=>deleteResource(r.id)}/>
-                                  </div>
-                                </>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })()}
                 </div>
                 <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA",flexWrap:"wrap"}}>
-                  <div style={{position:"relative"}}>
-                    <button type="button" onClick={()=>setAddMenuOpen(o=>!o)} className="btn-ghost" style={{textTransform:"uppercase",fontWeight:700,fontSize:12,letterSpacing:.5}}><Plus size={13}/> Add</button>
-                    {addMenuOpen && (
-                      <>
-                        <div onClick={()=>setAddMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
-                        <div style={{position:"absolute",left:"100%",bottom:0,marginLeft:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:170,zIndex:50}}>
-                          <MenuItem icon={<Paperclip size={13}/>} label="File" onClick={()=>openAddModal("file")}/>
-                          <MenuItem icon={<LinkIcon size={13}/>} label="Link" onClick={()=>openAddModal("link")}/>
-                          <MenuItem icon={<Pin size={13}/>} label="Pinned Post" onClick={()=>{ setAddMenuOpen(false); setPinHelpOpen(true); }}/>
-                        </div>
-                      </>
-                    )}
-                  </div>
+                  <div/>
                   <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
                     <label style={{display:"inline-flex",alignItems:"center",gap:8,fontSize:13,fontWeight:700,color:editPublished?"#10B981":"#6B7280",cursor:"pointer"}}>
                       {editPublished?"Published":"Draft"}
@@ -1501,9 +1411,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         {resources.map(r => (
                           <a key={r.id} href={r.url} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"10px 14px",border:"1px solid #E5E7EB",borderRadius:10,background:"#fff",textDecoration:"none"}}>
                             <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
-                              <span style={{width:32,height:32,borderRadius:8,background:r.type==="file"?"#EEF2FF":"#ECFDF5",color:r.type==="file"?"#4F46E5":"#059669",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                                {r.type === "file" ? <FileText size={15}/> : <LinkIcon size={15}/>}
-                              </span>
+                              {r.type === "file" ? (
+                                <span style={{width:32,height:32,borderRadius:8,background:"#EF4444",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:10,fontWeight:800,letterSpacing:.3}}>PDF</span>
+                              ) : (
+                                <span style={{width:32,height:32,borderRadius:8,background:"#ECFDF5",color:"#059669",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><LinkIcon size={15}/></span>
+                              )}
                               <div style={{minWidth:0}}>
                                 <div style={{fontSize:13.5,fontWeight:600,color:"#111827",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.title}</div>
                                 <div style={{fontSize:11.5,color:"#9CA3AF",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.url}</div>
