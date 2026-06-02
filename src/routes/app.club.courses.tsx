@@ -1413,9 +1413,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                           </>
                         )}
                       </div>
-                      <div style={{position:"absolute",bottom:12,right:14,color:"#fff",fontSize:11,fontWeight:600,background:"rgba(0,0,0,.6)",padding:"3px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:4,pointerEvents:"none"}}>
-                        <Clock size={11}/> {current.lesson.duration}
-                      </div>
+                      {!(mType === "native" && mUrl) && (
+                        <div style={{position:"absolute",bottom:12,right:14,color:"#fff",fontSize:11,fontWeight:600,background:"rgba(0,0,0,.6)",padding:"3px 8px",borderRadius:6,display:"inline-flex",alignItems:"center",gap:4,pointerEvents:"none"}}>
+                          <Clock size={11}/> {current.lesson.duration}
+                        </div>
+                      )}
                     </div>
                   );
                 })()}
