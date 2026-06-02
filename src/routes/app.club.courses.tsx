@@ -1341,6 +1341,29 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       {lessonMeta[k]?.body?.trim()
                         ? lessonMeta[k].body
                         : "In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress."}
+                      {currentPinnedPosts.length > 0 && (
+                        <div style={{marginTop:22,paddingTop:18,borderTop:"1px solid #F3F4F6"}}>
+                          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10,fontSize:13,fontWeight:700,color:"#111827"}}>
+                            <Pin size={14}/> Pinned Community Posts
+                          </div>
+                          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                            {currentPinnedPosts.map(pp => (
+                              <div key={pp.postId} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:"#FEF3C7",border:"1px solid #FDE68A",borderRadius:10}}>
+                                <Pin size={13} color="#B45309" style={{flexShrink:0}}/>
+                                <div style={{flex:1,minWidth:0}}>
+                                  <div style={{fontSize:13,fontWeight:600,color:"#111827",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{pp.postTitle}</div>
+                                  <div style={{fontSize:11,color:"#6B7280",marginTop:1}}>by {pp.postAuthor}</div>
+                                </div>
+                                {isAdmin && current?.lesson?.title && (
+                                  <button onClick={() => unpinPostFromPage(current.lesson.title, pp.postId)} aria-label="Unpin" style={{background:"transparent",border:0,color:"#92400E",cursor:"pointer",padding:4,display:"flex"}}>
+                                    <X size={14}/>
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
