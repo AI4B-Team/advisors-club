@@ -941,7 +941,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const isOpen = tocOpen.has(mi);
                 const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
                 return (
-                  <div key={mi} style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,marginBottom:0,position:"relative",overflow:"hidden"}} className="adm-mod-row">
+                  <div key={mi} style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,marginBottom:0,position:"relative",overflow:"visible",paddingBottom:isOpen?6:0}} className="adm-mod-row">
                     <button
                       onClick={() => setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
                       style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#fff",border:0,cursor:"pointer",textAlign:"left"}}
@@ -990,7 +990,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       const isLast = li === m.lessons.length - 1;
                       const points = 8 + ((mi*7 + li*5) % 40); // deterministic pseudo points per lesson
                       return (
-                        <button key={li} onClick={() => setLesson({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:`10px 16px ${isLast?16:10}px 22px`,background:isCurrent?"#FEF3C7":"transparent",border:0,borderLeft:isCurrent?"3px solid #F59E0B":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827"}}>
+                        <button key={li} onClick={() => setLesson({ m: mi, l: li })} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:`10px 16px ${isLast?20:10}px 22px`,background:isCurrent?"#FEF3C7":"transparent",border:0,borderLeft:isCurrent?"3px solid #F59E0B":"3px solid transparent",cursor:"pointer",textAlign:"left",fontSize:13,color:"#111827",lineHeight:1.4}}>
                           <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
                             {isDone ? (
                               <CheckCircle2 size={16} color="#10B981" style={{flexShrink:0}}/>
