@@ -13,7 +13,11 @@ import {
   MessageSquare,
   MessageSquareOff,
   Star,
+  GraduationCap,
+  X,
 } from "lucide-react";
+import { pinPostToPage } from "@/lib/pinned-posts";
+import { toast } from "sonner";
 
 type Props = {
   isAdmin?: boolean;
