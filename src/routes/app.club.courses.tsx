@@ -5,11 +5,12 @@ import {
   MoreHorizontal, MoreVertical, Archive, Trash2, RotateCcw, ArrowLeft, Users, DollarSign, Eye, Globe, Lock, Unlock, Plus, X,
   List, LayoutGrid, MessageSquare, FileText, Link as LinkIcon, Send, Paperclip, Download, ChevronDown, ChevronUp, Circle,
   Heading1, Heading2, Heading3, Heading4, Bold, Italic, Strikethrough, Code2, ListOrdered, Quote, Terminal, Image as ImageIcon, Link2, Minus, Video, FolderPlus, FilePlus, Copy as CopyIcon,
-  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen,
+  Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen, Pin,
 } from "lucide-react";
 import { getGS, type GSCourse } from "@/lib/gs-store";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { LessonVideoPlayer } from "@/components/lesson-video-player";
+import { getPinnedForPage, unpinPostFromPage, subscribePinnedPosts, type PinnedPost } from "@/lib/pinned-posts";
 
 export const Route = createFileRoute("/app/club/courses")({
   head: () => ({ meta: [{ title: "Courses — AdvisorsClub" }, { name: "description", content: "Deliver video courses with progress tracking and certificates." }] }),
@@ -779,6 +780,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [addUrl, setAddUrl] = useState("");
   const [addFile, setAddFile] = useState<{ name: string; url: string } | null>(null);
   const [resourceMenuOpen, setResourceMenuOpen] = useState<string | null>(null);
+  const [pinHelpOpen, setPinHelpOpen] = useState(false);
+  const [pinnedTick, setPinnedTick] = useState(0);
+  useEffect(() => subscribePinnedPosts(() => setPinnedTick(t => t + 1)), []);
   const LABEL_MAX = 34;
   function openAddModal(type: "file" | "link") {
     setAddModal(type); setAddMenuOpen(false); setAddLabel(""); setAddUrl(""); setAddFile(null);
@@ -822,6 +826,11 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const prev = currentIdx > 0 ? flat[currentIdx - 1] : null;
   const next = currentIdx >= 0 && currentIdx < flat.length - 1 ? flat[currentIdx + 1] : null;
   const key = (mi: number, li: number) => `${mi}-${li}`;
+  const currentPinnedPosts: PinnedPost[] = useMemo(() => {
+    if (!current?.lesson?.title) return [];
+    void pinnedTick;
+    return getPinnedForPage(current.lesson.title);
+  }, [current, pinnedTick]);
   function toggleComplete(k: string) {
     setCompleted(prev => { const n = new Set(prev); if (n.has(k)) n.delete(k); else n.add(k); return n; });
   }
@@ -1130,9 +1139,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     {addMenuOpen && (
                       <>
                         <div onClick={()=>setAddMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
-                        <div style={{position:"absolute",left:"100%",bottom:0,marginLeft:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:160,zIndex:50}}>
+                        <div style={{position:"absolute",left:"100%",bottom:0,marginLeft:6,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:170,zIndex:50}}>
                           <MenuItem icon={<Paperclip size={13}/>} label="File" onClick={()=>openAddModal("file")}/>
                           <MenuItem icon={<LinkIcon size={13}/>} label="Link" onClick={()=>openAddModal("link")}/>
+                          <MenuItem icon={<Pin size={13}/>} label="Pinned Post" onClick={()=>{ setAddMenuOpen(false); setPinHelpOpen(true); }}/>
                         </div>
                       </>
                     )}
@@ -1195,6 +1205,19 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                             <button type="button" onClick={commitAddResource} disabled={!ok} style={{background:ok?"#111827":"#E5E7EB",color:ok?"#fff":"#9CA3AF",border:0,borderRadius:8,padding:"10px 20px",fontWeight:700,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:ok?"pointer":"not-allowed"}}>Add</button>
                           );
                         })()}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {pinHelpOpen && (
+                  <div onClick={()=>setPinHelpOpen(false)} style={{position:"fixed",inset:0,background:"rgba(17,24,39,.5)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+                    <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:14,width:"100%",maxWidth:440,boxShadow:"0 25px 60px -15px rgba(0,0,0,.35)",overflow:"hidden",padding:"26px 28px"}}>
+                      <h3 style={{margin:"0 0 12px",fontSize:20,fontWeight:800,color:"#111827"}}>Pin Community Post</h3>
+                      <p style={{margin:"0 0 22px",fontSize:14,color:"#374151",lineHeight:1.55}}>
+                        To pin a post to this page, go to the post you want to pin and in the "..." context menu, select "Pin To Course Page", and type in the name of this page (<strong>{current?.lesson?.title}</strong>).
+                      </p>
+                      <div style={{display:"flex",justifyContent:"flex-end"}}>
+                        <button type="button" onClick={()=>setPinHelpOpen(false)} style={{background:"#F59E0B",color:"#111827",border:0,borderRadius:8,padding:"10px 22px",fontWeight:800,fontSize:12,textTransform:"uppercase",letterSpacing:.5,cursor:"pointer"}}>Got It</button>
                       </div>
                     </div>
                   </div>
@@ -1331,6 +1354,29 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       {lessonMeta[k]?.body?.trim()
                         ? lessonMeta[k].body
                         : "In this lesson you'll walk through the key concepts with a practical example. Watch the video, then mark the lesson complete to track your progress."}
+                      {currentPinnedPosts.length > 0 && (
+                        <div style={{marginTop:22,paddingTop:18,borderTop:"1px solid #F3F4F6"}}>
+                          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10,fontSize:13,fontWeight:700,color:"#111827"}}>
+                            <Pin size={14}/> Pinned Community Posts
+                          </div>
+                          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                            {currentPinnedPosts.map(pp => (
+                              <div key={pp.postId} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:"#FEF3C7",border:"1px solid #FDE68A",borderRadius:10}}>
+                                <Pin size={13} color="#B45309" style={{flexShrink:0}}/>
+                                <div style={{flex:1,minWidth:0}}>
+                                  <div style={{fontSize:13,fontWeight:600,color:"#111827",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{pp.postTitle}</div>
+                                  <div style={{fontSize:11,color:"#6B7280",marginTop:1}}>by {pp.postAuthor}</div>
+                                </div>
+                                {isAdmin && current?.lesson?.title && (
+                                  <button onClick={() => unpinPostFromPage(current.lesson.title, pp.postId)} aria-label="Unpin" style={{background:"transparent",border:0,color:"#92400E",cursor:"pointer",padding:4,display:"flex"}}>
+                                    <X size={14}/>
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
