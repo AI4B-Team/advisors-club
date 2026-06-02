@@ -214,6 +214,11 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
       else { window.sessionStorage.removeItem("admin-course-sel"); window.sessionStorage.removeItem("admin-course-lesson"); }
     }
   };
+  useEffect(() => {
+    const onHome = () => setSelectedIdState(null);
+    window.addEventListener("courses:home", onHome);
+    return () => window.removeEventListener("courses:home", onHome);
+  }, []);
   const [showArchived, setShowArchived] = useState(false);
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
@@ -2038,6 +2043,13 @@ function MemberCourses({ course }: { course: GSCourse | null }) {
       else window.sessionStorage.removeItem("member-course-sel");
     }
   };
+  useEffect(() => {
+    const onHome = () => setSelectedIdState(null);
+    window.addEventListener("courses:home", onHome);
+    return () => window.removeEventListener("courses:home", onHome);
+  }, []);
+
+
 
   const liveCourse: MemberCourse | null = course ? {
     id: "live",

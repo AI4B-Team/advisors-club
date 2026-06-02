@@ -229,6 +229,14 @@ function SidebarTopLink({ link }: { link: TopLink }) {
           className={baseCls}
           activeProps={{ className: `${baseCls} on` }}
           data-tip={link.label}
+          onClick={() => {
+            if (link.to === "/app/club/courses" && typeof window !== "undefined") {
+              window.sessionStorage.removeItem("admin-course-sel");
+              window.sessionStorage.removeItem("admin-course-lesson");
+              window.sessionStorage.removeItem("member-course-sel");
+              window.dispatchEvent(new Event("courses:home"));
+            }
+          }}
         >
           {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
           <span className="cc-sb-item-l">{link.label}</span>
