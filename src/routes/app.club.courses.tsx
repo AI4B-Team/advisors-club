@@ -965,6 +965,56 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setToolMenuOpen(false);
   }
 
+  // ============= AIVA EDITOR ACTIONS =============
+  type AivaAction = "summarize" | "action_plan" | "quiz" | "worksheet" | "explain_simpler" | "rewrite" | "expand" | "simplify" | "discussion_prompt" | "outline";
+  async function runAivaEditorAction(action: AivaAction, label: string) {
+    if (!current || aivaRunning) return;
+    setAivaRunning(action);
+    setAivaMenuOpen(false);
+    try {
+      const actionMap: Record<AivaAction, { serverAction: "summarize"|"action_plan"|"quiz"|"explain_simpler"|"worksheet"|"ask"; question?: string }> = {
+        summarize: { serverAction: "summarize" },
+        action_plan: { serverAction: "action_plan" },
+        quiz: { serverAction: "quiz" },
+        worksheet: { serverAction: "worksheet" },
+        explain_simpler: { serverAction: "explain_simpler" },
+        rewrite: { serverAction: "ask", question: "Rewrite the current lesson content in a more engaging, modern voice while keeping every key point. Return clean markdown only." },
+        expand: { serverAction: "ask", question: "Expand the current lesson into a deeper, longer-form version with richer examples and clearer structure. Return clean markdown only." },
+        simplify: { serverAction: "ask", question: "Simplify the current lesson — shorter sentences, plainer language, no jargon — while keeping all key points. Return clean markdown only." },
+        discussion_prompt: { serverAction: "ask", question: "Write 3 high-engagement discussion prompts for this lesson that invite real opinions and personal experience. Numbered list, no preamble." },
+        outline: { serverAction: "ask", question: "Generate a complete lesson outline with 4–6 sections, each with 2–3 bullets. Return clean markdown only." },
+      };
+      const cfg = actionMap[action];
+      const ctx = editBody ? `\n\nCURRENT LESSON DRAFT:\n${editBody.slice(0, 3500)}` : "";
+      const res = await aivaAsk({ data: {
+        courseTitle: course.title,
+        moduleTitle: course.modules[current.m]?.title || "",
+        lessonTitle: editTitle || current.lesson.title,
+        lessonDescription: editBody.slice(0, 2000),
+        action: cfg.serverAction,
+        question: cfg.question ? `${cfg.question}${ctx}` : "",
+      }});
+      if (res.error) { window.alert(res.error); return; }
+      const text = res.reply || "";
+      if (!text) return;
+      // For rewrite / simplify / expand: replace body. For others: append.
+      if (action === "rewrite" || action === "simplify" || action === "expand") {
+        if (window.confirm(`Replace lesson content with AIVA's ${label.toLowerCase()} version?`)) {
+          setEditBody(text);
+        } else {
+          setEditBody(b => `${b}\n\n---\n\n## AIVA — ${label}\n\n${text}`);
+        }
+      } else {
+        setEditBody(b => `${b}${b ? "\n\n---\n\n" : ""}## ✨ ${label}\n\n${text}`);
+      }
+    } catch (e) {
+      console.error(e);
+      window.alert("AIVA is unavailable right now.");
+    } finally {
+      setAivaRunning(null);
+    }
+  }
+
   if (current) {
     const k = key(current.m, current.l);
     const done = completed.has(k);
