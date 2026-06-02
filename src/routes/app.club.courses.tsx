@@ -937,19 +937,16 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const inProgress = doneCount > 0 && !allDone;
                 const prevMod = mi > 0 ? course.modules[mi-1] : null;
                 const prevDone = !prevMod || prevMod.lessons.every((_,li) => completed.has(key(mi-1,li)));
-                const isLocked = !prevDone && mi > 0 && current.m !== mi;
+                const isLocked = false;
                 const isOpen = tocOpen.has(mi);
                 const pct = m.lessons.length ? (doneCount / m.lessons.length) * 100 : 0;
                 return (
                   <div key={mi} style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:12,marginBottom:0,position:"relative",overflow:"hidden"}} className="adm-mod-row">
                     <button
-                      onClick={() => !isLocked && setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
-                      disabled={isLocked}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#fff",border:0,cursor:isLocked?"not-allowed":"pointer",textAlign:"left",opacity:isLocked?.55:1}}
+                      onClick={() => setTocOpen(prev => { const n = new Set(prev); if (n.has(mi)) n.delete(mi); else n.add(mi); return n; })}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"12px 16px",background:"#fff",border:0,cursor:"pointer",textAlign:"left"}}
                     >
-                      {isLocked ? (
-                        <Lock size={14} color="#9CA3AF"/>
-                      ) : allDone ? (
+                      {allDone ? (
                         <CheckCircle2 size={16} color="#10B981"/>
                       ) : inProgress ? (
                         <span style={{position:"relative",width:16,height:16,display:"inline-block",flexShrink:0}}>
@@ -962,7 +959,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       ) : (
                         <Circle size={16} color="#D1D5DB"/>
                       )}
-                      <span style={{flex:1,fontSize:12,fontWeight:700,color:"#111827",textTransform:"uppercase",letterSpacing:.3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{m.title}</span>
+                      <span style={{flex:1,fontSize:12,fontWeight:700,color:allDone?"#10B981":"#111827",textTransform:"uppercase",letterSpacing:.3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{m.title}</span>
                       {isOpen ? <ChevronUp size={14} color="#9CA3AF"/> : <ChevronDown size={14} color="#9CA3AF"/>}
                     </button>
                     {isAdmin && (
