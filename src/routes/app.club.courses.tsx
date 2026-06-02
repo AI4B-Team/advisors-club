@@ -1303,8 +1303,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
               const TabBtn = ({ id, icon, label, count }: { id: "overview"|"resources"|"comments"; icon: React.ReactNode; label: string; count?: number }) => {
                 const active = lessonTab === id;
                 return (
-                  <button onClick={() => setLessonTab(id)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"10px 14px",background:"transparent",border:0,borderBottom: active ? "2px solid #111827" : "2px solid transparent",color: active ? "#111827" : "#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:-1}}>
+                  <button onClick={() => setLessonTab(id)} style={{position:"relative",display:"inline-flex",alignItems:"center",gap:6,padding:"10px 14px",background:"transparent",border:0,borderRadius:0,color: active ? "#111827" : "#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:-1,outline:"none"}}>
                     {icon}{label}{count !== undefined && count > 0 && <span style={{fontSize:11,background:"#F3F4F6",color:"#6B7280",padding:"1px 7px",borderRadius:999,fontWeight:700}}>{count}</span>}
+                    {active && <span style={{position:"absolute",left:0,right:0,bottom:-1,height:2,background:"#111827",borderRadius:0,display:"block"}}/>}
                   </button>
                 );
               };
