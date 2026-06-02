@@ -817,10 +817,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
     setLessonResources(prev => ({ ...prev, [k]: (prev[k] ?? []).filter(r => r.id !== rid) }));
     setResourceMenuOpen(null);
   }
-  useEffect(() => {
-    window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: !!lesson }));
-    return () => { window.dispatchEvent(new CustomEvent("cc:min-sidebar", { detail: false })); };
-  }, [lesson]);
+  // Left menu stays open — no sidebar minimization
   useEffect(() => {
     if (lesson) setTocOpen(prev => { const n = new Set(prev); n.add(lesson.m); return n; });
   }, [lesson?.m]);
