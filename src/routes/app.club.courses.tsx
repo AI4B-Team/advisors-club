@@ -1630,26 +1630,27 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         ))}
                       </div>
                       {isAdmin && (
-                        <div style={{position:"relative",overflow:"hidden",padding:14,marginBottom:12,borderRadius:12,border:"1px solid #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)"}}>
-                          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12,flexWrap:"wrap",marginBottom:10}}>
-                            <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
-                              <div style={{width:32,height:32,borderRadius:8,background:"#111827",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Sparkles size={15}/></div>
+                        <div style={{position:"relative",overflow:"hidden",padding:28,marginBottom:16,borderRadius:16,border:"1px solid #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)",boxShadow:"0 4px 24px -8px rgba(109,40,217,.12)"}}>
+                          <div style={{position:"absolute",top:-20,right:-20,width:100,height:100,borderRadius:"50%",background:"radial-gradient(circle,rgba(167,139,250,.18) 0%,transparent 70%)",pointerEvents:"none"}}></div>
+                          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:16,flexWrap:"wrap",marginBottom:18,position:"relative"}}>
+                            <div style={{display:"flex",alignItems:"center",gap:14,minWidth:0}}>
+                              <div style={{width:44,height:44,borderRadius:12,background:"linear-gradient(135deg,#111827,#374151)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,boxShadow:"0 4px 12px -4px rgba(0,0,0,.25)"}}><Sparkles size={20}/></div>
                               <div style={{minWidth:0}}>
-                                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:13.5,fontWeight:800,color:"#111827"}}>AIVA Resource Generator <span style={{fontSize:9.5,fontWeight:800,color:"#6D28D9",background:"#EDE9FE",padding:"2px 6px",borderRadius:999,letterSpacing:.5,textTransform:"uppercase"}}>Admin</span></div>
-                                <div style={{fontSize:12,color:"#4B5563",marginTop:2}}>Turn this lesson into ready-to-share supplemental materials in seconds.</div>
+                                <div style={{display:"flex",alignItems:"center",gap:8,fontSize:15,fontWeight:800,color:"#111827",letterSpacing:-.2}}>AIVA Resource Generator <span style={{fontSize:10,fontWeight:800,color:"#6D28D9",background:"#EDE9FE",padding:"3px 8px",borderRadius:999,letterSpacing:.6,textTransform:"uppercase"}}>Admin</span></div>
+                                <div style={{fontSize:13,color:"#4B5563",marginTop:4,lineHeight:1.45}}>Turn this lesson into ready-to-share supplemental materials in seconds.</div>
                               </div>
                             </div>
-                            <button onClick={()=>runAivaResourceGen(k, current?.lesson?.title || "")} disabled={!!aiGenRunning || Object.values(aiGenSelected).every(v=>!v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",border:0,borderRadius:8,background: aiGenRunning ? "#6B7280" : "#111827",color:"#fff",fontSize:12.5,fontWeight:700,cursor: aiGenRunning ? "wait" : "pointer",opacity: Object.values(aiGenSelected).every(v=>!v) ? .5 : 1}}>
-                              <Sparkles size={13}/> {aiGenRunning ? "Generating…" : "Generate Resources"}
+                            <button onClick={()=>runAivaResourceGen(k, current?.lesson?.title || "")} disabled={!!aiGenRunning || Object.values(aiGenSelected).every(v=>!v)} style={{display:"inline-flex",alignItems:"center",gap:8,padding:"10px 20px",border:0,borderRadius:10,background: aiGenRunning ? "#6B7280" : "#111827",color:"#fff",fontSize:13,fontWeight:700,cursor: aiGenRunning ? "wait" : "pointer",opacity: Object.values(aiGenSelected).every(v=>!v) ? .5 : 1,boxShadow:"0 2px 8px -2px rgba(0,0,0,.2)",flexShrink:0}}>
+                              <Sparkles size={15}/> {aiGenRunning ? "Generating…" : "Generate"}
                             </button>
                           </div>
-                          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                          <div style={{display:"flex",flexWrap:"wrap",gap:8,position:"relative"}}>
                             {RESOURCE_KINDS.map(rk => {
                               const on = aiGenSelected[rk.key];
                               const busy = aiGenRunning === rk.key;
                               return (
-                                <button key={rk.key} onClick={()=>setAiGenSelected(s=>({...s,[rk.key]:!s[rk.key]}))} disabled={!!aiGenRunning} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"5px 10px",borderRadius:999,border: on ? "1px solid #111827" : "1px solid #E5E7EB",background: busy ? "#FEF3C7" : on ? "#111827" : "#fff",color: busy ? "#92400E" : on ? "#fff" : "#374151",fontSize:11.5,fontWeight:700,cursor: aiGenRunning ? "default" : "pointer"}}>
-                                  {busy ? <Sparkles size={11} style={{animation:"spin 1s linear infinite"}}/> : on ? <CheckCircle2 size={11}/> : <Plus size={11}/>}
+                                <button key={rk.key} onClick={()=>setAiGenSelected(s=>({...s,[rk.key]:!s[rk.key]}))} disabled={!!aiGenRunning} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",borderRadius:999,border: on ? "1.5px solid #111827" : "1.5px solid #E5E7EB",background: busy ? "#FEF3C7" : on ? "#111827" : "#fff",color: busy ? "#92400E" : on ? "#fff" : "#374151",fontSize:12.5,fontWeight:700,cursor: aiGenRunning ? "default" : "pointer",boxShadow: on ? "0 2px 6px -2px rgba(0,0,0,.15)" : "none",transition:"all .15s ease"}}>
+                                  {busy ? <Sparkles size={13} style={{animation:"spin 1s linear infinite"}}/> : on ? <CheckCircle2 size={13}/> : <Plus size={13}/>}
                                   {rk.label}
                                 </button>
                               );
@@ -1677,17 +1678,18 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
 
                   {activeTab === "assignments" && (
                     <div style={{padding:"18px 0"}}>
-                      <div style={{display:"flex",alignItems:"center",gap:12,padding:"16px 18px",border:"1px dashed #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)",borderRadius:12,marginBottom:12}}>
-                        <div style={{width:36,height:36,borderRadius:10,background:"#111827",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><ClipboardList size={17}/></div>
-                        <div style={{flex:1,minWidth:0}}>
-                          <div style={{fontSize:13.5,fontWeight:800,color:"#111827"}}>Assignments &amp; Homework</div>
-                          <div style={{fontSize:12,color:"#4B5563",marginTop:2}}>Create tasks, homework, and submission requests for this lesson. Generate one in seconds with AIVA.</div>
+                      <div style={{display:"flex",alignItems:"center",gap:16,padding:"20px 24px",border:"1px solid #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)",borderRadius:16,marginBottom:16,boxShadow:"0 4px 24px -8px rgba(109,40,217,.12)",position:"relative",overflow:"hidden"}}>
+                        <div style={{position:"absolute",top:-20,right:-20,width:100,height:100,borderRadius:"50%",background:"radial-gradient(circle,rgba(167,139,250,.15) 0%,transparent 70%)",pointerEvents:"none"}}></div>
+                        <div style={{width:48,height:48,borderRadius:12,background:"linear-gradient(135deg,#111827,#374151)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,boxShadow:"0 4px 12px -4px rgba(0,0,0,.25)",position:"relative"}}><ClipboardList size={22}/></div>
+                        <div style={{flex:1,minWidth:0,position:"relative"}}>
+                          <div style={{fontSize:15,fontWeight:800,color:"#111827",letterSpacing:-.2}}>Assignments &amp; Homework</div>
+                          <div style={{fontSize:13,color:"#4B5563",marginTop:4,lineHeight:1.45}}>Create tasks, homework, and submission requests for this lesson. Generate one in seconds with AIVA.</div>
                         </div>
-                        <button type="button" onClick={()=>runAivaEditorAction("worksheet","Assignment")} disabled={!!aivaRunning} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",border:0,borderRadius:8,background:"#111827",color:"#fff",fontSize:12.5,fontWeight:700,cursor:aivaRunning?"wait":"pointer",flexShrink:0}}>
-                          <Sparkles size={13}/> Generate With AIVA
+                        <button type="button" onClick={()=>runAivaEditorAction("worksheet","Assignment")} disabled={!!aivaRunning} style={{display:"inline-flex",alignItems:"center",gap:8,padding:"10px 20px",border:0,borderRadius:10,background:"#111827",color:"#fff",fontSize:13,fontWeight:700,cursor:aivaRunning?"wait":"pointer",flexShrink:0,boxShadow:"0 2px 8px -2px rgba(0,0,0,.2)",position:"relative"}}>
+                          <Sparkles size={15}/> Generate With AIVA
                         </button>
                       </div>
-                      <div style={{background:"#FAFAFA",border:"1px dashed #E5E7EB",borderRadius:10,padding:24,color:"#6B7280",fontSize:13,textAlign:"center"}}>
+                      <div style={{background:"#FAFAFA",border:"1px dashed #E5E7EB",borderRadius:12,padding:28,color:"#6B7280",fontSize:13,textAlign:"center"}}>
                         No assignments yet. Click "Generate With AIVA" to create one from this lesson.
                       </div>
                     </div>
