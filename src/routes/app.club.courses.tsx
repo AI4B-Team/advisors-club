@@ -631,8 +631,8 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
 
       <div className="mc-grid">
         {active.map(c => (
-          <div className="mc-card" key={c.id} style={{position:"relative"}}>
-            <div className="mc-card-cover" style={{backgroundImage:`url(${c.cover})`,cursor:"pointer"}} onClick={() => setSelectedId(c.id)}>
+          <div className="mc-card" key={c.id} style={{position:"relative",cursor:"pointer"}} onClick={() => setSelectedId(c.id)}>
+            <div className="mc-card-cover" style={{backgroundImage:`url(${c.cover})`}}>
               <span className="mc-card-tag" style={{background:c.published?"#10B981":"#6B7280",color:"#fff"}}>
                 {c.published ? <><Globe size={10} style={{marginRight:4}}/>Published</> : <><Lock size={10} style={{marginRight:4}}/>Draft</>}
               </span>
@@ -651,7 +651,7 @@ function AdminCourses({ aivaCourse }: { aivaCourse: GSCourse | null }) {
                 </div>
               )}
             </div>
-            <div className="mc-card-body" style={{cursor:"pointer"}} onClick={() => setSelectedId(c.id)}>
+            <div className="mc-card-body">
               <h3>{c.title}</h3>
               <p>{c.blurb}</p>
             </div>
