@@ -847,6 +847,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   }
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [toolMenuOpen, setToolMenuOpen] = useState(false);
+  const [dripPanelOpen, setDripPanelOpen] = useState(false);
   const [aivaMenuOpen, setAivaMenuOpen] = useState(false);
   const [aivaRunning, setAivaRunning] = useState<string | null>(null);
   const aivaAsk = useServerFn(aivaLessonAssistant);
