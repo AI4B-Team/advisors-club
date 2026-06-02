@@ -824,6 +824,9 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [editTranscript, setEditTranscript] = useState("");
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [toolMenuOpen, setToolMenuOpen] = useState(false);
+  const [aivaMenuOpen, setAivaMenuOpen] = useState(false);
+  const [aivaRunning, setAivaRunning] = useState<string | null>(null);
+  const aivaAsk = useServerFn(aivaLessonAssistant);
   const [pinnedTick, setPinnedTick] = useState(0);
   useEffect(() => subscribePinnedPosts(() => setPinnedTick(t => t + 1)), []);
   const LABEL_MAX = 34;
