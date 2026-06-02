@@ -1628,6 +1628,24 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   )}
 
+                  {activeTab === "assignments" && (
+                    <div style={{padding:"18px 0"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:12,padding:"16px 18px",border:"1px dashed #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)",borderRadius:12,marginBottom:12}}>
+                        <div style={{width:36,height:36,borderRadius:10,background:"#111827",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><ClipboardList size={17}/></div>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontSize:13.5,fontWeight:800,color:"#111827"}}>Assignments &amp; Homework</div>
+                          <div style={{fontSize:12,color:"#4B5563",marginTop:2}}>Create tasks, homework, and submission requests for this lesson. Generate one in seconds with AIVA.</div>
+                        </div>
+                        <button type="button" onClick={()=>runAivaEditorAction("worksheet","Assignment")} disabled={!!aivaRunning} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",border:0,borderRadius:8,background:"#111827",color:"#fff",fontSize:12.5,fontWeight:700,cursor:aivaRunning?"wait":"pointer",flexShrink:0}}>
+                          <Sparkles size={13}/> Generate With AIVA
+                        </button>
+                      </div>
+                      <div style={{background:"#FAFAFA",border:"1px dashed #E5E7EB",borderRadius:10,padding:24,color:"#6B7280",fontSize:13,textAlign:"center"}}>
+                        No assignments yet. Click "Generate With AIVA" to create one from this lesson.
+                      </div>
+                    </div>
+                  )}
+
                   {activeTab === "comments" && commentsEnabled && (
                     <div style={{padding:"18px 0"}}>
                       <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:14}}>
