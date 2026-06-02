@@ -885,6 +885,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const totalLessons = course.modules.reduce((a,m) => a + m.lessons.length, 0);
   const parseDurationSec = (s: string) => { const p = s.split(":").map(Number); if (p.length === 3) return p[0]*3600 + p[1]*60 + p[2]; if (p.length === 2) return p[0]*60 + p[1]; return 0; };
   const formatDuration = (totalSec: number) => { const h = Math.floor(totalSec/3600); const m = Math.floor((totalSec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
+  const formatLessonTime = (s: string) => { const sec = parseDurationSec(s); const h = Math.floor(sec/3600); const m = Math.round((sec%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m} min`; };
 
   const flat = course.modules.flatMap((m, mi) => m.lessons.map((l, li) => ({ m: mi, l: li, lesson: l, moduleTitle: m.title })));
   const totalDurationSec = flat.reduce((sum, f) => sum + parseDurationSec(f.lesson.duration), 0);
@@ -1845,7 +1846,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   <span style={{width:28,height:28,borderRadius:8,background:"#F3F4F6",color:"#111827",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>{i+1}</span>
                   <div>
                     <div style={{fontWeight:700,color:"#111827",fontSize:14}}>{m.title}</div>
-                    <div style={{fontSize:12,color:"#6B7280"}}>{m.lessons.length} lessons</div>
+                    <div style={{fontSize:12,color:"#6B7280"}}>{m.lessons.length} lessons · Module Time: {formatDuration(m.lessons.reduce((a,l)=>a+parseDurationSec(l.duration),0))}</div>
                   </div>
                 </div>
                 <ArrowRight size={14} style={{color:"#9CA3AF",transform:open?"rotate(90deg)":"rotate(0)",transition:"transform .15s"}}/>
@@ -1865,10 +1866,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                       >
                         <div style={{display:"flex",alignItems:"center",gap:10,color:"#111827"}}>
                           {isDone ? <CheckCircle2 size={16} color={iconColor}/> : <PlayCircle size={16} style={{color:iconColor}}/>}
-                          <span style={{color:isDone ? "#065F46" : isCurrent ? "#92400E" : "#111827",fontWeight:isCurrent ? 600 : 400}}>{l.title}</span>
+                        <span style={{color:isDone ? "#065F46" : isCurrent ? "#92400E" : "#111827",fontWeight:isCurrent ? 600 : 400}}>{l.title}</span>
                         </div>
                         <span style={{color:"#6B7280",fontSize:12,display:"inline-flex",alignItems:"center",gap:4}}>
-                          <Clock size={11}/> {l.duration}
+                          <Clock size={11}/> {formatLessonTime(l.duration)}
                         </span>
                       </button>
                     );
