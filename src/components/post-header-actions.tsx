@@ -25,6 +25,9 @@ type Props = {
   onPinToFeed?: () => void;
   saved?: boolean;
   onToggleSave?: () => void;
+  postId?: string;
+  postTitle?: string;
+  postAuthor?: string;
 };
 
 type Toggles = {
