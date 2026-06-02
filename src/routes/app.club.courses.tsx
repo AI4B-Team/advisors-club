@@ -824,6 +824,22 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [editCommentsOn, setEditCommentsOn] = useState(true);
   const [editFeatured, setEditFeatured] = useState(false);
   const [editTranscript, setEditTranscript] = useState("");
+  type DripMode = "immediate" | "days" | "date";
+  type Drip = { mode: DripMode; days: number; date: string };
+  const [lessonDrip, setLessonDrip] = useState<Record<string, Drip>>({});
+  function getDrip(k: string): Drip { return lessonDrip[k] ?? { mode: "immediate", days: 7, date: "" }; }
+  function setDrip(k: string, patch: Partial<Drip>) {
+    setLessonDrip(prev => ({ ...prev, [k]: { ...getDrip(k), ...patch } }));
+  }
+  function dripLabel(d: Drip): string {
+    if (d.mode === "immediate") return "Available Immediately";
+    if (d.mode === "days") return `Unlocks ${d.days} Day${d.days===1?"":"s"} After Enrollment`;
+    if (d.mode === "date" && d.date) {
+      const dt = new Date(d.date);
+      return `Releases ${dt.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}`;
+    }
+    return "Scheduled Release";
+  }
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const [toolMenuOpen, setToolMenuOpen] = useState(false);
   const [aivaMenuOpen, setAivaMenuOpen] = useState(false);
