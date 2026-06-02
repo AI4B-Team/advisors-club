@@ -707,6 +707,41 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   type CommentItem = { id: string; author: string; text: string; at: string; attachments?: CommentAttachment[] };
   const [lessonComments, setLessonComments] = useState<Record<string, CommentItem[]>>({});
   const [newResource, setNewResource] = useState<{ type: "link" | "file"; title: string; url: string }>({ type: "link", title: "", url: "" });
+  const RESOURCE_KINDS = [
+    { key: "worksheet", label: "Worksheet" },
+    { key: "summary", label: "PDF Summary" },
+    { key: "quiz", label: "Quiz" },
+    { key: "action", label: "Action Plan" },
+    { key: "checklist", label: "Checklist" },
+    { key: "discussion", label: "Discussion Prompt" },
+  ] as const;
+  type ResourceKind = typeof RESOURCE_KINDS[number]["key"];
+  const [aiGenSelected, setAiGenSelected] = useState<Record<ResourceKind, boolean>>({
+    worksheet: true, summary: true, quiz: true, action: true, checklist: true, discussion: true,
+  });
+  const [aiGenRunning, setAiGenRunning] = useState<ResourceKind | null>(null);
+  function runAivaResourceGen(k: string, lessonTitle: string) {
+    const queue = RESOURCE_KINDS.filter(r => aiGenSelected[r.key]);
+    if (queue.length === 0) return;
+    let i = 0;
+    const step = () => {
+      if (i >= queue.length) { setAiGenRunning(null); return; }
+      const kind = queue[i];
+      setAiGenRunning(kind.key);
+      setTimeout(() => {
+        const item = {
+          id: Math.random().toString(36).slice(2,9),
+          type: "file" as const,
+          title: `${kind.label} — ${lessonTitle || "Lesson"}`,
+          url: `#aiva-${kind.key}-${Date.now()}`,
+        };
+        setLessonResources(prev => ({ ...prev, [k]: [...(prev[k] ?? []), item] }));
+        i++; step();
+      }, 600);
+    };
+    step();
+  }
+
   const [newComment, setNewComment] = useState("");
   const [pendingAttachments, setPendingAttachments] = useState<CommentAttachment[]>([]);
   const [emojiOpen, setEmojiOpen] = useState(false);
@@ -1355,16 +1390,17 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 );
               };
               const visibleTabs = [
-                { id: "resources" as const, show: resources.length > 0 },
+                { id: "resources" as const, show: resources.length > 0 || isAdmin },
                 { id: "comments" as const, show: commentsEnabled },
               ].filter(t => t.show);
+
               if (visibleTabs.length === 0) return null;
               const activeTab = visibleTabs.some(t => t.id === lessonTab) ? lessonTab : visibleTabs[0].id;
               return (
                 <div style={{marginTop:24}}>
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,borderBottom:"1px solid #E5E7EB"}}>
                     <div style={{display:"flex",gap:4}}>
-                      {resources.length > 0 && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
+                      {(resources.length > 0 || isAdmin) && <TabBtn id="resources" icon={<FileText size={14}/>} label="Resources" count={resources.length}/>}
                       {commentsEnabled && <TabBtn id="comments" icon={<MessageSquare size={14}/>} label="Comments" count={comments.length}/>}
                     </div>
                   </div>
@@ -1393,7 +1429,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     </div>
                   )}
 
-                  {activeTab === "resources" && resources.length > 0 && (
+                  {activeTab === "resources" && (
 
                     <div style={{padding:"18px 0"}}>
                       <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
@@ -1422,7 +1458,36 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                           </a>
                         ))}
                       </div>
+                      {isAdmin && (
+                        <div style={{position:"relative",overflow:"hidden",padding:14,marginBottom:12,borderRadius:12,border:"1px solid #C7D2FE",background:"linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 60%, #FDF4FF 100%)"}}>
+                          <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12,flexWrap:"wrap",marginBottom:10}}>
+                            <div style={{display:"flex",alignItems:"center",gap:10,minWidth:0}}>
+                              <div style={{width:32,height:32,borderRadius:8,background:"#111827",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Sparkles size={15}/></div>
+                              <div style={{minWidth:0}}>
+                                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:13.5,fontWeight:800,color:"#111827"}}>AIVA Resource Generator <span style={{fontSize:9.5,fontWeight:800,color:"#6D28D9",background:"#EDE9FE",padding:"2px 6px",borderRadius:999,letterSpacing:.5,textTransform:"uppercase"}}>Admin</span></div>
+                                <div style={{fontSize:12,color:"#4B5563",marginTop:2}}>Turn this lesson into ready-to-share supplemental materials in seconds.</div>
+                              </div>
+                            </div>
+                            <button onClick={()=>runAivaResourceGen(k, current?.lesson?.title || "")} disabled={!!aiGenRunning || Object.values(aiGenSelected).every(v=>!v)} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 14px",border:0,borderRadius:8,background: aiGenRunning ? "#6B7280" : "#111827",color:"#fff",fontSize:12.5,fontWeight:700,cursor: aiGenRunning ? "wait" : "pointer",opacity: Object.values(aiGenSelected).every(v=>!v) ? .5 : 1}}>
+                              <Sparkles size={13}/> {aiGenRunning ? "Generating…" : "Generate Resources"}
+                            </button>
+                          </div>
+                          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                            {RESOURCE_KINDS.map(rk => {
+                              const on = aiGenSelected[rk.key];
+                              const busy = aiGenRunning === rk.key;
+                              return (
+                                <button key={rk.key} onClick={()=>setAiGenSelected(s=>({...s,[rk.key]:!s[rk.key]}))} disabled={!!aiGenRunning} style={{display:"inline-flex",alignItems:"center",gap:5,padding:"5px 10px",borderRadius:999,border: on ? "1px solid #111827" : "1px solid #E5E7EB",background: busy ? "#FEF3C7" : on ? "#111827" : "#fff",color: busy ? "#92400E" : on ? "#fff" : "#374151",fontSize:11.5,fontWeight:700,cursor: aiGenRunning ? "default" : "pointer"}}>
+                                  {busy ? <Sparkles size={11} style={{animation:"spin 1s linear infinite"}}/> : on ? <CheckCircle2 size={11}/> : <Plus size={11}/>}
+                                  {rk.label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                       <div style={{display:"flex",gap:8,padding:12,background:"#FAFAFA",border:"1px solid #E5E7EB",borderRadius:10,flexWrap:"wrap",alignItems:"center"}}>
+
                         <div style={{display:"inline-flex",background:"#fff",borderRadius:8,padding:3,border:"1px solid #E5E7EB"}}>
                           <button onClick={()=>setNewResource(r=>({...r,type:"link"}))} style={{display:"inline-flex",alignItems:"center",gap:4,padding:"5px 9px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:newResource.type==="link"?"#111827":"transparent",color:newResource.type==="link"?"#fff":"#6B7280"}}><LinkIcon size={12}/> Link</button>
                           <button onClick={()=>setNewResource(r=>({...r,type:"file"}))} style={{display:"inline-flex",alignItems:"center",gap:4,padding:"5px 9px",border:0,borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",background:newResource.type==="file"?"#111827":"transparent",color:newResource.type==="file"?"#fff":"#6B7280"}}><Paperclip size={12}/> File</button>
