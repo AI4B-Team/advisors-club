@@ -1288,28 +1288,46 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                   const Opt = ({ m, icon, label }: { m: DripMode; icon: React.ReactNode; label: string }) => {
                     const active = d.mode === m;
                     return (
-                      <button type="button" onClick={()=>setDrip(k0,{mode:m})} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 11px",borderRadius:8,border:active?"1px solid #111827":"1px solid #E5E7EB",background:active?"#111827":"#fff",color:active?"#fff":"#374151",fontSize:12,fontWeight:700,cursor:"pointer",transition:"all .12s"}}>
+                      <button type="button" onClick={()=>setDrip(k0,{mode:m})} style={{display:"inline-flex",alignItems:"center",justifyContent:"center",gap:6,padding:"10px 14px",borderRadius:10,border:active?"1px solid #111827":"1px solid #E5E7EB",background:active?"#111827":"#fff",color:active?"#fff":"#374151",fontSize:13,fontWeight:700,cursor:"pointer",transition:"all .12s",flex:1,minWidth:0}}>
                         {icon}{label}
                       </button>
                     );
                   };
                   return (
-                    <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 22px",borderBottom:"1px solid #F3F4F6",background:"#fff",flexWrap:"wrap"}}>
-                      <span style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:11,fontWeight:800,color:"#6B7280",textTransform:"uppercase",letterSpacing:.6,marginRight:4}}><Clock size={12}/> Drip</span>
-                      <Opt m="immediate" icon={<Unlock size={12}/>} label="Immediately"/>
-                      <Opt m="days" icon={<Clock size={12}/>} label="Days After Enrollment"/>
-                      <Opt m="date" icon={<CalendarIcon size={12}/>} label="Specific Date"/>
-                      {d.mode === "days" && (
-                        <span style={{display:"inline-flex",alignItems:"center",gap:6,marginLeft:4}}>
-                          <input type="number" min={0} max={365} value={d.days} onChange={e=>setDrip(k0,{days:Math.max(0,Math.min(365,Number(e.target.value)||0))})} style={{width:64,padding:"5px 8px",border:"1px solid #E5E7EB",borderRadius:6,fontSize:12,fontWeight:700,color:"#111827",textAlign:"center",outline:"none"}}/>
-                          <span style={{fontSize:12,color:"#6B7280",fontWeight:600}}>day{d.days===1?"":"s"} after a member enrolls</span>
-                        </span>
-                      )}
-                      {d.mode === "date" && (
-                        <input type="date" value={d.date} onChange={e=>setDrip(k0,{date:e.target.value})} style={{marginLeft:4,padding:"5px 9px",border:"1px solid #E5E7EB",borderRadius:6,fontSize:12,fontWeight:700,color:"#111827",outline:"none"}}/>
-                      )}
-                      <span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:"#6B7280"}}>{dripLabel(d)}</span>
-                      <button type="button" onClick={()=>setDripPanelOpen(false)} title="Close" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:24,height:24,borderRadius:6,border:"1px solid #E5E7EB",background:"#fff",color:"#6B7280",cursor:"pointer"}}><X size={12}/></button>
+                    <div onClick={()=>setDripPanelOpen(false)} style={{position:"fixed",inset:0,background:"rgba(17,24,39,.5)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:1000,padding:16}}>
+                      <div onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:520,background:"#fff",borderRadius:14,boxShadow:"0 20px 60px rgba(0,0,0,.25)",overflow:"hidden"}}>
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"16px 20px",borderBottom:"1px solid #F3F4F6"}}>
+                          <div style={{display:"inline-flex",alignItems:"center",gap:8}}>
+                            <Clock size={16} color="#111827"/>
+                            <span style={{fontSize:15,fontWeight:800,color:"#111827"}}>Drip Schedule</span>
+                          </div>
+                          <button type="button" onClick={()=>setDripPanelOpen(false)} title="Close" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:28,height:28,borderRadius:8,border:"1px solid #E5E7EB",background:"#fff",color:"#6B7280",cursor:"pointer"}}><X size={14}/></button>
+                        </div>
+                        <div style={{padding:"18px 20px",display:"flex",flexDirection:"column",gap:14}}>
+                          <div style={{fontSize:12,fontWeight:700,color:"#6B7280",textTransform:"uppercase",letterSpacing:.6}}>Release Lesson</div>
+                          <div style={{display:"flex",gap:8}}>
+                            <Opt m="immediate" icon={<Unlock size={13}/>} label="Immediately"/>
+                            <Opt m="days" icon={<Clock size={13}/>} label="After Days"/>
+                            <Opt m="date" icon={<CalendarIcon size={13}/>} label="On Date"/>
+                          </div>
+                          {d.mode === "days" && (
+                            <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:"#F9FAFB",borderRadius:10}}>
+                              <input type="number" min={0} max={365} value={d.days} onChange={e=>setDrip(k0,{days:Math.max(0,Math.min(365,Number(e.target.value)||0))})} style={{width:72,padding:"7px 9px",border:"1px solid #E5E7EB",borderRadius:8,fontSize:13,fontWeight:700,color:"#111827",textAlign:"center",outline:"none",background:"#fff"}}/>
+                              <span style={{fontSize:13,color:"#374151",fontWeight:600}}>day{d.days===1?"":"s"} after a member enrolls</span>
+                            </div>
+                          )}
+                          {d.mode === "date" && (
+                            <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:"#F9FAFB",borderRadius:10}}>
+                              <span style={{fontSize:13,color:"#374151",fontWeight:600}}>Release on</span>
+                              <input type="date" value={d.date} onChange={e=>setDrip(k0,{date:e.target.value})} style={{padding:"7px 10px",border:"1px solid #E5E7EB",borderRadius:8,fontSize:13,fontWeight:700,color:"#111827",outline:"none",background:"#fff"}}/>
+                            </div>
+                          )}
+                          <div style={{fontSize:12,fontWeight:700,color:"#6B7280",padding:"10px 12px",background:"#F3F4F6",borderRadius:8}}>{dripLabel(d)}</div>
+                        </div>
+                        <div style={{display:"flex",justifyContent:"flex-end",gap:8,padding:"14px 20px",borderTop:"1px solid #F3F4F6",background:"#FAFAFA"}}>
+                          <button type="button" onClick={()=>setDripPanelOpen(false)} style={{padding:"8px 16px",borderRadius:8,border:"1px solid #111827",background:"#111827",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>Done</button>
+                        </div>
+                      </div>
                     </div>
                   );
                 })()}
