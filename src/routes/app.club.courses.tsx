@@ -782,6 +782,13 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
   const [addFile, setAddFile] = useState<{ name: string; url: string } | null>(null);
   const [resourceMenuOpen, setResourceMenuOpen] = useState<string | null>(null);
   const [pinHelpOpen, setPinHelpOpen] = useState(false);
+  type LessonExtras = { commentsOn: boolean; featured: boolean; transcript: string };
+  const [lessonExtras, setLessonExtras] = useState<Record<string, LessonExtras>>({});
+  const [editCommentsOn, setEditCommentsOn] = useState(true);
+  const [editFeatured, setEditFeatured] = useState(false);
+  const [editTranscript, setEditTranscript] = useState("");
+  const [transcriptOpen, setTranscriptOpen] = useState(false);
+  const [toolMenuOpen, setToolMenuOpen] = useState(false);
   const [pinnedTick, setPinnedTick] = useState(0);
   useEffect(() => subscribePinnedPosts(() => setPinnedTick(t => t + 1)), []);
   const LABEL_MAX = 34;
