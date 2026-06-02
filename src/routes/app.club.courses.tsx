@@ -1245,6 +1245,23 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                     )}
                   </div>
                 </div>
+                {(() => {
+                  const k0 = key(current.m, current.l);
+                  const resCount = (lessonResources[k0] ?? []).length;
+                  const discCount = (lessonComments[k0] ?? []).length;
+                  const completionPct = Math.round(50 + Math.random() * 50); // demo metric
+                  return (
+                    <div style={{display:"flex",alignItems:"center",gap:14,padding:"10px 22px",borderBottom:"1px solid #F3F4F6",background:"#FAFAFA",fontSize:12,color:"#4B5563",fontWeight:600,flexWrap:"wrap"}}>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Users size={13}/> {completionPct}% Completion</span>
+                      <span style={{color:"#D1D5DB"}}>·</span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><MessageSquare size={13}/> {discCount} Discussion{discCount === 1 ? "" : "s"}</span>
+                      <span style={{color:"#D1D5DB"}}>·</span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Paperclip size={13}/> {resCount} Resource{resCount === 1 ? "" : "s"}</span>
+                      <span style={{color:"#D1D5DB"}}>·</span>
+                      <span style={{display:"inline-flex",alignItems:"center",gap:5}}><Clock size={13}/> {current.lesson.duration || "—"}</span>
+                    </div>
+                  );
+                })()}
                 <div style={{padding:"18px 22px"}}>
                   <input
                     autoFocus
