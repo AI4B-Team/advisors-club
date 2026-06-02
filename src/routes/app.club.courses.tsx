@@ -1039,7 +1039,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           <div>
             {editing ? (
               <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,boxShadow:"0 1px 2px rgba(0,0,0,.04)",marginBottom:14,overflow:"hidden"}}>
-                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap"}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap",position:"relative"}}>
                   {(() => {
                     type TB = { I: typeof Bold; k: string } | { sep: true };
                     const items: TB[] = [
@@ -1058,6 +1058,49 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                         </button>
                     );
                   })()}
+                  <div style={{marginLeft:"auto",position:"relative"}}>
+                    <button type="button" title="Lesson tools" onClick={()=>setToolMenuOpen(o=>!o)} style={{display:"inline-flex",alignItems:"center",gap:6,height:30,padding:"0 10px",borderRadius:6,border:"1px solid #E5E7EB",background:toolMenuOpen?"#F3F4F6":"#fff",color:"#374151",cursor:"pointer",fontSize:12,fontWeight:700}}>
+                      <SlidersHorizontal size={14}/> More
+                      <ChevronDown size={12}/>
+                    </button>
+                    {toolMenuOpen && (
+                      <>
+                        <div onClick={()=>setToolMenuOpen(false)} style={{position:"fixed",inset:0,zIndex:40}}/>
+                        <div style={{position:"absolute",top:36,right:0,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,boxShadow:"0 10px 30px -10px rgba(0,0,0,.25)",padding:6,minWidth:230,zIndex:50}}>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Resources</div>
+                          <MenuItem icon={<Paperclip size={13}/>} label="Add File" onClick={()=>{ setToolMenuOpen(false); openAddModal("file"); }}/>
+                          <MenuItem icon={<LinkIcon size={13}/>} label="Add Link" onClick={()=>{ setToolMenuOpen(false); openAddModal("link"); }}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Content</div>
+                          <MenuItem icon={<Captions size={13}/>} label={editTranscript ? "Edit Transcript" : "Add Transcript"} onClick={()=>{ setTranscriptOpen(true); setToolMenuOpen(false); }}/>
+                          <MenuItem icon={<Pin size={13}/>} label="Add Community Post" onClick={()=>{ setToolMenuOpen(false); setPinHelpOpen(true); }}/>
+                          <div style={{height:1,background:"#F3F4F6",margin:"4px 0"}}/>
+                          <div style={{padding:"6px 10px 4px",fontSize:10,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:.6}}>Settings</div>
+                          <button type="button" onClick={()=>setEditCommentsOn(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
+                            <MessageSquare size={13}/>
+                            <span style={{flex:1}}>Allow Comments</span>
+                            <span style={{width:30,height:16,borderRadius:999,background:editCommentsOn?"#10B981":"#D1D5DB",position:"relative",flexShrink:0}}>
+                              <span style={{position:"absolute",top:2,left:editCommentsOn?16:2,width:12,height:12,borderRadius:"50%",background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.2)",transition:"left .15s"}}/>
+                            </span>
+                          </button>
+                          <button type="button" onClick={()=>setEditFeatured(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
+                            <Star size={13}/>
+                            <span style={{flex:1}}>Mark As Featured</span>
+                            <span style={{width:30,height:16,borderRadius:999,background:editFeatured?"#F59E0B":"#D1D5DB",position:"relative",flexShrink:0}}>
+                              <span style={{position:"absolute",top:2,left:editFeatured?16:2,width:12,height:12,borderRadius:"50%",background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.2)",transition:"left .15s"}}/>
+                            </span>
+                          </button>
+                          <button type="button" onClick={()=>setEditPublished(v=>!v)} style={{display:"flex",alignItems:"center",gap:10,width:"100%",padding:"8px 10px",border:0,background:"transparent",cursor:"pointer",fontSize:13,color:"#111827",textAlign:"left"}}>
+                            <Globe size={13}/>
+                            <span style={{flex:1}}>{editPublished ? "Published" : "Draft"}</span>
+                            <span style={{width:30,height:16,borderRadius:999,background:editPublished?"#10B981":"#D1D5DB",position:"relative",flexShrink:0}}>
+                              <span style={{position:"absolute",top:2,left:editPublished?16:2,width:12,height:12,borderRadius:"50%",background:"#fff",boxShadow:"0 1px 2px rgba(0,0,0,.2)",transition:"left .15s"}}/>
+                            </span>
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div style={{padding:"18px 22px"}}>
                   <input
