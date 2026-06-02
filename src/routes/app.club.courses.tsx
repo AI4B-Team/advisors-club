@@ -1072,14 +1072,10 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                 const pct = Math.round((completed.size/Math.max(1,flat.length))*100);
                 return (
                   <>
-                    <div style={{display:"flex",alignItems:"baseline",justifyContent:"flex-start",marginBottom:6}}>
-                      <span style={{fontSize:11,fontWeight:700,color:"#6B7280",letterSpacing:.3,textTransform:"uppercase"}}>{completed.size} / {flat.length} Lessons</span>
-                    </div>
                     <div className="mc-progress-bar"><span style={{width:`${pct}%`}}>{pct > 0 ? `${pct}%` : ""}</span></div>
-                    <div style={{display:"flex",alignItems:"center",gap:10,marginTop:10,flexWrap:"wrap",fontSize:11.5,color:"#4B5563",fontWeight:600}}>
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,marginTop:10,fontSize:11.5,color:"#4B5563",fontWeight:600}}>
+                      <span style={{fontSize:11,fontWeight:700,color:"#6B7280",letterSpacing:.3,textTransform:"uppercase"}}>{completed.size} / {flat.length} Lessons</span>
                       <span style={{display:"inline-flex",alignItems:"center",gap:4}}><Clock size={12}/> {estimatedTime}</span>
-                      <span style={{color:"#D1D5DB"}}>·</span>
-                      <span style={{display:"inline-flex",alignItems:"center",gap:4,color:"#B45309"}}><Award size={12}/> Certificate Included</span>
                     </div>
                   </>
                 );
