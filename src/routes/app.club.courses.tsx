@@ -1035,7 +1035,7 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
           <div>
             {editing ? (
               <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:14,boxShadow:"0 1px 2px rgba(0,0,0,.04)",marginBottom:14,overflow:"hidden"}}>
-                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap",position:"relative"}}>
+                <div style={{display:"flex",alignItems:"center",gap:4,padding:"10px 14px",borderBottom:"1px solid #F3F4F6",flexWrap:"wrap",position:"sticky",top:0,zIndex:30,background:"#fff",borderTopLeftRadius:14,borderTopRightRadius:14}}>
                   {(() => {
                     type TB = { I: typeof Bold; k: string } | { sep: true };
                     const items: TB[] = [
