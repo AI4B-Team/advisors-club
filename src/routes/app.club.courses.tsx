@@ -1378,20 +1378,60 @@ function CourseDetail({ course, onBack, onArchive, onDelete, onTogglePublish, on
                                 <span style={{fontSize:13,fontWeight:700,color:"#111827"}}>{c.author}</span>
                                 <span style={{fontSize:11,color:"#9CA3AF"}}>{c.at}</span>
                               </div>
-                              <div style={{fontSize:13.5,color:"#374151",lineHeight:1.5}}>{c.text}</div>
+                              {c.text && <div style={{fontSize:13.5,color:"#374151",lineHeight:1.5,whiteSpace:"pre-wrap"}}>{c.text}</div>}
+                              {c.attachments && c.attachments.length > 0 && (
+                                <div style={{display:"flex",flexWrap:"wrap",gap:8,marginTop:c.text?8:0}}>
+                                  {c.attachments.map(a => a.kind === "file" ? (
+                                    <a key={a.id} href={a.url} download={a.name} style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 10px",border:"1px solid #E5E7EB",borderRadius:8,fontSize:12,color:"#374151",textDecoration:"none",background:"#F9FAFB"}}><Paperclip size={12}/>{a.name}</a>
+                                  ) : (
+                                    <img key={a.id} src={a.url} alt={a.name} style={{maxWidth:220,maxHeight:160,borderRadius:8,border:"1px solid #E5E7EB",objectFit:"cover"}}/>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                             <button onClick={()=>setLessonComments(prev=>({...prev,[k]:(prev[k]??[]).filter(x=>x.id!==c.id)}))} style={{background:"transparent",border:0,cursor:"pointer",color:"#9CA3AF",padding:4,alignSelf:"flex-start"}}><X size={13}/></button>
                           </div>
                         ))}
                       </div>
-                      <div style={{display:"flex",gap:8,alignItems:"flex-start"}}>
-                        <textarea value={newComment} onChange={e=>setNewComment(e.target.value)} placeholder="Add a comment..." rows={2} style={{flex:1,padding:"10px 12px",border:"1px solid #E5E7EB",borderRadius:10,fontSize:13.5,fontFamily:"inherit",resize:"vertical",background:"#fff"}}/>
-                        <button className="aiva-cta" onClick={()=>{
-                          if(!newComment.trim()) return;
-                          const item = { id: Math.random().toString(36).slice(2,9), author: "You", text: newComment.trim(), at: "just now" };
-                          setLessonComments(prev=>({...prev,[k]:[...(prev[k]??[]),item]}));
-                          setNewComment("");
-                        }}><Send size={13}/> Post</button>
+                      <div style={{border:"1px solid #E5E7EB",borderRadius:12,background:"#fff",padding:10,position:"relative"}}>
+                        <textarea ref={commentInputRef} value={newComment} onChange={e=>setNewComment(e.target.value)} placeholder="Add a comment..." rows={2} style={{width:"100%",padding:"6px 4px",border:0,outline:"none",fontSize:13.5,fontFamily:"inherit",resize:"vertical",background:"transparent"}}/>
+                        {pendingAttachments.length > 0 && (
+                          <div style={{display:"flex",flexWrap:"wrap",gap:6,padding:"6px 0"}}>
+                            {pendingAttachments.map(a => (
+                              <div key={a.id} style={{position:"relative",display:"inline-flex",alignItems:"center",gap:6,padding:"4px 8px",border:"1px solid #E5E7EB",borderRadius:8,fontSize:12,background:"#F9FAFB"}}>
+                                {a.kind === "file" ? <Paperclip size={12}/> : <ImageIcon size={12}/>}
+                                <span style={{maxWidth:140,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{a.name}</span>
+                                <button onClick={()=>setPendingAttachments(p=>p.filter(x=>x.id!==a.id))} style={{background:"transparent",border:0,cursor:"pointer",color:"#9CA3AF",padding:0}}><X size={12}/></button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div style={{display:"flex",alignItems:"center",gap:4,marginTop:6}}>
+                          <button title="Image" onClick={()=>commentImageRef.current?.click()} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:6,borderRadius:6,display:"inline-flex"}}><ImageIcon size={16}/></button>
+                          <button title="Emoji" onClick={()=>setEmojiOpen(v=>!v)} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:6,borderRadius:6,display:"inline-flex"}}><Smile size={16}/></button>
+                          <button title="Hashtag" onClick={()=>insertAtCursor("#")} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:6,borderRadius:6,display:"inline-flex"}}><Hash size={16}/></button>
+                          <button title="Mention" onClick={()=>insertAtCursor("@")} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:6,borderRadius:6,display:"inline-flex"}}><AtSign size={16}/></button>
+                          <button title="GIF" onClick={handleAddGif} style={{background:"transparent",border:"1px solid #E5E7EB",cursor:"pointer",color:"#6B7280",padding:"2px 6px",borderRadius:6,fontSize:10,fontWeight:800,letterSpacing:0.5}}>GIF</button>
+                          <button title="Attach file" onClick={()=>commentFileRef.current?.click()} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:6,borderRadius:6,display:"inline-flex"}}><Paperclip size={16}/></button>
+                          <div style={{flex:1}}/>
+                          <button className="aiva-cta" onClick={()=>{
+                            if(!newComment.trim() && pendingAttachments.length === 0) return;
+                            const item: CommentItem = { id: Math.random().toString(36).slice(2,9), author: "You", text: newComment.trim(), at: "just now", attachments: pendingAttachments.length ? pendingAttachments : undefined };
+                            setLessonComments(prev=>({...prev,[k]:[...(prev[k]??[]),item]}));
+                            setNewComment("");
+                            setPendingAttachments([]);
+                            setEmojiOpen(false);
+                          }}><Send size={13}/> Post</button>
+                        </div>
+                        {emojiOpen && (
+                          <div style={{position:"absolute",bottom:48,left:10,background:"#fff",border:"1px solid #E5E7EB",borderRadius:10,padding:8,boxShadow:"0 8px 24px rgba(0,0,0,0.08)",display:"grid",gridTemplateColumns:"repeat(8, 1fr)",gap:4,zIndex:10,maxWidth:280}}>
+                            {EMOJIS.map(e => (
+                              <button key={e} onClick={()=>{insertAtCursor(e);setEmojiOpen(false);}} style={{background:"transparent",border:0,cursor:"pointer",fontSize:18,padding:4,borderRadius:6}}>{e}</button>
+                            ))}
+                          </div>
+                        )}
+                        <input ref={commentImageRef} type="file" accept="image/*" multiple style={{display:"none"}} onChange={e=>{handleAttachImage(e.target.files); e.target.value="";}}/>
+                        <input ref={commentFileRef} type="file" multiple style={{display:"none"}} onChange={e=>{handleAttachFile(e.target.files); e.target.value="";}}/>
                       </div>
                     </div>
                   )}
