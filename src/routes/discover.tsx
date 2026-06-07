@@ -70,7 +70,7 @@ function DiscoverPage() {
 
           <Link to="/signup" className="dc-creator-cta">
             <span className="dc-creator-spark"><Sparkles size={14}/></span>
-            <span>You're A Creator? <b>Start Your Own Club</b> — Built With AIVA</span>
+            <span>You're A Creator? <b>Start Your Own Club</b> — Built With AI</span>
             <ArrowRight size={16}/>
           </Link>
 
