@@ -61,6 +61,13 @@ function Logo() {
 }
 
 function Index() {
+  const nav = useNavigate();
+  const [heroEmail, setHeroEmail] = useState("");
+  const [ctaEmail, setCtaEmail] = useState("");
+  const goSignup = (email: string) => (e: React.FormEvent) => {
+    e.preventDefault();
+    nav({ to: "/signup", search: email.trim() ? { email: email.trim() } : {} });
+  };
   return (
     <div className="ac">
       <SiteNav />
