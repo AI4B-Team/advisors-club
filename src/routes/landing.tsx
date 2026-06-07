@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { ArrowRight, BellRing, Bot, Calendar, Check, Flame, Heart, Lock, Mail, MessageCircle, Mic, Minus, Pin, Play, Radio, Repeat2, Send, Sparkles, Star, Trophy, Users, Video, Wand2, X, Zap } from "lucide-react";
 import coverWealth from "@/assets/covers/wealth.jpg";
@@ -60,6 +61,13 @@ function Logo() {
 }
 
 function Index() {
+  const nav = useNavigate();
+  const [heroEmail, setHeroEmail] = useState("");
+  const [ctaEmail, setCtaEmail] = useState("");
+  const goSignup = (email: string) => (e: React.FormEvent) => {
+    e.preventDefault();
+    nav({ to: "/signup", search: email.trim() ? { email: email.trim() } : {} });
+  };
   return (
     <div className="ac">
       <SiteNav />
@@ -79,10 +87,10 @@ function Index() {
           <p className="hero-sub">
             Launch memberships, sell courses, run coaching programs, and grow your business with your built-in AI business operator.
           </p>
-          <div className="optin">
-            <input type="email" placeholder="Enter your email to start free" />
-            <button>Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
-          </div>
+          <form className="optin" onSubmit={goSignup(heroEmail)}>
+            <input type="email" required placeholder="Enter your email to start free" value={heroEmail} onChange={e=>setHeroEmail(e.target.value)} />
+            <button type="submit">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
+          </form>
           <p className="hero-fine">No Credit Card Required · Free Forever On Starter · Setup In 5 Minutes</p>
         </div>
       </section>
@@ -814,10 +822,10 @@ function Index() {
         <div className="sc-eyebrow">Ready to build?</div>
         <h2>Your Club Is One Click Away.</h2>
         <p style={{ maxWidth: "none", whiteSpace: "nowrap" }}>Start Free Today. No Credit Card. Your First 100 Members Are On Us.</p>
-        <div className="cta-form2">
-          <input type="email" placeholder="Enter your email address" />
-          <button>Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
-        </div>
+        <form className="cta-form2" onSubmit={goSignup(ctaEmail)}>
+          <input type="email" required placeholder="Enter your email address" value={ctaEmail} onChange={e=>setCtaEmail(e.target.value)} />
+          <button type="submit">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
+        </form>
         <p className="cta-fine2" style={{ marginTop: 20, lineHeight: 1.7 }}>Free Forever On Starter · 14-Day Trial On Paid Plans<br />Join 14,000+ Advisors</p>
       </div>
 
