@@ -87,10 +87,10 @@ function Index() {
           <p className="hero-sub">
             Launch memberships, sell courses, run coaching programs, and grow your business with your built-in AI business operator.
           </p>
-          <div className="optin">
-            <input type="email" placeholder="Enter your email to start free" />
-            <button>Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
-          </div>
+          <form className="optin" onSubmit={goSignup(heroEmail)}>
+            <input type="email" required placeholder="Enter your email to start free" value={heroEmail} onChange={e=>setHeroEmail(e.target.value)} />
+            <button type="submit">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
+          </form>
           <p className="hero-fine">No Credit Card Required · Free Forever On Starter · Setup In 5 Minutes</p>
         </div>
       </section>
