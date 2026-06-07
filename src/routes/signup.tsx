@@ -16,15 +16,17 @@ export const Route = createFileRoute("/signup")({
       { property: "og:description", content: "Launch your community + courses + AI operator in minutes." },
     ],
   }),
+  validateSearch: (s: Record<string, unknown>) => ({ email: typeof s.email === "string" ? s.email : "" }),
   component: SignupPage,
 });
 
 function SignupPage() {
   const nav = useNavigate();
+  const { email: prefillEmail } = Route.useSearch();
   const [showPw, setShowPw] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(prefillEmail ?? "");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
