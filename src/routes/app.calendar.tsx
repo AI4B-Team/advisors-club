@@ -5,7 +5,7 @@ import { getEvents, addEvent, subscribeEvents, type EventItem } from "@/lib/even
 
 export const Route = createFileRoute("/app/calendar")({
   head: () => ({ meta: [{ title: "Calendar — Real Estate Empire" }] }),
-  validateSearch: (s: Record<string, unknown>) => ({
+  validateSearch: (s: Record<string, unknown>): { event?: string; create?: boolean } => ({
     event: typeof s.event === "string" ? s.event : undefined,
     create: s.create === "1" || s.create === true ? true : undefined,
   }),

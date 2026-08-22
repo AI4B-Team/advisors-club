@@ -16,7 +16,7 @@ export const Route = createFileRoute("/signup")({
       { property: "og:description", content: "Launch your community + courses + AI operator in minutes." },
     ],
   }),
-  validateSearch: (s: Record<string, unknown>) => ({ email: typeof s.email === "string" ? s.email : "" }),
+  validateSearch: (s: Record<string, unknown>): { email?: string } => ({ email: typeof s.email === "string" ? s.email : "" }),
   component: SignupPage,
 });
 
