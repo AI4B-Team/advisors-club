@@ -25,6 +25,8 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<"login" | "forgot">("login");
+  const [resetSent, setResetSent] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -42,6 +44,21 @@ function LoginPage() {
     nav({ to: "/app/dashboard" });
   }
 
+  async function onReset(e: React.FormEvent) {
+    e.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    setResetSent(true);
+  }
+
   async function onGoogle() {
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: `${window.location.origin}/app/dashboard`,
@@ -56,39 +73,71 @@ function LoginPage() {
           <Link to="/landing" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
 
           <div className="lt-tabs">
-            <button type="button" className="lt-tab on">Login</button>
-            <Link to="/signup" className="lt-tab">Sign Up</Link>
+            <button type="button" className="lt-tab on" onClick={() => { setMode("login"); setResetSent(false); }}>Login</button>
+            <Link to="/signup" search={{ email: "" }} className="lt-tab">Sign Up</Link>
           </div>
 
-          <h1>Welcome Back</h1>
-          <p className="lt-auth-sub lt-nowrap">Log In To Run Your Club &amp; Check In With Your Members.</p>
-          <form onSubmit={onSubmit}>
-            <div className="lt-field">
-              <label>Email</label>
-              <input type="email" required placeholder="You@YourClub.com" value={email} onChange={e=>setEmail(e.target.value)} />
-            </div>
-            <div className="lt-field lt-field-rel">
-              <label>Password</label>
-              <input type={showPw ? "text" : "password"} required placeholder="••••••••" value={password} onChange={e=>setPassword(e.target.value)} />
-              <button type="button" onClick={() => setShowPw(!showPw)} aria-label="Toggle Password">
-                {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
+          {mode === "forgot" ? (
+            <>
+              <h1>Forgot Your Password?</h1>
+              {resetSent ? (
+                <>
+                  <p className="lt-auth-sub">We Sent A Reset Link To <strong>{email}</strong>. Check Your Inbox.</p>
+                  <button type="button" className="lt-cta-full" onClick={() => { setMode("login"); setResetSent(false); }}>
+                    Back To Login
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="lt-auth-sub lt-nowrap">Enter Your Email And We’ll Send You A Secure Reset Link.</p>
+                  <form onSubmit={onReset}>
+                    <div className="lt-field">
+                      <label>Email</label>
+                      <input type="email" required placeholder="You@YourClub.com" value={email} onChange={e=>setEmail(e.target.value)} />
+                    </div>
+                    <button type="submit" className="lt-cta-full" disabled={loading}>
+                      {loading ? "Sending..." : <>Send Reset Link <ArrowRight size={16} strokeWidth={3} /></>}
+                    </button>
+                  </form>
+                  <div className="lt-auth-foot">
+                    Remembered It?{" "}
+                    <button type="button" onClick={() => setMode("login")} style={{background:"none",border:0,padding:0,color:"#F5A623",fontWeight:600,cursor:"pointer"}}>Back To Login</button>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <h1>Welcome Back</h1>
+              <p className="lt-auth-sub lt-nowrap">Log In To Run Your Club &amp; Check In With Your Members.</p>
+              <form onSubmit={onSubmit}>
+                <div className="lt-field">
+                  <label>Email</label>
+                  <input type="email" required placeholder="You@YourClub.com" value={email} onChange={e=>setEmail(e.target.value)} />
+                </div>
+                <div className="lt-field lt-field-rel">
+                  <label>Password</label>
+                  <input type={showPw ? "text" : "password"} required placeholder="••••••••" value={password} onChange={e=>setPassword(e.target.value)} />
+                  <button type="button" onClick={() => setShowPw(!showPw)} aria-label="Toggle Password">
+                    {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                <div style={{textAlign:"right",marginTop:-4,marginBottom:8}}>
+                  <button type="button" onClick={() => setMode("forgot")} style={{background:"none",border:0,padding:0,fontSize:13,color:"#F5A623",fontWeight:600,cursor:"pointer"}}>Forgot Password?</button>
+                </div>
+                <button type="submit" className="lt-cta-full" disabled={loading}>
+                  {loading ? "Signing In..." : <>Sign In <ArrowRight size={16} strokeWidth={3} /></>}
+                </button>
+              </form>
+              <div className="lt-divider">Or Continue With</div>
+              <button type="button" className="lt-google" onClick={onGoogle}>
+                <GoogleG /> <span>Continue With Google</span>
               </button>
-            </div>
-            <div style={{textAlign:"right",marginTop:-4,marginBottom:8}}>
-              <Link to="/forgot-password" style={{fontSize:13,color:"#F5A623",fontWeight:600}}>Forgot Password?</Link>
-            </div>
-            <button type="submit" className="lt-cta-full" disabled={loading}>
-              {loading ? "Signing In..." : <>Sign In <ArrowRight size={16} strokeWidth={3} /></>}
-            </button>
-          </form>
-          <div className="lt-divider">Or Continue With</div>
-          <button type="button" className="lt-google" onClick={onGoogle}>
-            <GoogleG /> <span>Continue With Google</span>
-          </button>
-          <div className="lt-auth-foot">
-            New To AdvisorsClub? <Link to="/signup">Sign Up Free</Link>
-          </div>
-
+              <div className="lt-auth-foot">
+                New To AdvisorsClub? <Link to="/signup" search={{ email: "" }}>Sign Up Free</Link>
+              </div>
+            </>
+          )}
         </div>
         <RightPanel />
       </div>
