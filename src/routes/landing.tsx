@@ -729,7 +729,7 @@ function Index() {
       <div className="pricing-section" id="pricing">
         <div className="pricing-inner">
           <div className="price-hd">
-            <div className="sc-eyebrow">Simple, honest pricing</div>
+            <div className="sc-eyebrow">Simple, Honest Pricing</div>
             <h2 className="sc-h2">Half The Price.<br />Twice The Power.</h2>
             <p className="sc-sub" style={{ maxWidth: 720, margin: "0 auto" }}>Kajabi charges $179/mo. Circle & Skool charge $99/mo.<br />AdvisorsClub starts at $0 — and our best plan costs less than a dinner out.</p>
           </div>
@@ -737,27 +737,27 @@ function Index() {
             <div className="plan">
               <div className="plan-tier">Starter</div>
               <div className="plan-price"><sup>$</sup>0</div>
-              <div className="plan-per">Free forever · 1 Club</div>
+              <div className="plan-per">Free Forever · 1 Club</div>
               <div className="plan-div" />
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Up to 100 Club members</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />1 course, unlimited lessons</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Club feed & discussions</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Basic gamification</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe payments (5% fee)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA (10 prompts/mo)</div>
-              <div className="pf"><Minus size={14} className="pfd" />Custom domain</div>
-              <div className="pf"><Minus size={14} className="pfd" />Virtual conferences</div>
-              <div className="pf"><Minus size={14} className="pfd" />Email marketing</div>
-              <Link to="/signup" className="plan-cta ghost">Get started free</Link>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Up to 100 Club Members</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />1 Course, Unlimited Lessons</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Club Feed & Discussions</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Basic Gamification</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe Payments (5% Fee)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA (10 Prompts/mo)</div>
+              <div className="pf"><Minus size={14} className="pfd" />Custom Domain</div>
+              <div className="pf"><Minus size={14} className="pfd" />Virtual Conferences</div>
+              <div className="pf"><Minus size={14} className="pfd" />Email Marketing</div>
+              <Link to="/signup" className="plan-cta ghost">Get Started Free</Link>
             </div>
             <div className="plan hot">
               <div className="plan-tag" style={{display:"inline-flex",alignItems:"center",gap:4}}><Zap size={11} fill="currentColor" strokeWidth={0} />Most Popular</div>
               <div className="plan-tier">Advisor</div>
               <div className="plan-price"><sup>$</sup>47</div>
-              <div className="plan-per">Per month · Unlimited members</div>
+              <div className="plan-per">Per Month · Unlimited Members</div>
               <div className="plan-div" />
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Club members</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited courses & lessons</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Club Members</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Courses & Lessons</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Custom domain & full branding</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA AI agent — unlimited</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Virtual conferences (200 cap)</div>
@@ -794,7 +794,7 @@ function Index() {
       <div style={{ borderTop: "1px solid var(--ac-border)" }}>
         <section className="testi-section">
           <div className="testi-hd">
-            <div className="sc-eyebrow">What Advisors say</div>
+            <div className="sc-eyebrow">What Advisors Say</div>
             <h2 className="sc-h2">Loved By 14,000+ Advisors<br />Across Every Niche.</h2>
           </div>
           <div className="testi-grid">
@@ -819,7 +819,7 @@ function Index() {
       {/* BOTTOM CTA */}
       <div className="cta-bottom">
         <div className="cta-glow" />
-        <div className="sc-eyebrow">Ready to build?</div>
+        <div className="sc-eyebrow">Ready To Build?</div>
         <h2>Your Club Is One Click Away.</h2>
         <p style={{ maxWidth: "none", whiteSpace: "nowrap" }}>Start Free Today. No Credit Card. Your First 100 Members Are On Us.</p>
         <form className="cta-form2" onSubmit={goSignup(ctaEmail)}>
@@ -838,7 +838,7 @@ function Index() {
               <p>The all-in-one Club platform for Advisors who want to teach, coach, and get paid.</p>
             </div>
             <div className="fg-col"><h4>Platform</h4><a href="#">Features</a><a href="#">Pricing</a><a href="#">AIVA</a><a href="#">Roadmap</a></div>
-            <div className="fg-col"><h4>Compare</h4><a href="#">vs Circle</a><a href="#">vs Skool</a><a href="#">vs Kajabi</a><a href="#">vs Teachable</a></div>
+            <div className="fg-col"><h4>Compare</h4><a href="#">Vs Circle</a><a href="#">Vs Skool</a><a href="#">Vs Kajabi</a><a href="#">Vs Teachable</a></div>
             <div className="fg-col"><h4>Resources</h4><a href="#">Help Center</a><a href="#">Blog</a><a href="#">Affiliates</a><a href="#">Migrate</a></div>
             <div className="fg-col"><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Privacy</a><a href="#">Terms</a></div>
           </div>
