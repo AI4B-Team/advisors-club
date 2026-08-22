@@ -75,7 +75,7 @@ function LoginPage() {
               </button>
             </div>
             <div style={{textAlign:"right",marginTop:-4,marginBottom:8}}>
-              <a href="#" style={{fontSize:13,color:"#F5A623",fontWeight:600}}>Forgot Password?</a>
+              <Link to="/forgot-password" style={{fontSize:13,color:"#F5A623",fontWeight:600}}>Forgot Password?</Link>
             </div>
             <button type="submit" className="lt-cta-full" disabled={loading}>
               {loading ? "Signing In..." : <>Sign In <ArrowRight size={16} strokeWidth={3} /></>}
