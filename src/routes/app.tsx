@@ -24,8 +24,11 @@ const ClubCtx = createContext<{
 }>({ active: STATIC_CLUBS[0], setActive: () => {} });
 
 function useClubsFromGS(): Club[] {
-  const [gs, setGsState] = useState(() => getGS());
-  useEffect(() => subscribeGS(setGsState), []);
+  const [gs, setGsState] = useState(() => ({ clubName: "Your Club", coverColor: "#F5A623" }));
+  useEffect(() => {
+    setGsState(getGS());
+    return subscribeGS(setGsState);
+  }, []);
   return [
     { id: "re", label: gs.clubName || "Your Club", color: gs.coverColor || "#F5A623" },
     ...STATIC_CLUBS,
