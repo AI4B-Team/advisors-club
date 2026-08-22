@@ -70,7 +70,7 @@ function ResetPasswordPage() {
             <>
               <p className="lt-auth-sub">This Reset Link Is Invalid Or Has Expired.</p>
               <div className="lt-auth-foot">
-                <Link to="/forgot-password">Request A New Link</Link>
+                <Link to="/login">Request A New Link</Link>
               </div>
             </>
           ) : (
