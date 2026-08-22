@@ -101,7 +101,7 @@ function Index() {
         <div className="stat-item"><div className="stat-n">$310M</div><div className="stat-l">Earned by Advisors</div></div>
         <div className="stat-item"><div className="stat-n">4.2M</div><div className="stat-l">Club Members</div></div>
         
-        <div className="stat-item"><div className="stat-n" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>4.9<Star size={28} fill="currentColor" strokeWidth={0} /></div><div className="stat-l">Average rating</div></div>
+        <div className="stat-item"><div className="stat-n" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>4.9<Star size={28} fill="currentColor" strokeWidth={0} /></div><div className="stat-l">Average Rating</div></div>
       </div>
 
       {/* REPLACE 7 TOOLS */}
@@ -115,7 +115,7 @@ function Index() {
 
           <div className="replace-grid">
             <div className="replace-killed">
-              <div className="replace-col-label">Cancel these</div>
+              <div className="replace-col-label">Cancel These</div>
               <div className="rk-list">
                 {[
                   { n: "Kajabi", t: "Courses & Funnels" },
@@ -136,7 +136,7 @@ function Index() {
                   </div>
                 ))}
               </div>
-              <div className="rk-total">≈ <strong>$1,240/mo</strong> · 10 tools · No AI</div>
+              <div className="rk-total">≈ <strong>$1,240/mo</strong> · 10 Tools · No AI</div>
             </div>
 
             <div className="replace-arrow" aria-hidden="true">
@@ -151,16 +151,16 @@ function Index() {
               <div className="rw-sub">One platform. One login. Built-in AI.</div>
               <div className="rw-features">
                 {[
-                  { f: "Community + chat" },
-                  { f: "Unlimited courses & lessons" },
-                  { f: "Coaching + live calls" },
-                  { f: "Email marketing" },
-                  { f: "Landing pages + funnels" },
-                  { f: "CRM + automations" },
-                  { f: "Challenges + gamification" },
-                  { f: "Events + conferences" },
-                  { f: "AIVA AI content creation", ai: true },
-                  { f: "AIVA 24/7 AI operator", ai: true },
+                  { f: "Community + Chat" },
+                  { f: "Unlimited Courses & Lessons" },
+                  { f: "Coaching + Live Calls" },
+                  { f: "Email Marketing" },
+                  { f: "Landing Pages + Funnels" },
+                  { f: "CRM + Automations" },
+                  { f: "Challenges + Gamification" },
+                  { f: "Events + Conferences" },
+                  { f: "AIVA AI Content Creation", ai: true },
+                  { f: "AIVA 24/7 AI Operator", ai: true },
                 ].map(({ f, ai }) => (
                   <div
                     className="rw-row"
@@ -199,11 +199,11 @@ function Index() {
             <h3 className="fp-h3">Your Club. Your Brand.<br />Your Members — For Life.</h3>
             <p className="fp-p">A beautiful, branded home for your audience. Rich discussions, announcements, member profiles, polls, gamification, and a feed your members actually look forward to opening every morning.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Rich feed — text, video, images, polls & GIFs</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Member profiles, DMs & networking</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Custom domain, logo & full white-label branding</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Toggle: public discovery or fully private</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Multiple Clubs under one account (Pro)</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Rich Feed — Text, Video, Images, Polls & GIFs</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Member Profiles, DMs & Networking</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Custom Domain, Logo & Full White-Label Branding</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Toggle: Public Discovery or Fully Private</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Multiple Clubs Under One Account (Pro)</li>
             </ul>
           </div>
           <div className="fp-visual">
@@ -256,11 +256,11 @@ function Index() {
             <h3 className="fp-h3"><span style={{whiteSpace:"nowrap"}}>Your Content, Written For You.</span><br /><span style={{whiteSpace:"nowrap"}}>Every Single Week.</span></h3>
             <p className="fp-p">AIVA learns your brand voice and creates posts, email newsletters, course content, and sales copy — all from inside your Advisor Dashboard. Show up consistently without burning out.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />AI-generated posts, emails & announcements</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Weekly content calendar — planned & scheduled</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Native email marketing — 5k to 100k contacts</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Sales copy & landing pages for your Club</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Brand voice training — AIVA sounds like you</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AI-Generated Posts, Emails & Announcements</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Weekly Content Calendar — Planned & Scheduled</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Native Email Marketing — 5k to 100k Contacts</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Sales Copy & Landing Pages for Your Club</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Brand Voice Training — AIVA Sounds Like You</li>
             </ul>
           </div>
           <div className="fp-visual">
@@ -326,7 +326,7 @@ function Index() {
               {/* Multi-channel distribution */}
               <div style={{ background:"#FAFAF7", border:"1px solid rgba(0,0,0,0.07)", borderRadius:10, padding:12, marginBottom:10 }}>
                 <div style={{ fontSize:10, fontWeight:700, color:"#6B6B75", marginBottom:10, textTransform:"uppercase", letterSpacing:"0.08em", display:"inline-flex", alignItems:"center", gap:5 }}>
-                  <Send size={11} />Auto-distribute to
+                  <Send size={11} />Auto-Distribute To
                 </div>
                 <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
                   {[
@@ -354,10 +354,10 @@ function Index() {
                 </div>
                 <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
                   {[
-                    { d:"MON", t:"Club feed post — Market update", k:"Post", dot:"#22C55E" },
-                    { d:"WED", t:"Email newsletter — Deal of the week", k:"Email", dot:"#22C55E" },
-                    { d:"THU", t:"Reel — 60s market hot-take", k:"Reel", dot:"#22C55E" },
-                    { d:"FRI", t:"Announcement — New module drop", k:"Post", dot:"rgba(245,166,35,0.6)" },
+                    { d:"MON", t:"Club Feed Post — Market Update", k:"Post", dot:"#22C55E" },
+                    { d:"WED", t:"Email Newsletter — Deal of the Week", k:"Email", dot:"#22C55E" },
+                    { d:"THU", t:"Reel — 60s Market Hot-Take", k:"Reel", dot:"#22C55E" },
+                    { d:"FRI", t:"Announcement — New Module Drop", k:"Post", dot:"rgba(245,166,35,0.6)" },
                   ].map(r=>(
                     <div key={r.d} style={{ display:"flex", alignItems:"center", gap:8, fontSize:11 }}>
                       <div style={{ width:34, fontWeight:800, color:"var(--ac-amber)", fontSize:10 }}>{r.d}</div>
@@ -381,11 +381,11 @@ function Index() {
             <h3 className="fp-h3">Turn Your Club Into<br />An Addiction. In 30 Days.</h3>
             <p className="fp-p">Run time-bound Challenges that create urgency, drive engagement, and reward your best members. Nothing keeps a Club alive like a live leaderboard people are fighting to top.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />30-day, 14-day, 7-day & custom challenge formats</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Daily check-ins, streaks & accountability nudges</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Live leaderboard — points, badges & prizes</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA sends automated encouragement & reminders</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Challenge analytics — completion, drop-off & wins</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />30-Day, 14-Day, 7-Day & Custom Challenge Formats</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Daily Check-Ins, Streaks & Accountability Nudges</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Live Leaderboard — Points, Badges & Prizes</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA Sends Automated Encouragement & Reminders</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Challenge Analytics — Completion, Drop-Off & Wins</li>
             </ul>
           </div>
           <div className="fp-visual" style={{ background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)" }}>
@@ -446,11 +446,11 @@ function Index() {
             <h3 className="fp-h3">Courses Your Members<br />Actually Finish.</h3>
             <p className="fp-p">Launch beautiful, binge-worthy courses that live inside your community — so members stay accountable, ask questions, and finish what they started.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Unlimited courses — video, text, audio & quizzes</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA builds your course outline in 60 seconds</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Drip content, prerequisites & content locks</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Completion certificates & compliance reports</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Native video hosting — no Vimeo or Wistia needed</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Unlimited Courses — Video, Text, Audio & Quizzes</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA Builds Your Course Outline in 60 Seconds</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Drip Content, Prerequisites & Content Locks</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Completion Certificates & Compliance Reports</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Native Video Hosting — No Vimeo or Wistia Needed</li>
             </ul>
           </div>
           <div className="fp-visual">
@@ -511,12 +511,12 @@ function Index() {
             <h3 className="fp-h3">Sell Out Virtual Events.<br />Without Zoom Or A<br />Third-Party Tool.</h3>
             <p className="fp-p">Host webinars, virtual summits, live Q&amp;As, and multi-day masterminds — natively inside your Club. Members RSVP, get reminders, and attend without ever leaving your branded platform.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Up to 10,000 live attendees per event</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Live chat, Q&amp;A queue, polls & screen share</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Auto-recorded, transcribed & AI-summarized</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Automated reminders — 24h, 1h & 15min before</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA auto-edits replays into reels, shorts & social clips</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Sell gated access to recorded replays</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Up to 10,000 Live Attendees Per Event</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Live Chat, Q&amp;A Queue, Polls & Screen Share</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Auto-Recorded, Transcribed & AI-Summarized</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Automated Reminders — 24h, 1h & 15min Before</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA Auto-Edits Replays Into Reels, Shorts & Social Clips</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Sell Gated Access to Recorded Replays</li>
             </ul>
           </div>
           <div className="fp-visual" style={{ background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)" }}>
@@ -580,11 +580,11 @@ function Index() {
             <h3 className="fp-h3">Deliver Coaching<br />That Gets Real Results.</h3>
             <p className="fp-p">Sell and deliver both group and 1:1 coaching directly inside your Club. Booking, calls, progress tracking, session notes, and client milestones — all in one place. No Calendly. No separate CRM.</p>
             <ul className="fp-list">
-              <li><Check size={11} strokeWidth={3} className="fp-check" />1:1 coaching — booking, calls & session notes</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Group coaching calls — live video with your Club</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Client milestones, progress tracking & accountability</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />Private coaching spaces — gated to paid tiers</li>
-              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA summarizes every session automatically</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />1:1 Coaching — Booking, Calls & Session Notes</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Group Coaching Calls — Live Video With Your Club</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Client Milestones, Progress Tracking & Accountability</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />Private Coaching Spaces — Gated to Paid Tiers</li>
+              <li><Check size={11} strokeWidth={3} className="fp-check" />AIVA Summarizes Every Session Automatically</li>
             </ul>
           </div>
           <div className="fp-visual" style={{ background:"#FFFFFF", border:"1px solid rgba(0,0,0,0.08)" }}>
@@ -693,22 +693,22 @@ function Index() {
             </div>
 
             <div className="aiva-side">
-              <div className="aiva-side-eyebrow">What AIVA does, autonomously</div>
+              <div className="aiva-side-eyebrow">What AIVA Does, Autonomously</div>
               <div className="aiva-side-h">One Intelligent System.<br />Not Ten Disconnected Widgets.</div>
               <div className="aiva-cap-grid">
                 {[
-                  { i: <Wand2 size={14} />, l: "Writes content" },
-                  { i: <MessageCircle size={14} />, l: "Answers members" },
-                  { i: <Bot size={14} />, l: "Moderates discussions" },
-                  { i: <Trophy size={14} />, l: "Creates challenges" },
-                  { i: <Mail size={14} />, l: "Generates emails" },
-                  { i: <Users size={14} />, l: "Onboards new members" },
-                  { i: <Sparkles size={14} />, l: "Recommends courses" },
-                  { i: <BellRing size={14} />, l: "Re-engages inactive users" },
-                  { i: <Zap size={14} />, l: "Sells memberships" },
-                  { i: <Mic size={14} />, l: "Summarizes every call" },
-                  { i: <Video size={14} />, l: "Turns recordings into content" },
-                  { i: <Heart size={14} />, l: "Helps members 24/7" },
+                  { i: <Wand2 size={14} />, l: "Writes Content" },
+                  { i: <MessageCircle size={14} />, l: "Answers Members" },
+                  { i: <Bot size={14} />, l: "Moderates Discussions" },
+                  { i: <Trophy size={14} />, l: "Creates Challenges" },
+                  { i: <Mail size={14} />, l: "Generates Emails" },
+                  { i: <Users size={14} />, l: "Onboards New Members" },
+                  { i: <Sparkles size={14} />, l: "Recommends Courses" },
+                  { i: <BellRing size={14} />, l: "Re-Engages Inactive Users" },
+                  { i: <Zap size={14} />, l: "Sells Memberships" },
+                  { i: <Mic size={14} />, l: "Summarizes Every Call" },
+                  { i: <Video size={14} />, l: "Turns Recordings Into Content" },
+                  { i: <Heart size={14} />, l: "Helps Members 24/7" },
                 ].map((c) => (
                   <div className="aiva-cap" key={c.l}>
                     <div className="aiva-cap-i">{c.i}</div>
@@ -718,7 +718,7 @@ function Index() {
               </div>
               <div className="aiva-tag">
                 <span className="bdot" />
-                Your community runs even when you don't.
+                Your Community Runs Even When You Don't.
               </div>
             </div>
           </div>
@@ -729,7 +729,7 @@ function Index() {
       <div className="pricing-section" id="pricing">
         <div className="pricing-inner">
           <div className="price-hd">
-            <div className="sc-eyebrow">Simple, honest pricing</div>
+            <div className="sc-eyebrow">Simple, Honest Pricing</div>
             <h2 className="sc-h2">Half The Price.<br />Twice The Power.</h2>
             <p className="sc-sub" style={{ maxWidth: 720, margin: "0 auto" }}>Kajabi charges $179/mo. Circle & Skool charge $99/mo.<br />AdvisorsClub starts at $0 — and our best plan costs less than a dinner out.</p>
           </div>
@@ -737,55 +737,55 @@ function Index() {
             <div className="plan">
               <div className="plan-tier">Starter</div>
               <div className="plan-price"><sup>$</sup>0</div>
-              <div className="plan-per">Free forever · 1 Club</div>
+              <div className="plan-per">Free Forever · 1 Club</div>
               <div className="plan-div" />
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Up to 100 Club members</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />1 course, unlimited lessons</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Club feed & discussions</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Basic gamification</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe payments (5% fee)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA (10 prompts/mo)</div>
-              <div className="pf"><Minus size={14} className="pfd" />Custom domain</div>
-              <div className="pf"><Minus size={14} className="pfd" />Virtual conferences</div>
-              <div className="pf"><Minus size={14} className="pfd" />Email marketing</div>
-              <Link to="/signup" className="plan-cta ghost">Get started free</Link>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Up to 100 Club Members</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />1 Course, Unlimited Lessons</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Club Feed & Discussions</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Basic Gamification</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe Payments (5% Fee)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA (10 Prompts/mo)</div>
+              <div className="pf"><Minus size={14} className="pfd" />Custom Domain</div>
+              <div className="pf"><Minus size={14} className="pfd" />Virtual Conferences</div>
+              <div className="pf"><Minus size={14} className="pfd" />Email Marketing</div>
+              <Link to="/signup" className="plan-cta ghost">Get Started Free</Link>
             </div>
             <div className="plan hot">
               <div className="plan-tag" style={{display:"inline-flex",alignItems:"center",gap:4}}><Zap size={11} fill="currentColor" strokeWidth={0} />Most Popular</div>
               <div className="plan-tier">Advisor</div>
               <div className="plan-price"><sup>$</sup>47</div>
-              <div className="plan-per">Per month · Unlimited members</div>
+              <div className="plan-per">Per Month · Unlimited Members</div>
               <div className="plan-div" />
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Club members</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited courses & lessons</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Custom domain & full branding</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA AI agent — unlimited</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Virtual conferences (200 cap)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Challenges engine</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full gamification suite</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe payments (2% fee)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Email marketing (5k contacts)</div>
-              <Link to="/signup" className="plan-cta solid">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Club Members</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Courses & Lessons</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Custom Domain & Full Branding</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA AI Agent — Unlimited</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Virtual Conferences (200 Cap)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Challenges Engine</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full Gamification Suite</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe Payments (2% Fee)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Email Marketing (5k Contacts)</div>
+              <Link to="/signup" className="plan-cta solid">Start 14-Day Free Trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
             <div className="plan">
               <div className="plan-tier">Pro</div>
               <div className="plan-price"><sup>$</sup>97</div>
-              <div className="plan-per">Per month · Everything unlimited</div>
+              <div className="plan-per">Per Month · Everything Unlimited</div>
               <div className="plan-div" />
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Everything in Advisor</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />0% transaction fees</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />0% Transaction Fees</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Multiple Clubs</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited virtual conferences</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full email marketing (100k)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Sales funnel builder</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Advanced analytics & CRM</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Team members & roles</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Branded mobile app</div>
-              <Link to="/signup" className="plan-cta ghost">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Virtual Conferences</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full Email Marketing (100k)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Sales Funnel Builder</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Advanced Analytics & CRM</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Team Members & Roles</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Branded Mobile App</div>
+              <Link to="/signup" className="plan-cta ghost">Start 14-Day Free Trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
           </div>
           <p style={{ textAlign: "center", fontSize: 13, color: "var(--ac-muted)", marginTop: 24 }}>
-            All plans include a 14-day free trial · No credit card required · Cancel anytime
+            All Plans Include a 14-Day Free Trial · No Credit Card Required · Cancel Anytime
           </p>
         </div>
       </div>
@@ -794,7 +794,7 @@ function Index() {
       <div style={{ borderTop: "1px solid var(--ac-border)" }}>
         <section className="testi-section">
           <div className="testi-hd">
-            <div className="sc-eyebrow">What Advisors say</div>
+            <div className="sc-eyebrow">What Advisors Say</div>
             <h2 className="sc-h2">Loved By 14,000+ Advisors<br />Across Every Niche.</h2>
           </div>
           <div className="testi-grid">
@@ -819,7 +819,7 @@ function Index() {
       {/* BOTTOM CTA */}
       <div className="cta-bottom">
         <div className="cta-glow" />
-        <div className="sc-eyebrow">Ready to build?</div>
+        <div className="sc-eyebrow">Ready To Build?</div>
         <h2>Your Club Is One Click Away.</h2>
         <p style={{ maxWidth: "none", whiteSpace: "nowrap" }}>Start Free Today. No Credit Card. Your First 100 Members Are On Us.</p>
         <form className="cta-form2" onSubmit={goSignup(ctaEmail)}>
@@ -838,7 +838,7 @@ function Index() {
               <p>The all-in-one Club platform for Advisors who want to teach, coach, and get paid.</p>
             </div>
             <div className="fg-col"><h4>Platform</h4><a href="#">Features</a><a href="#">Pricing</a><a href="#">AIVA</a><a href="#">Roadmap</a></div>
-            <div className="fg-col"><h4>Compare</h4><a href="#">vs Circle</a><a href="#">vs Skool</a><a href="#">vs Kajabi</a><a href="#">vs Teachable</a></div>
+            <div className="fg-col"><h4>Compare</h4><a href="#">Vs Circle</a><a href="#">Vs Skool</a><a href="#">Vs Kajabi</a><a href="#">Vs Teachable</a></div>
             <div className="fg-col"><h4>Resources</h4><a href="#">Help Center</a><a href="#">Blog</a><a href="#">Affiliates</a><a href="#">Migrate</a></div>
             <div className="fg-col"><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Privacy</a><a href="#">Terms</a></div>
           </div>
