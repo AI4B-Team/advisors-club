@@ -758,34 +758,34 @@ function Index() {
               <div className="plan-div" />
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Club Members</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Courses & Lessons</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Custom domain & full branding</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA AI agent — unlimited</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Virtual conferences (200 cap)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Challenges engine</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full gamification suite</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe payments (2% fee)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Email marketing (5k contacts)</div>
-              <Link to="/signup" className="plan-cta solid">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Custom Domain & Full Branding</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />AIVA AI Agent — Unlimited</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Virtual Conferences (200 Cap)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Challenges Engine</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full Gamification Suite</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Stripe Payments (2% Fee)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Email Marketing (5k Contacts)</div>
+              <Link to="/signup" className="plan-cta solid">Start 14-Day Free Trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
             <div className="plan">
               <div className="plan-tier">Pro</div>
               <div className="plan-price"><sup>$</sup>97</div>
-              <div className="plan-per">Per month · Everything unlimited</div>
+              <div className="plan-per">Per Month · Everything Unlimited</div>
               <div className="plan-div" />
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Everything in Advisor</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />0% transaction fees</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />0% Transaction Fees</div>
               <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Multiple Clubs</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited virtual conferences</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full email marketing (100k)</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Sales funnel builder</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Advanced analytics & CRM</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Team members & roles</div>
-              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Branded mobile app</div>
-              <Link to="/signup" className="plan-cta ghost">Start 14-day free trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Unlimited Virtual Conferences</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Full Email Marketing (100k)</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Sales Funnel Builder</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Advanced Analytics & CRM</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Team Members & Roles</div>
+              <div className="pf"><Check size={14} strokeWidth={3} className="pfc" />Branded Mobile App</div>
+              <Link to="/signup" className="plan-cta ghost">Start 14-Day Free Trial <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></Link>
             </div>
           </div>
           <p style={{ textAlign: "center", fontSize: 13, color: "var(--ac-muted)", marginTop: 24 }}>
-            All plans include a 14-day free trial · No credit card required · Cancel anytime
+            All Plans Include a 14-Day Free Trial · No Credit Card Required · Cancel Anytime
           </p>
         </div>
       </div>
