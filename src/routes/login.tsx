@@ -41,7 +41,7 @@ function LoginPage() {
       toast.error(error.message);
       return;
     }
-    nav({ to: "/app/dashboard" });
+    nav({ to: "/app" });
   }
 
   async function onReset(e: React.FormEvent) {
@@ -61,7 +61,7 @@ function LoginPage() {
 
   async function onGoogle() {
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/app/dashboard`,
+      redirect_uri: `${window.location.origin}/app`,
     });
     if (result.error) toast.error(result.error.message);
   }
