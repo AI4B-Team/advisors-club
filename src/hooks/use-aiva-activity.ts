@@ -18,7 +18,8 @@ import type { ActivityEntry } from "@/lib/aiva-admin";
  * the systems that already own it; demo fixtures only appear when nothing real
  * exists yet, and are flagged as such.
  */
-export function useAivaActivity(legacy: ActivityEntry[] = []) {
+export function useAivaActivity(legacy: ActivityEntry[] = [], opts: { markSeen?: boolean } = {}) {
+  const markSeen = opts.markSeen !== false;
   const { opportunities } = useOpportunities();
   const [tick, setTick] = useState(0);
   const [lastSeen] = useState<string | null>(() => getLastSeen());
@@ -31,7 +32,7 @@ export function useAivaActivity(legacy: ActivityEntry[] = []) {
     return () => { a(); b(); c(); };
   }, []);
 
-  useEffect(() => { markActivitySeen(); }, []);
+  useEffect(() => { if (markSeen) markActivitySeen(); }, [markSeen]);
 
   const { activities, isDemo } = useMemo(() => {
     void tick;

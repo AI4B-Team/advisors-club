@@ -4,6 +4,7 @@ import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Cale
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
+import { useAivaAttention } from "@/hooks/use-aiva-attention";
 import { MemberAssistantPanel } from "@/components/member-ai/MemberAssistant";
 import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
 import { usePersona } from "@/hooks/use-persona";
@@ -368,6 +369,8 @@ function Topbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
+  const attention = useAivaAttention(isAdmin && !viewAs);
+  const [briefingOn, setBriefingOn] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
   const persona = usePersona();
   const isAdminRef = useRef(true);
@@ -449,15 +452,21 @@ function Topbar() {
       <div className="cc-tb-right">
         {isAdmin ? (
           <button
-            className={`cc-tb-ask${cmdOpen ? " on" : ""}`}
+            className={`cc-tb-ask${cmdOpen ? " on" : ""}${attention.hasAttention ? " has-att" : ""}`}
             type="button"
-            aria-label="Ask AI"
-            data-tip="Ask AI"
-            onClick={()=>setCmdOpen(o=>!o)}
+            aria-label={attention.hasAttention ? `Ask AI — ${attention.headline}` : "Ask AI"}
+            data-tip={attention.hasAttention ? attention.headline : "Ask AI"}
+            onClick={()=>{
+              if (cmdOpen) { setCmdOpen(false); return; }
+              setBriefingOn(attention.hasAttention);
+              setCmdOpen(true);
+            }}
           >
             <Sparkles size={15}/>
             <span className="cc-tb-ask-l">Ask AI</span>
-            <kbd className="cc-tb-ask-k">⌘K</kbd>
+            {attention.hasAttention
+              ? <span className="cc-tb-ask-att">{attention.count}</span>
+              : <kbd className="cc-tb-ask-k">⌘K</kbd>}
           </button>
         ) : (
           <button
@@ -547,7 +556,11 @@ function Topbar() {
         </div>
       </div>
       <AISummaryDrawer open={aiOpen} onClose={()=>setAiOpen(false)} />
-      <AivaCommandPalette open={cmdOpen} onClose={()=>setCmdOpen(false)} />
+      <AivaCommandPalette
+        open={cmdOpen}
+        onClose={()=>{ if (briefingOn) attention.acknowledgeAll(); setBriefingOn(false); setCmdOpen(false); }}
+        briefing={briefingOn ? { greeting: attention.greeting, headline: attention.headline, items: attention.items, overflow: attention.overflow } : null}
+      />
       {persona.enabled ? (
         <PersonaAssistantPanel
           open={askOpen}
