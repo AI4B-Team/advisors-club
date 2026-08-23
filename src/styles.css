@@ -5755,3 +5755,186 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .st-row{padding:14px}
   .st-row-panel{padding:4px 12px 18px}
 }
+
+/* =====================================================================
+   ADVISORS CLUB — DESIGN LANGUAGE v2
+   Editorial, calm, content-first. This layer consolidates the visual
+   primitives (tokens, type, surfaces, controls, nav, tabs, badges,
+   menus) that the rest of the app already uses. No markup or logic
+   depends on it — it retunes existing classes rather than replacing
+   them, so features/routes stay intact.
+   ===================================================================== */
+
+:root{
+  /* ink + neutrals */
+  --ac2-ink:#14151A;
+  --ac2-ink-2:#42465A;
+  --ac2-ink-3:#767C8C;
+  --ac2-line:rgba(20,21,26,.08);
+  --ac2-line-2:rgba(20,21,26,.14);
+  --ac2-surface:#FFFFFF;
+  --ac2-canvas:#FAFAF8;
+  --ac2-hover:rgba(20,21,26,.045);
+  /* brand — used sparingly: primary CTA, active state, key AI moments */
+  --ac2-brand:#F5A623;
+  --ac2-brand-2:#E8940A;
+  --ac2-brand-ink:#7A4A05;
+  --ac2-tint:rgba(245,166,35,.14);
+  /* radius / elevation */
+  --ac2-r-xs:8px; --ac2-r:10px; --ac2-r-lg:14px;
+  --ac2-shadow:0 1px 2px rgba(20,21,26,.05);
+  --ac2-shadow-pop:0 16px 40px -18px rgba(20,21,26,.28), 0 0 0 1px rgba(20,21,26,.05);
+  /* spacing scale */
+  --ac2-1:4px; --ac2-2:8px; --ac2-3:12px; --ac2-4:16px; --ac2-5:24px;
+  --ac2-6:32px; --ac2-7:48px; --ac2-8:64px;
+}
+
+/* ---------- 1. SHELL: lighter chrome, more room for content ---------- */
+.cc{background:var(--ac2-canvas)}
+.cc-main{background:var(--ac2-canvas);padding:40px 44px 96px}
+.cc-rail,.cc-sb{background:var(--ac2-surface);border-right:1px solid var(--ac2-line)}
+.cc-tb{background:var(--ac2-surface);border-bottom:1px solid var(--ac2-line)}
+@media (max-width:900px){.cc-main{padding:24px 18px 72px}}
+
+/* ---------- 2. NAVIGATION: restrained active states ---------- */
+.cc .cc-sb-feed,.cc .cc-sb-pill{font-weight:500;color:var(--ac2-ink-2);background:transparent;border-radius:var(--ac2-r)}
+.cc .cc-sb-feed:not(.on):hover,.cc .cc-sb-pill:not(.on):hover{background:var(--ac2-hover);color:var(--ac2-ink)}
+.cc .cc-sb-feed.on,.cc .cc-sb-pill.on{background:var(--ac2-tint);color:var(--ac2-ink);font-weight:650}
+.cc .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-caret,
+.cc .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-caret,
+.cc .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-add,
+.cc .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-add,
+.cc .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-more-wrap .cc-sb-more,
+.cc .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-more-wrap .cc-sb-more{color:var(--ac2-ink-3)}
+.cc .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-caret:hover,
+.cc .cc-sb-item-row .cc-sb-pill.on ~ .cc-sb-caret:hover,
+.cc .cc-sb-item-row .cc-sb-add:hover,
+.cc .cc-sb-item-row .cc-sb-feed.on ~ .cc-sb-more-wrap .cc-sb-more:hover{background:rgba(20,21,26,.07);color:var(--ac2-ink)}
+.cc .cc-sb-row.on{background:var(--ac2-tint);color:var(--ac2-ink)}
+.cc .cc-sb-group-t{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ac2-ink-3);padding:14px 12px 4px}
+.cc .cc-sb-name{font-weight:650;letter-spacing:-.01em}
+.cc .cc-sb-row-c{background:transparent;color:var(--ac2-ink-3);padding:0}
+.cc .cc-sb-powered{color:var(--ac2-ink-3)}
+
+/* ---------- 3. TYPOGRAPHY: hierarchy before boxes ---------- */
+.pg{padding:40px 44px 80px;max-width:1080px}
+.pg-head{margin-bottom:32px}
+.pg-title,.st-title,.lt-ph h1{font-size:clamp(26px,3.2vw,34px);font-weight:700;letter-spacing:-.028em;color:var(--ac2-ink);line-height:1.15;margin:0}
+.pg-sub,.st-sub{font-size:15px;color:var(--ac2-ink-3);margin-top:8px;max-width:60ch;line-height:1.55}
+.ap-head h2,.st-sec-head h2{font-size:22px;font-weight:650;letter-spacing:-.02em;color:var(--ac2-ink)}
+.ap-head p,.st-sec-head p{font-size:14.5px;color:var(--ac2-ink-3)}
+/* retire ALL-CAPS micro labels */
+.ap-stat-l,.st-row-note,.st-scope,.ap-status{text-transform:none;letter-spacing:0}
+.st-scope{font-size:12.5px;font-weight:600;color:var(--ac2-ink-3)}
+.st-scope-club,.st-scope-account{color:var(--ac2-ink-3)}
+
+/* ---------- 4. SURFACES: fewer, quieter containers ---------- */
+.ap-card,.mg-card,.st-rows,.lt .card{background:var(--ac2-surface);border:1px solid var(--ac2-line);border-radius:var(--ac2-r-lg);box-shadow:none}
+.mg-card:hover{transform:none;border-color:var(--ac2-line-2);box-shadow:var(--ac2-shadow)}
+.mg-card-i{width:auto;height:auto;background:transparent;color:var(--ac2-ink-3);margin-bottom:10px;justify-content:flex-start}
+/* metrics read as text, not widgets */
+.ap-stats{gap:var(--ac2-6);grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.ap-stat{background:transparent;border:0;padding:0}
+.ap-stat-l{font-size:13px;font-weight:500;color:var(--ac2-ink-3)}
+.ap-stat-v{font-size:30px;font-weight:650;letter-spacing:-.03em;margin-top:6px;color:var(--ac2-ink)}
+.st-row-panel{background:transparent}
+.st-row:hover{background:var(--ac2-hover)}
+.st-row-l{font-weight:600}
+.st-body{gap:var(--ac2-7)}
+
+/* ---------- 5. CONTROLS: primary / secondary / ghost / destructive ---- */
+.ap-btn-primary,.ap-btn-light,.ap-btn-danger,.lt .btn-amber,.lt .btn-ghost,.cc-tb-newpost{
+  border-radius:var(--ac2-r);font-size:14px;font-weight:600;padding:9px 15px;letter-spacing:-.01em;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;box-shadow:none}
+.ap-btn-primary,.cc-tb-newpost{background:var(--ac2-ink);color:#fff;border:1px solid var(--ac2-ink)}
+.ap-btn-primary:hover,.cc-tb-newpost:hover{background:#000}
+.lt .btn-amber{background:var(--ac2-brand);color:#1A1408}
+.lt .btn-amber:hover{background:var(--ac2-brand-2)}
+.ap-btn-light,.lt .btn-ghost{background:var(--ac2-surface);color:var(--ac2-ink);border:1px solid var(--ac2-line-2)}
+.ap-btn-light:hover,.lt .btn-ghost:hover{background:var(--ac2-hover)}
+.ap-btn-text{color:var(--ac2-ink-2);font-weight:600}
+.ap-btn-text:hover{color:var(--ac2-ink);text-decoration:none;background:var(--ac2-hover);border-radius:var(--ac2-r-xs)}
+.ap-btn-danger{background:transparent;color:#DC2626;border:1px solid rgba(220,38,38,.28)}
+.ap-btn-danger:hover{background:rgba(220,38,38,.07)}
+.lt .pill{font-weight:500;border-color:var(--ac2-line-2);color:var(--ac2-ink-2)}
+.lt .pill.on{background:var(--ac2-ink);border-color:var(--ac2-ink)}
+.cc-tb-icon{border-radius:var(--ac2-r);color:var(--ac2-ink-3)}
+.cc-tb-icon:hover{background:var(--ac2-hover);color:var(--ac2-ink)}
+/* AI entry point: brand-warm, not purple "AI product" chrome */
+.cc-tb-aiva{border-radius:999px;border-color:var(--ac2-line-2);color:var(--ac2-ink);font-weight:600}
+.cc-tb-aiva svg{color:var(--ac2-brand-2)}
+.cc-tb-aiva:hover{border-color:var(--ac2-brand);background:var(--ac2-tint);box-shadow:none}
+.cc-tb-aiva.on{border-color:var(--ac2-brand);background:var(--ac2-tint);color:var(--ac2-brand-ink)}
+
+/* ---------- 6. FORMS ---------- */
+.ap-field>span{font-size:13.5px;font-weight:500;color:var(--ac2-ink-2)}
+.ap-field input,.ap-field textarea,.ap-field select{padding:10px 12px;border:1px solid var(--ac2-line-2);border-radius:var(--ac2-r);font-size:14.5px}
+.ap-field input:focus,.ap-field textarea:focus,.ap-field select:focus{border-color:var(--ac2-brand);box-shadow:0 0 0 3px var(--ac2-tint)}
+
+/* ---------- 7. TABS: underline, no dark pills ---------- */
+.st-nav{gap:26px;padding-bottom:0;margin-bottom:36px}
+.st-nav-item{padding:10px 0;border-radius:0;font-weight:500;color:var(--ac2-ink-3);border-bottom:2px solid transparent;margin-bottom:-1px}
+.st-nav-item:hover{background:transparent;color:var(--ac2-ink)}
+.st-nav-item.on{background:transparent;color:var(--ac2-ink);font-weight:650;border-bottom-color:var(--ac2-brand)}
+.am-tab{font-weight:500;color:var(--ac2-ink-3)}
+.am-tab.on{font-weight:650;color:var(--ac2-ink);border-bottom-color:var(--ac2-brand)}
+
+/* ---------- 8. BADGES: status only, quiet by default ---------- */
+.ap-status{font-size:12px;font-weight:600;padding:3px 9px;border-radius:7px;background:transparent;border:1px solid var(--ac2-line-2);color:var(--ac2-ink-2)}
+.ap-status.s-active,.ap-status.s-paid,.ap-status.s-published,.ap-status.s-sent,.ap-status.s-live{background:transparent;border-color:rgba(22,163,74,.3);color:#15803D}
+.ap-status.s-scheduled{background:transparent;border-color:rgba(37,99,235,.3);color:#1D4ED8}
+.ap-status.s-draft{background:transparent;border-color:var(--ac2-line-2);color:var(--ac2-ink-3)}
+.ap-status.s-at-risk{background:transparent;border-color:rgba(245,166,35,.45);color:#92400E}
+.ap-status.s-churned,.ap-status.s-expired,.ap-status.s-refunded{background:transparent;border-color:rgba(220,38,38,.3);color:#B91C1C}
+.st-row-note{background:transparent;font-size:12.5px;font-weight:500;color:var(--ac2-ink-3);padding:0}
+
+/* ---------- 9. MENUS + MODALS: one elevation language ---------- */
+.cc-tb-menu,.cc-tb-more-menu,.cc-tb-search-menu,.cc-tb-vw-menu,.cc-sb-more-menu,.cc-sb-switch-menu,
+.lt-pf-menu,.pc-menu,.aiva-comp-menu,.fp-cat-menu,.apx-menu,.slash-menu,.emoji-tone-menu,.ap-plan-pop{
+  border:1px solid var(--ac2-line);border-radius:var(--ac2-r-lg);box-shadow:var(--ac2-shadow-pop)}
+.am-modal,.ap-modal,.apx-modal,.cal-modal,.vr-modal,.composer-modal{
+  border-radius:16px;border:1px solid var(--ac2-line);box-shadow:0 32px 80px -28px rgba(20,21,26,.45)}
+
+/* ---------- 10. BRAND DISCIPLINE: AI feels human, not "AI software" ----
+   The old purple "AI product" accent is replaced by the Advisors Club warm
+   accent, used only at moments that matter, on otherwise neutral surfaces. */
+.cc-sb-sys-label{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ac2-ink-3);padding:10px 12px 4px}
+.cc-tb-av{background:var(--ac2-ink)}
+.cc-tb-help,.cc-tb-icon.on{background:var(--ac2-hover);color:var(--ac2-ink)}
+
+.aiva-ins{border-color:var(--ac2-line);box-shadow:none}
+.aiva-ins-badge{background:transparent;color:var(--ac2-brand-2);width:auto;height:auto;border-radius:0}
+.aiva-ins-title{font-size:15px;font-weight:650;letter-spacing:-.015em}
+.aiva-ins-sub{color:var(--ac2-ink-3)}
+.aiva-ins-item{border:0;border-radius:var(--ac2-r-xs);padding:9px 8px;background:transparent}
+.aiva-ins-item:hover{transform:none;box-shadow:none;background:var(--ac2-hover);border:0}
+.aiva-ins-t{font-size:13.5px;color:var(--ac2-ink-2)}
+.aiva-ins-cta{background:transparent;border:0;color:var(--ac2-ink-2);font-weight:600;font-size:12.5px;padding:4px 6px;border-radius:var(--ac2-r-xs)}
+.aiva-ins-cta:hover{background:rgba(20,21,26,.07);border:0;color:var(--ac2-ink)}
+.aiva-ins-all,.lb-see-all{color:var(--ac2-ink);font-weight:600}
+.aiva-ins-all:hover,.lb-see-all:hover{color:var(--ac2-brand-ink)}
+
+.aiva-chip{background:var(--ac2-tint);border-color:transparent;color:var(--ac2-brand-ink);text-transform:none;letter-spacing:0;font-weight:600;font-size:12px}
+.aiva-prompt-i{color:var(--ac2-brand-2)}
+.aiva-prompt-go{background:var(--ac2-ink);border-radius:var(--ac2-r);font-weight:600}
+.aiva-panel{background:var(--ac2-line-2);border-radius:var(--ac2-r-lg)}
+.ai-drawer-spark{background:var(--ac2-tint);color:var(--ac2-brand-ink);box-shadow:none;border-radius:var(--ac2-r)}
+.ai-range-chip.on{background:var(--ac2-tint);border-color:var(--ac2-brand);color:var(--ac2-brand-ink)}
+.ai-summary-card{border-color:var(--ac2-line)}
+.ai-summary-bullets li::before{background:var(--ac2-brand)}
+.ai-loading-label{color:var(--ac2-ink-3)}
+.ai-stat-v{color:var(--ac2-ink)}
+.ap-ai-suggest{background:var(--ac2-tint);border-color:transparent}
+.ap-ai-suggest-h{color:var(--ac2-brand-ink);text-transform:none;letter-spacing:0;font-size:13px}
+.ap-agent-i{background:var(--ac2-tint);color:var(--ac2-brand-ink);border-radius:var(--ac2-r-xs)}
+.ap-inbox-row.unread{border-left-color:var(--ac2-brand)}
+.ap-bar{background:var(--ac2-brand)}
+.ap-bar-h>span{background:var(--ac2-ink)}
+.ap-tag-add{color:var(--ac2-ink-2);border-color:var(--ac2-line-2)}
+.gs-res-i{background:var(--ac2-tint);color:var(--ac2-brand-ink)}
+.cc .cc-tb-ask-att{background:var(--ac2-brand-2);color:#fff}
+.cc-tb-ask.has-att{border-color:var(--ac2-brand);background:var(--ac2-tint)}
+.cc-tb-ask.has-att:hover{background:rgba(245,166,35,.2)}
+.acp-disc-kind{text-transform:none;letter-spacing:0;font-size:12px;color:var(--ac2-brand-ink)}
+.acp-disc{border-color:var(--ac2-line);border-radius:var(--ac2-r-lg)}
+.aiva-comp-btn svg,.cc-tb-spark svg{color:var(--ac2-brand-2)}
