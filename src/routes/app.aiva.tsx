@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AM_TABS, type AmTabKey } from "@/components/aiva/tabs";
+import { AM_TABS, AM_CREATE_TABS, AM_CREATE_KEYS, type AmTabKey, type AmPrimaryKey } from "@/components/aiva/tabs";
 import { AivaOverview } from "@/components/aiva/AivaOverview";
 import { AivaKnowledge } from "@/components/aiva/AivaKnowledge";
 import { AivaCatalog } from "@/components/aiva/AivaCatalog";
