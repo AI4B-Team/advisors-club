@@ -6022,3 +6022,105 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .cc .cc-tb-aiva,.cc .cc-tb-golive,.cc .cc-tb-golive.quiet{display:none}
   .cc-main{padding:20px 16px 88px}
 }
+
+/* ============================================================
+   AIVA v2 — the calmest surface in Advisors Club
+   ============================================================ */
+.aiva-area { max-width: 860px; }
+
+.aiva-chat { display: flex; flex-direction: column; gap: 20px; min-height: 52vh; }
+
+.aiva-open { padding: 40px 0 8px; }
+.aiva-open-greet { font-size: clamp(24px, 3vw, 30px); font-weight: 600; letter-spacing: -0.02em; margin: 0 0 6px; }
+.aiva-open-line { font-size: 17px; color: var(--ac2-ink-2, #57534e); margin: 0; max-width: 46ch; line-height: 1.55; }
+.aiva-open-cta {
+  margin-top: 14px; display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  font-size: 15px; font-weight: 600; color: var(--ac2-accent, #b45309);
+}
+.aiva-open-cta:hover { text-decoration: underline; }
+.aiva-open-ask { margin: 34px 0 12px; font-size: 15px; color: var(--ac2-ink-3, #78716c); }
+.aiva-open-sugg { display: flex; flex-wrap: wrap; gap: 8px; }
+.aiva-open-sugg button {
+  border: 1px solid rgba(0,0,0,.09); background: #fff; border-radius: 999px;
+  padding: 8px 14px; font-size: 14px; color: var(--ac2-ink-2, #57534e); cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.aiva-open-sugg button:hover { border-color: rgba(0,0,0,.22); color: var(--ac2-ink-1, #1c1917); }
+
+.aiva-stream { display: flex; flex-direction: column; gap: 26px; padding: 24px 0 8px; max-height: 60vh; overflow-y: auto; }
+.aiva-you {
+  align-self: flex-end; max-width: 80%; margin: 0 0 0 auto;
+  background: var(--ac2-ink-1, #1c1917); color: #fff;
+  padding: 10px 14px; border-radius: 16px 16px 4px 16px; font-size: 15px; line-height: 1.5;
+}
+.aiva-said p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--ac2-ink-1, #1c1917); }
+.aiva-bullets { margin: 12px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.aiva-bullets li { font-size: 15px; line-height: 1.5; color: var(--ac2-ink-2, #57534e); padding-left: 16px; position: relative; }
+.aiva-bullets li::before { content: ""; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ac2-accent, #d97706); }
+.aiva-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; align-items: center; }
+.aiva-action {
+  border: 1px solid rgba(0,0,0,.12); background: #fff; border-radius: 10px;
+  padding: 8px 14px; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--ac2-ink-1, #1c1917);
+}
+.aiva-action:hover { border-color: rgba(0,0,0,.28); }
+.aiva-action.primary { background: var(--ac2-ink-1, #1c1917); color: #fff; border-color: transparent; }
+.aiva-action.primary:hover { opacity: .9; }
+.aiva-action-done { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: #15803d; }
+.aiva-thinking { font-size: 15px; color: var(--ac2-ink-3, #78716c); }
+
+.aiva-composer {
+  position: sticky; bottom: 12px; display: flex; align-items: flex-end; gap: 8px;
+  background: #fff; border: 1px solid rgba(0,0,0,.12); border-radius: 16px; padding: 10px 10px 10px 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.05);
+}
+.aiva-composer textarea {
+  flex: 1; border: 0; outline: none; resize: none; font: inherit; font-size: 15px;
+  line-height: 1.5; max-height: 140px; padding: 6px 0; background: transparent;
+}
+.aiva-composer > button {
+  flex: none; width: 34px; height: 34px; border-radius: 10px; border: 0; cursor: pointer;
+  background: var(--ac2-ink-1, #1c1917); color: #fff; display: grid; place-items: center;
+}
+.aiva-composer > button:disabled { opacity: .3; cursor: default; }
+
+/* Settings */
+.aiva-set { display: flex; flex-direction: column; gap: 30px; padding-top: 10px; }
+.aiva-set-group > h3 { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ac2-ink-3, #78716c); margin: 0 0 8px; font-weight: 600; }
+.aiva-set-list { display: flex; flex-direction: column; border-top: 1px solid rgba(0,0,0,.07); }
+.aiva-set-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
+  background: none; border: 0; border-bottom: 1px solid rgba(0,0,0,.07);
+  padding: 14px 2px; text-align: left; cursor: pointer; color: var(--ac2-ink-3, #78716c);
+}
+.aiva-set-row:hover { color: var(--ac2-ink-1, #1c1917); }
+.aiva-set-meta { display: flex; flex-direction: column; gap: 2px; }
+.aiva-set-meta b { font-size: 15px; font-weight: 600; color: var(--ac2-ink-1, #1c1917); }
+.aiva-set-meta span { font-size: 13.5px; color: var(--ac2-ink-3, #78716c); }
+.aiva-set-detail { padding-top: 8px; }
+.aiva-set-back { background: none; border: 0; padding: 0; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: var(--ac2-ink-3, #78716c); cursor: pointer; }
+.aiva-set-back:hover { color: var(--ac2-ink-1, #1c1917); }
+.aiva-set-head { margin: 14px 0 18px; }
+.aiva-set-head h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; margin: 0 0 4px; }
+.aiva-set-head p { margin: 0; font-size: 14.5px; color: var(--ac2-ink-3, #78716c); }
+
+/* Autonomy */
+.aiva-auto-modes { display: grid; gap: 8px; }
+.aiva-auto-mode { text-align: left; border: 1px solid rgba(0,0,0,.1); background: #fff; border-radius: 12px; padding: 12px 14px; cursor: pointer; display: grid; gap: 2px; }
+.aiva-auto-mode.on { border-color: var(--ac2-accent, #d97706); box-shadow: 0 0 0 1px var(--ac2-accent, #d97706); }
+.aiva-auto-mode b { font-size: 14.5px; }
+.aiva-auto-mode span { font-size: 13px; color: var(--ac2-ink-3, #78716c); }
+.aiva-auto-list { display: flex; flex-direction: column; }
+.aiva-auto-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(0,0,0,.07); }
+.aiva-auto-row:last-child { border-bottom: 0; }
+.aiva-auto-meta { display: grid; gap: 2px; }
+.aiva-auto-meta b { font-size: 14.5px; }
+.aiva-auto-meta span { font-size: 13px; color: var(--ac2-ink-3, #78716c); }
+.aiva-auto-seg { display: inline-flex; background: rgba(0,0,0,.045); border-radius: 9px; padding: 2px; flex: none; }
+.aiva-auto-seg button { border: 0; background: none; border-radius: 7px; padding: 5px 10px; font-size: 12.5px; cursor: pointer; color: var(--ac2-ink-3, #78716c); }
+.aiva-auto-seg button.on { background: #fff; color: var(--ac2-ink-1, #1c1917); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+@media (max-width: 640px) {
+  .aiva-auto-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .aiva-open { padding-top: 24px; }
+}
