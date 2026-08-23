@@ -62,7 +62,7 @@ export function fromFlywheel(events: FlywheelEvent[]): AivaActivityRecord[] {
         return base(`fw:${e.id}`, e.at, {
           activityType: "completed", title: e.title, description: e.detail ?? "Value Turned Into Revenue.",
           area: "offers", status: "completed", requiresApproval: false, autonomy: "observed", completedAt: e.at,
-          ctaLabel: "View Offers", ctaDestination: "/app/manage/sell",
+          ctaLabel: "View Offers", ctaDestination: "/app/sell",
         });
       case "observed":
         return base(`fw:${e.id}`, e.at, {

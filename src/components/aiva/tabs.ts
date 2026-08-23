@@ -1,4 +1,4 @@
-export type AmTabKey = "console" | "overview" | "knowledge" | "catalog" | "intelligence" | "opportunities" | "instructions" | "member-ai" | "capabilities" | "activity";
+export type AmTabKey = "console" | "overview" | "knowledge" | "catalog" | "intelligence" | "opportunities" | "instructions" | "member-ai" | "capabilities" | "activity" | "marketing" | "workflows" | "agents" | "inbox";
 
 /** Primary AIVA sections. Deliberately four — navigation stays simple. */
 export type AmPrimaryKey = "console" | "create" | "opportunities" | "flywheel" | "activity";
@@ -20,6 +20,10 @@ export const AM_CREATE_TABS: { key: AmTabKey; label: string }[] = [
   { key: "member-ai", label: "Member AI" },
   { key: "catalog", label: "Catalog" },
   { key: "intelligence", label: "Intelligence" },
+  { key: "marketing", label: "Marketing" },
+  { key: "workflows", label: "Workflows" },
+  { key: "agents", label: "Agents" },
+  { key: "inbox", label: "Inbox" },
 ];
 
 export const AM_CREATE_KEYS = AM_CREATE_TABS.map(t => t.key);
