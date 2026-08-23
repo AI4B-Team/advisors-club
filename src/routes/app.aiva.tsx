@@ -9,6 +9,7 @@ import { AivaSettings } from "@/components/aiva/AivaSettings";
 import { OpportunityBoard } from "@/components/aiva/OpportunityBoard";
 import { AivaActivityFeed } from "@/components/aiva/activity/AivaActivityFeed";
 import { useAivaAdmin } from "@/hooks/use-aiva-admin";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const Route = createFileRoute("/app/aiva")({
   head: () => ({
@@ -56,12 +57,7 @@ function AivaArea() {
 
   return (
     <div className="aiva-area">
-      <div className="lt-ph">
-        <div>
-          <h1>AIVA</h1>
-          <p>Your AI Business Operator.</p>
-        </div>
-      </div>
+      <PageHeader title="AIVA" description="Your AI Business Operator." />
 
       <nav className="am-tabs" aria-label="AIVA Sections">
         {AM_TABS.map(t => (

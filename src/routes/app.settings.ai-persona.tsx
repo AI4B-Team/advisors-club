@@ -13,6 +13,7 @@ import {
 import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
 import { RecommendationControls } from "@/components/persona/RecommendationControls";
 import { VoicePersonality } from "@/components/persona/VoicePersonality";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const Route = createFileRoute("/app/settings/ai-persona")({
   component: PersonaPage,
@@ -46,11 +47,11 @@ function PersonaPage() {
 
   return (
     <div className="pg">
-      <div className="pg-head">
-        <Link to="/app/settings/$section" params={{ section: "brand-site" }} className="nv-back"><ChevronLeft size={14} /> Settings</Link>
-        <h1 className="pg-title">AI Persona</h1>
-        <p className="pg-sub">The Member-Facing AI Representation Of You. Separate From AI Assist, Your Own Business Operator.</p>
-      </div>
+      <PageHeader
+        eyebrow={<Link to="/app/settings/$section" params={{ section: "brand-site" }} className="nv-back"><ChevronLeft size={14} /> Settings</Link>}
+        title="AI Persona"
+        description="The Member-Facing AI Representation Of You. Separate From AI Assist, Your Own Business Operator."
+      />
 
       <div className="am-stack">
         <AmCard

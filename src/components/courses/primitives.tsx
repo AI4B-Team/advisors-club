@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 /**
  * Small presentational building blocks shared across the Courses area.
@@ -33,24 +33,8 @@ export function Mini({ label, value }: { label: string; value: string }) {
 }
 
 export function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
-  return (
-    <button type="button" onClick={()=>onChange(!on)} style={{width:42,height:24,borderRadius:999,border:0,background:on?"#10B981":"#E5E7EB",position:"relative",cursor:"pointer",padding:0,flexShrink:0}}>
-      <span style={{position:"absolute",top:2,left:on?20:2,width:20,height:20,borderRadius:"50%",background:"#fff",boxShadow:"0 1px 3px rgba(0,0,0,.2)",transition:"left .15s"}}/>
-    </button>
-  );
+  return <Switch checked={on} onCheckedChange={onChange} />;
 }
 
-/** Simple modal shell. */
-export function Modal({ onClose, title, children, maxWidth=520 }: { onClose: () => void; title: string; children: React.ReactNode; maxWidth?: number }) {
-  return (
-    <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(15,15,18,.55)",backdropFilter:"blur(4px)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
-      <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:16,width:"100%",maxWidth,boxShadow:"0 30px 60px -20px rgba(0,0,0,.35)",overflow:"hidden",maxHeight:"90vh",display:"flex",flexDirection:"column"}}>
-        <div style={{padding:"16px 20px",borderBottom:"1px solid #F1F2F4",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-          <div style={{fontWeight:700,fontSize:16,color:"#111827"}}>{title}</div>
-          <button onClick={onClose} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:4,display:"flex"}}><X size={18}/></button>
-        </div>
-        <div style={{padding:20,overflowY:"auto"}}>{children}</div>
-      </div>
-    </div>
-  );
-}
+/** Canonical modal shell now lives in components/ui/modal.tsx. */
+export { Modal } from "@/components/ui/modal";

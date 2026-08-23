@@ -30,20 +30,6 @@ export function DataNotice({
   );
 }
 
-export function EmptyState({
-  title,
-  body,
-  action,
-}: {
-  title: string;
-  body?: string;
-  action?: React.ReactNode;
-}) {
-  return (
-    <div className="data-empty">
-      <strong>{title}</strong>
-      {body ? <p>{body}</p> : null}
-      {action}
-    </div>
-  );
-}
+// Canonical empty state now lives in components/ui/empty-state.tsx.
+// Re-exported here so existing provenance call sites keep working.
+export { EmptyState } from "@/components/ui/empty-state";

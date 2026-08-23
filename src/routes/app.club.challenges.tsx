@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Flame, Trophy, Sparkles, Edit3, BarChart3 } from "lucide-react";
 import { getGS, type GSChallenge } from "@/lib/gs-store";
+import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export const Route = createFileRoute("/app/club/challenges")({
   head: () => ({ meta: [{ title: "Challenges — AdvisorsClub" }, { name: "description", content: "Daily check-ins, streaks, leaderboards and prizes." }] }),
@@ -20,32 +22,28 @@ function ChallengesPage() {
   if (!challenge) {
     return (
       <>
-        <div className="cc-page-head">
-          <div>
-            <h1>Challenges</h1>
-            <p>Get members in motion with timed challenges.</p>
-          </div>
-          <Link to="/app/getting-started" className="cc-page-btn"><Sparkles size={14}/> Build With AIVA</Link>
-        </div>
-        <div className="cc-empty">
-          <span className="cc-empty-i"><Trophy size={26}/></span>
-          <h3>No challenges yet</h3>
-          <p>Let AIVA build your first 30-day challenge in seconds.</p>
-          <Link to="/app/getting-started" className="cc-page-btn"><Sparkles size={14}/> Build With AIVA</Link>
-        </div>
+        <PageHeader
+          title="Challenges"
+          description="Get members in motion with timed challenges."
+          actions={<Link to="/app/getting-started" className="cc-page-btn"><Sparkles size={14}/> Build With AIVA</Link>}
+        />
+        <EmptyState
+          icon={<Trophy size={22}/>}
+          title="No Challenges Yet"
+          body="Let AIVA build your first 30-day challenge in seconds."
+          action={<Link to="/app/getting-started" className="cc-page-btn"><Sparkles size={14}/> Build With AIVA</Link>}
+        />
       </>
     );
   }
 
   return (
     <>
-      <div className="cc-page-head">
-        <div>
-          <h1>Challenges</h1>
-          <p>1 active challenge running.</p>
-        </div>
-        <Link to="/app/getting-started" className="cc-page-btn">New Challenge</Link>
-      </div>
+      <PageHeader
+        title="Challenges"
+        description="1 active challenge running."
+        actions={<Link to="/app/getting-started" className="cc-page-btn">New Challenge</Link>}
+      />
       <article className="cc-challenge-active">
         <div className="cc-chal-head">
           <span className="cc-chal-badge"><Flame size={12}/> Active</span>

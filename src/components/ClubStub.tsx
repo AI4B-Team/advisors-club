@@ -1,5 +1,8 @@
-import { Sparkles, Wand2, ArrowRight, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
+import { AiPromptBar } from "@/components/ui/ai-prompt-bar";
 
 /**
  * Placeholder surface for content areas that have no items yet.
@@ -28,41 +31,26 @@ export function ClubStub({
 
   if (!adminView) {
     return (
-      <div className="lt-stub">
-        <div className="lt-stub-i">{icon}</div>
-        <h2>Nothing Here Yet</h2>
-        <p>New {noun}s will show up here as soon as they're published.</p>
-      </div>
+      <EmptyState
+        icon={icon}
+        title="Nothing Here Yet"
+        body={`New ${noun}s will show up here as soon as they're published.`}
+      />
     );
   }
 
   return (
     <>
-      <div className="lt-ph">
-        <div>
-          <h1>{title}</h1>
-          <p>{blurb}</p>
-        </div>
-        <div style={{display:"flex",gap:8}}>
-          <button className="btn-ghost"><Plus size={14}/> Create Manually</button>
-        </div>
-      </div>
+      <PageHeader
+        title={title}
+        description={blurb}
+        actions={<button className="btn-ghost"><Plus size={14}/> Create Manually</button>}
+      />
 
-      <div className="aiva-panel">
-        <div className="aiva-panel-glow"/>
-        <div className="aiva-panel-inner">
-          <div className="aiva-prompt-row">
-            <Wand2 size={16} className="aiva-prompt-i"/>
-            <input className="aiva-prompt" placeholder={`Describe the ${noun} you want AI to build…`}/>
-            <button className="aiva-prompt-go"><Sparkles size={13}/> Generate <ArrowRight size={14}/></button>
-          </div>
-          <div className="aiva-prompt-chips">
-            {prompts.map(p => (
-              <button key={p} className="aiva-prompt-chip">{p}</button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <AiPromptBar
+        placeholder={`Describe the ${noun} you want AI to build…`}
+        suggestions={prompts}
+      />
 
     </>
   );

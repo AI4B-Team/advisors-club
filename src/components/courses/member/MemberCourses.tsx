@@ -4,6 +4,7 @@ import type { GSCourse } from "@/lib/gs-store";
 import type { MemberCourse } from "@/lib/courses/types";
 import { FALLBACK_COURSES } from "@/lib/courses/member-data";
 import { MemberCourseDetail } from "./MemberCourseDetail";
+import { PageHeader } from "@/components/ui/page-header";
 
 /** Member-facing course catalogue. Extracted from `app.club.courses.tsx`. */
 export function MemberCourses({ course }: { course: GSCourse | null }) {
@@ -56,17 +57,17 @@ export function MemberCourses({ course }: { course: GSCourse | null }) {
 
   return (
     <>
-      <div className="lt-ph">
-        <div>
-          <h1>Courses</h1>
-          <p>Pick up where you left off or start something new.</p>
-        </div>
-        <div className="mc-stats">
+      <PageHeader
+        title="Courses"
+        description="Pick up where you left off or start something new."
+        actions={
+          <div className="mc-stats">
           <div className="mc-stat"><BookOpen size={14}/> {list.length} Courses</div>
           <div className="mc-stat"><Clock size={14}/> {inProgress.length} In Progress</div>
-          <div className="mc-stat"><Award size={14}/> {completedCount} Completed</div>
-        </div>
-      </div>
+            <div className="mc-stat"><Award size={14}/> {completedCount} Completed</div>
+          </div>
+        }
+      />
 
       <div className="mc-hero">
         <div className="mc-hero-cover" style={{backgroundImage:`url(${featured.cover})`,cursor:"pointer"}} onClick={() => setSelectedId(featured.id)}>

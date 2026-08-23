@@ -17,6 +17,8 @@ import {
   ADDABLE_TYPES, createNavItem, getNavConfig, groupNav, moveItem,
   resetNavConfig, subscribeNav, updateNavItems, visibleNav,
 } from "@/lib/nav/store";
+import { PageHeader } from "@/components/ui/page-header";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 export const Route = createFileRoute("/app/settings/navigation")({
   component: NavigationEditor,
@@ -47,6 +49,7 @@ function NavigationEditor() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [menuId, setMenuId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState<NavItem | null>(null);
   const [aiOpen, setAiOpen] = useState(false);
   const dragFrom = useRef<number | null>(null);
@@ -80,21 +83,31 @@ function NavigationEditor() {
 
   return (
     <div className="pg nv-pg">
-      <div className="pg-head nv-head">
-        <div>
-          <Link to="/app/settings/$section" params={{ section: "workspace" }} className="nv-back"><ChevronLeft size={14} /> Settings</Link>
-          <h1 className="pg-title">Navigation</h1>
-          <p className="pg-sub">Organize What Your Members See And What It's Called.</p>
-        </div>
-        <div className="nv-head-actions">
-        <button className="nv-ai-btn" onClick={() => setAiOpen(true)}>
-          <Sparkles size={14} /> Rebuild With AI
-        </button>
-        <button className="nv-reset" onClick={() => { if (confirm("Reset navigation to the default layout? Your content is not affected.")) setItems(resetNavConfig().items); }}>
-          <RotateCcw size={14} /> Reset To Default
-        </button>
-        </div>
-      </div>
+      <PageHeader
+        className="nv-head"
+        eyebrow={<Link to="/app/settings/$section" params={{ section: "workspace" }} className="nv-back"><ChevronLeft size={14} /> Settings</Link>}
+        title="Navigation"
+        description="Organize What Your Members See And What It's Called."
+        actions={
+          <>
+            <button className="nv-ai-btn" onClick={() => setAiOpen(true)}>
+              <Sparkles size={14} /> Rebuild With AI
+            </button>
+            <button className="nv-reset" onClick={() => setConfirmReset(true)}>
+              <RotateCcw size={14} /> Reset To Default
+            </button>
+          </>
+        }
+      />
+      <ConfirmDialog
+        open={confirmReset}
+        onOpenChange={setConfirmReset}
+        title="Reset Navigation?"
+        description="This restores the default layout. Your content is not affected."
+        confirmLabel="Reset"
+        destructive
+        onConfirm={() => { setItems(resetNavConfig().items); setConfirmReset(false); }}
+      />
 
       <div className="nv-note">
         <Info size={14} />

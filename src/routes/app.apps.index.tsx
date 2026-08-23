@@ -15,6 +15,7 @@ import { takePendingAppBrief, setPendingAppBrief } from "@/lib/apps/pending";
 import { APP_KIND_LABEL, toAccessPolicy, type App, type AppKind } from "@/lib/apps/types";
 import { AccessChip } from "@/components/commerce/AccessGate";
 import { useRevenue } from "@/hooks/use-commerce";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const Route = createFileRoute("/app/apps/")({
   component: AppsPage,
@@ -63,10 +64,7 @@ function MemberApps({ apps, label }: { apps: App[]; label: string }) {
 
   return (
     <div className="pg">
-      <div className="pg-head">
-        <h1 className="pg-title">{label}</h1>
-        <p className="pg-sub">Tools Made For You By Your Club Host.</p>
-      </div>
+      <PageHeader title={label} description="Tools Made For You By Your Club Host." />
 
       {mine.length === 0 ? (
         <EmptyState title="Nothing Here Yet" body="Your Club Host Hasn't Published Any Tools Yet." />
@@ -120,15 +118,11 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
 
   return (
     <div className="pg">
-      <div className="apx-head">
-        <div>
-          <h1 className="pg-title">{label}</h1>
-          <p className="pg-sub">Turn Your Methodology Into Tools Your Members Can Use. Members See This Section As "{label}".</p>
-        </div>
-        <div className="apx-head-actions">
-          <button className="apx-primary-btn" onClick={() => setManual(true)}><Plus size={15} /> New App</button>
-        </div>
-      </div>
+      <PageHeader
+        title={label}
+        description={`Turn Your Methodology Into Tools Your Members Can Use. Members See This Section As "${label}".`}
+        actions={<button className="apx-primary-btn" onClick={() => setManual(true)}><Plus size={15} /> New App</button>}
+      />
 
       {apps.length > 0 && (
         <div className="apx-totals">
