@@ -5017,3 +5017,8 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .ob-steps{flex-wrap:wrap;justify-content:center;order:3;width:100%}
   .ob-step-dot{width:16px}
 }
+@media (max-width:560px){
+  .lt .dc-grid-compact{grid-template-columns:1fr}
+  .lt .dc-card{flex-basis:80%}
+  .lt .dc-row-head{margin:0 0 10px}
+}
