@@ -42,6 +42,9 @@ export function PersonaAssistantPanel({
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(1);
+  const turnRef = useRef(0);
+  // Everything recommended in THIS conversation — feeds the frequency rules.
+  const shownRef = useRef<{ nodeId: string; paid: boolean; turn: number }[]>([]);
 
   const name = personaName(persona);
   const actions = useMemo(() => personaActions(persona), [persona]);
