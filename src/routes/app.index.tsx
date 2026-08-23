@@ -135,6 +135,10 @@ function HomePage() {
       <div className="hm-grid">
         <section className="hm-feed">
 
+          <LaunchChecklist />
+
+
+
 
           <div className="hm-composer">
             <div className="hm-composer-top">
