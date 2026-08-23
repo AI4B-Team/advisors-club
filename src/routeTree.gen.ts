@@ -43,6 +43,7 @@ import { Route as AppSettingsAiPersonaRouteImport } from './routes/app.settings.
 import { Route as AppSettingsSectionRouteImport } from './routes/app.settings.$section'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppPagePageIdRouteImport } from './routes/app.page.$pageId'
+import { Route as AppManagePersonaRouteImport } from './routes/app.manage.persona'
 import { Route as AppManageNavigationRouteImport } from './routes/app.manage.navigation'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
 import { Route as AppClubResourcesRouteImport } from './routes/app.club.resources'
@@ -229,6 +230,11 @@ const AppPagePageIdRoute = AppPagePageIdRouteImport.update({
   path: '/page/$pageId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppManagePersonaRoute = AppManagePersonaRouteImport.update({
+  id: '/persona',
+  path: '/persona',
+  getParentRoute: () => AppManageRoute,
+} as any)
 const AppManageNavigationRoute = AppManageNavigationRouteImport.update({
   id: '/navigation',
   path: '/navigation',
@@ -343,6 +349,7 @@ export interface FileRoutesByFullPath {
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
   '/app/manage/navigation': typeof AppManageNavigationRoute
+  '/app/manage/persona': typeof AppManagePersonaRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
@@ -388,6 +395,7 @@ export interface FileRoutesByTo {
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
   '/app/manage/navigation': typeof AppManageNavigationRoute
+  '/app/manage/persona': typeof AppManagePersonaRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
@@ -440,6 +448,7 @@ export interface FileRoutesById {
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
   '/app/manage/navigation': typeof AppManageNavigationRoute
+  '/app/manage/persona': typeof AppManagePersonaRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
@@ -493,6 +502,7 @@ export interface FileRouteTypes {
     | '/app/club/resources'
     | '/app/club/settings'
     | '/app/manage/navigation'
+    | '/app/manage/persona'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
@@ -538,6 +548,7 @@ export interface FileRouteTypes {
     | '/app/club/resources'
     | '/app/club/settings'
     | '/app/manage/navigation'
+    | '/app/manage/persona'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
@@ -589,6 +600,7 @@ export interface FileRouteTypes {
     | '/app/club/resources'
     | '/app/club/settings'
     | '/app/manage/navigation'
+    | '/app/manage/persona'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
@@ -859,6 +871,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPagePageIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/manage/persona': {
+      id: '/app/manage/persona'
+      path: '/persona'
+      fullPath: '/app/manage/persona'
+      preLoaderRoute: typeof AppManagePersonaRouteImport
+      parentRoute: typeof AppManageRoute
+    }
     '/app/manage/navigation': {
       id: '/app/manage/navigation'
       path: '/navigation'
@@ -996,11 +1015,13 @@ const AppAppsRouteWithChildren =
 
 interface AppManageRouteChildren {
   AppManageNavigationRoute: typeof AppManageNavigationRoute
+  AppManagePersonaRoute: typeof AppManagePersonaRoute
   AppManageIndexRoute: typeof AppManageIndexRoute
 }
 
 const AppManageRouteChildren: AppManageRouteChildren = {
   AppManageNavigationRoute: AppManageNavigationRoute,
+  AppManagePersonaRoute: AppManagePersonaRoute,
   AppManageIndexRoute: AppManageIndexRoute,
 }
 
