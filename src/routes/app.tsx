@@ -422,6 +422,7 @@ function Topbar() {
   useEffect(() => {
     function onDoc(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) setSearchOpen(false);
       if (helpRef.current && !helpRef.current.contains(e.target as Node)) setHelpOpen(false);
     }
     document.addEventListener("mousedown", onDoc);
