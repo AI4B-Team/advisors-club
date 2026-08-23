@@ -1,7 +1,7 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { loadSellDoc } from "@/lib/sell/store";
-import { SellBlockRenderer } from "@/components/sell/SellBlockRenderer";
+import { getSellDoc, subscribeSell } from "@/lib/sell/store";
+import { SellPreview } from "@/components/sell/SellPreview";
 import type { SellPage } from "@/lib/sell/types";
 
 export const Route = createFileRoute("/p/$slug")({
@@ -23,9 +23,12 @@ function PublicPage() {
   const [page, setPage] = useState<SellPage | null | undefined>(undefined);
 
   useEffect(() => {
-    const doc = loadSellDoc();
-    const all = [doc.clubPage, ...doc.pages];
-    setPage(all.find(p => p.slug === slug) ?? null);
+    const read = () => {
+      const doc = getSellDoc();
+      setPage([doc.clubPage, ...doc.pages].find(p => p.slug === slug) ?? null);
+    };
+    read();
+    return subscribeSell(read);
   }, [slug]);
 
   if (page === undefined) return <div className="sp-loading">Loading…</div>;
@@ -39,11 +42,5 @@ function PublicPage() {
     );
   }
 
-  return (
-    <main className="sp-page" style={{ ["--sp-accent" as string]: page.theme.accent, ["--sp-bg" as string]: page.theme.background }}>
-      {page.blocks.filter(b => !b.hidden).map(b => (
-        <SellBlockRenderer key={b.id} block={b} theme={page.theme} />
-      ))}
-    </main>
-  );
+  return <SellPreview page={page} interactive={false} />;
 }
