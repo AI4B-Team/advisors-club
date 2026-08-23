@@ -369,6 +369,7 @@ function Topbar() {
   const [aiOpen, setAiOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
+  const persona = usePersona();
   const isAdminRef = useRef(true);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
