@@ -8,6 +8,7 @@ import { OpportunityBoard } from "@/components/aiva/OpportunityBoard";
 import { AivaInstructions } from "@/components/aiva/AivaInstructions";
 import { AivaMemberAi } from "@/components/aiva/AivaMemberAi";
 import { AivaCapabilities } from "@/components/aiva/AivaCapabilities";
+import { FlywheelBoard } from "@/components/aiva/FlywheelBoard";
 import { AivaActivity } from "@/components/aiva/AivaActivity";
 import { useAivaAdmin } from "@/hooks/use-aiva-admin";
 import { useState, useRef, useEffect } from "react";
@@ -146,6 +147,7 @@ function AivaArea() {
 
       {tab === "console" && <AivaConsole />}
       {tab === "opportunities" && <OpportunityBoard />}
+      {tab === "flywheel" && <FlywheelBoard />}
       {tab === "activity" && <AivaActivity admin={admin} update={update} />}
 
       {tab === "create" && sub === "overview" && <AivaOverview admin={admin} update={update} go={go} />}
