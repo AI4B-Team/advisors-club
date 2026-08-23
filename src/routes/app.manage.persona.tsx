@@ -196,6 +196,9 @@ function PersonaPage() {
           </div>
         </AmCard>
 
+        <RecommendationControls />
+
+
         <AmCard title="Escalation" desc="When The Persona Should Hand Off To You." icon={<LifeBuoy size={16} />}>
           <div className="am-chip-grid">
             {PERSONA_ESCALATION_TRIGGERS.map(t => (
