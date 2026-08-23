@@ -9,7 +9,7 @@ function line(n: GraphNode): string {
   const bits = [
     `- ${n.title}`,
     n.description ? `— ${n.description.slice(0, 120)}` : "",
-    `[${n.status}${n.price ? `, $${n.price}` : ""}${n.access.type !== "all" ? `, ${n.access.type}` : ""}]`,
+    `[${n.status}${n.price ? `, $${n.price}` : ""}${n.access.mode !== "free" ? `, ${n.access.mode}` : ""}]`,
     n.tags.length ? `tags: ${n.tags.slice(0, 5).join(", ")}` : "",
   ];
   return bits.filter(Boolean).join(" ");
