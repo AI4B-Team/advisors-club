@@ -8,12 +8,9 @@ import { capabilityForPath } from "@/lib/auth/permissions";
 
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
 import { useAivaAttention } from "@/hooks/use-aiva-attention";
-import { MemberAssistantPanel } from "@/components/member-ai/MemberAssistant";
 import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
 import { usePersona } from "@/hooks/use-persona";
 import { MemberOnboarding } from "@/components/member-onboarding/MemberOnboarding";
-import { useMemberAi } from "@/hooks/use-member-ai";
-import { displayName as memberAiName } from "@/lib/member-ai";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 import { GoLiveModal } from "@/components/go-live-modal";
 import { BUILD_WITH_AI_NAV, ONBOARDING_NAV, SYSTEM_NAV, type NavItem } from "@/lib/nav/config";
@@ -388,8 +385,7 @@ function Topbar() {
   const nav = useNavigate();
   const { displayName, initial, user, signOut } = useAuth();
   const { viewAs, setMode, isAdmin } = useViewMode();
-  const memberAi = useMemberAi();
-  const assistantName = memberAiName(memberAi);
+  const assistantName = personaName(persona);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const showPostActions = pathname === "/app" || pathname === "/app/club/feed";
   const [open, setOpen] = useState(false);
@@ -580,19 +576,11 @@ function Topbar() {
         onClose={()=>{ if (briefingOn) attention.acknowledgeAll(); setBriefingOn(false); setCmdOpen(false); }}
         briefing={briefingOn ? { greeting: attention.greeting, headline: attention.headline, items: attention.items, overflow: attention.overflow } : null}
       />
-      {persona.enabled ? (
-        <PersonaAssistantPanel
-          open={askOpen}
-          onClose={()=>setAskOpen(false)}
-          me={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? (displayName || "Member") }}
-        />
-      ) : (
-        <MemberAssistantPanel
-          open={askOpen}
-          onClose={()=>setAskOpen(false)}
-          me={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? (displayName || "Member") }}
-        />
-      )}
+      <PersonaAssistantPanel
+        open={askOpen}
+        onClose={()=>setAskOpen(false)}
+        me={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? (displayName || "Member") }}
+      />
     </header>
   );
 }
