@@ -1,3 +1,4 @@
+import { memberOnboardingSummary } from "./member-onboarding";
 // Builds the member-safe context snapshot the assistant is allowed to see.
 // Permission-gated by the admin's Member AI settings. Private admin data
 // (coach notes, pipeline, other members, billing) is never included.
@@ -37,6 +38,7 @@ export function knowledgeSnapshot(s: MemberAiSettings): string {
   }
   if (s.sources.transcripts) out.push("TRANSCRIPTS: Lesson transcripts are available for the published lessons above.");
   if (s.sources.resources) out.push("RESOURCE LIBRARY: Worksheets, templates, and links attached to the lessons above.");
+
 
   return out.join("\n\n").slice(0, 6000);
 }
@@ -89,6 +91,9 @@ export function memberSnapshot(s: MemberAiSettings, me: MemberIdentity): string 
   if (p.resources) {
     out.push("RESOURCES AVAILABLE TO THEM: The lesson resource library and any templates attached to their enrolled courses.");
   }
+
+  const onb = memberOnboardingSummary(me.id);
+  if (onb) out.push(onb);
 
   return out.join("\n\n").slice(0, 6000);
 }

@@ -3,6 +3,7 @@ import { Sparkles, UserCircle2, ShieldCheck, Eye, LifeBuoy, BookOpen, Wand2, Inf
 import { AmCard, AmField, AmToggle } from "./ui";
 import { useMemberAiEditor } from "@/hooks/use-member-ai";
 import { MemberAssistantPanel } from "@/components/member-ai/MemberAssistant";
+import { MemberOnboardingConfig } from "./MemberOnboardingConfig";
 import {
   MEMBER_AI_MODES, MEMBER_AI_SOURCES, MEMBER_AI_PERMISSIONS, MEMBER_AI_ACTIONS,
   ESCALATION_TRIGGERS, NEXT_ACTIONS, disclosure, displayName,
@@ -142,6 +143,8 @@ export function AivaMemberAi() {
           <input className="am-input" value={settings.escalation.extra} placeholder="Your coach replies within one business day." onChange={e => update({ escalation: { ...settings.escalation, extra: e.target.value } })} />
         </AmField>
       </AmCard>
+
+      <MemberOnboardingConfig />
 
       <AmCard title="Preview" desc="Exactly What A Member Sees." icon={<Sparkles size={16} />}>
         <button className="am-btn primary" onClick={() => setPreview(true)}><Eye size={13} /> Open Member Preview</button>

@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
 import { MemberAssistantPanel } from "@/components/member-ai/MemberAssistant";
+import { MemberOnboarding } from "@/components/member-onboarding/MemberOnboarding";
 import { useMemberAi } from "@/hooks/use-member-ai";
 import { displayName as memberAiName } from "@/lib/member-ai";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
@@ -78,6 +79,7 @@ function AppShell() {
               </main>
             </div>
             <GoLiveModal open={liveOpen} onClose={() => setLiveOpen(false)} />
+            <MemberOnboardingGate />
           </div>
         )}
       </ClubCtx.Provider>
@@ -85,6 +87,13 @@ function AppShell() {
   );
 }
 
+
+/* ============ MEMBER ONBOARDING GATE ============ */
+function MemberOnboardingGate() {
+  const { isAdmin, viewAs } = useViewMode();
+  if (isAdmin && !viewAs) return null;
+  return <MemberOnboarding member={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? "Member" }} />;
+}
 
 /* ============ LEFT ICON RAIL ============ */
 function IconRail() {
