@@ -103,28 +103,8 @@ export function AivaInstructions({ admin, update }: { admin: AivaAdmin; update: 
         <AmField label="Situations Requiring Human Escalation"><textarea className="am-textarea" rows={2} value={admin.boundaries.escalate} onChange={e => update({ boundaries: { ...admin.boundaries, escalate: e.target.value } })} /></AmField>
       </AmCard>
 
-      <AmCard title="Member-Facing AI" desc="How The Same Intelligence Layer Presents Itself To Members." icon={<UserCircle2 size={16} />}>
-        <div className="am-mode-grid">
-          {MEMBER_MODES.map(m => (
-            <button key={m.id} className={`am-mode${memberAi.mode === m.id ? " on" : ""}`} onClick={() => saveMemberAi({ mode: m.id })}>
-              <b>{m.label}</b>
-              <span>{m.blurb}</span>
-            </button>
-          ))}
-        </div>
-        <div className="am-grid-2">
-          <AmField label="Display Name"><input className="am-input" value={memberAi.name} onChange={e => saveMemberAi({ name: e.target.value })} /></AmField>
-          <AmField label="Avatar URL"><input className="am-input" value={memberAi.avatarUrl} placeholder="https://..." onChange={e => saveMemberAi({ avatarUrl: e.target.value })} /></AmField>
-        </div>
-        <AmField label="Introduction"><textarea className="am-textarea" rows={2} value={memberAi.personality} placeholder="Hi, I'm here to help you finish what you started." onChange={e => saveMemberAi({ personality: e.target.value })} /></AmField>
-        <AmField label="Tone"><input className="am-input" value={admin.voice.tone} readOnly /></AmField>
-        <AmField label="Member-Facing Instructions" hint="Applies Only To Member Conversations.">
-          <textarea className="am-textarea" rows={3} value={admin.memberInstructions} onChange={e => update({ memberInstructions: e.target.value })} placeholder="Keep Answers Short. Always Suggest The Next Lesson." />
-        </AmField>
-        <div className="am-disclose">
-          <Ban size={14} />
-          <p><b>AI Disclosure Is Always On.</b> Members Always See: “{memberAi.disclosure}”</p>
-        </div>
+      <AmCard title="Member-Facing AI" desc="Identity, Training Sources, Permissions, And Escalation Now Live In The Member AI Tab." icon={<UserCircle2 size={16} />}>
+        <p className="am-muted">Members Currently See: <b>{memberAi.name || "AIVA"}</b>. Open <b>Member AI</b> To Change How Members Experience The Assistant.</p>
       </AmCard>
     </div>
   );

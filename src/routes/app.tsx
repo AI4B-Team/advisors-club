@@ -4,6 +4,9 @@ import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Cale
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
+import { MemberAssistantPanel } from "@/components/member-ai/MemberAssistant";
+import { useMemberAi } from "@/hooks/use-member-ai";
+import { displayName as memberAiName } from "@/lib/member-ai";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 import { GoLiveModal } from "@/components/go-live-modal";
 
@@ -379,16 +382,22 @@ function CommunitySidebar() {
 function Topbar() {
   const nav = useNavigate();
   const { displayName, initial, user, signOut } = useAuth();
-  const { viewAs, setMode } = useViewMode();
+  const { viewAs, setMode, isAdmin } = useViewMode();
+  const memberAi = useMemberAi();
+  const assistantName = memberAiName(memberAi);
   const pathname = useRouterState({ select: s => s.location.pathname });
   const showPostActions = pathname === "/app" || pathname === "/app/club/feed";
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
+  const [askOpen, setAskOpen] = useState(false);
+  const isAdminRef = useRef(true);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+
+  isAdminRef.current = isAdmin;
 
   const recentSearches = ["Real Estate Funnel", "AIVA Prompts", "Stripe Connect", "Course Builder"];
   const trending = ["Live Events", "Member Onboarding", "Challenges"];
@@ -406,7 +415,7 @@ function Topbar() {
     function onKey(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setCmdOpen(o => !o);
+        if (isAdminRef.current) setCmdOpen(o => !o); else setAskOpen(o => !o);
       }
     }
     window.addEventListener("keydown", onKey);
@@ -457,17 +466,31 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
-        <button
-          className={`cc-tb-ask${cmdOpen ? " on" : ""}`}
-          type="button"
-          aria-label="Ask AIVA"
-          data-tip="Ask AIVA"
-          onClick={()=>setCmdOpen(o=>!o)}
-        >
-          <Sparkles size={15}/>
-          <span className="cc-tb-ask-l">Ask AIVA</span>
-          <kbd className="cc-tb-ask-k">⌘K</kbd>
-        </button>
+        {isAdmin ? (
+          <button
+            className={`cc-tb-ask${cmdOpen ? " on" : ""}`}
+            type="button"
+            aria-label="Ask AIVA"
+            data-tip="Ask AIVA"
+            onClick={()=>setCmdOpen(o=>!o)}
+          >
+            <Sparkles size={15}/>
+            <span className="cc-tb-ask-l">Ask AIVA</span>
+            <kbd className="cc-tb-ask-k">⌘K</kbd>
+          </button>
+        ) : (
+          <button
+            className={`cc-tb-ask member${askOpen ? " on" : ""}`}
+            type="button"
+            aria-label={`Ask ${assistantName}`}
+            data-tip={`Ask ${assistantName} — AI Assistant`}
+            onClick={()=>setAskOpen(o=>!o)}
+          >
+            <Sparkles size={15}/>
+            <span className="cc-tb-ask-l">Ask {assistantName}</span>
+            <kbd className="cc-tb-ask-k">AI</kbd>
+          </button>
+        )}
         <button
           className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
           type="button"
@@ -528,6 +551,11 @@ function Topbar() {
       </div>
       <AISummaryDrawer open={aiOpen} onClose={()=>setAiOpen(false)} />
       <AivaCommandPalette open={cmdOpen} onClose={()=>setCmdOpen(false)} />
+      <MemberAssistantPanel
+        open={askOpen}
+        onClose={()=>setAskOpen(false)}
+        me={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? (displayName || "Member") }}
+      />
     </header>
   );
 }
