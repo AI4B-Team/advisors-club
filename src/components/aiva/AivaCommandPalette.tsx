@@ -143,7 +143,7 @@ export function AivaCommandPalette({
                         {item.ctaDestination && (
                           <button
                             className="acp-disc-a ghost"
-                            onClick={() => { onClose(); nav({ to: item.ctaDestination! }); }}
+                            onClick={() => { onClose(); nav({ to: item.ctaDestination as never }); }}
                           >
                             {item.ctaLabel ?? "Open"} <ArrowRight size={12} />
                           </button>
@@ -155,7 +155,7 @@ export function AivaCommandPalette({
                 {brief.overflow > 0 && (
                   <button
                     className="acp-brief-more"
-                    onClick={() => { onClose(); nav({ to: "/app/aiva", search: { view: "activity" } as never }); }}
+                    onClick={() => { onClose(); nav({ to: "/app/aiva" as never }); }}
                   >
                     {brief.overflow} More {brief.overflow === 1 ? "Item" : "Items"} In My Full Activity Report <ArrowRight size={12} />
                   </button>
