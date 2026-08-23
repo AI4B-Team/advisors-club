@@ -174,7 +174,8 @@ export function fromLegacy(entries: ActivityEntry[]): AivaActivityRecord[] {
         requiresApproval: e.kind === "suggestion",
         autonomy: e.kind === "suggestion" ? "requires-approval" : "automatic",
         ...(e.kind === "action" ? { completedAt: e.at } : {}),
-        ctaLabel: "Open AIVA", ctaDestination: "/app/aiva?view=create&sub=capabilities",
+        ctaLabel: e.kind === "suggestion" ? "Review Suggestion" : e.kind === "flag" ? "Review Flag" : "View Details",
+        ctaDestination: "/app/aiva?view=create&sub=capabilities",
       }),
     );
 }
