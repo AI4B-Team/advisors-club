@@ -1,7 +1,7 @@
 // Apps — local persistence. Mirrors the pattern used by the nav and coaching
 // stores: a single JSON document in localStorage plus a change event.
 
-import type { App, AppAccess, AppKind, AppIconKey } from "./types";
+import type { App, AppAccess, AppKind, AppIconKey, AppPricing, AppSchema } from "./types";
 import { findTemplate } from "./library";
 
 const KEY = "ac_apps_v1";
@@ -24,6 +24,10 @@ export function getApps(): App[] {
   } catch {
     return [];
   }
+}
+
+export function getApp(id: string): App | undefined {
+  return getApps().find(a => a.id === id);
 }
 
 export function setApps(next: App[]): App[] {
@@ -55,8 +59,12 @@ export type NewApp = {
   kind: AppKind;
   icon?: AppIconKey;
   access?: AppAccess;
+  pricing?: AppPricing;
   source?: App["source"];
   templateId?: string;
+  prompt?: string;
+  contextRefs?: string[];
+  schema?: AppSchema;
 };
 
 export function createApp(input: NewApp): App {
@@ -68,8 +76,13 @@ export function createApp(input: NewApp): App {
     icon: input.icon ?? "wrench",
     status: "draft",
     access: input.access ?? { type: "all" },
+    listed: true,
+    pricing: input.pricing ?? { model: "free" },
     templateId: input.templateId,
     source: input.source ?? "blank",
+    prompt: input.prompt,
+    contextRefs: input.contextRefs ?? [],
+    schema: input.schema ?? { fields: [], outputs: [] },
     config: {},
     createdAt: now(),
     updatedAt: now(),
@@ -89,11 +102,35 @@ export function addFromTemplate(templateId: string, access?: AppAccess): App | n
     access,
     source: "library",
     templateId: t.id,
+    schema: t.schema,
   });
+}
+
+export function duplicateApp(id: string): App | null {
+  const src = getApp(id);
+  if (!src) return null;
+  const copy: App = {
+    ...src,
+    id: uid(),
+    name: `${src.name} (Copy)`,
+    status: "draft",
+    createdAt: now(),
+    updatedAt: now(),
+  };
+  updateApps(list => [copy, ...list]);
+  return copy;
 }
 
 export function patchApp(id: string, patch: Partial<App>): void {
   updateApps(list => list.map(a => (a.id === id ? { ...a, ...patch, updatedAt: now() } : a)));
+}
+
+export function patchSchema(id: string, patch: Partial<AppSchema>): void {
+  updateApps(list => list.map(a => (
+    a.id === id
+      ? { ...a, schema: { fields: [], outputs: [], ...(a.schema ?? {}), ...patch }, updatedAt: now() }
+      : a
+  )));
 }
 
 export function removeApp(id: string): void {
