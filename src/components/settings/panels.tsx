@@ -91,7 +91,7 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-export const PANELS: Record<PanelKey, () => JSX.Element> = {
+export const PANELS: Record<PanelKey, React.ComponentType> = {
   clubs: ClubsPanel,
   profile: ProfilePanel,
   members: AudiencePanel,
