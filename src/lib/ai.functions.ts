@@ -565,3 +565,80 @@ When you escalate: say "${escalation.message}", explain in one line why, then po
       return { reply: "", escalate: false, error: "The assistant is unavailable right now." };
     }
   });
+
+/* ============ AIVA — Build With AIVA (Sales Pages / Offers) ============ */
+const SalesPageInputSchema = z.object({
+  prompt: z.string().min(1).max(1500),
+  surface: z.enum(["club", "landing"]).default("landing"),
+  allowed: z.array(z.string().max(40)).min(1).max(40),
+  brief: z.string().max(6000).default(""),
+});
+
+export type SalesDraftBlock = { type: string; props: Record<string, string> };
+
+export const aivaBuildSalesPage = createServerFn({ method: "POST" })
+  .inputValidator((input) => SalesPageInputSchema.parse(input))
+  .handler(async ({ data }) => {
+    const empty = { blocks: [] as SalesDraftBlock[], notes: "", error: null as string | null };
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { ...empty, error: "AI is not configured for this workspace." };
+
+    const system = `You are AIVA, the intelligence layer inside AdvisorsClub. You draft high-converting ${data.surface === "club" ? "public Club pages" : "landing / offer pages"} for an advisor, using ONLY what you know about their business.
+
+Rules:
+- Use ONLY these block types: ${data.allowed.join(", ")}.
+- Return 5 to 10 blocks, ordered top to bottom in the order a visitor should read them.
+- Every block MUST include a "props" object with real, specific copy — never lorem ipsum, never placeholders in brackets.
+- Common prop keys: title, sub, body, eyebrow, ctaLabel, ctaUrl, items, name, role, price, productName, note, guarantee, stats, fields.
+- "items", "fields" and "stats" are newline-separated strings. For items that need two parts use "Left | Right" per line (e.g. "Week 1 — Foundations | Positioning and targets").
+- Never invent prices unless the admin's request or business brief states one. If a price is stated, use it exactly.
+- Write in the advisor's voice: concrete, confident, specific. No hype, no exclamation marks.
+- Respond with STRICT JSON only, no markdown fences:
+  {"blocks":[{"type":"hero","props":{"title":"…","sub":"…","ctaLabel":"…"}}],"notes":"one short sentence"}`;
+
+    const user = `BUSINESS BRIEF:
+${data.brief || "(no business knowledge captured yet — write a strong generic draft for a coaching/community business)"}
+
+ADMIN REQUEST: ${data.prompt}`;
+
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+        }),
+      });
+      if (resp.status === 429) return { ...empty, error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { ...empty, error: "Out of AI credits." };
+      if (!resp.ok) {
+        console.error("aivaBuildSalesPage gateway error", resp.status, await resp.text());
+        return { ...empty, error: "AIVA is unavailable right now." };
+      }
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const raw = (json.choices?.[0]?.message?.content ?? "").trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+      let parsed: { blocks?: unknown; notes?: unknown } = {};
+      try { parsed = JSON.parse(raw); } catch { return { ...empty, error: "AIVA returned an unexpected response. Try rephrasing." }; }
+      const allowed = new Set(data.allowed);
+      const blocks: SalesDraftBlock[] = Array.isArray(parsed.blocks)
+        ? (parsed.blocks as unknown[]).flatMap((b) => {
+            if (!b || typeof b !== "object") return [];
+            const rec = b as Record<string, unknown>;
+            const type = typeof rec.type === "string" ? rec.type : "";
+            if (!allowed.has(type)) return [];
+            const propsIn = (rec.props && typeof rec.props === "object") ? rec.props as Record<string, unknown> : {};
+            const props: Record<string, string> = {};
+            for (const [k, v] of Object.entries(propsIn)) {
+              if (typeof v === "string" || typeof v === "number") props[k] = String(v).slice(0, 1200);
+            }
+            return [{ type, props }];
+          }).slice(0, 12)
+        : [];
+      if (!blocks.length) return { ...empty, error: "AIVA could not draft that page. Try describing the offer and audience." };
+      return { blocks, notes: typeof parsed.notes === "string" ? parsed.notes.slice(0, 240) : "", error: null };
+    } catch (e) {
+      console.error("aivaBuildSalesPage error", e);
+      return { ...empty, error: "AIVA is unavailable right now." };
+    }
+  });
