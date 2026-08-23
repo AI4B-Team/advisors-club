@@ -81,6 +81,17 @@ function AppShell() {
             <IconRail />
             {!hideSidebar && <CommunitySidebar minSidebar={minSidebar} onToggleSidebar={() => setMinSidebar(m => !m)} />}
             <div className="cc-main-wrap">
+              {!hideSidebar && (
+                <button
+                  type="button"
+                  className="cc-sb-collapse"
+                  aria-label={minSidebar ? "Expand Sidebar" : "Collapse Sidebar"}
+                  data-tip={minSidebar ? "Expand Sidebar" : "Collapse Sidebar"}
+                  onClick={() => setMinSidebar(m => !m)}
+                >
+                  {minSidebar ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+                </button>
+              )}
               <Topbar />
               <main className="cc-main">
                 <GuardedOutlet />
@@ -304,15 +315,6 @@ function CommunitySidebar({ minSidebar, onToggleSidebar }: { minSidebar: boolean
 
   return (
     <aside className="cc-sb">
-      <button
-        type="button"
-        className="cc-sb-collapse"
-        aria-label={minSidebar ? "Expand sidebar" : "Collapse sidebar"}
-        data-tip={minSidebar ? "Expand sidebar" : "Collapse sidebar"}
-        onClick={onToggleSidebar}
-      >
-        {minSidebar ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-      </button>
       <div className="cc-sb-top" ref={ref}>
         <button className="cc-sb-switcher" onClick={() => setOpen(o => !o)}>
           <span className="cc-sb-mini" style={{background: active.color}}>{active.label.slice(0,1)}</span>
