@@ -5,6 +5,7 @@ import {
   computeFlywheel, initFlywheel, lifecycleBoard, subscribeFlywheel,
   STAGE_LABEL, type FlywheelState, type StageState,
 } from "@/lib/flywheel";
+import { getFlywheelLog } from "@/lib/flywheel/log";
 import { subscribeSignals } from "@/lib/signals/store";
 import { subscribeOppStatuses } from "@/lib/opportunities/store";
 import { subscribeRecos } from "@/lib/recos/store";
@@ -124,7 +125,7 @@ export function FlywheelBoard() {
 function RecentLog() {
   const [, force] = useState(0);
   useEffect(() => subscribeFlywheel(() => force(n => n + 1)), []);
-  const log = typeof window === "undefined" ? [] : computeFlywheelLog();
+  const log = getFlywheelLog().slice(0, 12);
   if (log.length === 0) return <p className="am-empty">No Lifecycle Events Yet. They Appear As You Approve And Build.</p>;
   return (
     <ul className="fw-log">
@@ -138,15 +139,3 @@ function RecentLog() {
     </ul>
   );
 }
-
-function computeFlywheelLog() {
-  // Kept local so the card re-reads the shared log without duplicating it.
-  return require_log().slice(0, 12);
-}
-
-function require_log() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return getLog();
-}
-
-import { getFlywheelLog as getLog } from "@/lib/flywheel/log";
