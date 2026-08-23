@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Sparkles, X, Loader2, ArrowRight, RefreshCw } from "lucide-react";
+import { Sparkles, X, Loader2, ArrowRight, RefreshCw, Eye, Pencil, FlaskConical, Rocket } from "lucide-react";
 import { useBusinessGraph } from "@/hooks/use-business-graph";
 import { generateApp } from "@/lib/apps/builder.functions";
 import { draftFromPrompt, normalizeDraft, type AppDraft } from "@/lib/apps/ai";
 import { createApp } from "@/lib/apps/store";
 import { AppRunner } from "./AppRunner";
 import { appIcon } from "./icons";
-import type { App } from "@/lib/apps/types";
+import { takePendingAppBrief } from "@/lib/apps/pending";
+import { APP_KIND_LABEL, type App, type AppKind } from "@/lib/apps/types";
 
 const EXAMPLES = [
   "I Teach Real Estate Investors How To Calculate Maximum Allowable Offers. Build A Calculator My Students Can Use To Analyze Deals.",
@@ -28,6 +29,13 @@ export function AiAppBuilder({ onClose }: { onClose: () => void }) {
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const [draft, setDraft] = useState<AppDraft | null>(null);
+  const [stage, setStage] = useState<"preview" | "edit" | "test">("preview");
+
+  // AIVA can hand a brief over from an Opportunity ("Build It").
+  useEffect(() => {
+    const brief = takePendingAppBrief();
+    if (brief) { setPrompt(brief); void build(brief); }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function build(text: string) {
     if (!text.trim() || busy) return;
@@ -38,6 +46,7 @@ export function AiAppBuilder({ onClose }: { onClose: () => void }) {
       const parsed = res.draft ? normalizeDraft(JSON.parse(res.draft), text) : null;
       if (parsed) {
         setDraft(parsed);
+        setStage("preview");
       } else {
         setDraft(draftFromPrompt(text));
         setNote(res.error ?? "Couldn't Reach The AI Builder — Started You From The Closest Matching Tool Instead.");
@@ -50,9 +59,10 @@ export function AiAppBuilder({ onClose }: { onClose: () => void }) {
     }
   }
 
-  function save() {
+  function save(status: "draft" | "published") {
     if (!draft) return;
     const app = createApp({
+      status,
       name: draft.name,
       description: draft.description,
       kind: draft.kind,
@@ -113,7 +123,54 @@ export function AiAppBuilder({ onClose }: { onClose: () => void }) {
                 </div>
               </div>
               {note && <p className="apx-warn">{note}</p>}
-              {previewApp && <AppRunner app={previewApp} />}
+
+              <div className="apx-tabs is-inline">
+                <button className={`apx-tab${stage === "preview" ? " is-on" : ""}`} onClick={() => setStage("preview")}>
+                  <Eye size={13} /> Preview
+                </button>
+                <button className={`apx-tab${stage === "edit" ? " is-on" : ""}`} onClick={() => setStage("edit")}>
+                  <Pencil size={13} /> Edit
+                </button>
+                <button className={`apx-tab${stage === "test" ? " is-on" : ""}`} onClick={() => setStage("test")}>
+                  <FlaskConical size={13} /> Test
+                </button>
+              </div>
+
+              {stage === "edit" ? (
+                <div className="apx-draft-edit">
+                  <label className="apx-field">
+                    <span className="apx-field-l">App Name</span>
+                    <input value={draft.name} onChange={e => setDraft({ ...draft, name: e.target.value })} />
+                  </label>
+                  <label className="apx-field">
+                    <span className="apx-field-l">Short Description</span>
+                    <input
+                      value={draft.description}
+                      onChange={e => setDraft({ ...draft, description: e.target.value })}
+                    />
+                  </label>
+                  <label className="apx-field">
+                    <span className="apx-field-l">Type</span>
+                    <select value={draft.kind} onChange={e => setDraft({ ...draft, kind: e.target.value as AppKind })}>
+                      {(Object.keys(APP_KIND_LABEL) as AppKind[]).map(k => (
+                        <option key={k} value={k}>{APP_KIND_LABEL[k]}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <p className="apx-muted">
+                    Fields, Formulas And Results Are Fully Editable After You Save — This Is Just The Cover.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  {stage === "test" && (
+                    <p className="apx-muted">
+                      Enter Real Numbers And Check The Result Before Anyone Else Sees It.
+                    </p>
+                  )}
+                  {previewApp && <AppRunner app={previewApp} />}
+                </>
+              )}
             </>
           )}
         </div>
@@ -123,7 +180,8 @@ export function AiAppBuilder({ onClose }: { onClose: () => void }) {
             <>
               <button className="apx-mini" onClick={() => setDraft(null)}><RefreshCw size={13} /> Start Over</button>
               <button className="apx-mini" disabled={busy} onClick={() => void build(prompt)}>Regenerate</button>
-              <button className="apx-primary-btn" onClick={save}>Save & Edit <ArrowRight size={14} /></button>
+              <button className="apx-mini" onClick={() => save("draft")}>Save As Draft <ArrowRight size={14} /></button>
+              <button className="apx-primary-btn" onClick={() => save("published")}><Rocket size={14} /> Publish</button>
             </>
           ) : (
             <>

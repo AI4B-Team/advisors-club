@@ -7,6 +7,7 @@ import {
   STATUS_LABEL, type Opportunity, type OpportunityFamily, type OpportunityStatus,
 } from "@/lib/opportunities/types";
 import { SIGNAL_LABEL } from "@/lib/signals/types";
+import { setPendingAppBrief } from "@/lib/apps/pending";
 
 type Filter = "all" | OpportunityFamily;
 const FILTERS: Filter[] = ["all", "build", "revenue", "members"];
@@ -40,6 +41,12 @@ export function OpportunityBoard() {
 
   const approve = (o: Opportunity) => {
     decide(o, "approved");
+    if (o.kind === "app") {
+      // Hand the brief straight to the AI app builder so "Build It" builds it.
+      setPendingAppBrief(
+        `${o.suggestedTitle} — ${o.suggestedSummary} Build This For Members Who Asked About ${o.topic}.`,
+      );
+    }
     navigate({ to: o.buildHref ?? "/app/aiva" });
   };
 
