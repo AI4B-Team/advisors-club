@@ -4,7 +4,7 @@ import {
   RefreshCw, Share2, Trash2, Upload, Youtube,
 } from "lucide-react";
 import { AmCard, AmStatus } from "./ui";
-import { type AivaAdmin, type KnowledgeKind, type KnowledgeItem } from "@/lib/aiva-admin";
+import { getAivaAdmin, setAivaAdmin, type AivaAdmin, type KnowledgeKind, type KnowledgeItem } from "@/lib/aiva-admin";
 
 const KINDS: { id: KnowledgeKind; label: string; icon: typeof Globe; addable: boolean; placeholder: string }[] = [
   { id: "website", label: "Website", icon: Globe, addable: true, placeholder: "https://yourwebsite.com" },
@@ -28,6 +28,16 @@ export function AivaKnowledge({ admin, update }: { admin: AivaAdmin; update: (p:
   const [value, setValue] = useState("");
   const active = KINDS.find(k => k.id === kind)!;
 
+  function finish(id: string) {
+    setTimeout(() => {
+      const cur = getAivaAdmin();
+      setAivaAdmin({
+        knowledge: cur.knowledge.map(k => k.id === id
+          ? { ...k, status: "ready" as const, updatedAt: new Date().toISOString() } : k),
+      });
+    }, 1400);
+  }
+
   function add() {
     const label = value.trim();
     if (!label || !active.addable) return;
@@ -36,20 +46,12 @@ export function AivaKnowledge({ admin, update }: { admin: AivaAdmin; update: (p:
     };
     update({ knowledge: [item, ...admin.knowledge] });
     setValue("");
-    setTimeout(() => {
-      const cur = admin.knowledge;
-      update({ knowledge: [{ ...item, status: "ready", updatedAt: new Date().toISOString() }, ...cur] });
-    }, 1400);
+    finish(item.id);
   }
 
   function reprocess(id: string) {
     update({ knowledge: admin.knowledge.map(k => k.id === id ? { ...k, status: "processing" as const } : k) });
-    setTimeout(() => {
-      update({
-        knowledge: admin.knowledge.map(k => k.id === id
-          ? { ...k, status: "ready" as const, updatedAt: new Date().toISOString() } : k),
-      });
-    }, 1400);
+    finish(id);
   }
 
   function remove(id: string) {

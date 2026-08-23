@@ -58,6 +58,7 @@ export type AivaAdmin = {
   };
   custom: { always: string[]; never: string[]; when: string[] };
   boundaries: { topics: string; noAnswer: string; escalate: string };
+  memberInstructions: string;
   facts: Record<KnowledgeFactKey, string>;
   knowledge: KnowledgeItem[];
   capabilities: Record<CapabilityId, boolean>;
@@ -141,6 +142,7 @@ const DEFAULTS: AivaAdmin = {
     noAnswer: "Anything about another member's private account or billing details",
     escalate: "Refund requests, complaints, or anything involving member safety",
   },
+  memberInstructions: "Keep Answers Short. Always Point To The Next Lesson Or Resource.",
   facts: {
     "about-you": "",
     "your-business": "",

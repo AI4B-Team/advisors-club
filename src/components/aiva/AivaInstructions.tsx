@@ -119,7 +119,7 @@ export function AivaInstructions({ admin, update }: { admin: AivaAdmin; update: 
         <AmField label="Introduction"><textarea className="am-textarea" rows={2} value={memberAi.personality} placeholder="Hi, I'm here to help you finish what you started." onChange={e => saveMemberAi({ personality: e.target.value })} /></AmField>
         <AmField label="Tone"><input className="am-input" value={admin.voice.tone} readOnly /></AmField>
         <AmField label="Member-Facing Instructions" hint="Applies Only To Member Conversations.">
-          <textarea className="am-textarea" rows={3} value={memberAi.disclosure === "" ? "" : memberAi.personality ? memberAi.personality : ""} onChange={e => saveMemberAi({ personality: e.target.value })} placeholder="Keep Answers Short. Always Suggest The Next Lesson." />
+          <textarea className="am-textarea" rows={3} value={admin.memberInstructions} onChange={e => update({ memberInstructions: e.target.value })} placeholder="Keep Answers Short. Always Suggest The Next Lesson." />
         </AmField>
         <div className="am-disclose">
           <Ban size={14} />
