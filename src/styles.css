@@ -5526,3 +5526,29 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .mrec-go{display:inline-flex;align-items:center;gap:5px;border:0;background:#0F0F12;color:#fff;border-radius:9px;padding:6px 11px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;flex:none}
 .mrec-x{border:0;background:transparent;color:#9A9AA4;cursor:pointer;padding:4px;border-radius:7px;flex:none}
 .mrec-x:hover{background:#F3F3F6;color:#5E5E68}
+
+/* Intelligence flywheel */
+.fw-summary { margin: 0 0 12px; font-size: 14px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
+.fw-loop { list-style: none; display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; margin: 0; padding: 0; }
+.fw-loop > li { display: flex; align-items: center; gap: 6px; }
+.fw-arrow { color: hsl(var(--muted-foreground)); opacity: .55; flex: none; }
+.fw-stage { display: flex; flex-direction: column; gap: 2px; text-align: left; min-width: 148px; padding: 10px 12px;
+  border: 1px solid hsl(var(--border)); border-radius: 12px; background: hsl(var(--card)); cursor: pointer; transition: .15s; }
+.fw-stage:hover { border-color: hsl(var(--primary) / .5); }
+.fw-stage.on { background: hsl(var(--primary) / .06); border-color: hsl(var(--primary) / .35); }
+.fw-stage.wait { border-color: hsl(var(--primary)); box-shadow: 0 0 0 3px hsl(var(--primary) / .12); }
+.fw-stage-n { font-size: 10px; letter-spacing: .08em; color: hsl(var(--muted-foreground)); }
+.fw-stage-l { font-size: 13px; font-weight: 600; color: hsl(var(--foreground)); }
+.fw-stage-m { font-size: 11px; color: hsl(var(--muted-foreground)); }
+.fw-stage-w { font-size: 11px; font-weight: 600; color: hsl(var(--primary)); }
+.fw-log { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.fw-log li { display: grid; gap: 2px; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 10px; }
+.fw-log strong { font-size: 13px; }
+.fw-log span { font-size: 12px; color: hsl(var(--muted-foreground)); }
+.fw-log em { font-size: 11px; font-style: normal; color: hsl(var(--muted-foreground)); opacity: .8; }
+.fw-life { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.fw-life li { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;
+  padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: 10px; }
+.fw-life strong { display: block; font-size: 13px; }
+.fw-life span { font-size: 12px; color: hsl(var(--muted-foreground)); }
+.fw-life-r { display: flex; align-items: center; gap: 8px; }

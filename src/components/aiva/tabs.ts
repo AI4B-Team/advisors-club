@@ -1,12 +1,13 @@
 export type AmTabKey = "console" | "overview" | "knowledge" | "catalog" | "intelligence" | "opportunities" | "instructions" | "member-ai" | "capabilities" | "activity";
 
 /** Primary AIVA sections. Deliberately four — navigation stays simple. */
-export type AmPrimaryKey = "console" | "create" | "opportunities" | "activity";
+export type AmPrimaryKey = "console" | "create" | "opportunities" | "flywheel" | "activity";
 
 export const AM_TABS: { key: AmPrimaryKey; label: string }[] = [
   { key: "console", label: "Ask AIVA" },
   { key: "create", label: "Create" },
   { key: "opportunities", label: "Opportunities" },
+  { key: "flywheel", label: "Flywheel" },
   { key: "activity", label: "Activity" },
 ];
 
