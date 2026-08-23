@@ -41,14 +41,19 @@ function useCountdown(target: Date) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
   const diff = target.getTime() - now.getTime();
-  if (diff <= 0) return { live: true, label: "Live Now" };
+  // Live only inside a ~2h window after the start; past events show nothing.
+  if (diff <= 0) {
+    const since = -diff;
+    if (since <= 2 * 3600000) return { live: true, label: "Live Now", ended: false };
+    return { live: false, label: "", ended: true };
+  }
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
   const m = Math.floor((diff % 3600000) / 60000);
   const s = Math.floor((diff % 60000) / 1000);
-  if (d > 0) return { live: false, label: `${d}d ${h}h ${m}m` };
-  if (h > 0) return { live: false, label: `${h}h ${m}m ${s}s` };
-  return { live: false, label: `${m}m ${s}s` };
+  if (d > 0) return { live: false, label: `${d}d ${h}h ${m}m`, ended: false };
+  if (h > 0) return { live: false, label: `${h}h ${m}m ${s}s`, ended: false };
+  return { live: false, label: `${m}m ${s}s`, ended: false };
 }
 
 function CalendarPage() {
@@ -335,7 +340,7 @@ function EventCard({ e, rsvp, onRsvp }: { e: EventItem; rsvp: Rsvp; onRsvp: (v: 
   return (
     <article className="cal-ec">
       <div className="cal-ec-thumb" style={{backgroundImage:`url(${e.thumb})`}}>
-        <div className={`cal-ec-cd ${cd.live?"live":""}`}><Clock size={11}/> {cd.label}</div>
+        {!cd.ended && <div className={`cal-ec-cd ${cd.live?"live":""}`}><Clock size={11}/> {cd.label}</div>}
       </div>
       <div className="cal-ec-body">
         <div className="cal-ec-date">
@@ -356,6 +361,7 @@ function EventCard({ e, rsvp, onRsvp }: { e: EventItem; rsvp: Rsvp; onRsvp: (v: 
 
 function CountdownChip({ target }: { target: Date }) {
   const cd = useCountdown(target);
+  if (cd.ended) return null;
   return <div className={`cal-cd-chip ${cd.live?"live":""}`}><Clock size={11}/> {cd.label}</div>;
 }
 
