@@ -27,28 +27,10 @@ const COVERS = [coverWealth, coverRealEstate, coverSales, coverMindset, coverMar
 const HERO_TILES: string[] = Array.from({ length: 28 }, (_, i) => COVERS[i % COVERS.length]);
 
 export const Route = createFileRoute("/landing")({
-  component: Index,
-  head: () => ({
-    meta: [
-      { title: "AdvisorsClub — Build Your Club. Own Your Audience." },
-      {
-        name: "description",
-        content:
-          "The all-in-one platform where Advisors launch Clubs, host Courses, run Challenges, and get paid — with AIVA, your AI agent, around the clock.",
-      },
-      { property: "og:title", content: "AdvisorsClub — Build Your Club. Own Your Audience." },
-      {
-        property: "og:description",
-        content: "Communities, Courses, Coaching, Conferences, Challenges — and AIVA. From $0.",
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap",
-      },
-    ],
-  }),
+  beforeLoad: () => {
+    const { redirect } = require("@tanstack/react-router");
+    throw redirect({ to: "/" });
+  },
 });
 
 
@@ -69,7 +51,7 @@ const QUICK_STARTS = [
 ];
 
 
-function Index() {
+export function Index() {
   const nav = useNavigate();
   const [heroPrompt, setHeroPrompt] = useState("");
   const [ctaEmail, setCtaEmail] = useState("");
