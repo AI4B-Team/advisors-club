@@ -394,7 +394,7 @@ function AiNavModal({ onClose, onApply }: { onClose: () => void; onApply: (rows:
   }
 
   return (
-    <div className="nv-modal-back" onClick={onClose}>
+    <div className="nv-modal-bg" onClick={onClose}>
       <div className="nv-modal nv-modal-ai" onClick={e => e.stopPropagation()}>
         <div className="nv-modal-hd">
           <strong><Sparkles size={15} /> Build My Navigation With AI</strong>
