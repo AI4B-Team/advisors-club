@@ -5061,3 +5061,6 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .site-nav .sn-link{font-size:13px}
   .lt .dc-min-pills{padding-left:0;padding-right:0}
 }
+@media (max-width:900px){
+  .lt{overflow-x:hidden}
+}
