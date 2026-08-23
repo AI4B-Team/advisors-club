@@ -1,19 +1,13 @@
-import type { BlockDef, PageId, BlockCategory } from "./types";
+// Canonical catalog source — blocks available on signed-in Club surfaces.
+import type { BlockDef, PageTypeId } from "../types";
 
-const ALL: PageId[] = ["home", "community", "course-home", "member-dashboard", "public-club"];
-const SIGNED_IN: PageId[] = ["home", "community", "course-home", "member-dashboard"];
-
-export const CATEGORY_META: Record<BlockCategory, { label: string; tint: string; ink: string }> = {
-  content:   { label: "Content",   tint: "#FEF6E7", ink: "#B45309" },
-  community: { label: "Community", tint: "#EEF4FF", ink: "#2563EB" },
-  learning:  { label: "Learning",  tint: "#ECFDF5", ink: "#047857" },
-  business:  { label: "Business",  tint: "#F6F4FE", ink: "#6D28D9" },
-};
+const ALL: PageTypeId[] = ["club-home", "club-community", "club-course-home", "club-member-dashboard", "club-public"];
+const SIGNED_IN: PageTypeId[] = ["club-home", "club-community", "club-course-home", "club-member-dashboard"];
 
 const headingField = { key: "title", label: "Title", type: "text" as const };
 const limitField = (max = 12) => ({ key: "limit", label: "Items Shown", type: "number" as const, min: 1, max });
 
-export const BLOCK_DEFS: BlockDef[] = [
+export const APP_BLOCK_DEFS: BlockDef[] = [
   /* ---------------- CONTENT ---------------- */
   {
     type: "hero", label: "Hero", category: "content", desc: "Cover Image, Headline And Primary Action.",
@@ -73,13 +67,13 @@ export const BLOCK_DEFS: BlockDef[] = [
   /* ---------------- COMMUNITY ---------------- */
   {
     type: "feed", label: "Feed", category: "community", desc: "The Live Community Post Stream.",
-    pages: ["home", "community", "member-dashboard"], duplicable: false,
+    pages: ["club-home", "club-community", "club-member-dashboard"], duplicable: false,
     fields: [headingField, { key: "showComposer", label: "Show Composer", type: "toggle" }, { key: "showTabs", label: "Show Category Tabs", type: "toggle" }, limitField(10)],
     defaults: { title: "Latest Activity", showComposer: true, showTabs: true, limit: 3 },
   },
   {
     type: "featured-posts", label: "Featured Posts", category: "community", desc: "Pinned And Highlighted Discussions.",
-    pages: SIGNED_IN.concat("public-club"), duplicable: false,
+    pages: SIGNED_IN.concat("club-public" as PageTypeId), duplicable: false,
     fields: [headingField, limitField(6)],
     defaults: { title: "Featured Posts", limit: 2 },
   },
@@ -178,13 +172,3 @@ export const BLOCK_DEFS: BlockDef[] = [
     defaults: { title: "Products", limit: 3 },
   },
 ];
-
-export const BLOCK_MAP: Record<string, BlockDef> = Object.fromEntries(BLOCK_DEFS.map(b => [b.type, b]));
-
-export function blocksForPage(page: PageId): BlockDef[] {
-  return BLOCK_DEFS.filter(b => b.pages.includes(page));
-}
-
-export function defForType(type: string): BlockDef | undefined {
-  return BLOCK_MAP[type];
-}
