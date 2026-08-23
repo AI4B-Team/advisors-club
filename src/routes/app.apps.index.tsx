@@ -56,7 +56,7 @@ function AppsPage() {
 
 function MemberApps({ apps, label }: { apps: App[]; label: string }) {
   const mine = useMemo(
-    () => visibleApps(apps, { isAdmin: false, membership: "Pro", paid: true }).filter(a => a.listed !== false),
+    () => visibleApps(apps, { canManage: false, membership: "Pro", paid: true }).filter(a => a.listed !== false),
     [apps],
   );
 

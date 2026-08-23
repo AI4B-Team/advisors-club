@@ -57,8 +57,8 @@ export function search(g: BusinessGraph, q: string, types?: EntityType[]): Graph
 /** What a given viewer is actually allowed to see. */
 export function visibleTo(g: BusinessGraph, viewer: Viewer): GraphNode[] {
   return g.nodes.filter(n => {
-    if (n.type === "member" || n.type === "question" || n.type === "activity") return viewer.isAdmin;
-    if (n.status === "draft" && !viewer.isAdmin) return false;
+    if (n.type === "member" || n.type === "question" || n.type === "activity") return viewer.canManage;
+    if (n.status === "draft" && !viewer.canManage) return false;
     return resolveAccess({ kind: "app", id: n.sourceId }, n.access, toCommerceViewer(viewer)).allowed;
   });
 }

@@ -3,6 +3,9 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { Search, Bell, LogOut, ChevronDown, ChevronLeft, ChevronRight, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
+import { RequirePermission } from "@/components/auth/RequirePermission";
+import { capabilityForPath } from "@/lib/auth/permissions";
+
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
 import { useAivaAttention } from "@/hooks/use-aiva-attention";
 import { MemberAssistantPanel } from "@/components/member-ai/MemberAssistant";
@@ -73,7 +76,7 @@ function AppShell() {
     <ViewModeProvider>
       <ClubCtx.Provider value={{ active, setActive }}>
         {fullBleed ? (
-          <Outlet />
+          <GuardedOutlet />
         ) : (
           <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}${minSidebar && !hideSidebar ? " cc-min-sidebar" : ""}`}>
             <IconRail />
@@ -81,9 +84,10 @@ function AppShell() {
             <div className="cc-main-wrap">
               <Topbar />
               <main className="cc-main">
-                <Outlet />
+                <GuardedOutlet />
               </main>
             </div>
+
             <GoLiveModal open={liveOpen} onClose={() => setLiveOpen(false)} />
             <MemberOnboardingGate />
           </div>
@@ -92,6 +96,22 @@ function AppShell() {
     </ViewModeProvider>
   );
 }
+
+/* ============ ADMIN ROUTE GUARD ============
+   Every admin path declares the capability it needs in ROUTE_CAPABILITY, so
+   the gate lives in one place instead of being re-implemented per route.
+   UI-level defence in depth — RLS remains the real boundary. */
+function GuardedOutlet() {
+  const pathname = useRouterState({ select: s => s.location.pathname });
+  const capability = capabilityForPath(pathname);
+  if (!capability) return <Outlet />;
+  return (
+    <RequirePermission capability={capability}>
+      <Outlet />
+    </RequirePermission>
+  );
+}
+
 
 
 /* ============ MEMBER ONBOARDING GATE ============ */

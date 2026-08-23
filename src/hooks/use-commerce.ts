@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { usePermissions } from "@/hooks/use-club-access";
 import {
   getEntitlements, subscribeEntitlements, resolveAccess, purchaseProduct,
   type AccessDecision, type AccessPolicy, type CommerceViewer, type Entitlement,
@@ -14,20 +15,24 @@ import {
  * reads from there rather than a second source of truth.
  */
 export function useCommerceViewer(): CommerceViewer {
-  const { isAdmin, viewAs } = useViewMode();
+  const { viewAs } = useViewMode();
+  const permissions = usePermissions();
+  // Authority comes from the server-resolved permissions, never from the
+  // Admin/Member switcher; previewing as a member also drops the bypass.
+  const canBypassPaywall = permissions.canBypassPaywall() && !viewAs;
   return useMemo(() => {
-    if (!viewAs) return { id: "me", name: "You", isAdmin, plan: "Founding", paidMember: true };
+    if (!viewAs) return { id: "me", name: "You", canBypassPaywall, plan: "Founding", paidMember: true };
     const plan = viewAs.role.replace(/\s*member\s*/i, "").trim() || "Free";
     return {
       id: viewAs.id,
       name: viewAs.name,
-      isAdmin: false,
+      canBypassPaywall: false,
       plan,
       paidMember: plan.toLowerCase() !== "free",
       courseIds: [],
       programIds: [],
     };
-  }, [isAdmin, viewAs]);
+  }, [canBypassPaywall, viewAs]);
 }
 
 export function useEntitlements(): Entitlement[] {
