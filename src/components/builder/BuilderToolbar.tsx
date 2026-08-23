@@ -25,10 +25,10 @@ export function BuilderToolbar({
 }) {
   const cfg = pageTypeConfig(session.page.pageType);
   return (
-    <header className="cz-topbar">
-      <div className="cz-topbar-left">{left}</div>
+    <header className="cz-top">
+      <div className="cz-top-l">{left}</div>
 
-      <div className="cz-devices" role="group" aria-label="Device Preview">
+      <div className="cz-top-c"><div className="cz-devices" role="group" aria-label="Device Preview">
         {DEVICES.map(d => (
           <button
             key={d.id}
@@ -41,9 +41,9 @@ export function BuilderToolbar({
             <d.icon size={14} />
           </button>
         ))}
-      </div>
+      </div></div>
 
-      <div className="cz-topbar-right">
+      <div className="cz-top-r">
         <button type="button" className="cz-icon-btn" onClick={session.undo} disabled={!session.canUndo} aria-label="Undo">
           <Undo2 size={15} />
         </button>
@@ -54,11 +54,11 @@ export function BuilderToolbar({
           {saving ? <><Loader2 size={12} className="cz-spin" /> Saving</> : session.dirty ? "Unsaved Changes" : <><Check size={12} /> Saved</>}
         </span>
         {onPreview ? (
-          <button type="button" className="cz-btn ghost" onClick={onPreview}>
+          <button type="button" className="cz-ghost-btn" onClick={onPreview}>
             <ExternalLink size={14} /> Preview
           </button>
         ) : null}
-        <button type="button" className="cz-btn" onClick={session.publish}>
+        <button type="button" className="cz-publish" onClick={session.publish}>
           {cfg.publish.label}
         </button>
       </div>

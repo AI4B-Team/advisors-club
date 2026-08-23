@@ -64,7 +64,7 @@ export function BlockBuilderShell({
   const active = tabs.find(t => t.id === tab) ?? tabs[0];
 
   return (
-    <div className="cz-shell">
+    <div className="cz-build">
       <BuilderToolbar
         session={session}
         device={device}
@@ -73,9 +73,9 @@ export function BlockBuilderShell({
         onPreview={onPreview}
       />
 
-      <div className="cz-main">
-        <aside className="cz-panel">
-          <nav className="cz-panel-tabs" role="tablist">
+      <div className="cz-shell">
+        <aside className="cz-lp">
+          <nav className="cz-lp-tabs" role="tablist">
             {tabs.map(t => (
               <button
                 key={t.id}
@@ -92,7 +92,7 @@ export function BlockBuilderShell({
           {active.render()}
         </aside>
 
-        <section className="cz-work">
+        <section className="cz-main">
           {aside}
           <AiPageBar
             pageType={session.page.pageType}

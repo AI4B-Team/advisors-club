@@ -14,7 +14,7 @@ export function ThemePanel({ session }: { session: BuilderSession }) {
   const set = session.setTheme;
 
   return (
-    <div className="cz-panel-body">
+    <div className="cz-lp-body">
       {cfg.settings.meta ? (
         <>
           <div className="cz-lp-label"><Link2 size={12} /> Page</div>

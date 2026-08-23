@@ -6,7 +6,7 @@ import type { WhiteLabel } from "@/lib/customize/types";
 
 export function WhiteLabelPanel({ wl, onChange }: { wl: WhiteLabel; onChange: (p: Partial<WhiteLabel>) => void }) {
   return (
-    <div className="cz-panel-body">
+    <div className="cz-lp-body">
       <div className="cz-lp-label"><Globe size={12} /> Custom Domain</div>
       <label className="cz-field"><span>Domain</span>
         <input value={wl.customDomain} onChange={e => onChange({ customDomain: e.target.value })} placeholder="club.yourdomain.com" />

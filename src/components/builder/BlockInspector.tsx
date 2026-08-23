@@ -17,7 +17,7 @@ export function BlockInspector({ session, selectedId }: { session: BuilderSessio
   const def = blockDef(block.type);
 
   return (
-    <div className="cz-panel-body">
+    <div className="cz-lp-body">
       <div className="cz-inspect-head">
         <div>
           <strong>{def?.label ?? block.type}</strong>

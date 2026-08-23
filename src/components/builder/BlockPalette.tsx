@@ -31,7 +31,7 @@ export function BlockPalette({
   }, [defs, q]);
 
   return (
-    <div className="cz-panel-body">
+    <div className="cz-lp-body">
       <label className="cz-search">
         <Search size={13} />
         <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search Blocks" aria-label="Search Blocks" />
