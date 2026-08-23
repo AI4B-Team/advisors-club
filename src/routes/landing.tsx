@@ -65,6 +65,7 @@ const QUICK_STARTS = [
   "Launch A Course",
   "Create A Coaching Program",
   "Grow My Existing Business",
+  "Run A Challenge",
 ];
 
 
