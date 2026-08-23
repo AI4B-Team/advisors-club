@@ -353,3 +353,78 @@ Rules:
       return { reply: "", error: "AIVA is unavailable right now." };
     }
   });
+
+/* ============ AIVA — Design With AIVA (Customize) ============ */
+const DesignInputSchema = z.object({
+  prompt: z.string().min(1).max(1200),
+  page: z.string().max(40).default("home"),
+  allowed: z.array(z.string().max(40)).min(1).max(40),
+  current: z.array(z.string().max(40)).max(40).default([]),
+  clubName: z.string().max(80).default("Your Club"),
+});
+
+export const aivaDesignLayout = createServerFn({ method: "POST" })
+  .inputValidator((input) => DesignInputSchema.parse(input))
+  .handler(async ({ data }) => {
+    const empty = { blocks: [] as string[], theme: null as null | Record<string, string>, notes: "", error: null as string | null };
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { ...empty, error: "AI is not configured for this workspace." };
+    const system = `You are AIVA, the design intelligence inside AdvisorsClub. You arrange page blocks for an admin's Club page. You never invent block types and never produce broken layouts.
+
+Rules:
+- Choose ONLY from this allowed block list: ${data.allowed.join(", ")}.
+- Return between 3 and 7 blocks, ordered top to bottom, highest-priority first.
+- Never repeat a block type unless it is "text", "rich-text", "image", "video", "cta", "offer", "booking", "faq" or "quick-links".
+- Theme is optional and constrained. If you suggest one, use only these keys and values:
+  background: light | soft | warm | dark
+  buttonStyle: rounded | pill | square
+  font: system | grotesk | serif | mono
+  density: comfortable | compact | spacious
+- Respond with STRICT JSON only, no markdown fences:
+  {"blocks":["hero","feed"],"theme":{"background":"soft"},"notes":"one short sentence explaining the arrangement"}`;
+    const user = `Club: ${data.clubName}
+Page being designed: ${data.page}
+Current blocks: ${data.current.length ? data.current.join(", ") : "(empty)"}
+Admin request: ${data.prompt}`;
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+        }),
+      });
+      if (resp.status === 429) return { ...empty, error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { ...empty, error: "Out of AI credits." };
+      if (!resp.ok) {
+        console.error("aivaDesignLayout gateway error", resp.status, await resp.text());
+        return { ...empty, error: "AIVA is unavailable right now." };
+      }
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const raw = (json.choices?.[0]?.message?.content ?? "").trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+      let parsed: { blocks?: unknown; theme?: unknown; notes?: unknown } = {};
+      try { parsed = JSON.parse(raw); } catch { return { ...empty, error: "AIVA returned an unexpected response. Try rephrasing." }; }
+      const allowed = new Set(data.allowed);
+      const blocks = Array.isArray(parsed.blocks)
+        ? (parsed.blocks as unknown[]).filter((b): b is string => typeof b === "string" && allowed.has(b)).slice(0, 7)
+        : [];
+      const themeIn = (parsed.theme && typeof parsed.theme === "object") ? parsed.theme as Record<string, unknown> : {};
+      const allowedTheme: Record<string, string[]> = {
+        background: ["light", "soft", "warm", "dark"],
+        buttonStyle: ["rounded", "pill", "square"],
+        font: ["system", "grotesk", "serif", "mono"],
+        density: ["comfortable", "compact", "spacious"],
+      };
+      const theme: Record<string, string> = {};
+      for (const [k, vals] of Object.entries(allowedTheme)) {
+        const v = themeIn[k];
+        if (typeof v === "string" && vals.includes(v)) theme[k] = v;
+      }
+      if (!blocks.length) return { ...empty, error: "AIVA couldn't map that to available blocks. Try being more specific." };
+      return { blocks, theme: Object.keys(theme).length ? theme : null, notes: typeof parsed.notes === "string" ? parsed.notes.slice(0, 300) : "", error: null };
+    } catch (e) {
+      console.error("aivaDesignLayout error", e);
+      return { ...empty, error: "AIVA is unavailable right now." };
+    }
+  });
