@@ -95,7 +95,7 @@ export function Index() {
                 value={heroPrompt}
                 onChange={e => setHeroPrompt(e.target.value)}
                 placeholder="Tell us about your business, audience, expertise, or idea..."
-                rows={4}
+                rows={3}
               />
               <button
                 type="submit"
