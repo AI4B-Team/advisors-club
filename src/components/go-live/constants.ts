@@ -5,7 +5,6 @@ export const PARTICIPANTS = [
   { handle: "tony",    name: "Tony Ware",       role: "Viewer",  color: "#10B981", mic: true,  cam: true },
   { handle: "anisa",   name: "Anisa Whitehead", role: "Viewer",  color: "#DB2777", mic: false, cam: true },
 ];
-];
 export const TILE_GUESTS = PARTICIPANTS.slice(0, 3);
 export const REACTIONS = ["👏", "🔥", "❤️", "😂", "🎉", "💡"];
 
@@ -17,11 +16,9 @@ export const LANGS = [
   { code: "id", label: "Indonesia", flag: "🇮🇩" },
   { code: "ja", label: "Japanese", flag: "🇯🇵" },
 ];
-];
 
 export const SAMPLE_TRANSCRIPT = [
   { who: "You",          t: "00:12", text: "Welcome everyone — thanks for jumping on the weekly stream." },
   { who: "Kristin Watson", t: "00:34", text: "Quick reminder: we'll cover the launch checklist and roadmap updates." },
   { who: "You",          t: "01:02", text: "Let's start with the wins from last week." },
-];
 ];
