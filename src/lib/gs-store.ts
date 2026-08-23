@@ -89,6 +89,7 @@ export type GSStore = {
   marketplaceListing: GSMarketplaceListing | null;
   coachingAgreement: GSCoachingAgreement | null;
   testimonials: GSTestimonial[];
+  resources: GSResource[];
   completedSteps: string[];
   launched: boolean;
 };
@@ -128,6 +129,7 @@ const DEFAULTS: GSStore = {
   marketplaceListing: null,
   coachingAgreement: null,
   testimonials: [],
+  resources: [],
   completedSteps: [],
   launched: false,
 };
