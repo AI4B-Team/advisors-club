@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Calendar as CalIcon, ChevronLeft, ChevronRight, Clock, Video, LayoutGrid, CalendarDays, CalendarRange, Calendar as CalDay, Check, X as XIcon, HelpCircle, MapPin, Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { getEvents, addEvent, subscribeEvents, type EventItem } from "@/lib/events-store";
+import { useViewMode } from "@/hooks/use-view-mode";
 
 export const Route = createFileRoute("/app/calendar")({
   head: () => ({ meta: [{ title: "Calendar — Real Estate Empire" }] }),
@@ -60,6 +61,8 @@ function CalendarPage() {
   const events = useEvents();
   const search = Route.useSearch();
   const navigate = useNavigate();
+  const { isAdmin, viewAs } = useViewMode();
+  const canCreateEvents = isAdmin && !viewAs;
   const [view, setView] = useState<View>("grid");
   const [cursor, setCursor] = useState(new Date(2026, 4, 26));
   const [selected, setSelected] = useState("2026-05-28");
@@ -105,7 +108,7 @@ function CalendarPage() {
           <button className={`cal-vbtn ${view==="month"?"on":""}`} onClick={()=>setView("month")}><CalendarDays size={14}/> Month</button>
           <button className={`cal-vbtn ${view==="week"?"on":""}`} onClick={()=>setView("week")}><CalendarRange size={14}/> Week</button>
           <button className={`cal-vbtn ${view==="day"?"on":""}`} onClick={()=>setView("day")}><CalDay size={14}/> Day</button>
-          <button className="cal-vbtn cal-new" onClick={()=>setCreateOpen(true)} style={{background:"#0F172A",color:"#fff",borderColor:"#0F172A"}}><Plus size={14}/> New Event</button>
+          {canCreateEvents && <button className="cal-vbtn cal-new" onClick={()=>setCreateOpen(true)} style={{background:"#0F172A",color:"#fff",borderColor:"#0F172A"}}><Plus size={14}/> New Event</button>}
         </div>
       </div>
 
