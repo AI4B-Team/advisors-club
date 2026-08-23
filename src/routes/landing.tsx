@@ -60,13 +60,34 @@ function Logo() {
   );
 }
 
+const QUICK_STARTS = [
+  "Build A Community",
+  "Launch A Course",
+  "Create A Coaching Program",
+  "Grow My Existing Business",
+];
+
+const HERO_BENEFITS = [
+  { t: "Launch Fast", d: "Go from idea to live in minutes." },
+  { t: "AI-Powered Operations", d: "AIVA helps run the work behind the scenes." },
+  { t: "Grow On Autopilot", d: "Automate engagement, content, and follow-up." },
+  { t: "Built Around Your Business", d: "Your Club adapts to your brand, offers, and audience." },
+];
+
 function Index() {
   const nav = useNavigate();
-  const [heroEmail, setHeroEmail] = useState("");
+  const [heroPrompt, setHeroPrompt] = useState("");
   const [ctaEmail, setCtaEmail] = useState("");
   const goSignup = (email: string) => (e: React.FormEvent) => {
     e.preventDefault();
     nav({ to: "/signup", search: email.trim() ? { email: email.trim() } : {} });
+  };
+  const startBuilding = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (typeof window !== "undefined" && heroPrompt.trim()) {
+      window.sessionStorage.setItem("aiva-hero-prompt", heroPrompt.trim());
+    }
+    nav({ to: "/signup", search: {} });
   };
   return (
     <div className="ac">
@@ -82,15 +103,44 @@ function Index() {
         <div className="hero-overlay" />
 
         <div className="hero-content">
-          <div className="hero-badge"><span className="bdot" />The Platform Built for Expert Advisors</div>
           <h1><span style={{whiteSpace:"nowrap"}}>Build Your Community.</span><br /><span className="gold" style={{whiteSpace:"nowrap"}}>Automate Your Business.</span></h1>
           <p className="hero-sub">
             Launch memberships, sell courses, run coaching programs, and grow your business with your built-in AI business operator.
           </p>
-          <form className="optin" onSubmit={goSignup(heroEmail)}>
-            <input type="email" required placeholder="Enter your email to start free" value={heroEmail} onChange={e=>setHeroEmail(e.target.value)} />
-            <button type="submit">Start For Free <ArrowRight size={14} strokeWidth={3} style={{display:"inline",verticalAlign:"-2px",marginLeft:4}} /></button>
+
+          <form className="hero-aiva" onSubmit={startBuilding}>
+            <div className="hero-aiva-hd">
+              <span className="hero-aiva-icon"><Sparkles size={16} strokeWidth={2.4} /></span>
+              <h2>What Do You Want To Build?</h2>
+            </div>
+            <textarea
+              className="hero-aiva-input"
+              value={heroPrompt}
+              onChange={e => setHeroPrompt(e.target.value)}
+              placeholder="Tell AIVA about your business, audience, expertise, or idea..."
+              rows={4}
+            />
+            <div className="hero-aiva-foot">
+              <div className="hero-chips">
+                {QUICK_STARTS.map(q => (
+                  <button type="button" key={q} className="hero-chip" onClick={() => setHeroPrompt(q)}>{q}</button>
+                ))}
+              </div>
+              <button type="submit" className="hero-aiva-cta">
+                Start Building <ArrowRight size={14} strokeWidth={3} />
+              </button>
+            </div>
           </form>
+
+          <div className="hero-benefits">
+            {HERO_BENEFITS.map(b => (
+              <div className="hero-benefit" key={b.t}>
+                <div className="hb-t">{b.t}</div>
+                <div className="hb-d">{b.d}</div>
+              </div>
+            ))}
+          </div>
+
           <p className="hero-fine">No Credit Card Required · Free Forever On Starter · Setup In 5 Minutes</p>
         </div>
       </section>
