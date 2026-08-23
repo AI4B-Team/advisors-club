@@ -135,6 +135,7 @@ function HomePage() {
     <div className="hm">
       <div className="hm-grid">
         <section className="hm-feed">
+          <h1 className="a11y-only">Club Home Feed</h1>
 
           <LaunchChecklist />
 
@@ -181,7 +182,7 @@ function HomePage() {
             {sorted.length === 0 && (
               <div className="fp-empty">
                 No {CATEGORY_META[activeTab as PostCategory]?.label.toLowerCase() ?? ""}s yet.
-                <button type="button" className="fp-empty-link" onClick={()=>setActiveTab("all")}>View all</button>
+                <button type="button" className="fp-empty-link" onClick={()=>setActiveTab("all")}>View All</button>
               </div>
             )}
             {sorted.map(p => (
