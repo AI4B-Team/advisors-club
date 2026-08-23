@@ -121,8 +121,16 @@ export function createApp(input: NewApp): App {
     updatedAt: now(),
   };
   updateApps(list => [app, ...list]);
+  if (remote()) {
+    // The database assigns the canonical UUID; swap the optimistic id in.
+    writeThrough(async () => {
+      const saved = await supabaseAppsRepository.create(activeClubId(), input);
+      updateApps(list => list.map(a => (a.id === app.id ? saved : a)));
+    }, "createApp");
+  }
   return app;
 }
+
 
 export function addFromTemplate(templateId: string, access?: AppAccess): App | null {
   const t = findTemplate(templateId);
