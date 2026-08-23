@@ -74,14 +74,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Advisors Club | AI Builds Your Community & Business For You" },
+      {
+        name: "description",
+        content:
+          "Tell Advisors Club what you want to build. AI helps create your community, courses, coaching programs, content, and more — so you can launch faster and do less yourself.",
+      },
+      { name: "author", content: "Advisors Club" },
+      { property: "og:title", content: "Advisors Club | AI Builds Your Community & Business For You" },
+      {
+        property: "og:description",
+        content:
+          "Tell Advisors Club what you want to build. AI helps create your community, courses, coaching programs, content, and more — so you can launch faster and do less yourself.",
+      },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {

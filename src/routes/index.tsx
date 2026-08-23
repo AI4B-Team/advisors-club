@@ -5,21 +5,24 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "AdvisorsClub — Build Your Club. Own Your Audience." },
+      { title: "Advisors Club | AI Builds Your Community & Business For You" },
       {
         name: "description",
         content:
-          "The all-in-one platform where Advisors launch Clubs, host Courses, run Challenges, and get paid — with AIVA, your AI agent, around the clock.",
+          "Tell Advisors Club what you want to build. AI helps create your community, courses, coaching programs, content, and more — so you can launch faster and do less yourself.",
       },
-      { property: "og:title", content: "AdvisorsClub — Build Your Club. Own Your Audience." },
+      { property: "og:title", content: "Advisors Club | AI Builds Your Community & Business For You" },
       {
         property: "og:description",
-        content: "Communities, Courses, Coaching, Conferences, Challenges — and AIVA. From $0.",
+        content:
+          "Tell Advisors Club what you want to build. AI helps create your community, courses, coaching programs, content, and more — so you can launch faster and do less yourself.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://advisorsclub.com" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "canonical", href: "https://advisorsclub.com" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap",
