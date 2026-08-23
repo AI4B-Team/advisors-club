@@ -35,7 +35,10 @@ import { Route as AppAppsRouteImport } from './routes/app.apps'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
+import { Route as AppManageIndexRouteImport } from './routes/app.manage.index'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
+import { Route as AppPagePageIdRouteImport } from './routes/app.page.$pageId'
+import { Route as AppManageNavigationRouteImport } from './routes/app.manage.navigation'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
 import { Route as AppClubResourcesRouteImport } from './routes/app.club.resources'
 import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
@@ -177,10 +180,25 @@ const AppSellIndexRoute = AppSellIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppSellRoute,
 } as any)
+const AppManageIndexRoute = AppManageIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppManageRoute,
+} as any)
 const AppSellPageIdRoute = AppSellPageIdRouteImport.update({
   id: '/$pageId',
   path: '/$pageId',
   getParentRoute: () => AppSellRoute,
+} as any)
+const AppPagePageIdRoute = AppPagePageIdRouteImport.update({
+  id: '/page/$pageId',
+  path: '/page/$pageId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppManageNavigationRoute = AppManageNavigationRouteImport.update({
+  id: '/navigation',
+  path: '/navigation',
+  getParentRoute: () => AppManageRoute,
 } as any)
 const AppClubSettingsRoute = AppClubSettingsRouteImport.update({
   id: '/club/settings',
@@ -251,7 +269,7 @@ export interface FileRoutesByFullPath {
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
-  '/app/manage': typeof AppManageRoute
+  '/app/manage': typeof AppManageRouteWithChildren
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/sell': typeof AppSellRouteWithChildren
@@ -269,7 +287,10 @@ export interface FileRoutesByFullPath {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/manage/navigation': typeof AppManageNavigationRoute
+  '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
 }
 export interface FileRoutesByTo {
@@ -289,7 +310,6 @@ export interface FileRoutesByTo {
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
-  '/app/manage': typeof AppManageRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
@@ -306,7 +326,10 @@ export interface FileRoutesByTo {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/manage/navigation': typeof AppManageNavigationRoute
+  '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/manage': typeof AppManageIndexRoute
   '/app/sell': typeof AppSellIndexRoute
 }
 export interface FileRoutesById {
@@ -328,7 +351,7 @@ export interface FileRoutesById {
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
-  '/app/manage': typeof AppManageRoute
+  '/app/manage': typeof AppManageRouteWithChildren
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/sell': typeof AppSellRouteWithChildren
@@ -346,7 +369,10 @@ export interface FileRoutesById {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/manage/navigation': typeof AppManageNavigationRoute
+  '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
 }
 export interface FileRouteTypes {
@@ -387,7 +413,10 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/manage/navigation'
+    | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/manage/'
     | '/app/sell/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -407,7 +436,6 @@ export interface FileRouteTypes {
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
-    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
@@ -424,7 +452,10 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/manage/navigation'
+    | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/manage'
     | '/app/sell'
   id:
     | '__root__'
@@ -463,7 +494,10 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/manage/navigation'
+    | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/manage/'
     | '/app/sell/'
   fileRoutesById: FileRoutesById
 }
@@ -666,12 +700,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSellIndexRouteImport
       parentRoute: typeof AppSellRoute
     }
+    '/app/manage/': {
+      id: '/app/manage/'
+      path: '/'
+      fullPath: '/app/manage/'
+      preLoaderRoute: typeof AppManageIndexRouteImport
+      parentRoute: typeof AppManageRoute
+    }
     '/app/sell/$pageId': {
       id: '/app/sell/$pageId'
       path: '/$pageId'
       fullPath: '/app/sell/$pageId'
       preLoaderRoute: typeof AppSellPageIdRouteImport
       parentRoute: typeof AppSellRoute
+    }
+    '/app/page/$pageId': {
+      id: '/app/page/$pageId'
+      path: '/page/$pageId'
+      fullPath: '/app/page/$pageId'
+      preLoaderRoute: typeof AppPagePageIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/manage/navigation': {
+      id: '/app/manage/navigation'
+      path: '/navigation'
+      fullPath: '/app/manage/navigation'
+      preLoaderRoute: typeof AppManageNavigationRouteImport
+      parentRoute: typeof AppManageRoute
     }
     '/app/club/settings': {
       id: '/app/club/settings'
@@ -746,6 +801,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppManageRouteChildren {
+  AppManageNavigationRoute: typeof AppManageNavigationRoute
+  AppManageIndexRoute: typeof AppManageIndexRoute
+}
+
+const AppManageRouteChildren: AppManageRouteChildren = {
+  AppManageNavigationRoute: AppManageNavigationRoute,
+  AppManageIndexRoute: AppManageIndexRoute,
+}
+
+const AppManageRouteWithChildren = AppManageRoute._addFileChildren(
+  AppManageRouteChildren,
+)
+
 interface AppSellRouteChildren {
   AppSellPageIdRoute: typeof AppSellPageIdRoute
   AppSellIndexRoute: typeof AppSellIndexRoute
@@ -768,7 +837,7 @@ interface AppRouteChildren {
   AppCustomizeRoute: typeof AppCustomizeRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppGettingStartedRoute: typeof AppGettingStartedRoute
-  AppManageRoute: typeof AppManageRoute
+  AppManageRoute: typeof AppManageRouteWithChildren
   AppMessagesRoute: typeof AppMessagesRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppSellRoute: typeof AppSellRouteWithChildren
@@ -783,6 +852,7 @@ interface AppRouteChildren {
   AppClubMembersRoute: typeof AppClubMembersRoute
   AppClubResourcesRoute: typeof AppClubResourcesRoute
   AppClubSettingsRoute: typeof AppClubSettingsRoute
+  AppPagePageIdRoute: typeof AppPagePageIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -794,7 +864,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCustomizeRoute: AppCustomizeRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppGettingStartedRoute: AppGettingStartedRoute,
-  AppManageRoute: AppManageRoute,
+  AppManageRoute: AppManageRouteWithChildren,
   AppMessagesRoute: AppMessagesRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppSellRoute: AppSellRouteWithChildren,
@@ -809,6 +879,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppClubMembersRoute: AppClubMembersRoute,
   AppClubResourcesRoute: AppClubResourcesRoute,
   AppClubSettingsRoute: AppClubSettingsRoute,
+  AppPagePageIdRoute: AppPagePageIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

@@ -10,7 +10,8 @@ import { useMemberAi } from "@/hooks/use-member-ai";
 import { displayName as memberAiName } from "@/lib/member-ai";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 import { GoLiveModal } from "@/components/go-live-modal";
-import { DEFAULT_MEMBER_NAV, ONBOARDING_NAV, SYSTEM_NAV, resolveNav, type NavItem } from "@/lib/nav/config";
+import { ONBOARDING_NAV, SYSTEM_NAV, type NavItem } from "@/lib/nav/config";
+import { getNavConfig, groupNav, subscribeNav, visibleNav } from "@/lib/nav/store";
 import { NavIcon } from "@/lib/nav/icons";
 
 export const Route = createFileRoute("/app")({
@@ -131,7 +132,7 @@ type SubLink = { label: string; to: string; icon: ReactNode; hash?: string };
 type TopLink = {
   id: string;
   label: string; to: string; icon: React.ReactNode;
-  exact?: boolean; pill?: boolean; system?: boolean;
+  exact?: boolean; pill?: boolean; system?: boolean; external?: boolean;
   subs: SubLink[]; menu: string[];
 };
 
@@ -144,10 +145,12 @@ function toTopLink(item: NavItem): TopLink {
     exact: item.exact,
     pill: item.pill,
     system: item.section === "system",
+    external: item.type === "link",
     subs: item.subs.map(s => ({ label: s.label, to: s.to, hash: s.hash, icon: <NavIcon name={s.icon} size={14} /> })),
     menu: item.menu,
   };
 }
+
 
 
 function SidebarTopLink({ link }: { link: TopLink }) {
@@ -167,6 +170,12 @@ function SidebarTopLink({ link }: { link: TopLink }) {
   return (
     <div className={`cc-sb-item${isSystem ? " cc-sb-item-sys" : ""}${expanded ? " expanded" : ""}`}>
       <div className={`cc-sb-item-row ${baseCls}-wrap`}>
+        {link.external ? (
+          <a href={link.to} target="_blank" rel="noreferrer" className={baseCls} data-tip={link.label}>
+            {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
+            <span className="cc-sb-item-l">{link.label}</span>
+          </a>
+        ) : (
         <Link
           to={link.to}
           activeOptions={link.exact ? { exact: true } : undefined}
@@ -185,6 +194,8 @@ function SidebarTopLink({ link }: { link: TopLink }) {
           {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
           <span className="cc-sb-item-l">{link.label}</span>
         </Link>
+        )}
+
         {hasSubs && (
           <button
             className="cc-sb-caret"
@@ -248,9 +259,20 @@ function CommunitySidebar() {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
-  // Navigation is data-driven; admin overrides will be layered in here later.
-  const memberNav = useMemo(() => resolveNav(DEFAULT_MEMBER_NAV).map(toTopLink), []);
+  // Navigation is fully data-driven from the admin-editable community nav config.
+  const { isAdmin } = useViewMode();
+  const [navItems, setNavItems] = useState<NavItem[]>(() => getNavConfig().items);
+  useEffect(() => {
+    const read = () => setNavItems(getNavConfig().items);
+    read();
+    return subscribeNav(read);
+  }, []);
+  const memberGroups = useMemo(
+    () => groupNav(visibleNav(navItems).filter(i => i.visibility !== "admins" || isAdmin)),
+    [navItems, isAdmin],
+  );
   const systemNav = useMemo(() => SYSTEM_NAV.map(toTopLink), []);
+
   const [setupComplete, setSetupComplete] = useState(true);
   useEffect(() => {
     const read = () => setSetupComplete(Boolean(getGS().quickstartCompleted));
@@ -310,9 +332,15 @@ function CommunitySidebar() {
         </div>
       )}
 
-      {memberNav.map(link => (
-        <SidebarTopLink key={link.id} link={link} />
+      {memberGroups.map((g, gi) => (
+        <div key={gi} className="cc-sb-group">
+          {g.group && <div className="cc-sb-group-label">{g.group}</div>}
+          {g.items.map(item => (
+            <SidebarTopLink key={item.id} link={toTopLink(item)} />
+          ))}
+        </div>
       ))}
+
 
       <div className="cc-sb-sys">
         <div className="cc-sb-sys-label">Admin</div>

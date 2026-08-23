@@ -25,23 +25,41 @@ export type NavSubItem = {
   icon: NavIconKey;
 };
 
+/**
+ * Content type behind a navigation item. The label is creator-controlled;
+ * the type + route are what actually resolve the underlying content, so
+ * renaming an item never changes what it points at.
+ */
+export type NavItemType =
+  | "home" | "community" | "courses" | "coaching" | "events"
+  | "resources" | "apps" | "members" | "page" | "link";
+
 export type NavItem = {
   id: string;
   label: string;
-  /** Internal route today; later this may also be an external URL or custom page. */
+  /** Internal route, or the external URL when type is "link". */
   to: string;
   icon: NavIconKey;
   section: NavSection;
+  /** Underlying content system. Never changes when the label is renamed. */
+  type?: NavItemType;
+  /** Optional section/group label ("LEARN", "CONNECT"). Flat when empty. */
+  group?: string;
   exact?: boolean;
   pill?: boolean;
+  /** Hidden from navigation only — the underlying content is untouched. */
   hidden?: boolean;
-  /** Reserved for future access rules ("everyone" | "members" | "admins"). */
+  /** Access rule for members. */
   visibility?: "everyone" | "members" | "admins";
+  /** Locked items cannot be removed from navigation (e.g. Home). */
+  locked?: boolean;
+  /** Content for type "page" — a lightweight custom page owned by this nav item. */
+  page?: { body: string };
   subs: NavSubItem[];
   menu: string[];
 };
 
-/** Shape an admin edit will take in the next task. */
+/** Shape of a persisted admin edit. */
 export type NavOverride = {
   id: string;
   label?: string;
@@ -50,10 +68,11 @@ export type NavOverride = {
   icon?: NavIconKey;
 };
 
+
 export const DEFAULT_ITEM_MENU = ["Pin To Top", "Mute Notifications", "Mark All Read", "Hide"];
 
 /** Default member-facing navigation for a newly created club. */
-export const DEFAULT_MEMBER_NAV: NavItem[] = [
+const BASE_MEMBER_NAV: NavItem[] = [
   {
     id: "home", label: "Home", to: "/app", icon: "home", section: "member", exact: true, pill: true,
     subs: [
@@ -124,6 +143,18 @@ export const DEFAULT_MEMBER_NAV: NavItem[] = [
     menu: DEFAULT_ITEM_MENU,
   },
 ];
+
+/**
+ * Every default item carries its content type (equal to its id) so that a
+ * creator-renamed label never changes which content system it resolves to.
+ * Home is locked — it cannot be removed from navigation.
+ */
+export const DEFAULT_MEMBER_NAV: NavItem[] = BASE_MEMBER_NAV.map(item => ({
+  ...item,
+  type: item.id as NavItemType,
+  locked: item.id === "home",
+  visibility: "everyone" as const,
+}));
 
 /** Advisors Club system tools. Not customizable member navigation. */
 export const SYSTEM_NAV: NavItem[] = [
