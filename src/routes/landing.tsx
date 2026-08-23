@@ -116,7 +116,12 @@ function Index() {
                 placeholder="Tell us about your business, audience, expertise, or idea..."
                 rows={4}
               />
-              <button type="submit" className="hero-aiva-cta">
+              <button
+                type="submit"
+                className="hero-aiva-cta"
+                disabled={!heroPrompt.trim()}
+                style={{ opacity: heroPrompt.trim() ? 1 : 0.45, transition: "opacity .2s ease" }}
+              >
                 Build It With AI <ArrowRight size={14} strokeWidth={3} />
               </button>
             </div>
