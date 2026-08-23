@@ -5510,3 +5510,19 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .cmx-pick-item.is-on{border-color:#F5A623;background:#FFFBEB;color:#111827;font-weight:600}
 .cmx-offer{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;background:#F9FAFB;border:1px solid #F1F2F4;border-radius:12px;padding:12px 14px}
 .cmx-preview{font-size:12.5px;color:#6B7280}
+
+/* --- Member recommendation cards (AI Persona) --- */
+.mrec-wrap{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.mrec{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--line,#E9E9EE);border-radius:12px;background:#fff}
+.mrec.paid{background:#FFFDF6;border-color:#F1E4BC}
+.mrec-ic{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:#F3F3F6;color:#6B6B76;flex:none}
+.mrec-t{min-width:0;flex:1}
+.mrec-title{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink)}
+.mrec-tag{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.02em;padding:2px 6px;border-radius:999px}
+.mrec-tag.own{background:#EAF7EE;color:#22794A}
+.mrec-tag.free{background:#F1F1F5;color:#5E5E68}
+.mrec-tag.pay{background:#FFF1CC;color:#8A6A12}
+.mrec-why{margin:2px 0 0;font-size:12px;line-height:1.45;color:#6B6B76}
+.mrec-go{display:inline-flex;align-items:center;gap:5px;border:0;background:#0F0F12;color:#fff;border-radius:9px;padding:6px 11px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;flex:none}
+.mrec-x{border:0;background:transparent;color:#9A9AA4;cursor:pointer;padding:4px;border-radius:7px;flex:none}
+.mrec-x:hover{background:#F3F3F6;color:#5E5E68}
