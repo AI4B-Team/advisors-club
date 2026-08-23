@@ -26,7 +26,7 @@ export function demoActivities(): AivaActivityRecord[] {
       requiresApproval: false,
       autonomy: "automatic",
       ctaLabel: "View Insights",
-      ctaDestination: "/app/aiva?view=opportunities",
+      ctaDestination: "/app/aiva?tab=opportunities",
       createdAt: at(6, 42),
       details: [
         {
@@ -50,7 +50,7 @@ export function demoActivities(): AivaActivityRecord[] {
       requiresApproval: false,
       autonomy: "automatic",
       ctaLabel: "View Opportunity",
-      ctaDestination: "/app/aiva?view=opportunities",
+      ctaDestination: "/app/aiva?tab=opportunities",
       createdAt: at(6, 44),
     },
     {

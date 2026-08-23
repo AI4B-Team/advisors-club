@@ -28,7 +28,7 @@ export function fromFlywheel(events: FlywheelEvent[]): AivaActivityRecord[] {
         return base(`fw:${e.id}`, e.at, {
           activityType: "analyzed", title: e.title, description: e.detail ?? "AIVA Learned From Recent Member Behavior.",
           area: "community", status: "informational", requiresApproval: false, autonomy: "automatic",
-          ctaLabel: "View Insights", ctaDestination: "/app/aiva?view=opportunities",
+          ctaLabel: "View Insights", ctaDestination: "/app/aiva?tab=opportunities",
         });
       case "recommended":
         return base(`fw:${e.id}`, e.at, {
@@ -142,11 +142,11 @@ export function fromOpportunities(opps: Opportunity[]): AivaActivityRecord[] {
         title: "Opportunity Discovered",
         description: `${o.insight} AIVA Recommends ${o.suggestedTitle}.`,
         area: AREA[o.kind] ?? "business",
-        status: o.status === "built" ? "completed" : "informational",
+        status: o.status === "completed" ? "completed" : "informational",
         requiresApproval: false,
         autonomy: "automatic",
         relatedEntityType: "opportunity", relatedEntityId: o.id,
-        ctaLabel: "View Opportunity", ctaDestination: "/app/aiva?view=opportunities",
+        ctaLabel: "View Opportunity", ctaDestination: "/app/aiva?tab=opportunities",
         details: [
           {
             label: "What AIVA Noticed",
