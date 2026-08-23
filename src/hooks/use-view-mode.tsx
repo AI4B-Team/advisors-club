@@ -24,15 +24,17 @@ export type MemberSample = {
   email: string;
 };
 
-export const SAMPLE_MEMBERS: MemberSample[] = [
-  { id: "m1", name: "Sarah Klein",   role: "Pro Member",    avatar: "https://i.pravatar.cc/80?img=47", email: "sarah.k@example.com" },
-  { id: "m2", name: "Devon Reyes",   role: "Member",        avatar: "https://i.pravatar.cc/80?img=12", email: "devon.r@example.com" },
-  { id: "m3", name: "Judith Mensah", role: "Founding Member", avatar: "https://i.pravatar.cc/80?img=45", email: "judith.m@example.com" },
-  { id: "m4", name: "Alex Tanaka",   role: "Member",        avatar: "https://i.pravatar.cc/80?img=15", email: "alex.t@example.com" },
-  { id: "m5", name: "Priya Shah",    role: "Pro Member",    avatar: "https://i.pravatar.cc/80?img=32", email: "priya.s@example.com" },
-  { id: "m6", name: "Marcus Hall",   role: "Member",        avatar: "https://i.pravatar.cc/80?img=68", email: "marcus.h@example.com" },
-  { id: "m7", name: "Ivy Chen",      role: "Member",        avatar: "https://i.pravatar.cc/80?img=9",  email: "ivy.c@example.com" },
-  { id: "m8", name: "Noah Patel",    role: "Founding Member", avatar: "https://i.pravatar.cc/80?img=5",  email: "noah.p@example.com" },
+/**
+ * SYNTHETIC examples for the "View As" previewer.
+ *
+ * These are deliberately not realistic people: no plausible PII, no stock
+ * headshots. When real members exist they should replace this list.
+ */
+export const DEMO_MEMBERS: MemberSample[] = [
+  { id: "m1", name: "Example Member A", role: "Pro Member",      avatar: "", email: "member-a@example.invalid" },
+  { id: "m2", name: "Example Member B", role: "Member",          avatar: "", email: "member-b@example.invalid" },
+  { id: "m3", name: "Example Member C", role: "Founding Member", avatar: "", email: "member-c@example.invalid" },
+  { id: "m4", name: "Example Member D", role: "Member",          avatar: "", email: "member-d@example.invalid" },
 ];
 
 type Ctx = {

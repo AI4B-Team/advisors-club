@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tan
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, ChevronLeft, ChevronRight, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
+import { ViewModeProvider, useViewMode, DEMO_MEMBERS } from "@/hooks/use-view-mode";
 import { RequirePermission } from "@/components/auth/RequirePermission";
 import { capabilityForPath } from "@/lib/auth/permissions";
 
@@ -600,7 +600,7 @@ function ViewModeToggle() {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
   const isAdmin = mode === "admin";
-  const filtered = SAMPLE_MEMBERS.filter(m =>
+  const filtered = DEMO_MEMBERS.filter(m =>
     m.name.toLowerCase().includes(q.toLowerCase()) ||
     m.role.toLowerCase().includes(q.toLowerCase())
   );
