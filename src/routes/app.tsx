@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download } from "lucide-react";
+import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
@@ -198,6 +198,13 @@ const TOP_LINKS: TopLink[] = [
       {label:"All Members",to:"/app/club/members", icon:<Users size={14}/>},
       {label:"Online",to:"/app/club/members", icon:<UserCheck size={14}/>},
       {label:"Admins",to:"/app/club/members", icon:<ShieldCheck size={14}/>},
+    ],
+    menu: DEFAULT_MENU },
+  { label: "Customize", to: "/app/customize", icon: <Palette size={16}/>,
+    subs: [
+      {label:"Blocks",to:"/app/customize", icon:<LayoutGrid size={14}/>},
+      {label:"Theme",to:"/app/customize", icon:<Palette size={14}/>},
+      {label:"Brand & Domain",to:"/app/customize", icon:<Globe size={14}/>},
     ],
     menu: DEFAULT_MENU },
   { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,

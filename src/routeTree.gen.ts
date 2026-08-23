@@ -25,6 +25,7 @@ import { Route as AppNotificationsRouteImport } from './routes/app.notifications
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppGettingStartedRouteImport } from './routes/app.getting-started'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
+import { Route as AppCustomizeRouteImport } from './routes/app.customize'
 import { Route as AppCalendarRouteImport } from './routes/app.calendar'
 import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
@@ -120,6 +121,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCustomizeRoute = AppCustomizeRouteImport.update({
+  id: '/customize',
+  path: '/customize',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppCalendarRoute = AppCalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -205,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/app/aiva': typeof AppAivaRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
+  '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
@@ -236,6 +243,7 @@ export interface FileRoutesByTo {
   '/app/aiva': typeof AppAivaRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
+  '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
@@ -269,6 +277,7 @@ export interface FileRoutesById {
   '/app/aiva': typeof AppAivaRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
+  '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
@@ -303,6 +312,7 @@ export interface FileRouteTypes {
     | '/app/aiva'
     | '/app/bookmarks'
     | '/app/calendar'
+    | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
     | '/app/messages'
@@ -334,6 +344,7 @@ export interface FileRouteTypes {
     | '/app/aiva'
     | '/app/bookmarks'
     | '/app/calendar'
+    | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
     | '/app/messages'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/app/aiva'
     | '/app/bookmarks'
     | '/app/calendar'
+    | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
     | '/app/messages'
@@ -513,6 +525,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/customize': {
+      id: '/app/customize'
+      path: '/customize'
+      fullPath: '/app/customize'
+      preLoaderRoute: typeof AppCustomizeRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/calendar': {
       id: '/app/calendar'
       path: '/calendar'
@@ -619,6 +638,7 @@ interface AppRouteChildren {
   AppAivaRoute: typeof AppAivaRoute
   AppBookmarksRoute: typeof AppBookmarksRoute
   AppCalendarRoute: typeof AppCalendarRoute
+  AppCustomizeRoute: typeof AppCustomizeRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppGettingStartedRoute: typeof AppGettingStartedRoute
   AppMessagesRoute: typeof AppMessagesRoute
@@ -641,6 +661,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAivaRoute: AppAivaRoute,
   AppBookmarksRoute: AppBookmarksRoute,
   AppCalendarRoute: AppCalendarRoute,
+  AppCustomizeRoute: AppCustomizeRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppGettingStartedRoute: AppGettingStartedRoute,
   AppMessagesRoute: AppMessagesRoute,
