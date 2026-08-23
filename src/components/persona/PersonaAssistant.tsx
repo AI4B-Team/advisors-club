@@ -9,8 +9,7 @@ import { personaActions, personaDisclosure, personaName } from "@/lib/persona/st
 import { personaInstructions, personaKnowledge } from "@/lib/persona/knowledge";
 import { detectVoiceContext } from "@/lib/persona/voice-prompt";
 import { PERSONA_ESCALATION_TRIGGERS, PERSONA_NEXT_ACTIONS, type PersonaSettings } from "@/lib/persona/types";
-import { memberSnapshot, type MemberIdentity } from "@/lib/member-ai-snapshot";
-import { getMemberAi, type MemberAiPermissionId } from "@/lib/member-ai";
+import { memberContextSnapshot, type MemberIdentity } from "@/lib/persona/member-context";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { usePermissions } from "@/hooks/use-club-access";
 import { recommendForMember, type MemberReco } from "@/lib/persona/recommend";
