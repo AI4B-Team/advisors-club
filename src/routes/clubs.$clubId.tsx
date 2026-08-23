@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check, Star, Users, Zap, Sparkles, ArrowRight, Shield, Calendar, MessageSquare, Award, Play } from "lucide-react";
-import { CLUBS, type Club } from "@/lib/clubs-data";
+import { DEMO_CLUBS as CLUBS, type Club } from "@/lib/clubs-data";
+import { DataBadge, DataNotice } from "@/components/DataBadge";
 import { SiteNav } from "@/components/SiteNav";
 import { useEffect, useState } from "react";
 import { getSellDoc, subscribeSell } from "@/lib/sell/store";
@@ -86,8 +87,12 @@ function Hero({ club }: { club: Club }) {
     <section className="cs-hero">
       <div className="cs-hero-inner">
         <div className="cs-hero-copy">
-          <div className="cs-eyebrow">{club.category}{club.trending && " · Trending"}</div>
+          <div className="cs-eyebrow">{club.category}{club.trending && " · Trending"} <DataBadge kind="sample" label="Sample Club" /></div>
           <h1 className="cs-h1">{club.name}</h1>
+          <DataNotice kind="sample">
+            Example Listing. This Club Is A Sample We Use To Show The Join Experience — Its Member
+            Count, Rating, And Price Are Illustrative.
+          </DataNotice>
           <p className="cs-lede">{club.tagline}</p>
 
           <div className="cs-meta-row">

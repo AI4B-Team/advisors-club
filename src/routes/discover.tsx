@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useRef, useState } from "react";
 import { Search, SlidersHorizontal, ChevronLeft, ChevronRight, Sparkles, Users, Zap, Radio, ArrowRight, Plus } from "lucide-react";
-import { CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
+import { DEMO_CLUBS as CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
+import { DataBadge, DataNotice } from "@/components/DataBadge";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({
@@ -67,6 +68,11 @@ function DiscoverPage() {
       <section className="dc-min">
         <div className="dc-min-inner">
           <h1 style={{whiteSpace:"nowrap"}}>Find A Club Worth Joining</h1>
+
+          <DataNotice kind="sample">
+            Sample Marketplace. The Clubs Below Are Examples We Built To Show How Discover Works —
+            Their Members, Ratings, And Prices Are Illustrative, Not Live Listings.
+          </DataNotice>
 
           <Link to="/signup" className="dc-creator-cta">
             <span className="dc-creator-spark"><Sparkles size={14}/></span>
@@ -171,6 +177,7 @@ function FeaturedCard({ c }: { c: Club }) {
         <img src={c.cover} alt={c.name} loading="lazy" />
         <div className="dc-feat-overlay">
           <span className="dc-feat-cat">{c.category}</span>
+          <DataBadge kind="sample" label="Sample Club" />
           {c.price === 0
             ? <span className="dc-badge free">Free</span>
             : <span className="dc-badge price">${c.price}/mo</span>}
@@ -264,6 +271,7 @@ function ClubCard({ c }: { c: Club }) {
       <div className="dc-card-cover">
         <img src={c.cover} alt={c.name} loading="lazy" width={1024} height={640} />
         {isAI && <span className="dc-aiva-badge"><Zap size={10}/> Built with AIVA</span>}
+        <span className="dc-sample-badge"><DataBadge kind="sample" label="Sample Club" /></span>
       </div>
       <div className="dc-card-body">
         <div className="dc-card-cat">{c.category}</div>

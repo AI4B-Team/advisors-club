@@ -9,7 +9,8 @@ import { PostComments } from "@/components/post-comments";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { FeaturedEvent } from "@/components/featured-event";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
-import { LB_MEMBERS } from "@/lib/leaderboard-data";
+import { useLeaderboard } from "@/hooks/use-leaderboard";
+import { DataBadge, EmptyState } from "@/components/DataBadge";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 import { getGS, subscribeGS } from "@/lib/gs-store";
 import { getEvents, subscribeEvents, type EventItem } from "@/lib/events-store";
@@ -272,47 +273,7 @@ function HomePage() {
 
 
 
-          <div className="hm-card">
-            <h3 className="hm-card-title">Leaderboard</h3>
-            {(() => {
-              const all = LB_MEMBERS.slice(0, 7).map(m => ({
-                initials: m.initials, color: m.color, name: m.name, points: m.points, photo: m.photo,
-              }));
-              const podium = [all[1], all[0], all[2]];
-              const ranks  = [2, 1, 3];
-              const rest   = all.slice(3);
-              return (
-                <>
-                  <div className="lb-podium">
-                    {podium.map((u, i) => (
-                      <div key={u.name} className={`lb-pod r${ranks[i]}`}>
-                        <div className="lb-pod-av-wrap">
-                          <img className="lb-pod-av" src={u.photo} alt={u.name} loading="lazy"/>
-                          <span className={`lb-pod-badge r${ranks[i]}`}>{ranks[i]}</span>
-                        </div>
-                        <div className="lb-pod-name">{u.name}</div>
-                        <div className="lb-pod-pts"><span className="lb-pts-star">✦</span>{u.points}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="lb-divider"/>
-                  <ul className="lb-list">
-                    {rest.map((u, i) => (
-                      <li key={u.name} className="lb-row">
-                        <span className="lb-rank">{i + 4}</span>
-                        <img className="lb-av" src={u.photo} alt={u.name} loading="lazy"/>
-                        <div className="lb-name">{u.name}</div>
-                        <div className="lb-pts">{u.points}</div>
-                      </li>
-                    ))}
-                  </ul>
-                  <a className="lb-see-all" href="#">See Full Leaderboard <span aria-hidden>→</span></a>
-                </>
-              );
-            })()}
-          </div>
-
-
+          <HomeLeaderboardCard />
 
           <FeaturedEvent
             title="Fail Forward — Live Workshop"
@@ -520,3 +481,56 @@ function AivaComposerMenu({ setTitle, setDraft }: { setTitle: (u: (t: string) =>
   );
 }
 
+/**
+ * Standings are DEMO or EMPTY until real point totals exist. Never fake-real.
+ */
+function HomeLeaderboardCard() {
+  const board = useLeaderboard();
+  const all = board.members.slice(0, 7);
+
+  if (all.length < 3) {
+    return (
+      <div className="hm-card">
+        <h3 className="hm-card-title">Leaderboard</h3>
+        <EmptyState
+          title="No Standings Yet"
+          body="Points Start Accruing As Members Engage. We'll Rank Them Here."
+        />
+      </div>
+    );
+  }
+
+  const podium = [all[1], all[0], all[2]];
+  const ranks = [2, 1, 3];
+  const rest = all.slice(3);
+
+  return (
+    <div className="hm-card">
+      <h3 className="hm-card-title">Leaderboard <DataBadge kind={board.kind} /></h3>
+      <div className="lb-podium">
+        {podium.map((u, i) => (
+          <div key={u.name} className={`lb-pod r${ranks[i]}`}>
+            <div className="lb-pod-av-wrap">
+              <img className="lb-pod-av" src={u.photo} alt={u.name} loading="lazy" />
+              <span className={`lb-pod-badge r${ranks[i]}`}>{ranks[i]}</span>
+            </div>
+            <div className="lb-pod-name">{u.name}</div>
+            <div className="lb-pod-pts"><span className="lb-pts-star">✦</span>{u.points}</div>
+          </div>
+        ))}
+      </div>
+      <div className="lb-divider" />
+      <ul className="lb-list">
+        {rest.map((u, i) => (
+          <li key={u.name} className="lb-row">
+            <span className="lb-rank">{i + 4}</span>
+            <img className="lb-av" src={u.photo} alt={u.name} loading="lazy" />
+            <div className="lb-name">{u.name}</div>
+            <div className="lb-pts">{u.points}</div>
+          </li>
+        ))}
+      </ul>
+      <Link to="/app/club/leaderboard" className="lb-see-all">See Full Leaderboard <span aria-hidden>→</span></Link>
+    </div>
+  );
+}

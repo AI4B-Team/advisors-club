@@ -12,15 +12,18 @@ import {
 import { demoActivities } from "@/lib/aiva/activity/demo";
 import type { AivaActivityRecord } from "@/lib/aiva/activity/types";
 import type { ActivityEntry } from "@/lib/aiva-admin";
+import { useDataMode } from "./use-data-mode";
 
 /**
  * One composed view of everything AIVA has done. Real work is projected from
- * the systems that already own it; demo fixtures only appear when nothing real
- * exists yet, and are flagged as such.
+ * the canonical systems that own it (activity store, flywheel, recos,
+ * opportunities). Demo fixtures appear ONLY in a demo/sandbox workspace with
+ * no real activity, and are always flagged `isDemo` for labeling.
  */
 export function useAivaActivity(legacy: ActivityEntry[] = [], opts: { markSeen?: boolean } = {}) {
   const markSeen = opts.markSeen !== false;
   const { opportunities } = useOpportunities();
+  const dataMode = useDataMode();
   const [tick, setTick] = useState(0);
   const [lastSeen] = useState<string | null>(() => getLastSeen());
 
@@ -45,14 +48,14 @@ export function useAivaActivity(legacy: ActivityEntry[] = [], opts: { markSeen?:
       fromLegacy(legacy),
     ).filter(a => !dismissed.has(a.id));
 
-    if (real.length > 0) return { activities: real, isDemo: false };
+    if (real.length > 0 || !dataMode.enabled) return { activities: real, isDemo: false };
 
     const demo = mergeActivities(
       fromOpportunities(opportunities.filter(o => o.isDemo)),
       demoActivities(),
     ).filter(a => !dismissed.has(a.id));
     return { activities: demo, isDemo: demo.length > 0 };
-  }, [tick, opportunities, legacy]);
+  }, [tick, opportunities, legacy, dataMode.enabled]);
 
   const summary = useMemo(() => summarize(activities), [activities]);
 

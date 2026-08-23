@@ -6308,3 +6308,17 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .cz-hint{display:flex;align-items:center;justify-content:center;gap:5px;font-size:11.5px;color:#9AA0AA;padding:8px 12px 12px}
 .cz-canvas-empty{display:flex;flex-direction:column;align-items:center;gap:4px;padding:48px 20px;text-align:center;color:#9AA0AA;font-size:12.5px}
 .cz-canvas-empty strong{font-size:14px;color:#111827}
+
+/* ============ Data provenance labels ============ */
+.data-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10.5px;font-weight:750;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;vertical-align:middle}
+.data-badge--demo{background:#FEF3C7;color:#92400E}
+.data-badge--sample{background:#EEF2FF;color:#4338CA}
+.data-badge--empty{background:#F3F4F6;color:#6B7280}
+.data-notice{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:11px;font-size:12.5px;font-weight:600;line-height:1.4;margin-bottom:12px}
+.data-notice--demo{background:#FFFBEB;border:1px solid #FDE68A;color:#92400E}
+.data-notice--sample{background:#F5F7FF;border:1px solid #DDE3FF;color:#3730A3}
+.data-notice--empty{background:#F9FAFB;border:1px solid #ECEEF2;color:#6B7280}
+.data-empty{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:34px 20px;border:1px dashed #E2E5EA;border-radius:14px;background:#FCFCFD}
+.data-empty strong{font-size:14px;color:#111827}
+.data-empty p{margin:0;font-size:12.5px;color:#8A919C;max-width:420px;line-height:1.5}
+.dc-sample-badge{position:absolute;left:10px;bottom:10px;z-index:2}
