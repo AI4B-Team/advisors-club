@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Calendar as CalIcon, ChevronLeft, ChevronRight, Clock, Video, LayoutGrid, CalendarDays, CalendarRange, Calendar as CalDay, Check, X as XIcon, HelpCircle, MapPin, Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { getEvents, addEvent, subscribeEvents, type EventItem } from "@/lib/events-store";
+import { useViewMode } from "@/hooks/use-view-mode";
 
 export const Route = createFileRoute("/app/calendar")({
   head: () => ({ meta: [{ title: "Calendar — Real Estate Empire" }] }),
@@ -41,20 +42,27 @@ function useCountdown(target: Date) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
   const diff = target.getTime() - now.getTime();
-  if (diff <= 0) return { live: true, label: "Live Now" };
+  // Live only inside a ~2h window after the start; past events show nothing.
+  if (diff <= 0) {
+    const since = -diff;
+    if (since <= 2 * 3600000) return { live: true, label: "Live Now", ended: false };
+    return { live: false, label: "", ended: true };
+  }
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
   const m = Math.floor((diff % 3600000) / 60000);
   const s = Math.floor((diff % 60000) / 1000);
-  if (d > 0) return { live: false, label: `${d}d ${h}h ${m}m` };
-  if (h > 0) return { live: false, label: `${h}h ${m}m ${s}s` };
-  return { live: false, label: `${m}m ${s}s` };
+  if (d > 0) return { live: false, label: `${d}d ${h}h ${m}m`, ended: false };
+  if (h > 0) return { live: false, label: `${h}h ${m}m ${s}s`, ended: false };
+  return { live: false, label: `${m}m ${s}s`, ended: false };
 }
 
 function CalendarPage() {
   const events = useEvents();
   const search = Route.useSearch();
   const navigate = useNavigate();
+  const { isAdmin, viewAs } = useViewMode();
+  const canCreateEvents = isAdmin && !viewAs;
   const [view, setView] = useState<View>("grid");
   const [cursor, setCursor] = useState(new Date(2026, 4, 26));
   const [selected, setSelected] = useState("2026-05-28");
@@ -100,7 +108,7 @@ function CalendarPage() {
           <button className={`cal-vbtn ${view==="month"?"on":""}`} onClick={()=>setView("month")}><CalendarDays size={14}/> Month</button>
           <button className={`cal-vbtn ${view==="week"?"on":""}`} onClick={()=>setView("week")}><CalendarRange size={14}/> Week</button>
           <button className={`cal-vbtn ${view==="day"?"on":""}`} onClick={()=>setView("day")}><CalDay size={14}/> Day</button>
-          <button className="cal-vbtn cal-new" onClick={()=>setCreateOpen(true)} style={{background:"#0F172A",color:"#fff",borderColor:"#0F172A"}}><Plus size={14}/> New Event</button>
+          {canCreateEvents && <button className="cal-vbtn cal-new" onClick={()=>setCreateOpen(true)} style={{background:"#0F172A",color:"#fff",borderColor:"#0F172A"}}><Plus size={14}/> New Event</button>}
         </div>
       </div>
 
@@ -335,7 +343,7 @@ function EventCard({ e, rsvp, onRsvp }: { e: EventItem; rsvp: Rsvp; onRsvp: (v: 
   return (
     <article className="cal-ec">
       <div className="cal-ec-thumb" style={{backgroundImage:`url(${e.thumb})`}}>
-        <div className={`cal-ec-cd ${cd.live?"live":""}`}><Clock size={11}/> {cd.label}</div>
+        {!cd.ended && <div className={`cal-ec-cd ${cd.live?"live":""}`}><Clock size={11}/> {cd.label}</div>}
       </div>
       <div className="cal-ec-body">
         <div className="cal-ec-date">
@@ -356,6 +364,7 @@ function EventCard({ e, rsvp, onRsvp }: { e: EventItem; rsvp: Rsvp; onRsvp: (v: 
 
 function CountdownChip({ target }: { target: Date }) {
   const cd = useCountdown(target);
+  if (cd.ended) return null;
   return <div className={`cal-cd-chip ${cd.live?"live":""}`}><Clock size={11}/> {cd.label}</div>;
 }
 

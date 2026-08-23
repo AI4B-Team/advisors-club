@@ -16,16 +16,7 @@ function MembersPage() {
 
   return (
     <div>
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16,gap:12,flexWrap:"wrap"}}>
-        <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:36,height:36,borderRadius:10,background:"#F3F0FF",color:"#7C3AED",display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <Users size={20}/>
-          </div>
-          <div>
-            <div style={{fontSize:18,fontWeight:800,color:"#111827",lineHeight:1.1}}>Members</div>
-            <div style={{fontSize:12,color:"#6B7280"}}>Browse your community by list or location</div>
-          </div>
-        </div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",marginBottom:16,gap:12}}>
         <div style={{display:"inline-flex",background:"#F3F4F6",borderRadius:10,padding:4,gap:2}}>
           <TabBtn active={view==="list"} onClick={()=>setView("list")} icon={<List size={14}/>} label="List"/>
           <TabBtn active={view==="map"} onClick={()=>setView("map")} icon={<MapIcon size={14}/>} label="Map"/>
@@ -37,7 +28,7 @@ function MembersPage() {
           icon={<Users size={26}/>}
           title="Members"
           noun="member"
-          blurb="Sortable member table, detail slide-out, level & badge display, direct messaging, CSV export, and bulk actions."
+          blurb="Browse Your Community By List Or Location."
           features={["Sortable table","Detail slide-out","Levels & badges","Direct message","CSV export","Bulk actions"]}
           aivaPrompts={["Draft a welcome DM sequence","Segment my most engaged members","Write a re-engagement message"]}
         />

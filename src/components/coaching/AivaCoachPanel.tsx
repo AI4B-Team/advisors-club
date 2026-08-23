@@ -1,13 +1,13 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Loader2, ArrowRight } from "lucide-react";
+import { Sparkles, Loader2, ArrowRight, ChevronDown } from "lucide-react";
 import { aivaCoachingInsight } from "@/lib/ai.functions";
 
 type Preset = { label: string; prompt: string; kind?: "attention" | "prep" | "goal" | "ask" };
 
 export function AivaCoachPanel({
-  title = "AIVA Coaching Intelligence",
-  subtitle = "AIVA reads your real client data and tells you where to spend your time.",
+  title = "AI Coaching Intelligence",
+  subtitle = "AI reads your real client data and tells you where to spend your time.",
   snapshot,
   presets,
   defaultKind = "ask",
@@ -20,6 +20,7 @@ export function AivaCoachPanel({
   defaultKind?: "attention" | "prep" | "goal" | "ask";
   compact?: boolean;
 }) {
+  const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [reply, setReply] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -27,26 +28,29 @@ export function AivaCoachPanel({
 
   async function run(prompt: string, kind: Preset["kind"]) {
     const snap = snapshot();
-    if (!snap.trim()) { setError("There isn't enough data here yet for AIVA to read."); return; }
+    if (!snap.trim()) { setError("There isn't enough data here yet for AI to read."); return; }
     setBusy(true); setError(null); setReply("");
     try {
       const res = await aivaCoachingInsight({ data: { kind: kind ?? defaultKind, prompt, snapshot: snap } });
       if (res.error) setError(res.error); else setReply(res.reply);
     } catch {
-      setError("AIVA is unavailable right now.");
+      setError("AI is unavailable right now.");
     } finally { setBusy(false); }
   }
 
   return (
-    <section className={`coach-aiva${compact ? " is-compact" : ""}`}>
-      <header className="coach-aiva-head">
+    <section className={`coach-aiva${compact ? " is-compact" : ""}${open ? " is-open" : " is-collapsed"}`}>
+      <button className="coach-aiva-head" type="button" onClick={() => setOpen(o => !o)} aria-expanded={open}>
         <span className="coach-aiva-icon"><Sparkles size={compact ? 15 : 18} /></span>
         <div>
           <h3>{title}</h3>
-          {!compact && <p>{subtitle}</p>}
+          {!compact && open && <p>{subtitle}</p>}
         </div>
-      </header>
+        <ChevronDown size={16} className="coach-aiva-caret" />
+      </button>
 
+      {!open ? null : (
+      <>
       <div className="coach-aiva-chips">
         {presets.map(p => (
           <button key={p.label} className="coach-chip" disabled={busy} onClick={() => run(p.prompt, p.kind)}>
@@ -62,17 +66,19 @@ export function AivaCoachPanel({
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask AIVA About Your Clients…"
-          aria-label="Ask AIVA about your clients"
+          placeholder="Ask AI About Your Clients…"
+          aria-label="Ask AI about your clients"
         />
-        <button type="submit" disabled={busy || !input.trim()} aria-label="Ask AIVA">
+        <button type="submit" disabled={busy || !input.trim()} aria-label="Ask AI">
           {busy ? <Loader2 size={14} className="coach-spin" /> : <ArrowRight size={14} />}
         </button>
       </form>
 
-      {busy && <div className="coach-aiva-busy"><Loader2 size={14} className="coach-spin" /> AIVA Is Reading Your Data…</div>}
+      {busy && <div className="coach-aiva-busy"><Loader2 size={14} className="coach-spin" /> AI Is Reading Your Data…</div>}
       {error && <div className="coach-aiva-error">{error}</div>}
       {reply && <div className="coach-aiva-reply"><ReactMarkdown>{reply}</ReactMarkdown></div>}
+      </>
+      )}
     </section>
   );
 }

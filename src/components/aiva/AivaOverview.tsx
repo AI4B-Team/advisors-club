@@ -49,7 +49,7 @@ export function AivaOverview({ admin, update, go }: {
 
   const suggestions = [
     filledFacts < FACT_SECTIONS.length
-      ? { t: "Complete What AIVA Knows", d: `${FACT_SECTIONS.length - filledFacts} Sections Are Still Empty. Filling Them Sharply Improves Answers.`, tab: "overview" as AmTabKey }
+      ? { t: "Complete What AI Knows", d: `${FACT_SECTIONS.length - filledFacts} Sections Are Still Empty. Filling Them Sharply Improves Answers.`, tab: "overview" as AmTabKey }
       : { t: "Review Your Brand Voice", d: "Re-Read The Voice Rules AIVA Uses In Member Replies.", tab: "instructions" as AmTabKey },
     { t: "Add A Website Or YouTube Source", d: "More Sources Means Fewer Guesses In Member Answers.", tab: "knowledge" as AmTabKey },
     { t: "Set Escalation Rules", d: "Decide Which Conversations Should Always Reach A Human.", tab: "instructions" as AmTabKey },
@@ -101,8 +101,8 @@ export function AivaOverview({ admin, update, go }: {
       </div>
 
       <AmCard
-        title="What AIVA Knows"
-        desc="Everything Below Is Inspectable And Editable. AIVA Only Uses What You Approve Here."
+        title="What AI Knows"
+        desc="Everything Below Is Inspectable And Editable. AI Only Uses What You Approve Here."
         icon={<GraduationCap size={16} />}
       >
         <div className="am-facts">
@@ -114,7 +114,7 @@ export function AivaOverview({ admin, update, go }: {
                 <div className="am-fact-h">
                   <div>
                     <b>{f.label}</b>
-                    {!value.trim() && <AmStatus kind="needs-review">Empty</AmStatus>}
+                    {!value.trim() && <span className="am-fact-empty">Not Set</span>}
                   </div>
                   {!isEditing && (
                     <button className="am-icon-btn" aria-label={`Edit ${f.label}`} onClick={() => { setEditing(f.key); setDraft(value); }}>

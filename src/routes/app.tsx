@@ -448,12 +448,12 @@ function Topbar() {
           <button
             className={`cc-tb-ask${cmdOpen ? " on" : ""}`}
             type="button"
-            aria-label="Ask AIVA"
-            data-tip="Ask AIVA"
+            aria-label="Ask AI"
+            data-tip="Ask AI"
             onClick={()=>setCmdOpen(o=>!o)}
           >
             <Sparkles size={15}/>
-            <span className="cc-tb-ask-l">Ask AIVA</span>
+            <span className="cc-tb-ask-l">Ask AI</span>
             <kbd className="cc-tb-ask-k">⌘K</kbd>
           </button>
         ) : (
@@ -469,19 +469,23 @@ function Topbar() {
             <kbd className="cc-tb-ask-k">AI</kbd>
           </button>
         )}
-        <button
-          className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
-          type="button"
-          aria-label="AI Summary"
-          data-tip="AI Summary"
-          onClick={()=>setAiOpen(o=>!o)}
-        >
-          <Sparkles size={16}/>
-        </button>
-        <button className="cc-tb-golive" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}>
-          <span className="cc-tb-golive-dot"/>
-          <Video size={14}/> Go Live
-        </button>
+        {/* Admin machinery stays out of the member top bar. */}
+        {isAdmin && !viewAs && (
+          <>
+            <button
+              className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
+              type="button"
+              aria-label="AI Summary"
+              data-tip="AI Summary"
+              onClick={()=>setAiOpen(o=>!o)}
+            >
+              <Sparkles size={16}/>
+            </button>
+            <button className="cc-tb-golive quiet" type="button" data-tip="Go Live" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}>
+              <Video size={14}/> Go Live
+            </button>
+          </>
+        )}
         {showPostActions && (
           <button className="cc-tb-newpost" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:new-post"))}>
             <Plus size={15} strokeWidth={3}/> New Post
@@ -498,10 +502,9 @@ function Topbar() {
             </div>
           )}
         </div>
-        <button className="cc-tb-icon" data-tip="Calendar" onClick={()=>nav({to:"/app/calendar"})}><Calendar size={16}/></button>
         <button className="cc-tb-icon" data-tip="Notifications" onClick={()=>nav({to:"/app/notifications"})}><Bell size={16}/></button>
         <button className="cc-tb-icon" data-tip="Messages" onClick={()=>nav({to:"/app/messages"})}><MessageCircle size={16}/></button>
-        <button className="cc-tb-icon" data-tip="Bookmarks" onClick={()=>nav({to:"/app/bookmarks"})}><Bookmark size={16}/></button>
+
 
         <div className="cc-tb-pf" ref={ref}>
           <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">
@@ -529,6 +532,8 @@ function Topbar() {
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
               <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
+              <MenuItem icon={<Calendar size={15}/>} label="Calendar" onClick={()=>{setOpen(false);nav({to:"/app/calendar"})}} />
+              <MenuItem icon={<Bookmark size={15}/>} label="Bookmarks" onClick={()=>{setOpen(false);nav({to:"/app/bookmarks"})}} />
 
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
