@@ -584,8 +584,8 @@ export function AIInboxPanel() {
 export function PaywallsPanel() {
   return (
     <div className="ap">
-      <PanelHead title="Paywalls" sub="Gate content, courses and channels by plan."
-        action={<button className="ap-btn-primary"><Plus size={14}/> New Paywall</button>}/>
+      <PanelHead title="Access Rules" sub="Gate content, courses and channels by membership plan."
+        action={<button className="ap-btn-primary"><Plus size={14}/> New Access Rule</button>}/>
       <div className="ap-grid-3">
         {[
           { t: "Pro Channels", g: "12 channels · 8 courses", revenue: "$24,820/mo", on: true },
@@ -681,7 +681,7 @@ const PLANS = [
 export function PlansPanel() {
   return (
     <div className="ap">
-      <PanelHead title="Plans" sub="Define what members pay for and what they unlock."
+      <PanelHead title="Membership Plans" sub="Define what members pay for and what they unlock."
         action={<button className="ap-btn-primary"><Plus size={14}/> New Plan</button>}/>
       <div className="ap-grid-3">
         {PLANS.map(p => (
