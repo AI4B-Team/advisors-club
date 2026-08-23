@@ -1,4 +1,4 @@
-import { Check, Sparkles, X } from "lucide-react";
+import { ArrowRight, Check, Sparkles, X } from "lucide-react";
 import advisorsLogoDark from "@/assets/advisorsclub-logo-real-dark.png";
 
 export function ReplaceToolsSection() {

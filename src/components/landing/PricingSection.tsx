@@ -1,5 +1,5 @@
+import { ArrowRight, Check, Minus, Zap } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { Link, Check, Minus, Zap } from "lucide-react";
 
 export function PricingSection() {
   return (
