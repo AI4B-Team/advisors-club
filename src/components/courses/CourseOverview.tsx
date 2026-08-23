@@ -6,6 +6,7 @@ import {
   Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen, Pin, SlidersHorizontal, Captions, Star, ListChecks, Loader2, ClipboardList, Lightbulb,
 } from "lucide-react";
 import { MenuItem, Mini, StatCard } from "./primitives";
+import { DataBadge } from "@/components/DataBadge";
 import { RecommendationPanel } from "@/components/recos/RecommendationPanel";
 import { nodeId } from "@/lib/graph/types";
 import type { CourseDetailCtx } from "@/hooks/courses/use-course-detail";
