@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
@@ -10,6 +10,8 @@ import { useMemberAi } from "@/hooks/use-member-ai";
 import { displayName as memberAiName } from "@/lib/member-ai";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 import { GoLiveModal } from "@/components/go-live-modal";
+import { DEFAULT_MEMBER_NAV, ONBOARDING_NAV, SYSTEM_NAV, resolveNav, type NavItem } from "@/lib/nav/config";
+import { NavIcon } from "@/lib/nav/icons";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
@@ -127,114 +129,26 @@ function IconRail() {
 /* ============ COMMUNITY SIDEBAR ============ */
 type SubLink = { label: string; to: string; icon: ReactNode; hash?: string };
 type TopLink = {
+  id: string;
   label: string; to: string; icon: React.ReactNode;
-  exact?: boolean; pill?: boolean;
+  exact?: boolean; pill?: boolean; system?: boolean;
   subs: SubLink[]; menu: string[];
 };
 
-const DEFAULT_MENU = ["Pin To Top", "Mute Notifications", "Mark All Read", "Hide"];
+function toTopLink(item: NavItem): TopLink {
+  return {
+    id: item.id,
+    label: item.label,
+    to: item.to,
+    icon: <NavIcon name={item.icon} size={item.pill ? 15 : 16} />,
+    exact: item.exact,
+    pill: item.pill,
+    system: item.section === "system",
+    subs: item.subs.map(s => ({ label: s.label, to: s.to, hash: s.hash, icon: <NavIcon name={s.icon} size={14} /> })),
+    menu: item.menu,
+  };
+}
 
-const TOP_LINKS: TopLink[] = [
-  { label: "Getting Started", to: "/app/getting-started", icon: <Rocket size={16}/>,
-    subs: [
-      {label:"Club Identity",   to:"/app/getting-started", hash:"identity",  icon:<Sparkles size={14}/>},
-      {label:"Course",          to:"/app/getting-started", hash:"course",    icon:<BookOpen size={14}/>},
-      {label:"Coaching Program",to:"/app/getting-started", hash:"coaching",  icon:<UserCheck size={14}/>},
-      {label:"Challenge",       to:"/app/getting-started", hash:"challenge", icon:<Flame size={14}/>},
-      {label:"First Event",     to:"/app/getting-started", hash:"event",     icon:<Calendar size={14}/>},
-      {label:"Membership",      to:"/app/getting-started", hash:"pricing",   icon:<CreditCard size={14}/>},
-      {label:"Welcome Post",    to:"/app/getting-started", hash:"welcome",   icon:<Hand size={14}/>},
-      {label:"Launch",          to:"/app/getting-started", hash:"launch",    icon:<Rocket size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
-    subs: [
-      {label:"Dashboard",to:"/app/dashboard", icon:<LayoutDashboard size={14}/>},
-      {label:"Activity",to:"/app", icon:<Activity size={14}/>},
-      {label:"Bookmarks",to:"/app/bookmarks", icon:<Bookmark size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Community", to: "/app/club/feed", icon: <MessageSquare size={16}/>,
-    subs: [
-      {label:"Feed",to:"/app/club/feed", icon:<Hash size={14}/>},
-      {label:"Announcements",to:"/app/club/feed", icon:<Megaphone size={14}/>},
-      {label:"Discussions",to:"/app/club/feed", icon:<MessagesSquare size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Courses", to: "/app/club/courses", icon: <BookOpen size={16}/>,
-    subs: [
-      {label:"All Courses",to:"/app/club/courses", icon:<BookOpen size={14}/>},
-      {label:"In Progress",to:"/app/club/courses", icon:<Clock size={14}/>},
-      {label:"Completed",to:"/app/club/courses", icon:<CheckCircle2 size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Coaching", to: "/app/club/coaching", icon: <UserCheck size={16}/>,
-    subs: [
-      {label:"All Programs",to:"/app/club/coaching", icon:<Users size={14}/>},
-      {label:"1:1 Sessions",to:"/app/club/coaching", icon:<User size={14}/>},
-      {label:"Bookings",to:"/app/calendar", icon:<CalendarDays size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Challenges", to: "/app/club/challenges", icon: <Flame size={16}/>,
-    subs: [
-      {label:"Active",to:"/app/club/challenges", icon:<Flame size={14}/>},
-      {label:"Upcoming",to:"/app/club/challenges", icon:<CalendarClock size={14}/>},
-      {label:"Past",to:"/app/club/challenges", icon:<History size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Leaderboard", to: "/app/club/leaderboard", icon: <Award size={16}/>,
-    subs: [
-      {label:"Top Performers",to:"/app/club/leaderboard", icon:<Award size={14}/>},
-      {label:"Streaks",to:"/app/club/leaderboard", icon:<Flame size={14}/>},
-      {label:"All Time",to:"/app/club/leaderboard", icon:<History size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Events", to: "/app/club/events", icon: <Calendar size={16}/>,
-    subs: [
-      {label:"Calendar",to:"/app/club/events", icon:<CalendarDays size={14}/>},
-      {label:"Upcoming",to:"/app/club/events", icon:<CalendarClock size={14}/>},
-      {label:"Past",to:"/app/club/events", icon:<CalendarCheck size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Resources", to: "/app/club/resources", icon: <FolderOpen size={16}/>,
-    subs: [
-      {label:"Library",to:"/app/club/resources", icon:<Library size={14}/>},
-      {label:"Templates",to:"/app/club/resources", icon:<FileText size={14}/>},
-      {label:"Links",to:"/app/club/resources", icon:<Link2 size={14}/>},
-      {label:"Downloads",to:"/app/club/resources", icon:<Download size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-
-  { label: "Members", to: "/app/club/members", icon: <Users size={16}/>,
-    subs: [
-      {label:"All Members",to:"/app/club/members", icon:<Users size={14}/>},
-      {label:"Online",to:"/app/club/members", icon:<UserCheck size={14}/>},
-      {label:"Admins",to:"/app/club/members", icon:<ShieldCheck size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Customize", to: "/app/customize", icon: <Palette size={16}/>,
-    subs: [
-      {label:"Blocks",to:"/app/customize", icon:<LayoutGrid size={14}/>},
-      {label:"Theme",to:"/app/customize", icon:<Palette size={14}/>},
-      {label:"Brand & Domain",to:"/app/customize", icon:<Globe size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Sell", to: "/app/sell", icon: <Globe size={16}/>,
-    subs: [
-      {label:"Public Club Page",to:"/app/sell", icon:<Globe size={14}/>},
-      {label:"Landing Pages",to:"/app/sell", icon:<LayoutGrid size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,
-    subs: [
-      {label:"Overview",to:"/app/aiva", icon:<Terminal size={14}/>},
-      {label:"Knowledge",to:"/app/aiva", icon:<Lightbulb size={14}/>},
-      {label:"Activity",to:"/app/aiva", icon:<FileClock size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-];
-
-const AIVA_LABEL = "AIVA";
 
 function SidebarTopLink({ link }: { link: TopLink }) {
   const [expanded, setExpanded] = useState(false);
@@ -248,9 +162,10 @@ function SidebarTopLink({ link }: { link: TopLink }) {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
   const baseCls = link.pill ? "cc-sb-pill" : "cc-sb-feed";
-  const isAiva = link.label === AIVA_LABEL;
+  const isSystem = Boolean(link.system);
+  const hasSubs = link.subs.length > 0;
   return (
-    <div className={`cc-sb-item${isAiva ? " cc-sb-item-aiva" : ""}${expanded ? " expanded" : ""}`}>
+    <div className={`cc-sb-item${isSystem ? " cc-sb-item-sys" : ""}${expanded ? " expanded" : ""}`}>
       <div className={`cc-sb-item-row ${baseCls}-wrap`}>
         <Link
           to={link.to}
@@ -269,40 +184,37 @@ function SidebarTopLink({ link }: { link: TopLink }) {
         >
           {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
           <span className="cc-sb-item-l">{link.label}</span>
-          {isAiva && <span className="cc-sb-badge-new">NEW</span>}
         </Link>
-        <button
-          className="cc-sb-add"
-          aria-label={`Add to ${link.label}`}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-        >
-          <Plus size={13}/>
-        </button>
-        <button
-          className="cc-sb-caret"
-          aria-label="Toggle sub-links"
-          onClick={() => setExpanded(e => !e)}
-        >
-          <ChevronDown size={14} style={{ transform: expanded ? "rotate(180deg)" : undefined, transition: "transform .15s" }}/>
-        </button>
-        <div className="cc-sb-more-wrap" ref={menuRef}>
+        {hasSubs && (
           <button
-            className="cc-sb-more"
-            aria-label="More options"
-            onClick={() => setMenuOpen(o => !o)}
+            className="cc-sb-caret"
+            aria-label="Toggle sub-links"
+            onClick={() => setExpanded(e => !e)}
           >
-            <MoreHorizontal size={14}/>
+            <ChevronDown size={14} style={{ transform: expanded ? "rotate(180deg)" : undefined, transition: "transform .15s" }}/>
           </button>
-          {menuOpen && (
-            <div className="cc-sb-more-menu">
-              {link.menu.map(m => (
-                <button key={m} className="cc-sb-more-item" onClick={() => setMenuOpen(false)}>{m}</button>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
+        {!isSystem && link.menu.length > 0 && (
+          <div className="cc-sb-more-wrap" ref={menuRef}>
+            <button
+              className="cc-sb-more"
+              aria-label="More options"
+              onClick={() => setMenuOpen(o => !o)}
+            >
+              <MoreHorizontal size={14}/>
+            </button>
+            {menuOpen && (
+              <div className="cc-sb-more-menu">
+                {link.menu.map(m => (
+                  <button key={m} className="cc-sb-more-item" onClick={() => setMenuOpen(false)}>{m}</button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {expanded && (
+
         <div className="cc-sb-subs">
           {link.subs.map(s => (
             <div key={s.label} className="cc-sb-sub-row">
@@ -335,6 +247,17 @@ function CommunitySidebar() {
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+
+  // Navigation is data-driven; admin overrides will be layered in here later.
+  const memberNav = useMemo(() => resolveNav(DEFAULT_MEMBER_NAV).map(toTopLink), []);
+  const systemNav = useMemo(() => SYSTEM_NAV.map(toTopLink), []);
+  const [setupComplete, setSetupComplete] = useState(true);
+  useEffect(() => {
+    const read = () => setSetupComplete(Boolean(getGS().quickstartCompleted));
+    read();
+    return subscribeGS(read);
+  }, []);
+
   return (
     <aside className="cc-sb">
       <div className="cc-sb-top" ref={ref}>
@@ -381,14 +304,23 @@ function CommunitySidebar() {
 
       <ViewModeToggle />
 
-      {TOP_LINKS.map(link => (
-        <SidebarTopLink key={link.label} link={link} />
+      {!setupComplete && (
+        <div className="cc-sb-onboarding">
+          <SidebarTopLink link={toTopLink(ONBOARDING_NAV)} />
+        </div>
+      )}
+
+      {memberNav.map(link => (
+        <SidebarTopLink key={link.id} link={link} />
       ))}
 
-      <div className="cc-sb-foot">
-        <button className="cc-sb-live" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}><span className="cc-sb-live-dot"/><Video size={15}/> Start Live Session</button>
-        
+      <div className="cc-sb-sys">
+        <div className="cc-sb-sys-label">Admin</div>
+        {systemNav.map(link => (
+          <SidebarTopLink key={link.id} link={link} />
+        ))}
       </div>
+
     </aside>
   );
 }

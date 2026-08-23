@@ -25,11 +25,13 @@ import { Route as ClubSplatRouteImport } from './routes/club.$'
 import { Route as AppSellRouteImport } from './routes/app.sell'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
+import { Route as AppManageRouteImport } from './routes/app.manage'
 import { Route as AppGettingStartedRouteImport } from './routes/app.getting-started'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppCustomizeRouteImport } from './routes/app.customize'
 import { Route as AppCalendarRouteImport } from './routes/app.calendar'
 import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
+import { Route as AppAppsRouteImport } from './routes/app.apps'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
@@ -125,6 +127,11 @@ const AppMessagesRoute = AppMessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => AppRoute,
 } as any)
+const AppManageRoute = AppManageRouteImport.update({
+  id: '/manage',
+  path: '/manage',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppGettingStartedRoute = AppGettingStartedRouteImport.update({
   id: '/getting-started',
   path: '/getting-started',
@@ -148,6 +155,11 @@ const AppCalendarRoute = AppCalendarRouteImport.update({
 const AppBookmarksRoute = AppBookmarksRouteImport.update({
   id: '/bookmarks',
   path: '/bookmarks',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAppsRoute = AppAppsRouteImport.update({
+  id: '/apps',
+  path: '/apps',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAivaRoute = AppAivaRouteImport.update({
@@ -233,11 +245,13 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/apps': typeof AppAppsRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/manage': typeof AppManageRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/sell': typeof AppSellRouteWithChildren
@@ -269,11 +283,13 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/apps': typeof AppAppsRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/manage': typeof AppManageRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
@@ -306,11 +322,13 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/apps': typeof AppAppsRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/manage': typeof AppManageRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/sell': typeof AppSellRouteWithChildren
@@ -345,11 +363,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/apps'
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/app/sell'
@@ -381,11 +401,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/apps'
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
@@ -417,11 +439,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/apps'
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/app/sell'
@@ -572,6 +596,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMessagesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/manage': {
+      id: '/app/manage'
+      path: '/manage'
+      fullPath: '/app/manage'
+      preLoaderRoute: typeof AppManageRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/getting-started': {
       id: '/app/getting-started'
       path: '/getting-started'
@@ -605,6 +636,13 @@ declare module '@tanstack/react-router' {
       path: '/bookmarks'
       fullPath: '/app/bookmarks'
       preLoaderRoute: typeof AppBookmarksRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/apps': {
+      id: '/app/apps'
+      path: '/apps'
+      fullPath: '/app/apps'
+      preLoaderRoute: typeof AppAppsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/aiva': {
@@ -724,11 +762,13 @@ const AppSellRouteWithChildren =
 interface AppRouteChildren {
   AppAccountRoute: typeof AppAccountRoute
   AppAivaRoute: typeof AppAivaRoute
+  AppAppsRoute: typeof AppAppsRoute
   AppBookmarksRoute: typeof AppBookmarksRoute
   AppCalendarRoute: typeof AppCalendarRoute
   AppCustomizeRoute: typeof AppCustomizeRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppGettingStartedRoute: typeof AppGettingStartedRoute
+  AppManageRoute: typeof AppManageRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppSellRoute: typeof AppSellRouteWithChildren
@@ -748,11 +788,13 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAccountRoute: AppAccountRoute,
   AppAivaRoute: AppAivaRoute,
+  AppAppsRoute: AppAppsRoute,
   AppBookmarksRoute: AppBookmarksRoute,
   AppCalendarRoute: AppCalendarRoute,
   AppCustomizeRoute: AppCustomizeRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppGettingStartedRoute: AppGettingStartedRoute,
+  AppManageRoute: AppManageRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppSellRoute: AppSellRouteWithChildren,
