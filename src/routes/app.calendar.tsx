@@ -3,6 +3,7 @@ import { Calendar as CalIcon, ChevronLeft, ChevronRight, Clock, Video, LayoutGri
 import { useEffect, useMemo, useState } from "react";
 import { getEvents, addEvent, subscribeEvents, type EventItem } from "@/lib/events-store";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { useNow } from "@/hooks/use-clock";
 
 export const Route = createFileRoute("/app/calendar")({
   head: () => ({ meta: [{ title: "Calendar — Real Estate Empire" }] }),
@@ -39,9 +40,9 @@ const parseDate = (s: string) => { const [y,m,d] = s.split("-").map(Number); ret
 const eventStart = (e: EventItem) => { const d = parseDate(e.date); const [h,m] = e.start.split(":").map(Number); d.setHours(h, m, 0, 0); return d; };
 
 function useCountdown(target: Date) {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
-  const diff = target.getTime() - now.getTime();
+  // Shared app clock — one interval for every card on the page.
+  const now = useNow(1000);
+  const diff = target.getTime() - now;
   // Live only inside a ~2h window after the start; past events show nothing.
   if (diff <= 0) {
     const since = -diff;

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { CalendarClock, Video } from "lucide-react";
 import hostAvatar from "@/assets/host-michael.jpg";
+import { useNow } from "@/hooks/use-clock";
 
 type Props = {
   title: string;
@@ -10,8 +11,8 @@ type Props = {
   host?: string;
 };
 
-function diff(target: number) {
-  const ms = Math.max(0, target - Date.now());
+function diff(target: number, now: number) {
+  const ms = Math.max(0, target - now);
   const d = Math.floor(ms / 86400000);
   const h = Math.floor((ms % 86400000) / 3600000);
   const m = Math.floor((ms % 3600000) / 60000);
@@ -20,12 +21,9 @@ function diff(target: number) {
 }
 
 export function FeaturedEvent({ title, subtitle, whenISO, whenLabel, host }: Props) {
-  const target = new Date(whenISO).getTime();
-  const [t, setT] = useState(() => diff(target));
-  useEffect(() => {
-    const id = setInterval(() => setT(diff(target)), 1000);
-    return () => clearInterval(id);
-  }, [target]);
+  const target = useMemo(() => new Date(whenISO).getTime(), [whenISO]);
+  const now = useNow(1000); // shared app clock
+  const t = diff(target, now);
 
   const pad = (n: number) => String(n).padStart(2, "0");
 
