@@ -52,6 +52,7 @@ import { Route as AppClubChallengesRouteImport } from './routes/app.club.challen
 import { Route as AppClubAnalyticsRouteImport } from './routes/app.club.analytics'
 import { Route as AppAppsAppIdRouteImport } from './routes/app.apps.$appId'
 import { Route as AppAppsAppIdIndexRouteImport } from './routes/app.apps.$appId.index'
+import { Route as AppAppsAppIdEditRouteImport } from './routes/app.apps.$appId.edit'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -268,6 +269,11 @@ const AppAppsAppIdIndexRoute = AppAppsAppIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppAppsAppIdRoute,
 } as any)
+const AppAppsAppIdEditRoute = AppAppsAppIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AppAppsAppIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -312,6 +318,7 @@ export interface FileRoutesByFullPath {
   '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
+  '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
   '/app/apps/$appId/': typeof AppAppsAppIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -352,6 +359,7 @@ export interface FileRoutesByTo {
   '/app/apps': typeof AppAppsIndexRoute
   '/app/manage': typeof AppManageIndexRoute
   '/app/sell': typeof AppSellIndexRoute
+  '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
   '/app/apps/$appId': typeof AppAppsAppIdIndexRoute
 }
 export interface FileRoutesById {
@@ -398,6 +406,7 @@ export interface FileRoutesById {
   '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
+  '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
   '/app/apps/$appId/': typeof AppAppsAppIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -445,6 +454,7 @@ export interface FileRouteTypes {
     | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
+    | '/app/apps/$appId/edit'
     | '/app/apps/$appId/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -485,6 +495,7 @@ export interface FileRouteTypes {
     | '/app/apps'
     | '/app/manage'
     | '/app/sell'
+    | '/app/apps/$appId/edit'
     | '/app/apps/$appId'
   id:
     | '__root__'
@@ -530,6 +541,7 @@ export interface FileRouteTypes {
     | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
+    | '/app/apps/$appId/edit'
     | '/app/apps/$appId/'
   fileRoutesById: FileRoutesById
 }
@@ -851,14 +863,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAppsAppIdIndexRouteImport
       parentRoute: typeof AppAppsAppIdRoute
     }
+    '/app/apps/$appId/edit': {
+      id: '/app/apps/$appId/edit'
+      path: '/edit'
+      fullPath: '/app/apps/$appId/edit'
+      preLoaderRoute: typeof AppAppsAppIdEditRouteImport
+      parentRoute: typeof AppAppsAppIdRoute
+    }
   }
 }
 
 interface AppAppsAppIdRouteChildren {
+  AppAppsAppIdEditRoute: typeof AppAppsAppIdEditRoute
   AppAppsAppIdIndexRoute: typeof AppAppsAppIdIndexRoute
 }
 
 const AppAppsAppIdRouteChildren: AppAppsAppIdRouteChildren = {
+  AppAppsAppIdEditRoute: AppAppsAppIdEditRoute,
   AppAppsAppIdIndexRoute: AppAppsAppIdIndexRoute,
 }
 
