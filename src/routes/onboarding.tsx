@@ -18,7 +18,7 @@ import {
   MONETIZATION_OPTIONS, COMPONENT_CATALOG, recommendComponents,
   EMPTY_PROFILE,
   type BusinessProfile, type LearnSource, type LearnSourceKind,
-  type MonetizationId, type ClubComponentId, type MemberAiMode,
+  type MonetizationId, type ClubComponentId, type PersonaIdentityMode,
 } from "@/lib/aiva-context";
 
 export const Route = createFileRoute("/onboarding")({
@@ -47,7 +47,7 @@ const COMPONENT_ICONS: Record<ClubComponentId, React.ReactNode> = {
   "events": <Calendar size={16} />,
   "resources": <FolderOpen size={16} />,
   "member-onboarding": <Compass size={16} />,
-  "member-ai": <Sparkles size={16} />,
+  "persona": <Sparkles size={16} />,
 };
 
 const SOURCE_KINDS: { id: LearnSourceKind; label: string; icon: React.ReactNode; hint: string }[] = [
@@ -78,7 +78,7 @@ function OnboardingPage() {
     color: signup.avatarColor || "#F5A623",
     slug: slugifyClub(signup.clubName || ""),
   });
-  const [memberAi, setMemberAi] = useState(() => getAivaContext().memberAi);
+  const [persona, setPersona] = useState(() => getAivaContext().persona);
   const [payments, setPayments] = useState({ connected: false, deferred: false });
   const [learning, setLearning] = useState(false);
   const [navItems, setNavItems] = useState<NavProposalItem[]>([]);
@@ -104,9 +104,9 @@ function OnboardingPage() {
 
   // Persist as we go — this context outlives onboarding.
   useEffect(() => {
-    setAivaContext({ description, websiteUrl, sources, profile, monetization, components, brand, memberAi, payments });
+    setAivaContext({ description, websiteUrl, sources, profile, monetization, components, brand, persona, payments });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [description, websiteUrl, sources, profile, monetization, components, brand, memberAi, payments]);
+  }, [description, websiteUrl, sources, profile, monetization, components, brand, persona, payments]);
 
   const go = (n: number) => { setStep(n); if (typeof window !== "undefined") window.scrollTo({ top: 0 }); };
 
@@ -228,8 +228,8 @@ function OnboardingPage() {
           />
         )}
         {step === 7 && (
-          <StepMemberAi
-            value={memberAi} setValue={setMemberAi} brand={brand}
+          <StepPersona
+            value={persona} setValue={setPersona} brand={brand}
             onBack={() => go(6)} onNext={() => go(8)} onSkip={() => go(8)}
           />
         )}
@@ -762,36 +762,36 @@ function StepBrand({ brand, setBrand, profile, onBack, onNext }: {
   );
 }
 
-/* ========================= 7 — Member AI ========================= */
-const AI_MODES: { id: MemberAiMode; label: string; desc: string; icon: React.ReactNode }[] = [
-  { id: "aiva",     label: "AIVA",                desc: "Use the Advisors Club AI identity your members already recognize.", icon: <Sparkles size={16} /> },
-  { id: "my-coach", label: "My AI Coach",         desc: "An assistant trained on your expertise and content, presented as your coaching AI.", icon: <UserRound size={16} /> },
-  { id: "custom",   label: "Custom AI Assistant", desc: "Choose your own name, image, personality, and positioning.", icon: <Bot size={16} /> },
+/* ========================= 7 — AI Persona ========================= */
+// AIVA is the admin business operator and is deliberately NOT offered here.
+const AI_MODES: { id: PersonaIdentityMode; label: string; desc: string; icon: React.ReactNode }[] = [
+  { id: "expert",   label: "My AI Coach",         desc: "An assistant trained on your expertise and content, presented as your coaching AI.", icon: <UserRound size={16} /> },
+  { id: "separate", label: "Separate AI Identity", desc: "Its own name, image, personality, and positioning — trained on your method.", icon: <Bot size={16} /> },
 ];
 
-function StepMemberAi({ value, setValue, brand, onBack, onNext, onSkip }: {
-  value: { mode: MemberAiMode; name: string; personality: string; avatarUrl: string; disclosure: string; configured: boolean };
+function StepPersona({ value, setValue, brand, onBack, onNext, onSkip }: {
+  value: { identityMode: PersonaIdentityMode; name: string; personality: string; avatarUrl: string; disclosure: string; configured: boolean };
   setValue: (v: typeof value) => void;
   brand: { clubName: string };
   onBack: () => void; onNext: () => void; onSkip: () => void;
 }) {
   const avatarRef = useRef<HTMLInputElement>(null);
-  const defaultName = value.mode === "aiva" ? "AIVA" : value.mode === "my-coach" ? `${brand.clubName || "Your Club"} Coach` : value.name;
+  const defaultName = value.identityMode === "expert" ? `${brand.clubName || "Your Club"} Coach` : value.name;
 
   return (
     <section className="ob-panel ob-panel-narrow">
       <StepHead
         eyebrow="Step 7"
-        title="How Should Members Experience AI?"
-        sub="AIVA powers the intelligence either way. This only changes how the member-facing assistant is presented."
+        title="How Should Members Experience Your AI?"
+        sub="This Is Your AI Persona — The Member-Facing AI Trained On Your Method. You Can Refine It Any Time."
       />
 
       <div className="ob-rec-list">
         {AI_MODES.map(m => {
-          const on = value.mode === m.id;
+          const on = value.identityMode === m.id;
           return (
             <button key={m.id} className={`ob-rec ob-rec-btn${on ? " on" : ""}`}
-              onClick={() => setValue({ ...value, mode: m.id, name: m.id === "custom" ? value.name : (m.id === "aiva" ? "AIVA" : `${brand.clubName || "Your Club"} Coach`) })}>
+              onClick={() => setValue({ ...value, identityMode: m.id, name: m.id === "separate" ? value.name : `${brand.clubName || "Your Club"} Coach` })}>
               <span className="ob-ico ob-ico-amber">{m.icon}</span>
               <div className="ob-rec-body">
                 <strong>{m.label}</strong>
@@ -803,7 +803,7 @@ function StepMemberAi({ value, setValue, brand, onBack, onNext, onSkip }: {
         })}
       </div>
 
-      {value.mode === "custom" && (
+      {value.identityMode === "separate" && (
         <div className="ob-card">
           <label className="ob-label">Assistant Name</label>
           <input className="ob-input" value={value.name} placeholder="e.g. Ace" onChange={e => setValue({ ...value, name: e.target.value })} />
