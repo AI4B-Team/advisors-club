@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Ban, Bot, MessageCircle, Plus, ShieldAlert, Sparkles, Trash2, UserCircle2 } from "lucide-react";
 import { AmCard, AmField } from "./ui";
 import type { AivaAdmin } from "@/lib/aiva-admin";
