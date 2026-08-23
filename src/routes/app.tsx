@@ -127,114 +127,26 @@ function IconRail() {
 /* ============ COMMUNITY SIDEBAR ============ */
 type SubLink = { label: string; to: string; icon: ReactNode; hash?: string };
 type TopLink = {
+  id: string;
   label: string; to: string; icon: React.ReactNode;
-  exact?: boolean; pill?: boolean;
+  exact?: boolean; pill?: boolean; system?: boolean;
   subs: SubLink[]; menu: string[];
 };
 
-const DEFAULT_MENU = ["Pin To Top", "Mute Notifications", "Mark All Read", "Hide"];
+function toTopLink(item: NavItem): TopLink {
+  return {
+    id: item.id,
+    label: item.label,
+    to: item.to,
+    icon: <NavIcon name={item.icon} size={item.pill ? 15 : 16} />,
+    exact: item.exact,
+    pill: item.pill,
+    system: item.section === "system",
+    subs: item.subs.map(s => ({ label: s.label, to: s.to, hash: s.hash, icon: <NavIcon name={s.icon} size={14} /> })),
+    menu: item.menu,
+  };
+}
 
-const TOP_LINKS: TopLink[] = [
-  { label: "Getting Started", to: "/app/getting-started", icon: <Rocket size={16}/>,
-    subs: [
-      {label:"Club Identity",   to:"/app/getting-started", hash:"identity",  icon:<Sparkles size={14}/>},
-      {label:"Course",          to:"/app/getting-started", hash:"course",    icon:<BookOpen size={14}/>},
-      {label:"Coaching Program",to:"/app/getting-started", hash:"coaching",  icon:<UserCheck size={14}/>},
-      {label:"Challenge",       to:"/app/getting-started", hash:"challenge", icon:<Flame size={14}/>},
-      {label:"First Event",     to:"/app/getting-started", hash:"event",     icon:<Calendar size={14}/>},
-      {label:"Membership",      to:"/app/getting-started", hash:"pricing",   icon:<CreditCard size={14}/>},
-      {label:"Welcome Post",    to:"/app/getting-started", hash:"welcome",   icon:<Hand size={14}/>},
-      {label:"Launch",          to:"/app/getting-started", hash:"launch",    icon:<Rocket size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Home", to: "/app", exact: true, pill: true, icon: <Home size={15}/>,
-    subs: [
-      {label:"Dashboard",to:"/app/dashboard", icon:<LayoutDashboard size={14}/>},
-      {label:"Activity",to:"/app", icon:<Activity size={14}/>},
-      {label:"Bookmarks",to:"/app/bookmarks", icon:<Bookmark size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Community", to: "/app/club/feed", icon: <MessageSquare size={16}/>,
-    subs: [
-      {label:"Feed",to:"/app/club/feed", icon:<Hash size={14}/>},
-      {label:"Announcements",to:"/app/club/feed", icon:<Megaphone size={14}/>},
-      {label:"Discussions",to:"/app/club/feed", icon:<MessagesSquare size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Courses", to: "/app/club/courses", icon: <BookOpen size={16}/>,
-    subs: [
-      {label:"All Courses",to:"/app/club/courses", icon:<BookOpen size={14}/>},
-      {label:"In Progress",to:"/app/club/courses", icon:<Clock size={14}/>},
-      {label:"Completed",to:"/app/club/courses", icon:<CheckCircle2 size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Coaching", to: "/app/club/coaching", icon: <UserCheck size={16}/>,
-    subs: [
-      {label:"All Programs",to:"/app/club/coaching", icon:<Users size={14}/>},
-      {label:"1:1 Sessions",to:"/app/club/coaching", icon:<User size={14}/>},
-      {label:"Bookings",to:"/app/calendar", icon:<CalendarDays size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Challenges", to: "/app/club/challenges", icon: <Flame size={16}/>,
-    subs: [
-      {label:"Active",to:"/app/club/challenges", icon:<Flame size={14}/>},
-      {label:"Upcoming",to:"/app/club/challenges", icon:<CalendarClock size={14}/>},
-      {label:"Past",to:"/app/club/challenges", icon:<History size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Leaderboard", to: "/app/club/leaderboard", icon: <Award size={16}/>,
-    subs: [
-      {label:"Top Performers",to:"/app/club/leaderboard", icon:<Award size={14}/>},
-      {label:"Streaks",to:"/app/club/leaderboard", icon:<Flame size={14}/>},
-      {label:"All Time",to:"/app/club/leaderboard", icon:<History size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Events", to: "/app/club/events", icon: <Calendar size={16}/>,
-    subs: [
-      {label:"Calendar",to:"/app/club/events", icon:<CalendarDays size={14}/>},
-      {label:"Upcoming",to:"/app/club/events", icon:<CalendarClock size={14}/>},
-      {label:"Past",to:"/app/club/events", icon:<CalendarCheck size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Resources", to: "/app/club/resources", icon: <FolderOpen size={16}/>,
-    subs: [
-      {label:"Library",to:"/app/club/resources", icon:<Library size={14}/>},
-      {label:"Templates",to:"/app/club/resources", icon:<FileText size={14}/>},
-      {label:"Links",to:"/app/club/resources", icon:<Link2 size={14}/>},
-      {label:"Downloads",to:"/app/club/resources", icon:<Download size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-
-  { label: "Members", to: "/app/club/members", icon: <Users size={16}/>,
-    subs: [
-      {label:"All Members",to:"/app/club/members", icon:<Users size={14}/>},
-      {label:"Online",to:"/app/club/members", icon:<UserCheck size={14}/>},
-      {label:"Admins",to:"/app/club/members", icon:<ShieldCheck size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Customize", to: "/app/customize", icon: <Palette size={16}/>,
-    subs: [
-      {label:"Blocks",to:"/app/customize", icon:<LayoutGrid size={14}/>},
-      {label:"Theme",to:"/app/customize", icon:<Palette size={14}/>},
-      {label:"Brand & Domain",to:"/app/customize", icon:<Globe size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "Sell", to: "/app/sell", icon: <Globe size={16}/>,
-    subs: [
-      {label:"Public Club Page",to:"/app/sell", icon:<Globe size={14}/>},
-      {label:"Landing Pages",to:"/app/sell", icon:<LayoutGrid size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-  { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,
-    subs: [
-      {label:"Overview",to:"/app/aiva", icon:<Terminal size={14}/>},
-      {label:"Knowledge",to:"/app/aiva", icon:<Lightbulb size={14}/>},
-      {label:"Activity",to:"/app/aiva", icon:<FileClock size={14}/>},
-    ],
-    menu: DEFAULT_MENU },
-];
-
-const AIVA_LABEL = "AIVA";
 
 function SidebarTopLink({ link }: { link: TopLink }) {
   const [expanded, setExpanded] = useState(false);
