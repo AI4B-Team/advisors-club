@@ -10,6 +10,7 @@ import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
 import { useAivaAttention } from "@/hooks/use-aiva-attention";
 import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
 import { usePersona } from "@/hooks/use-persona";
+import { personaName } from "@/lib/persona/store";
 import { MemberOnboarding } from "@/components/member-onboarding/MemberOnboarding";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 import { GoLiveModal } from "@/components/go-live-modal";
@@ -385,7 +386,7 @@ function Topbar() {
   const nav = useNavigate();
   const { displayName, initial, user, signOut } = useAuth();
   const { viewAs, setMode, isAdmin } = useViewMode();
-  const assistantName = personaName(persona);
+
   const pathname = useRouterState({ select: s => s.location.pathname });
   const showPostActions = pathname === "/app" || pathname === "/app/club/feed";
   const [open, setOpen] = useState(false);
@@ -396,6 +397,7 @@ function Topbar() {
   const [briefingOn, setBriefingOn] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
   const persona = usePersona();
+  const assistantName = personaName(persona);
   const isAdminRef = useRef(true);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
