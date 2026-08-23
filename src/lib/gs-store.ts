@@ -60,6 +60,7 @@ export type GSQuizFunnel = { title: string; questions: number; published: boolea
 export type GSMarketplaceListing = { headline: string; listed: boolean };
 export type GSCoachingAgreement = { title: string; drafted: boolean };
 export type GSTestimonial = { name: string; body: string };
+export type GSResource = { id: string; title: string; desc: string; kind: "vault" | "guide" | "template" | "swipe" };
 
 export type GSStore = {
   clubName: string;
@@ -88,6 +89,7 @@ export type GSStore = {
   marketplaceListing: GSMarketplaceListing | null;
   coachingAgreement: GSCoachingAgreement | null;
   testimonials: GSTestimonial[];
+  resources: GSResource[];
   completedSteps: string[];
   launched: boolean;
 };
@@ -127,6 +129,7 @@ const DEFAULTS: GSStore = {
   marketplaceListing: null,
   coachingAgreement: null,
   testimonials: [],
+  resources: [],
   completedSteps: [],
   launched: false,
 };

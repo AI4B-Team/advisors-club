@@ -4,7 +4,9 @@ import { Sparkles, Check, ArrowRight, SkipForward, Rocket } from "lucide-react";
 import { getGS, setGS, markStep, type GSStore, type GSCoachingProgram, type GSChallenge, type GSCourse, type GSEvent } from "@/lib/gs-store";
 import { getSignupData } from "@/lib/signup-store";
 import { QuickstartModal } from "@/components/QuickstartModal";
-import { AivaBuildFlow } from "@/components/AivaBuildFlow";
+import { AivaBuildPlan } from "@/components/buildplan/AivaBuildPlan";
+import { generateOnboardingPlan, generateRequestPlan } from "@/lib/buildplan/generate";
+import type { BuildPlanKind } from "@/lib/buildplan/types";
 
 
 
@@ -133,6 +135,15 @@ function GettingStarted() {
 
 
 
+  // Reusable AIVA Build Plan — onboarding by default, or a "Build With AI"
+  // request when ?build=<kind> is present.
+  const search = useRouterState({ select: s => s.location.search as Record<string, string> });
+  const buildKind = (search?.build as BuildPlanKind | undefined) || undefined;
+  const plan = useMemo(
+    () => (buildKind && buildKind !== "onboarding" ? generateRequestPlan(buildKind) : generateOnboardingPlan()),
+    [buildKind],
+  );
+
   const progress = Math.round((gs.completedSteps.length / STEPS.length) * 100);
   const step = STEPS[stepIdx];
 
@@ -147,13 +158,15 @@ function GettingStarted() {
     if (stepIdx < STEPS.length - 1) setStepIdx(stepIdx + 1);
   }
 
-  if (building) {
+  if (building || buildKind) {
     return (
-      <AivaBuildFlow
+      <AivaBuildPlan
+        plan={plan}
         onComplete={() => {
           setBuilding(false);
           setGSState(getGS());
         }}
+        onExit={() => nav({ to: "/app" })}
       />
     );
   }

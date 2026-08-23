@@ -13,7 +13,7 @@ import { useMemberAi } from "@/hooks/use-member-ai";
 import { displayName as memberAiName } from "@/lib/member-ai";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 import { GoLiveModal } from "@/components/go-live-modal";
-import { ONBOARDING_NAV, SYSTEM_NAV, type NavItem } from "@/lib/nav/config";
+import { BUILD_WITH_AI_NAV, ONBOARDING_NAV, SYSTEM_NAV, type NavItem } from "@/lib/nav/config";
 import { getNavConfig, groupNav, subscribeNav, visibleNav } from "@/lib/nav/store";
 import { NavIcon } from "@/lib/nav/icons";
 
@@ -329,11 +329,9 @@ function CommunitySidebar() {
 
       <ViewModeToggle />
 
-      {!setupComplete && (
-        <div className="cc-sb-onboarding">
-          <SidebarTopLink link={toTopLink(ONBOARDING_NAV)} />
-        </div>
-      )}
+      <div className="cc-sb-onboarding">
+        <SidebarTopLink link={toTopLink(setupComplete ? BUILD_WITH_AI_NAV : ONBOARDING_NAV)} />
+      </div>
 
       {memberGroups.map((g, gi) => (
         <div key={gi} className="cc-sb-group">
