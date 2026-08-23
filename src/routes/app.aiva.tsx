@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AM_TABS, AM_CREATE_TABS, AM_CREATE_KEYS, type AmTabKey, type AmPrimaryKey } from "@/components/aiva/tabs";
+import { MarketingPanel, WorkflowsPanel, AIAgentsPanel, AIInboxPanel } from "@/components/account-panels";
 import { AivaOverview } from "@/components/aiva/AivaOverview";
 import { AivaKnowledge } from "@/components/aiva/AivaKnowledge";
 import { AivaCatalog } from "@/components/aiva/AivaCatalog";
@@ -24,6 +25,10 @@ export const Route = createFileRoute("/app/aiva")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+  }),
+  validateSearch: (search: Record<string, unknown>) => ({
+    tab: typeof search.tab === "string" ? search.tab : undefined,
+    sub: typeof search.sub === "string" ? search.sub : undefined,
   }),
   component: AivaArea,
 });
@@ -113,8 +118,13 @@ const MODES = [
 ];
 
 function AivaArea() {
-  const [tab, setTab] = useState<AmPrimaryKey>("console");
-  const [sub, setSub] = useState<AmTabKey>("overview");
+  const search = Route.useSearch();
+  const [tab, setTab] = useState<AmPrimaryKey>(
+    (AM_TABS.some(t => t.key === search.tab) ? search.tab : "console") as AmPrimaryKey,
+  );
+  const [sub, setSub] = useState<AmTabKey>(
+    (AM_CREATE_KEYS.includes(search.sub as AmTabKey) ? search.sub : "overview") as AmTabKey,
+  );
   const { admin, update } = useAivaAdmin();
 
   const go = (key: AmTabKey) => {
@@ -165,6 +175,10 @@ function AivaArea() {
       {tab === "create" && sub === "instructions" && <AivaInstructions admin={admin} update={update} />}
       {tab === "create" && sub === "member-ai" && <AivaMemberAi />}
       {tab === "create" && sub === "capabilities" && <AivaCapabilities admin={admin} update={update} />}
+      {tab === "create" && sub === "marketing" && <MarketingPanel />}
+      {tab === "create" && sub === "workflows" && <WorkflowsPanel />}
+      {tab === "create" && sub === "agents" && <AIAgentsPanel />}
+      {tab === "create" && sub === "inbox" && <AIInboxPanel />}
     </>
   );
 }

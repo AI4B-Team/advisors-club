@@ -23,7 +23,7 @@ const FALLBACK_HREF: Record<OpportunityKind, string> = {
   coaching: "/app/club/coaching",
   event: "/app/club/events",
   content: "/app/club/courses",
-  monetization: "/app/manage/sell",
+  monetization: "/app/sell",
   engagement: "/app/club/courses",
 };
 

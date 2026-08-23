@@ -45,7 +45,7 @@ function CustomPage() {
           <div>
             <div className="nv-empty-t">Nothing Here Yet</div>
             <div className="nv-empty-d">
-              Add content to this page from <Link to="/app/manage/navigation">Manage → Navigation</Link>.
+              Add content to this page from <Link to="/app/manage/navigation">Settings → Club Navigation</Link>.
             </div>
           </div>
         </div>

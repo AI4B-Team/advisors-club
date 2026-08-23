@@ -1,7 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-/** The standalone Manage hub folded into Settings. */
-export const Route = createFileRoute("/app/manage/")({
+export const Route = createFileRoute("/app/settings/")({
   beforeLoad: () => {
     throw redirect({ to: "/app/settings/$section", params: { section: "workspace" } });
   },

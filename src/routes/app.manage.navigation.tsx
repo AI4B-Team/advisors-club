@@ -22,9 +22,9 @@ export const Route = createFileRoute("/app/manage/navigation")({
   component: NavigationEditor,
   head: () => ({
     meta: [
-      { title: "Navigation | Manage | Advisors Club" },
+      { title: "Club Navigation | Settings | Advisors Club" },
       { name: "description", content: "Rename, reorder, hide and add navigation items so your community is organized the way your members need it." },
-      { property: "og:title", content: "Navigation | Manage | Advisors Club" },
+      { property: "og:title", content: "Club Navigation | Settings | Advisors Club" },
       { property: "og:description", content: "Control how your Advisors Club community navigation is organized." },
     ],
   }),
@@ -82,7 +82,7 @@ function NavigationEditor() {
     <div className="pg nv-pg">
       <div className="pg-head nv-head">
         <div>
-          <Link to="/app/manage" className="nv-back"><ChevronLeft size={14} /> Manage</Link>
+          <Link to="/app/settings/$section" params={{ section: "workspace" }} className="nv-back"><ChevronLeft size={14} /> Settings</Link>
           <h1 className="pg-title">Navigation</h1>
           <p className="pg-sub">Organize What Your Members See And What It's Called.</p>
         </div>

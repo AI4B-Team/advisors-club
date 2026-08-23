@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { ChevronLeft } from "lucide-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { UserCircle2, Sparkles, BookOpen, ShieldCheck, Eye, LifeBuoy, Wand2, Upload, Info } from "lucide-react";
 import { AmCard, AmField, AmToggle } from "@/components/aiva/ui";
@@ -45,6 +47,7 @@ function PersonaPage() {
   return (
     <div className="pg">
       <div className="pg-head">
+        <Link to="/app/settings/$section" params={{ section: "brand-site" }} className="nv-back"><ChevronLeft size={14} /> Settings</Link>
         <h1 className="pg-title">AI Persona</h1>
         <p className="pg-sub">The Member-Facing AI Representation Of You. Separate From AI Assist, Your Own Business Operator.</p>
       </div>

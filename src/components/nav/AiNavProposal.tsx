@@ -1,7 +1,7 @@
 // Shared review surface for an AI-proposed navigation structure.
 //
 // AI drafts it, the creator edits it here, and applying it writes into the one
-// shared navigation config (Manage → Navigation) — no second nav system.
+// shared navigation config (Settings → Club Navigation) — no second nav system.
 
 import { Loader2, RotateCw, Sparkles, X } from "lucide-react";
 import { NavIcon } from "@/lib/nav/icons";
@@ -72,7 +72,7 @@ export function AiNavProposal({
       </div>
 
       <p className="ainav-foot">
-        This Only Sets Your Starting Menu. You Can Rename, Reorder, Hide Or Add Items Anytime In Manage → Navigation.
+        This Only Sets Your Starting Menu. You Can Rename, Reorder, Hide Or Add Items Anytime In Settings → Club Navigation.
       </p>
     </div>
   );
