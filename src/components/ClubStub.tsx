@@ -64,9 +64,6 @@ export function ClubStub({
         </div>
       </div>
 
-      {features && features.length > 0 && (
-        <p className="lt-stub-note">{features.join(" · ")}</p>
-      )}
     </>
   );
 }
