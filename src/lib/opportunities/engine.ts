@@ -7,7 +7,7 @@
 // sample-derived opportunities are flagged `isDemo`.
 
 import type { BusinessGraph, GraphNode } from "@/lib/graph/types";
-import type { Signal, SignalKind } from "@/lib/signals/types";
+import { SIGNAL_LABEL, type Signal, type SignalKind } from "@/lib/signals/types";
 import type { Opportunity, OpportunityEvidence, OpportunityKind } from "./types";
 
 const WINDOW_DAYS = 90;
@@ -125,6 +125,11 @@ function suggest(kind: OpportunityKind, c: Cluster, related: GraphNode[]): { tit
         title: `Rework The ${topic} Path`,
         summary: `Members Are Dropping Off Here — Shorter Steps And A Clear First Win Would Recover Them.`,
       };
+    case "engagement":
+      return {
+        title: `Rework The ${topic} Section`,
+        summary: `Members Stall Here — Shorter Steps And A Clear First Win Would Recover Them.`,
+      };
     case "monetization":
       return {
         title: `${topic} Offer`,
@@ -153,6 +158,8 @@ function noticedText(kind: OpportunityKind, c: Cluster, members: number, related
       return `The Same ${topic} Questions Keep Recurring Across ${members} Members — A Recurring Pattern, Not One-Off Confusion.`;
     case "content":
       return `${members} Members Started ${topic} Content And Stopped Before Finishing.`;
+    case "engagement":
+      return `${members} Members Reached ${topic} And Stopped Progressing.`;
     case "monetization":
       return `Strong ${topic} Demand Is Landing On Content That Isn't Attached To Any Offer.`;
   }
