@@ -67,12 +67,6 @@ const QUICK_STARTS = [
   "Grow My Existing Business",
 ];
 
-const HERO_BENEFITS = [
-  { t: "Launch Fast", d: "Go from idea to live in minutes." },
-  { t: "AI-Powered Operations", d: "AIVA helps run the work behind the scenes." },
-  { t: "Grow On Autopilot", d: "Automate engagement, content, and follow-up." },
-  { t: "Built Around Your Business", d: "Your Club adapts to your brand, offers, and audience." },
-];
 
 function Index() {
   const nav = useNavigate();
