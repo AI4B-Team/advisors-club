@@ -527,6 +527,17 @@ function Topbar() {
             <Plus size={15} strokeWidth={3}/> New Post
           </button>
         )}
+        <div className="cc-tb-pf" ref={helpRef}>
+          <button className="cc-tb-icon" data-tip="Help" aria-label="Help" onClick={()=>{setHelpOpen(o=>!o);setOpen(false);}}><HelpCircle size={16}/></button>
+          {helpOpen && (
+            <div className="cc-tb-menu" style={{minWidth:200}}>
+              <MenuItem icon={<HelpCircle size={15}/>} label="Help" onClick={()=>{setHelpOpen(false);nav({to:"/app/getting-started"})}} />
+              <MenuItem icon={<Route size={15}/>} label="Tour" onClick={()=>{setHelpOpen(false);window.dispatchEvent(new CustomEvent("cc:start-tour"))}} />
+              <MenuItem icon={<BookOpen size={15}/>} label="Tutorials" onClick={()=>{setHelpOpen(false);nav({to:"/app/club/resources"})}} />
+              <MenuItem icon={<MessageSquarePlus size={15}/>} label="Feedback" onClick={()=>{setHelpOpen(false);window.dispatchEvent(new CustomEvent("cc:feedback"))}} />
+            </div>
+          )}
+        </div>
         <button className="cc-tb-icon" data-tip="Calendar" onClick={()=>nav({to:"/app/calendar"})}><Calendar size={16}/></button>
         <button className="cc-tb-icon" data-tip="Notifications" onClick={()=>nav({to:"/app/notifications"})}><Bell size={16}/></button>
         <button className="cc-tb-icon" data-tip="Messages" onClick={()=>nav({to:"/app/messages"})}><MessageCircle size={16}/></button>
