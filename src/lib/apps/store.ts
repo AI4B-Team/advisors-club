@@ -61,6 +61,7 @@ export type NewApp = {
   access?: AppAccess;
   pricing?: AppPricing;
   source?: App["source"];
+  status?: App["status"];
   templateId?: string;
   prompt?: string;
   contextRefs?: string[];
@@ -74,10 +75,11 @@ export function createApp(input: NewApp): App {
     description: input.description?.trim() ?? "",
     kind: input.kind,
     icon: input.icon ?? "wrench",
-    status: "draft",
+    status: input.status ?? "draft",
     access: input.access ?? { mode: "free" },
     listed: true,
-    
+    pricing: input.pricing,
+
     templateId: input.templateId,
     source: input.source ?? "blank",
     prompt: input.prompt,
