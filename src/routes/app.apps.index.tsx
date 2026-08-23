@@ -11,6 +11,7 @@ import { getUsage, statsFor, subscribeUsage, type UsageEvent } from "@/lib/apps/
 import { visibleApps } from "@/lib/apps/access";
 import { appIcon } from "@/components/apps/icons";
 import { AiAppBuilder } from "@/components/apps/AiAppBuilder";
+import { takePendingAppBrief, setPendingAppBrief } from "@/lib/apps/pending";
 import { APP_KIND_LABEL, toAccessPolicy, type App, type AppKind } from "@/lib/apps/types";
 import { AccessChip } from "@/components/commerce/AccessGate";
 
@@ -93,6 +94,12 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
   const [manual, setManual] = useState(false);
   const events = useUsage();
 
+  // "Build It" from an AIVA Opportunity lands here with the brief already written.
+  useEffect(() => {
+    const brief = takePendingAppBrief();
+    if (brief) { setPendingAppBrief(brief); setAi(true); }
+  }, []);
+
   const totals = useMemo(() => {
     const all = apps.map(a => statsFor(a, events));
     return {
@@ -111,7 +118,6 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
           <p className="pg-sub">Turn Your Methodology Into Tools Your Members Can Use. Members See This Section As "{label}".</p>
         </div>
         <div className="apx-head-actions">
-          <button className="apx-ai-btn" onClick={() => setAi(true)}><Sparkles size={15} /> Build App With AI</button>
           <button className="apx-primary-btn" onClick={() => setManual(true)}><Plus size={15} /> New App</button>
         </div>
       </div>
@@ -149,7 +155,13 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
       )}
 
       {ai && <AiAppBuilder onClose={() => setAi(false)} />}
-      {manual && <NewAppModal onClose={() => setManual(false)} onAi={() => { setManual(false); setAi(true); }} />}
+      {manual && (
+        <NewAppModal
+          onClose={() => setManual(false)}
+          onAi={() => { setManual(false); setAi(true); }}
+          onTemplate={() => { setManual(false); setTab("library"); }}
+        />
+      )}
     </div>
   );
 }
@@ -245,8 +257,13 @@ function LibraryTab({ onAdded }: { onAdded: (id: string) => void }) {
   );
 }
 
-function NewAppModal({ onClose, onAi }: { onClose: () => void; onAi: () => void }) {
+function NewAppModal({ onClose, onAi, onTemplate }: {
+  onClose: () => void;
+  onAi: () => void;
+  onTemplate: () => void;
+}) {
   const navigate = useNavigate();
+  const [path, setPath] = useState<"choose" | "manual">("choose");
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [kind, setKind] = useState<AppKind>("calculator");
@@ -266,16 +283,34 @@ function NewAppModal({ onClose, onAi }: { onClose: () => void; onAi: () => void 
           <button className="apx-x" onClick={onClose}>×</button>
         </div>
         <div className="apx-modal-body">
-          <button className="apx-path" onClick={onAi}>
-            <Sparkles size={16} />
-            <span>
-              <strong>Build With AI</strong>
-              <em>Describe What You Teach And Get A Working Tool In Seconds.</em>
-            </span>
-          </button>
+          {path === "choose" ? (
+            <>
+              <button className="apx-path" onClick={onAi}>
+                <Sparkles size={16} />
+                <span>
+                  <strong>Build With AI</strong>
+                  <em>Describe What You Teach And Get A Working Tool In Seconds.</em>
+                </span>
+              </button>
 
-          <div className="apx-or"><span>Or Start Manually</span></div>
+              <button className="apx-path is-plain" onClick={onTemplate}>
+                <LayoutGrid size={16} />
+                <span>
+                  <strong>Start From Template</strong>
+                  <em>Proven Tools For Your Niche — Edit Anything Before You Publish.</em>
+                </span>
+              </button>
 
+              <button className="apx-path is-plain" onClick={() => setPath("manual")}>
+                <Pencil size={16} />
+                <span>
+                  <strong>Build Manually</strong>
+                  <em>Start With A Blank Tool And Add Your Own Fields And Formulas.</em>
+                </span>
+              </button>
+            </>
+          ) : (
+          <>
           <label className="apx-field">
             <span className="apx-field-l">App Name</span>
             <input value={name} onChange={e => setName(e.target.value)} placeholder="Deal Analyzer" autoFocus />
@@ -290,10 +325,18 @@ function NewAppModal({ onClose, onAi }: { onClose: () => void; onAi: () => void 
               {(Object.keys(APP_KIND_LABEL) as AppKind[]).map(k => <option key={k} value={k}>{APP_KIND_LABEL[k]}</option>)}
             </select>
           </label>
+          </>
+          )}
         </div>
         <div className="apx-modal-foot">
-          <button className="apx-mini" onClick={onClose}>Cancel</button>
-          <button className="apx-primary-btn" disabled={!name.trim()} onClick={submit}>Create App</button>
+          {path === "manual" ? (
+            <>
+              <button className="apx-mini" onClick={() => setPath("choose")}>Back</button>
+              <button className="apx-primary-btn" disabled={!name.trim()} onClick={submit}>Create App</button>
+            </>
+          ) : (
+            <button className="apx-mini" onClick={onClose}>Cancel</button>
+          )}
         </div>
       </div>
     </div>
