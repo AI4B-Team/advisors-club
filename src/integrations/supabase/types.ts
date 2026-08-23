@@ -2244,6 +2244,10 @@ export type Database = {
         Args: { _club_id: string; _user_id: string }
         Returns: Database["public"]["Enums"]["club_role"]
       }
+      club_role_rank: {
+        Args: { _role: Database["public"]["Enums"]["club_role"] }
+        Returns: number
+      }
       has_platform_role: {
         Args: {
           _role: Database["public"]["Enums"]["platform_role"]

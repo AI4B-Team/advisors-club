@@ -10,6 +10,8 @@ import {
 
 import appCss from "../styles.css?url";
 import { AuthProvider } from "@/hooks/use-auth";
+import { ClubAccessProvider } from "@/hooks/use-club-access";
+
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -123,9 +125,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Outlet />
-        <Toaster />
+        <ClubAccessProvider>
+          <Outlet />
+          <Toaster />
+        </ClubAccessProvider>
       </AuthProvider>
     </QueryClientProvider>
+
   );
 }

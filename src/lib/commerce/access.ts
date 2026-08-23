@@ -14,7 +14,13 @@ import {
 export type CommerceViewer = {
   id: string;
   name?: string;
-  isAdmin: boolean;
+  /**
+   * Server-validated club authority — true only when the viewer holds the
+   * `preview.bypassPaywall` capability (owner/admin). It is NOT the Admin/
+   * Member view switcher: a member who flips the UI toggle never gets this.
+   * Callers must pass `permissions.canBypassPaywall()`, never a UI boolean.
+   */
+  canBypassPaywall: boolean;
   /** The member's current plan / membership tier name, e.g. "Pro". */
   plan?: string;
   /** True when the plan is a paid membership (any tier above free). */
@@ -22,6 +28,7 @@ export type CommerceViewer = {
   courseIds?: string[];
   programIds?: string[];
 };
+
 
 export type DenyReason = "locked" | "admin-only" | "purchase-required";
 
@@ -42,7 +49,8 @@ export function resolveAccess(
   viewer: CommerceViewer,
   entitlements?: Entitlement[],
 ): AccessDecision {
-  if (viewer.isAdmin) return { allowed: true, grantedBy: "admin", unlockPaths: [] };
+  // Only a server-validated owner/admin may see through a paywall.
+  if (viewer.canBypassPaywall) return { allowed: true, grantedBy: "admin", unlockPaths: [] };
   if (policy.mode === "free") return { allowed: true, unlockPaths: [] };
   if (policy.mode === "admin") return { allowed: false, reason: "admin-only", unlockPaths: [] };
 

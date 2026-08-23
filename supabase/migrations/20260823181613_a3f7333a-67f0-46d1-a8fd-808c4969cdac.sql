@@ -1,0 +1,14 @@
+revoke execute on function public.club_role_of(uuid, uuid) from anon, public;
+revoke execute on function public.has_platform_role(uuid, public.platform_role) from anon, public;
+revoke execute on function public.is_club_admin(uuid) from anon, public;
+revoke execute on function public.is_club_owner(uuid) from anon, public;
+revoke execute on function public.is_club_staff(uuid) from anon, public;
+revoke execute on function public.is_club_member(uuid) from anon, public;
+revoke execute on function public.is_platform_admin() from anon, public;
+grant execute on function public.club_role_of(uuid, uuid) to authenticated;
+grant execute on function public.has_platform_role(uuid, public.platform_role) to authenticated;
+grant execute on function public.is_club_admin(uuid) to authenticated;
+grant execute on function public.is_club_owner(uuid) to authenticated;
+grant execute on function public.is_club_staff(uuid) to authenticated;
+grant execute on function public.is_club_member(uuid) to authenticated;
+grant execute on function public.is_platform_admin() to authenticated;

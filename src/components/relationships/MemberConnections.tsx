@@ -22,7 +22,7 @@ export function MemberConnections({ sourceId, viewer, placement, title = "Also H
     const load = () => setItems(connectionsFor(sourceId, viewer, { placement }));
     load();
     return subscribeRelationships(load);
-  }, [sourceId, placement, viewer.id, viewer.isAdmin]);
+  }, [sourceId, placement, viewer.id, viewer.canManage]);
 
   if (!items.length) return null;
 

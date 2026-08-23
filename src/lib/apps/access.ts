@@ -8,7 +8,13 @@ import { resolveAccess, type AccessDecision, type CommerceViewer, type ProductRe
 import { toAccessPolicy, type App, type AppAccess } from "./types";
 
 export type Viewer = {
-  isAdmin: boolean;
+  /**
+   * Server-validated club authority (owner/admin), from
+   * `permissions.canManageApps()`. Never the Admin/Member view switcher —
+   * a member previewing admin chrome must not gain access to drafts or
+   * paid content.
+   */
+  canManage: boolean;
   id?: string;
   /** Membership tier name, e.g. "Free" | "Pro" | "Founding". */
   membership?: string;
@@ -26,7 +32,7 @@ export function appRef(app: App | string): ProductRef {
 export function toCommerceViewer(v: Viewer): CommerceViewer {
   return {
     id: v.id ?? "me",
-    isAdmin: v.isAdmin,
+    canBypassPaywall: v.canManage,
     plan: v.membership,
     paidMember: v.paid ?? (v.membership ? v.membership.toLowerCase() !== "free" : false),
     courseIds: v.courseIds,
@@ -52,10 +58,10 @@ export function canAccess(access: AppAccess, viewer: Viewer): boolean {
  */
 export function visibleApps(apps: App[], viewer: Viewer): App[] {
   return apps.filter(a => {
-    if (a.status !== "published" && !viewer.isAdmin) return false;
-    if (a.listed === false && !viewer.isAdmin) return false;
+    if (a.status !== "published" && !viewer.canManage) return false;
+    if (a.listed === false && !viewer.canManage) return false;
     const policy = toAccessPolicy(a.access);
-    if (policy.mode === "admin") return viewer.isAdmin;
+    if (policy.mode === "admin") return viewer.canManage;
     return true;
   });
 }

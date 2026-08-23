@@ -12,6 +12,7 @@ import { PERSONA_ESCALATION_TRIGGERS, PERSONA_NEXT_ACTIONS, type PersonaSettings
 import { memberSnapshot, type MemberIdentity } from "@/lib/member-ai-snapshot";
 import { getMemberAi, type MemberAiPermissionId } from "@/lib/member-ai";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { usePermissions } from "@/hooks/use-club-access";
 import { recommendForMember, type MemberReco } from "@/lib/persona/recommend";
 import { trackReco } from "@/lib/persona/reco-events";
 import { attachRecoAttribution } from "@/lib/persona/reco-attribution";
@@ -35,6 +36,8 @@ export function PersonaAssistantPanel({
 }) {
   const persona = usePersona();
   const { isAdmin } = useViewMode();
+  // Persona knowledge is gated on real authority, not the preview toggle.
+  const canManage = usePermissions().canManageClub() && isAdmin;
   const run = useServerFn(memberAssistant);
   const nav = useNavigate();
   const [msgs, setMsgs] = useState<Msg[]>([]);
@@ -79,7 +82,7 @@ export function PersonaAssistantPanel({
     setBusy(true);
     setError(null);
     try {
-      const knowledge = personaKnowledge(persona, { isAdmin, id: me.id });
+      const knowledge = personaKnowledge(persona, { canManage, id: me.id });
       // Member context reuses the shared, permission-gated snapshot builder.
       const permissions = { ...getMemberAi().permissions } as Record<MemberAiPermissionId, boolean>;
       (Object.keys(permissions) as MemberAiPermissionId[]).forEach(k => {
@@ -117,7 +120,7 @@ export function PersonaAssistantPanel({
           recos = recommendForMember(
             { query: q, extra: res.reply, turn: turnRef.current, shownThisConversation: shownRef.current },
             persona,
-            { isAdmin, id: me.id },
+            { canManage, id: me.id },
           );
           recos.forEach(r => {
             shownRef.current.push({ nodeId: r.nodeId, paid: r.paid, turn: turnRef.current });
