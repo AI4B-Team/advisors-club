@@ -35,7 +35,7 @@ export function businessBrief(): string {
 
   const courses = loadAdmin();
   if (courses.length) out.push(`COURSES: ${courses.slice(0, 8).map(c => c.title).join(", ")}`);
-  if (gs.coaching?.length) out.push(`COACHING PROGRAMS: ${gs.coaching.map(c => c.name || c.title || "").filter(Boolean).join(", ")}`);
+  if (gs.coaching?.length) out.push(`COACHING PROGRAMS: ${gs.coaching.map(c => c.name).filter(Boolean).join(", ")}`);
 
   const events = getEvents();
   if (events.length) out.push(`UPCOMING EVENTS: ${events.slice(0, 4).map(e => e.title).join(", ")}`);
