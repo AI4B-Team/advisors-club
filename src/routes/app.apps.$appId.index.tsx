@@ -10,7 +10,7 @@ import { AppRunner } from "@/components/apps/AppRunner";
 import { getGS, subscribeGS } from "@/lib/gs-store";
 import { accessLabel, type App } from "@/lib/apps/types";
 
-export const Route = createFileRoute("/app/apps/$appId")({
+export const Route = createFileRoute("/app/apps/$appId/")({
   component: AppRunPage,
   head: () => ({
     meta: [
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/app/apps/$appId")({
  * reads as embedded third-party software.
  */
 function AppRunPage() {
-  const { appId } = useParams({ from: "/app/apps/$appId" });
+  const { appId } = useParams({ from: "/app/apps/$appId/" });
   const { isAdmin, viewAs } = useViewMode();
   const label = useNavLabel("apps", "Apps");
   const [apps, setApps] = useState<App[]>([]);
