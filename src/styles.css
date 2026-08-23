@@ -5894,3 +5894,41 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   border:1px solid var(--ac2-line);border-radius:var(--ac2-r-lg);box-shadow:var(--ac2-shadow-pop)}
 .am-modal,.ap-modal,.apx-modal,.cal-modal,.vr-modal,.composer-modal{
   border-radius:16px;border:1px solid var(--ac2-line);box-shadow:0 32px 80px -28px rgba(20,21,26,.45)}
+
+/* ---------- 10. BRAND DISCIPLINE: AI feels human, not "AI software" ----
+   The old purple "AI product" accent is replaced by the Advisors Club warm
+   accent, used only at moments that matter, on otherwise neutral surfaces. */
+.cc-sb-sys-label{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ac2-ink-3);padding:10px 12px 4px}
+.cc-tb-av{background:var(--ac2-ink)}
+.cc-tb-help,.cc-tb-icon.on{background:var(--ac2-hover);color:var(--ac2-ink)}
+
+.aiva-ins{border-color:var(--ac2-line);box-shadow:none}
+.aiva-ins-badge{background:transparent;color:var(--ac2-brand-2);width:auto;height:auto;border-radius:0}
+.aiva-ins-title{font-size:15px;font-weight:650;letter-spacing:-.015em}
+.aiva-ins-sub{color:var(--ac2-ink-3)}
+.aiva-ins-item{border:0;border-radius:var(--ac2-r-xs);padding:9px 8px;background:transparent}
+.aiva-ins-item:hover{transform:none;box-shadow:none;background:var(--ac2-hover);border:0}
+.aiva-ins-t{font-size:13.5px;color:var(--ac2-ink-2)}
+.aiva-ins-cta{background:transparent;border:0;color:var(--ac2-ink-2);font-weight:600;font-size:12.5px;padding:4px 6px;border-radius:var(--ac2-r-xs)}
+.aiva-ins-cta:hover{background:rgba(20,21,26,.07);border:0;color:var(--ac2-ink)}
+.aiva-ins-all,.lb-see-all{color:var(--ac2-ink);font-weight:600}
+.aiva-ins-all:hover,.lb-see-all:hover{color:var(--ac2-brand-ink)}
+
+.aiva-chip{background:var(--ac2-tint);border-color:transparent;color:var(--ac2-brand-ink);text-transform:none;letter-spacing:0;font-weight:600;font-size:12px}
+.aiva-prompt-i{color:var(--ac2-brand-2)}
+.aiva-prompt-go{background:var(--ac2-ink);border-radius:var(--ac2-r);font-weight:600}
+.aiva-panel{background:var(--ac2-line-2);border-radius:var(--ac2-r-lg)}
+.ai-drawer-spark{background:var(--ac2-tint);color:var(--ac2-brand-ink);box-shadow:none;border-radius:var(--ac2-r)}
+.ai-range-chip.on{background:var(--ac2-tint);border-color:var(--ac2-brand);color:var(--ac2-brand-ink)}
+.ai-summary-card{border-color:var(--ac2-line)}
+.ai-summary-bullets li::before{background:var(--ac2-brand)}
+.ai-loading-label{color:var(--ac2-ink-3)}
+.ai-stat-v{color:var(--ac2-ink)}
+.ap-ai-suggest{background:var(--ac2-tint);border-color:transparent}
+.ap-ai-suggest-h{color:var(--ac2-brand-ink);text-transform:none;letter-spacing:0;font-size:13px}
+.ap-agent-i{background:var(--ac2-tint);color:var(--ac2-brand-ink);border-radius:var(--ac2-r-xs)}
+.ap-inbox-row.unread{border-left-color:var(--ac2-brand)}
+.ap-bar{background:var(--ac2-brand)}
+.ap-bar-h>span{background:var(--ac2-ink)}
+.ap-tag-add{color:var(--ac2-ink-2);border-color:var(--ac2-line-2)}
+.gs-res-i{background:var(--ac2-tint);color:var(--ac2-brand-ink)}
