@@ -1,8 +1,17 @@
-// Apps — local persistence. Mirrors the pattern used by the nav and coaching
-// stores: a single JSON document in localStorage plus a change event.
+// Apps — the store the UI calls. Its interface never changes.
+//
+// Persistence lives behind `AppsRepository`. While the apps domain is
+// localStorage-backed this file behaves exactly as before; once the domain is
+// flipped to Supabase (see `src/lib/data/backend.ts`), reads hydrate from the
+// database and writes are mirrored through the repository. Components keep
+// calling getApps() / createApp() / patchApp() / subscribeApps().
 
 import type { App, AppAccess, AppKind, AppIconKey, AppPricing, AppSchema } from "./types";
 import { findTemplate } from "./library";
+import { isSupabaseBacked } from "@/lib/data/backend";
+import { writeThrough } from "@/lib/data/cache";
+import { activeClubId, hasRealClub } from "@/lib/clubs/context";
+import { supabaseAppsRepository } from "./supabase-repository";
 
 const KEY = "ac_apps_v1";
 const EVT = "ac:apps";
@@ -12,6 +21,28 @@ const listeners = new Set<Listener>();
 
 function uid() { return `app_${Math.random().toString(36).slice(2, 9)}`; }
 function now() { return new Date().toISOString(); }
+
+/** True when this domain should read/write Supabase. */
+function remote(): boolean {
+  return isSupabaseBacked("apps") && hasRealClub();
+}
+
+/**
+ * Pulls apps from Supabase into the synchronous cache. Call once per club
+ * load; a no-op while the domain is localStorage-backed.
+ */
+export async function hydrateApps(): Promise<App[]> {
+  if (!remote()) return getApps();
+  try {
+    const list = await supabaseAppsRepository.list(activeClubId());
+    setApps(list);
+    return list;
+  } catch (err) {
+    console.error("[apps] hydrate failed", err);
+    return getApps();
+  }
+}
+
 
 /** New clubs start with no apps — apps are always an explicit creator choice. */
 export function getApps(): App[] {
@@ -90,8 +121,16 @@ export function createApp(input: NewApp): App {
     updatedAt: now(),
   };
   updateApps(list => [app, ...list]);
+  if (remote()) {
+    // The database assigns the canonical UUID; swap the optimistic id in.
+    writeThrough(async () => {
+      const saved = await supabaseAppsRepository.create(activeClubId(), input);
+      updateApps(list => list.map(a => (a.id === app.id ? saved : a)));
+    }, "createApp");
+  }
   return app;
 }
+
 
 export function addFromTemplate(templateId: string, access?: AppAccess): App | null {
   const t = findTemplate(templateId);
@@ -125,6 +164,9 @@ export function duplicateApp(id: string): App | null {
 
 export function patchApp(id: string, patch: Partial<App>): void {
   updateApps(list => list.map(a => (a.id === id ? { ...a, ...patch, updatedAt: now() } : a)));
+  if (remote()) {
+    writeThrough(() => supabaseAppsRepository.update(activeClubId(), id, patch), "patchApp");
+  }
 }
 
 export function patchSchema(id: string, patch: Partial<AppSchema>): void {
@@ -133,8 +175,16 @@ export function patchSchema(id: string, patch: Partial<AppSchema>): void {
       ? { ...a, schema: { fields: [], outputs: [], ...(a.schema ?? {}), ...patch }, updatedAt: now() }
       : a
   )));
+  if (remote()) {
+    const schema = getApp(id)?.schema;
+    writeThrough(() => supabaseAppsRepository.update(activeClubId(), id, { schema }), "patchSchema");
+  }
 }
 
 export function removeApp(id: string): void {
   updateApps(list => list.filter(a => a.id !== id));
+  if (remote()) {
+    writeThrough(() => supabaseAppsRepository.remove(activeClubId(), id), "removeApp");
+  }
 }
+

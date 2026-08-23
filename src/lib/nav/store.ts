@@ -9,6 +9,10 @@
 // cannot be edited or removed by an admin.
 
 import { DEFAULT_MEMBER_NAV, type NavIconKey, type NavItem, type NavItemType } from "./config";
+import { isSupabaseBacked } from "@/lib/data/backend";
+import { writeThrough } from "@/lib/data/cache";
+import { activeClubId, hasRealClub } from "@/lib/clubs/context";
+import { supabaseNavigationRepository } from "./supabase-repository";
 
 const KEY = "ac-community-nav";
 
@@ -16,6 +20,10 @@ export type NavConfig = { items: NavItem[] };
 
 type Listener = (c: NavConfig) => void;
 const listeners = new Set<Listener>();
+
+function remote(): boolean {
+  return isSupabaseBacked("navigation") && hasRealClub();
+}
 
 function clone(items: NavItem[]): NavItem[] {
   return items.map(i => ({ ...i, subs: i.subs.map(s => ({ ...s })), menu: [...i.menu] }));
@@ -38,14 +46,30 @@ export function getNavConfig(): NavConfig {
   }
 }
 
-export function setNavConfig(next: NavConfig): NavConfig {
+/** Pulls the club's saved navigation from Supabase into the local cache. */
+export async function hydrateNavConfig(): Promise<NavConfig> {
+  if (!remote()) return getNavConfig();
+  try {
+    const saved = await supabaseNavigationRepository.read(activeClubId());
+    if (saved) return setNavConfig(saved, { persistRemote: false });
+  } catch (err) {
+    console.error("[nav] hydrate failed", err);
+  }
+  return getNavConfig();
+}
+
+export function setNavConfig(next: NavConfig, opts?: { persistRemote?: boolean }): NavConfig {
   if (typeof window !== "undefined") {
     window.localStorage.setItem(KEY, JSON.stringify(next));
     window.dispatchEvent(new Event("nav-config:change"));
   }
   listeners.forEach(l => l(next));
+  if (remote() && opts?.persistRemote !== false) {
+    writeThrough(() => supabaseNavigationRepository.write(activeClubId(), next), "setNavConfig");
+  }
   return next;
 }
+
 
 export function updateNavItems(fn: (items: NavItem[]) => NavItem[]): NavConfig {
   return setNavConfig({ items: fn(getNavConfig().items) });
