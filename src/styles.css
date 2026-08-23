@@ -5720,3 +5720,38 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .abf-item-label { display: flex; flex-wrap: wrap; align-items: center; }
   .bp-rec { margin-left: 6px; }
 }
+
+
+/* ============ UNIFIED SETTINGS ============ */
+.st{max-width:940px}
+.st-head{margin-bottom:20px}
+.st-title{font-size:28px;font-weight:800;letter-spacing:-.02em;margin:0}
+.st-sub{margin:6px 0 0;color:var(--muted, #6B7280);font-size:14px}
+.st-nav{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:28px}
+.st-nav-item{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600;color:#374151;text-decoration:none}
+.st-nav-item:hover{background:#F3F4F6}
+.st-nav-item.on{background:#111827;color:#fff}
+.st-body{display:flex;flex-direction:column;gap:36px}
+.st-sec-head h2{font-size:20px;font-weight:800;margin:0}
+.st-sec-head p{margin:6px 0 0;color:var(--muted,#6B7280);font-size:14px;max-width:620px}
+.st-group-h{margin-bottom:10px}
+.st-scope{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6B7280}
+.st-scope-club{color:#B45309}
+.st-scope-account{color:#4F46E5}
+.st-rows{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.st-row-wrap+.st-row-wrap,.st-rows>a+*,.st-rows>*+a{border-top:1px solid var(--line)}
+.st-row{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;background:transparent;border:0;text-align:left;cursor:pointer;text-decoration:none;color:inherit}
+.st-row:hover{background:#FAFAFA}
+.st-row-t{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.st-row-l{font-size:15px;font-weight:700;color:#111827}
+.st-row-d{font-size:13px;color:var(--muted,#6B7280)}
+.st-row-note{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;background:#F3F4F6;border-radius:999px;padding:4px 9px}
+.st-row-go{color:#9CA3AF;flex-shrink:0;transition:transform .15s ease}
+.st-row-go.open{transform:rotate(180deg)}
+.st-row-panel{padding:4px 18px 22px;background:#FAFAFA;border-top:1px solid var(--line)}
+@media (max-width:760px){
+  .st-nav{gap:4px}
+  .st-nav-item{padding:7px 11px;font-size:13px}
+  .st-row{padding:14px}
+  .st-row-panel{padding:4px 12px 18px}
+}

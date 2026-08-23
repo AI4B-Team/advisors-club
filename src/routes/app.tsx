@@ -57,7 +57,7 @@ function AppShell() {
   const [liveOpen, setLiveOpen] = useState(false);
   const [minSidebar, setMinSidebar] = useState(false);
   const pathname = useRouterState({ select: s => s.location.pathname });
-  const hideSidebar = pathname.startsWith("/app/account");
+  const hideSidebar = false;
   const fullBleed = pathname.startsWith("/app/getting-started");
   useEffect(() => {
     const onLive = () => setLiveOpen(true);
@@ -540,14 +540,14 @@ function Topbar() {
               <button className="cc-tb-menu-cta amber" onClick={()=>{setOpen(false);nav({to:"/", hash:"pricing"})}}><Zap size={15} strokeWidth={3}/> Upgrade</button>
               <button className="cc-tb-menu-cta ghost" onClick={()=>{setOpen(false);nav({to:"/app/club/members"})}}><UserPlus size={15}/> Add Members</button>
               <div className="cc-tb-menu-sep" />
-              <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
-              <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
+              <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/settings/$section",params:{section:"workspace"}})}} />
+              <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" onClick={()=>{setOpen(false);nav({to:"/app/settings/$section",params:{section:"billing"}})}} />
               <MenuItem icon={<Calendar size={15}/>} label="Calendar" onClick={()=>{setOpen(false);nav({to:"/app/calendar"})}} />
               <MenuItem icon={<Bookmark size={15}/>} label="Bookmarks" onClick={()=>{setOpen(false);nav({to:"/app/bookmarks"})}} />
 
               <div className="cc-tb-menu-sep" />
-              <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
-              <MenuItem icon={<Sun size={15}/>} label="Theme:" right="Light ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
+              <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" onClick={()=>{setOpen(false);nav({to:"/app/settings/$section",params:{section:"preferences"}})}} />
+              <MenuItem icon={<Sun size={15}/>} label="Theme:" right="Light ›" onClick={()=>{setOpen(false);nav({to:"/app/settings/$section",params:{section:"preferences"}})}} />
               <button className="cc-tb-menu-logout" onClick={handleLogout}><LogOut size={15}/> Log Out</button>
             </div>
           )}
