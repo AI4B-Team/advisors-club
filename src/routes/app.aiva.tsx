@@ -9,7 +9,7 @@ import { AivaInstructions } from "@/components/aiva/AivaInstructions";
 import { AivaMemberAi } from "@/components/aiva/AivaMemberAi";
 import { AivaCapabilities } from "@/components/aiva/AivaCapabilities";
 import { FlywheelBoard } from "@/components/aiva/FlywheelBoard";
-import { AivaActivity } from "@/components/aiva/AivaActivity";
+import { AivaActivityFeed } from "@/components/aiva/activity/AivaActivityFeed";
 import { useAivaAdmin } from "@/hooks/use-aiva-admin";
 import { useState, useRef, useEffect } from "react";
 import { Sparkles, Send, RefreshCw, CheckCircle2, Copy, Check, BookOpen, Mail, Flame, Megaphone, MessageSquare, Calendar, Palette, Search, Map, Zap, Mic, Plus } from "lucide-react";
