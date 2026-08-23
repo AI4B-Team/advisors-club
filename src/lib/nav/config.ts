@@ -25,23 +25,39 @@ export type NavSubItem = {
   icon: NavIconKey;
 };
 
+/**
+ * Content type behind a navigation item. The label is creator-controlled;
+ * the type + route are what actually resolve the underlying content, so
+ * renaming an item never changes what it points at.
+ */
+export type NavItemType =
+  | "home" | "community" | "courses" | "coaching" | "events"
+  | "resources" | "apps" | "members" | "page" | "link";
+
 export type NavItem = {
   id: string;
   label: string;
-  /** Internal route today; later this may also be an external URL or custom page. */
+  /** Internal route, or the external URL when type is "link". */
   to: string;
   icon: NavIconKey;
   section: NavSection;
+  /** Underlying content system. Never changes when the label is renamed. */
+  type?: NavItemType;
+  /** Optional section/group label ("LEARN", "CONNECT"). Flat when empty. */
+  group?: string;
   exact?: boolean;
   pill?: boolean;
+  /** Hidden from navigation only — the underlying content is untouched. */
   hidden?: boolean;
-  /** Reserved for future access rules ("everyone" | "members" | "admins"). */
+  /** Access rule for members. */
   visibility?: "everyone" | "members" | "admins";
+  /** Locked items cannot be removed from navigation (e.g. Home). */
+  locked?: boolean;
   subs: NavSubItem[];
   menu: string[];
 };
 
-/** Shape an admin edit will take in the next task. */
+/** Shape of a persisted admin edit. */
 export type NavOverride = {
   id: string;
   label?: string;
@@ -49,6 +65,7 @@ export type NavOverride = {
   order?: number;
   icon?: NavIconKey;
 };
+
 
 export const DEFAULT_ITEM_MENU = ["Pin To Top", "Mute Notifications", "Mark All Read", "Hide"];
 
