@@ -10,6 +10,7 @@ import {
 } from "@/lib/persona/types";
 import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
 import { RecommendationControls } from "@/components/persona/RecommendationControls";
+import { VoicePersonality } from "@/components/persona/VoicePersonality";
 
 export const Route = createFileRoute("/app/manage/persona")({
   component: PersonaPage,
@@ -125,6 +126,8 @@ function PersonaPage() {
             </AmField>
           </div>
         </AmCard>
+
+        <VoicePersonality />
 
         <AmCard title="Knowledge Sources" desc="What It May Draw Answers From." icon={<BookOpen size={16} />}>
           <div className="am-toggle-list">

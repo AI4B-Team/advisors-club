@@ -10,6 +10,8 @@ import type { Viewer } from "@/lib/apps/access";
 import { getAivaAdmin } from "@/lib/aiva-admin";
 import { getAivaContext } from "@/lib/aiva-context";
 import type { PersonaSettings, PersonaSourceId } from "./types";
+import { getVoiceProfile } from "./voice";
+import { buildVoiceInstructions, type VoiceContext } from "./voice-prompt";
 
 const SOURCE_TYPES: Record<PersonaSourceId, EntityType[]> = {
   methodology: [],
@@ -94,11 +96,16 @@ export function personaKnowledge(s: PersonaSettings, viewer: Viewer): PersonaKno
 }
 
 /** Persona rules folded into the assistant's instruction block. */
-export function personaInstructions(s: PersonaSettings): string {
+export function personaInstructions(
+  s: PersonaSettings,
+  context: VoiceContext = "casual",
+  personaId = "primary",
+): string {
   const parts = [s.instructions, s.personality && `Personality: ${s.personality}.`];
   if (s.expertise.length) parts.push(`Areas of expertise: ${s.expertise.join(", ")}.`);
   if (s.shouldAnswer.length) parts.push(`Always help with: ${s.shouldAnswer.join("; ")}.`);
   if (s.shouldNotAnswer.length) parts.push(`Never answer: ${s.shouldNotAnswer.join("; ")} — hand those to the human expert.`);
+  parts.push(buildVoiceInstructions(getVoiceProfile(personaId), context));
   parts.push("Never reveal, summarize or quote content marked LOCKED. Point to how to unlock it instead.");
   return parts.filter(Boolean).join(" ");
 }
