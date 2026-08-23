@@ -120,7 +120,10 @@ function AppEditPage() {
           {isPurchasable(toAccessPolicy(app.access)) && (
             <>
               <div className="apx-total"><span>Conversions</span><strong>{stats.conversions}</strong></div>
-              <div className="apx-total"><span>Revenue</span><strong>${stats.revenue.toLocaleString()}</strong></div>
+              <div className="apx-total">
+                <span>Revenue (Local Prototype)</span>
+                <strong>{stats.revenue ? `$${stats.revenue.toLocaleString()}` : "No Revenue Yet"}</strong>
+              </div>
             </>
           )}
         </div>
