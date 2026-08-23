@@ -155,7 +155,7 @@ function suggestPricing(app: App, graph: BusinessGraph, audience: number): Prici
   return {
     ...freeOpt,
     headline: "Give It Away",
-    rationale: "It's Light Enough To Be A Great First Experience. Free Tools Are The Cheapest Way To Show Members How You Think — Charge For The Deeper One Later.",
+    rationale: "It's Light Enough To Be A Great First Experience. Free Apps Are The Cheapest Way To Show Members How You Think — Charge For The Deeper One Later.",
     alternatives: [memberOpt, paidOpt],
   };
 }

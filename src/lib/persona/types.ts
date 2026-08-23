@@ -72,8 +72,8 @@ export const PERSONA_SOURCES: { id: PersonaSourceId; label: string; hint: string
   { id: "posts", label: "Community Posts", hint: "Public Feed Posts And Discussions." },
   { id: "faqs", label: "FAQs", hint: "Answers You've Already Written." },
   { id: "uploads", label: "Uploaded Knowledge", hint: "Notes And Documents You Paste In Below." },
-  { id: "apps", label: "Apps", hint: "Your Interactive Tools And Calculators." },
-  { id: "coaching", label: "Coaching Materials", hint: "Programs, Agendas, And Session Plans." },
+  { id: "apps", label: "Apps", hint: "Your Interactive Apps And Calculators." },
+  { id: "coaching", label: "Coaching Materials", hint: "Coaching Programs, Agendas, And Session Plans." },
   { id: "events", label: "Events", hint: "Upcoming Calls, Workshops, And Replays." },
 ];
 

@@ -99,7 +99,7 @@ function SellHub() {
       {/* LEVEL 2 */}
       <section className="sl-section">
         <header className="sl-sec-head">
-          <div><h2>Landing Pages & Offers</h2><p>Block-Based Pages For Specific Offers, Programs And Promotions.</p></div>
+          <div><h2>Landing Pages & Offers</h2><p>Block-Based Pages For Specific Offers, Coaching Programs And Promotions.</p></div>
           <div className="sl-sec-acts">
             <button className="sl-btn primary" onClick={() => setCreating(v => !v)}><Plus size={13} /> New Landing Page</button>
           </div>
