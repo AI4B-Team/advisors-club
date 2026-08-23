@@ -36,14 +36,18 @@ export function migrate(list: AdminCourse[]): AdminCourse[] {
   }));
 }
 
-/** Demo seed used until the admin saves their own courses. */
+/**
+ * DEMO seed used until the admin saves their own courses.
+ * Every record is flagged `demo: true` so the UI can label its enrollment and
+ * revenue numbers as sample data rather than real performance.
+ */
 export const SEED: AdminCourse[] = migrate([
   {
     id: "ac1",
     title: "Wholesaling Fundamentals",
     blurb: "Find motivated sellers, lock contracts, and close your first deal in 30 days.",
     cover: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80",
-    price: 297, paid: true, published: true, enrolled: 142, completionRate: 68, revenue: 42174, archived: false,
+    price: 297, paid: true, published: true, enrolled: 142, completionRate: 68, revenue: 42174, demo: true, archived: false,
     updatedAt: "2 days ago",
     modules: [
       { title: "Foundations", lessons: [
@@ -71,7 +75,7 @@ export const SEED: AdminCourse[] = migrate([
     title: "Creative Financing Masterclass",
     blurb: "Subject-to, seller finance, and lease options — explained with real deal breakdowns.",
     cover: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80",
-    price: 497, paid: true, published: true, enrolled: 89, completionRate: 54, revenue: 44233, archived: false,
+    price: 497, paid: true, published: true, enrolled: 89, completionRate: 54, revenue: 44233, demo: true, archived: false,
     updatedAt: "1 week ago",
     modules: [
       { title: "Subject-To Deals", lessons: [
@@ -92,7 +96,7 @@ export const SEED: AdminCourse[] = migrate([
     title: "Building Your Buyers List",
     blurb: "Attract cash buyers, qualify them fast, and never sit on a contract again.",
     cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80",
-    price: 197, paid: true, published: false, enrolled: 0, completionRate: 0, revenue: 0, archived: false,
+    price: 197, paid: true, published: false, enrolled: 0, completionRate: 0, revenue: 0, demo: true, archived: false,
     updatedAt: "draft",
     modules: [
       { title: "Where to Find Buyers", lessons: [
