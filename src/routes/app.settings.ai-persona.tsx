@@ -14,7 +14,7 @@ import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
 import { RecommendationControls } from "@/components/persona/RecommendationControls";
 import { VoicePersonality } from "@/components/persona/VoicePersonality";
 
-export const Route = createFileRoute("/app/manage/persona")({
+export const Route = createFileRoute("/app/settings/ai-persona")({
   component: PersonaPage,
   head: () => ({
     meta: [

@@ -18,7 +18,7 @@ import {
   resetNavConfig, subscribeNav, updateNavItems, visibleNav,
 } from "@/lib/nav/store";
 
-export const Route = createFileRoute("/app/manage/navigation")({
+export const Route = createFileRoute("/app/settings/navigation")({
   component: NavigationEditor,
   head: () => ({
     meta: [
