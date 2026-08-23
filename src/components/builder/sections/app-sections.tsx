@@ -5,7 +5,10 @@ import {
 } from "lucide-react";
 import type { BuilderBlock as Block } from "@/lib/builder/types";
 import { SEED_POSTS } from "@/lib/feed-posts";
-import { LB_MEMBERS } from "@/lib/leaderboard-data";
+// Placeholder people used to show what a members/leaderboard block LOOKS like.
+// Always rendered with a "Sample" label — never as real standings.
+import { DEMO_LB_MEMBERS, type LbMember } from "@/lib/leaderboard-data";
+import { DataBadge } from "@/components/DataBadge";
 import type { EventItem } from "@/lib/events-store";
 import type { GSStore } from "@/lib/gs-store";
 
@@ -244,13 +247,14 @@ export function renderAppSection(block: Block, data: SectionData): React.ReactNo
         <Section title={t} action="See All">
           <div className="cz-members">
             <div className="cz-avs">
-              {LB_MEMBERS.slice(0, 8).map(m => <img key={m.id} src={m.photo} alt="" />)}
+              {DEMO_LB_MEMBERS.slice(0, 8).map((m: LbMember) => <img key={m.id} src={m.photo} alt="" />)}
             </div>
+            <DataBadge kind="sample" label="Sample Preview" />
             {bool(block, "showCount") ? (
               <div className="cz-stats">
-                <div><strong>3,541</strong><span>Members</span></div>
-                <div><strong>221</strong><span>Online</span></div>
-                <div><strong>3</strong><span>Admins</span></div>
+                <div><strong>—</strong><span>Members</span></div>
+                <div><strong>—</strong><span>Online</span></div>
+                <div><strong>—</strong><span>Admins</span></div>
               </div>
             ) : null}
           </div>
@@ -260,7 +264,8 @@ export function renderAppSection(block: Block, data: SectionData): React.ReactNo
       return (
         <Section title={t} action="Full Board">
           <div className="cz-lb">
-            {LB_MEMBERS.slice(0, Math.max(1, num(block, "limit", 5))).map((m, i) => (
+            <DataBadge kind="sample" label="Sample Preview" />
+            {DEMO_LB_MEMBERS.slice(0, Math.max(1, num(block, "limit", 5))).map((m: LbMember, i: number) => (
               <div className="cz-lb-row" key={m.id}>
                 <span className="cz-rank">{i + 1}</span>
                 <img src={m.photo} alt="" />

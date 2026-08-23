@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Users, List, Map as MapIcon } from "lucide-react";
 import { useState, useMemo } from "react";
 import { ClubStub } from "@/components/ClubStub";
-import { LB_MEMBERS, type LbMember } from "@/lib/leaderboard-data";
+import { type LbMember } from "@/lib/leaderboard-data";
+import { useLeaderboard } from "@/hooks/use-leaderboard";
+import { DataBadge, DataNotice, EmptyState } from "@/components/DataBadge";
 
 export const Route = createFileRoute("/app/club/members")({
   head: () => ({ meta: [{ title: "Members — AdvisorsClub" }, { name: "description", content: "Your full member CRM — filter, message, export and view profiles." }] }),
@@ -13,9 +15,14 @@ type View = "list" | "map";
 
 function MembersPage() {
   const [view, setView] = useState<View>("list");
+  const board = useLeaderboard();
 
   return (
     <div>
+      <DataNotice kind={board.kind}>
+        Demo Roster. These Example Members Show How The Directory And Map Work — They Are Not Real
+        People In Your Club.
+      </DataNotice>
       <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",marginBottom:16,gap:12}}>
         <div style={{display:"inline-flex",background:"#F3F4F6",borderRadius:10,padding:4,gap:2}}>
           <TabBtn active={view==="list"} onClick={()=>setView("list")} icon={<List size={14}/>} label="List"/>
@@ -62,10 +69,14 @@ const COUNTRY_COORDS: Record<string,{lat:number;lng:number;name:string}> = {
 };
 
 function MembersMap() {
+  // Roster is DEMO or EMPTY until real member records exist — never fake-real.
+  const board = useLeaderboard();
+  const roster = board.members;
+
   // Aggregate members by country
   const clusters = useMemo(() => {
     const byCountry = new Map<string, LbMember[]>();
-    LB_MEMBERS.forEach((m: LbMember) => {
+    roster.forEach((m: LbMember) => {
       if (!COUNTRY_COORDS[m.country]) return;
       const arr = byCountry.get(m.country) ?? [];
       arr.push(m);
@@ -76,15 +87,24 @@ function MembersMap() {
       members,
       ...COUNTRY_COORDS[flag],
     }));
-  }, []);
+  }, [roster]);
 
   const [hovered, setHovered] = useState<string|null>(null);
   const totalPinned = clusters.reduce((a,c)=>a+c.members.length,0);
 
+  if (!clusters.length) {
+    return (
+      <EmptyState
+        title="No Member Locations Yet"
+        body="Once Members Join And Share A Country, You'll See Them Mapped Here."
+      />
+    );
+  }
+
   return (
     <div style={{background:"#fff",border:"1px solid #E5E7EB",borderRadius:16,overflow:"hidden",boxShadow:"0 1px 3px rgba(0,0,0,.04)"}}>
       <div style={{padding:"14px 18px",borderBottom:"1px solid #F3F4F6",display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexWrap:"wrap"}}>
-        <div style={{fontSize:14,fontWeight:700,color:"#111827"}}>Member Map</div>
+        <div style={{fontSize:14,fontWeight:700,color:"#111827",display:"flex",alignItems:"center",gap:8}}>Member Map <DataBadge kind={board.kind} /></div>
         <div style={{fontSize:12,color:"#6B7280"}}>{totalPinned} members across {clusters.length} countries · Locations approximated for privacy</div>
       </div>
       <div style={{position:"relative",width:"100%",aspectRatio:"2 / 1",background:"linear-gradient(180deg,#E0F2FE 0%,#DBEAFE 100%)"}}>

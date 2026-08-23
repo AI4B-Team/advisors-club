@@ -2,7 +2,9 @@ import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles, Lock, Settings, X } from "lucide-react";
-import { LB_MEMBERS, ME_MEMBER, LB_LEVELS, LEVEL_TARGETS, type LbMember } from "@/lib/leaderboard-data";
+import { LEVEL_TARGETS, type LbMember } from "@/lib/leaderboard-data";
+import { useLeaderboard } from "@/hooks/use-leaderboard";
+import { DataBadge, DataNotice, EmptyState } from "@/components/DataBadge";
 
 export const Route = createFileRoute("/app/club/leaderboard")({
   head: () => ({ meta: [
@@ -17,7 +19,37 @@ type Category = "points" | "streak" | "courses" | "engagement";
 
 const ME_ID = "me";
 
+/**
+ * Standings are REAL, DEMO, or EMPTY — never fabricated people presented as
+ * this club's active members.
+ */
 function LeaderboardPage() {
+  const board = useLeaderboard();
+
+  if (board.kind === "empty" || board.members.length === 0) {
+    return (
+      <div className="lb-page">
+        <div className="cc-page-head">
+          <div>
+            <h1>Leaderboard</h1>
+            <p>Top performers across your community.</p>
+          </div>
+        </div>
+        <EmptyState
+          title="No Leaderboard Data Yet"
+          body="Standings Appear Once Your Members Start Earning Points — Completing Lessons, Posting, Keeping Streaks. We Don't Show Placeholder People Here."
+        />
+      </div>
+    );
+  }
+
+  return <LeaderboardBoard board={board} />;
+}
+
+function LeaderboardBoard({ board }: { board: ReturnType<typeof useLeaderboard> }) {
+  const LB_MEMBERS = board.members;
+  const ME_MEMBER = board.me!;
+  const LB_LEVELS = board.levels;
   const [period, setPeriod] = useState<Period>("month");
   const [category, setCategory] = useState<Category>("points");
   const [q, setQ] = useState("");
@@ -63,9 +95,13 @@ function LeaderboardPage() {
 
   return (
     <div className="lb-page">
+      <DataNotice kind={board.kind}>
+        Demo Standings. These Are Example Members Used To Show How The Leaderboard Works — They Are
+        Not Real People In Your Club.
+      </DataNotice>
       <div className="cc-page-head">
         <div>
-          <h1>Leaderboard</h1>
+          <h1>Leaderboard <DataBadge kind={board.kind} /></h1>
           <p>Top performers across your community — {periodMeta[period].toLowerCase()}.</p>
         </div>
         <div className="lb-head-actions">

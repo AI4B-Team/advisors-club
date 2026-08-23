@@ -11,7 +11,16 @@ import wealth from "@/assets/covers-soft/wealth.jpg";
 import speaking from "@/assets/covers-soft/speaking.jpg";
 import brand from "@/assets/covers-soft/brand.jpg";
 
+// SAMPLE MARKETPLACE SUPPLY.
+//
+// These clubs do not exist. They demonstrate what Discover looks like with
+// supply, and every surface that renders them MUST label them as sample
+// clubs (see `<DataBadge kind="sample" />`). Never present these member
+// counts, ratings, or prices as live marketplace data.
+
 export type Club = {
+  /** Always true here — these are illustrative, not real listings. */
+  demo: true;
   id: string;
   name: string;
   tagline: string;
@@ -33,7 +42,7 @@ export const CATEGORIES = [
   "Sales", "Speaking",
 ];
 
-export const CLUBS: Club[] = [
+export const DEMO_CLUBS: Club[] = ([
   { id: "1", name: "Real Estate Empire", tagline: "Build wealth with rentals, flips & syndications.", category: "Real Estate", advisor: "Marcus King", rating: 4.9, members: 2840, price: 97, cover: realestate, trending: true, featured: true, tags: ["realestate","rentals","wealth"] },
   { id: "2", name: "Founder OS", tagline: "Operating system for first-time SaaS founders.", category: "Business", advisor: "Lena Park", rating: 4.8, members: 1920, price: 79, cover: startup, trending: true, featured: true, isNew: true, tags: ["business","saas","startup"] },
   { id: "3", name: "AI Builders Club", tagline: "Ship AI products weekly with hands-on builds.", category: "AI & Tech", advisor: "Devon Liu", rating: 4.9, members: 3210, price: 0, cover: ai, trending: true, featured: true, tags: ["ai","tech","builders"] },
@@ -46,4 +55,8 @@ export const CLUBS: Club[] = [
   { id: "10", name: "Wealth Architects", tagline: "Family office playbooks for 7-figure operators.", category: "Finance", advisor: "Aisha Quinn", rating: 4.9, members: 720, price: 199, cover: wealth, tags: ["wealth","finance","family"] },
   { id: "11", name: "Stage Ready", tagline: "Keynotes, paid talks & TED-style storytelling.", category: "Speaking", advisor: "Brendan Holt", rating: 4.7, members: 540, price: 79, cover: speaking, isNew: true, tags: ["speaking","storytelling","stage"] },
   { id: "12", name: "Brand Beyond", tagline: "Personal brand, content systems & monetization.", category: "Business", advisor: "Mia Carter", rating: 4.8, members: 1830, price: 0, cover: brand, tags: ["brand","content","personal"] },
-];
+] as Omit<Club, "demo">[]).map(c => ({ ...c, demo: true as const }));
+
+/** Discover has no real marketplace supply yet. */
+export const REAL_CLUBS: Club[] = [];
+

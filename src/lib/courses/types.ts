@@ -48,6 +48,8 @@ export type AdminCourse = {
   enrolled: number;
   completionRate: number;
   revenue: number;
+  /** True for seeded sample courses. Their enrollment/revenue numbers are not real. */
+  demo?: boolean;
   archived: boolean;
   updatedAt: string;
 };

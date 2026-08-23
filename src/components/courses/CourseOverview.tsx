@@ -6,6 +6,7 @@ import {
   Calendar as CalendarIcon, GripVertical, HelpCircle, DollarSign as PriceIcon, Check, Smile, Hash, AtSign, Bookmark, SquarePen, Pin, SlidersHorizontal, Captions, Star, ListChecks, Loader2, ClipboardList, Lightbulb,
 } from "lucide-react";
 import { MenuItem, Mini, StatCard } from "./primitives";
+import { DataBadge } from "@/components/DataBadge";
 import { RecommendationPanel } from "@/components/recos/RecommendationPanel";
 import { nodeId } from "@/lib/graph/types";
 import type { CourseDetailCtx } from "@/hooks/courses/use-course-detail";
@@ -177,12 +178,16 @@ return (
 
     {/* Performance */}
     <div className="lt-section-head" style={{marginTop:28}}>
-      <h2><Award size={16}/> Performance</h2>
+      <h2><Award size={16}/> Performance {course.demo ? <DataBadge kind="demo" label="Sample Numbers" /> : null}</h2>
     </div>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:12}}>
-      <StatCard icon={<Users size={16}/>} label="Enrolled" value={String(course.enrolled)}/>
+      <StatCard icon={<Users size={16}/>} label={course.demo ? "Enrolled (Demo)" : "Enrolled"} value={String(course.enrolled)}/>
       <StatCard icon={<CheckCircle2 size={16}/>} label="Completion Rate" value={`${course.completionRate}%`}/>
-      <StatCard icon={<DollarSign size={16}/>} label="Revenue" value={`$${course.revenue.toLocaleString()}`}/>
+      <StatCard
+        icon={<DollarSign size={16}/>}
+        label={course.demo ? "Demo Revenue" : "Revenue"}
+        value={course.demo || course.revenue ? `$${course.revenue.toLocaleString()}` : "No Revenue Yet"}
+      />
       <StatCard icon={<Clock size={16}/>} label="Last Updated" value={course.updatedAt}/>
     </div>
   </>

@@ -1,5 +1,9 @@
-// Shared leaderboard data — same members shown on the home right panel
-// and on the full /app/club/leaderboard page so totals stay in sync.
+// DEMO leaderboard roster.
+//
+// These people do not exist. Real leaderboard standings will be computed from
+// recorded member activity; until then a real club shows an EMPTY STATE and
+// only a demo/sandbox workspace renders this roster — always labeled.
+// Nothing here may be presented as a real active member.
 
 export type LbMember = {
   id: string;
@@ -22,7 +26,7 @@ export type LbMember = {
   monthPoints: number;
 };
 
-export const LB_MEMBERS: LbMember[] = [
+export const DEMO_LB_MEMBERS: LbMember[] = [
   { id:"esther", name:"Esther H.",      handle:"@esther",  initials:"EH", color:"#F5A623", photo:"https://i.pravatar.cc/120?img=47", country:"🇺🇸", points:680, streak:64, courses:14, engagement:96, level:22, trend:"up",   delta:3, badges:["🔥","⭐","👑","💎"], weekPoints:48, monthPoints:210 },
   { id:"robert", name:"Robert Fox",     handle:"@robert",  initials:"RF", color:"#7BA77B", photo:"https://i.pravatar.cc/120?img=12", country:"🇺🇸", points:530, streak:51, courses:12, engagement:92, level:19, trend:"up",   delta:2, badges:["🔥","⭐","👑"],      weekPoints:40, monthPoints:180 },
   { id:"jenny",  name:"Jenny W.",       handle:"@jenny",   initials:"JW", color:"#8B5A4A", photo:"https://i.pravatar.cc/120?img=45", country:"🇨🇦", points:420, streak:47, courses:10, engagement:88, level:17, trend:"same", delta:0, badges:["🔥","⭐","💎"],      weekPoints:32, monthPoints:150 },
@@ -50,7 +54,7 @@ function levelFromPoints(points: number) {
 }
 
 const ME_POINTS = 284;
-export const ME_MEMBER: LbMember = {
+export const DEMO_ME_MEMBER: LbMember = {
   id:"me", name:"You", handle:"@you", initials:"YO", color:"#0EA5E9",
   photo:"https://i.pravatar.cc/80?img=58", country:"🌍",
   points: ME_POINTS, streak:42, courses:11, engagement:76, level: levelFromPoints(ME_POINTS),
@@ -58,7 +62,7 @@ export const ME_MEMBER: LbMember = {
 };
 
 // Level distribution (Skool-style: % of members at each level)
-export const LB_LEVELS = [
+export const DEMO_LB_LEVELS = [
   { level:1, pct:83, label:"" },
   { level:2, pct:11, label:"" },
   { level:3, pct:3,  label:"" },

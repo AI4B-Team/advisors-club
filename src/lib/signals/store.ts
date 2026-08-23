@@ -1,6 +1,6 @@
-// Signal store. Real behavior can be recorded with `recordSignal`; when nothing
-// real exists yet the store falls back to clearly labeled sample data so the
-// intelligence layer is demonstrable in development without inventing metrics.
+// Signal store. Real behavior is recorded with `recordSignal`. Demo fixtures
+// are NEVER substituted for a real club — a caller must explicitly opt in via
+// `getSignals({ allowDemo })`, which only a demo/sandbox workspace may do.
 
 import type { Signal, SignalKind } from "./types";
 import { DEMO_SIGNALS } from "./demo";
@@ -23,14 +23,36 @@ export function getRealSignals(): Signal[] {
   return read().filter(s => !s.demo);
 }
 
+/** Below this, pattern detection is noise rather than insight. */
+export const MIN_SIGNALS_FOR_ANALYSIS = 20;
+
+export type SignalSet = {
+  signals: Signal[];
+  /** True only when the signals are fixtures, never for a real club. */
+  isDemo: boolean;
+  /** Real club, real signals, but not yet enough of them to analyze. */
+  insufficient: boolean;
+  realCount: number;
+};
+
 /**
- * Signals to analyze. Returns real behavior when it exists, otherwise sample
- * data with `demo: true` on every record.
+ * Signals to analyze.
+ *
+ * A real club ALWAYS gets its own signals — even when there are too few to
+ * analyze, in which case `insufficient` is true and callers must say "not
+ * enough data yet" rather than showing fabricated patterns. Demo fixtures are
+ * returned only for an explicitly demo/sandbox workspace, and are always
+ * flagged `isDemo`.
  */
-export function getSignals(): { signals: Signal[]; isDemo: boolean } {
+export function getSignals(opts: { allowDemo?: boolean } = {}): SignalSet {
   const real = getRealSignals();
-  if (real.length >= 20) return { signals: real, isDemo: false };
-  return { signals: DEMO_SIGNALS, isDemo: true };
+  if (real.length >= MIN_SIGNALS_FOR_ANALYSIS) {
+    return { signals: real, isDemo: false, insufficient: false, realCount: real.length };
+  }
+  if (opts.allowDemo) {
+    return { signals: DEMO_SIGNALS, isDemo: true, insufficient: false, realCount: real.length };
+  }
+  return { signals: real, isDemo: false, insufficient: true, realCount: real.length };
 }
 
 export function recordSignal(

@@ -1,6 +1,7 @@
 import { Archive, BookOpen, CheckCircle2, DollarSign, Edit3, Eye, Globe, Lock, MoreHorizontal, Plus, Trash2, Upload, Users } from "lucide-react";
 import { MenuItem, StatCard } from "./primitives";
 import type { AdminCourse } from "@/lib/courses/types";
+import { DataBadge, DataNotice } from "@/components/DataBadge";
 
 /** Active-courses grid with quick stats and the per-card overflow menu. */
 export function CoursesGridView({
@@ -22,6 +23,10 @@ export function CoursesGridView({
   const totalEnrolled = active.reduce((a,c) => a + c.enrolled, 0);
   const totalRevenue = active.reduce((a,c) => a + c.revenue, 0);
   const publishedCount = active.filter(c => c.published).length;
+  // Seeded sample courses carry invented enrollment/revenue — label, never imply real.
+  const anyDemo = active.some(c => c.demo);
+  const demoRevenue = active.filter(c => c.demo).reduce((a,c) => a + c.revenue, 0);
+  const realRevenue = totalRevenue - demoRevenue;
 
   return (
     <>
@@ -40,11 +45,22 @@ export function CoursesGridView({
 </div>
 {createModal}
 
+<DataNotice kind={anyDemo ? "demo" : "real"}>
+  Some Courses Here Are Sample Courses. Their Enrollment And Revenue Numbers Are Demo Values, Not
+  Real Sales.
+</DataNotice>
+
 {/* Quick stats */}
 <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:12,marginBottom:24}}>
   <StatCard icon={<BookOpen size={16}/>} label="Active Courses" value={String(active.length)} />
-  <StatCard icon={<Users size={16}/>} label="Total Enrolled" value={totalEnrolled.toLocaleString()} />
-  <StatCard icon={<DollarSign size={16}/>} label="Revenue" value={`$${totalRevenue.toLocaleString()}`} />
+  <StatCard icon={<Users size={16}/>} label={anyDemo ? "Total Enrolled (Incl. Demo)" : "Total Enrolled"} value={totalEnrolled.toLocaleString()} />
+  <StatCard
+    icon={<DollarSign size={16}/>}
+    label={anyDemo ? "Demo Revenue" : "Revenue"}
+    value={anyDemo
+      ? `$${totalRevenue.toLocaleString()}`
+      : (realRevenue ? `$${realRevenue.toLocaleString()}` : "No Revenue Yet")}
+  />
   <StatCard icon={<CheckCircle2 size={16}/>} label="Avg. Completion" value={`${Math.round(active.reduce((a,c)=>a+c.completionRate,0)/Math.max(1,active.length))}%`} />
 </div>
 
@@ -55,6 +71,7 @@ export function CoursesGridView({
         <span className="mc-card-tag" style={{background:c.published?"#10B981":"#6B7280",color:"#fff"}}>
           {c.published ? <><Globe size={10} style={{marginRight:4}}/>Published</> : <><Lock size={10} style={{marginRight:4}}/>Draft</>}
         </span>
+        {c.demo && <span style={{position:"absolute",top:10,left:10,zIndex:2}}><DataBadge kind="demo" label="Sample Course" /></span>}
         <button
           onClick={(e) => { e.stopPropagation(); setMenuOpen(menuOpen === c.id ? null : c.id); }}
           style={{position:"absolute",top:10,right:10,width:32,height:32,borderRadius:8,background:"rgba(0,0,0,.55)",border:0,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",backdropFilter:"blur(4px)"}}

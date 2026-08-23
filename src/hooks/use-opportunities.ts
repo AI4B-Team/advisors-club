@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useBusinessGraph } from "./use-business-graph";
-import { getSignals, subscribeSignals } from "@/lib/signals/store";
+import { useDataMode } from "./use-data-mode";
+import { getSignals, subscribeSignals, MIN_SIGNALS_FOR_ANALYSIS } from "@/lib/signals/store";
 import { detectOpportunities } from "@/lib/opportunities/engine";
 import {
   getOppPreferences, getOppStatuses, preferenceScore, recordOppPreference,
@@ -11,6 +12,7 @@ import type { Opportunity, OpportunityStatus } from "@/lib/opportunities/types";
 /** Aggregate-behavior pattern detection for admins. */
 export function useOpportunities() {
   const { graph } = useBusinessGraph();
+  const dataMode = useDataMode();
   const [tick, setTick] = useState(0);
   const [statuses, setStatuses] = useState<Record<string, OpportunityStatus>>({});
   const [prefs, setPrefs] = useState<Record<string, OppPreference>>({});
@@ -23,10 +25,12 @@ export function useOpportunities() {
     return () => { a(); b(); };
   }, []);
 
-  const { signals, isDemo } = useMemo(() => {
+  const { signals, isDemo, insufficient, realCount } = useMemo(() => {
     void tick;
-    return getSignals();
-  }, [tick]);
+    // Demo fixtures only in an explicitly demo/sandbox workspace. A real club
+    // with too few signals gets "not enough data yet", never invented patterns.
+    return getSignals({ allowDemo: dataMode.enabled });
+  }, [tick, dataMode.enabled]);
 
   const opportunities: Opportunity[] = useMemo(
     () =>
@@ -52,6 +56,10 @@ export function useOpportunities() {
   return {
     graph,
     isDemo,
+    /** Real club without enough behavior recorded yet — say so, show nothing. */
+    insufficient,
+    minSignals: MIN_SIGNALS_FOR_ANALYSIS,
+    realSignalCount: realCount,
     signalCount: signals.length,
     opportunities,
     open: opportunities.filter(o => o.status === "new" || o.status === "reviewing"),

@@ -2,7 +2,8 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tan
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Search, Bell, LogOut, ChevronDown, ChevronLeft, ChevronRight, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
+import { readRecentSearches, pushRecentSearch } from "@/lib/data/recent-searches";
+import { ViewModeProvider, useViewMode, DEMO_MEMBERS } from "@/hooks/use-view-mode";
 import { RequirePermission } from "@/components/auth/RequirePermission";
 import { capabilityForPath } from "@/lib/auth/permissions";
 
@@ -407,8 +408,19 @@ function Topbar() {
 
   isAdminRef.current = isAdmin;
 
-  const recentSearches = ["Real Estate Funnel", "AIVA Prompts", "Stripe Connect", "Course Builder"];
-  const trending = ["Live Events", "Member Onboarding", "Challenges"];
+  // REAL recents: this person's own searches, persisted locally. No fabricated
+  // "trending" — the second list is explicitly labeled as suggestions.
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  useEffect(() => { setRecentSearches(readRecentSearches()); }, []);
+  const suggested = ["Live Events", "Member Onboarding", "Challenges"];
+
+  function runSearch(term: string) {
+    const t = term.trim();
+    if (!t) return;
+    setQuery(t);
+    setRecentSearches(pushRecentSearch(t));
+    setSearchOpen(false);
+  }
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -446,6 +458,7 @@ function Topbar() {
           value={query}
           onChange={(e)=>setQuery(e.target.value)}
           onFocus={()=>setSearchOpen(true)}
+          onKeyDown={(e)=>{ if (e.key === "Enter") runSearch(query); }}
         />
         <button
           type="button"
@@ -458,15 +471,20 @@ function Topbar() {
         {searchOpen && (
           <div className="cc-tb-search-menu">
             <div className="cc-tb-search-head">Recent</div>
+            {recentSearches.length === 0 && (
+              <div className="cc-tb-search-item" style={{opacity:.6,cursor:"default"}}>
+                <Search size={13}/> <span>No Recent Searches Yet</span>
+              </div>
+            )}
             {recentSearches.map(s => (
-              <button key={s} className="cc-tb-search-item" onClick={()=>{setQuery(s);setSearchOpen(false);}}>
+              <button key={s} className="cc-tb-search-item" onClick={()=>runSearch(s)}>
                 <Search size={13}/> <span>{s}</span>
               </button>
             ))}
             <div className="cc-tb-search-sep" />
-            <div className="cc-tb-search-head">Trending</div>
-            {trending.map(s => (
-              <button key={s} className="cc-tb-search-item" onClick={()=>{setQuery(s);setSearchOpen(false);}}>
+            <div className="cc-tb-search-head">Suggested</div>
+            {suggested.map(s => (
+              <button key={s} className="cc-tb-search-item" onClick={()=>runSearch(s)}>
                 <Sparkles size={13}/> <span>{s}</span>
               </button>
             ))}
@@ -536,7 +554,7 @@ function Topbar() {
 
         <div className="cc-tb-pf" ref={ref}>
           <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">
-            {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+            {viewAs ? (viewAs.avatar ? <img src={viewAs.avatar} alt="" /> : viewAs.name.slice(-1)) : initial}
           </button>
           {open && (
             <div className="cc-tb-menu">
@@ -548,7 +566,7 @@ function Topbar() {
               )}
               <div className="cc-tb-menu-head">
                 <span className="cc-tb-menu-av">
-                  {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+                  {viewAs ? (viewAs.avatar ? <img src={viewAs.avatar} alt="" /> : viewAs.name.slice(-1)) : initial}
                 </span>
                 <div>
                   <div className="cc-tb-menu-n">{viewAs ? viewAs.name : (displayName || "Guest")}</div>
@@ -600,7 +618,7 @@ function ViewModeToggle() {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
   const isAdmin = mode === "admin";
-  const filtered = SAMPLE_MEMBERS.filter(m =>
+  const filtered = DEMO_MEMBERS.filter(m =>
     m.name.toLowerCase().includes(q.toLowerCase()) ||
     m.role.toLowerCase().includes(q.toLowerCase())
   );
@@ -620,7 +638,9 @@ function ViewModeToggle() {
         ) : (
           <span className="cc-tb-vw-current member">
             {viewAs ? (
-              <img src={viewAs.avatar} alt="" className="cc-tb-vw-av"/>
+              viewAs.avatar
+                ? <img src={viewAs.avatar} alt="" className="cc-tb-vw-av"/>
+                : <span className="cc-tb-vw-av">{viewAs.name.slice(-1)}</span>
             ) : (
               <User size={13}/>
             )}
@@ -665,6 +685,9 @@ function ViewModeToggle() {
             />
           </div>
           <div className="cc-tb-vw-list">
+            <div className="cc-tb-vw-empty" style={{fontSize:11,textTransform:"uppercase",letterSpacing:".04em"}}>
+              Synthetic Examples — Not Real Members
+            </div>
             {filtered.length === 0 && (
               <div className="cc-tb-vw-empty">No members found</div>
             )}
@@ -674,7 +697,7 @@ function ViewModeToggle() {
                 className={`cc-tb-vw-item ${viewAs?.id === m.id ? "on" : ""}`}
                 onClick={()=>{ setViewAs(m); setMode("member"); setOpen(false); setQ(""); }}
               >
-                <img src={m.avatar} alt="" />
+                {m.avatar ? <img src={m.avatar} alt="" /> : <span className="cc-tb-vw-av">{m.name.slice(-1)}</span>}
                 <div className="cc-tb-vw-item-meta">
                   <div className="cc-tb-vw-item-n">{m.name}</div>
                   <div className="cc-tb-vw-item-r">{m.role}</div>

@@ -135,7 +135,13 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
           <Stat label="Published" value={String(totals.published)} />
           <Stat label="Opens" value={totals.opens.toLocaleString()} icon={<Eye size={13} />} />
           <Stat label="Members Reached" value={String(totals.members)} icon={<Users size={13} />} />
-          <Stat label="Revenue" value={`$${totals.revenue.toLocaleString()}`} icon={<DollarSign size={13} />} />
+          <Stat
+            label={totals.liveRevenue ? "Revenue" : "Demo Revenue"}
+            value={totals.liveRevenue
+              ? `$${totals.revenue.toLocaleString()}`
+              : (totals.revenue ? `$${totals.revenue.toLocaleString()}` : "No Revenue Yet")}
+            icon={<DollarSign size={13} />}
+          />
         </div>
       )}
 

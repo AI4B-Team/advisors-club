@@ -19,7 +19,7 @@ const FILTERS: Filter[] = ["all", "build", "revenue", "members"];
  * where the insight is the loudest thing on the row.
  */
 export function OpportunityBoard() {
-  const { opportunities, isDemo, signalCount, setStatus, decide } = useOpportunities();
+  const { opportunities, isDemo, insufficient, realSignalCount, minSignals, signalCount, setStatus, decide } = useOpportunities();
   const [filter, setFilter] = useState<Filter>("all");
   const [showHidden, setShowHidden] = useState(false);
   const navigate = useNavigate();
@@ -77,7 +77,18 @@ export function OpportunityBoard() {
         </p>
       )}
 
-      {scoped.length === 0 && (
+      {insufficient && (
+        <div className="data-empty">
+          <strong>Not Enough Data Yet</strong>
+          <p>
+            I've Recorded {realSignalCount} Of The {minSignals} Member Signals I Need Before I Can
+            Spot Reliable Patterns. Nothing Here Is Invented — Once Your Members Ask Questions,
+            Search, And Work Through Content, Opportunities Will Appear.
+          </p>
+        </div>
+      )}
+
+      {!insufficient && scoped.length === 0 && (
         <p className="opp-empty">
           Nothing To Flag Right Now. I'll Surface Opportunities As Member Behavior Builds Up.
         </p>
