@@ -4925,3 +4925,13 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .sp-checkout-sum em{font-style:normal;font-size:28px;font-weight:850;letter-spacing:-.02em}
 .sp-checkout-sum em i{font-style:normal;font-size:14px;font-weight:600;opacity:.6}
 @media (max-width:860px){.sp-hero{grid-template-columns:1fr;padding:38px 20px}}
+
+/* Sell builder topbar actions */
+.cz-ghost-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid #E8EAEE;border-radius:9px;background:#fff;color:#374151;font-size:12.5px;font-weight:650;text-decoration:none;cursor:pointer;white-space:nowrap}
+.cz-ghost-btn:hover{background:#F7F8FA;color:#111827}
+.cz-ghost-btn:disabled{opacity:.55;cursor:default}
+.cz-ghost-btn.on{background:#111827;border-color:#111827;color:#fff}
+.cz-icon-btn{display:inline-grid;place-items:center;height:32px;width:34px;border:1px solid #E8EAEE;border-radius:9px;background:#fff;color:#5B6270;cursor:pointer}
+.cz-icon-btn:disabled{opacity:.45;cursor:default}
+.cz-publish{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;border:0;border-radius:9px;background:#111827;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.cz-publish:hover{background:#000}

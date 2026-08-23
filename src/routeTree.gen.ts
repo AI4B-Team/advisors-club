@@ -32,6 +32,7 @@ import { Route as AppCalendarRouteImport } from './routes/app.calendar'
 import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
+import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
 import { Route as AppClubResourcesRouteImport } from './routes/app.club.resources'
@@ -159,6 +160,11 @@ const AppAccountRoute = AppAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSellIndexRoute = AppSellIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppSellRoute,
+} as any)
 const AppSellPageIdRoute = AppSellPageIdRouteImport.update({
   id: '/$pageId',
   path: '/$pageId',
@@ -250,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/sell/': typeof AppSellIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -269,7 +276,6 @@ export interface FileRoutesByTo {
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
-  '/app/sell': typeof AppSellRouteWithChildren
   '/club/$': typeof ClubSplatRoute
   '/clubs/$clubId': typeof ClubsClubIdRoute
   '/p/$slug': typeof PSlugRoute
@@ -285,6 +291,7 @@ export interface FileRoutesByTo {
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/sell': typeof AppSellIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -322,6 +329,7 @@ export interface FileRoutesById {
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/sell/': typeof AppSellIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -360,6 +368,7 @@ export interface FileRouteTypes {
     | '/app/club/resources'
     | '/app/club/settings'
     | '/app/sell/$pageId'
+    | '/app/sell/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -379,7 +388,6 @@ export interface FileRouteTypes {
     | '/app/getting-started'
     | '/app/messages'
     | '/app/notifications'
-    | '/app/sell'
     | '/club/$'
     | '/clubs/$clubId'
     | '/p/$slug'
@@ -395,6 +403,7 @@ export interface FileRouteTypes {
     | '/app/club/resources'
     | '/app/club/settings'
     | '/app/sell/$pageId'
+    | '/app/sell'
   id:
     | '__root__'
     | '/'
@@ -431,6 +440,7 @@ export interface FileRouteTypes {
     | '/app/club/resources'
     | '/app/club/settings'
     | '/app/sell/$pageId'
+    | '/app/sell/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -611,6 +621,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAccountRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/sell/': {
+      id: '/app/sell/'
+      path: '/'
+      fullPath: '/app/sell/'
+      preLoaderRoute: typeof AppSellIndexRouteImport
+      parentRoute: typeof AppSellRoute
+    }
     '/app/sell/$pageId': {
       id: '/app/sell/$pageId'
       path: '/$pageId'
@@ -693,10 +710,12 @@ declare module '@tanstack/react-router' {
 
 interface AppSellRouteChildren {
   AppSellPageIdRoute: typeof AppSellPageIdRoute
+  AppSellIndexRoute: typeof AppSellIndexRoute
 }
 
 const AppSellRouteChildren: AppSellRouteChildren = {
   AppSellPageIdRoute: AppSellPageIdRoute,
+  AppSellIndexRoute: AppSellIndexRoute,
 }
 
 const AppSellRouteWithChildren =
