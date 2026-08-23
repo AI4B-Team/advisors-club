@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Palette, Globe, Users, BarChart3, Settings, Sparkles, Rocket, LayoutGrid, ArrowRight } from "lucide-react";
+import { Palette, Globe, Users, BarChart3, Settings, Sparkles, Rocket, LayoutGrid, ArrowRight, ListTree } from "lucide-react";
 
 export const Route = createFileRoute("/app/manage")({
   component: ManagePage,
