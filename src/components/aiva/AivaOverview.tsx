@@ -4,7 +4,7 @@ import {
   Plus, Sparkles, Users, Wand2,
 } from "lucide-react";
 import { AmCard, AmSectionLabel, AmStatus } from "./ui";
-import { AmTabKey } from "./tabs";
+import type { AmTabKey } from "./tabs";
 import {
   CAPABILITIES, FACT_SECTIONS, OPERATING_MODES, timeAgo,
   type AivaAdmin, type KnowledgeFactKey,
