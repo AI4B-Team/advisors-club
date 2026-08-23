@@ -60,6 +60,7 @@ export type GSQuizFunnel = { title: string; questions: number; published: boolea
 export type GSMarketplaceListing = { headline: string; listed: boolean };
 export type GSCoachingAgreement = { title: string; drafted: boolean };
 export type GSTestimonial = { name: string; body: string };
+export type GSResource = { id: string; title: string; desc: string; kind: "vault" | "guide" | "template" | "swipe" };
 
 export type GSStore = {
   clubName: string;
