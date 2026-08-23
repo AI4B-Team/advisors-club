@@ -14,7 +14,7 @@ export function AivaMemberAi() {
   const name = displayName(settings);
 
   return (
-    <div className="am-pane">
+    <div className="am-stack">
       <AmCard
         title="How Members Experience AI"
         desc="AIVA Stays The Intelligence Layer. Choose The Identity Members See."
