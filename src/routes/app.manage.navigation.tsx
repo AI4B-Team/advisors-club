@@ -2,8 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   GripVertical, MoreHorizontal, Eye, EyeOff, Plus, Trash2, RotateCcw,
-  ChevronLeft, Check, X, Info,
+  ChevronLeft, Check, X, Info, Sparkles, Loader2,
 } from "lucide-react";
+import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
+import { generateNavigation } from "@/lib/ai.functions";
+import { getAivaContext } from "@/lib/aiva-context";
+import { AiNavProposal } from "@/components/nav/AiNavProposal";
+import { applyNavProposal, defaultProposal, normalizeProposal, type NavProposalItem } from "@/lib/nav/ai";
 import type { NavIconKey, NavItem, NavItemType } from "@/lib/nav/config";
 import { SYSTEM_NAV } from "@/lib/nav/config";
 import { NavIcon } from "@/lib/nav/icons";
@@ -42,6 +48,7 @@ function NavigationEditor() {
   const [menuId, setMenuId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState<NavItem | null>(null);
+  const [aiOpen, setAiOpen] = useState(false);
   const dragFrom = useRef<number | null>(null);
   const [dragOver, setDragOver] = useState<number | null>(null);
 
@@ -79,15 +86,27 @@ function NavigationEditor() {
           <h1 className="pg-title">Navigation</h1>
           <p className="pg-sub">Organize What Your Members See And What It's Called.</p>
         </div>
+        <div className="nv-head-actions">
+        <button className="nv-ai-btn" onClick={() => setAiOpen(true)}>
+          <Sparkles size={14} /> Rebuild With AI
+        </button>
         <button className="nv-reset" onClick={() => { if (confirm("Reset navigation to the default layout? Your content is not affected.")) setItems(resetNavConfig().items); }}>
           <RotateCcw size={14} /> Reset To Default
         </button>
+        </div>
       </div>
 
       <div className="nv-note">
         <Info size={14} />
         <span>Hiding Or Removing An Item Only Changes The Menu. Your Courses, Posts, Events And Resources Stay Exactly Where They Are.</span>
       </div>
+
+      {aiOpen && (
+        <AiNavModal
+          onClose={() => setAiOpen(false)}
+          onApply={(rows) => { setItems(applyNavProposal({ items: rows }).items); setAiOpen(false); toast.success("Navigation Rebuilt. Edit Anything Below."); }}
+        />
+      )}
 
       <div className="nv-layout">
         {/* ---------- Editor ---------- */}
@@ -334,6 +353,78 @@ function NavigationEditor() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+
+/* ---------- AI structure generator ---------- */
+function AiNavModal({ onClose, onApply }: { onClose: () => void; onApply: (rows: NavProposalItem[]) => void }) {
+  const ctx = useMemo(() => getAivaContext(), []);
+  const [desc, setDesc] = useState(ctx.description || ctx.profile.business || "");
+  const [rows, setRows] = useState<NavProposalItem[]>([]);
+  const [rationale, setRationale] = useState("");
+  const [busy, setBusy] = useState(false);
+  const gen = useServerFn(generateNavigation);
+
+  async function run() {
+    setBusy(true);
+    try {
+      const res = await gen({
+        data: {
+          description: desc,
+          business: ctx.profile.business,
+          audience: ctx.profile.audience,
+          transformation: ctx.profile.transformation,
+          topics: ctx.profile.topics,
+          clubName: ctx.brand.clubName,
+        },
+      });
+      if (res.error || res.items.length === 0) {
+        toast.error(res.error || "AI Couldn't Draft A Structure.");
+        setRows(defaultProposal().items);
+        setRationale("");
+      } else {
+        setRows(normalizeProposal(res).items);
+        setRationale(res.rationale || "");
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="nv-modal-bg" onClick={onClose}>
+      <div className="nv-modal nv-modal-ai" onClick={e => e.stopPropagation()}>
+        <div className="nv-modal-hd">
+          <strong><Sparkles size={15} /> Build My Navigation With AI</strong>
+          <button className="nv-x" onClick={onClose} aria-label="Close"><X size={15} /></button>
+        </div>
+
+        <label className="nv-label">Describe Your Community</label>
+        <textarea
+          className="nv-textarea"
+          rows={4}
+          value={desc}
+          onChange={e => setDesc(e.target.value)}
+          placeholder="I teach beginners how to flip houses. Paid community, a 10-week course, weekly deal review calls, calculators and investor resources."
+        />
+
+        {rows.length > 0 && (
+          <AiNavProposal items={rows} setItems={setRows} rationale={rationale} busy={busy} onRegenerate={run} />
+        )}
+
+        <div className="nv-modal-foot">
+          <button className="nv-btn-quiet" onClick={onClose}>Cancel</button>
+          {rows.length === 0 ? (
+            <button className="nv-btn-primary" onClick={run} disabled={busy || desc.trim().length < 15}>
+              {busy ? <><Loader2 size={14} className="ob-spin" /> Designing…</> : <>Generate Structure</>}
+            </button>
+          ) : (
+            <button className="nv-btn-primary" onClick={() => onApply(rows)} disabled={busy}>Apply To Navigation</button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

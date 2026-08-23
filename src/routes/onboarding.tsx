@@ -10,7 +10,9 @@ import { toast } from "sonner";
 
 import { getSignupData, clearSignupData } from "@/lib/signup-store";
 import { setGS, getGS, type GSCourse } from "@/lib/gs-store";
-import { learnBusiness, suggestClubNames } from "@/lib/ai.functions";
+import { learnBusiness, suggestClubNames, generateNavigation } from "@/lib/ai.functions";
+import { AiNavProposal } from "@/components/nav/AiNavProposal";
+import { applyNavProposal, defaultProposal, normalizeProposal, type NavProposalItem } from "@/lib/nav/ai";
 import {
   getAivaContext, setAivaContext, markBuilt, slugifyClub,
   MONETIZATION_OPTIONS, COMPONENT_CATALOG, recommendComponents,
@@ -32,7 +34,7 @@ export const Route = createFileRoute("/onboarding")({
 
 const STEP_LABELS = [
   "Welcome", "Learn", "Review", "Monetize", "Recommendations",
-  "Brand", "Member AI", "Payments", "Build", "Ready",
+  "Navigation", "Brand", "Member AI", "Payments", "Build", "Ready",
 ];
 
 const BRAND_COLORS = ["#F5A623", "#EF4444", "#10B981", "#3B82F6", "#8B5CF6", "#EC4899", "#0EA5E9", "#14B8A6"];
@@ -79,8 +81,12 @@ function OnboardingPage() {
   const [memberAi, setMemberAi] = useState(() => getAivaContext().memberAi);
   const [payments, setPayments] = useState({ connected: false, deferred: false });
   const [learning, setLearning] = useState(false);
+  const [navItems, setNavItems] = useState<NavProposalItem[]>([]);
+  const [navRationale, setNavRationale] = useState("");
+  const [navBusy, setNavBusy] = useState(false);
 
   const learnFn = useServerFn(learnBusiness);
+  const navFn = useServerFn(generateNavigation);
 
   // Restore anything already captured (e.g. a refresh mid-flow).
   const restored = useRef(false);
@@ -124,6 +130,33 @@ function OnboardingPage() {
       go(next);
     } finally {
       setLearning(false);
+    }
+  }
+
+  async function runNavGen() {
+    setNavBusy(true);
+    try {
+      const res = await navFn({
+        data: {
+          description,
+          business: profile.business,
+          audience: profile.audience,
+          transformation: profile.transformation,
+          topics: profile.topics,
+          clubName: brand.clubName,
+        },
+      });
+      if (res.error || res.items.length === 0) {
+        toast.error(res.error || "AI Couldn't Draft A Structure — Using The Standard Menu.");
+        setNavItems(defaultProposal().items);
+        setNavRationale("");
+      } else {
+        const p = normalizeProposal(res);
+        setNavItems(p.items);
+        setNavRationale(res.rationale || "");
+      }
+    } finally {
+      setNavBusy(false);
     }
   }
 
@@ -182,31 +215,38 @@ function OnboardingPage() {
           />
         )}
         {step === 5 && (
-          <StepBrand
-            brand={brand} setBrand={setBrand} profile={profile}
+          <StepNavigation
+            items={navItems} setItems={setNavItems} rationale={navRationale}
+            busy={navBusy} onGenerate={runNavGen}
             onBack={() => go(4)} onNext={() => go(6)}
           />
         )}
         {step === 6 && (
-          <StepMemberAi
-            value={memberAi} setValue={setMemberAi} brand={brand}
-            onBack={() => go(5)} onNext={() => go(7)} onSkip={() => go(7)}
+          <StepBrand
+            brand={brand} setBrand={setBrand} profile={profile}
+            onBack={() => go(5)} onNext={() => go(7)}
           />
         )}
         {step === 7 && (
-          <StepPayments
-            onBack={() => go(6)}
-            onConnect={() => { setPayments({ connected: false, deferred: false }); toast("Payment setup opens after your Club is created."); go(8); }}
-            onLater={() => { setPayments({ connected: false, deferred: true }); go(8); }}
+          <StepMemberAi
+            value={memberAi} setValue={setMemberAi} brand={brand}
+            onBack={() => go(6)} onNext={() => go(8)} onSkip={() => go(8)}
           />
         )}
         {step === 8 && (
-          <StepBuild
-            components={components} profile={profile} brand={brand}
-            onDone={() => go(9)}
+          <StepPayments
+            onBack={() => go(7)}
+            onConnect={() => { setPayments({ connected: false, deferred: false }); toast("Payment setup opens after your Club is created."); go(9); }}
+            onLater={() => { setPayments({ connected: false, deferred: true }); go(9); }}
           />
         )}
         {step === 9 && (
+          <StepBuild
+            components={components} profile={profile} brand={brand} navItems={navItems}
+            onDone={() => go(10)}
+          />
+        )}
+        {step === 10 && (
           <StepReveal
             brand={brand} components={components}
             onEnter={() => { clearSignupData(); nav({ to: "/app" }); }}
@@ -594,7 +634,48 @@ function StepRecommendations({ selected, setSelected, recommended, onBack, onNex
   );
 }
 
-/* ========================= 6 — Brand ========================= */
+/* ========================= 6 — Navigation ========================= */
+function StepNavigation({ items, setItems, rationale, busy, onGenerate, onBack, onNext }: {
+  items: NavProposalItem[]; setItems: (rows: NavProposalItem[]) => void;
+  rationale: string; busy: boolean; onGenerate: () => void;
+  onBack: () => void; onNext: () => void;
+}) {
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current || items.length) return;
+    started.current = true;
+    onGenerate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <section className="ob-panel ob-panel-narrow">
+      <StepHead
+        eyebrow="AI Builds It"
+        title="How Your Club Is Organized"
+        sub="AI Named Your Menu For Your Business. Everything Here Stays Fully Editable In Manage → Navigation."
+      />
+
+      {busy && items.length === 0 ? (
+        <div className="ob-card ob-navgen-wait">
+          <Loader2 size={18} className="ob-spin" /> Designing Your Navigation…
+        </div>
+      ) : (
+        <AiNavProposal
+          items={items}
+          setItems={setItems}
+          rationale={rationale}
+          busy={busy}
+          onRegenerate={onGenerate}
+        />
+      )}
+
+      <Nav onBack={onBack} onNext={onNext} disabled={items.length === 0 || busy} nextLabel="Use This Structure" />
+    </section>
+  );
+}
+
+/* ========================= 7 — Brand ========================= */
 function StepBrand({ brand, setBrand, profile, onBack, onNext }: {
   brand: { clubName: string; logoUrl: string; color: string; slug: string };
   setBrand: (b: { clubName: string; logoUrl: string; color: string; slug: string }) => void;
@@ -788,8 +869,14 @@ function StepPayments({ onBack, onConnect, onLater }: { onBack: () => void; onCo
 /* ========================= 9 — Build ========================= */
 type BuildTask = { id: string; label: string; run: () => void };
 
-function buildTasks(components: ClubComponentId[], profile: BusinessProfile, brand: { clubName: string; color: string; slug: string; logoUrl: string }): BuildTask[] {
+function buildTasks(components: ClubComponentId[], profile: BusinessProfile, brand: { clubName: string; color: string; slug: string; logoUrl: string }, navItems: NavProposalItem[]): BuildTask[] {
   const tasks: BuildTask[] = [];
+
+  tasks.push({
+    id: "navigation",
+    label: "Building Your Navigation",
+    run: () => { applyNavProposal({ items: navItems.length ? navItems : defaultProposal().items }); },
+  });
 
   tasks.push({
     id: "structure",
@@ -913,12 +1000,13 @@ function buildTasks(components: ClubComponentId[], profile: BusinessProfile, bra
   return tasks;
 }
 
-function StepBuild({ components, profile, brand, onDone }: {
+function StepBuild({ components, profile, brand, navItems, onDone }: {
   components: ClubComponentId[]; profile: BusinessProfile;
   brand: { clubName: string; color: string; slug: string; logoUrl: string };
+  navItems: NavProposalItem[];
   onDone: () => void;
 }) {
-  const tasks = useMemo(() => buildTasks(components, profile, brand), [components, profile, brand]);
+  const tasks = useMemo(() => buildTasks(components, profile, brand, navItems), [components, profile, brand, navItems]);
   const [done, setDone] = useState(0);
 
   useEffect(() => {
