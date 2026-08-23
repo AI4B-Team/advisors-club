@@ -2,12 +2,13 @@ import {
   ArrowRight, CheckCircle2, Play, Calendar, MessageCircle, Heart, Star,
   Clock, ShieldCheck, CreditCard, BookOpen, Users, Sparkles, Code2, Link2,
 } from "lucide-react";
-import type { SellBlock, SellTheme } from "@/lib/sell/types";
+import type { BuilderBlock as SellBlock, BuilderTheme as SellTheme } from "@/lib/builder/types";
 import { SEED_POSTS } from "@/lib/feed-posts";
 import type { EventItem } from "@/lib/events-store";
 import type { GSStore } from "@/lib/gs-store";
 
-export type SellData = { gs: GSStore; events: EventItem[] };
+import type { SectionData } from "./app-sections";
+export type { SectionData };
 
 const FONT_STACK: Record<string, string> = {
   system: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
@@ -75,7 +76,7 @@ function Sec({ title, children, tone }: { title?: string; children: React.ReactN
   );
 }
 
-export function SellBlockView({ block, data }: { block: SellBlock; data: SellData }) {
+export function SellBlockView({ block, data }: { block: SellBlock; data: SectionData }) {
   const { gs, events } = data;
   const t = str(block, "title");
 

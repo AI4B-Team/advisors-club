@@ -3,16 +3,13 @@ import {
   Download, Link2, CheckCircle2, Clock, Star, ArrowRight, ImageIcon, HelpCircle, Video,
   UserCheck, ShoppingBag, CreditCard,
 } from "lucide-react";
-import type { Block } from "@/lib/customize/types";
+import type { BuilderBlock as Block } from "@/lib/builder/types";
 import { SEED_POSTS } from "@/lib/feed-posts";
 import { LB_MEMBERS } from "@/lib/leaderboard-data";
 import type { EventItem } from "@/lib/events-store";
 import type { GSStore } from "@/lib/gs-store";
 
-export type PreviewData = {
-  gs: GSStore;
-  events: EventItem[];
-};
+export type SectionData = { gs: GSStore; events: EventItem[] };
 
 const str = (b: Block, k: string, d = "") => String(b.props[k] ?? d);
 const num = (b: Block, k: string, d = 3) => Number(b.props[k] ?? d);
@@ -94,7 +91,7 @@ function fmtDate(iso: string) {
   return { mo: MO[(m || 1) - 1], d: String(d || 1) };
 }
 
-export function BlockPreview({ block, data }: { block: Block; data: PreviewData }) {
+export function renderAppSection(block: Block, data: SectionData): React.ReactNode {
   const { gs, events } = data;
   const t = str(block, "title");
 
