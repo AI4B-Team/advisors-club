@@ -8,10 +8,10 @@ import { getUsage, statsFor, subscribeUsage, type UsageEvent } from "@/lib/apps/
 import { AppBuilder } from "@/components/apps/AppBuilder";
 import { AppRunner } from "@/components/apps/AppRunner";
 import { getGS, subscribeGS } from "@/lib/gs-store";
-import {
-  MEMBERSHIP_TIERS, pricingLabel,
-  type App, type AppAccess, type AppPricing,
-} from "@/lib/apps/types";
+import { toAccessPolicy, type App } from "@/lib/apps/types";
+import { AccessPolicyEditor } from "@/components/commerce/AccessPolicyEditor";
+import { courseOptions, planOptions, programOptions } from "@/lib/commerce/catalog";
+import { isPurchasable } from "@/lib/commerce";
 
 export const Route = createFileRoute("/app/apps/$appId/edit")({
   component: AppEditPage,
@@ -27,18 +27,6 @@ export const Route = createFileRoute("/app/apps/$appId/edit")({
   }),
 });
 
-const ACCESS_OPTIONS: { value: string; label: string; access: AppAccess }[] = [
-  { value: "all", label: "All Members", access: { type: "all" } },
-  ...MEMBERSHIP_TIERS.map(m => ({
-    value: `membership:${m}`, label: `${m} Membership`, access: { type: "membership", membership: m } as AppAccess,
-  })),
-  { value: "paid", label: "Paid Access", access: { type: "paid" } },
-  { value: "admin", label: "Admin Only", access: { type: "admin" } },
-];
-
-function accessValue(a: AppAccess) {
-  return a.type === "membership" ? `membership:${a.membership}` : a.type;
-}
 
 type Tab = "build" | "preview" | "settings" | "usage";
 
