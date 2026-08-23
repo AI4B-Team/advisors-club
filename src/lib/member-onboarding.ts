@@ -174,8 +174,8 @@ function pickCourse(focus: string, experience: string): { title: string; detail:
   const gs = getGS();
   const admins = loadAdmin();
   const catalog: { title: string; blurb: string }[] = [
-    ...(gs.course ? [{ title: gs.course.title, blurb: gs.course.description || "Your Club's Core Curriculum." }] : []),
-    ...admins.map(c => ({ title: c.title, blurb: c.description || "Published In Your Club." })),
+    ...(gs.course ? [{ title: gs.course.title, blurb: gs.course.tagline || "Your Club's Core Curriculum." }] : []),
+    ...admins.map(c => ({ title: c.title, blurb: c.blurb || "Published In Your Club." })),
     ...FALLBACK_COURSES.map(c => ({ title: c.title, blurb: c.blurb })),
   ];
   const needle = focus.replace(/-/g, " ");
@@ -213,7 +213,7 @@ export function buildPath(a: MoAnswers, cfg: MoConfig): MoRec[] {
     },
     {
       kind: "challenge",
-      title: gs.challenge?.title || (brandNew ? "7-Day Momentum Challenge" : "30-Day Deal Sprint"),
+      title: gs.challenge?.name || (brandNew ? "7-Day Momentum Challenge" : "30-Day Deal Sprint"),
       detail: brandNew ? "Short Daily Actions So Week One Actually Moves." : "Daily Reps With The Members Doing The Same Work.",
       cta: "Join Challenge",
       to: "/app/club/challenges",
