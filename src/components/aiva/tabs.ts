@@ -38,7 +38,7 @@ export const AM_SETTINGS: {
   { key: "flywheel", label: "Flywheel", desc: "How content, products, and members compound.", group: "Advanced" },
   { key: "marketing", label: "Marketing", desc: "Campaigns AIVA can draft and run.", group: "Advanced" },
   { key: "workflows", label: "Workflows", desc: "Automations AIVA maintains for you.", group: "Advanced" },
-  { key: "agents", label: "Agents", desc: "Specialized assistants working under AIVA.", group: "Advanced" },
+  { key: "agents", label: "AIVA Skills", desc: "Specialized jobs AIVA runs for your club.", group: "Advanced" },
   { key: "inbox", label: "AI Inbox", desc: "Conversations AIVA is handling on your behalf.", group: "Advanced" },
 ];
 

@@ -99,8 +99,8 @@ export const SETTINGS_SECTIONS: SettingsSection[] = [
         title: "Your Club",
         scope: "club",
         rows: [
-          { id: "plans", label: "Plans", desc: "Membership Tiers And Pricing.", panel: "plans" },
-          { id: "paywalls", label: "Paywalls", desc: "What Is Gated And Who Can Unlock It.", panel: "paywalls" },
+          { id: "plans", label: "Membership Plans", desc: "Membership Tiers And Pricing.", panel: "plans" },
+          { id: "paywalls", label: "Access Rules", desc: "What Is Gated And Who Can Unlock It.", panel: "paywalls" },
           { id: "affiliates", label: "Affiliates", desc: "Partner Program And Commissions.", panel: "affiliates" },
           { id: "payouts", label: "Payouts", desc: "Where Your Earnings Are Sent.", panel: "payouts" },
           { id: "analytics", label: "Analytics", desc: "Revenue, Growth And Engagement.", panel: "analytics" },

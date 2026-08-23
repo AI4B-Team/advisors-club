@@ -144,7 +144,7 @@ function PersonaPage() {
           </div>
           <div className="am-disclose">
             <ShieldCheck size={14} />
-            <p><b>Gated Content Is Protected.</b> Paid Courses, Programs And Apps A Member Doesn't Own Are Passed As Titles Only — Never Their Contents.</p>
+            <p><b>Gated Content Is Protected.</b> Paid Courses, Coaching Programs And Apps A Member Doesn't Own Are Passed As Titles Only — Never Their Contents.</p>
           </div>
         </AmCard>
 
@@ -188,7 +188,7 @@ function PersonaPage() {
 
         <AmCard title="Recommendations" desc="What It May Point Members Toward." icon={<Wand2 size={16} />}>
           <div className="am-toggle-row">
-            <div><b>Recommend Products</b><span>Allow It To Suggest Courses, Programs And Apps The Member Doesn't Own Yet.</span></div>
+            <div><b>Recommend Products</b><span>Allow It To Suggest Courses, Coaching Programs And Apps The Member Doesn't Own Yet.</span></div>
             <AmToggle label="Recommend Products" on={persona.recommendProducts} onChange={v => update({ recommendProducts: v })} />
           </div>
           <div className="am-chip-grid">

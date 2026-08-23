@@ -103,7 +103,7 @@ const BASE_MEMBER_NAV: NavItem[] = [
   {
     id: "coaching", label: "Coaching", to: "/app/club/coaching", icon: "coaching", section: "member",
     subs: [
-      { id: "coaching-programs", label: "All Programs", to: "/app/club/coaching", icon: "users" },
+      { id: "coaching-programs", label: "All Coaching Programs", to: "/app/club/coaching", icon: "users" },
       { id: "coaching-sessions", label: "1:1 Sessions", to: "/app/club/coaching", icon: "user" },
       { id: "coaching-bookings", label: "Bookings", to: "/app/calendar", icon: "calendar-days" },
     ],

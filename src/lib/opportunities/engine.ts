@@ -206,7 +206,7 @@ function noticedText(kind: OpportunityKind, c: Cluster, members: number, related
 
 function whyText(kind: OpportunityKind): string {
   switch (kind) {
-    case "app": return "Interactive Tools Turn Passive Readers Into Members Who Take Action — And They're The Easiest Thing To Recommend Inside Existing Lessons.";
+    case "app": return "Interactive Apps Turn Passive Readers Into Members Who Take Action — And They're The Easiest Thing To Recommend Inside Existing Lessons.";
     case "course": return "This Is Demand From Members Who Already Trust You And Have Finished Something — The Highest-Intent Audience You Have.";
     case "resource": return "Repeated Search With No Result Is A Silent Support Cost And An Easy Win.";
     case "coaching": return "Requests For Personal Review Are Direct Buying Signals For Higher-Ticket Offers.";

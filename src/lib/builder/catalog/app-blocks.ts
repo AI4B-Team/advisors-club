@@ -116,7 +116,7 @@ export const APP_BLOCK_DEFS: BlockDef[] = [
     defaults: { title: "Courses", layout: "grid", limit: 3 },
   },
   {
-    type: "programs", label: "Programs", category: "learning", desc: "Coaching Programs And Cohorts.",
+    type: "programs", label: "Coaching", category: "learning", desc: "Coaching Programs And Cohorts.",
     pages: ALL, duplicable: false,
     fields: [headingField, limitField(4)],
     defaults: { title: "Coaching Programs", limit: 2 },

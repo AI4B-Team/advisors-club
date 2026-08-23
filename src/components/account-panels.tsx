@@ -481,7 +481,7 @@ export function WorkflowsPanel() {
   );
 }
 
-/* ============ AI Agents ============ */
+/* ============ AIVA Skills ============ */
 
 const AGENTS = [
   { name: "AIVA Greeter",   role: "Welcomes new members and books intro",   on: true,  runs: "1,204", model: "gpt-5" },
@@ -494,8 +494,8 @@ const AGENTS = [
 export function AIAgentsPanel() {
   return (
     <div className="ap">
-      <PanelHead title="AI Agents" sub="Hire AI teammates trained on your community."
-        action={<button className="ap-btn-primary"><Plus size={14}/> New Agent</button>}/>
+      <PanelHead title="AIVA Skills" sub="Specialized jobs AIVA runs for your club, trained on your content."
+        action={<button className="ap-btn-primary"><Plus size={14}/> New Skill</button>}/>
       <div className="ap-grid-2">
         {AGENTS.map(a => (
           <div className="ap-card ap-agent" key={a.name}>
@@ -584,8 +584,8 @@ export function AIInboxPanel() {
 export function PaywallsPanel() {
   return (
     <div className="ap">
-      <PanelHead title="Paywalls" sub="Gate content, courses and channels by plan."
-        action={<button className="ap-btn-primary"><Plus size={14}/> New Paywall</button>}/>
+      <PanelHead title="Access Rules" sub="Gate content, courses and channels by membership plan."
+        action={<button className="ap-btn-primary"><Plus size={14}/> New Access Rule</button>}/>
       <div className="ap-grid-3">
         {[
           { t: "Pro Channels", g: "12 channels · 8 courses", revenue: "$24,820/mo", on: true },
@@ -681,7 +681,7 @@ const PLANS = [
 export function PlansPanel() {
   return (
     <div className="ap">
-      <PanelHead title="Plans" sub="Define what members pay for and what they unlock."
+      <PanelHead title="Membership Plans" sub="Define what members pay for and what they unlock."
         action={<button className="ap-btn-primary"><Plus size={14}/> New Plan</button>}/>
       <div className="ap-grid-3">
         {PLANS.map(p => (
@@ -695,7 +695,7 @@ export function PlansPanel() {
             </ul>
             <div className="ap-foot">
               <button className="ap-btn-light">Edit</button>
-              <button className="ap-btn-text">Manage features</button>
+              <button className="ap-btn-text">Manage Features</button>
             </div>
           </div>
         ))}
@@ -847,7 +847,7 @@ export function PaymentHistoryPanel() {
           { d:"May 14, 2026", t:"AdvisorsClub Pro · Monthly", a:"$99.00", s:"Paid" },
           { d:"Apr 14, 2026", t:"AdvisorsClub Pro · Monthly", a:"$99.00", s:"Paid" },
           { d:"Mar 14, 2026", t:"AdvisorsClub Pro · Monthly", a:"$99.00", s:"Paid" },
-          { d:"Mar 02, 2026", t:"AI Agent add-on",            a:"$29.00", s:"Paid" },
+          { d:"Mar 02, 2026", t:"AIVA Skills add-on",            a:"$29.00", s:"Paid" },
           { d:"Feb 14, 2026", t:"AdvisorsClub Pro · Monthly", a:"$99.00", s:"Refunded" },
         ].map((r,i)=>(
           <div className="ap-tr ap-tr-ph" key={i}>
@@ -924,7 +924,7 @@ export function AnalyticsPanel() {
 export function SitePanel() {
   return (
     <div className="ap">
-      <PanelHead title="Site" sub="Domain, theme and public landing."
+      <PanelHead title="Brand & Site" sub="Domain, theme and public landing."
         action={<button className="ap-btn-primary">Visit site <ExternalLink size={12}/></button>}/>
       <div className="ap-card">
         <h3><Globe size={14}/> Domain</h3>

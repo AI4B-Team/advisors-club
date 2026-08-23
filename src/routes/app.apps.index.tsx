@@ -27,9 +27,9 @@ export const Route = createFileRoute("/app/apps/")({
   head: () => ({
     meta: [
       { title: "Apps | Advisors Club" },
-      { name: "description", content: "Turn Your Methodology Into Interactive Tools Your Members Can Use — Calculators, Assessments, Planners And Trackers." },
+      { name: "description", content: "Turn Your Methodology Into Interactive Apps Your Members Can Use — Calculators, Assessments, Planners And Trackers." },
       { property: "og:title", content: "Apps | Advisors Club" },
-      { property: "og:description", content: "Turn Your Methodology Into Interactive Tools Your Members Can Use." },
+      { property: "og:description", content: "Turn Your Methodology Into Interactive Apps Your Members Can Use." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -69,10 +69,10 @@ function MemberApps({ apps, label }: { apps: App[]; label: string }) {
 
   return (
     <div className="pg">
-      <PageHeader title={label} description="Tools Made For You By Your Club Host." />
+      <PageHeader title={label} description="Apps Made For You By Your Club Host." />
 
       {mine.length === 0 ? (
-        <EmptyState title="Nothing Here Yet" body="Your Club Host Hasn't Published Any Tools Yet." />
+        <EmptyState title="Nothing Here Yet" body="Your Club Host Hasn't Published Any Apps Yet." />
       ) : (
         <div className="apx-grid">
           {mine.map(a => (
@@ -125,7 +125,7 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
     <div className="pg">
       <PageHeader
         title={label}
-        description={`Turn Your Methodology Into Tools Your Members Can Use. Members See This Section As "${label}".`}
+        description={`Turn Your Methodology Into Apps Your Members Can Use. Members See This Section As "${label}".`}
         actions={<button className="apx-primary-btn" onClick={() => setManual(true)}><Plus size={15} /> New App</button>}
       />
 
@@ -310,7 +310,7 @@ function NewAppModal({ onClose, onAi, onTemplate }: {
                 <LayoutGrid size={16} />
                 <span>
                   <strong>Start From Template</strong>
-                  <em>Proven Tools For Your Niche — Edit Anything Before You Publish.</em>
+                  <em>Proven Apps For Your Niche — Edit Anything Before You Publish.</em>
                 </span>
               </button>
 
