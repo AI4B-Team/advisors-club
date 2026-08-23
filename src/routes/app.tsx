@@ -163,7 +163,7 @@ function SidebarTopLink({ link }: { link: TopLink }) {
   const isSystem = Boolean(link.system);
   const hasSubs = link.subs.length > 0;
   return (
-    <div className={`cc-sb-item${isAiva ? " cc-sb-item-aiva" : ""}${expanded ? " expanded" : ""}`}>
+    <div className={`cc-sb-item${isSystem ? " cc-sb-item-sys" : ""}${expanded ? " expanded" : ""}`}>
       <div className={`cc-sb-item-row ${baseCls}-wrap`}>
         <Link
           to={link.to}
@@ -182,40 +182,37 @@ function SidebarTopLink({ link }: { link: TopLink }) {
         >
           {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
           <span className="cc-sb-item-l">{link.label}</span>
-          {isAiva && <span className="cc-sb-badge-new">NEW</span>}
         </Link>
-        <button
-          className="cc-sb-add"
-          aria-label={`Add to ${link.label}`}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-        >
-          <Plus size={13}/>
-        </button>
-        <button
-          className="cc-sb-caret"
-          aria-label="Toggle sub-links"
-          onClick={() => setExpanded(e => !e)}
-        >
-          <ChevronDown size={14} style={{ transform: expanded ? "rotate(180deg)" : undefined, transition: "transform .15s" }}/>
-        </button>
-        <div className="cc-sb-more-wrap" ref={menuRef}>
+        {hasSubs && (
           <button
-            className="cc-sb-more"
-            aria-label="More options"
-            onClick={() => setMenuOpen(o => !o)}
+            className="cc-sb-caret"
+            aria-label="Toggle sub-links"
+            onClick={() => setExpanded(e => !e)}
           >
-            <MoreHorizontal size={14}/>
+            <ChevronDown size={14} style={{ transform: expanded ? "rotate(180deg)" : undefined, transition: "transform .15s" }}/>
           </button>
-          {menuOpen && (
-            <div className="cc-sb-more-menu">
-              {link.menu.map(m => (
-                <button key={m} className="cc-sb-more-item" onClick={() => setMenuOpen(false)}>{m}</button>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
+        {!isSystem && link.menu.length > 0 && (
+          <div className="cc-sb-more-wrap" ref={menuRef}>
+            <button
+              className="cc-sb-more"
+              aria-label="More options"
+              onClick={() => setMenuOpen(o => !o)}
+            >
+              <MoreHorizontal size={14}/>
+            </button>
+            {menuOpen && (
+              <div className="cc-sb-more-menu">
+                {link.menu.map(m => (
+                  <button key={m} className="cc-sb-more-item" onClick={() => setMenuOpen(false)}>{m}</button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {expanded && (
+
         <div className="cc-sb-subs">
           {link.subs.map(s => (
             <div key={s.label} className="cc-sb-sub-row">
