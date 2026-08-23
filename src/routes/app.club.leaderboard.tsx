@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { usePagedList } from "@/hooks/use-paged-list";
 import { useMemo, useState } from "react";
 import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, Filter, Award, Star, Zap, Target, Users, ChevronDown, Sparkles, Lock, Settings, X } from "lucide-react";
 import { LEVEL_TARGETS, type LbMember } from "@/lib/leaderboard-data";
@@ -71,6 +72,8 @@ function LeaderboardBoard({ board }: { board: ReturnType<typeof useLeaderboard> 
   const myRank = ranked.findIndex(m => m.id === ME_ID) + 1;
   const top3 = ranked.slice(0,3);
   const rest = ranked.slice(3);
+  // Long rankings render in pages as you scroll.
+  const { visible: visibleRest, hasMore: hasMoreRest, sentinelRef: lbSentinel, loadMore: loadMoreRest } = usePagedList(rest, 25);
 
   const totalPoints = all.reduce((s,m)=>s+m.points,0);
   const avgStreak = Math.round(all.reduce((s,m)=>s+m.streak,0)/all.length);
@@ -245,7 +248,7 @@ function LeaderboardBoard({ board }: { board: ReturnType<typeof useLeaderboard> 
             <div className="lb-c-stat">{categoryMeta[category].label}</div>
             <div className="lb-c-trend">Trend</div>
           </div>
-          {rest.map((m, idx) => {
+          {visibleRest.map((m, idx) => {
             const rank = idx + 4;
             const isMe = m.id === ME_ID;
             return (
@@ -272,6 +275,13 @@ function LeaderboardBoard({ board }: { board: ReturnType<typeof useLeaderboard> 
               </div>
             );
           })}
+          {hasMoreRest && (
+            <div ref={lbSentinel} className="lb-more">
+              <button type="button" className="cc-page-btn" onClick={loadMoreRest}>
+                Load More Members ({visibleRest.length} Of {rest.length})
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

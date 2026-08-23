@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { usePagedList } from "@/hooks/use-paged-list";
 import { useMemo, useRef, useState } from "react";
 import { Search, SlidersHorizontal, ChevronLeft, ChevronRight, Sparkles, Users, Zap, Radio, ArrowRight, Plus } from "lucide-react";
 import { DEMO_CLUBS as CLUBS, CATEGORIES, type Club } from "@/lib/clubs-data";
@@ -252,7 +253,12 @@ function Row({ title, clubs }: { title: string; clubs: Club[] }) {
       </div>
       {compact ? (
         <div className="dc-grid-compact">
-          {clubs.map(c => <ClubCard key={c.id} c={c} />)}
+          {visibleClubs.map(c => <ClubCard key={c.id} c={c} />)}
+          {hasMoreClubs && (
+            <div ref={clubsSentinel} className="dc-load-more">
+              <button type="button" className="dc-load-more-btn" onClick={loadMoreClubs}>Load More Clubs</button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="dc-row-scroll" ref={scrollRef}>
