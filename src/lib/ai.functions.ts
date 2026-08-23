@@ -312,3 +312,44 @@ Return ONLY a JSON array of 4 strings.`;
       return { names: [], error: "AIVA is unavailable right now." };
     }
   });
+
+const CommandInputSchema = z.object({
+  prompt: z.string().min(1).max(2000),
+  area: z.string().max(60).default("Dashboard"),
+  path: z.string().max(200).default("/app"),
+});
+
+export const aivaCommand = createServerFn({ method: "POST" })
+  .inputValidator((input) => CommandInputSchema.parse(input))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { reply: "", error: "AI is not configured for this workspace." };
+    const system = `You are AIVA, the single AI intelligence layer inside AdvisorsClub — a platform where advisors run a paid community ("Club") with courses, coaching, events, and members.
+The admin is currently in the "${data.area}" area (route ${data.path}). Tailor your answer to that area.
+Rules:
+- Be concise and concrete. Short markdown: bold labels, tight bullet lists, no preamble.
+- Produce ready-to-use drafts (posts, lessons, emails, plans) rather than generic advice.
+- You prepare drafts and recommendations; the admin approves and publishes. Never claim you already published, sent, or changed anything.
+- If data is required that you don't have, say what you'd need in one short line, then give the best draft anyway.`;
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "system", content: system }, { role: "user", content: data.prompt }],
+        }),
+      });
+      if (resp.status === 429) return { reply: "", error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { reply: "", error: "Out of AI credits. Add credits in Settings → Workspace → Usage." };
+      if (!resp.ok) {
+        console.error("AIVA command gateway error", resp.status, await resp.text());
+        return { reply: "", error: "AIVA is unavailable right now." };
+      }
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      return { reply: json.choices?.[0]?.message?.content ?? "", error: null };
+    } catch (e) {
+      console.error("AIVA command error", e);
+      return { reply: "", error: "AIVA is unavailable right now." };
+    }
+  });
