@@ -131,7 +131,7 @@ type SubLink = { label: string; to: string; icon: ReactNode; hash?: string };
 type TopLink = {
   id: string;
   label: string; to: string; icon: React.ReactNode;
-  exact?: boolean; pill?: boolean; system?: boolean;
+  exact?: boolean; pill?: boolean; system?: boolean; external?: boolean;
   subs: SubLink[]; menu: string[];
 };
 
@@ -144,10 +144,12 @@ function toTopLink(item: NavItem): TopLink {
     exact: item.exact,
     pill: item.pill,
     system: item.section === "system",
+    external: item.type === "link",
     subs: item.subs.map(s => ({ label: s.label, to: s.to, hash: s.hash, icon: <NavIcon name={s.icon} size={14} /> })),
     menu: item.menu,
   };
 }
+
 
 
 function SidebarTopLink({ link }: { link: TopLink }) {
