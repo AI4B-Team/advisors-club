@@ -1,81 +1,91 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Trophy, Sparkles, Users, User, Plus, Edit3 } from "lucide-react";
-import { getGS, type GSCoachingProgram } from "@/lib/gs-store";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { Users, GitBranch, FileText, Trophy, Video, Target, ListChecks } from "lucide-react";
+import { useCoaching } from "@/hooks/use-coaching";
+import { useViewMode } from "@/hooks/use-view-mode";
+import type { Client } from "@/lib/coaching/types";
+import { CoachingClients } from "@/components/coaching/CoachingClients";
+import { CoachingPipeline } from "@/components/coaching/CoachingPipeline";
+import { CoachingIntakes } from "@/components/coaching/CoachingIntakes";
+import { CoachingPrograms } from "@/components/coaching/CoachingPrograms";
+import { CoachingSessions } from "@/components/coaching/CoachingSessions";
+import { CoachingGoals } from "@/components/coaching/CoachingGoals";
+import { CoachingAccountability } from "@/components/coaching/CoachingAccountability";
+import { ClientProfileDrawer } from "@/components/coaching/ClientProfileDrawer";
+import { MemberCoaching } from "@/components/coaching/MemberCoaching";
 
 export const Route = createFileRoute("/app/club/coaching")({
   head: () => ({
     meta: [
       { title: "Coaching — AdvisorsClub" },
-      { name: "description", content: "1:1 and group coaching programs for your club members." },
+      { name: "description", content: "Run your coaching business: clients, pipeline, intakes, programs, sessions, goals, and accountability." },
+      { property: "og:title", content: "Coaching — AdvisorsClub" },
+      { property: "og:description", content: "Run your coaching business: clients, pipeline, intakes, programs, sessions, goals, and accountability." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: CoachingPage,
 });
 
-function CoachingPage() {
-  const [programs, setPrograms] = useState<GSCoachingProgram[]>([]);
-  useEffect(() => {
-    setPrograms(getGS().coaching);
-    const h = () => setPrograms(getGS().coaching);
-    window.addEventListener("storage", h);
-    return () => window.removeEventListener("storage", h);
-  }, []);
+type TabId = "clients" | "pipeline" | "intakes" | "programs" | "sessions" | "goals" | "accountability";
 
-  if (programs.length === 0) {
-    return (
-      <>
-        <div className="cc-page-head">
-          <div>
-            <h1>Coaching</h1>
-            <p>1:1 and group coaching programs for your members.</p>
-          </div>
-          <Link to="/app/getting-started" className="cc-page-btn"><Sparkles size={14}/> Build With AIVA</Link>
-        </div>
-        <div className="cc-empty">
-          <span className="cc-empty-i"><Trophy size={26}/></span>
-          <h3>No coaching programs yet</h3>
-          <p>Let AIVA build your first program in seconds — 1:1, group, or both.</p>
-          <Link to="/app/getting-started" className="cc-page-btn"><Sparkles size={14}/> Build With AIVA</Link>
-        </div>
-      </>
-    );
+const TABS: { id: TabId; label: string; icon: typeof Users }[] = [
+  { id: "clients", label: "Clients", icon: Users },
+  { id: "pipeline", label: "Pipeline", icon: GitBranch },
+  { id: "intakes", label: "Intakes", icon: FileText },
+  { id: "programs", label: "Programs", icon: Trophy },
+  { id: "sessions", label: "Sessions", icon: Video },
+  { id: "goals", label: "Goals", icon: Target },
+  { id: "accountability", label: "Accountability", icon: ListChecks },
+];
+
+function CoachingPage() {
+  const api = useCoaching();
+  const { isAdmin } = useViewMode();
+  const [tab, setTab] = useState<TabId>("clients");
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  const openClient: Client | null = openId ? api.doc.clients.find(c => c.id === openId) ?? null : null;
+  const onOpen = (c: Client) => setOpenId(c.id);
+
+  if (!isAdmin) {
+    return <div className="coach-shell">{api.hydrated ? <MemberCoaching api={api} /> : null}</div>;
   }
 
   return (
-    <>
+    <div className="coach-shell">
       <div className="cc-page-head">
         <div>
           <h1>Coaching</h1>
-          <p>{programs.length} active program{programs.length === 1 ? "" : "s"}.</p>
+          <p>Your Coaching Business — Clients, Pipeline, Sessions, Goals, And Accountability In One Place.</p>
         </div>
-        <Link to="/app/getting-started" className="cc-page-btn"><Plus size={14}/> Add Program</Link>
       </div>
 
-      <div className="cc-programs">
-        {programs.map(p => (
-          <article key={p.id} className="cc-program-card">
-            <div className="cc-prog-top">
-              <span className="cc-prog-type-badge">
-                {p.type === "1on1" ? <User size={11}/> : <Users size={11}/>}
-                {p.type === "1on1" ? "1:1" : p.type === "group" ? "Group" : "Both"}
-              </span>
-              <span className="cc-prog-price">${p.price}<span>/mo</span></span>
-            </div>
-            <h3 className="cc-prog-name">{p.name}</h3>
-            <p className="cc-prog-desc">{p.desc}</p>
-            <div className="cc-prog-meta">{p.sessionsPerMonth} sessions / month</div>
-            <div className="cc-prog-actions">
-              <button className="cc-prog-apply">Apply</button>
-              <button className="cc-prog-edit" aria-label="Edit"><Edit3 size={13}/></button>
-            </div>
-          </article>
-        ))}
-        <Link to="/app/getting-started" className="cc-add-card">
-          <Plus size={18}/>
-          <span>Add Program</span>
-        </Link>
-      </div>
-    </>
+      <nav className="coach-tabs" aria-label="Coaching sections">
+        {TABS.map(t => {
+          const Icon = t.icon;
+          return (
+            <button key={t.id} className={tab === t.id ? "is-on" : ""} onClick={() => setTab(t.id)}>
+              <Icon size={14} /> {t.label}
+            </button>
+          );
+        })}
+      </nav>
+
+      {api.hydrated && (
+        <div className="coach-tabpane">
+          {tab === "clients" && <CoachingClients api={api} onOpen={onOpen} />}
+          {tab === "pipeline" && <CoachingPipeline api={api} onOpen={onOpen} />}
+          {tab === "intakes" && <CoachingIntakes api={api} />}
+          {tab === "programs" && <CoachingPrograms api={api} />}
+          {tab === "sessions" && <CoachingSessions api={api} />}
+          {tab === "goals" && <CoachingGoals api={api} onOpen={onOpen} />}
+          {tab === "accountability" && <CoachingAccountability api={api} onOpen={onOpen} />}
+        </div>
+      )}
+
+      {openClient && <ClientProfileDrawer api={api} client={openClient} onClose={() => setOpenId(null)} />}
+    </div>
   );
 }
