@@ -4,7 +4,7 @@
 .st-title{font-size:28px;font-weight:800;letter-spacing:-.02em;margin:0}
 .st-sub{margin:6px 0 0;color:var(--muted, var(--ac-color-text-muted));font-size:14px}
 .st-nav{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:28px}
-.st-nav-item{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600;color:var(--ac-color-text-body);text-decoration:none}
+.st-nav-item{padding:8px 14px;border-radius:var(--ac-radius-pill);font-size:14px;font-weight:600;color:var(--ac-color-text-body);text-decoration:none}
 .st-nav-item:hover{background:var(--ac-surface-muted)}
 .st-nav-item.on{background:var(--ac-surface-inverse);color:var(--ac-color-text-inverse)}
 .st-body{display:flex;flex-direction:column;gap:36px}
@@ -14,14 +14,14 @@
 .st-scope{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ac-color-text-muted)}
 .st-scope-club{color:#B45309}
 .st-scope-account{color:#4F46E5}
-.st-rows{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--ac-surface-raised)}
+.st-rows{border:1px solid var(--line);border-radius:var(--ac-radius-lg);overflow:hidden;background:var(--ac-surface-raised)}
 .st-rows>*+*{border-top:1px solid var(--line)}
 .st-row{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;background:transparent;border:0;text-align:left;cursor:pointer;text-decoration:none;color:inherit}
 .st-row:hover{background:#FAFAFA}
 .st-row-t{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
 .st-row-l{font-size:15px;font-weight:700;color:var(--ac-color-text)}
 .st-row-d{font-size:13px;color:var(--muted,var(--ac-color-text-muted))}
-.st-row-note{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ac-color-text-muted);background:var(--ac-surface-muted);border-radius:999px;padding:4px 9px}
+.st-row-note{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ac-color-text-muted);background:var(--ac-surface-muted);border-radius:var(--ac-radius-pill);padding:4px 9px}
 .st-row-go{color:var(--ac-color-text-subtle);flex-shrink:0;transition:transform .15s ease}
 .st-row-go.open{transform:rotate(180deg)}
 .st-row-panel{padding:4px 18px 22px;background:#FAFAFA;border-top:1px solid var(--line)}
