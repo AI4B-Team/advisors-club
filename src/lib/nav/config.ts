@@ -174,6 +174,12 @@ export const ONBOARDING_NAV: NavItem = {
   section: "system", subs: [], menu: [],
 };
 
+/** After launch, the same experience returns as the reusable AIVA Build Plan. */
+export const BUILD_WITH_AI_NAV: NavItem = {
+  id: "build-with-ai", label: "Build With AI", to: "/app/getting-started", icon: "sparkles",
+  section: "system", subs: [], menu: [],
+};
+
 /**
  * Apply admin overrides (rename / hide / reorder) to a nav list.
  * Overrides are empty today; the admin editor lands in the next task.
