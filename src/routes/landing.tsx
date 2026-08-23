@@ -113,22 +113,24 @@ function Index() {
               <span className="hero-aiva-icon"><Sparkles size={16} strokeWidth={2.4} /></span>
               <h2>What Do You Want To Build?</h2>
             </div>
-            <textarea
-              className="hero-aiva-input"
-              value={heroPrompt}
-              onChange={e => setHeroPrompt(e.target.value)}
-              placeholder="Tell AIVA about your business, audience, expertise, or idea..."
-              rows={4}
-            />
+            <div className="hero-aiva-input-wrap">
+              <textarea
+                className="hero-aiva-input"
+                value={heroPrompt}
+                onChange={e => setHeroPrompt(e.target.value)}
+                placeholder="Tell AIVA about your business, audience, expertise, or idea..."
+                rows={4}
+              />
+              <button type="submit" className="hero-aiva-cta">
+                Start Building <ArrowRight size={14} strokeWidth={3} />
+              </button>
+            </div>
             <div className="hero-aiva-foot">
               <div className="hero-chips">
                 {QUICK_STARTS.map(q => (
                   <button type="button" key={q} className="hero-chip" onClick={() => setHeroPrompt(q)}>{q}</button>
                 ))}
               </div>
-              <button type="submit" className="hero-aiva-cta">
-                Start Building <ArrowRight size={14} strokeWidth={3} />
-              </button>
             </div>
           </form>
 
