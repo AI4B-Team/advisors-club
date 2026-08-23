@@ -100,7 +100,7 @@ function Index() {
         <div className="hero-content">
           <h1><span style={{whiteSpace:"nowrap"}}>Build Your Community.</span><br /><span className="gold" style={{whiteSpace:"nowrap"}}>Automate Your Business.</span></h1>
           <p className="hero-sub">
-            Launch memberships, sell courses, run coaching programs, and grow your business with your built-in AI business operator.
+            Launch memberships, sell courses, run coaching programs, and grow your business with your built-in <span className="gold">AI Business Operator</span>.
           </p>
 
           <form className="hero-aiva" onSubmit={startBuilding}>
