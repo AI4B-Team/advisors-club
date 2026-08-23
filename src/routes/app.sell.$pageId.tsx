@@ -1,12 +1,9 @@
-import { createFileRoute, Link, useParams } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import {
-  Undo2, Redo2, Monitor, Tablet, Smartphone, Eye, Save, Rocket, Check, ChevronLeft, ExternalLink,
-} from "lucide-react";
-import { useSellPage } from "@/hooks/use-sell";
-import { SellLeftPanel, type SellTab } from "@/components/sell/SellLeftPanel";
-import { SellPreview } from "@/components/sell/SellPreview";
-import { AivaBuildBar } from "@/components/sell/AivaBuildBar";
+import { createFileRoute, Link, useParams, useNavigate } from "@tanstack/react-router";
+import { ChevronLeft, Palette } from "lucide-react";
+import { BlockBuilderShell, type BuilderPanel } from "@/components/builder/BlockBuilderShell";
+import { ThemePanel } from "@/components/builder/ThemePanel";
+import { useSellBuilder } from "@/hooks/use-builder";
+import { pageTypeConfig } from "@/lib/builder/page-types";
 
 export const Route = createFileRoute("/app/sell/$pageId")({
   head: () => ({
@@ -22,93 +19,42 @@ export const Route = createFileRoute("/app/sell/$pageId")({
   component: SellBuilder,
 });
 
-type DeviceId = "desktop" | "tablet" | "mobile";
-const DEVICE_WIDTH: Record<DeviceId, number> = { desktop: 1180, tablet: 834, mobile: 390 };
-
 function SellBuilder() {
   const { pageId } = useParams({ from: "/app/sell/$pageId" });
-  const s = useSellPage(pageId);
-  const [tab, setTab] = useState<SellTab>("sections");
-  const [device, setDevice] = useState<DeviceId>("desktop");
-  const [previewing, setPreviewing] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const session = useSellBuilder(pageId);
 
-  useEffect(() => { setSelectedId(null); }, [pageId]);
-
-  if (!s.hydrated) return <div className="cz-root"><div className="sl-empty">Loading…</div></div>;
-  if (!s.page) {
+  if (!session.hydrated) return <div className="cz-root"><div className="sl-empty">Loading…</div></div>;
+  if (session.missing) {
     return (
       <div className="cz-root">
         <div className="sl-empty">This Page No Longer Exists. <Link to="/app/sell">Back To Sell</Link></div>
       </div>
     );
   }
-  const page = s.page;
+
+  const cfg = pageTypeConfig(session.page.pageType);
+  const panels: BuilderPanel[] = [
+    { id: "design", label: "Design", icon: Palette, render: () => <ThemePanel session={session} /> },
+  ];
 
   return (
-    <div className={`cz-root${previewing ? " is-preview" : ""}`}>
-      <header className="cz-top">
-        <div className="cz-top-l">
-          <Link className="cz-top-back" to="/app/sell"><ChevronLeft size={14} /> Sell</Link>
-          <div className="cz-top-title">
-            <strong>{page.title}</strong>
-            <span>{page.surface === "club" ? "Public Club Page" : "Landing Page"} · /p/{page.slug}</span>
-          </div>
-        </div>
-        <div className="cz-top-c">
-          <div className="cz-devices">
-            <button className={device === "desktop" ? "on" : ""} onClick={() => setDevice("desktop")} aria-label="Desktop"><Monitor size={14} /></button>
-            <button className={device === "tablet" ? "on" : ""} onClick={() => setDevice("tablet")} aria-label="Tablet"><Tablet size={14} /></button>
-            <button className={device === "mobile" ? "on" : ""} onClick={() => setDevice("mobile")} aria-label="Mobile"><Smartphone size={14} /></button>
-          </div>
-          <button className="cz-icon-btn" onClick={s.undo} disabled={!s.canUndo} aria-label="Undo"><Undo2 size={14} /></button>
-          <button className="cz-icon-btn" onClick={s.redo} disabled={!s.canRedo} aria-label="Redo"><Redo2 size={14} /></button>
-        </div>
-        <div className="cz-top-r">
-          <button className={`cz-ghost-btn${previewing ? " on" : ""}`} onClick={() => setPreviewing(v => !v)}><Eye size={14} /> Preview</button>
-          <Link className="cz-ghost-btn" to="/p/$slug" params={{ slug: page.slug }} target="_blank"><ExternalLink size={14} /> Open</Link>
-          <button className="cz-ghost-btn" onClick={s.save} disabled={!s.dirty}>{s.dirty ? <><Save size={14} /> Save</> : <><Check size={14} /> Saved</>}</button>
-          <button className="cz-publish" onClick={s.publish}><Rocket size={14} /> {page.publishedAt ? "Republish" : "Publish"}</button>
-        </div>
-      </header>
-
-      <div className="cz-shell">
-        {!previewing ? (
-          <SellLeftPanel
-            tab={tab} setTab={setTab}
-            page={page}
-            selectedId={selectedId} onSelect={setSelectedId}
-            onAdd={(t) => { const id = s.addBlock(t); setSelectedId(id); }}
-            onRemove={s.removeBlock}
-            onDuplicate={s.duplicateBlock}
-            onToggleHidden={s.toggleHidden}
-            onMove={s.moveBlock}
-            onProps={s.updateProps}
-            onTheme={s.setTheme}
-            onMeta={s.setMeta}
-          />
-        ) : null}
-
-        <main className="cz-main">
-          {!previewing ? (
-            <AivaBuildBar
-              surface={page.surface}
-              label={page.surface === "club" ? "Draft With AIVA" : "Build With AIVA"}
-              onApply={(blocks) => { s.applyDraft(blocks); setSelectedId(null); }}
-            />
-          ) : null}
-          <div className="cz-stage">
-            <div className="cz-frame" style={{ width: DEVICE_WIDTH[device], maxWidth: "100%" }} data-device={device}>
-              <SellPreview
-                page={page}
-                selectedId={selectedId}
-                onSelect={setSelectedId}
-                interactive={!previewing}
-              />
+    <div className="cz-root">
+      <BlockBuilderShell
+        session={session}
+        clubName={session.page.title}
+        panels={panels}
+        onPreview={() => navigate({ to: "/p/$slug", params: { slug: session.page.slug } })}
+        topbarLeft={
+          <div className="cz-top-l">
+            <Link className="cz-top-back" to="/app/sell"><ChevronLeft size={14} /> Sell</Link>
+            <div className="cz-top-title">
+              <strong>{session.page.title}</strong>
+              <span>{cfg.label} · /p/{session.page.slug}</span>
             </div>
           </div>
-        </main>
-      </div>
+        }
+      />
     </div>
   );
 }
