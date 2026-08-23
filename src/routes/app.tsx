@@ -331,9 +331,15 @@ function CommunitySidebar() {
         </div>
       )}
 
-      {memberNav.map(link => (
-        <SidebarTopLink key={link.id} link={link} />
+      {memberGroups.map((g, gi) => (
+        <div key={gi} className="cc-sb-group">
+          {g.group && <div className="cc-sb-group-label">{g.group}</div>}
+          {g.items.map(item => (
+            <SidebarTopLink key={item.id} link={toTopLink(item)} />
+          ))}
+        </div>
       ))}
+
 
       <div className="cc-sb-sys">
         <div className="cc-sb-sys-label">Admin</div>
