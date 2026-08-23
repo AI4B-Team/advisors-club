@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ArrowUp, Check } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 import { useAivaAttention } from "@/hooks/use-aiva-attention";
 import { getAivaContext } from "@/lib/aiva-context";
 import type { AmPrimaryKey, AmSettingsKey } from "./tabs";
@@ -134,7 +135,8 @@ export function AivaChat({ onOpen }: { onOpen: (tab: AmPrimaryKey, sub?: AmSetti
   const [doneLabels, setDoneLabels] = useState<Record<string, string>>({});
   const streamRef = useRef<HTMLDivElement>(null);
   const [clubName, setClubName] = useState("your Club");
-  const [firstName, setFirstName] = useState("");
+  const { displayName } = useAuth();
+  const firstName = (displayName ?? "").split(" ")[0];
 
   useEffect(() => {
     const ctx = getAivaContext();
