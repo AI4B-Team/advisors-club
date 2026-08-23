@@ -169,6 +169,12 @@ function SidebarTopLink({ link }: { link: TopLink }) {
   return (
     <div className={`cc-sb-item${isSystem ? " cc-sb-item-sys" : ""}${expanded ? " expanded" : ""}`}>
       <div className={`cc-sb-item-row ${baseCls}-wrap`}>
+        {link.external ? (
+          <a href={link.to} target="_blank" rel="noreferrer" className={baseCls} data-tip={link.label}>
+            {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
+            <span className="cc-sb-item-l">{link.label}</span>
+          </a>
+        ) : (
         <Link
           to={link.to}
           activeOptions={link.exact ? { exact: true } : undefined}
@@ -187,6 +193,8 @@ function SidebarTopLink({ link }: { link: TopLink }) {
           {link.pill ? <span className="cc-sb-pill-i">{link.icon}</span> : link.icon}
           <span className="cc-sb-item-l">{link.label}</span>
         </Link>
+        )}
+
         {hasSubs && (
           <button
             className="cc-sb-caret"
