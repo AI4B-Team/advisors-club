@@ -4995,3 +4995,25 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .mo-cfg-opt button:hover{color:#E03131}
 .mo-cfg-add{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border:1px dashed #D5D8DF;border-radius:999px;background:#fff;font-size:12.5px;color:#4B4F57;cursor:pointer}
 .mo-cfg-check{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#4B4F57}
+
+/* ============ QA PASS — MOBILE OVERFLOW FIXES ============ */
+@media (max-width:760px){
+  /* Discover: headline and filter pills were forcing horizontal page scroll */
+  .lt .dc-min h1{white-space:normal;letter-spacing:-1px}
+  .lt .dc-min-pills{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;-webkit-overflow-scrolling:touch}
+  .lt .dc-rows{padding:20px 16px 60px}
+
+  /* Auth: two-column split collapses, fixed-width copy wraps */
+  .lt-auth{grid-template-columns:1fr}
+  .lt-auth-right{display:none}
+  .lt-auth-rev .lt-auth-left{order:1}
+  .lt-auth-left{padding:40px 20px;max-width:100%}
+  .lt-nowrap{white-space:normal}
+  .lt-row-2{grid-template-columns:1fr}
+  .lt-auth h1{font-size:26px}
+
+  /* Onboarding: step dots and header wrap instead of overflowing */
+  .ob-top{padding:12px 16px;flex-wrap:wrap}
+  .ob-steps{flex-wrap:wrap;justify-content:center;order:3;width:100%}
+  .ob-step-dot{width:16px}
+}
