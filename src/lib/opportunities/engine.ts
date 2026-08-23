@@ -7,7 +7,7 @@
 // sample-derived opportunities are flagged `isDemo`.
 
 import type { BusinessGraph, GraphNode } from "@/lib/graph/types";
-import type { Signal, SignalKind } from "@/lib/signals/types";
+import { SIGNAL_LABEL, type Signal, type SignalKind } from "@/lib/signals/types";
 import type { Opportunity, OpportunityEvidence, OpportunityKind } from "./types";
 
 const WINDOW_DAYS = 90;
@@ -125,6 +125,11 @@ function suggest(kind: OpportunityKind, c: Cluster, related: GraphNode[]): { tit
         title: `Rework The ${topic} Path`,
         summary: `Members Are Dropping Off Here — Shorter Steps And A Clear First Win Would Recover Them.`,
       };
+    case "engagement":
+      return {
+        title: `Rework The ${topic} Section`,
+        summary: `Members Stall Here — Shorter Steps And A Clear First Win Would Recover Them.`,
+      };
     case "monetization":
       return {
         title: `${topic} Offer`,
@@ -153,6 +158,8 @@ function noticedText(kind: OpportunityKind, c: Cluster, members: number, related
       return `The Same ${topic} Questions Keep Recurring Across ${members} Members — A Recurring Pattern, Not One-Off Confusion.`;
     case "content":
       return `${members} Members Started ${topic} Content And Stopped Before Finishing.`;
+    case "engagement":
+      return `${members} Members Reached ${topic} And Stopped Progressing.`;
     case "monetization":
       return `Strong ${topic} Demand Is Landing On Content That Isn't Attached To Any Offer.`;
   }
@@ -167,7 +174,125 @@ function whyText(kind: OpportunityKind): string {
     case "event": return "Answering Once, Live, Beats Answering The Same Question Dozens Of Times.";
     case "content": return "Drop-Off Here Compounds — Members Who Stall Early Rarely Return On Their Own.";
     case "monetization": return "Attention Already Exists Here; Only The Offer Is Missing.";
+    case "engagement": return "A Single Stall Point Quietly Caps Completion — And Completion Drives Renewals.";
   }
+}
+
+/** The one-line headline shown on the card. */
+function insightText(kind: OpportunityKind, c: Cluster, members: number, related: GraphNode[]): string {
+  const topic = titleCase(c.topic);
+  const src = related.find(n => n.type === "course");
+  switch (kind) {
+    case "app": return `${members} Members Asked About ${topic}.`;
+    case "course": return src
+      ? `Members Who Finish “${src.title}” Keep Asking About ${topic}.`
+      : `${members} Members Asked About ${topic} And Nothing Covers It.`;
+    case "resource": return `${topic} Is Searched For Repeatedly With No Matching Resource.`;
+    case "coaching": return `${members} Members Have Repeatedly Asked For Personalized ${topic} Feedback.`;
+    case "event": return `Questions About ${topic} Have Spiked.`;
+    case "content": return `${members} Members Started ${topic} Content And Stopped.`;
+    case "monetization": return `${topic} Demand Is Landing On Content That Isn't Sold.`;
+    case "engagement": return `Members Reaching ${topic} Are Significantly Less Likely To Continue.`;
+  }
+}
+
+function actionText(kind: OpportunityKind, s: { title: string }): string {
+  switch (kind) {
+    case "app": return `Build ${s.title}.`;
+    case "course": return `Create The Course “${s.title}”.`;
+    case "resource": return `Publish ${s.title}.`;
+    case "coaching": return `Create ${s.title}.`;
+    case "event": return `Host ${s.title}.`;
+    case "content": return `${s.title}.`;
+    case "monetization": return `Package ${s.title}.`;
+    case "engagement": return `Review And Shorten This Section.`;
+  }
+}
+
+const BUILD_HREF: Record<OpportunityKind, string> = {
+  app: "/app/apps",
+  course: "/app/club/courses",
+  resource: "/app/club/resources",
+  coaching: "/app/club/coaching",
+  event: "/app/club/events",
+  content: "/app/club/courses",
+  monetization: "/app/manage/sell",
+  engagement: "/app/club/courses",
+};
+
+function signalLine(evidence: OpportunityEvidence[]): string {
+  return evidence
+    .slice(0, 3)
+    .map(e => `${e.count} ${SIGNAL_LABEL[e.kind]}`)
+    .join(" · ");
+}
+
+/**
+ * Graph-derived opportunities: patterns that live in the catalog itself rather
+ * than in a topic cluster (unused reach, unconnected new products).
+ */
+function catalogOpportunities(graph: BusinessGraph, recent: Signal[], isDemo: boolean): Opportunity[] {
+  const out: Opportunity[] = [];
+  const lessons = graph.nodes.filter(n => n.type === "lesson" || n.type === "course");
+
+  for (const node of graph.nodes.filter(n => n.type === "app")) {
+    const runs = recent.filter(s => s.kind === "app-run" && (s.nodeId === node.id || overlaps(node, s.topics)));
+    const members = new Set(runs.map(s => s.memberId)).size;
+
+    // REVENUE — heavy usage on something that is currently free.
+    if (members >= 20 && !node.price) {
+      out.push({
+        id: `opp_revenue_${node.id}`,
+        kind: "monetization",
+        topic: node.title,
+        insight: `${members} Members Use ${node.title} Each Month.`,
+        signal: `${runs.length} App Sessions · Included Free Today`,
+        action: `Consider A Pro Version Of ${node.title}.`,
+        noticed: `${node.title} Is One Of Your Most-Used Assets, And Every Session Is Currently Free.`,
+        why: "Habitual Usage Is The Strongest Upgrade Signal You Have — A Pro Tier Monetizes Members Already Getting Value.",
+        suggestedTitle: `${node.title} Pro`,
+        suggestedSummary: "A Paid Tier With Saved Scenarios, Exports, And Advanced Inputs For Your Heaviest Users.",
+        buildFrom: [{ id: node.id, title: node.title }],
+        evidence: [{ kind: "app-run", count: runs.length, samples: [] }],
+        audience: members,
+        windowDays: WINDOW_DAYS,
+        confidence: 0.8,
+        isDemo,
+        status: "open",
+        buildHref: "/app/manage/sell",
+      });
+    }
+
+    // CONTENT — a product nothing points at yet.
+    const referenced = new Set(
+      graph.edges.filter(e => e.to === node.id || e.from === node.id).flatMap(e => [e.from, e.to]),
+    );
+    const relevant = lessons.filter(l => overlaps(l, node.tags.length ? node.tags : [node.title]) && !referenced.has(l.id));
+    if (relevant.length >= 3) {
+      out.push({
+        id: `opp_content_${node.id}`,
+        kind: "content",
+        topic: node.title,
+        insight: `Your ${node.title} Isn't Referenced In ${relevant.length} Relevant Lessons.`,
+        signal: `${relevant.length} Matching Lessons · 0 Links To ${node.title}`,
+        action: "Review Recommendations.",
+        noticed: `${node.title} Exists, But The Lessons Members Read On The Same Topic Never Mention It.`,
+        why: "Placement Beats Promotion — Members Adopt Tools When They Appear Exactly Where The Question Comes Up.",
+        suggestedTitle: `Link ${node.title} Into Existing Lessons`,
+        suggestedSummary: "Add A Short, Natural Callout In Each Relevant Lesson So Members Find It At The Right Moment.",
+        buildFrom: relevant.slice(0, 4).map(l => ({ id: l.id, title: l.title })),
+        evidence: [],
+        audience: 0,
+        windowDays: WINDOW_DAYS,
+        confidence: 0.7,
+        isDemo,
+        status: "open",
+        buildHref: "/app/aiva",
+      });
+    }
+  }
+
+  return out;
 }
 
 export function detectOpportunities(
@@ -181,14 +306,19 @@ export function detectOpportunities(
 
   for (const c of clusterByTopic(recent)) {
     const related = graph.nodes.filter(n => overlaps(n, c.topics)).slice(0, 6);
-    const kind = classify(c, related);
+    let kind = classify(c, related);
     if (!kind) continue;
+    if (kind === "content" && count(c, "abandon") >= 10) kind = "engagement";
     const s = suggest(kind, c, related);
     const members = c.members.size;
+    const evidence = evidenceOf(c);
     out.push({
       id: `opp_${kind}_${c.topic.replace(/\W+/g, "-")}`,
       kind,
       topic: titleCase(c.topic),
+      insight: insightText(kind, c, members, related),
+      signal: signalLine(evidence),
+      action: actionText(kind, s),
       noticed: noticedText(kind, c, members, related),
       why: whyText(kind),
       suggestedTitle: s.title,
@@ -197,14 +327,18 @@ export function detectOpportunities(
         .filter(n => ["course", "lesson", "resource", "app", "event"].includes(n.type))
         .slice(0, 4)
         .map(n => ({ id: n.id, title: n.title })),
-      evidence: evidenceOf(c),
+      evidence,
       audience: members,
       windowDays: WINDOW_DAYS,
       confidence: Math.min(1, 0.35 + c.signals.length / 80),
       isDemo,
       status: "open",
+      buildHref: BUILD_HREF[kind],
     });
   }
 
+  out.push(...catalogOpportunities(graph, recent, isDemo));
+
   return out.sort((a, b) => b.audience - a.audience);
 }
+

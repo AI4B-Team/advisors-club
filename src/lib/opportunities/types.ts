@@ -7,16 +7,17 @@
 import type { SignalKind } from "@/lib/signals/types";
 
 export type OpportunityKind =
-  | "app" | "course" | "resource" | "coaching" | "event" | "content" | "monetization";
+  | "app" | "course" | "resource" | "coaching" | "event" | "content" | "monetization" | "engagement";
 
 export const OPPORTUNITY_LABEL: Record<OpportunityKind, string> = {
-  app: "App Opportunity",
+  app: "Product Opportunity",
   course: "Course Opportunity",
   resource: "Resource Opportunity",
   coaching: "Coaching Opportunity",
   event: "Event Opportunity",
   content: "Content Opportunity",
-  monetization: "Monetization Opportunity",
+  monetization: "Revenue Opportunity",
+  engagement: "Engagement Opportunity",
 };
 
 export const OPPORTUNITY_CTA: Record<OpportunityKind, string> = {
@@ -27,6 +28,7 @@ export const OPPORTUNITY_CTA: Record<OpportunityKind, string> = {
   event: "Plan Event With AI",
   content: "Draft Content With AI",
   monetization: "Create Offer With AI",
+  engagement: "Review Module",
 };
 
 export type OpportunityEvidence = {
@@ -47,6 +49,14 @@ export type Opportunity = {
   noticed: string;
   /** Why it matters for the business / members. */
   why: string;
+  /** One-line headline insight shown on the card. */
+  insight: string;
+  /** The supporting signal, in one short line. */
+  signal: string;
+  /** The recommended action, in one short line. */
+  action: string;
+  /** Where "Build It" should take the expert. */
+  buildHref?: string;
   /** What to build. */
   suggestedTitle: string;
   suggestedSummary: string;

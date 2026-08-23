@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AM_TABS, type AmTabKey } from "@/components/aiva/tabs";
+import { AM_TABS, AM_CREATE_TABS, AM_CREATE_KEYS, type AmTabKey, type AmPrimaryKey } from "@/components/aiva/tabs";
 import { AivaOverview } from "@/components/aiva/AivaOverview";
 import { AivaKnowledge } from "@/components/aiva/AivaKnowledge";
 import { AivaCatalog } from "@/components/aiva/AivaCatalog";
@@ -112,8 +112,14 @@ const MODES = [
 ];
 
 function AivaArea() {
-  const [tab, setTab] = useState<AmTabKey>("overview");
+  const [tab, setTab] = useState<AmPrimaryKey>("console");
+  const [sub, setSub] = useState<AmTabKey>("overview");
   const { admin, update } = useAivaAdmin();
+
+  const go = (key: AmTabKey) => {
+    if (AM_CREATE_KEYS.includes(key)) { setTab("create"); setSub(key); }
+    else setTab(key as AmPrimaryKey);
+  };
 
   return (
     <>
@@ -130,19 +136,29 @@ function AivaArea() {
         ))}
       </nav>
 
+      {tab === "create" && (
+        <nav className="am-tabs" aria-label="Create Sections" style={{marginTop:-6,gap:6}}>
+          {AM_CREATE_TABS.map(t => (
+            <button key={t.key} className={`am-tab${sub === t.key ? " on" : ""}`} onClick={() => setSub(t.key)}>{t.label}</button>
+          ))}
+        </nav>
+      )}
+
       {tab === "console" && <AivaConsole />}
-      {tab === "overview" && <AivaOverview admin={admin} update={update} go={setTab} />}
-      {tab === "knowledge" && <AivaKnowledge admin={admin} update={update} />}
-      {tab === "catalog" && <AivaCatalog />}
-      {tab === "intelligence" && <NewProductIntelligence />}
       {tab === "opportunities" && <OpportunityBoard />}
-      {tab === "instructions" && <AivaInstructions admin={admin} update={update} />}
-      {tab === "member-ai" && <AivaMemberAi />}
-      {tab === "capabilities" && <AivaCapabilities admin={admin} update={update} />}
       {tab === "activity" && <AivaActivity admin={admin} update={update} />}
+
+      {tab === "create" && sub === "overview" && <AivaOverview admin={admin} update={update} go={go} />}
+      {tab === "create" && sub === "knowledge" && <AivaKnowledge admin={admin} update={update} />}
+      {tab === "create" && sub === "catalog" && <AivaCatalog />}
+      {tab === "create" && sub === "intelligence" && <NewProductIntelligence />}
+      {tab === "create" && sub === "instructions" && <AivaInstructions admin={admin} update={update} />}
+      {tab === "create" && sub === "member-ai" && <AivaMemberAi />}
+      {tab === "create" && sub === "capabilities" && <AivaCapabilities admin={admin} update={update} />}
     </>
   );
 }
+
 
 function AivaConsole() {
   const [input, setInput] = useState("");
