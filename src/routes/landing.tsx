@@ -67,12 +67,6 @@ const QUICK_STARTS = [
   "Grow My Existing Business",
 ];
 
-const HERO_BENEFITS = [
-  { t: "Launch Fast", d: "Go from idea to live in minutes." },
-  { t: "AI-Powered Operations", d: "AIVA helps run the work behind the scenes." },
-  { t: "Grow On Autopilot", d: "Automate engagement, content, and follow-up." },
-  { t: "Built Around Your Business", d: "Your Club adapts to your brand, offers, and audience." },
-];
 
 function Index() {
   const nav = useNavigate();
@@ -133,15 +127,6 @@ function Index() {
               </div>
             </div>
           </form>
-
-          <div className="hero-benefits">
-            {HERO_BENEFITS.map(b => (
-              <div className="hero-benefit" key={b.t}>
-                <div className="hb-t">{b.t}</div>
-                <div className="hb-d">{b.d}</div>
-              </div>
-            ))}
-          </div>
 
           <p className="hero-fine">No Credit Card Required · Free Forever On Starter · Setup In 5 Minutes</p>
         </div>
