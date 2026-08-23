@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useBusinessGraph } from "./use-business-graph";
 import { suggestForContainer, suggestForNode } from "@/lib/recos/engine";
+import { analyzeNewProduct } from "@/lib/recos/retro";
+import { markAnalyzed } from "@/lib/recos/settings";
 import {
   addRecos, deleteReco, getRecos, setRecoStatus, subscribeRecos, updateReco,
 } from "@/lib/recos/store";
@@ -58,20 +60,47 @@ export function useRecommendations(scope?: NodeId) {
     return addRecos(drafts);
   }, [graph, scope, existingTargets]);
 
+  /**
+   * Retroactive scan: a NEW product looks back across existing content for
+   * every place it would help. Works for any product type.
+   */
+  const scanNewProduct = useCallback((productId: NodeId, limit = 8) => {
+    const sourcesWithThisTarget = new Set<NodeId>(
+      all.filter(r => r.targetId === productId).map(r => r.sourceId),
+    );
+    const drafts = analyzeNewProduct(graph, productId, { limit, existingSources: sourcesWithThisTarget });
+    const created = addRecos(drafts);
+    markAnalyzed(productId);
+    return created;
+  }, [graph, all]);
+
   const setStatus = useCallback((id: string, status: RecoStatus) => setRecoStatus(id, status), []);
+  const setStatusMany = useCallback((ids: string[], status: RecoStatus) => {
+    ids.forEach(id => setRecoStatus(id, status));
+  }, []);
   const edit = useCallback(
     (id: string, patch: Partial<ContentRecommendation>) => updateReco(id, patch), [],
   );
   const remove = useCallback((id: string) => deleteReco(id), []);
 
+  const forTarget = useCallback(
+    (targetId: NodeId) => all.filter(r => r.targetId === targetId && r.status !== "removed"),
+    [all],
+  );
+
   return {
     graph,
     items,
+    all,
     suggested: items.filter(r => r.status === "suggested"),
     approved: items.filter(r => r.status === "approved" || r.status === "applied"),
     scan,
+    scanNewProduct,
+    forTarget,
     setStatus,
+    setStatusMany,
     edit,
     remove,
   };
+
 }

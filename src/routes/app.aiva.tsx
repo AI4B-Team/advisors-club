@@ -3,6 +3,7 @@ import { AM_TABS, type AmTabKey } from "@/components/aiva/tabs";
 import { AivaOverview } from "@/components/aiva/AivaOverview";
 import { AivaKnowledge } from "@/components/aiva/AivaKnowledge";
 import { AivaCatalog } from "@/components/aiva/AivaCatalog";
+import { NewProductIntelligence } from "@/components/recos/NewProductIntelligence";
 import { AivaInstructions } from "@/components/aiva/AivaInstructions";
 import { AivaMemberAi } from "@/components/aiva/AivaMemberAi";
 import { AivaCapabilities } from "@/components/aiva/AivaCapabilities";
@@ -132,6 +133,7 @@ function AivaArea() {
       {tab === "overview" && <AivaOverview admin={admin} update={update} go={setTab} />}
       {tab === "knowledge" && <AivaKnowledge admin={admin} update={update} />}
       {tab === "catalog" && <AivaCatalog />}
+      {tab === "intelligence" && <NewProductIntelligence />}
       {tab === "instructions" && <AivaInstructions admin={admin} update={update} />}
       {tab === "member-ai" && <AivaMemberAi />}
       {tab === "capabilities" && <AivaCapabilities admin={admin} update={update} />}
