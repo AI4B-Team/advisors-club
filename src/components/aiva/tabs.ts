@@ -1,4 +1,4 @@
-export type AmTabKey = "console" | "overview" | "knowledge" | "catalog" | "intelligence" | "instructions" | "member-ai" | "capabilities" | "activity";
+export type AmTabKey = "console" | "overview" | "knowledge" | "catalog" | "intelligence" | "opportunities" | "instructions" | "member-ai" | "capabilities" | "activity";
 
 export const AM_TABS: { key: AmTabKey; label: string }[] = [
   { key: "console", label: "Console" },
@@ -6,6 +6,7 @@ export const AM_TABS: { key: AmTabKey; label: string }[] = [
   { key: "knowledge", label: "Knowledge" },
   { key: "catalog", label: "Catalog" },
   { key: "intelligence", label: "Intelligence" },
+  { key: "opportunities", label: "Opportunities" },
   { key: "instructions", label: "Instructions" },
   { key: "member-ai", label: "Member AI" },
   { key: "capabilities", label: "Capabilities" },

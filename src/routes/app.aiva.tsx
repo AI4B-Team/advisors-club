@@ -4,6 +4,7 @@ import { AivaOverview } from "@/components/aiva/AivaOverview";
 import { AivaKnowledge } from "@/components/aiva/AivaKnowledge";
 import { AivaCatalog } from "@/components/aiva/AivaCatalog";
 import { NewProductIntelligence } from "@/components/recos/NewProductIntelligence";
+import { OpportunityBoard } from "@/components/aiva/OpportunityBoard";
 import { AivaInstructions } from "@/components/aiva/AivaInstructions";
 import { AivaMemberAi } from "@/components/aiva/AivaMemberAi";
 import { AivaCapabilities } from "@/components/aiva/AivaCapabilities";
@@ -134,6 +135,7 @@ function AivaArea() {
       {tab === "knowledge" && <AivaKnowledge admin={admin} update={update} />}
       {tab === "catalog" && <AivaCatalog />}
       {tab === "intelligence" && <NewProductIntelligence />}
+      {tab === "opportunities" && <OpportunityBoard />}
       {tab === "instructions" && <AivaInstructions admin={admin} update={update} />}
       {tab === "member-ai" && <AivaMemberAi />}
       {tab === "capabilities" && <AivaCapabilities admin={admin} update={update} />}
