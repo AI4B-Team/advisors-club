@@ -15,9 +15,14 @@ type View = "list" | "map";
 
 function MembersPage() {
   const [view, setView] = useState<View>("list");
+  const board = useLeaderboard();
 
   return (
     <div>
+      <DataNotice kind={board.kind}>
+        Demo Roster. These Example Members Show How The Directory And Map Work — They Are Not Real
+        People In Your Club.
+      </DataNotice>
       <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",marginBottom:16,gap:12}}>
         <div style={{display:"inline-flex",background:"#F3F4F6",borderRadius:10,padding:4,gap:2}}>
           <TabBtn active={view==="list"} onClick={()=>setView("list")} icon={<List size={14}/>} label="List"/>
