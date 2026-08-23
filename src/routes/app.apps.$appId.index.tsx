@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, Lock, Pencil } from "lucide-react";
+import { ArrowLeft, Pencil } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { useNavLabel } from "@/hooks/use-nav-label";
 import { getApps, subscribeApps } from "@/lib/apps/store";
-import { canAccess } from "@/lib/apps/access";
 import { recordUsage } from "@/lib/apps/usage";
 import { AppRunner } from "@/components/apps/AppRunner";
+import { AccessGate } from "@/components/commerce/AccessGate";
 import { getGS, subscribeGS } from "@/lib/gs-store";
-import { accessLabel, type App } from "@/lib/apps/types";
+import { toAccessPolicy, type App } from "@/lib/apps/types";
+
 
 export const Route = createFileRoute("/app/apps/$appId/")({
   component: AppRunPage,
