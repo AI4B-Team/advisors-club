@@ -162,7 +162,7 @@ export const SETTINGS_SECTIONS: SettingsSection[] = [
         title: "Your Club",
         scope: "club",
         rows: [
-          { id: "club-settings", label: "Club Configuration", desc: "Slug, Stripe Connect, Team Roles And Danger Zone.", to: "/app/club/settings" },
+          { id: "club-settings", label: "Club Configuration", desc: "Slug, Stripe Connect, Team Roles And Danger Zone.", to: "/app/settings" },
           { id: "system", label: "Advanced System Settings", desc: "Data, Privacy And Account-Level Controls.", panel: "system" },
         ],
       },

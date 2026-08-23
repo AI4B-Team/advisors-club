@@ -176,7 +176,7 @@ export const ROUTE_CAPABILITY: Record<string, Capability> = {
   "/app/sell": "commerce.manage",
   "/app/club/analytics": "analytics.view",
   "/app/club/members": "club.members",
-  "/app/club/settings": "club.manage",
+  "/app/settings": "club.manage",
   "/app/settings": "settings.manage",
 };
 

@@ -76,7 +76,6 @@ const BASE_MEMBER_NAV: NavItem[] = [
   {
     id: "home", label: "Home", to: "/app", icon: "home", section: "member", exact: true, pill: true,
     subs: [
-      { id: "home-dashboard", label: "Dashboard", to: "/app/dashboard", icon: "dashboard" },
       { id: "home-activity", label: "Activity", to: "/app", icon: "activity" },
       { id: "home-bookmarks", label: "Bookmarks", to: "/app/bookmarks", icon: "bookmark" },
     ],
