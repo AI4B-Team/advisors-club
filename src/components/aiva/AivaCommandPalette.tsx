@@ -17,7 +17,7 @@ export function areaForPath(path: string): Ctx {
   if (p.includes("/funnel") || p.includes("/pages") || p.includes("/site")) return { area: "Funnels & Pages", suggestions: ["Build A Landing Page", "Create An Offer", "Improve This Page"] };
   if (p.includes("/aiva")) return { area: "AIVA", suggestions: ["Teach AIVA Something New", "Summarize What AIVA Knows", "Suggest Better Instructions"] };
   if (p.includes("/club") || p.includes("/feed") || p.includes("/space")) return { area: "Community", suggestions: ["Create A Post", "Start A Discussion", "Find Unanswered Questions", "Find Inactive Members"] };
-  return { area: "Dashboard", suggestions: ["What Needs My Attention Today?", "Create A Post", "Build A Course", "Plan This Week's Content"] };
+  return { area: "Dashboard", suggestions: ["What Needs My Attention Today?", "Create A Post", "Build A Course", "Plan This Week's Content", "Write An Email", "Review Member Activity"] };
 }
 
 export function AivaCommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
