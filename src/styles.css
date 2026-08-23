@@ -5064,3 +5064,6 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 @media (max-width:900px){
   .lt{overflow-x:hidden}
 }
+@media (max-width:760px){
+  .lt .dc-min h1{white-space:normal !important;font-size:clamp(28px,8vw,40px);letter-spacing:-1px}
+}
