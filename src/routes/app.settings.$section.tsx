@@ -73,7 +73,7 @@ function Row({ row }: { row: SettingsRow }) {
     );
     return external
       ? <a href={row.to} className="st-row">{body}</a>
-      : <Link to={row.to} className="st-row">{body}</Link>;
+      : <Link to={row.to as never} className="st-row">{body}</Link>;
   }
 
   const Panel = row.panel ? PANELS[row.panel] : null;

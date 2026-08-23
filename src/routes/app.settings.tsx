@@ -18,7 +18,7 @@ function SettingsLayout() {
           const to = `/app/settings/${s.key}`;
           const on = pathname === to || (pathname === "/app/settings" && s.key === "workspace");
           return (
-            <Link key={s.key} to={to} className={`st-nav-item${on ? " on" : ""}`}>
+            <Link key={s.key} to={to as never} className={`st-nav-item${on ? " on" : ""}`}>
               {s.label}
             </Link>
           );

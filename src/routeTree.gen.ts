@@ -39,6 +39,7 @@ import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.inde
 import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
 import { Route as AppManageIndexRouteImport } from './routes/app.manage.index'
 import { Route as AppAppsIndexRouteImport } from './routes/app.apps.index'
+import { Route as AppSettingsSectionRouteImport } from './routes/app.settings.$section'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppPagePageIdRouteImport } from './routes/app.page.$pageId'
 import { Route as AppManagePersonaRouteImport } from './routes/app.manage.persona'
@@ -207,6 +208,11 @@ const AppAppsIndexRoute = AppAppsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppAppsRoute,
 } as any)
+const AppSettingsSectionRoute = AppSettingsSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => AppSettingsRoute,
+} as any)
 const AppSellPageIdRoute = AppSellPageIdRouteImport.update({
   id: '/$pageId',
   path: '/$pageId',
@@ -335,6 +341,7 @@ export interface FileRoutesByFullPath {
   '/app/manage/persona': typeof AppManagePersonaRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/settings/$section': typeof AppSettingsSectionRoute
   '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
@@ -378,6 +385,7 @@ export interface FileRoutesByTo {
   '/app/manage/persona': typeof AppManagePersonaRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/settings/$section': typeof AppSettingsSectionRoute
   '/app/apps': typeof AppAppsIndexRoute
   '/app/manage': typeof AppManageIndexRoute
   '/app/sell': typeof AppSellIndexRoute
@@ -428,6 +436,7 @@ export interface FileRoutesById {
   '/app/manage/persona': typeof AppManagePersonaRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/settings/$section': typeof AppSettingsSectionRoute
   '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
@@ -479,6 +488,7 @@ export interface FileRouteTypes {
     | '/app/manage/persona'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/settings/$section'
     | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
@@ -522,6 +532,7 @@ export interface FileRouteTypes {
     | '/app/manage/persona'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/settings/$section'
     | '/app/apps'
     | '/app/manage'
     | '/app/sell'
@@ -571,6 +582,7 @@ export interface FileRouteTypes {
     | '/app/manage/persona'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/settings/$section'
     | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
@@ -806,6 +818,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAppsIndexRouteImport
       parentRoute: typeof AppAppsRoute
     }
+    '/app/settings/$section': {
+      id: '/app/settings/$section'
+      path: '/$section'
+      fullPath: '/app/settings/$section'
+      preLoaderRoute: typeof AppSettingsSectionRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
     '/app/sell/$pageId': {
       id: '/app/sell/$pageId'
       path: '/$pageId'
@@ -985,10 +1004,12 @@ const AppSellRouteWithChildren =
   AppSellRoute._addFileChildren(AppSellRouteChildren)
 
 interface AppSettingsRouteChildren {
+  AppSettingsSectionRoute: typeof AppSettingsSectionRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
+  AppSettingsSectionRoute: AppSettingsSectionRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 
