@@ -36,6 +36,7 @@ import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
 import { Route as AppManageIndexRouteImport } from './routes/app.manage.index'
+import { Route as AppAppsIndexRouteImport } from './routes/app.apps.index'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppPagePageIdRouteImport } from './routes/app.page.$pageId'
 import { Route as AppManageNavigationRouteImport } from './routes/app.manage.navigation'
@@ -49,6 +50,9 @@ import { Route as AppClubCoursesRouteImport } from './routes/app.club.courses'
 import { Route as AppClubCoachingRouteImport } from './routes/app.club.coaching'
 import { Route as AppClubChallengesRouteImport } from './routes/app.club.challenges'
 import { Route as AppClubAnalyticsRouteImport } from './routes/app.club.analytics'
+import { Route as AppAppsAppIdRouteImport } from './routes/app.apps.$appId'
+import { Route as AppAppsAppIdIndexRouteImport } from './routes/app.apps.$appId.index'
+import { Route as AppAppsAppIdEditRouteImport } from './routes/app.apps.$appId.edit'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -185,6 +189,11 @@ const AppManageIndexRoute = AppManageIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppManageRoute,
 } as any)
+const AppAppsIndexRoute = AppAppsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppAppsRoute,
+} as any)
 const AppSellPageIdRoute = AppSellPageIdRouteImport.update({
   id: '/$pageId',
   path: '/$pageId',
@@ -250,6 +259,21 @@ const AppClubAnalyticsRoute = AppClubAnalyticsRouteImport.update({
   path: '/club/analytics',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAppsAppIdRoute = AppAppsAppIdRouteImport.update({
+  id: '/$appId',
+  path: '/$appId',
+  getParentRoute: () => AppAppsRoute,
+} as any)
+const AppAppsAppIdIndexRoute = AppAppsAppIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppAppsAppIdRoute,
+} as any)
+const AppAppsAppIdEditRoute = AppAppsAppIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AppAppsAppIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -263,7 +287,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
-  '/app/apps': typeof AppAppsRoute
+  '/app/apps': typeof AppAppsRouteWithChildren
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
@@ -277,6 +301,7 @@ export interface FileRoutesByFullPath {
   '/clubs/$clubId': typeof ClubsClubIdRoute
   '/p/$slug': typeof PSlugRoute
   '/app/': typeof AppIndexRoute
+  '/app/apps/$appId': typeof AppAppsAppIdRouteWithChildren
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/coaching': typeof AppClubCoachingRoute
@@ -290,8 +315,11 @@ export interface FileRoutesByFullPath {
   '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
+  '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
+  '/app/apps/$appId/': typeof AppAppsAppIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -304,7 +332,6 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
-  '/app/apps': typeof AppAppsRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
@@ -329,8 +356,11 @@ export interface FileRoutesByTo {
   '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/apps': typeof AppAppsIndexRoute
   '/app/manage': typeof AppManageIndexRoute
   '/app/sell': typeof AppSellIndexRoute
+  '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
+  '/app/apps/$appId': typeof AppAppsAppIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -345,7 +375,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
-  '/app/apps': typeof AppAppsRoute
+  '/app/apps': typeof AppAppsRouteWithChildren
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
@@ -359,6 +389,7 @@ export interface FileRoutesById {
   '/clubs/$clubId': typeof ClubsClubIdRoute
   '/p/$slug': typeof PSlugRoute
   '/app/': typeof AppIndexRoute
+  '/app/apps/$appId': typeof AppAppsAppIdRouteWithChildren
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
   '/app/club/coaching': typeof AppClubCoachingRoute
@@ -372,8 +403,11 @@ export interface FileRoutesById {
   '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
+  '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
+  '/app/apps/$appId/': typeof AppAppsAppIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -403,6 +437,7 @@ export interface FileRouteTypes {
     | '/clubs/$clubId'
     | '/p/$slug'
     | '/app/'
+    | '/app/apps/$appId'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/coaching'
@@ -416,8 +451,11 @@ export interface FileRouteTypes {
     | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
+    | '/app/apps/$appId/edit'
+    | '/app/apps/$appId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -430,7 +468,6 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
-    | '/app/apps'
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
@@ -455,8 +492,11 @@ export interface FileRouteTypes {
     | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/apps'
     | '/app/manage'
     | '/app/sell'
+    | '/app/apps/$appId/edit'
+    | '/app/apps/$appId'
   id:
     | '__root__'
     | '/'
@@ -484,6 +524,7 @@ export interface FileRouteTypes {
     | '/clubs/$clubId'
     | '/p/$slug'
     | '/app/'
+    | '/app/apps/$appId'
     | '/app/club/analytics'
     | '/app/club/challenges'
     | '/app/club/coaching'
@@ -497,8 +538,11 @@ export interface FileRouteTypes {
     | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
+    | '/app/apps/$appId/edit'
+    | '/app/apps/$appId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -707,6 +751,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppManageIndexRouteImport
       parentRoute: typeof AppManageRoute
     }
+    '/app/apps/': {
+      id: '/app/apps/'
+      path: '/'
+      fullPath: '/app/apps/'
+      preLoaderRoute: typeof AppAppsIndexRouteImport
+      parentRoute: typeof AppAppsRoute
+    }
     '/app/sell/$pageId': {
       id: '/app/sell/$pageId'
       path: '/$pageId'
@@ -798,8 +849,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClubAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/apps/$appId': {
+      id: '/app/apps/$appId'
+      path: '/$appId'
+      fullPath: '/app/apps/$appId'
+      preLoaderRoute: typeof AppAppsAppIdRouteImport
+      parentRoute: typeof AppAppsRoute
+    }
+    '/app/apps/$appId/': {
+      id: '/app/apps/$appId/'
+      path: '/'
+      fullPath: '/app/apps/$appId/'
+      preLoaderRoute: typeof AppAppsAppIdIndexRouteImport
+      parentRoute: typeof AppAppsAppIdRoute
+    }
+    '/app/apps/$appId/edit': {
+      id: '/app/apps/$appId/edit'
+      path: '/edit'
+      fullPath: '/app/apps/$appId/edit'
+      preLoaderRoute: typeof AppAppsAppIdEditRouteImport
+      parentRoute: typeof AppAppsAppIdRoute
+    }
   }
 }
+
+interface AppAppsAppIdRouteChildren {
+  AppAppsAppIdEditRoute: typeof AppAppsAppIdEditRoute
+  AppAppsAppIdIndexRoute: typeof AppAppsAppIdIndexRoute
+}
+
+const AppAppsAppIdRouteChildren: AppAppsAppIdRouteChildren = {
+  AppAppsAppIdEditRoute: AppAppsAppIdEditRoute,
+  AppAppsAppIdIndexRoute: AppAppsAppIdIndexRoute,
+}
+
+const AppAppsAppIdRouteWithChildren = AppAppsAppIdRoute._addFileChildren(
+  AppAppsAppIdRouteChildren,
+)
+
+interface AppAppsRouteChildren {
+  AppAppsAppIdRoute: typeof AppAppsAppIdRouteWithChildren
+  AppAppsIndexRoute: typeof AppAppsIndexRoute
+}
+
+const AppAppsRouteChildren: AppAppsRouteChildren = {
+  AppAppsAppIdRoute: AppAppsAppIdRouteWithChildren,
+  AppAppsIndexRoute: AppAppsIndexRoute,
+}
+
+const AppAppsRouteWithChildren =
+  AppAppsRoute._addFileChildren(AppAppsRouteChildren)
 
 interface AppManageRouteChildren {
   AppManageNavigationRoute: typeof AppManageNavigationRoute
@@ -831,7 +930,7 @@ const AppSellRouteWithChildren =
 interface AppRouteChildren {
   AppAccountRoute: typeof AppAccountRoute
   AppAivaRoute: typeof AppAivaRoute
-  AppAppsRoute: typeof AppAppsRoute
+  AppAppsRoute: typeof AppAppsRouteWithChildren
   AppBookmarksRoute: typeof AppBookmarksRoute
   AppCalendarRoute: typeof AppCalendarRoute
   AppCustomizeRoute: typeof AppCustomizeRoute
@@ -858,7 +957,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAccountRoute: AppAccountRoute,
   AppAivaRoute: AppAivaRoute,
-  AppAppsRoute: AppAppsRoute,
+  AppAppsRoute: AppAppsRouteWithChildren,
   AppBookmarksRoute: AppBookmarksRoute,
   AppCalendarRoute: AppCalendarRoute,
   AppCustomizeRoute: AppCustomizeRoute,
