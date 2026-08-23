@@ -51,7 +51,7 @@ export const generateApp = createServerFn({ method: "POST" })
   .inputValidator((input) => InputSchema.parse(input))
   .handler(async ({ data }) => {
     const apiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey) return { draft: null, error: "AI Is Not Configured." };
+    if (!apiKey) return { draft: null as string | null, error: "AI Is Not Configured." };
 
     const user = [
       data.context ? `CONTEXT — THE EXPERT'S EXISTING CLUB CONTENT:\n${data.context}` : "",
@@ -83,11 +83,15 @@ export const generateApp = createServerFn({ method: "POST" })
       const start = raw.indexOf("{");
       const end = raw.lastIndexOf("}");
       if (start === -1 || end === -1) return { draft: null, error: "The App Builder Returned An Unreadable Draft." };
+      const candidate = raw.slice(start, end + 1);
       try {
-        return { draft: JSON.parse(raw.slice(start, end + 1)) as unknown, error: null };
+        JSON.parse(candidate);
       } catch {
         return { draft: null, error: "The App Builder Returned An Unreadable Draft." };
       }
+      // Returned as a JSON string: the shape is model-authored, so the client
+      // parses and normalizes it rather than trusting a typed payload.
+      return { draft: candidate, error: null };
     } catch (e) {
       console.error("App builder error", e);
       return { draft: null, error: "The App Builder Is Unavailable Right Now." };
