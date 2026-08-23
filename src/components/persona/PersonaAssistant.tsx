@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import ReactMarkdown from "react-markdown";
 import { Sparkles, X, ArrowUp, Loader2, Info, LifeBuoy } from "lucide-react";
-import { memberAssistant } from "@/lib/ai.functions";
+import { personaAssistant } from "@/lib/ai.functions";
 import { usePersona } from "@/hooks/use-persona";
 import { personaActions, personaDisclosure, personaName } from "@/lib/persona/store";
 import { personaInstructions, personaKnowledge } from "@/lib/persona/knowledge";
@@ -38,7 +38,7 @@ export function PersonaAssistantPanel({
   const { isAdmin } = useViewMode();
   // Persona knowledge is gated on real authority, not the preview toggle.
   const canManage = usePermissions().canManageClub() && isAdmin;
-  const run = useServerFn(memberAssistant);
+  const run = useServerFn(personaAssistant);
   const nav = useNavigate();
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -83,17 +83,12 @@ export function PersonaAssistantPanel({
     setError(null);
     try {
       const knowledge = personaKnowledge(persona, { canManage, id: me.id });
-      // Member context reuses the shared, permission-gated snapshot builder.
-      const permissions = { ...getMemberAi().permissions } as Record<MemberAiPermissionId, boolean>;
-      (Object.keys(permissions) as MemberAiPermissionId[]).forEach(k => {
-        permissions[k] = Boolean((persona.memberContext as Record<string, boolean>)[k]);
-      });
       const res = await run({
         data: {
           persona: {
             name,
-            mode: "custom" as const,
-            coachName: persona.expertName,
+            identityMode: persona.identityMode,
+            expertName: persona.expertName,
             tone: persona.tone,
             instructions: personaInstructions(persona, detectVoiceContext(q)),
             introduction: persona.greeting,
@@ -104,7 +99,7 @@ export function PersonaAssistantPanel({
             nextAction: `${ctaLabel}${persona.escalation.extra ? ` — ${persona.escalation.extra}` : ""}`,
           },
           knowledge: knowledge.text,
-          member: memberSnapshot({ ...getMemberAi(), permissions }, me),
+          member: memberContextSnapshot(persona, me),
           messages: history.slice(-12).map(m => ({
             role: m.from === "me" ? ("user" as const) : ("assistant" as const),
             content: m.text,
