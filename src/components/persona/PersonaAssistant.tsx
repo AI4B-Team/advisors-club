@@ -11,8 +11,12 @@ import { PERSONA_ESCALATION_TRIGGERS, PERSONA_NEXT_ACTIONS, type PersonaSettings
 import { memberSnapshot, type MemberIdentity } from "@/lib/member-ai-snapshot";
 import { getMemberAi, type MemberAiPermissionId } from "@/lib/member-ai";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { recommendForMember, type MemberReco } from "@/lib/persona/recommend";
+import { trackReco } from "@/lib/persona/reco-events";
+import { attachRecoAttribution } from "@/lib/persona/reco-attribution";
+import { MemberRecoCards } from "./MemberRecoCards";
 
-type Msg = { id: number; from: "me" | "ai"; text: string; escalate?: boolean };
+type Msg = { id: number; from: "me" | "ai"; text: string; escalate?: boolean; recos?: MemberReco[] };
 
 function AiMark({ s, size = 30 }: { s: PersonaSettings; size?: number }) {
   return (
@@ -39,12 +43,16 @@ export function PersonaAssistantPanel({
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(1);
+  const turnRef = useRef(0);
+  // Everything recommended in THIS conversation — feeds the frequency rules.
+  const shownRef = useRef<{ nodeId: string; paid: boolean; turn: number }[]>([]);
 
   const name = personaName(persona);
   const actions = useMemo(() => personaActions(persona), [persona]);
   const nextAction = PERSONA_NEXT_ACTIONS.find(n => n.id === persona.escalation.nextAction) ?? PERSONA_NEXT_ACTIONS[0];
   const ctaLabel = persona.escalation.nextActionLabel || nextAction.cta;
 
+  useEffect(() => { attachRecoAttribution(); }, []);
   useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 60); }, [open]);
   useEffect(() => {
     if (!open) return;
@@ -100,7 +108,23 @@ export function PersonaAssistantPanel({
         },
       });
       if (res.error) setError(res.error);
-      else setMsgs(m => [...m, { id: idRef.current++, from: "ai", text: res.reply, escalate: res.escalate }]);
+      else {
+        // Help first: recommendations are attached to an answer, never instead of one.
+        turnRef.current += 1;
+        let recos: MemberReco[] = [];
+        if (!res.escalate) {
+          recos = recommendForMember(
+            { query: q, extra: res.reply, turn: turnRef.current, shownThisConversation: shownRef.current },
+            persona,
+            { isAdmin, id: me.id },
+          );
+          recos.forEach(r => {
+            shownRef.current.push({ nodeId: r.nodeId, paid: r.paid, turn: turnRef.current });
+            trackReco({ nodeId: r.nodeId, title: r.title, owned: r.owned, paid: r.paid, type: "shown", query: q, memberId: me.id });
+          });
+        }
+        setMsgs(m => [...m, { id: idRef.current++, from: "ai", text: res.reply, escalate: res.escalate, recos }]);
+      }
     } catch {
       setError("The assistant is unavailable right now.");
     } finally {
@@ -150,6 +174,16 @@ export function PersonaAssistantPanel({
                       <span>{persona.escalation.extra || "Your coach can take this from here."}</span>
                       <button onClick={() => { onClose(); nav({ to: nextAction.to }); }}>{ctaLabel}</button>
                     </div>
+                  )}
+                  {!!m.recos?.length && (
+                    <MemberRecoCards
+                      recos={m.recos}
+                      memberId={me.id}
+                      query={msgs.find(x => x.id === m.id - 1)?.text ?? ""}
+                      onNavigate={onClose}
+                      onDismiss={id => setMsgs(list => list.map(x =>
+                        x.id === m.id ? { ...x, recos: (x.recos ?? []).filter(r => r.nodeId !== id) } : x))}
+                    />
                   )}
                 </div>
               </div>

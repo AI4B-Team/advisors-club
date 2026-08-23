@@ -9,6 +9,7 @@ import {
   PERSONA_NEXT_ACTIONS, PERSONA_PRESETS, PERSONA_SOURCES,
 } from "@/lib/persona/types";
 import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
+import { RecommendationControls } from "@/components/persona/RecommendationControls";
 
 export const Route = createFileRoute("/app/manage/persona")({
   component: PersonaPage,
@@ -195,6 +196,9 @@ function PersonaPage() {
             ))}
           </div>
         </AmCard>
+
+        <RecommendationControls />
+
 
         <AmCard title="Escalation" desc="When The Persona Should Hand Off To You." icon={<LifeBuoy size={16} />}>
           <div className="am-chip-grid">
