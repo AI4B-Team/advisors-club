@@ -9,17 +9,22 @@ import { ACTIVITY_TONE, SAFE_VERB } from "@/lib/aiva/activity/types";
 
 type Ctx = { area: string; suggestions: string[] };
 
+/** Actions that hand off to an existing product surface instead of the chat. */
+export const SUMMARY_ACTIONS = new Set(["Summarize My Community", "Show Trending Posts", "Show Trending Topics", "Find Unanswered Questions", "Find Top Contributors"]);
+
 export function areaForPath(path: string): Ctx {
   const p = path.toLowerCase();
-  if (p.includes("/courses")) return { area: "Courses", suggestions: ["Build A Course", "Write A Lesson", "Create A Quiz", "Generate Resources"] };
-  if (p.includes("/coaching")) return { area: "Coaching", suggestions: ["Prepare For My Next Session", "Find Clients Who Need Attention", "Create An Accountability Plan"] };
-  if (p.includes("/members")) return { area: "Members", suggestions: ["Find Members At Risk", "Identify Top Contributors", "Create A Re-Engagement Plan"] };
-  if (p.includes("/event") || p.includes("/calendar")) return { area: "Events", suggestions: ["Create An Event", "Write Event Reminder", "Turn A Replay Into A Lesson"] };
+  if (p.includes("/courses")) return { area: "Courses", suggestions: ["Build A Course", "Improve This Course", "Summarize Student Progress", "Find Drop-Off Points", "Create A Resource", "Find Product/App Connections"] };
+  if (p.includes("/coaching")) return { area: "Coaching", suggestions: ["Create A Coaching Program", "Review Client Engagement", "Create A Follow-Up", "Find Coaching Opportunities"] };
+  if (p.includes("/apps")) return { area: "Apps", suggestions: ["Build An App", "Find App Opportunities", "Review App Usage", "Suggest Monetization", "Find Content Connections"] };
+  if (p.includes("/resources") || p.includes("/library")) return { area: "Resources", suggestions: ["Create A Resource", "Organize Resources", "Find Missing Resources", "Connect Resources To Courses"] };
+  if (p.includes("/members")) return { area: "Members", suggestions: ["Summarize Member Activity", "Find At-Risk Members", "Find Top Contributors", "Draft Re-Engagement Messages"] };
+  if (p.includes("/event") || p.includes("/calendar")) return { area: "Events", suggestions: ["Create An Event", "Summarize Recent Events", "Write An Event Reminder", "Turn A Replay Into A Lesson", "Find Attendance Opportunities"] };
   if (p.includes("/analytics") || p.includes("/insights")) return { area: "Analytics", suggestions: ["Explain This Week's Performance", "Why Did Engagement Drop?", "What Should I Improve?"] };
   if (p.includes("/funnel") || p.includes("/pages") || p.includes("/site")) return { area: "Funnels & Pages", suggestions: ["Build A Landing Page", "Create An Offer", "Improve This Page"] };
   if (p.includes("/aiva")) return { area: "AIVA", suggestions: ["Teach AIVA Something New", "Summarize What AIVA Knows", "Suggest Better Instructions"] };
-  if (p.includes("/club") || p.includes("/feed") || p.includes("/space")) return { area: "Community", suggestions: ["Create A Post", "Start A Discussion", "Find Unanswered Questions", "Find Inactive Members"] };
-  return { area: "Dashboard", suggestions: ["What Needs My Attention Today?", "Create A Post", "Build A Course", "Plan This Week's Content", "Write An Email", "Review Member Activity"] };
+  if (p.includes("/club") || p.includes("/feed") || p.includes("/space")) return { area: "Community", suggestions: ["Summarize My Community", "Create A Post", "Find Unanswered Questions", "Show Trending Topics", "Find Engagement Opportunities"] };
+  return { area: "Dashboard", suggestions: ["Summarize My Community", "What Needs My Attention Today?", "Create A Post", "Build A Course", "Plan This Week's Content", "Review Member Activity"] };
 }
 
 type Turn = { id: string; role: "you" | "aiva"; text: string; error?: boolean };
@@ -35,9 +40,12 @@ export function AivaCommandPalette({
   open,
   onClose,
   briefing,
+  onSummary,
 }: {
   open: boolean;
   onClose: () => void;
+  /** Opens the existing community summary surface as an AIVA result. */
+  onSummary?: () => void;
   /** When present, AIVA opens the conversation with what she found. */
   briefing?: PaletteBriefing | null;
 }) {
@@ -82,6 +90,7 @@ export function AivaCommandPalette({
   async function submit(text?: string) {
     const q = (text ?? prompt).trim();
     if (!q || busy) return;
+    if (onSummary && SUMMARY_ACTIONS.has(q)) { onSummary(); return; }
     setPrompt("");
     setBusy(true);
     setTurns(t => [...t, { id: `u${Date.now()}`, role: "you", text: q }]);
