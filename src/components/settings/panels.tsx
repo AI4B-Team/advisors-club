@@ -1,3 +1,4 @@
+import { SettingsList, SettingsRow } from "@/components/ui/settings-row";
 import { Eye, Pin } from "lucide-react";
 import type { PanelKey } from "@/lib/settings/config";
 import {
@@ -58,26 +59,33 @@ function PersonalPreferencesPanel() {
   return (
     <div className="ap">
       <PanelHead title="Language, Theme & Shortcuts" sub="Personal Interface Preferences." />
-      <div className="ap-card">
-        <div className="ap-list-row">
-          <div><div className="ap-list-t">Language</div><div className="ap-list-s">Interface Language For Your Account</div></div>
-          <button className="ap-btn-light">English (US)</button>
-        </div>
-        <div className="ap-list-row">
-          <div><div className="ap-list-t">Theme</div><div className="ap-list-s">Light Or Dark Appearance</div></div>
-          <button
-            className="ap-btn-light"
-            onClick={() => window.dispatchEvent(new CustomEvent("cc:toggle-theme"))}
-          >Switch To Light Mode</button>
-        </div>
-        <div className="ap-list-row">
-          <div><div className="ap-list-t">Keyboard Shortcuts</div><div className="ap-list-s">Open The Shortcut Reference (⌘K Opens AI)</div></div>
-          <button
-            className="ap-btn-light"
-            onClick={() => window.dispatchEvent(new CustomEvent("cc:shortcuts"))}
-          >View Shortcuts</button>
-        </div>
-      </div>
+      <SettingsList>
+        <SettingsRow
+          label="Language"
+          description="Interface Language For Your Account"
+          control={<button className="ap-btn-light">English (US)</button>}
+        />
+        <SettingsRow
+          label="Theme"
+          description="Light Or Dark Appearance"
+          control={
+            <button
+              className="ap-btn-light"
+              onClick={() => window.dispatchEvent(new CustomEvent("cc:toggle-theme"))}
+            >Switch To Light Mode</button>
+          }
+        />
+        <SettingsRow
+          label="Keyboard Shortcuts"
+          description="Open The Shortcut Reference (⌘K Opens AI)"
+          control={
+            <button
+              className="ap-btn-light"
+              onClick={() => window.dispatchEvent(new CustomEvent("cc:shortcuts"))}
+            >View Shortcuts</button>
+          }
+        />
+      </SettingsList>
     </div>
   );
 }

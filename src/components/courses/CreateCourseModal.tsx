@@ -1,4 +1,6 @@
-import { ArrowLeft, CheckCircle2, Edit3, Sparkles, X } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Edit3, Sparkles } from "lucide-react";
+import { Modal } from "@/components/ui/modal";
+import { Switch } from "@/components/ui/switch";
 
 export type CreateMode = "type" | "choose" | "aiva" | "manual";
 export type CourseType = "self-paced" | "structured" | "scheduled";
@@ -31,18 +33,18 @@ export function CreateCourseModal({
   onCreateManual: () => void;
 }) {
   return (
-  <div onClick={() => onClose()} style={{position:"fixed",inset:0,background:"rgba(15,15,18,.55)",backdropFilter:"blur(4px)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
-    <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:16,width:"100%",maxWidth:createMode==="manual"?760:520,boxShadow:"0 30px 60px -20px rgba(0,0,0,.35)",overflow:"hidden",maxHeight:"90vh",display:"flex",flexDirection:"column"}}>
-      <div style={{padding:"18px 20px",borderBottom:"1px solid #F1F2F4",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <div style={{fontWeight:700,fontSize:16,color:"#111827",display:"flex",alignItems:"center",gap:8}}>
-          {createMode !== "type" && (
-            <button onClick={() => setCreateMode(createMode === "choose" ? "type" : "choose")} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:0,display:"flex"}}><ArrowLeft size={16}/></button>
-          )}
-          {createMode === "type" ? "Choose Course Type" : createMode === "choose" ? "How Do You Want to Build It?" : createMode === "aiva" ? "Create with AIVA" : "Build Manually"}
-        </div>
-        <button onClick={() => onClose()} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:4,display:"flex"}}><X size={18}/></button>
-      </div>
-      <div style={{padding:20,overflowY:"auto"}}>
+  <Modal
+    onClose={onClose}
+    maxWidth={createMode === "manual" ? 760 : 520}
+    title={
+      <>
+        {createMode !== "type" && (
+          <button onClick={() => setCreateMode(createMode === "choose" ? "type" : "choose")} style={{background:"transparent",border:0,cursor:"pointer",color:"#6B7280",padding:0,display:"flex"}}><ArrowLeft size={16}/></button>
+        )}
+        {createMode === "type" ? "Choose Course Type" : createMode === "choose" ? "How Do You Want To Build It?" : createMode === "aiva" ? "Create With AIVA" : "Build Manually"}
+      </>
+    }
+  >
         {createMode === "type" && (
           <div style={{display:"grid",gap:10}}>
             {([
@@ -168,9 +170,7 @@ export function CreateCourseModal({
               </div>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",borderTop:"1px solid #F1F2F4",paddingTop:16,marginTop:4}}>
                 <label style={{display:"flex",alignItems:"center",gap:10,cursor:"pointer"}}>
-                  <button type="button" onClick={() => setManualForm(f => ({...f, published: !f.published}))} style={{width:42,height:24,borderRadius:999,border:0,background:manualForm.published?"#A7E5C3":"#E5E7EB",position:"relative",cursor:"pointer",padding:0}}>
-                    <span style={{position:"absolute",top:2,left:manualForm.published?20:2,width:20,height:20,borderRadius:"50%",background:manualForm.published?"#16A34A":"#fff",boxShadow:"0 1px 3px rgba(0,0,0,.2)",transition:"left .15s"}}/>
-                  </button>
+                  <Switch checked={manualForm.published} onCheckedChange={v => setManualForm(f => ({...f, published: v}))} />
                   <span style={{fontWeight:700,color:manualForm.published?"#16A34A":"#6B7280",fontSize:14}}>{manualForm.published?"Published":"Draft"}</span>
                 </label>
                 <div style={{display:"flex",gap:8}}>
@@ -181,8 +181,6 @@ export function CreateCourseModal({
             </div>
           );
         })()}
-      </div>
-    </div>
-  </div>
+  </Modal>
   );
 }

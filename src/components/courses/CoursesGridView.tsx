@@ -2,6 +2,7 @@ import { Archive, BookOpen, CheckCircle2, DollarSign, Edit3, Eye, Globe, Lock, M
 import { MenuItem, StatCard } from "./primitives";
 import type { AdminCourse } from "@/lib/courses/types";
 import { DataBadge, DataNotice } from "@/components/DataBadge";
+import { PageHeader } from "@/components/ui/page-header";
 
 /** Active-courses grid with quick stats and the per-card overflow menu. */
 export function CoursesGridView({
@@ -30,19 +31,17 @@ export function CoursesGridView({
 
   return (
     <>
-<div className="lt-ph">
-  <div>
-    <h1>Courses</h1>
-    <p>{active.length} {active.length === 1 ? "Course" : "Courses"} · {publishedCount} Published · {totalEnrolled} Enrolled</p>
-  </div>
-  <div style={{display:"flex",gap:8,alignItems:"center"}}>
+<PageHeader
+  title="Courses"
+  description={`${active.length} ${active.length === 1 ? "Course" : "Courses"} · ${publishedCount} Published · ${totalEnrolled} Enrolled`}
+  actions={<>
     <button className="btn-ghost" onClick={onShowArchived}>
       <Archive size={14}/> Archives{archivedCount > 0 ? ` (${archivedCount})` : ""}
     </button>
     <button className="btn-ghost"><Upload size={14}/> Upload</button>
     <button className="aiva-cta" onClick={onCreate}><Plus size={14}/> Create</button>
-  </div>
-</div>
+  </>}
+/>
 {createModal}
 
 <DataNotice kind={anyDemo ? "demo" : "real"}>

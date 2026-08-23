@@ -13,6 +13,7 @@ import { CoachingGoals } from "@/components/coaching/CoachingGoals";
 import { CoachingAccountability } from "@/components/coaching/CoachingAccountability";
 import { ClientProfileDrawer } from "@/components/coaching/ClientProfileDrawer";
 import { MemberCoaching } from "@/components/coaching/MemberCoaching";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const Route = createFileRoute("/app/club/coaching")({
   head: () => ({
@@ -55,12 +56,10 @@ function CoachingPage() {
 
   return (
     <div className="coach-shell">
-      <div className="cc-page-head">
-        <div>
-          <h1>Coaching</h1>
-          <p>Your Coaching Business — Clients, Pipeline, Sessions, Goals, And Accountability In One Place.</p>
-        </div>
-      </div>
+      <PageHeader
+        title="Coaching"
+        description="Your Coaching Business — Clients, Pipeline, Sessions, Goals, And Accountability In One Place."
+      />
 
       <nav className="coach-tabs" aria-label="Coaching sections">
         {TABS.map(t => {

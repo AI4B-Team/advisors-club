@@ -1,5 +1,7 @@
 import { Archive, ArrowLeft, RotateCcw, Trash2 } from "lucide-react";
 import type { AdminCourse } from "@/lib/courses/types";
+import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
 
 /** Archived-courses screen. Markup extracted verbatim from `app.club.courses.tsx`. */
 export function ArchivedCoursesView({ archived, onBack, onRestore, onDelete }: {
@@ -10,21 +12,21 @@ export function ArchivedCoursesView({ archived, onBack, onRestore, onDelete }: {
 }) {
   return (
     <>
-  <div className="lt-ph">
-    <div>
-      <button onClick={onBack} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:13,fontWeight:600,cursor:"pointer",marginBottom:8,padding:0}}>
-        <ArrowLeft size={14}/> Back to Courses
+  <PageHeader
+    eyebrow={
+      <button onClick={onBack} style={{display:"inline-flex",alignItems:"center",gap:6,background:"transparent",border:0,color:"#6B7280",fontSize:12,fontWeight:600,cursor:"pointer",padding:0,letterSpacing:0,textTransform:"none"}}>
+        <ArrowLeft size={14}/> Back To Courses
       </button>
-      <h1>Archived Courses</h1>
-      <p>Restore to bring back, or delete permanently.</p>
-    </div>
-  </div>
+    }
+    title="Archived Courses"
+    description="Restore to bring back, or delete permanently."
+  />
   {archived.length === 0 ? (
-    <div style={{padding:"60px 20px",textAlign:"center",background:"#fff",border:"1px dashed #E5E7EB",borderRadius:14}}>
-      <Archive size={32} style={{color:"#9CA3AF",margin:"0 auto 12px"}}/>
-      <div style={{fontWeight:700,color:"#111827",marginBottom:4}}>No archived courses</div>
-      <div style={{fontSize:13,color:"#6B7280"}}>Courses you archive will appear here.</div>
-    </div>
+    <EmptyState
+      icon={<Archive size={22}/>}
+      title="No Archived Courses"
+      body="Courses you archive will appear here."
+    />
   ) : (
     <div className="mc-grid">
       {archived.map(c => (

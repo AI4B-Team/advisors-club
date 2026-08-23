@@ -5,6 +5,7 @@ import { Trophy, Crown, Medal, Flame, TrendingUp, TrendingDown, Minus, Search, F
 import { LEVEL_TARGETS, type LbMember } from "@/lib/leaderboard-data";
 import { useLeaderboard } from "@/hooks/use-leaderboard";
 import { DataBadge, DataNotice, EmptyState } from "@/components/DataBadge";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const Route = createFileRoute("/app/club/leaderboard")({
   head: () => ({ meta: [
@@ -29,12 +30,7 @@ function LeaderboardPage() {
   if (board.kind === "empty" || board.members.length === 0) {
     return (
       <div className="lb-page">
-        <div className="cc-page-head">
-          <div>
-            <h1>Leaderboard</h1>
-            <p>Top performers across your community.</p>
-          </div>
-        </div>
+        <PageHeader title="Leaderboard" description="Top performers across your community." />
         <EmptyState
           title="No Leaderboard Data Yet"
           body="Standings Appear Once Your Members Start Earning Points — Completing Lessons, Posting, Keeping Streaks. We Don't Show Placeholder People Here."
@@ -99,12 +95,10 @@ function LeaderboardBoard({ board }: { board: ReturnType<typeof useLeaderboard> 
         Demo Standings. These Are Example Members Used To Show How The Leaderboard Works — They Are
         Not Real People In Your Club.
       </DataNotice>
-      <div className="cc-page-head">
-        <div>
-          <h1>Leaderboard <DataBadge kind={board.kind} /></h1>
-          <p>Top performers across your community — {periodMeta[period].toLowerCase()}.</p>
-        </div>
-        <div className="lb-head-actions">
+      <PageHeader
+        title={<>Leaderboard <DataBadge kind={board.kind} /></>}
+        description={`Top performers across your community — ${periodMeta[period].toLowerCase()}.`}
+        actions={<>
           <div className="lb-period-pill">
             <select value={period} onChange={e=>setPeriod(e.target.value as Period)} aria-label="Time period">
               <option value="week">Weekly</option>
@@ -114,8 +108,8 @@ function LeaderboardBoard({ board }: { board: ReturnType<typeof useLeaderboard> 
             <ChevronDown size={16}/>
           </div>
           <Link to="/app/club/challenges" className="cc-page-btn"><Sparkles size={14}/> View Challenges</Link>
-        </div>
-      </div>
+        </>}
+      />
 
       {/* Stats strip */}
       <div className="lb-stats">
