@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Lock, Clock, Calendar as CalendarIcon, HelpCircle, DollarSign as PriceIcon, Trash2, Plus, X, Check } from "lucide-react";
 import { Modal, Toggle } from "../primitives";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { rid } from "@/lib/courses/storage";
 import type { AdminCourse, Quiz, QuizQuestion } from "@/lib/courses/types";
 
@@ -28,12 +29,12 @@ export function PopMenu({ open, onClose, children, align="right" }: { open: bool
 export function StatusBadges({ published, locked, dripDays, dripStartDate, hasQuiz, paid }: { published?: boolean; locked?: boolean; dripDays?: number; dripStartDate?: string; hasQuiz?: boolean; paid?: boolean }) {
   return (
     <span style={{display:"inline-flex",gap:4,alignItems:"center",flexWrap:"wrap"}}>
-      {published === false && <span title="Draft" style={{fontSize:9.5,fontWeight:800,letterSpacing:.4,padding:"2px 6px",borderRadius:4,background:"#FEF3C7",color:"#92400E"}}>DRAFT</span>}
-      {locked && <span title="Locked" style={{display:"inline-flex",alignItems:"center",gap:3,fontSize:9.5,fontWeight:800,letterSpacing:.4,padding:"2px 6px",borderRadius:4,background:"#F3F4F6",color:"#374151"}}><Lock size={9}/>LOCKED</span>}
-      {typeof dripDays === "number" && dripDays > 0 && <span title={`Drips ${dripDays} days after start`} style={{display:"inline-flex",alignItems:"center",gap:3,fontSize:9.5,fontWeight:800,letterSpacing:.4,padding:"2px 6px",borderRadius:4,background:"#EEF2FF",color:"#4338CA"}}><Clock size={9}/>D{dripDays}</span>}
-      {dripStartDate && <span title={`Starts ${dripStartDate}`} style={{display:"inline-flex",alignItems:"center",gap:3,fontSize:9.5,fontWeight:800,letterSpacing:.4,padding:"2px 6px",borderRadius:4,background:"#ECFDF5",color:"#065F46"}}><CalendarIcon size={9}/>{dripStartDate.slice(5)}</span>}
-      {hasQuiz && <span title="Has quiz" style={{display:"inline-flex",alignItems:"center",gap:3,fontSize:9.5,fontWeight:800,letterSpacing:.4,padding:"2px 6px",borderRadius:4,background:"#FCE7F3",color:"#9D174D"}}><HelpCircle size={9}/>QUIZ</span>}
-      {paid && <span title="Paid course" style={{display:"inline-flex",alignItems:"center",gap:3,fontSize:9.5,fontWeight:800,letterSpacing:.4,padding:"2px 6px",borderRadius:4,background:"#FEF3C7",color:"#92400E"}}><PriceIcon size={9}/>PAID</span>}
+      {published === false && <StatusBadge status="draft">Draft</StatusBadge>}
+      {locked && <StatusBadge tone="neutral" icon={<Lock size={10}/>}>Locked</StatusBadge>}
+      {typeof dripDays === "number" && dripDays > 0 && <StatusBadge tone="info" icon={<Clock size={10}/>}>{`Day ${dripDays}`}</StatusBadge>}
+      {dripStartDate && <StatusBadge tone="success" icon={<CalendarIcon size={10}/>}>{dripStartDate.slice(5)}</StatusBadge>}
+      {hasQuiz && <StatusBadge tone="brand" icon={<HelpCircle size={10}/>}>Quiz</StatusBadge>}
+      {paid && <StatusBadge tone="warning" icon={<PriceIcon size={10}/>}>Paid</StatusBadge>}
     </span>
   );
 }
