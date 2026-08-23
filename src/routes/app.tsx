@@ -201,9 +201,9 @@ const TOP_LINKS: TopLink[] = [
     menu: DEFAULT_MENU },
   { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,
     subs: [
-      {label:"Console",to:"/app/aiva", icon:<Terminal size={14}/>},
-      {label:"Prompts",to:"/app/aiva", icon:<Lightbulb size={14}/>},
-      {label:"History",to:"/app/aiva", icon:<FileClock size={14}/>},
+      {label:"Overview",to:"/app/aiva", icon:<Terminal size={14}/>},
+      {label:"Knowledge",to:"/app/aiva", icon:<Lightbulb size={14}/>},
+      {label:"Activity",to:"/app/aiva", icon:<FileClock size={14}/>},
     ],
     menu: DEFAULT_MENU },
 ];
