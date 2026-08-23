@@ -63,7 +63,7 @@ function ResetPasswordPage() {
     <div className="lt">
       <div className="lt-auth lt-auth-rev">
         <div className="lt-auth-left">
-          <Link to="/landing" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
+          <Link to="/" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
 
           <h1>Set A New Password</h1>
           {!ready ? (

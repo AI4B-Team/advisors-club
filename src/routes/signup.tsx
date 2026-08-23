@@ -62,7 +62,7 @@ function SignupPage() {
     <div className="lt">
       <div className="lt-auth lt-auth-rev">
         <div className="lt-auth-left">
-          <Link to="/landing" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
+          <Link to="/" className="lt-auth-logo"><img src={logoUrl} alt="AdvisorsClub" /></Link>
 
           <div className="lt-tabs">
             <Link to="/login" className="lt-tab">Login</Link>

@@ -564,7 +564,7 @@ function Topbar() {
                   <div className="cc-tb-menu-e">{viewAs ? viewAs.email : (user?.email ?? "")}</div>
                 </div>
               </div>
-              <button className="cc-tb-menu-cta amber" onClick={()=>{setOpen(false);nav({to:"/landing", hash:"pricing"})}}><Zap size={15} strokeWidth={3}/> Upgrade</button>
+              <button className="cc-tb-menu-cta amber" onClick={()=>{setOpen(false);nav({to:"/", hash:"pricing"})}}><Zap size={15} strokeWidth={3}/> Upgrade</button>
               <button className="cc-tb-menu-cta ghost" onClick={()=>{setOpen(false);nav({to:"/app/club/members"})}}><UserPlus size={15}/> Add Members</button>
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
