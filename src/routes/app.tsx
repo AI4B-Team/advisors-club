@@ -532,6 +532,8 @@ function Topbar() {
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<User size={15}/>} label="Account" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
               <MenuItem icon={<CreditCard size={15}/>} label="Subscription" right="Pro" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />
+              <MenuItem icon={<Calendar size={15}/>} label="Calendar" onClick={()=>{setOpen(false);nav({to:"/app/calendar"})}} />
+              <MenuItem icon={<Bookmark size={15}/>} label="Bookmarks" onClick={()=>{setOpen(false);nav({to:"/app/bookmarks"})}} />
 
               <div className="cc-tb-menu-sep" />
               <MenuItem icon={<Languages size={15}/>} label="Language:" right="English ›" onClick={()=>{setOpen(false);nav({to:"/app/account"})}} />

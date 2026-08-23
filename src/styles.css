@@ -5271,3 +5271,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .ap-ai strong{display:block;font-size:13px;color:#111827}
 .ap-ai span{font-size:12px}
 .ap-ai>div{flex:1}
+
+/* Simplification pass: Go Live is a secondary admin action, not a second primary CTA. */
+.cc-tb-golive.quiet{background:#fff;color:#B91C1C;border:1px solid #F3D2D2;box-shadow:none;font-weight:600;padding:7px 12px}
+.cc-tb-golive.quiet:hover{background:#FEF2F2;border-color:#EBB9B9;transform:none;box-shadow:none}
