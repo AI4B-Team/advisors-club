@@ -60,24 +60,7 @@ function AppRunPage() {
     );
   }
 
-  const allowed = canAccess(app.access, {
-    isAdmin: previewing,
-    membership: viewAs?.role.includes("Founding") ? "Founding" : "Pro",
-    paid: true,
-  });
-
-  if (!allowed) {
-    return (
-      <div className="pg">
-        <BackLink label={label} />
-        <div className="apx-empty">
-          <Lock size={18} />
-          <strong>{app.name} Is Locked</strong>
-          <span>This Tool Is Available To {accessLabel(app.access)}.</span>
-        </div>
-      </div>
-    );
-  }
+  const policy = toAccessPolicy(app.access);
 
   return (
     <div className="pg">
@@ -91,14 +74,24 @@ function AppRunPage() {
         )}
       </div>
 
-      <AppRunner
-        app={app}
+      <AccessGate
+        productRef={{ kind: "app", id: app.id, title: app.name }}
+        policy={policy}
+        title={app.name}
+        description={app.description}
         accent={accent}
-        onComplete={() => { if (!previewing) recordUsage({ appId: app.id, memberId, memberName, kind: "completed" }); }}
-      />
+        teaser={<AppRunner app={app} accent={accent} />}
+      >
+        <AppRunner
+          app={app}
+          accent={accent}
+          onComplete={() => { if (!previewing) recordUsage({ appId: app.id, memberId, memberName, kind: "completed" }); }}
+        />
+      </AccessGate>
     </div>
   );
 }
+
 
 function BackLink({ label }: { label: string }) {
   return <Link to="/app/apps" className="apx-back"><ArrowLeft size={14} /> {label}</Link>;
