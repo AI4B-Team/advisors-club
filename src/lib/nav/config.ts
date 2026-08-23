@@ -142,6 +142,18 @@ const BASE_MEMBER_NAV: NavItem[] = [
   },
 ];
 
+/**
+ * Every default item carries its content type (equal to its id) so that a
+ * creator-renamed label never changes which content system it resolves to.
+ * Home is locked — it cannot be removed from navigation.
+ */
+export const DEFAULT_MEMBER_NAV: NavItem[] = BASE_MEMBER_NAV.map(item => ({
+  ...item,
+  type: item.id as NavItemType,
+  locked: item.id === "home",
+  visibility: "everyone" as const,
+}));
+
 /** Advisors Club system tools. Not customizable member navigation. */
 export const SYSTEM_NAV: NavItem[] = [
   {
