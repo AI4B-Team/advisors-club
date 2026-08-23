@@ -428,3 +428,59 @@ Admin request: ${data.prompt}`;
       return { ...empty, error: "AIVA is unavailable right now." };
     }
   });
+
+/* ============ AIVA — Coaching Business OS insights ============ */
+const CoachingInsightSchema = z.object({
+  kind: z.enum(["attention", "prep", "goal", "ask"]),
+  prompt: z.string().max(1500).default(""),
+  /** Compact, already-redacted snapshot of the coach's own data. */
+  snapshot: z.string().min(1).max(12000),
+});
+
+export const aivaCoachingInsight = createServerFn({ method: "POST" })
+  .inputValidator((input) => CoachingInsightSchema.parse(input))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { reply: "", error: "AI is not configured for this workspace." };
+
+    const focus: Record<string, string> = {
+      attention: `Identify which clients need attention this week and why. Output a short ranked list. For each: **Name** — the signal (inactivity, overdue actions, goal risk), then one specific action the coach should take, and one sentence they can send. Maximum 5 clients.`,
+      prep: `Prepare the coach for the requested upcoming session. Output: **Where They Are** (2 bullets), **Ask These Questions** (3 bullets), **Push On** (1-2 bullets), **Leave Them With** (one clear weekly commitment).`,
+      goal: `Review the client's goals and weekly actions. Say whether the goal math actually works given current pace, then propose a corrected weekly action set (3-5 concrete actions with numbers).`,
+      ask: `Answer the coach's question using only the data provided.`,
+    };
+
+    const system = `You are AIVA, the coaching intelligence inside AdvisorsClub. You help ONE coach run their coaching business.
+${focus[data.kind]}
+
+Rules:
+- Use ONLY the data in the snapshot. Never invent clients, numbers, sessions, or goals.
+- Be blunt and specific. Numbers over adjectives. No preamble, no pep talk.
+- Tight markdown: bold labels and short bullets. Under 220 words.
+- You recommend; the coach decides. Never claim you messaged, booked, or changed anything.
+- If the snapshot lacks what's needed, say so in one line, then give the best read of what is there.`;
+
+    const user = `COACHING DATA SNAPSHOT:\n${data.snapshot}\n\nCOACH REQUEST: ${data.prompt || "Give me the read on this."}`;
+
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+        }),
+      });
+      if (resp.status === 429) return { reply: "", error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { reply: "", error: "Out of AI credits. Add credits in Settings → Workspace → Usage." };
+      if (!resp.ok) {
+        console.error("aivaCoachingInsight gateway error", resp.status, await resp.text());
+        return { reply: "", error: "AIVA is unavailable right now." };
+      }
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      return { reply: json.choices?.[0]?.message?.content ?? "", error: null };
+    } catch (e) {
+      console.error("aivaCoachingInsight error", e);
+      return { reply: "", error: "AIVA is unavailable right now." };
+    }
+  });
