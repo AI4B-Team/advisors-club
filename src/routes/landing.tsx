@@ -134,15 +134,6 @@ function Index() {
             </div>
           </form>
 
-          <div className="hero-benefits">
-            {HERO_BENEFITS.map(b => (
-              <div className="hero-benefit" key={b.t}>
-                <div className="hb-t">{b.t}</div>
-                <div className="hb-d">{b.d}</div>
-              </div>
-            ))}
-          </div>
-
           <p className="hero-fine">No Credit Card Required · Free Forever On Starter · Setup In 5 Minutes</p>
         </div>
       </section>
