@@ -4154,3 +4154,17 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .cc .hm{padding:16px 16px 0}
   .hm-side{grid-template-columns:1fr}
 }
+
+/* ---- RESPONSIVE: header + composer never clip ---- */
+@media (max-width:1180px){
+  .cc-tb{gap:10px;padding:10px 16px}
+  .cc-tb-right{gap:6px;flex-wrap:nowrap}
+}
+@media (max-width:1024px){
+  .cc .hm-composer-foot,.cc .cc-composer-foot{flex-wrap:wrap;gap:10px;row-gap:10px}
+  .cc .hm-composer-tools,.cc .cc-composer-tools{flex-wrap:wrap;min-width:0}
+}
+@media (max-width:900px){
+  .cc-tb-search{display:none}
+  .cc-tb-right > button span:not(.cc-tb-ask-k){white-space:nowrap}
+}
