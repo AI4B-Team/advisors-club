@@ -7,6 +7,7 @@ import { memberAssistant } from "@/lib/ai.functions";
 import { usePersona } from "@/hooks/use-persona";
 import { personaActions, personaDisclosure, personaName } from "@/lib/persona/store";
 import { personaInstructions, personaKnowledge } from "@/lib/persona/knowledge";
+import { detectVoiceContext } from "@/lib/persona/voice-prompt";
 import { PERSONA_ESCALATION_TRIGGERS, PERSONA_NEXT_ACTIONS, type PersonaSettings } from "@/lib/persona/types";
 import { memberSnapshot, type MemberIdentity } from "@/lib/member-ai-snapshot";
 import { getMemberAi, type MemberAiPermissionId } from "@/lib/member-ai";
@@ -91,7 +92,7 @@ export function PersonaAssistantPanel({
             mode: "custom" as const,
             coachName: persona.expertName,
             tone: persona.tone,
-            instructions: personaInstructions(persona),
+            instructions: personaInstructions(persona, detectVoiceContext(text)),
             introduction: persona.greeting,
           },
           escalation: {
