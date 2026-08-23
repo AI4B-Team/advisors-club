@@ -8,6 +8,7 @@ import { CommenterStack } from "@/components/commenter-stack";
 import { EmailBlastToggle } from "@/components/email-blast-toggle";
 import { PostComments } from "@/components/post-comments";
 import { SEED_POSTS, CATEGORY_META, type FeedPost as Post, type PostCategory } from "@/lib/feed-posts";
+import { usePagedList } from "@/hooks/use-paged-list";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId } from "@/components/feed-meta";
 
 const MAX_PINNED = 3;
@@ -85,6 +86,8 @@ function FeedPage() {
   const filtered = activeTab === "all" ? posts : posts.filter(p => p.category === activeTab);
   const base = sort === "top" ? [...filtered].sort((a,b)=>b.likes-a.likes) : filtered;
   const sorted = [...base].sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
+  // Render the feed incrementally instead of mounting every post at once.
+  const { visible: visiblePosts, hasMore: hasMorePosts, sentinelRef: feedSentinel, loadMore: loadMorePosts } = usePagedList(sorted, 10);
 
   return (
     <div className="cc-feed">
@@ -156,7 +159,7 @@ function FeedPage() {
             <button type="button" className="fp-empty-link" onClick={()=>setActiveTab("all")}>View all</button>
           </div>
         )}
-        {sorted.map(p => (
+        {visiblePosts.map(p => (
           <article key={p.id} className={`cc-post${p.pinned?" pinned":""}`}>
             <header className="cc-post-head">
               <span className="post-av-wrap">
@@ -203,7 +206,13 @@ function FeedPage() {
             {openComments[p.id] && <PostComments postId={p.id} />}
           </article>
         ))}
+        {hasMorePosts && (
+          <div ref={feedSentinel} className="cc-feed-more">
+            <button type="button" className="cc-page-btn" onClick={loadMorePosts}>Load More Posts</button>
+          </div>
+        )}
       </div>
+
     </div>
   );
 }

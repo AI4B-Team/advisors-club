@@ -6,7 +6,7 @@ import {
 import { useViewMode } from "@/hooks/use-view-mode";
 import { useNavLabel } from "@/hooks/use-nav-label";
 import { APP_LIBRARY, LIBRARY_CATEGORIES } from "@/lib/apps/library";
-import { addFromTemplate, createApp, duplicateApp, getApps, patchApp, removeApp, subscribeApps } from "@/lib/apps/store";
+import { addFromTemplate, createApp, duplicateApp, getApps, hydrateApps, patchApp, removeApp, subscribeApps } from "@/lib/apps/store";
 import { getUsage, statsFor, subscribeUsage, type UsageEvent } from "@/lib/apps/usage";
 import { visibleApps } from "@/lib/apps/access";
 import { appIcon } from "@/components/apps/icons";
@@ -19,6 +19,11 @@ import { PageHeader } from "@/components/ui/page-header";
 
 export const Route = createFileRoute("/app/apps/")({
   component: AppsPage,
+  // Pull the club's apps from the backend before the route renders, so the
+  // list doesn't paint empty and then pop in after an effect resolves.
+  // (No-op while the apps domain is still local-only.)
+  loader: async () => { await hydrateApps(); },
+  errorComponent: ({ error }) => <div className="pg" role="alert">Couldn't load your apps: {error.message}</div>,
   head: () => ({
     meta: [
       { title: "Apps | Advisors Club" },

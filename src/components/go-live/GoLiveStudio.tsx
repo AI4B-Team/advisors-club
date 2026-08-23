@@ -1,9 +1,10 @@
 import { Mic, MicOff, Camera, CameraOff, Radio, Copy, Check, Phone, Sparkles, MessageSquare, Users, ScreenShare, ChevronDown, FileText, Send, Video as VideoIcon, Smile, Hash, Clock, Mail, VideoOff, Wand2, UserPlus } from "lucide-react";
 import { PARTICIPANTS, TILE_GUESTS, REACTIONS, LANGS, SAMPLE_TRANSCRIPT } from "./constants";
+import { GoLiveWaveform } from "./GoLiveWaveform";
 import type { GoLiveState } from "./use-go-live";
 
 export function GoLiveStudio({ gl }: { gl: GoLiveState }) {
-  const { stage, title, camOn, micOn, screenOn, setScreenOn, countdown, liveSec, tab, setTab, noiseSup, setNoiseSup, videoStab, setVideoStab, autoSub, setAutoSub, emojiOpen, setEmojiOpen, reactions, copiedConf, srcLang, setSrcLang, dstLang, setDstLang, aiOn, setAiOn, chat, chatDraft, setChatDraft, wave, videoRef, confId, fireReaction, copyConf, toggleCam, toggleMic, startLive, endLive, sendChat, fmtTime } = gl;
+  const { stage, title, camOn, micOn, screenOn, setScreenOn, countdown, liveSec, tab, setTab, noiseSup, setNoiseSup, videoStab, setVideoStab, autoSub, setAutoSub, emojiOpen, setEmojiOpen, reactions, copiedConf, srcLang, setSrcLang, dstLang, setDstLang, aiOn, setAiOn, chat, chatDraft, setChatDraft, videoRef, confId, fireReaction, copyConf, toggleCam, toggleMic, startLive, endLive, sendChat, fmtTime } = gl;
   return (
           <div className="gl-studio">
             <div className="gl-stage">
@@ -41,11 +42,7 @@ export function GoLiveStudio({ gl }: { gl: GoLiveState }) {
                     <div className="gl-ai-sub">{aiOn ? (stage === "live" ? "Listening & transcribing…" : "Ready when you go live") : "Paused"}</div>
                   </div>
                 </div>
-                <div className="gl-wave">
-                  {wave.map((h, i) => (
-                    <span key={i} style={{ height: `${Math.max(8, h * 100)}%` }}/>
-                  ))}
-                </div>
+                <GoLiveWaveform active={stage === "live" && aiOn} micOn={micOn} />
                 <div className="gl-ai-right">
                   <div className="gl-lang">
                     <select value={srcLang} onChange={e => setSrcLang(e.target.value)}>
