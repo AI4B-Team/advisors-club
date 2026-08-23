@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactElement, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Calculator, ClipboardList, Target, BarChart3, Sparkles, ListChecks,
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/app/apps")({
   }),
 });
 
-const ICONS: Record<AppIconKey, JSX.Element> = {
+const ICONS: Record<AppIconKey, ReactElement> = {
   calculator: <Calculator size={17} />,
   clipboard: <ClipboardList size={17} />,
   target: <Target size={17} />,
@@ -107,7 +107,7 @@ function MemberApps({ apps, label }: { apps: App[]; label: string }) {
   );
 }
 
-function AppCard({ app, children }: { app: App; children?: React.ReactNode }) {
+function AppCard({ app, children }: { app: App; children?: ReactNode }) {
   return (
     <div className="ap-card">
       <span className="ap-card-i">{ICONS[app.icon]}</span>
