@@ -9,6 +9,7 @@ import { AivaAutonomy } from "./AivaAutonomy";
 import { AivaCatalog } from "./AivaCatalog";
 import { FlywheelBoard } from "./FlywheelBoard";
 import { NewProductIntelligence } from "@/components/recos/NewProductIntelligence";
+import { ConnectionReview } from "@/components/relationships/ConnectionReview";
 import { VoicePersonality } from "@/components/persona/VoicePersonality";
 import { MarketingPanel, WorkflowsPanel, AIAgentsPanel, AIInboxPanel } from "@/components/account-panels";
 import type { AivaAdmin } from "@/lib/aiva-admin";
@@ -75,6 +76,7 @@ function SettingsPanel({ k, admin, update, onOpen }: {
     case "capabilities": return <AivaCapabilities admin={admin} update={update} />;
     case "autonomy": return <AivaAutonomy admin={admin} update={update} />;
     case "catalog": return <AivaCatalog />;
+    case "connections": return <ConnectionReview />;
     case "intelligence": return <NewProductIntelligence />;
     case "flywheel": return <FlywheelBoard />;
     case "marketing": return <MarketingPanel />;

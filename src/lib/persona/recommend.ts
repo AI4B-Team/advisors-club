@@ -20,6 +20,7 @@ import {
   type RecoCategoryId, type RecoPolicy,
 } from "./reco-policy";
 import { recoMemory } from "./reco-events";
+import { approvedTargetsFor } from "@/lib/relationships/consume";
 
 export type MemberReco = {
   nodeId: string;
@@ -76,6 +77,8 @@ export type RecoContext = {
   turn: number;
   /** Recommendations already shown in this conversation. */
   shownThisConversation: { nodeId: string; paid: boolean; turn: number }[];
+  /** Where the member is right now (lesson, post, app…), if known. */
+  sourceId?: string;
 };
 
 export function recommendForMember(
@@ -99,6 +102,9 @@ export function recommendForMember(
   const terms = [...new Set([...words(ctx.query), ...words(ctx.extra ?? "")])].filter(w => !STOP.has(w));
   const threshold = MODE_THRESHOLD[policy.mode];
   const paidShown = already.filter(s => s.paid).length;
+  // Creator-approved connections beat topic matching: if the expert has already
+  // said "this helps there", trust it.
+  const approved = ctx.sourceId ? approvedTargetsFor(ctx.sourceId) : new Map();
 
   const out: MemberReco[] = [];
   for (const n of graph.nodes) {
@@ -122,7 +128,9 @@ export function recommendForMember(
     if (lastShown !== undefined && lastShown < freq.cooldownDays * 86_400_000) continue;
     if (already.some(s => s.nodeId === n.id)) continue;
 
+    const edge = approved.get(n.id);
     let score = relevance(n, terms);
+    if (edge) score = Math.max(score, 0.6) + 0.25;
     if (!score) continue;
     // Learn from behaviour: acted-on products earn a little more room,
     // ignored ones lose it.
@@ -141,7 +149,7 @@ export function recommendForMember(
       paid,
       priceLabel: paid && n.price ? `$${n.price}` : undefined,
       href: n.href,
-      reason: reasonFor(n, owned, paid, persona),
+      reason: edge?.memberCopy || reasonFor(n, owned, paid, persona),
       cta: owned ? `Open ${n.title}` : `View ${n.title}`,
       category,
       score,
