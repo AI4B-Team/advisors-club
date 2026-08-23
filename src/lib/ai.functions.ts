@@ -160,3 +160,155 @@ ${data.lessonDescription ? `- Description: ${data.lessonDescription}` : ""}`;
       return { reply: "", error: "AIVA is unavailable right now." };
     }
   });
+
+/* ============================================================
+   Onboarding — AIVA business context extraction
+   ============================================================ */
+
+const LearnInput = z.object({
+  description: z.string().max(6000).optional().default(""),
+  websiteUrl: z.string().max(300).optional().default(""),
+  sources: z.array(z.object({
+    kind: z.string().max(20),
+    label: z.string().max(300),
+    content: z.string().max(6000).optional().default(""),
+  })).max(12).optional().default([]),
+});
+
+export type LearnedProfile = {
+  business: string;
+  expertise: string;
+  audience: string;
+  transformation: string;
+  topics: string[];
+  offers: string[];
+  businessModel: string;
+  brandVoice: string;
+};
+
+const LEARN_SYSTEM = `You are AIVA, the AdvisorsClub AI business operator. You read what an advisor tells you about their business and extract a structured profile that will later power their community, courses, coaching and marketing.
+
+Rules:
+- Only use what the advisor actually provided. Never invent clients, revenue, credentials, or results.
+- If something is genuinely unclear, write a short best-guess phrased plainly — the advisor will confirm or edit it.
+- Keep every string short: 1–2 sentences max. Sentence case. No markdown, no emojis.
+- Return ONLY valid JSON matching this shape:
+{"business":"","expertise":"","audience":"","transformation":"","topics":["",""],"offers":["",""],"businessModel":"","brandVoice":""}
+- topics: 4–8 short content themes. offers: what they currently sell (empty array if unknown).`;
+
+function parseJsonBlock(raw: string): Record<string, unknown> | null {
+  const cleaned = raw.trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  try { return JSON.parse(cleaned) as Record<string, unknown>; } catch { /* fallthrough */ }
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start >= 0 && end > start) {
+    try { return JSON.parse(cleaned.slice(start, end + 1)) as Record<string, unknown>; } catch { return null; }
+  }
+  return null;
+}
+
+const str = (v: unknown) => (typeof v === "string" ? v.trim().slice(0, 400) : "");
+const strList = (v: unknown) =>
+  Array.isArray(v) ? v.filter(x => typeof x === "string").map(x => (x as string).trim().slice(0, 80)).filter(Boolean).slice(0, 10) : [];
+
+export const learnBusiness = createServerFn({ method: "POST" })
+  .inputValidator((input) => LearnInput.parse(input))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { profile: null, error: "AI is not configured." };
+
+    const sourceLines = data.sources
+      .map(s => `- ${s.kind}: ${s.label}${s.content ? `\n  Content: ${s.content.slice(0, 2500)}` : ""}`)
+      .join("\n");
+
+    const userContent = `Advisor description:
+${data.description || "(none provided)"}
+
+Website: ${data.websiteUrl || "(none provided)"}
+
+Other sources the advisor pointed to:
+${sourceLines || "(none)"}
+
+Extract the structured profile now.`;
+
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [
+            { role: "system", content: LEARN_SYSTEM },
+            { role: "user", content: userContent },
+          ],
+        }),
+      });
+      if (resp.status === 429) return { profile: null, error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { profile: null, error: "Out of AI credits. Add credits to continue." };
+      if (!resp.ok) {
+        console.error("learnBusiness gateway error", resp.status, await resp.text());
+        return { profile: null, error: "AIVA is unavailable right now." };
+      }
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const parsed = parseJsonBlock(json.choices?.[0]?.message?.content ?? "");
+      if (!parsed) return { profile: null, error: "AIVA couldn't read that. Try adding a bit more detail." };
+      const profile: LearnedProfile = {
+        business: str(parsed.business),
+        expertise: str(parsed.expertise),
+        audience: str(parsed.audience),
+        transformation: str(parsed.transformation),
+        topics: strList(parsed.topics),
+        offers: strList(parsed.offers),
+        businessModel: str(parsed.businessModel),
+        brandVoice: str(parsed.brandVoice),
+      };
+      return { profile, error: null };
+    } catch (e) {
+      console.error("learnBusiness error", e);
+      return { profile: null, error: "AIVA is unavailable right now." };
+    }
+  });
+
+const ClubNamesInput = z.object({
+  business: z.string().max(500).optional().default(""),
+  audience: z.string().max(500).optional().default(""),
+  topics: z.array(z.string().max(80)).max(10).optional().default([]),
+});
+
+export const suggestClubNames = createServerFn({ method: "POST" })
+  .inputValidator((input) => ClubNamesInput.parse(input))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { names: [] as string[], error: "AI is not configured." };
+    const prompt = `Suggest 4 short community names (2–3 words each, Title Case, no quotes, no numbering).
+Business: ${data.business || "(unspecified)"}
+Audience: ${data.audience || "(unspecified)"}
+Topics: ${data.topics.join(", ") || "(unspecified)"}
+Return ONLY a JSON array of 4 strings.`;
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [
+            { role: "system", content: "You name premium expert communities. Output a JSON array of strings only." },
+            { role: "user", content: prompt },
+          ],
+        }),
+      });
+      if (resp.status === 429) return { names: [], error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { names: [], error: "Out of AI credits." };
+      if (!resp.ok) return { names: [], error: "AIVA is unavailable right now." };
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const raw = (json.choices?.[0]?.message?.content ?? "").trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+      let names: string[] = [];
+      try { names = strList(JSON.parse(raw)); } catch {
+        names = raw.split("\n").map(l => l.replace(/^[-*\d.\s"]+|[",]+$/g, "").trim()).filter(Boolean).slice(0, 4);
+      }
+      return { names: names.slice(0, 4), error: null };
+    } catch (e) {
+      console.error("suggestClubNames error", e);
+      return { names: [], error: "AIVA is unavailable right now." };
+    }
+  });
