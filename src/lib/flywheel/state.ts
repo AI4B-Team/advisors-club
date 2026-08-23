@@ -75,9 +75,9 @@ export function computeFlywheel(): FlywheelState {
 
   const drafts = graph.nodes.filter(n => n.status === "draft");
   const published = graph.nodes.filter(n => n.status === "published" || n.status === "active");
-  const openOpps = opportunities.filter(o => o.status === "open");
-  const plannedOpps = opportunities.filter(o => o.status === "planned");
-  const builtOpps = opportunities.filter(o => o.status === "built");
+  const openOpps = opportunities.filter(o => o.status === "new" || o.status === "reviewing");
+  const plannedOpps = opportunities.filter(o => o.status === "approved" || o.status === "building");
+  const builtOpps = opportunities.filter(o => o.status === "completed");
   const suggested = recos.filter(r => r.status === "suggested");
   const approved = recos.filter(r => r.status === "approved");
   const applied = recos.filter(r => r.status === "applied");

@@ -142,7 +142,7 @@ export function fromOpportunities(opps: Opportunity[]): AivaActivityRecord[] {
         title: "Opportunity Discovered",
         description: `${o.insight} AIVA Recommends ${o.suggestedTitle}.`,
         area: AREA[o.kind] ?? "business",
-        status: o.status === "built" ? "completed" : "informational",
+        status: o.status === "completed" ? "completed" : "informational",
         requiresApproval: false,
         autonomy: "automatic",
         relatedEntityType: "opportunity", relatedEntityId: o.id,

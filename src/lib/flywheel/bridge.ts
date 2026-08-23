@@ -23,20 +23,20 @@ export function initFlywheel(): void {
   unsubs.push(
     subscribeOppStatuses(() => {
       for (const [id, status] of Object.entries(getOppStatuses())) {
-        if (status === "planned") {
+        if (status === "approved") {
           logFlywheel({
             kind: "approved", actor: "expert", opportunityId: id,
             title: "Opportunity Approved To Build",
             detail: "The Expert Accepted An AI Recommendation.",
-            dedupeKey: `opp-planned-${id}`,
+            dedupeKey: `opp-approved-${id}`,
           });
         }
-        if (status === "built") {
+        if (status === "completed") {
           logFlywheel({
             kind: "built", actor: "ai", opportunityId: id,
             title: "Product Built From An Opportunity",
             detail: "AI Turned An Observed Pattern Into A Real Product.",
-            dedupeKey: `opp-built-${id}`,
+            dedupeKey: `opp-completed-${id}`,
           });
         }
         if (status === "dismissed") {
