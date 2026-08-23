@@ -39,28 +39,59 @@ export function useCommerceViewer(): CommerceViewer {
 
 export function useEntitlements(): Entitlement[] {
   const [list, setList] = useState<Entitlement[]>([]);
-  useEffect(() => { setList(getEntitlements()); return subscribeEntitlements(setList); }, []);
+  useEffect(() => {
+    setList(getEntitlements());
+    // In a real club the ledger is the server's; pull it before rendering gates.
+    if (commerceIsServerBacked()) void refreshEntitlements();
+    return subscribeEntitlements(setList);
+  }, []);
   return list;
 }
 
 /** Access decision for one product, live against the entitlement ledger. */
-export function useAccess(ref: ProductRef, policy: AccessPolicy): {
+export function useAccess(ref: ProductRef, policy: AccessPolicy, label?: string): {
   decision: AccessDecision;
   viewer: CommerceViewer;
-  buy: (offer: Offer) => Promise<boolean>;
+  buy: (offer: Offer, options?: { simulate?: "success" | "fail" }) => Promise<boolean>;
+  error: string | null;
 } {
   const viewer = useCommerceViewer();
   const entitlements = useEntitlements();
+  const [error, setError] = useState<string | null>(null);
 
   const decision = useMemo(
     () => resolveAccess(ref, policy, viewer, entitlements),
     [ref.kind, ref.id, policy, viewer, entitlements], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  const buy = useCallback(async (offer: Offer) => {
-    const res = await purchaseProduct(ref, offer, viewer);
-    return res.ok;
-  }, [ref.kind, ref.id, viewer]); // eslint-disable-line react-hooks/exhaustive-deps
+  const buy = useCallback(async (offer: Offer, options?: { simulate?: "success" | "fail" }) => {
+    setError(null);
+    const res = await purchaseProduct(ref, offer, viewer, {
+      ...(label ? { label } : {}),
+      ...(options?.simulate ? { simulate: options.simulate } : {}),
+    });
+    if (!res.ok) { setError(res.error); return false; }
+    // Hosted checkout: the provider (and its webhook) completes the purchase.
+    if ("redirectUrl" in res && res.redirectUrl) {
+      window.location.assign(res.redirectUrl);
+      return true;
+    }
+    await refreshEntitlements();
+    return true;
+  }, [ref.kind, ref.id, viewer, label]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { decision, viewer, buy };
+  return { decision, viewer, buy, error };
 }
+
+/** Club revenue, derived from paid orders on the server. */
+export function useRevenue(): { summary: RevenueSummary | null; loading: boolean } {
+  const [summary, setSummary] = useState<RevenueSummary | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    void fetchRevenue().then(r => { if (!cancelled) { setSummary(r); setLoading(false); } });
+    return () => { cancelled = true; };
+  }, []);
+  return { summary, loading };
+}
+
