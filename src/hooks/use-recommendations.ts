@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useBusinessGraph } from "./use-business-graph";
 import { suggestForContainer, suggestForNode } from "@/lib/recos/engine";
+import { analyzeNewProduct } from "@/lib/recos/retro";
+import { markAnalyzed } from "@/lib/recos/settings";
 import {
   addRecos, deleteReco, getRecos, setRecoStatus, subscribeRecos, updateReco,
 } from "@/lib/recos/store";
