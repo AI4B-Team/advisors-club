@@ -6279,3 +6279,32 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   font-size: 13px; font-weight: 600; text-decoration: none;
 }
 .ac-perm-gate--loading { opacity: .6; font-size: 14px; }
+
+/* ============ Builder Core — shared page builder shell ============ */
+.cz-build{display:flex;flex-direction:column;min-height:100%;flex:1}
+.cz-canvas-wrap{flex:1;min-height:0;display:flex;flex-direction:column}
+.cz-pagepick{display:flex;gap:4px;flex-wrap:wrap}
+.cz-pagepick button{height:30px;padding:0 11px;border:1px solid #E8EAEE;background:#fff;border-radius:999px;font-size:12.5px;font-weight:650;color:#5B6270;cursor:pointer}
+.cz-pagepick button.on{background:#111827;border-color:#111827;color:#fff}
+.cz-save-state{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:650;color:#8A919C;white-space:nowrap}
+.cz-blockgroup{margin-bottom:14px}
+.cz-blockgroup h4{font-size:11px;font-weight:750;letter-spacing:.04em;text-transform:uppercase;margin:12px 0 7px}
+.cz-blockgrid{display:grid;gap:6px}
+.cz-blockcard{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border:1px solid #ECEEF2;background:#fff;border-radius:11px;text-align:left;cursor:pointer}
+.cz-blockcard:hover{border-color:#F5A623;background:#FFFCF4}
+.cz-blockcard:disabled{opacity:.45;cursor:default}
+.cz-blockcard-dot{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;flex:0 0 24px}
+.cz-blockcard-txt strong{display:block;font-size:12.5px;color:#111827}
+.cz-blockcard-txt em{display:block;font-style:normal;font-size:11.5px;color:#8A919C;line-height:1.35}
+.cz-inspect-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid #F0F1F4;margin-bottom:10px}
+.cz-inspect-head strong{display:block;font-size:13px;color:#111827}
+.cz-inspect-head em{display:block;font-style:normal;font-size:11.5px;color:#8A919C}
+.cz-inspect-tools{display:flex;gap:3px;flex-wrap:wrap}
+.cz-inspect-tools button{display:grid;place-items:center;width:26px;height:26px;border:1px solid #ECEEF2;background:#fff;border-radius:7px;color:#5B6270;cursor:pointer}
+.cz-inspect-tools button:hover{color:#111827;border-color:#D8DBE1}
+.cz-inspect-tools button:disabled{opacity:.4;cursor:default}
+.cz-inspect-tools button.danger:hover{color:#BE123C;border-color:#FBD5DB}
+.cz-empty-note{font-size:12.5px;color:#9AA0AA;padding:16px 6px;text-align:center}
+.cz-hint{display:flex;align-items:center;justify-content:center;gap:5px;font-size:11.5px;color:#9AA0AA;padding:8px 12px 12px}
+.cz-canvas-empty{display:flex;flex-direction:column;align-items:center;gap:4px;padding:48px 20px;text-align:center;color:#9AA0AA;font-size:12.5px}
+.cz-canvas-empty strong{font-size:14px;color:#111827}
