@@ -106,7 +106,23 @@ export function PersonaAssistantPanel({
         },
       });
       if (res.error) setError(res.error);
-      else setMsgs(m => [...m, { id: idRef.current++, from: "ai", text: res.reply, escalate: res.escalate }]);
+      else {
+        // Help first: recommendations are attached to an answer, never instead of one.
+        turnRef.current += 1;
+        let recos: MemberReco[] = [];
+        if (!res.escalate) {
+          recos = recommendForMember(
+            { query: q, extra: res.reply, turn: turnRef.current, shownThisConversation: shownRef.current },
+            persona,
+            { isAdmin, id: me.id },
+          );
+          recos.forEach(r => {
+            shownRef.current.push({ nodeId: r.nodeId, paid: r.paid, turn: turnRef.current });
+            trackReco({ nodeId: r.nodeId, title: r.title, owned: r.owned, paid: r.paid, type: "shown", query: q, memberId: me.id });
+          });
+        }
+        setMsgs(m => [...m, { id: idRef.current++, from: "ai", text: res.reply, escalate: res.escalate, recos }]);
+      }
     } catch {
       setError("The assistant is unavailable right now.");
     } finally {
