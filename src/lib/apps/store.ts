@@ -164,6 +164,9 @@ export function duplicateApp(id: string): App | null {
 
 export function patchApp(id: string, patch: Partial<App>): void {
   updateApps(list => list.map(a => (a.id === id ? { ...a, ...patch, updatedAt: now() } : a)));
+  if (remote()) {
+    writeThrough(() => supabaseAppsRepository.update(activeClubId(), id, patch), "patchApp");
+  }
 }
 
 export function patchSchema(id: string, patch: Partial<AppSchema>): void {
@@ -172,8 +175,16 @@ export function patchSchema(id: string, patch: Partial<AppSchema>): void {
       ? { ...a, schema: { fields: [], outputs: [], ...(a.schema ?? {}), ...patch }, updatedAt: now() }
       : a
   )));
+  if (remote()) {
+    const schema = getApp(id)?.schema;
+    writeThrough(() => supabaseAppsRepository.update(activeClubId(), id, { schema }), "patchSchema");
+  }
 }
 
 export function removeApp(id: string): void {
   updateApps(list => list.filter(a => a.id !== id));
+  if (remote()) {
+    writeThrough(() => supabaseAppsRepository.remove(activeClubId(), id), "removeApp");
+  }
 }
+
