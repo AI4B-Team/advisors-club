@@ -39,8 +39,6 @@ export function knowledgeSnapshot(s: MemberAiSettings): string {
   if (s.sources.transcripts) out.push("TRANSCRIPTS: Lesson transcripts are available for the published lessons above.");
   if (s.sources.resources) out.push("RESOURCE LIBRARY: Worksheets, templates, and links attached to the lessons above.");
 
-  const onb = memberOnboardingSummary(me.id);
-  if (onb) out.push(onb);
 
   return out.join("\n\n").slice(0, 6000);
 }
