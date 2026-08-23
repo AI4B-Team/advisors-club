@@ -74,7 +74,7 @@ export function defaultMoConfig(): MoConfig {
     version: 1,
     enabled: true,
     welcomeHeadline: "",
-    welcomeBody: "You're In. This Takes About 30 Seconds And We'll Point You Straight At Your First Win.",
+    welcomeBody: "You're in. Let's get you started. This will only take about 30 seconds.",
     askFocus: true,
     askExperience: true,
     askGoal: true,
