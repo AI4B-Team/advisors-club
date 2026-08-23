@@ -229,6 +229,8 @@ function LifeChip({ life }: { life: { tag: string; icon: "live"|"ai"|"fire"|"onl
 
 function Row({ title, clubs }: { title: string; clubs: Club[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  // Rows (especially search results) render a page at a time as you scroll.
+  const { visible: visibleClubs, hasMore: hasMoreClubs, sentinelRef: clubsSentinel } = usePagedList(clubs, 12);
   if (clubs.length === 0) return null;
 
   // Density fix: switch to compact grid for sparse rows
@@ -253,16 +255,12 @@ function Row({ title, clubs }: { title: string; clubs: Club[] }) {
       </div>
       {compact ? (
         <div className="dc-grid-compact">
-          {visibleClubs.map(c => <ClubCard key={c.id} c={c} />)}
-          {hasMoreClubs && (
-            <div ref={clubsSentinel} className="dc-load-more">
-              <button type="button" className="dc-load-more-btn" onClick={loadMoreClubs}>Load More Clubs</button>
-            </div>
-          )}
+          {clubs.map(c => <ClubCard key={c.id} c={c} />)}
         </div>
       ) : (
         <div className="dc-row-scroll" ref={scrollRef}>
-          {clubs.map(c => <ClubCard key={c.id} c={c} />)}
+          {visibleClubs.map(c => <ClubCard key={c.id} c={c} />)}
+          {hasMoreClubs && <div ref={clubsSentinel} className="dc-row-sentinel" aria-hidden="true" />}
         </div>
       )}
     </section>
