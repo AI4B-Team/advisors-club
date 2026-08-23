@@ -121,11 +121,20 @@ function depthOf(app: App): number {
 
 function suggestPricing(app: App, graph: BusinessGraph, audience: number): PricingSuggestion {
   const depth = depthOf(app);
-  const paidNeighbours = graph.nodes.filter(n => (n.access.mode === "paid" || n.access.mode === "plan") && n.type !== "app").length;
+  const paidNeighbours = graph.nodes.filter(n =>
+    (n.access.mode === "purchase" || n.access.mode === "upgrade" || n.access.mode === "plan" || n.access.mode === "membership")
+    && n.type !== "app").length;
   const freeOpt = { label: "Free For Every Member", pricing: { model: "free" } as AppPricing, access: { mode: "free" } as AccessPolicy };
   const memberOpt = { label: "Included With Membership", pricing: { model: "free" } as AppPricing, access: { mode: "membership" } as AccessPolicy };
   const price = depth >= 16 ? 49 : depth >= 10 ? 29 : 19;
-  const paidOpt = { label: `Paid Upgrade — $${price} One-Time`, pricing: { model: "one-time", price } as AppPricing, access: { mode: "paid", price } as AccessPolicy };
+  const paidOpt = {
+    label: `Paid Upgrade — $${price} One-Time`,
+    pricing: { model: "one-time", price } as AppPricing,
+    access: {
+      mode: "purchase",
+      offer: { price, ctaLabel: "Unlock App", benefit: `Full Access To ${app.name}.` },
+    } as AccessPolicy,
+  };
 
   if (depth >= 12 && audience >= 8) {
     return {
