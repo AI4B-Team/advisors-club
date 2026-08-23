@@ -2,13 +2,8 @@ import { useEffect, useState } from "react";
 import { Ban, Bot, MessageCircle, Plus, ShieldAlert, Sparkles, Trash2, UserCircle2 } from "lucide-react";
 import { AmCard, AmField } from "./ui";
 import type { AivaAdmin } from "@/lib/aiva-admin";
-import { getAivaContext, setAivaContext, type MemberAiMode } from "@/lib/aiva-context";
-
-const MEMBER_MODES: { id: MemberAiMode; label: string; blurb: string }[] = [
-  { id: "aiva", label: "AIVA", blurb: "Members Meet AIVA By Name." },
-  { id: "my-coach", label: "My AI Coach", blurb: "Framed As Your Coaching Companion." },
-  { id: "custom", label: "Custom AI Assistant", blurb: "Your Own Name And Persona." },
-];
+import { usePersona } from "@/hooks/use-persona";
+import { personaName } from "@/lib/persona/store";
 
 function ListEditor({ label, hint, items, onChange }: {
   label: string; hint: string; items: string[]; onChange: (v: string[]) => void;
@@ -41,14 +36,7 @@ function ListEditor({ label, hint, items, onChange }: {
 }
 
 export function AivaInstructions({ admin, update }: { admin: AivaAdmin; update: (p: Partial<AivaAdmin>) => void }) {
-  const [memberAi, setMemberAi] = useState(() => getAivaContext().memberAi);
-  useEffect(() => { setMemberAi(getAivaContext().memberAi); }, []);
-
-  function saveMemberAi(patch: Partial<typeof memberAi>) {
-    const next = { ...memberAi, ...patch, configured: true };
-    setMemberAi(next);
-    setAivaContext({ memberAi: next });
-  }
+  const persona = usePersona();
 
   return (
     <div className="am-stack">
@@ -103,8 +91,8 @@ export function AivaInstructions({ admin, update }: { admin: AivaAdmin; update: 
         <AmField label="Situations Requiring Human Escalation"><textarea className="am-textarea" rows={2} value={admin.boundaries.escalate} onChange={e => update({ boundaries: { ...admin.boundaries, escalate: e.target.value } })} /></AmField>
       </AmCard>
 
-      <AmCard title="Member-Facing AI" desc="Identity, Training Sources, Permissions, And Escalation Now Live In The Member AI Tab." icon={<UserCircle2 size={16} />}>
-        <p className="am-muted">Members Currently See: <b>{memberAi.name || "AIVA"}</b>. Open <b>Member AI</b> To Change How Members Experience The Assistant.</p>
+      <AmCard title="Member-Facing AI" desc="These Rules Apply To AIVA Only. Your Member-Facing AI Is Configured In AI Persona." icon={<UserCircle2 size={16} />}>
+        <p className="am-muted">Members Currently See: <b>{personaName(persona)}</b>. Open <b>AI Persona</b> To Change How Members Experience The Assistant.</p>
       </AmCard>
     </div>
   );
