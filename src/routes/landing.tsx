@@ -113,11 +113,11 @@ function Index() {
                 className="hero-aiva-input"
                 value={heroPrompt}
                 onChange={e => setHeroPrompt(e.target.value)}
-                placeholder="Tell AIVA about your business, audience, expertise, or idea..."
+                placeholder="Tell us about your business, audience, expertise, or idea..."
                 rows={4}
               />
               <button type="submit" className="hero-aiva-cta">
-                Start Building <ArrowRight size={14} strokeWidth={3} />
+                Build It With AI <ArrowRight size={14} strokeWidth={3} />
               </button>
             </div>
             <div className="hero-aiva-foot">
