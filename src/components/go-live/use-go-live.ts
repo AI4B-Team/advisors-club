@@ -38,14 +38,12 @@ export function useGoLive({ open, onClose }: { open: boolean; onClose: () => voi
     { who: "Ana Ruiz", text: "Audio is super clear today" },
   ]);
   const [chatDraft, setChatDraft] = useState("");
-  const [wave, setWave] = useState<number[]>(() => Array(40).fill(0).map(() => Math.random() * 0.4 + 0.1));
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  // One broadcast timer drives both elapsed time and the viewer counter.
   const liveTimerRef = useRef<number | null>(null);
-  const viewersTimerRef = useRef<number | null>(null);
   const cdRef = useRef<number | null>(null);
-  const waveTimerRef = useRef<number | null>(null);
 
   const streamKey = useMemo(() => "live_sk_" + Math.random().toString(36).slice(2, 18), []);
   const rtmpUrl = "rtmps://live.aiforbusiness.app/app";
@@ -73,7 +71,7 @@ export function useGoLive({ open, onClose }: { open: boolean; onClose: () => voi
   function stopAll() {
     streamRef.current?.getTracks().forEach(t => t.stop());
     streamRef.current = null;
-    [liveTimerRef, viewersTimerRef, cdRef, waveTimerRef].forEach(r => {
+    [liveTimerRef, cdRef].forEach(r => {
       if (r.current) window.clearInterval(r.current);
       r.current = null;
     });
@@ -141,14 +139,14 @@ export function useGoLive({ open, onClose }: { open: boolean; onClose: () => voi
   function beginBroadcast() {
     setStage("live");
     setLiveSec(0); setViewers(1);
-    liveTimerRef.current = window.setInterval(() => setLiveSec(s => s + 1), 1000);
-    viewersTimerRef.current = window.setInterval(
-      () => setViewers(v => Math.max(1, v + Math.floor(Math.random() * 5))),
-      2500,
-    );
-    waveTimerRef.current = window.setInterval(() => {
-      setWave(prev => prev.map(() => Math.random() * (micOn ? 0.95 : 0.15) + 0.05));
-    }, 110);
+    liveTimerRef.current = window.setInterval(() => {
+      setLiveSec(s => {
+        const next = s + 1;
+        // Viewer count ticks off the same clock (roughly every 3s).
+        if (next % 3 === 0) setViewers(v => Math.max(1, v + Math.floor(Math.random() * 5)));
+        return next;
+      });
+    }, 1000);
   }
 
   function endLive() { stopAll(); setStage("ended"); }
@@ -178,7 +176,7 @@ export function useGoLive({ open, onClose }: { open: boolean; onClose: () => voi
 
 
   const isStudio = stage === "preview" || stage === "live";
-  return { stage, setStage, title, setTitle, desc, setDesc, audience, setAudience, camOn, setCamOn, micOn, setMicOn, screenOn, setScreenOn, countdown, setCountdown, liveSec, setLiveSec, viewers, setViewers, scheduleDate, setScheduleDate, scheduleTime, setScheduleTime, copied, setCopied, err, setErr, tab, setTab, noiseSup, setNoiseSup, videoStab, setVideoStab, autoSub, setAutoSub, emojiOpen, setEmojiOpen, reactions, setReactions, copiedConf, setCopiedConf, srcLang, setSrcLang, dstLang, setDstLang, aiOn, setAiOn, chat, setChat, chatDraft, setChatDraft, wave, setWave, videoRef, streamRef, streamKey, rtmpUrl, confId, meetingDate, fireReaction, copyConf, stopAll, reset, handleClose, startPreview, toggleCam, toggleMic, startLive, beginBroadcast, endLive, commitSchedule, copyKey, sendChat, fmtTime, isStudio };
+  return { stage, setStage, title, setTitle, desc, setDesc, audience, setAudience, camOn, setCamOn, micOn, setMicOn, screenOn, setScreenOn, countdown, setCountdown, liveSec, setLiveSec, viewers, setViewers, scheduleDate, setScheduleDate, scheduleTime, setScheduleTime, copied, setCopied, err, setErr, tab, setTab, noiseSup, setNoiseSup, videoStab, setVideoStab, autoSub, setAutoSub, emojiOpen, setEmojiOpen, reactions, setReactions, copiedConf, setCopiedConf, srcLang, setSrcLang, dstLang, setDstLang, aiOn, setAiOn, chat, setChat, chatDraft, setChatDraft, videoRef, streamRef, streamKey, rtmpUrl, confId, meetingDate, fireReaction, copyConf, stopAll, reset, handleClose, startPreview, toggleCam, toggleMic, startLive, beginBroadcast, endLive, commitSchedule, copyKey, sendChat, fmtTime, isStudio };
 }
 
 export type GoLiveState = ReturnType<typeof useGoLive>;
