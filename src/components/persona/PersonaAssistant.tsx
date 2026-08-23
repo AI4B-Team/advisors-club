@@ -11,8 +11,11 @@ import { PERSONA_ESCALATION_TRIGGERS, PERSONA_NEXT_ACTIONS, type PersonaSettings
 import { memberSnapshot, type MemberIdentity } from "@/lib/member-ai-snapshot";
 import { getMemberAi, type MemberAiPermissionId } from "@/lib/member-ai";
 import { useViewMode } from "@/hooks/use-view-mode";
+import { recommendForMember, type MemberReco } from "@/lib/persona/recommend";
+import { trackReco } from "@/lib/persona/reco-events";
+import { MemberRecoCards } from "./MemberRecoCards";
 
-type Msg = { id: number; from: "me" | "ai"; text: string; escalate?: boolean };
+type Msg = { id: number; from: "me" | "ai"; text: string; escalate?: boolean; recos?: MemberReco[] };
 
 function AiMark({ s, size = 30 }: { s: PersonaSettings; size?: number }) {
   return (
