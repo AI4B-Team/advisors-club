@@ -35,6 +35,7 @@ import { Route as AppAppsRouteImport } from './routes/app.apps'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
+import { Route as AppManageIndexRouteImport } from './routes/app.manage.index'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppPagePageIdRouteImport } from './routes/app.page.$pageId'
 import { Route as AppManageNavigationRouteImport } from './routes/app.manage.navigation'
@@ -179,6 +180,11 @@ const AppSellIndexRoute = AppSellIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppSellRoute,
 } as any)
+const AppManageIndexRoute = AppManageIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppManageRoute,
+} as any)
 const AppSellPageIdRoute = AppSellPageIdRouteImport.update({
   id: '/$pageId',
   path: '/$pageId',
@@ -284,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
 }
 export interface FileRoutesByTo {
@@ -303,7 +310,6 @@ export interface FileRoutesByTo {
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
-  '/app/manage': typeof AppManageRouteWithChildren
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
@@ -323,6 +329,7 @@ export interface FileRoutesByTo {
   '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/manage': typeof AppManageIndexRoute
   '/app/sell': typeof AppSellIndexRoute
 }
 export interface FileRoutesById {
@@ -365,6 +372,7 @@ export interface FileRoutesById {
   '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
+  '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
 }
 export interface FileRouteTypes {
@@ -408,6 +416,7 @@ export interface FileRouteTypes {
     | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/manage/'
     | '/app/sell/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -427,7 +436,6 @@ export interface FileRouteTypes {
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
-    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
@@ -447,6 +455,7 @@ export interface FileRouteTypes {
     | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/manage'
     | '/app/sell'
   id:
     | '__root__'
@@ -488,6 +497,7 @@ export interface FileRouteTypes {
     | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
+    | '/app/manage/'
     | '/app/sell/'
   fileRoutesById: FileRoutesById
 }
@@ -690,6 +700,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSellIndexRouteImport
       parentRoute: typeof AppSellRoute
     }
+    '/app/manage/': {
+      id: '/app/manage/'
+      path: '/'
+      fullPath: '/app/manage/'
+      preLoaderRoute: typeof AppManageIndexRouteImport
+      parentRoute: typeof AppManageRoute
+    }
     '/app/sell/$pageId': {
       id: '/app/sell/$pageId'
       path: '/$pageId'
@@ -786,10 +803,12 @@ declare module '@tanstack/react-router' {
 
 interface AppManageRouteChildren {
   AppManageNavigationRoute: typeof AppManageNavigationRoute
+  AppManageIndexRoute: typeof AppManageIndexRoute
 }
 
 const AppManageRouteChildren: AppManageRouteChildren = {
   AppManageNavigationRoute: AppManageNavigationRoute,
+  AppManageIndexRoute: AppManageIndexRoute,
 }
 
 const AppManageRouteWithChildren = AppManageRoute._addFileChildren(
