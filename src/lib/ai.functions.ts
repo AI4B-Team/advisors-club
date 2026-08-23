@@ -722,3 +722,56 @@ CLUB NAME: ${data.clubName || "(unnamed)"}`;
       return { ...empty, error: "AI is unavailable right now." };
     }
   });
+
+/* ============ Persona Voice — test & compare personalities ============ */
+const VoiceTestSchema = z.object({
+  question: z.string().min(1).max(600),
+  personaName: z.string().max(80).default("AI Coach"),
+  expertName: z.string().max(80).default(""),
+  /** Built by buildVoiceInstructions() on the client. */
+  voice: z.string().max(4000),
+  /** Optional label shown when comparing styles. */
+  label: z.string().max(60).default(""),
+  knowledge: z.string().max(4000).default(""),
+});
+
+export const personaVoiceTest = createServerFn({ method: "POST" })
+  .inputValidator((input) => VoiceTestSchema.parse(input))
+  .handler(async ({ data }) => {
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { reply: "", error: "AI is not configured for this workspace." };
+
+    const system = `You are "${data.personaName}", the member-facing AI assistant inside an Advisors Club community${data.expertName ? ` created by ${data.expertName}` : ""}. You are an AI and never claim to be a human.
+
+This is a VOICE PREVIEW: answer the member's question exactly as this persona would.
+
+${data.voice}
+
+Rules that personality never overrides: be accurate, never invent products, prices, features or results, never demean the member, and keep it useful. Reply in short markdown. No preamble about being an AI unless asked.`;
+
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [
+            { role: "system", content: system },
+            ...(data.knowledge ? [{ role: "system" as const, content: `CONTEXT YOU MAY USE:\n${data.knowledge}` }] : []),
+            { role: "user" as const, content: data.question },
+          ],
+        }),
+      });
+      if (resp.status === 429) return { reply: "", error: "Busy right now — try again in a moment." };
+      if (resp.status === 402) return { reply: "", error: "AI credits are exhausted." };
+      if (!resp.ok) {
+        console.error("personaVoiceTest gateway error", resp.status, await resp.text());
+        return { reply: "", error: "The preview is unavailable right now." };
+      }
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      return { reply: json.choices?.[0]?.message?.content ?? "", error: null };
+    } catch (e) {
+      console.error("personaVoiceTest error", e);
+      return { reply: "", error: "The preview is unavailable right now." };
+    }
+  });
