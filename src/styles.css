@@ -6124,3 +6124,52 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .aiva-auto-row { flex-direction: column; align-items: flex-start; gap: 10px; }
   .aiva-open { padding-top: 24px; }
 }
+
+/* ------------------------------------------------------------------ */
+/* Opportunities v2 — editorial strategist feed (AIVA)                 */
+/* ------------------------------------------------------------------ */
+.opp-feed { display: grid; gap: 22px; max-width: 760px; }
+.opp-lede { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.opp-lede p { margin: 0; font-size: 15px; color: var(--ac2-ink-2, #374151); line-height: 1.6; }
+.opp-lede strong { color: var(--ac2-ink-1, #111827); font-weight: 600; }
+.opp-filters { display: flex; gap: 14px; margin-left: auto; }
+.opp-filter { background: none; border: 0; padding: 0; font-size: 13px; color: #9CA3AF; cursor: pointer; }
+.opp-filter.is-active { color: var(--ac2-ink-1, #111827); font-weight: 600; }
+.opp-demo { display: flex; align-items: center; gap: 7px; margin: -8px 0 0; font-size: 12px; color: #9CA3AF; }
+.opp-empty { margin: 0; padding: 32px 0; font-size: 14px; color: #9CA3AF; }
+.opp-section { margin: 12px 0 -8px; font-size: 13px; font-weight: 600; color: #9CA3AF; letter-spacing: .01em; }
+
+.opp-row { display: grid; gap: 6px; padding: 22px 0; border-top: 1px solid #EEF0F2; }
+.opp-row:first-of-type { border-top: 0; }
+.opp-row.is-dismissed { opacity: .5; }
+.opp-kind { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #9CA3AF; }
+.opp-state { color: var(--ac2-accent, #B45309); font-weight: 600; }
+.opp-insight { margin: 2px 0 0; font-size: 19px; line-height: 1.35; font-weight: 600; color: var(--ac2-ink-1, #111827); letter-spacing: -.01em; }
+.opp-signal { margin: 0; font-size: 13px; color: #9CA3AF; }
+.opp-action { margin: 6px 0 0; font-size: 14px; color: var(--ac2-ink-2, #374151); }
+.opp-more { display: inline-flex; align-items: center; gap: 5px; margin: 8px 0 0; padding: 0; background: none; border: 0; font-size: 13px; color: #6B7280; cursor: pointer; justify-self: start; }
+.opp-more:hover { color: var(--ac2-ink-1, #111827); }
+
+.opp-detail { display: grid; gap: 16px; margin: 12px 0 4px; padding-left: 16px; border-left: 2px solid #F1F2F4; }
+.opp-detail p { margin: 4px 0 0; font-size: 14px; line-height: 1.65; color: var(--ac2-ink-2, #374151); }
+.opp-label { font-size: 12px; font-weight: 600; color: #9CA3AF; }
+.opp-quote { font-style: italic; color: #6B7280 !important; }
+.opp-cando { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.opp-cando li { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; color: var(--ac2-ink-2, #374151); }
+.opp-cando svg { margin-top: 3px; color: var(--ac2-accent, #B45309); flex: none; }
+.opp-cando em { font-style: normal; color: #9CA3AF; }
+.opp-money { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.opp-money-opt { padding: 6px 12px; border: 1px solid #E5E7EB; border-radius: 999px; background: #fff; font-size: 13px; color: #6B7280; cursor: pointer; }
+.opp-money-opt.is-active { border-color: var(--ac2-accent, #B45309); color: var(--ac2-accent, #B45309); }
+
+.opp-actions { display: flex; align-items: center; gap: 18px; margin-top: 14px; flex-wrap: wrap; }
+.opp-primary { padding: 9px 18px; border: 0; border-radius: 10px; background: var(--ac2-ink-1, #111827); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; }
+.opp-primary:hover { opacity: .9; }
+.opp-quiet { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 0; font-size: 13px; color: #9CA3AF; cursor: pointer; }
+.opp-quiet:hover { color: var(--ac2-ink-1, #111827); }
+.opp-hidden-toggle { justify-self: start; background: none; border: 0; padding: 0; font-size: 13px; color: #9CA3AF; cursor: pointer; }
+
+@media (max-width: 640px) {
+  .opp-filters { margin-left: 0; }
+  .opp-insight { font-size: 17px; }
+}
