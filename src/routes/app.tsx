@@ -536,7 +536,7 @@ function Topbar() {
 
         <div className="cc-tb-pf" ref={ref}>
           <button className="cc-tb-av" onClick={()=>setOpen(o=>!o)} aria-label="Account">
-            {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+            {viewAs ? (viewAs.avatar ? <img src={viewAs.avatar} alt="" /> : viewAs.name.slice(-1)) : initial}
           </button>
           {open && (
             <div className="cc-tb-menu">
@@ -548,7 +548,7 @@ function Topbar() {
               )}
               <div className="cc-tb-menu-head">
                 <span className="cc-tb-menu-av">
-                  {viewAs ? <img src={viewAs.avatar} alt="" /> : initial}
+                  {viewAs ? (viewAs.avatar ? <img src={viewAs.avatar} alt="" /> : viewAs.name.slice(-1)) : initial}
                 </span>
                 <div>
                   <div className="cc-tb-menu-n">{viewAs ? viewAs.name : (displayName || "Guest")}</div>
@@ -620,7 +620,9 @@ function ViewModeToggle() {
         ) : (
           <span className="cc-tb-vw-current member">
             {viewAs ? (
-              <img src={viewAs.avatar} alt="" className="cc-tb-vw-av"/>
+              viewAs.avatar
+                ? <img src={viewAs.avatar} alt="" className="cc-tb-vw-av"/>
+                : <span className="cc-tb-vw-av">{viewAs.name.slice(-1)}</span>
             ) : (
               <User size={13}/>
             )}
@@ -665,6 +667,9 @@ function ViewModeToggle() {
             />
           </div>
           <div className="cc-tb-vw-list">
+            <div className="cc-tb-vw-empty" style={{fontSize:11,textTransform:"uppercase",letterSpacing:".04em"}}>
+              Synthetic Examples — Not Real Members
+            </div>
             {filtered.length === 0 && (
               <div className="cc-tb-vw-empty">No members found</div>
             )}
@@ -674,7 +679,7 @@ function ViewModeToggle() {
                 className={`cc-tb-vw-item ${viewAs?.id === m.id ? "on" : ""}`}
                 onClick={()=>{ setViewAs(m); setMode("member"); setOpen(false); setQ(""); }}
               >
-                <img src={m.avatar} alt="" />
+                {m.avatar ? <img src={m.avatar} alt="" /> : <span className="cc-tb-vw-av">{m.name.slice(-1)}</span>}
                 <div className="cc-tb-vw-item-meta">
                   <div className="cc-tb-vw-item-n">{m.name}</div>
                   <div className="cc-tb-vw-item-r">{m.role}</div>
