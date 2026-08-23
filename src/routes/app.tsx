@@ -258,9 +258,20 @@ function CommunitySidebar() {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
-  // Navigation is data-driven; admin overrides will be layered in here later.
-  const memberNav = useMemo(() => resolveNav(DEFAULT_MEMBER_NAV).map(toTopLink), []);
+  // Navigation is fully data-driven from the admin-editable community nav config.
+  const { isAdmin } = useViewMode();
+  const [navItems, setNavItems] = useState<NavItem[]>(() => getNavConfig().items);
+  useEffect(() => {
+    const read = () => setNavItems(getNavConfig().items);
+    read();
+    return subscribeNav(read);
+  }, []);
+  const memberGroups = useMemo(
+    () => groupNav(visibleNav(navItems).filter(i => i.visibility !== "admins" || isAdmin)),
+    [navItems, isAdmin],
+  );
   const systemNav = useMemo(() => SYSTEM_NAV.map(toTopLink), []);
+
   const [setupComplete, setSetupComplete] = useState(true);
   useEffect(() => {
     const read = () => setSetupComplete(Boolean(getGS().quickstartCompleted));
