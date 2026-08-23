@@ -4995,3 +4995,76 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .mo-cfg-opt button:hover{color:#E03131}
 .mo-cfg-add{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border:1px dashed #D5D8DF;border-radius:999px;background:#fff;font-size:12.5px;color:#4B4F57;cursor:pointer}
 .mo-cfg-check{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#4B4F57}
+
+/* ============ QA PASS — MOBILE OVERFLOW FIXES ============ */
+@media (max-width:760px){
+  /* Discover: headline and filter pills were forcing horizontal page scroll */
+  .lt .dc-min h1{white-space:normal;letter-spacing:-1px}
+  .lt .dc-min-pills{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;-webkit-overflow-scrolling:touch}
+  .lt .dc-rows{padding:20px 16px 60px}
+
+  /* Auth: two-column split collapses, fixed-width copy wraps */
+  .lt-auth{grid-template-columns:1fr}
+  .lt-auth-right{display:none}
+  .lt-auth-rev .lt-auth-left{order:1}
+  .lt-auth-left{padding:40px 20px;max-width:100%}
+  .lt-nowrap{white-space:normal}
+  .lt-row-2{grid-template-columns:1fr}
+  .lt-auth h1{font-size:26px}
+
+  /* Onboarding: step dots and header wrap instead of overflowing */
+  .ob-top{padding:12px 16px;flex-wrap:wrap}
+  .ob-steps{flex-wrap:wrap;justify-content:center;order:3;width:100%}
+  .ob-step-dot{width:16px}
+}
+@media (max-width:560px){
+  .lt .dc-grid-compact{grid-template-columns:1fr}
+  .lt .dc-card{flex-basis:80%}
+  .lt .dc-row-head{margin:0 0 10px}
+}
+@media (max-width:640px){
+  .ac nav,.site-nav{padding:0 14px;gap:10px}
+  .ac .nav-logo,.site-nav .nav-logo{font-size:15px}
+  .ac .logo-img,.site-nav .logo-img{height:20px}
+  .ac .nav-btn,.site-nav .nav-btn{padding:8px 14px;font-size:13px;white-space:nowrap}
+  .site-nav .nav-links{gap:12px;font-size:13px}
+  .lt .dc-min{padding-top:90px}
+}
+
+/* ---- Public site nav (class-based, responsive) ---- */
+.site-nav .sn-left{display:flex;align-items:center;gap:12px;flex:0 0 auto;min-width:0}
+.site-nav .sn-left-grow{flex:1;min-width:0}
+.site-nav .sn-sep{width:1px;height:22px;background:rgba(255,255,255,0.2)}
+.site-nav .sn-link{color:#fff;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+.site-nav .logo-img{height:28px}
+.site-nav .sn-search{display:flex;align-items:center;gap:8px;margin-left:16px;padding:8px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;flex:1;min-width:0;max-width:420px}
+.site-nav .sn-search svg{color:rgba(255,255,255,0.6);flex-shrink:0}
+.site-nav .sn-search input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:#fff;font-size:14px;font-family:inherit}
+.site-nav .sn-right{display:flex;align-items:center;gap:20px;flex-shrink:0}
+.site-nav .sn-cta{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;padding:10px 24px;border-radius:6px;background:#F5A623;color:#1A1A1A;font-size:14px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;flex-shrink:0}
+@media (max-width:640px){
+  .site-nav .sn-left{gap:8px}
+  .site-nav .sn-sep{display:none}
+  .site-nav .logo-img{height:22px}
+  .site-nav .sn-search{margin-left:8px;padding:7px 10px}
+  .site-nav .sn-right{gap:12px}
+  .site-nav .sn-cta{padding:8px 14px;font-size:13px}
+}
+@media (max-width:900px){
+  .site-nav .sn-search{display:none}
+  .site-nav{gap:12px}
+}
+@media (max-width:480px){
+  .site-nav{padding:0 12px;gap:8px}
+  .site-nav .sn-right{gap:10px}
+  .site-nav .sn-cta{padding:8px 12px;font-size:12px}
+  .site-nav .sn-link{font-size:13px}
+  .lt .dc-min-pills{padding-left:0;padding-right:0}
+}
+@media (max-width:900px){
+  .lt{overflow-x:hidden}
+}
+@media (max-width:760px){
+  .lt .dc-min h1{white-space:normal !important;font-size:clamp(28px,8vw,40px);letter-spacing:-1px}
+}
+.a11y-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
