@@ -69,6 +69,14 @@ export function personaKnowledge(s: PersonaSettings, viewer: Viewer): PersonaKno
     out.push(`ABOUT THE BUSINESS:\n${[ctx.profile.business, ctx.profile.expertise, ctx.profile.audience].filter(Boolean).join(" | ")}`);
   }
   if (s.sources.faqs && admin.facts["your-offers"]) out.push(`OFFERS:\n${admin.facts["your-offers"]}`);
+  // Admin-added sources are only visible to the Persona when the expert marked
+  // them member-facing. "aiva" sources are the admin operator's alone.
+  const personaSources = admin.knowledge.filter(
+    k => (k.audience ?? "both") !== "aiva" && k.status === "ready",
+  );
+  if (personaSources.length) {
+    out.push(`ADDITIONAL SOURCES YOU ARE TRAINED ON:\n${personaSources.map(k => `- ${k.label}${k.detail ? ` — ${k.detail}` : ""}`).join("\n")}`);
+  }
   if (s.sources.uploads && s.uploads.length) {
     out.push(`UPLOADED KNOWLEDGE:\n${s.uploads.map(u => `## ${u.title}\n${u.body.slice(0, 1200)}`).join("\n\n")}`);
   }
