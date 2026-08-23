@@ -653,7 +653,7 @@ function StepNavigation({ items, setItems, rationale, busy, onGenerate, onBack, 
       <StepHead
         eyebrow="AI Builds It"
         title="How Your Club Is Organized"
-        sub="AI Named Your Menu For Your Business. Everything Here Stays Fully Editable In Manage → Navigation."
+        sub="AI Named Your Menu For Your Business. Everything Here Stays Fully Editable In Settings → Club Navigation."
       />
 
       {busy && items.length === 0 ? (
