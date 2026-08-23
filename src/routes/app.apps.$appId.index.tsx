@@ -76,7 +76,7 @@ function AppRunPage() {
       </div>
 
       <AccessGate
-        productRef={{ kind: "app", id: app.id, title: app.name }}
+        productRef={{ kind: "app", id: app.id }}
         policy={policy}
         title={app.name}
         description={app.description}
