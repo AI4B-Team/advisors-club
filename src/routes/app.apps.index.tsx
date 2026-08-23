@@ -11,7 +11,8 @@ import { getUsage, statsFor, subscribeUsage, type UsageEvent } from "@/lib/apps/
 import { visibleApps } from "@/lib/apps/access";
 import { appIcon } from "@/components/apps/icons";
 import { AiAppBuilder } from "@/components/apps/AiAppBuilder";
-import { APP_KIND_LABEL, pricingLabel, type App, type AppKind } from "@/lib/apps/types";
+import { APP_KIND_LABEL, toAccessPolicy, type App, type AppKind } from "@/lib/apps/types";
+import { AccessChip } from "@/components/commerce/AccessGate";
 
 export const Route = createFileRoute("/app/apps/")({
   component: AppsPage,
@@ -196,7 +197,7 @@ function AdminAppCard({ app, events }: { app: App; events: UsageEvent[] }) {
 
       <div className="apx-card-meta">
         <span className="apx-card-kind">{APP_KIND_LABEL[app.kind]}</span>
-        {app.pricing && app.pricing.model !== "free" && <span className="apx-card-kind">{pricingLabel(app.pricing)}</span>}
+        <AccessChip policy={toAccessPolicy(app.access)} />
         {app.source === "ai" && <span className="apx-card-kind is-ai"><Sparkles size={11} /> AI</span>}
       </div>
 
