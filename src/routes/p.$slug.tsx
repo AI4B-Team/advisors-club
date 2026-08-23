@@ -1,8 +1,9 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { getSellDoc, subscribeSell } from "@/lib/sell/store";
-import { SellPreview } from "@/components/sell/SellPreview";
-import type { SellPage } from "@/lib/sell/types";
+import { PagePreview } from "@/components/builder/PagePreview";
+import { toBuilderPage } from "@/hooks/use-builder";
+import type { BuilderPage } from "@/lib/builder/types";
 
 export const Route = createFileRoute("/p/$slug")({
   head: () => ({
@@ -20,12 +21,13 @@ export const Route = createFileRoute("/p/$slug")({
 
 function PublicPage() {
   const { slug } = useParams({ from: "/p/$slug" });
-  const [page, setPage] = useState<SellPage | null | undefined>(undefined);
+  const [page, setPage] = useState<BuilderPage | null | undefined>(undefined);
 
   useEffect(() => {
     const read = () => {
       const doc = getSellDoc();
-      setPage([doc.clubPage, ...doc.pages].find(p => p.slug === slug) ?? null);
+      const found = [doc.clubPage, ...doc.pages].find(p => p.slug === slug);
+      setPage(found ? toBuilderPage(found) : null);
     };
     read();
     return subscribeSell(read);
@@ -42,5 +44,5 @@ function PublicPage() {
     );
   }
 
-  return <SellPreview page={page} interactive={false} />;
+  return <PagePreview page={page} interactive={false} />;
 }

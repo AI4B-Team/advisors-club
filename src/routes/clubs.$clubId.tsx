@@ -4,7 +4,8 @@ import { CLUBS, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
 import { useEffect, useState } from "react";
 import { getSellDoc, subscribeSell } from "@/lib/sell/store";
-import { SellPreview } from "@/components/sell/SellPreview";
+import { PagePreview } from "@/components/builder/PagePreview";
+import { toBuilderPage } from "@/hooks/use-builder";
 import type { SellPage } from "@/lib/sell/types";
 
 export const Route = createFileRoute("/clubs/$clubId")({
@@ -56,7 +57,7 @@ function ClubSalesPage() {
     return subscribeSell(read);
   }, [club.id]);
 
-  if (custom) return <SellPreview page={custom} interactive={false} />;
+  if (custom) return <PagePreview page={toBuilderPage(custom)} interactive={false} />;
 
   return (
     <div className="lt">

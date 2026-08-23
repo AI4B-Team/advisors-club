@@ -2,12 +2,13 @@ import {
   ArrowRight, CheckCircle2, Play, Calendar, MessageCircle, Heart, Star,
   Clock, ShieldCheck, CreditCard, BookOpen, Users, Sparkles, Code2, Link2,
 } from "lucide-react";
-import type { SellBlock, SellTheme } from "@/lib/sell/types";
+import type { BuilderBlock as SellBlock, BuilderTheme as SellTheme } from "@/lib/builder/types";
 import { SEED_POSTS } from "@/lib/feed-posts";
 import type { EventItem } from "@/lib/events-store";
 import type { GSStore } from "@/lib/gs-store";
 
-export type SellData = { gs: GSStore; events: EventItem[] };
+import type { SectionData } from "./app-sections";
+export type { SectionData };
 
 const FONT_STACK: Record<string, string> = {
   system: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
@@ -24,7 +25,7 @@ const BG: Record<string, { page: string; surface: string; ink: string; line: str
 const RADIUS_BTN: Record<string, string> = { rounded: "10px", pill: "999px", square: "4px" };
 const PAD: Record<string, string> = { comfortable: "22px", compact: "15px", spacious: "32px" };
 
-export function sellStyle(theme: SellTheme): React.CSSProperties {
+export function marketingStyleVars(theme: SellTheme): React.CSSProperties {
   const bg = BG[theme.background] ?? BG.light;
   return {
     ["--cz-brand" as string]: theme.brand,
@@ -75,7 +76,7 @@ function Sec({ title, children, tone }: { title?: string; children: React.ReactN
   );
 }
 
-export function SellBlockView({ block, data }: { block: SellBlock; data: SellData }) {
+export function renderMarketingSection(block: SellBlock, data: SectionData): React.ReactNode {
   const { gs, events } = data;
   const t = str(block, "title");
 
@@ -374,6 +375,8 @@ export function SellBlockView({ block, data }: { block: SellBlock; data: SellDat
   }
 }
 
-export function SellMembersStrip({ gs }: { gs: GSStore }) {
+function SellMembersStrip({ gs }: { gs: GSStore }) {
   return <div className="sp-strip"><Users size={13} /> {gs.clubName || "Your Club"} · Members Online Now</div>;
 }
+
+export { SellMembersStrip };
