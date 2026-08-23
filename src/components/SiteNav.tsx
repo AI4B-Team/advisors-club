@@ -15,11 +15,11 @@ export function SiteNav({ discoverSearch }: Props) {
     <nav className="site-nav">
       <div className={`sn-left${discoverSearch ? " sn-left-grow" : ""}`}>
         <Link
-          to="/landing"
+          to="/"
           className="nav-logo"
           aria-label="AdvisorsClub — Home"
           onClick={() => {
-            if (typeof window !== "undefined" && window.location.pathname === "/landing") {
+            if (typeof window !== "undefined" && window.location.pathname === "/") {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
           }}
