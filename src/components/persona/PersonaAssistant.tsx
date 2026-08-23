@@ -92,7 +92,7 @@ export function PersonaAssistantPanel({
             mode: "custom" as const,
             coachName: persona.expertName,
             tone: persona.tone,
-            instructions: personaInstructions(persona, detectVoiceContext(text)),
+            instructions: personaInstructions(persona, detectVoiceContext(q)),
             introduction: persona.greeting,
           },
           escalation: {
