@@ -634,7 +634,48 @@ function StepRecommendations({ selected, setSelected, recommended, onBack, onNex
   );
 }
 
-/* ========================= 6 — Brand ========================= */
+/* ========================= 6 — Navigation ========================= */
+function StepNavigation({ items, setItems, rationale, busy, onGenerate, onBack, onNext }: {
+  items: NavProposalItem[]; setItems: (rows: NavProposalItem[]) => void;
+  rationale: string; busy: boolean; onGenerate: () => void;
+  onBack: () => void; onNext: () => void;
+}) {
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current || items.length) return;
+    started.current = true;
+    onGenerate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <section className="ob-panel ob-panel-narrow">
+      <StepHead
+        eyebrow="AI Builds It"
+        title="How Your Club Is Organized"
+        sub="AI Named Your Menu For Your Business. Everything Here Stays Fully Editable In Manage → Navigation."
+      />
+
+      {busy && items.length === 0 ? (
+        <div className="ob-card ob-navgen-wait">
+          <Loader2 size={18} className="ob-spin" /> Designing Your Navigation…
+        </div>
+      ) : (
+        <AiNavProposal
+          items={items}
+          setItems={setItems}
+          rationale={rationale}
+          busy={busy}
+          onRegenerate={onGenerate}
+        />
+      )}
+
+      <Nav onBack={onBack} onNext={onNext} disabled={items.length === 0 || busy} nextLabel="Use This Structure" />
+    </section>
+  );
+}
+
+/* ========================= 7 — Brand ========================= */
 function StepBrand({ brand, setBrand, profile, onBack, onNext }: {
   brand: { clubName: string; logoUrl: string; color: string; slug: string };
   setBrand: (b: { clubName: string; logoUrl: string; color: string; slug: string }) => void;
