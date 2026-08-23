@@ -1,0 +1,133 @@
+/* =====================================================================
+   ADVISORS CLUB — CANONICAL DESIGN TOKENS
+   Single source of truth for color, surface, border, radius, shadow,
+   spacing, typography and interaction states across the app chrome.
+
+   Naming: --ac-<group>-<role>
+     color   → ink / brand / semantic values
+     surface → backgrounds that stack (page < raised < overlay)
+     border  → hairlines
+     radius / shadow / space / text / font → scales
+     state   → hover, active, focus, disabled
+
+   Rules of use:
+   - Never introduce a new hex in a component rule. Add or reuse a token.
+   - Brand color is for primary CTAs, active state and key AI moments only.
+   - The values below are the ones the app already shipped; this layer names
+     them so surfaces stay consistent as features migrate.
+   ===================================================================== */
+
+:root {
+  /* ---------- ink / text ---------- */
+  --ac-color-text: #111827;          /* default heading + body ink */
+  --ac-color-text-strong: #0F0F12;   /* highest-contrast headings */
+  --ac-color-text-body: #374151;     /* long-form paragraph */
+  --ac-color-text-muted: #6B7280;    /* secondary / meta */
+  --ac-color-text-subtle: #9CA3AF;   /* tertiary / placeholder */
+  --ac-color-text-faint: #8A8F98;    /* labels on quiet chrome */
+  --ac-color-text-inverse: #FFFFFF;
+
+  /* ---------- surfaces ---------- */
+  --ac-surface-page: #FAFAF8;        /* app canvas */
+  --ac-surface-page-alt: #FAFBFC;    /* legacy canvas tint */
+  --ac-surface-raised: #FFFFFF;      /* cards, sheets, nav */
+  --ac-surface-sunken: #F9FAFB;      /* inset wells */
+  --ac-surface-muted: #F3F4F6;       /* quiet fills, chips */
+  --ac-surface-hover: #F1F2F4;       /* hover fill on quiet chrome */
+  --ac-surface-hover-soft: rgba(20, 21, 26, 0.045);
+  --ac-surface-inverse: #0F0F12;     /* dark buttons / inverse chips */
+  --ac-surface-overlay: rgba(15, 15, 18, 0.44);
+
+  /* ---------- borders ---------- */
+  --ac-border-subtle: #E8EAEE;
+  --ac-border-hairline: #E5E7EB;
+  --ac-border-quiet: #EDEFF2;
+  --ac-border-strong: #D1D5DB;
+  --ac-border-line: rgba(20, 21, 26, 0.08);
+  --ac-border-line-strong: rgba(20, 21, 26, 0.14);
+
+  /* ---------- brand ---------- */
+  --ac-color-primary: #F5A623;
+  --ac-color-primary-hover: #E8940A;
+  --ac-color-primary-ink: #7A4A05;   /* text on tinted brand surfaces */
+  --ac-color-primary-tint: rgba(245, 166, 35, 0.14);
+  --ac-color-primary-soft: #FEF3C7;  /* solid tinted surface */
+  --ac-color-primary-soft-ink: #92400E;
+
+  /* ---------- semantic ---------- */
+  --ac-color-success: #10B981;
+  --ac-color-success-ink: #047857;
+  --ac-color-danger: #DC2626;
+  --ac-color-danger-hover: #B91C1C;
+  --ac-color-info: #5B45C7;
+
+  /* ---------- radius ---------- */
+  --ac-radius-xs: 6px;
+  --ac-radius-sm: 8px;
+  --ac-radius-md: 10px;
+  --ac-radius-lg: 14px;
+  --ac-radius-xl: 18px;
+  --ac-radius-pill: 999px;
+
+  /* ---------- elevation ---------- */
+  --ac-shadow-xs: 0 1px 2px rgba(20, 21, 26, 0.05);
+  --ac-shadow-sm: 0 6px 18px rgba(17, 24, 39, 0.06);
+  --ac-shadow-pop: 0 16px 40px -18px rgba(20, 21, 26, 0.28),
+    0 0 0 1px rgba(20, 21, 26, 0.05);
+
+  /* ---------- spacing scale ---------- */
+  --ac-space-1: 4px;
+  --ac-space-2: 8px;
+  --ac-space-3: 12px;
+  --ac-space-4: 16px;
+  --ac-space-5: 24px;
+  --ac-space-6: 32px;
+  --ac-space-7: 48px;
+  --ac-space-8: 64px;
+
+  /* ---------- typography ---------- */
+  --ac-font-sans: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --ac-text-xs: 12px;
+  --ac-text-sm: 13px;
+  --ac-text-base: 14px;
+  --ac-text-md: 16px;
+  --ac-text-lg: 20px;
+  --ac-text-xl: 24px;
+  --ac-text-2xl: 30px;
+  --ac-leading-tight: 1.2;
+  --ac-leading-normal: 1.55;
+
+  /* ---------- interaction ---------- */
+  --ac-state-focus-ring: 0 0 0 3px rgba(245, 166, 35, 0.28);
+  --ac-state-disabled-opacity: 0.55;
+  --ac-transition: 140ms ease;
+
+  /* ---------- back-compat aliases (Design Language v2) ----------
+     Existing rules referencing --ac2-* keep working; new work should use
+     the canonical names above. Remove once --ac2-* usage reaches zero. */
+  --ac2-ink: var(--ac-color-text-strong);
+  --ac2-ink-2: #42465A;
+  --ac2-ink-3: #767C8C;
+  --ac2-line: var(--ac-border-line);
+  --ac2-line-2: var(--ac-border-line-strong);
+  --ac2-surface: var(--ac-surface-raised);
+  --ac2-canvas: var(--ac-surface-page);
+  --ac2-hover: var(--ac-surface-hover-soft);
+  --ac2-brand: var(--ac-color-primary);
+  --ac2-brand-2: var(--ac-color-primary-hover);
+  --ac2-brand-ink: var(--ac-color-primary-ink);
+  --ac2-tint: var(--ac-color-primary-tint);
+  --ac2-r-xs: var(--ac-radius-sm);
+  --ac2-r: var(--ac-radius-md);
+  --ac2-r-lg: var(--ac-radius-lg);
+  --ac2-shadow: var(--ac-shadow-xs);
+  --ac2-shadow-pop: var(--ac-shadow-pop);
+  --ac2-1: var(--ac-space-1);
+  --ac2-2: var(--ac-space-2);
+  --ac2-3: var(--ac-space-3);
+  --ac2-4: var(--ac-space-4);
+  --ac2-5: var(--ac-space-5);
+  --ac2-6: var(--ac-space-6);
+  --ac2-7: var(--ac-space-7);
+  --ac2-8: var(--ac-space-8);
+}
