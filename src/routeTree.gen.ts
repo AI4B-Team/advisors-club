@@ -30,6 +30,7 @@ import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppCustomizeRouteImport } from './routes/app.customize'
 import { Route as AppCalendarRouteImport } from './routes/app.calendar'
 import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
+import { Route as AppAppsRouteImport } from './routes/app.apps'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
 import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
@@ -150,6 +151,11 @@ const AppBookmarksRoute = AppBookmarksRouteImport.update({
   path: '/bookmarks',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAppsRoute = AppAppsRouteImport.update({
+  id: '/apps',
+  path: '/apps',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAivaRoute = AppAivaRouteImport.update({
   id: '/aiva',
   path: '/aiva',
@@ -233,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/apps': typeof AppAppsRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
@@ -269,6 +276,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/apps': typeof AppAppsRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
@@ -306,6 +314,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/account': typeof AppAccountRoute
   '/app/aiva': typeof AppAivaRoute
+  '/app/apps': typeof AppAppsRoute
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
@@ -345,6 +354,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/apps'
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
@@ -381,6 +391,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/apps'
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
@@ -417,6 +428,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/app/account'
     | '/app/aiva'
+    | '/app/apps'
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
@@ -607,6 +619,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBookmarksRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/apps': {
+      id: '/app/apps'
+      path: '/apps'
+      fullPath: '/app/apps'
+      preLoaderRoute: typeof AppAppsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/aiva': {
       id: '/app/aiva'
       path: '/aiva'
@@ -724,6 +743,7 @@ const AppSellRouteWithChildren =
 interface AppRouteChildren {
   AppAccountRoute: typeof AppAccountRoute
   AppAivaRoute: typeof AppAivaRoute
+  AppAppsRoute: typeof AppAppsRoute
   AppBookmarksRoute: typeof AppBookmarksRoute
   AppCalendarRoute: typeof AppCalendarRoute
   AppCustomizeRoute: typeof AppCustomizeRoute
@@ -748,6 +768,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAccountRoute: AppAccountRoute,
   AppAivaRoute: AppAivaRoute,
+  AppAppsRoute: AppAppsRoute,
   AppBookmarksRoute: AppBookmarksRoute,
   AppCalendarRoute: AppCalendarRoute,
   AppCustomizeRoute: AppCustomizeRoute,
