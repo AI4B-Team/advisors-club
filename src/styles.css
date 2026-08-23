@@ -6173,3 +6173,46 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .opp-filters { margin-left: 0; }
   .opp-insight { font-size: 17px; }
 }
+
+/* ------------------------------------------------------------------ */
+/* Relationships — connection review (AIVA → Settings → Connections)   */
+/* ------------------------------------------------------------------ */
+.rel-review { display: grid; gap: 22px; max-width: 760px; }
+.rel-head h2 { margin: 0; font-size: 20px; font-weight: 600; color: var(--ac2-ink-1, #111827); }
+.rel-head p { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: #6B7280; }
+.rel-spotlight { display: flex; gap: 12px; align-items: flex-start; padding: 16px 18px; border-radius: 14px; background: #FFFBEB; }
+.rel-spotlight svg { margin-top: 2px; color: var(--ac2-accent, #B45309); flex: none; }
+.rel-spotlight strong { font-size: 14px; color: var(--ac2-ink-1, #111827); }
+.rel-spotlight p { margin: 4px 0 0; font-size: 14px; color: #6B7280; }
+.rel-spotlight-actions { margin-left: auto; display: flex; align-items: center; gap: 14px; flex: none; }
+.rel-spin { animation: rel-rotate 1s linear infinite; }
+@keyframes rel-rotate { to { transform: rotate(360deg); } }
+
+.rel-picker { display: flex; align-items: center; gap: 12px; }
+.rel-picker label { font-size: 13px; color: #9CA3AF; }
+.rel-picker select { padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 10px; font-size: 14px; background: #fff; }
+.rel-summary { margin: 0; font-size: 16px; line-height: 1.6; color: var(--ac2-ink-1, #111827); }
+.rel-paidnote { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; font-size: 13px; color: #9CA3AF; }
+.rel-empty { margin: 0; font-size: 14px; color: #9CA3AF; }
+.rel-bulk { display: flex; gap: 16px; }
+
+.rel-group { display: grid; gap: 4px; }
+.rel-group h3 { margin: 8px 0 0; font-size: 13px; font-weight: 600; color: #9CA3AF; }
+.rel-group-summary { margin: 0 0 8px; font-size: 14px; color: var(--ac2-ink-2, #374151); }
+.rel-row { display: grid; gap: 6px; padding: 16px 0; border-top: 1px solid #EEF0F2; }
+.rel-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: #9CA3AF; }
+.rel-intent { font-weight: 600; color: #6B7280; }
+.rel-intent.is-promotional { color: var(--ac2-accent, #B45309); }
+.rel-status { color: #047857; font-weight: 600; }
+.rel-row h4 { margin: 2px 0 0; font-size: 15px; font-weight: 600; color: var(--ac2-ink-1, #111827); }
+.rel-reason { margin: 0; font-size: 14px; color: var(--ac2-ink-2, #374151); }
+.rel-copy { margin: 4px 0 0; font-size: 14px; font-style: italic; color: #6B7280; }
+.rel-guard { display: flex; align-items: center; gap: 6px; margin: 4px 0 0; font-size: 12px; color: #9CA3AF; }
+.rel-edit textarea { width: 100%; padding: 10px 12px; border: 1px solid #E5E7EB; border-radius: 10px; font: inherit; font-size: 14px; }
+.rel-edit-actions { display: flex; gap: 14px; margin-top: 8px; }
+.rel-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 10px; }
+.rel-mutes { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.rel-mute { display: grid; gap: 2px; text-align: left; padding: 12px 14px; border: 1px solid #E5E7EB; border-radius: 12px; background: #fff; cursor: pointer; }
+.rel-mute span { font-size: 14px; font-weight: 600; color: var(--ac2-ink-1, #111827); }
+.rel-mute em { font-style: normal; font-size: 12px; color: #9CA3AF; }
+.rel-mute.is-off { opacity: .55; }

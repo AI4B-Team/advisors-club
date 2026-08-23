@@ -19,7 +19,7 @@ export const AM_TABS: { key: AmPrimaryKey; label: string }[] = [
 export type AmSettingsKey =
   | "business-knowledge" | "knowledge-sources" | "instructions" | "voice"
   | "member-ai" | "capabilities" | "autonomy"
-  | "catalog" | "intelligence" | "flywheel"
+  | "catalog" | "connections" | "intelligence" | "flywheel"
   | "marketing" | "workflows" | "agents" | "inbox";
 
 export const AM_SETTINGS: {
@@ -33,6 +33,7 @@ export const AM_SETTINGS: {
   { key: "capabilities", label: "Capabilities", desc: "What AIVA is allowed to do inside your Club.", group: "Behavior" },
   { key: "autonomy", label: "Autonomy", desc: "Suggest, approve, or autopilot — per capability.", group: "Behavior" },
   { key: "catalog", label: "Product Catalog", desc: "Everything AIVA can reference and recommend.", group: "Advanced" },
+  { key: "connections", label: "Connections", desc: "How everything in your Club relates — discovered by AIVA, approved by you.", group: "Advanced" },
   { key: "intelligence", label: "Content Intelligence", desc: "Retroactive connections for anything new you publish.", group: "Advanced" },
   { key: "flywheel", label: "Flywheel", desc: "How content, products, and members compound.", group: "Advanced" },
   { key: "marketing", label: "Marketing", desc: "Campaigns AIVA can draft and run.", group: "Advanced" },
@@ -61,6 +62,7 @@ export const AM_LEGACY_SUB: Record<string, AmSettingsKey> = {
   "member-ai": "member-ai",
   capabilities: "capabilities",
   catalog: "catalog",
+  connections: "connections",
   intelligence: "intelligence",
   marketing: "marketing",
   workflows: "workflows",
