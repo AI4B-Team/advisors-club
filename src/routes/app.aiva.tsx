@@ -1,15 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AM_TABS, type AmTabKey } from "@/components/aiva/tabs";
+import { AivaOverview } from "@/components/aiva/AivaOverview";
+import { AivaKnowledge } from "@/components/aiva/AivaKnowledge";
+import { AivaInstructions } from "@/components/aiva/AivaInstructions";
+import { AivaCapabilities } from "@/components/aiva/AivaCapabilities";
+import { AivaActivity } from "@/components/aiva/AivaActivity";
+import { useAivaAdmin } from "@/hooks/use-aiva-admin";
 import { useState, useRef, useEffect } from "react";
 import { Sparkles, Send, RefreshCw, CheckCircle2, Copy, Check, BookOpen, Mail, Flame, Megaphone, MessageSquare, Calendar, Palette, Search, Map, Zap, Mic, Plus } from "lucide-react";
 
 export const Route = createFileRoute("/app/aiva")({
   head: () => ({
     meta: [
-      { title: "AIVA Console — AdvisorsClub" },
-      { name: "description", content: "Your AI Community Operator. Build courses, write emails, plan challenges." },
+      { title: "AIVA — Manage Your Business Intelligence Layer" },
+      { name: "description", content: "Configure AIVA's knowledge, instructions, capabilities, and activity — one unified intelligence layer for your Club." },
+      { property: "og:title", content: "AIVA — Manage Your Business Intelligence Layer" },
+      { property: "og:description", content: "Inspect what AIVA knows, manage knowledge sources, set instructions, and review every action." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: AivaConsole,
+  component: AivaArea,
 });
 
 type Msg = { id: number; from: "user" | "ai"; text: string; steps?: string[] };
@@ -96,6 +107,35 @@ const MODES = [
   { k: "automate", label: "Automate", i: <Zap size={16}/>, color: "#ef4444", hint: "Automate onboarding emails for " },
 ];
 
+function AivaArea() {
+  const [tab, setTab] = useState<AmTabKey>("overview");
+  const { admin, update } = useAivaAdmin();
+
+  return (
+    <>
+      <div className="lt-ph">
+        <div>
+          <h1>AIVA</h1>
+          <p>One Intelligence Layer That Knows Your Business, Your Content, And Your Members.</p>
+        </div>
+      </div>
+
+      <nav className="am-tabs" aria-label="AIVA Sections">
+        {AM_TABS.map(t => (
+          <button key={t.key} className={`am-tab${tab === t.key ? " on" : ""}`} onClick={() => setTab(t.key)}>{t.label}</button>
+        ))}
+      </nav>
+
+      {tab === "console" && <AivaConsole />}
+      {tab === "overview" && <AivaOverview admin={admin} update={update} go={setTab} />}
+      {tab === "knowledge" && <AivaKnowledge admin={admin} update={update} />}
+      {tab === "instructions" && <AivaInstructions admin={admin} update={update} />}
+      {tab === "capabilities" && <AivaCapabilities admin={admin} update={update} />}
+      {tab === "activity" && <AivaActivity admin={admin} update={update} />}
+    </>
+  );
+}
+
 function AivaConsole() {
   const [input, setInput] = useState("");
   const [hero, setHero] = useState("");
@@ -139,13 +179,6 @@ function AivaConsole() {
 
   return (
     <>
-      <div className="lt-ph">
-        <div>
-          <h1>AIVA Console</h1>
-          <p>Your 24/7 AI Community Operator.</p>
-        </div>
-      </div>
-
       <div className="aiva-hero">
         <h2>What Would You Like To Do Today?</h2>
         <div className="aiva-modes">
