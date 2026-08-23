@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe } from "lucide-react";
+import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
@@ -411,6 +411,8 @@ function Topbar() {
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef<HTMLDivElement>(null);
 
   isAdminRef.current = isAdmin;
 
@@ -421,6 +423,7 @@ function Topbar() {
     function onDoc(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) setSearchOpen(false);
+      if (helpRef.current && !helpRef.current.contains(e.target as Node)) setHelpOpen(false);
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
@@ -524,6 +527,17 @@ function Topbar() {
             <Plus size={15} strokeWidth={3}/> New Post
           </button>
         )}
+        <div className="cc-tb-pf" ref={helpRef}>
+          <button className="cc-tb-icon" data-tip="Help" aria-label="Help" onClick={()=>{setHelpOpen(o=>!o);setOpen(false);}}><HelpCircle size={16}/></button>
+          {helpOpen && (
+            <div className="cc-tb-menu" style={{minWidth:200}}>
+              <MenuItem icon={<HelpCircle size={15}/>} label="Help" onClick={()=>{setHelpOpen(false);nav({to:"/app/getting-started"})}} />
+              <MenuItem icon={<RouteIcon size={15}/>} label="Tour" onClick={()=>{setHelpOpen(false);window.dispatchEvent(new CustomEvent("cc:start-tour"))}} />
+              <MenuItem icon={<BookOpen size={15}/>} label="Tutorials" onClick={()=>{setHelpOpen(false);nav({to:"/app/club/resources"})}} />
+              <MenuItem icon={<MessageSquarePlus size={15}/>} label="Feedback" onClick={()=>{setHelpOpen(false);window.dispatchEvent(new CustomEvent("cc:feedback"))}} />
+            </div>
+          )}
+        </div>
         <button className="cc-tb-icon" data-tip="Calendar" onClick={()=>nav({to:"/app/calendar"})}><Calendar size={16}/></button>
         <button className="cc-tb-icon" data-tip="Notifications" onClick={()=>nav({to:"/app/notifications"})}><Bell size={16}/></button>
         <button className="cc-tb-icon" data-tip="Messages" onClick={()=>nav({to:"/app/messages"})}><MessageCircle size={16}/></button>
