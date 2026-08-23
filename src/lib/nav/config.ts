@@ -70,7 +70,7 @@ export type NavOverride = {
 export const DEFAULT_ITEM_MENU = ["Pin To Top", "Mute Notifications", "Mark All Read", "Hide"];
 
 /** Default member-facing navigation for a newly created club. */
-export const DEFAULT_MEMBER_NAV: NavItem[] = [
+const BASE_MEMBER_NAV: NavItem[] = [
   {
     id: "home", label: "Home", to: "/app", icon: "home", section: "member", exact: true, pill: true,
     subs: [
