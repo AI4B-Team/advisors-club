@@ -5,6 +5,8 @@ import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
 import { MemberAssistantPanel } from "@/components/member-ai/MemberAssistant";
+import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
+import { usePersona } from "@/hooks/use-persona";
 import { MemberOnboarding } from "@/components/member-onboarding/MemberOnboarding";
 import { useMemberAi } from "@/hooks/use-member-ai";
 import { displayName as memberAiName } from "@/lib/member-ai";
@@ -367,6 +369,7 @@ function Topbar() {
   const [aiOpen, setAiOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
+  const persona = usePersona();
   const isAdminRef = useRef(true);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
@@ -545,11 +548,19 @@ function Topbar() {
       </div>
       <AISummaryDrawer open={aiOpen} onClose={()=>setAiOpen(false)} />
       <AivaCommandPalette open={cmdOpen} onClose={()=>setCmdOpen(false)} />
-      <MemberAssistantPanel
-        open={askOpen}
-        onClose={()=>setAskOpen(false)}
-        me={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? (displayName || "Member") }}
-      />
+      {persona.enabled ? (
+        <PersonaAssistantPanel
+          open={askOpen}
+          onClose={()=>setAskOpen(false)}
+          me={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? (displayName || "Member") }}
+        />
+      ) : (
+        <MemberAssistantPanel
+          open={askOpen}
+          onClose={()=>setAskOpen(false)}
+          me={{ id: viewAs?.id ?? "me", name: viewAs?.name ?? (displayName || "Member") }}
+        />
+      )}
     </header>
   );
 }
