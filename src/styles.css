@@ -5050,3 +5050,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .site-nav .sn-right{gap:12px}
   .site-nav .sn-cta{padding:8px 14px;font-size:13px}
 }
+@media (max-width:900px){
+  .site-nav .sn-search{display:none}
+  .site-nav{gap:12px}
+}
