@@ -53,11 +53,13 @@ export function BuilderToolbar({
         <span className="cz-save-state">
           {saving ? <><Loader2 size={12} className="cz-spin" /> Saving</> : session.dirty ? "Unsaved Changes" : <><Check size={12} /> Saved</>}
         </span>
+        <button type="button" className="cz-ghost-btn" onClick={session.save} disabled={!session.dirty}>Save</button>
         {onPreview ? (
           <button type="button" className="cz-ghost-btn" onClick={onPreview}>
             <ExternalLink size={14} /> Preview
           </button>
         ) : null}
+
         <button type="button" className="cz-publish" onClick={session.publish}>
           {cfg.publish.label}
         </button>
