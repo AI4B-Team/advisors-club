@@ -5938,3 +5938,87 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .acp-disc-kind{text-transform:none;letter-spacing:0;font-size:12px;color:var(--ac2-brand-ink)}
 .acp-disc{border-color:var(--ac2-line);border-radius:var(--ac2-r-lg)}
 .aiva-comp-btn svg,.cc-tb-spark svg{color:var(--ac2-brand-2)}
+
+/* ============================================================
+   SHELL v2 — calm, premium app chrome (rail, sidebar, topbar)
+   ============================================================ */
+
+/* --- Far-left club rail --- */
+.cc .cc-rail{padding:14px 0;gap:10px;background:var(--ac2-canvas);border-right:1px solid var(--ac2-line)}
+.cc .cc-rail-bubble{width:38px;height:38px;border-radius:11px;font-size:14px;font-weight:650;box-shadow:none;opacity:.72;transition:opacity .15s ease,transform .15s ease}
+.cc .cc-rail-bubble:hover{opacity:1;transform:none}
+.cc .cc-rail-bubble.on{opacity:1;box-shadow:0 0 0 2px var(--ac2-surface),0 0 0 3.5px var(--ac2-line-2)}
+.cc .cc-rail-add{width:38px;height:38px;border-radius:11px;border:1px dashed var(--ac2-line-2);background:transparent;color:var(--ac2-ink-3);box-shadow:none}
+.cc .cc-rail-add:hover{background:var(--ac2-hover);color:var(--ac2-ink);transform:none}
+
+/* --- Main club sidebar --- */
+.cc .cc-sb{padding:12px 12px 24px;gap:2px}
+.cc .cc-sb-switcher{border:0;background:transparent;border-radius:var(--ac2-r);padding:8px;gap:10px}
+.cc .cc-sb-switcher:hover{background:var(--ac2-hover)}
+.cc .cc-sb-mini{width:26px;height:26px;border-radius:8px;font-size:12px;font-weight:650}
+.cc .cc-sb-name{font-weight:650;color:var(--ac2-ink);font-size:14px}
+.cc .cc-sb-group{margin-top:14px}
+.cc .cc-sb-group-label,.cc .cc-sb-sys-label{font-size:11px;letter-spacing:.02em;text-transform:none;font-weight:600;color:var(--ac2-ink-3);padding:0 10px 6px}
+.cc .cc-sb-sys{margin-top:16px;padding-top:12px;border-top:1px solid var(--ac2-line)}
+.cc .cc-sb-onboarding{margin:6px 0 2px;padding:0;border:0;background:transparent}
+.cc .cc-sb-onboarding .cc-sb-pill,.cc .cc-sb-onboarding .cc-sb-feed{color:var(--ac2-brand-ink);font-weight:600}
+.cc .cc-sb-onboarding .cc-sb-pill:not(.on):hover{background:var(--ac2-tint)}
+
+/* --- Admin/Member view selector --- */
+.cc .cc-tb-vw{margin:6px 0 2px}
+.cc .cc-tb-vw-trigger{width:100%;display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:var(--ac2-r);border:1px solid var(--ac2-line);background:transparent;box-shadow:none;color:var(--ac2-ink-2)}
+.cc .cc-tb-vw-trigger:hover{background:var(--ac2-hover)}
+.cc .cc-tb-vw-label{font-size:11px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ac2-ink-3);background:transparent;padding:0}
+.cc .cc-tb-vw-current,.cc .cc-tb-vw-current.admin,.cc .cc-tb-vw-current.member{background:transparent;border:0;padding:0;color:var(--ac2-ink);font-size:13px;font-weight:600;box-shadow:none}
+.cc .cc-tb-vw-current svg{color:var(--ac2-ink-3)}
+.cc .cc-tb-vw-caret{margin-left:auto;color:var(--ac2-ink-3)}
+
+/* --- Top header --- */
+.cc .cc-tb{height:58px;padding:0 20px;gap:8px;box-shadow:none}
+.cc .cc-tb-search{flex:0 1 300px;height:34px;background:var(--ac2-hover);border:1px solid transparent;border-radius:999px}
+.cc .cc-tb-search:focus-within{background:var(--ac2-surface);border-color:var(--ac2-line-2)}
+.cc .cc-tb-search input{font-size:13.5px}
+.cc .cc-tb-search svg{color:var(--ac2-ink-3)}
+.cc .cc-tb-right{gap:2px}
+
+/* Ask AIVA — the one distinctive persistent control */
+.cc .cc-tb-ask{display:flex;align-items:center;gap:7px;height:34px;padding:0 12px;margin-right:6px;border-radius:999px;border:1px solid var(--ac2-line-2);background:var(--ac2-surface);color:var(--ac2-ink);font-weight:600;font-size:13px;box-shadow:none;transition:background .15s ease,border-color .15s ease}
+.cc .cc-tb-ask:hover{background:var(--ac2-tint);border-color:transparent}
+.cc .cc-tb-ask.on{background:var(--ac2-tint);border-color:transparent}
+.cc .cc-tb-ask svg{color:var(--ac2-brand-2)}
+.cc .cc-tb-ask-k{background:transparent;border:0;color:var(--ac2-ink-3);font-size:11px;font-weight:600;padding:0 0 0 2px;box-shadow:none}
+.cc .cc-tb-ask.has-att{background:var(--ac2-tint);border-color:transparent}
+.cc .cc-tb-ask-att{min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--ac2-brand-2);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;animation:none}
+
+/* Utility controls stay quiet */
+.cc .cc-tb-icon,.cc .cc-tb-aiva{width:32px;height:32px;border-radius:999px;border:0;background:transparent;color:var(--ac2-ink-3);box-shadow:none}
+.cc .cc-tb-icon:hover,.cc .cc-tb-aiva:hover{background:var(--ac2-hover);color:var(--ac2-ink)}
+.cc .cc-tb-aiva.on{background:var(--ac2-tint);color:var(--ac2-brand-ink)}
+.cc .cc-tb-golive,.cc .cc-tb-golive.quiet{display:flex;align-items:center;gap:6px;height:32px;padding:0 10px;border-radius:999px;border:0;background:transparent;color:var(--ac2-ink-2);font-weight:600;font-size:13px;box-shadow:none}
+.cc .cc-tb-golive:hover{background:var(--ac2-hover);color:var(--ac2-ink)}
+.cc .cc-tb-golive svg{color:#D9483B}
+.cc .cc-tb-newpost{height:34px;padding:0 14px;border-radius:999px;margin-left:6px;font-size:13px;font-weight:650;box-shadow:none}
+.cc .cc-tb-av{width:30px;height:30px;font-size:12.5px;margin-left:6px;box-shadow:0 0 0 1px var(--ac2-line)}
+
+/* Profile menu */
+.cc .cc-tb-menu{border-radius:var(--ac2-r-lg);border:1px solid var(--ac2-line);box-shadow:var(--ac2-shadow-pop)}
+.cc .cc-tb-menu-cta.amber{background:var(--ac2-brand);color:#fff;border-radius:var(--ac2-r);font-weight:600}
+
+/* --- Responsive --- */
+@media (max-width:1180px){
+  .cc .cc-tb-search{flex:0 1 220px}
+  .cc .cc-tb-ask-k{display:none}
+  .cc .cc-tb-golive,.cc .cc-tb-golive.quiet{font-size:0;gap:0;width:32px;justify-content:center;padding:0}
+  .cc .cc-tb-golive svg{font-size:14px}
+}
+@media (max-width:900px){
+  .cc .cc-tb{height:54px;padding:0 12px}
+  .cc .cc-tb-ask-l{display:none}
+  .cc .cc-tb-ask{padding:0 10px;margin-right:2px}
+  .cc .cc-tb-newpost{font-size:0;gap:0;width:34px;padding:0;justify-content:center}
+}
+@media (max-width:720px){
+  .cc .cc-tb-search{display:none}
+  .cc .cc-tb-aiva,.cc .cc-tb-golive,.cc .cc-tb-golive.quiet{display:none}
+  .cc-main{padding:20px 16px 88px}
+}
