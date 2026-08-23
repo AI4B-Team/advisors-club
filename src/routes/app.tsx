@@ -247,7 +247,7 @@ function SidebarTopLink({ link }: { link: TopLink }) {
   );
 }
 
-function CommunitySidebar() {
+function CommunitySidebar({ minSidebar, onToggleSidebar }: { minSidebar: boolean; onToggleSidebar: () => void }) {
   const { active, setActive } = useContext(ClubCtx);
   const nav = useNavigate();
   const clubs = useClubsFromGS();
@@ -285,6 +285,15 @@ function CommunitySidebar() {
 
   return (
     <aside className="cc-sb">
+      <button
+        type="button"
+        className="cc-sb-collapse"
+        aria-label={minSidebar ? "Expand sidebar" : "Collapse sidebar"}
+        data-tip={minSidebar ? "Expand sidebar" : "Collapse sidebar"}
+        onClick={onToggleSidebar}
+      >
+        {minSidebar ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+      </button>
       <div className="cc-sb-top" ref={ref}>
         <button className="cc-sb-switcher" onClick={() => setOpen(o => !o)}>
           <span className="cc-sb-mini" style={{background: active.color}}>{active.label.slice(0,1)}</span>
