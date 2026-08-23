@@ -108,7 +108,7 @@ export const ADDABLE_TYPES: {
   { type: "community", label: "Community", icon: "community", to: "/app/club/feed", desc: "Feed, Announcements And Discussion." },
   { type: "courses", label: "Course", icon: "courses", to: "/app/club/courses", desc: "Lessons And Learning Paths." },
   { type: "coaching", label: "Coaching", icon: "coaching", to: "/app/club/coaching", desc: "Programs, Sessions And Clients." },
-  { type: "events", label: "Events", icon: "events", to: "/app/club/events", desc: "Live Sessions And Calls." },
+  { type: "events", label: "Events", icon: "events", to: "/app/calendar", desc: "Live Sessions And Calls." },
   { type: "resources", label: "Resources", icon: "resources", to: "/app/club/resources", desc: "Files, Links And Templates." },
   { type: "members", label: "Members", icon: "members", to: "/app/club/members", desc: "Roster And Profiles." },
   { type: "apps", label: "App", icon: "apps", to: "/app/apps", desc: "Installed Tools And Integrations." },

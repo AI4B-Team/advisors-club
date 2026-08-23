@@ -76,7 +76,6 @@ const BASE_MEMBER_NAV: NavItem[] = [
   {
     id: "home", label: "Home", to: "/app", icon: "home", section: "member", exact: true, pill: true,
     subs: [
-      { id: "home-dashboard", label: "Dashboard", to: "/app/dashboard", icon: "dashboard" },
       { id: "home-activity", label: "Activity", to: "/app", icon: "activity" },
       { id: "home-bookmarks", label: "Bookmarks", to: "/app/bookmarks", icon: "bookmark" },
     ],
@@ -111,10 +110,10 @@ const BASE_MEMBER_NAV: NavItem[] = [
     menu: DEFAULT_ITEM_MENU,
   },
   {
-    id: "events", label: "Events", to: "/app/club/events", icon: "events", section: "member",
+    id: "events", label: "Events", to: "/app/calendar", icon: "events", section: "member",
     subs: [
-      { id: "events-upcoming", label: "Upcoming", to: "/app/club/events", icon: "calendar-clock" },
-      { id: "events-past", label: "Past", to: "/app/club/events", icon: "calendar-check" },
+      { id: "events-upcoming", label: "Upcoming", to: "/app/calendar", icon: "calendar-clock" },
+      { id: "events-past", label: "Past", to: "/app/calendar", icon: "calendar-check" },
     ],
     menu: DEFAULT_ITEM_MENU,
   },

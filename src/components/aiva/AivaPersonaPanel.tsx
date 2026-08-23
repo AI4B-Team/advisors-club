@@ -11,7 +11,7 @@ import { MemberOnboardingConfig } from "./MemberOnboardingConfig";
  * AIVA settings → AI Persona.
  *
  * AIVA is the admin operator; the member-facing AI is the Persona and is fully
- * configured on /app/manage/persona. This panel is the pointer plus the
+ * configured on /app/settings/ai-persona. This panel is the pointer plus the
  * member-onboarding config that lives alongside it.
  */
 export function AivaPersonaPanel() {
@@ -30,7 +30,7 @@ export function AivaPersonaPanel() {
           Members Currently See: <b>{personaName(persona)}</b>
           {persona.enabled ? "" : " (Currently Turned Off)"}.
         </p>
-        <Link to="/app/manage/persona" className="am-btn primary">
+        <Link to="/app/settings/ai-persona" className="am-btn primary">
           Open AI Persona <ArrowRight size={13} />
         </Link>
       </AmCard>

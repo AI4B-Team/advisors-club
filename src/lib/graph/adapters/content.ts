@@ -213,7 +213,7 @@ export function offersProjection(): Projection {
       title: ctx.persona.name || "AI Assistant", description: ctx.persona.personality,
       tags: deriveTags(ctx.persona.personality, ctx.profile.expertise), audience: [ctx.profile.audience].filter(Boolean),
       status: ctx.persona.configured ? "active" : "draft", access: { mode: "free" },
-      origin: "ai", source: "aiva", href: "/app/manage/persona",
+      origin: "ai", source: "aiva", href: "/app/settings/ai-persona",
       meta: { identityMode: ctx.persona.identityMode },
     });
   }

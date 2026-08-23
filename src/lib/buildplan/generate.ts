@@ -151,7 +151,7 @@ export function generateOnboardingPlan(): BuildPlan {
       id: "event", label: "Live Q&A Session", category: "events",
       description: "First scheduled session on your club calendar.",
       building: "Scheduling your live Q&A…", done: "Live Q&A is on the calendar!",
-      builder: "event", editTo: "/app/club/events",
+      builder: "event", editTo: "/app/calendar",
     }));
   }
 
@@ -182,7 +182,7 @@ export function generateOnboardingPlan(): BuildPlan {
       id: "persona", label: personaName, category: "persona", recommended: true,
       description: "AI assistant trained on your content, methodology and voice.",
       building: "Configuring your member AI…", done: "Your member AI is live!",
-      builder: "persona", builderInput: { name: personaName }, editTo: "/app/manage/persona",
+      builder: "persona", builderInput: { name: personaName }, editTo: "/app/settings/ai-persona",
     }));
   }
 
@@ -283,7 +283,7 @@ export function generateRequestPlan(kind: BuildPlanKind, prompt = ""): BuildPlan
   } else if (kind === "event") {
     items.push(item({ id: "event", label: label, category: "events", required: true,
       description: "Scheduled session on your club calendar.",
-      building: "Scheduling your event…", done: "Event is on the calendar!", builder: "event", editTo: "/app/club/events" }));
+      building: "Scheduling your event…", done: "Event is on the calendar!", builder: "event", editTo: "/app/calendar" }));
   } else if (kind === "resource") {
     items.push(item({ id: "resourceVault", label: label, category: "resources", required: true,
       description: "New library members can work through.",

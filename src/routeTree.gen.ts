@@ -28,7 +28,6 @@ import { Route as AppNotificationsRouteImport } from './routes/app.notifications
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppManageRouteImport } from './routes/app.manage'
 import { Route as AppGettingStartedRouteImport } from './routes/app.getting-started'
-import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppCustomizeRouteImport } from './routes/app.customize'
 import { Route as AppCalendarRouteImport } from './routes/app.calendar'
 import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
@@ -39,6 +38,8 @@ import { Route as AppSettingsIndexRouteImport } from './routes/app.settings.inde
 import { Route as AppSellIndexRouteImport } from './routes/app.sell.index'
 import { Route as AppManageIndexRouteImport } from './routes/app.manage.index'
 import { Route as AppAppsIndexRouteImport } from './routes/app.apps.index'
+import { Route as AppSettingsNavigationRouteImport } from './routes/app.settings.navigation'
+import { Route as AppSettingsAiPersonaRouteImport } from './routes/app.settings.ai-persona'
 import { Route as AppSettingsSectionRouteImport } from './routes/app.settings.$section'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppPagePageIdRouteImport } from './routes/app.page.$pageId'
@@ -154,11 +155,6 @@ const AppGettingStartedRoute = AppGettingStartedRouteImport.update({
   path: '/getting-started',
   getParentRoute: () => AppRoute,
 } as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppCustomizeRoute = AppCustomizeRouteImport.update({
   id: '/customize',
   path: '/customize',
@@ -208,6 +204,16 @@ const AppAppsIndexRoute = AppAppsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppAppsRoute,
+} as any)
+const AppSettingsNavigationRoute = AppSettingsNavigationRouteImport.update({
+  id: '/navigation',
+  path: '/navigation',
+  getParentRoute: () => AppSettingsRoute,
+} as any)
+const AppSettingsAiPersonaRoute = AppSettingsAiPersonaRouteImport.update({
+  id: '/ai-persona',
+  path: '/ai-persona',
+  getParentRoute: () => AppSettingsRoute,
 } as any)
 const AppSettingsSectionRoute = AppSettingsSectionRouteImport.update({
   id: '/$section',
@@ -321,7 +327,6 @@ export interface FileRoutesByFullPath {
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
-  '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/manage': typeof AppManageRouteWithChildren
   '/app/messages': typeof AppMessagesRoute
@@ -348,6 +353,8 @@ export interface FileRoutesByFullPath {
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
+  '/app/settings/ai-persona': typeof AppSettingsAiPersonaRoute
+  '/app/settings/navigation': typeof AppSettingsNavigationRoute
   '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
@@ -370,7 +377,6 @@ export interface FileRoutesByTo {
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
-  '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
@@ -393,6 +399,8 @@ export interface FileRoutesByTo {
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
+  '/app/settings/ai-persona': typeof AppSettingsAiPersonaRoute
+  '/app/settings/navigation': typeof AppSettingsNavigationRoute
   '/app/apps': typeof AppAppsIndexRoute
   '/app/manage': typeof AppManageIndexRoute
   '/app/sell': typeof AppSellIndexRoute
@@ -418,7 +426,6 @@ export interface FileRoutesById {
   '/app/bookmarks': typeof AppBookmarksRoute
   '/app/calendar': typeof AppCalendarRoute
   '/app/customize': typeof AppCustomizeRoute
-  '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/manage': typeof AppManageRouteWithChildren
   '/app/messages': typeof AppMessagesRoute
@@ -445,6 +452,8 @@ export interface FileRoutesById {
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
+  '/app/settings/ai-persona': typeof AppSettingsAiPersonaRoute
+  '/app/settings/navigation': typeof AppSettingsNavigationRoute
   '/app/apps/': typeof AppAppsIndexRoute
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
@@ -471,7 +480,6 @@ export interface FileRouteTypes {
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
-    | '/app/dashboard'
     | '/app/getting-started'
     | '/app/manage'
     | '/app/messages'
@@ -498,6 +506,8 @@ export interface FileRouteTypes {
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
+    | '/app/settings/ai-persona'
+    | '/app/settings/navigation'
     | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
@@ -520,7 +530,6 @@ export interface FileRouteTypes {
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
-    | '/app/dashboard'
     | '/app/getting-started'
     | '/app/messages'
     | '/app/notifications'
@@ -543,6 +552,8 @@ export interface FileRouteTypes {
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
+    | '/app/settings/ai-persona'
+    | '/app/settings/navigation'
     | '/app/apps'
     | '/app/manage'
     | '/app/sell'
@@ -567,7 +578,6 @@ export interface FileRouteTypes {
     | '/app/bookmarks'
     | '/app/calendar'
     | '/app/customize'
-    | '/app/dashboard'
     | '/app/getting-started'
     | '/app/manage'
     | '/app/messages'
@@ -594,6 +604,8 @@ export interface FileRouteTypes {
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
+    | '/app/settings/ai-persona'
+    | '/app/settings/navigation'
     | '/app/apps/'
     | '/app/manage/'
     | '/app/sell/'
@@ -754,13 +766,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppGettingStartedRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/dashboard': {
-      id: '/app/dashboard'
-      path: '/dashboard'
-      fullPath: '/app/dashboard'
-      preLoaderRoute: typeof AppDashboardRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/customize': {
       id: '/app/customize'
       path: '/customize'
@@ -830,6 +835,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/apps/'
       preLoaderRoute: typeof AppAppsIndexRouteImport
       parentRoute: typeof AppAppsRoute
+    }
+    '/app/settings/navigation': {
+      id: '/app/settings/navigation'
+      path: '/navigation'
+      fullPath: '/app/settings/navigation'
+      preLoaderRoute: typeof AppSettingsNavigationRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
+    '/app/settings/ai-persona': {
+      id: '/app/settings/ai-persona'
+      path: '/ai-persona'
+      fullPath: '/app/settings/ai-persona'
+      preLoaderRoute: typeof AppSettingsAiPersonaRouteImport
+      parentRoute: typeof AppSettingsRoute
     }
     '/app/settings/$section': {
       id: '/app/settings/$section'
@@ -1025,11 +1044,15 @@ const AppSellRouteWithChildren =
 
 interface AppSettingsRouteChildren {
   AppSettingsSectionRoute: typeof AppSettingsSectionRoute
+  AppSettingsAiPersonaRoute: typeof AppSettingsAiPersonaRoute
+  AppSettingsNavigationRoute: typeof AppSettingsNavigationRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
   AppSettingsSectionRoute: AppSettingsSectionRoute,
+  AppSettingsAiPersonaRoute: AppSettingsAiPersonaRoute,
+  AppSettingsNavigationRoute: AppSettingsNavigationRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 
@@ -1044,7 +1067,6 @@ interface AppRouteChildren {
   AppBookmarksRoute: typeof AppBookmarksRoute
   AppCalendarRoute: typeof AppCalendarRoute
   AppCustomizeRoute: typeof AppCustomizeRoute
-  AppDashboardRoute: typeof AppDashboardRoute
   AppGettingStartedRoute: typeof AppGettingStartedRoute
   AppManageRoute: typeof AppManageRouteWithChildren
   AppMessagesRoute: typeof AppMessagesRoute
@@ -1072,7 +1094,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppBookmarksRoute: AppBookmarksRoute,
   AppCalendarRoute: AppCalendarRoute,
   AppCustomizeRoute: AppCustomizeRoute,
-  AppDashboardRoute: AppDashboardRoute,
   AppGettingStartedRoute: AppGettingStartedRoute,
   AppManageRoute: AppManageRouteWithChildren,
   AppMessagesRoute: AppMessagesRoute,

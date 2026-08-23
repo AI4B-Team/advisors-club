@@ -220,7 +220,7 @@ export function buildPath(a: MoAnswers, cfg: MoConfig): MoRec[] {
     },
   ];
 
-  if (ev) recs.push({ kind: "event", title: ev.title, detail: ev.detail, cta: "Save My Seat", to: "/app/club/events" });
+  if (ev) recs.push({ kind: "event", title: ev.title, detail: ev.detail, cta: "Save My Seat", to: "/app/calendar" });
 
   recs.push(
     {

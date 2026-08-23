@@ -169,15 +169,15 @@ export const NO_PERMISSIONS = permissionsFrom(ANONYMOUS);
 /** Capability required to open each admin surface. Used by route guards. */
 export const ROUTE_CAPABILITY: Record<string, Capability> = {
   "/app/manage": "club.manage",
-  "/app/manage/navigation": "club.navigation",
-  "/app/manage/persona": "club.manage",
+  "/app/settings/navigation": "club.navigation",
+  "/app/settings/ai-persona": "club.manage",
   "/app/customize": "club.manage",
   "/app/aiva": "aiva.admin",
   "/app/sell": "commerce.manage",
   "/app/club/analytics": "analytics.view",
   "/app/club/members": "club.members",
-  "/app/club/settings": "club.manage",
   "/app/settings": "settings.manage",
+
 };
 
 /** The capability guarding a pathname, if any (longest prefix wins). */

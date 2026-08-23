@@ -345,7 +345,7 @@ const BUILD_HREF: Record<OpportunityKind, string> = {
   course: "/app/club/courses",
   resource: "/app/club/resources",
   coaching: "/app/club/coaching",
-  event: "/app/club/events",
+  event: "/app/calendar",
   content: "/app/aiva",
   product: "/app/sell",
   upsell: "/app/sell",

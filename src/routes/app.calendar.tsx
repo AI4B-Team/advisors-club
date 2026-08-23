@@ -178,7 +178,6 @@ function MonthView({ cursor, setCursor, selected, setSelected, eventsByDate, rsv
             ))}
           </ul>
         )}
-        <Link to="/app/club/events" className="cal-see-all">See all events →</Link>
       </div>
     </div>
   );

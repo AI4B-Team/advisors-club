@@ -2,6 +2,10 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check, Star, Users, Zap, Sparkles, ArrowRight, Shield, Calendar, MessageSquare, Award, Play } from "lucide-react";
 import { CLUBS, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
+import { useEffect, useState } from "react";
+import { getSellDoc, subscribeSell } from "@/lib/sell/store";
+import { SellPreview } from "@/components/sell/SellPreview";
+import type { SellPage } from "@/lib/sell/types";
 
 export const Route = createFileRoute("/clubs/$clubId")({
   loader: ({ params }) => {
@@ -38,6 +42,22 @@ export const Route = createFileRoute("/clubs/$clubId")({
 
 function ClubSalesPage() {
   const { club } = Route.useLoaderData();
+  const [custom, setCustom] = useState<SellPage | null>(null);
+
+  // Shared rendering: if the creator published a custom page for this Club
+  // slug in the page builder, that page is the canonical public renderer.
+  useEffect(() => {
+    const read = () => {
+      const doc = getSellDoc();
+      const match = [doc.clubPage, ...doc.pages].find(p => p.slug === club.id && Boolean(p.publishedAt));
+      setCustom(match ?? null);
+    };
+    read();
+    return subscribeSell(read);
+  }, [club.id]);
+
+  if (custom) return <SellPreview page={custom} interactive={false} />;
+
   return (
     <div className="lt">
       <SiteNav />
@@ -53,6 +73,7 @@ function ClubSalesPage() {
     </div>
   );
 }
+
 
 function priceLabel(p: number) {
   return p === 0 ? "Free" : `$${p}/mo`;
