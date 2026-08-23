@@ -19,10 +19,12 @@ const GROUPS: { title: string; cards: Card[] }[] = [
   {
     title: "Appearance & Branding",
     cards: [
+      { label: "Navigation", desc: "Rename, Reorder And Organize Your Menu.", to: "/app/manage/navigation", icon: <ListTree size={18} /> },
       { label: "Appearance", desc: "Blocks, Layout And Theme.", to: "/app/customize", icon: <Palette size={18} /> },
       { label: "Brand & Domain", desc: "Logo, Colors, Custom Domain.", to: "/app/customize", icon: <Globe size={18} /> },
     ],
   },
+
   {
     title: "Products & Pages",
     cards: [
