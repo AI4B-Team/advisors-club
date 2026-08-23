@@ -6216,3 +6216,11 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .rel-mute span { font-size: 14px; font-weight: 600; color: var(--ac2-ink-1, #111827); }
 .rel-mute em { font-style: normal; font-size: 12px; color: #9CA3AF; }
 .rel-mute.is-off { opacity: .55; }
+
+/* Member-facing connections — quiet, useful, never salesy */
+.mrel { display: grid; gap: 4px; margin-top: 28px; }
+.mrel h3 { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: #9CA3AF; }
+.mrel-item { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0; border-top: 1px solid #EEF0F2; text-decoration: none; }
+.mrel-item strong { font-size: 15px; font-weight: 600; color: var(--ac2-ink-1, #111827); }
+.mrel-item p { margin: 3px 0 0; font-size: 14px; color: #6B7280; }
+.mrel-cta { display: inline-flex; align-items: center; gap: 6px; flex: none; font-size: 13px; font-weight: 600; color: var(--ac2-accent, #B45309); }
