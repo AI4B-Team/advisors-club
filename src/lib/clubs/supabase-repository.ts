@@ -82,7 +82,7 @@ export const supabaseClubsRepository: ClubsRepository = {
   },
 
   async update(id, patch) {
-    const row: Record<string, unknown> = {};
+    const row: Partial<ClubRow> = {};
     if (patch.name !== undefined) row.name = patch.name;
     if (patch.slug !== undefined) row.slug = patch.slug;
     if (patch.tagline !== undefined) row.tagline = patch.tagline;
@@ -94,7 +94,9 @@ export const supabaseClubsRepository: ClubsRepository = {
     if (patch.tags !== undefined) row.tags = patch.tags;
     if (patch.branding !== undefined) row.branding = patch.branding;
     if (patch.settings !== undefined) row.settings = patch.settings;
-    const { data, error } = await supabase.from("clubs").update(row).eq("id", id).select("*").maybeSingle();
+    const { data, error } = await supabase.from("clubs")
+      .update(row as never).eq("id", id).select("*").maybeSingle();
+
     if (error) throw new RepositoryError("Could not update club", error);
     return data ? toClub(data as ClubRow) : null;
   },
