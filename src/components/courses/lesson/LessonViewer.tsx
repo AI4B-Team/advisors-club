@@ -8,10 +8,11 @@ import type { MediaType } from "@/lib/courses/types";
 
 export function LessonViewer({ cd }: { cd: CourseDetailCtx }) {
   const {
-    bookmarks, isAdmin, lesson, lessonMeta, setVideoMenuOpen, startEdit, toggleBookmark, toggleComplete, videoMenuOpen,
+    bookmarks, completed, isAdmin, key, lesson, lessonMeta, setVideoMenuOpen, startEdit, toggleBookmark, toggleComplete, videoMenuOpen,
   } = cd;
   const course = cd.course;
   const current = cd.current!;
+  const k = key(current.m, current.l);
   const done = completed.has(k);
   return (
     <>

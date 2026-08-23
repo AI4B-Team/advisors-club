@@ -5,8 +5,10 @@ import type { CourseDetailCtx } from "@/hooks/courses/use-course-detail";
 
 export function LessonNavigation({ cd }: { cd: CourseDetailCtx }) {
   const {
-    next, prev, setLesson, toggleComplete,
+    completed, key, next, prev, setLesson, toggleComplete,
   } = cd;
+  const current = cd.current!;
+  const k = key(current.m, current.l);
   const done = completed.has(k);
   return (
     <>
