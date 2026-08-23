@@ -68,7 +68,7 @@ export function AiAppBuilder({ onClose }: { onClose: () => void }) {
 
   const previewApp: App | null = draft ? {
     id: "preview", name: draft.name, description: draft.description, kind: draft.kind,
-    icon: draft.icon, status: "draft", access: { type: "all" }, source: "ai",
+    icon: draft.icon, status: "draft", access: { mode: "free" }, source: "ai",
     schema: draft.schema, config: {}, createdAt: "", updatedAt: "",
   } : null;
 

@@ -2,6 +2,7 @@
 // Read-only projections. No feature store is modified here.
 
 import { loadAdmin } from "@/lib/courses/storage";
+import { toAccessPolicy } from "@/lib/apps/types";
 import { getApps } from "@/lib/apps/store";
 import { getEvents } from "@/lib/events-store";
 import { getCoaching } from "@/lib/coaching/store";
@@ -27,7 +28,7 @@ export function coursesProjection(): Projection {
   const edges: GraphEdge[] = [];
   for (const c of loadAdmin()) {
     if (c.archived) continue;
-    const access: AccessLevel = c.paid || c.price > 0 ? { type: "paid" } : { type: "all" };
+    const access: AccessLevel = c.paid || c.price > 0 ? { mode: "membership" } : { mode: "free" };
     const cid = nodeId("course", c.id);
     nodes.push({
       id: cid, sourceId: c.id, type: "course", title: c.title, description: c.blurb,
@@ -67,7 +68,7 @@ export function appsProjection(): Projection {
   const nodes = getApps().map<GraphNode>(a => ({
     id: nodeId("app", a.id), sourceId: a.id, type: "app", title: a.name, description: a.description,
     tags: deriveTags(a.name, a.description, a.kind), audience: [], status: a.status,
-    access: a.access as AccessLevel, createdAt: a.createdAt, updatedAt: a.updatedAt,
+    access: toAccessPolicy(a.access), createdAt: a.createdAt, updatedAt: a.updatedAt,
     origin: a.source === "ai" ? "ai" : "manual", source: "apps", href: "/app/apps",
     meta: { kind: a.kind, icon: a.icon, templateId: a.templateId },
   }));
@@ -80,7 +81,7 @@ export function eventsProjection(): Projection {
   const nodes = getEvents().map<GraphNode>(e => ({
     id: nodeId("event", e.id), sourceId: e.id, type: "event", title: e.title, description: e.description,
     tags: deriveTags(e.title, e.description), audience: [], status: "scheduled",
-    access: { type: "all" }, creator: e.host, createdAt: e.date, origin: "seed",
+    access: { mode: "free" }, creator: e.host, createdAt: e.date, origin: "seed",
     source: "events", href: "/app/calendar",
     meta: { date: e.date, start: e.start, end: e.end, location: e.location },
   }));
@@ -100,7 +101,7 @@ export function coachingProjection(): Projection {
     nodes.push({
       id: pid, sourceId: p.id, type: "coaching", title: p.name, description: p.desc,
       tags: deriveTags(p.name, p.desc), audience: [], status: "active",
-      access: p.price > 0 ? { type: "paid" } : { type: "all" }, price: p.price,
+      access: p.price > 0 ? { mode: "membership" } : { mode: "free" }, price: p.price,
       origin: "ai", source: "coaching", href: "/app/club/coaching",
       meta: { type: p.type, sessionsPerMonth: p.sessionsPerMonth },
     });
@@ -112,7 +113,7 @@ export function coachingProjection(): Projection {
       id: sid, sourceId: s.id, type: "session", title: s.title, description: s.agenda,
       tags: deriveTags(s.title, s.agenda), audience: [],
       status: s.status === "completed" ? "completed" : s.status === "scheduled" ? "scheduled" : "archived",
-      access: { type: "paid" }, createdAt: s.date, origin: "manual", source: "coaching",
+      access: { mode: "membership" }, createdAt: s.date, origin: "manual", source: "coaching",
       href: "/app/club/coaching", meta: { type: s.type, programId: s.programId, clientIds: s.clientIds },
     });
     if (s.programId) edges.push(edge(nodeId("coaching", s.programId), sid, "contains"));
@@ -125,7 +126,7 @@ export function coachingProjection(): Projection {
     nodes.push({
       id: mid, sourceId: c.id, type: "member", title: c.name, description: `${c.lifecycle} · ${c.membership}`,
       tags: c.tags.map(t => t.toLowerCase()), audience: [], status: "active",
-      access: { type: "membership", membership: c.membership }, price: c.value,
+      access: { mode: "plan", plans: [c.membership] }, price: c.value,
       createdAt: c.joinedAt, updatedAt: c.lastActiveAt, origin: "seed", source: "coaching",
       href: "/app/club/coaching",
       meta: { lifecycle: c.lifecycle, engagement: c.engagement, courseProgress: c.courseProgress },
@@ -139,7 +140,7 @@ export function coachingProjection(): Projection {
     const qid = nodeId("question", n.id);
     nodes.push({
       id: qid, sourceId: n.id, type: "question", title: n.body.slice(0, 80), description: n.body,
-      tags: deriveTags(n.body), audience: [], status: "active", access: { type: "admin" },
+      tags: deriveTags(n.body), audience: [], status: "active", access: { mode: "admin" },
       creator: n.author, createdAt: n.createdAt, origin: "manual", source: "coaching",
       meta: { clientId: n.clientId },
     });
@@ -158,7 +159,7 @@ export function communityProjection(): Projection {
     id: community, sourceId: "main", type: "community", title: gs.clubName,
     description: gs.clubDesc || gs.clubTagline, tags: deriveTags(gs.niche, gs.clubTagline, gs.clubDesc),
     audience: gs.audience ? [gs.audience] : [], status: gs.launched ? "published" : "draft",
-    access: { type: "all" }, origin: "manual", source: "club", href: "/app/club/feed",
+    access: { mode: "free" }, origin: "manual", source: "club", href: "/app/club/feed",
     meta: { niche: gs.niche },
   }];
   const edges: GraphEdge[] = [];
@@ -168,7 +169,7 @@ export function communityProjection(): Projection {
     nodes.push({
       id: pid, sourceId: p.id, type: "post", title: p.title ?? p.body.slice(0, 60),
       description: p.body, tags: deriveTags(p.title, p.body), audience: [], status: "published",
-      access: { type: "all" }, creator: p.author, origin: "seed", source: "community",
+      access: { mode: "free" }, creator: p.author, origin: "seed", source: "community",
       href: "/app/club/feed", meta: { category: p.category, likes: p.likes, comments: p.comments },
     });
     edges.push(edge(community, pid, "contains"));
@@ -189,7 +190,7 @@ export function offersProjection(): Projection {
     nodes.push({
       id: nodeId("offer", "membership"), sourceId: "membership", type: "offer",
       title: gs.membership.paidLabel, description: "Paid membership tier",
-      tags: ["membership"], audience: [], status: "published", access: { type: "paid" },
+      tags: ["membership"], audience: [], status: "published", access: { mode: "membership" },
       price: gs.membership.paidPrice, origin: "manual", source: "membership", href: "/app/sell",
     });
   }
@@ -199,7 +200,7 @@ export function offersProjection(): Projection {
     nodes.push({
       id: pid, sourceId: page.id, type: "page", title: page.title, description: "",
       tags: deriveTags(page.title), audience: [], status: page.publishedAt ? "published" : "draft",
-      access: { type: "all" }, updatedAt: new Date(page.updatedAt).toISOString(),
+      access: { mode: "free" }, updatedAt: new Date(page.updatedAt).toISOString(),
       origin: "manual", source: "sell", href: `/app/sell/${page.id}`,
       meta: { surface: page.surface, slug: page.slug },
     });
@@ -211,7 +212,7 @@ export function offersProjection(): Projection {
       id: nodeId("persona", "member-ai"), sourceId: "member-ai", type: "persona",
       title: ctx.memberAi.name || "AI Assistant", description: ctx.memberAi.personality,
       tags: deriveTags(ctx.memberAi.personality, ctx.profile.expertise), audience: [ctx.profile.audience].filter(Boolean),
-      status: ctx.memberAi.configured ? "active" : "draft", access: { type: "all" },
+      status: ctx.memberAi.configured ? "active" : "draft", access: { mode: "free" },
       origin: "ai", source: "aiva", href: "/app/aiva",
       meta: { mode: ctx.memberAi.mode },
     });

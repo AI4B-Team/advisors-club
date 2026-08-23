@@ -75,9 +75,9 @@ export function createApp(input: NewApp): App {
     kind: input.kind,
     icon: input.icon ?? "wrench",
     status: "draft",
-    access: input.access ?? { type: "all" },
+    access: input.access ?? { mode: "free" },
     listed: true,
-    pricing: input.pricing ?? { model: "free" },
+    
     templateId: input.templateId,
     source: input.source ?? "blank",
     prompt: input.prompt,

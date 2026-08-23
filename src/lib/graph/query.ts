@@ -2,7 +2,8 @@
 // Everything AI-facing should go through here rather than reaching into
 // individual feature stores.
 
-import { canAccess, type Viewer } from "@/lib/apps/access";
+import { toCommerceViewer, type Viewer } from "@/lib/apps/access";
+import { resolveAccess } from "@/lib/commerce";
 import { tagSimilarity } from "./tags";
 import type { BusinessGraph, EdgeType, EntityType, GraphEdge, GraphNode, NodeId } from "./types";
 
@@ -58,7 +59,7 @@ export function visibleTo(g: BusinessGraph, viewer: Viewer): GraphNode[] {
   return g.nodes.filter(n => {
     if (n.type === "member" || n.type === "question" || n.type === "activity") return viewer.isAdmin;
     if (n.status === "draft" && !viewer.isAdmin) return false;
-    return canAccess(n.access, viewer);
+    return resolveAccess({ kind: "app", id: n.sourceId }, n.access, toCommerceViewer(viewer)).allowed;
   });
 }
 
