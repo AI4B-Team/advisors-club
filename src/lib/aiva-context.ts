@@ -37,12 +37,17 @@ export type MonetizationId =
 
 export type ClubComponentId =
   | "community" | "starter-course" | "coaching-program" | "challenge"
-  | "events" | "resources" | "member-onboarding" | "member-ai";
+  | "events" | "resources" | "member-onboarding" | "persona";
 
-export type MemberAiMode = "aiva" | "my-coach" | "custom";
+/**
+ * Member-facing AI identity captured during onboarding. AIVA is the ADMIN
+ * business operator and is never offered as a member-facing identity, so the
+ * only choices are the expert's own persona or a separate AI identity.
+ */
+export type PersonaIdentityMode = "expert" | "separate";
 
-export type MemberAiConfig = {
-  mode: MemberAiMode;
+export type PersonaSeed = {
+  identityMode: PersonaIdentityMode;
   name: string;
   personality: string;
   avatarUrl: string;
@@ -61,7 +66,7 @@ export type AivaContext = {
   monetization: MonetizationId[];
   components: ClubComponentId[];
   brand: { clubName: string; logoUrl: string; color: string; slug: string };
-  memberAi: MemberAiConfig;
+  persona: PersonaSeed;
   payments: { connected: boolean; deferred: boolean };
   /** Steps the build actually completed and persisted. */
   built: string[];
@@ -95,9 +100,9 @@ const DEFAULTS: AivaContext = {
   monetization: [],
   components: [],
   brand: { clubName: "", logoUrl: "", color: "#F5A623", slug: "" },
-  memberAi: {
-    mode: "aiva",
-    name: "AIVA",
+  persona: {
+    identityMode: "expert",
+    name: "",
     personality: "",
     avatarUrl: "",
     disclosure: "You're chatting with AI. Responses are generated and may be imperfect.",
@@ -126,7 +131,7 @@ export function getAivaContext(): AivaContext {
     ...data,
     profile: { ...EMPTY_PROFILE, ...(data.profile || {}) },
     brand: { ...DEFAULTS.brand, ...(data.brand || {}) },
-    memberAi: { ...DEFAULTS.memberAi, ...(data.memberAi || {}) },
+    persona: { ...DEFAULTS.persona, ...(data.persona || {}) },
     payments: { ...DEFAULTS.payments, ...(data.payments || {}) },
     sources: data.sources || [],
   };
@@ -188,7 +193,7 @@ export const COMPONENT_CATALOG: { id: ClubComponentId; label: string; desc: stri
   { id: "events",            label: "Events",               desc: "Live calls, workshops, and replays." },
   { id: "resources",         label: "Resources",            desc: "A library for templates, files, and links." },
   { id: "member-onboarding", label: "Member Onboarding",    desc: "A welcome path so new members know where to start." },
-  { id: "member-ai",         label: "AIVA Member Assistant", desc: "AI that answers member questions from your content." },
+  { id: "persona",           label: "AI Persona",           desc: "Your member-facing AI, trained on your content and method." },
 ];
 
 /** Curated — never the full feature list. Driven by how the advisor wants to earn. */
@@ -200,7 +205,7 @@ export function recommendComponents(monetization: MonetizationId[]): ClubCompone
   if (has("events") || has("mastermind") || has("coaching-group")) set.add("events");
   if (has("digital-products") || has("membership")) set.add("resources");
   if (has("free-community") || has("membership") || has("unsure")) set.add("challenge");
-  set.add("member-ai");
+  set.add("persona");
   return COMPONENT_CATALOG.map(c => c.id).filter(id => set.has(id));
 }
 
