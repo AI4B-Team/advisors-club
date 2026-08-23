@@ -13,6 +13,7 @@ import { getMemberAi, type MemberAiPermissionId } from "@/lib/member-ai";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { recommendForMember, type MemberReco } from "@/lib/persona/recommend";
 import { trackReco } from "@/lib/persona/reco-events";
+import { attachRecoAttribution } from "@/lib/persona/reco-attribution";
 import { MemberRecoCards } from "./MemberRecoCards";
 
 type Msg = { id: number; from: "me" | "ai"; text: string; escalate?: boolean; recos?: MemberReco[] };
@@ -51,6 +52,7 @@ export function PersonaAssistantPanel({
   const nextAction = PERSONA_NEXT_ACTIONS.find(n => n.id === persona.escalation.nextAction) ?? PERSONA_NEXT_ACTIONS[0];
   const ctaLabel = persona.escalation.nextActionLabel || nextAction.cta;
 
+  useEffect(() => { attachRecoAttribution(); }, []);
   useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 60); }, [open]);
   useEffect(() => {
     if (!open) return;
