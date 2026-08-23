@@ -53,6 +53,8 @@ export type NavItem = {
   visibility?: "everyone" | "members" | "admins";
   /** Locked items cannot be removed from navigation (e.g. Home). */
   locked?: boolean;
+  /** Content for type "page" — a lightweight custom page owned by this nav item. */
+  page?: { body: string };
   subs: NavSubItem[];
   menu: string[];
 };
