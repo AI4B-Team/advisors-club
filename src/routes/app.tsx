@@ -200,6 +200,13 @@ const TOP_LINKS: TopLink[] = [
       {label:"Admins",to:"/app/club/members", icon:<ShieldCheck size={14}/>},
     ],
     menu: DEFAULT_MENU },
+  { label: "Customize", to: "/app/customize", icon: <Palette size={16}/>,
+    subs: [
+      {label:"Blocks",to:"/app/customize", icon:<LayoutGrid size={14}/>},
+      {label:"Theme",to:"/app/customize", icon:<Palette size={14}/>},
+      {label:"Brand & Domain",to:"/app/customize", icon:<Globe size={14}/>},
+    ],
+    menu: DEFAULT_MENU },
   { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,
     subs: [
       {label:"Overview",to:"/app/aiva", icon:<Terminal size={14}/>},
