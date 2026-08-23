@@ -9,6 +9,7 @@ import {
   PERSONA_NEXT_ACTIONS, PERSONA_PRESETS, PERSONA_SOURCES,
 } from "@/lib/persona/types";
 import { PersonaAssistantPanel } from "@/components/persona/PersonaAssistant";
+import { RecommendationControls } from "@/components/persona/RecommendationControls";
 
 export const Route = createFileRoute("/app/manage/persona")({
   component: PersonaPage,
