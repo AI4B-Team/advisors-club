@@ -5,7 +5,8 @@
 // always respected, and paid connections are framed honestly: real help first,
 // then a transparent note that a paid tool does the rest.
 
-import { canAccess, type Viewer } from "@/lib/apps/access";
+import { toCommerceViewer, type Viewer } from "@/lib/apps/access";
+import { resolveAccess } from "@/lib/commerce";
 import { buildGraph, type BusinessGraph } from "@/lib/graph";
 import type { NodeId } from "@/lib/graph/types";
 import { getMutes, getRelationships, isMuted } from "./store";
@@ -47,7 +48,9 @@ export function connectionsFor(
     .filter(r => (opts.placement ? r.placement === opts.placement : true))
     .map(r => {
       const node = graph.nodes.find(n => n.id === r.targetId);
-      const owned = node ? canAccess(viewer, node.access).allowed : false;
+      const owned = node
+        ? resolveAccess({ kind: "app", id: node.sourceId }, node.access, toCommerceViewer(viewer)).allowed
+        : false;
       const paid = r.commerce === "paid" && !owned;
       return {
         id: r.id,
