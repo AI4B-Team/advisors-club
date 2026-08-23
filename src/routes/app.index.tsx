@@ -11,6 +11,7 @@ import { FeaturedEvent } from "@/components/featured-event";
 import { FeedTabs, PostBody, PostBadge, PinBadge, ComposerCategoryPicker, BookmarkButton, type TabId, type FeedSort } from "@/components/feed-meta";
 import { useLeaderboard } from "@/hooks/use-leaderboard";
 import { DataBadge, EmptyState } from "@/components/DataBadge";
+import { useDataMode } from "@/hooks/use-data-mode";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 import { getGS, subscribeGS } from "@/lib/gs-store";
 import { getEvents, subscribeEvents, type EventItem } from "@/lib/events-store";
@@ -51,7 +52,9 @@ function eventMo(e: EventItem) {
 }
 
 
-const TRENDING = [
+// DEMO fixtures — trending is not computed yet, so these render only in a
+// demo/sandbox workspace and always carry a label.
+const DEMO_TRENDING = [
   { photo: "https://i.pravatar.cc/80?img=48", title: "Skip Tracing Playbook", who: "Judith M." },
   { photo: "https://i.pravatar.cc/80?img=13", title: "Give Your First Deal A Chance", who: "Greg D." },
   { photo: "https://i.pravatar.cc/80?img=68", title: "Doubling Down On Door Knocks", who: "Albert Lott" },
@@ -59,6 +62,7 @@ const TRENDING = [
 
 function HomePage() {
   const { isAdmin: IS_ADMIN } = useViewMode();
+  const dataMode = useDataMode();
   const [posts, setPosts] = useState<Post[]>(SEED);
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
@@ -308,9 +312,12 @@ function HomePage() {
           </div>
 
           <div className="hm-card">
-            <h3 className="hm-card-title">Trending Posts</h3>
+            <h3 className="hm-card-title">Trending Posts <DataBadge kind={dataMode.enabled ? "demo" : "real"} /></h3>
+            {!dataMode.enabled && (
+              <EmptyState title="Nothing Trending Yet" body="Once Posts Start Getting Traction, They'll Surface Here." />
+            )}
             <ul className="hm-trending">
-              {TRENDING.map((t,i)=>(
+              {(dataMode.enabled ? DEMO_TRENDING : []).map((t,i)=>(
                 <li key={i} className="hm-trend">
                   <img className="hm-av sm" src={t.photo} alt={t.who} loading="lazy" style={{objectFit:"cover"}}/>
                   <div>

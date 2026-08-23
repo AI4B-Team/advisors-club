@@ -1,3 +1,5 @@
+import { DataBadge, EmptyState } from "@/components/DataBadge";
+import { useDataMode } from "@/hooks/use-data-mode";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, Sparkles, Clock, FileText, Image as ImageIcon, Video, Megaphone, TrendingUp, Users, MessageSquare, Download, Calendar, Zap } from "lucide-react";
@@ -71,7 +73,8 @@ const SUMMARIES: Record<Range, { headline: string; bullets: string[]; stats: { l
   },
 };
 
-const RECENT_UPLOADS = [
+// DEMO fixtures — shown only in a demo/sandbox workspace, always labeled.
+const DEMO_UPLOADS = [
   { icon: <FileText size={14}/>, title: "Cold Outreach Template v4", by: "Zaddy", time: "2h ago", type: "Doc" },
   { icon: <Video size={14}/>, title: "Push Ten Mastermind — Replay", by: "Brian Hanson", time: "1d ago", type: "Video" },
   { icon: <ImageIcon size={14}/>, title: "AI Workflow Diagram", by: "Molly Shaw-Matthers", time: "2d ago", type: "Image" },
@@ -88,6 +91,7 @@ const QUICK = [
 ];
 
 export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const dataMode = useDataMode();
   const [range, setRange] = useState<Range>("7d");
   const [loading, setLoading] = useState(false);
   const [shownRange, setShownRange] = useState<Range>("7d");
@@ -181,9 +185,14 @@ export function AISummaryDrawer({ open, onClose }: { open: boolean; onClose: () 
             ))}
           </div>
 
-          <div className="ai-section-label"><Download size={12}/> Recent Uploads</div>
+          <div className="ai-section-label">
+            <Download size={12}/> Recent Uploads <DataBadge kind={dataMode.enabled ? "demo" : "real"} />
+          </div>
+          {!dataMode.enabled && (
+            <EmptyState title="No Uploads Yet" body="Files Your Team Adds Will Show Up Here." />
+          )}
           <div className="ai-upload-list">
-            {RECENT_UPLOADS.map(u => (
+            {(dataMode.enabled ? DEMO_UPLOADS : []).map(u => (
               <button key={u.title} className="ai-upload-item">
                 <span className="ai-upload-i">{u.icon}</span>
                 <div className="ai-upload-meta">
