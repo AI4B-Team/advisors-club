@@ -29,7 +29,7 @@ export const Route = createFileRoute("/app/apps/$appId/edit")({
 });
 
 
-type Tab = "build" | "preview" | "settings" | "usage";
+type Tab = "build" | "preview" | "settings" | "launch" | "usage";
 
 function AppEditPage() {
   const { appId } = useParams({ from: "/app/apps/$appId/edit" });
