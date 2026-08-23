@@ -147,6 +147,9 @@ function SellHub() {
       <FunnelsPanel doc={doc} update={update} />
 
       <p className="sl-foot"><Rocket size={12} /> Publishing A Page Never Changes Your Pricing Or Plan Entitlements.</p>
+      </>
+      )}
     </div>
+
   );
 }
