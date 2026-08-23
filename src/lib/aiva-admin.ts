@@ -10,6 +10,14 @@ export type KnowledgeKind =
 
 export type KnowledgeStatus = "ready" | "processing" | "needs-review" | "error";
 
+/**
+ * Who may read a knowledge source.
+ * - "aiva"    — admin operator only (internal notes, pricing strategy, pipeline)
+ * - "persona" — member-facing AI only
+ * - "both"    — default
+ */
+export type KnowledgeAudience = "aiva" | "persona" | "both";
+
 export type KnowledgeItem = {
   id: string;
   kind: KnowledgeKind;
@@ -19,6 +27,8 @@ export type KnowledgeItem = {
   updatedAt: string;
   /** Synced content (courses, community) can't be removed here — only reprocessed. */
   managed?: boolean;
+  /** Defaults to "both" when unset. */
+  audience?: KnowledgeAudience;
 };
 
 export type KnowledgeFactKey =
