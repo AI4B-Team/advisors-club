@@ -6,6 +6,7 @@ import { useNavLabel } from "@/hooks/use-nav-label";
 import { getApps, patchApp, subscribeApps } from "@/lib/apps/store";
 import { getUsage, statsFor, subscribeUsage, type UsageEvent } from "@/lib/apps/usage";
 import { AppBuilder } from "@/components/apps/AppBuilder";
+import { AppLaunchKit } from "@/components/apps/AppLaunchKit";
 import { AppRunner } from "@/components/apps/AppRunner";
 import { getGS, subscribeGS } from "@/lib/gs-store";
 import { toAccessPolicy, type App } from "@/lib/apps/types";
@@ -93,6 +94,7 @@ function AppEditPage() {
         <TabBtn on={tab === "build"} onClick={() => setTab("build")}><Wrench size={13} /> Build</TabBtn>
         <TabBtn on={tab === "preview"} onClick={() => setTab("preview")}><Eye size={13} /> Preview</TabBtn>
         <TabBtn on={tab === "settings"} onClick={() => setTab("settings")}><Settings2 size={13} /> Access & Pricing</TabBtn>
+        <TabBtn on={tab === "launch"} onClick={() => setTab("launch")}><Sparkles size={13} /> AI Launch Kit</TabBtn>
         <TabBtn on={tab === "usage"} onClick={() => setTab("usage")}><BarChart3 size={13} /> Usage</TabBtn>
       </div>
 
@@ -106,6 +108,8 @@ function AppEditPage() {
       )}
 
       {tab === "settings" && <SettingsTab app={app} />}
+
+      {tab === "launch" && <AppLaunchKit app={app} />}
 
       {tab === "usage" && (
         <div className="apx-totals">
