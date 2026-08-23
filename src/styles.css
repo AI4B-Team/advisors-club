@@ -5932,3 +5932,9 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .ap-bar-h>span{background:var(--ac2-ink)}
 .ap-tag-add{color:var(--ac2-ink-2);border-color:var(--ac2-line-2)}
 .gs-res-i{background:var(--ac2-tint);color:var(--ac2-brand-ink)}
+.cc .cc-tb-ask-att{background:var(--ac2-brand-2);color:#fff}
+.cc-tb-ask.has-att{border-color:var(--ac2-brand);background:var(--ac2-tint)}
+.cc-tb-ask.has-att:hover{background:rgba(245,166,35,.2)}
+.acp-disc-kind{text-transform:none;letter-spacing:0;font-size:12px;color:var(--ac2-brand-ink)}
+.acp-disc{border-color:var(--ac2-line);border-radius:var(--ac2-r-lg)}
+.aiva-comp-btn svg,.cc-tb-spark svg{color:var(--ac2-brand-2)}
