@@ -43,6 +43,7 @@ import { Route as AppSettingsAiPersonaRouteImport } from './routes/app.settings.
 import { Route as AppSettingsSectionRouteImport } from './routes/app.settings.$section'
 import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppPagePageIdRouteImport } from './routes/app.page.$pageId'
+import { Route as AppManageNavigationRouteImport } from './routes/app.manage.navigation'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
 import { Route as AppClubResourcesRouteImport } from './routes/app.club.resources'
 import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
@@ -228,6 +229,11 @@ const AppPagePageIdRoute = AppPagePageIdRouteImport.update({
   path: '/page/$pageId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppManageNavigationRoute = AppManageNavigationRouteImport.update({
+  id: '/navigation',
+  path: '/navigation',
+  getParentRoute: () => AppManageRoute,
+} as any)
 const AppClubSettingsRoute = AppClubSettingsRouteImport.update({
   id: '/club/settings',
   path: '/club/settings',
@@ -336,6 +342,7 @@ export interface FileRoutesByFullPath {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
@@ -380,6 +387,7 @@ export interface FileRoutesByTo {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
@@ -431,6 +439,7 @@ export interface FileRoutesById {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/manage/navigation': typeof AppManageNavigationRoute
   '/app/page/$pageId': typeof AppPagePageIdRoute
   '/app/sell/$pageId': typeof AppSellPageIdRoute
   '/app/settings/$section': typeof AppSettingsSectionRoute
@@ -483,6 +492,7 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
@@ -527,6 +537,7 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
@@ -577,6 +588,7 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/manage/navigation'
     | '/app/page/$pageId'
     | '/app/sell/$pageId'
     | '/app/settings/$section'
@@ -847,6 +859,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPagePageIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/manage/navigation': {
+      id: '/app/manage/navigation'
+      path: '/navigation'
+      fullPath: '/app/manage/navigation'
+      preLoaderRoute: typeof AppManageNavigationRouteImport
+      parentRoute: typeof AppManageRoute
+    }
     '/app/club/settings': {
       id: '/app/club/settings'
       path: '/club/settings'
@@ -976,10 +995,12 @@ const AppAppsRouteWithChildren =
   AppAppsRoute._addFileChildren(AppAppsRouteChildren)
 
 interface AppManageRouteChildren {
+  AppManageNavigationRoute: typeof AppManageNavigationRoute
   AppManageIndexRoute: typeof AppManageIndexRoute
 }
 
 const AppManageRouteChildren: AppManageRouteChildren = {
+  AppManageNavigationRoute: AppManageNavigationRoute,
   AppManageIndexRoute: AppManageIndexRoute,
 }
 
