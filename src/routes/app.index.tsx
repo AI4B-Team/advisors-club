@@ -13,6 +13,7 @@ import { LB_MEMBERS } from "@/lib/leaderboard-data";
 import reCover from "@/assets/real-estate-empire-cover.jpg";
 import { getGS, subscribeGS } from "@/lib/gs-store";
 import { getEvents, subscribeEvents, type EventItem } from "@/lib/events-store";
+import { LaunchChecklist } from "@/components/LaunchChecklist";
 
 function slugifyClub(s: string) {
   return s.toLowerCase().trim().replace(/['']/g,"").replace(/[^a-z0-9]+/g,"").slice(0,40) || "yourclub";
@@ -134,6 +135,10 @@ function HomePage() {
     <div className="hm">
       <div className="hm-grid">
         <section className="hm-feed">
+
+          <LaunchChecklist />
+
+
 
 
           <div className="hm-composer">
