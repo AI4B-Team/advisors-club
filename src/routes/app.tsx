@@ -452,8 +452,8 @@ function Topbar() {
           <button
             className={`cc-tb-ask${cmdOpen ? " on" : ""}${attention.hasAttention ? " has-att" : ""}`}
             type="button"
-            aria-label={attention.hasAttention ? `Ask AI — ${attention.headline}` : "Ask AI"}
-            data-tip={attention.hasAttention ? attention.headline : "Ask AI"}
+            aria-label={attention.hasAttention ? `Ask AIVA — ${attention.headline}` : "Ask AIVA"}
+            data-tip={attention.hasAttention ? attention.headline : "Ask AIVA"}
             onClick={()=>{
               if (cmdOpen) { setCmdOpen(false); return; }
               setBriefingOn(attention.hasAttention);
@@ -461,7 +461,7 @@ function Topbar() {
             }}
           >
             <Sparkles size={15}/>
-            <span className="cc-tb-ask-l">Ask AI</span>
+            <span className="cc-tb-ask-l">Ask AIVA</span>
             {attention.hasAttention
               ? <span className="cc-tb-ask-att">{attention.count}</span>
               : <kbd className="cc-tb-ask-k">⌘K</kbd>}
@@ -482,15 +482,6 @@ function Topbar() {
         {/* Admin machinery stays out of the member top bar. */}
         {isAdmin && !viewAs && (
           <>
-            <button
-              className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
-              type="button"
-              aria-label="AI Summary"
-              data-tip="AI Summary"
-              onClick={()=>setAiOpen(o=>!o)}
-            >
-              <Sparkles size={16}/>
-            </button>
             <button className="cc-tb-golive quiet" type="button" data-tip="Go Live" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}>
               <Video size={14}/> Go Live
             </button>
@@ -555,6 +546,7 @@ function Topbar() {
       </div>
       <AISummaryDrawer open={aiOpen} onClose={()=>setAiOpen(false)} />
       <AivaCommandPalette
+        onSummary={()=>{ setCmdOpen(false); setAiOpen(true); }}
         open={cmdOpen}
         onClose={()=>{ if (briefingOn) attention.acknowledgeAll(); setBriefingOn(false); setCmdOpen(false); }}
         briefing={briefingOn ? { greeting: attention.greeting, headline: attention.headline, items: attention.items, overflow: attention.overflow } : null}

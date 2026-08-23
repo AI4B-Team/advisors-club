@@ -66,10 +66,10 @@ export function AivaCoachPanel({
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask AI About Your Clients…"
-          aria-label="Ask AI about your clients"
+          placeholder="Ask AIVA About Your Clients…"
+          aria-label="Ask AIVA about your clients"
         />
-        <button type="submit" disabled={busy || !input.trim()} aria-label="Ask AI">
+        <button type="submit" disabled={busy || !input.trim()} aria-label="Ask AIVA">
           {busy ? <Loader2 size={14} className="coach-spin" /> : <ArrowRight size={14} />}
         </button>
       </form>
