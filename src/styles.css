@@ -5739,7 +5739,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .st-scope-club{color:#B45309}
 .st-scope-account{color:#4F46E5}
 .st-rows{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
-.st-row-wrap+.st-row-wrap,.st-rows>a+*,.st-rows>*+a{border-top:1px solid var(--line)}
+.st-rows>*+*{border-top:1px solid var(--line)}
 .st-row{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;background:transparent;border:0;text-align:left;cursor:pointer;text-decoration:none;color:inherit}
 .st-row:hover{background:#FAFAFA}
 .st-row-t{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
