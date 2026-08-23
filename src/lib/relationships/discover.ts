@@ -7,7 +7,8 @@
 // three months after the content was written is indistinguishable from one
 // found on day one. Nothing here publishes anything: drafts go to the creator.
 
-import { recommendFor, tagSimilarity } from "@/lib/graph/query";
+import { recommendFor } from "@/lib/graph/query";
+import { tagSimilarity } from "@/lib/graph/tags";
 import { isPurchasable } from "@/lib/commerce/types";
 import type { BusinessGraph, EntityType, GraphNode, NodeId } from "@/lib/graph/types";
 import type {
