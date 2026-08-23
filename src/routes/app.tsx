@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, UserPlus, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
+import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
 import { AISummaryDrawer } from "@/components/ai-summary-drawer";
 import { GoLiveModal } from "@/components/go-live-modal";
 
@@ -377,6 +378,7 @@ function Topbar() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
+  const [cmdOpen, setCmdOpen] = useState(false);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -391,6 +393,17 @@ function Topbar() {
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCmdOpen(o => !o);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   async function handleLogout() {
@@ -437,6 +450,17 @@ function Topbar() {
       </div>
 
       <div className="cc-tb-right">
+        <button
+          className={`cc-tb-ask${cmdOpen ? " on" : ""}`}
+          type="button"
+          aria-label="Ask AIVA"
+          data-tip="Ask AIVA"
+          onClick={()=>setCmdOpen(o=>!o)}
+        >
+          <Sparkles size={15}/>
+          <span className="cc-tb-ask-l">Ask AIVA</span>
+          <kbd className="cc-tb-ask-k">⌘K</kbd>
+        </button>
         <button
           className={`cc-tb-aiva${aiOpen ? " on" : ""}`}
           type="button"
@@ -496,6 +520,7 @@ function Topbar() {
         </div>
       </div>
       <AISummaryDrawer open={aiOpen} onClose={()=>setAiOpen(false)} />
+      <AivaCommandPalette open={cmdOpen} onClose={()=>setCmdOpen(false)} />
     </header>
   );
 }
