@@ -4040,3 +4040,117 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .acp-copy{margin-top:6px;display:inline-flex;align-items:center;gap:6px;border:1px solid #e5e7eb;background:#fff;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:600;color:#374151;cursor:pointer}
 .acp-foot{display:flex;gap:14px;padding:9px 14px;border-top:1px solid #f0f1f3;background:#fafafa;font-size:11.5px;color:#9ca3af}
 .acp-foot kbd{font-family:inherit;background:#fff;border:1px solid #e5e7eb;border-radius:4px;padding:1px 4px;margin-right:4px;color:#6b7280}
+
+/* =========================================================
+   REFINEMENT PASS — Advisors Club (neutral borders, rhythm,
+   type hierarchy, restrained AIVA cues). Overrides only.
+   ========================================================= */
+.cc{
+  --ln:#E8EAEE;          /* normal border */
+  --ln-2:#DFE3E8;        /* hover border */
+  --ink:#111827;
+  --ink-2:#374151;
+  --ink-3:#6B7280;
+  --ink-4:#9CA3AF;
+  --brand:#F5A623;       /* reserved: active / selected / important */
+  --brand-tint:#FEF6E7;
+  --aiva:#6D28D9;
+  --aiva-tint:#F6F4FE;
+  --r-card:14px;
+  --r-ctl:10px;
+  --sh-1:0 1px 2px rgba(16,24,40,.04);
+  --sh-2:0 1px 3px rgba(16,24,40,.06),0 6px 16px -10px rgba(16,24,40,.12);
+}
+
+/* ---- CARDS: subtle borders, restrained shadow, consistent radius ---- */
+.cc .hm-post,.cc .cc-post,.cc .hm-card,.cc .aiva-ins,.cc .lc-card{
+  border:1px solid var(--ln);border-radius:var(--r-card);box-shadow:var(--sh-1);
+}
+.cc .hm-post:hover,.cc .cc-post:hover{border-color:var(--ln-2);box-shadow:var(--sh-2)}
+
+/* Pinned = important, not outlined. Quiet left accent + existing chip. */
+.cc .hm-post.pinned,.cc .cc-post.pinned{
+  border:1px solid var(--ln);box-shadow:var(--sh-1);overflow:hidden;
+}
+.cc .hm-post.pinned::before,.cc .cc-post.pinned::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand);
+}
+.cc .hm-post-pinned,.cc .cc-post-pinned,.cc .post-actions-pinned{
+  color:#8A5A08;background:var(--brand-tint);border:1px solid #F6E3BE;font-weight:600;
+}
+
+/* Composers: neutral at rest, brand only on focus */
+.cc .hm-composer,.cc .cc-composer{
+  border:1px solid var(--ln);box-shadow:var(--sh-1);border-radius:var(--r-card);
+  transition:border-color .15s,box-shadow .15s;
+}
+.cc .hm-composer:focus-within,.cc .cc-composer:focus-within{
+  border-color:var(--brand);box-shadow:0 0 0 3px rgba(245,166,35,.14);
+}
+.cc .cc-composer-send{border-radius:var(--r-ctl)}
+
+/* ---- TYPOGRAPHY HIERARCHY ---- */
+.cc .hm-head h1,.cc .cal-title,.cc .su-h1{font-size:24px;font-weight:800;letter-spacing:-.022em;color:var(--ink);line-height:1.2}
+.cc .hm-card-title,.cc .aiva-ins-title,.cc .cal-side-title,.cc .lc-title{
+  font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--ink);text-transform:none;
+}
+.cc .hm-post-title{font-size:18px;font-weight:750;letter-spacing:-.015em;line-height:1.32}
+.cc .cc-post-title{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.cc .hm-post-body,.cc .cc-post-body{font-size:14.5px;line-height:1.62;color:var(--ink-2)}
+.cc .hm-post-name,.cc .cc-post-name{font-size:13.5px;font-weight:650}
+.cc .hm-post-time,.cc .cc-post-time,.cc .hm-trend-sub,.cc .hm-event-sub{font-size:12px;color:var(--ink-4);font-weight:450}
+
+/* ---- CONTROLS: one system for buttons, pills, tabs, menus ---- */
+.cc .hm-sort,.cc .hm-iconbtn,.cc .btn-ghost,.cc .cc-tb-ask{
+  border:1px solid var(--ln);border-radius:var(--r-ctl);box-shadow:none;transition:background .15s,border-color .15s;
+}
+.cc .hm-sort:hover,.cc .hm-iconbtn:hover,.cc .btn-ghost:hover,.cc .cc-tb-ask:hover{background:#F7F8FA;border-color:var(--ln-2)}
+.cc .hm-sort-menu,.cc .fp-sort-menu,.cc .fp-cat-menu,.cc .cc-tb-menu,.cc .cc-tb-more-menu,.cc .cc-tb-search-menu,.cc .cc-tb-vw-menu{
+  border:1px solid var(--ln);border-radius:12px;box-shadow:0 12px 32px -12px rgba(16,24,40,.22);
+}
+.cc .fp-filter-item.is-active{color:var(--ink);font-weight:700}
+.cc .cc-tb-search{background:#F7F8FA;border:1px solid var(--ln);border-radius:var(--r-ctl)}
+.cc .cc-tb-search:focus-within{background:#fff;border-color:var(--ln-2)}
+.cc .sf-niche,.cc .acp-chip{border-color:var(--ln)}
+
+/* ---- ICONS: uniform stroke + soft tinted containers ---- */
+.cc svg{stroke-width:1.75}
+.cc .cc-post-act svg,.cc .hm-post-act svg{stroke-width:1.75}
+.cc .hm-event-date{border:1px solid var(--ln);background:#F7F8FA;border-radius:10px}
+
+/* ---- AIVA: distinct but quiet ---- */
+.cc .aiva-panel{background:var(--ln);border-radius:16px;padding:1px}
+.cc .aiva-chip{background:var(--aiva-tint);color:var(--aiva);border:1px solid #E7E1FB;font-weight:700}
+.cc .aiva-prompt-go{background:var(--ink);border-radius:var(--r-ctl)}
+.cc .aiva-prompt-go:hover{background:#000}
+.cc .aiva-ins-badge{background:var(--aiva-tint);color:var(--aiva);border:1px solid #E7E1FB}
+.cc .aiva-ins-cta{border-color:#E7E1FB}
+.cc .cc-tb-aiva svg,.cc .cc-tb-ask svg{color:var(--aiva)}
+.cc .cc-tb-aiva.on{border-color:#DDD3FA;background:var(--aiva-tint);color:var(--aiva)}
+.acp-mark{background:var(--aiva-tint);color:var(--aiva)}
+.acp-chip svg,.acp-md a{color:var(--aiva)}
+
+/* ---- SPACING & VERTICAL RHYTHM ---- */
+.cc .hm{padding:20px 28px 0}
+.cc .hm-head{margin-bottom:14px}
+.cc .hm-posts,.cc .cc-posts{gap:12px}
+.cc .hm-post,.cc .cc-post{padding:16px 18px}
+.cc .hm-side{gap:14px}
+.cc .hm-card{padding:14px 16px}
+.cc .fp-empty,.cc .cc-empty{padding:40px 24px}
+
+/* ---- RESPONSIVE: collapse columns, don't shrink all three ---- */
+@media (max-width:1180px){
+  .hm-grid{grid-template-columns:minmax(0,1fr) 288px;gap:18px}
+}
+@media (max-width:1024px){
+  .hm-grid{grid-template-columns:minmax(0,1fr);height:auto}
+  .cc-main:has(.hm){overflow:auto}
+  .hm-feed{overflow:visible;padding-bottom:0}
+  .hm-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-bottom:40px}
+  .hm-side > *{min-width:0}
+}
+@media (max-width:760px){
+  .cc .hm{padding:16px 16px 0}
+  .hm-side{grid-template-columns:1fr}
+}
