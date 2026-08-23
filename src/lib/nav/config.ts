@@ -111,10 +111,10 @@ const BASE_MEMBER_NAV: NavItem[] = [
     menu: DEFAULT_ITEM_MENU,
   },
   {
-    id: "events", label: "Events", to: "/app/club/events", icon: "events", section: "member",
+    id: "events", label: "Events", to: "/app/calendar", icon: "events", section: "member",
     subs: [
-      { id: "events-upcoming", label: "Upcoming", to: "/app/club/events", icon: "calendar-clock" },
-      { id: "events-past", label: "Past", to: "/app/club/events", icon: "calendar-check" },
+      { id: "events-upcoming", label: "Upcoming", to: "/app/calendar", icon: "calendar-clock" },
+      { id: "events-past", label: "Past", to: "/app/calendar", icon: "calendar-check" },
     ],
     menu: DEFAULT_ITEM_MENU,
   },
