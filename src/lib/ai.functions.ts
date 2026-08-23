@@ -642,3 +642,83 @@ ADMIN REQUEST: ${data.prompt}`;
       return { ...empty, error: "AIVA is unavailable right now." };
     }
   });
+
+/* ---------- Navigation structure generation ---------- */
+
+const NavGenInput = z.object({
+  description: z.string().max(4000).optional().default(""),
+  business: z.string().max(600).optional().default(""),
+  audience: z.string().max(600).optional().default(""),
+  transformation: z.string().max(600).optional().default(""),
+  topics: z.array(z.string().max(80)).max(20).optional().default([]),
+  clubName: z.string().max(80).optional().default(""),
+});
+
+export type NavGenRow = { type: string; label: string; group?: string };
+
+export const generateNavigation = createServerFn({ method: "POST" })
+  .inputValidator((input) => NavGenInput.parse(input))
+  .handler(async ({ data }) => {
+    const empty = { items: [] as NavGenRow[], rationale: "" };
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) return { ...empty, error: "AI is not configured." };
+
+    const system = `You design the left navigation for a creator's paid community inside AdvisorsClub.
+
+You may ONLY use these underlying content types, each at most once:
+community, courses, coaching, events, resources, apps, members.
+
+Your job is to NAME them in the creator's language, and order them the way their members should move through the club. Examples of the idea (do not copy them): a house-flipping investor might call "community" the Deal Room and "courses" the Flipping Academy; a fitness creator might call "courses" Workout Programs.
+
+Rules:
+- 5 to 7 items. Always include community, courses (if they teach) and members.
+- Labels: Title Case, 1-3 words, no emojis, no punctuation, specific to this business.
+- "group" is optional. Only use section headers if they genuinely help (e.g. LEARN / CONNECT / TOOLS). Otherwise omit it entirely — flat is fine.
+- Never invent content types. Never rename "members" into something confusing.
+- Respond with STRICT JSON only, no markdown fences:
+  {"items":[{"type":"community","label":"Deal Room"}],"rationale":"one short sentence"}`;
+
+    const user = `CREATOR DESCRIPTION: ${data.description || "(none)"}
+BUSINESS: ${data.business || "(unknown)"}
+AUDIENCE: ${data.audience || "(unknown)"}
+OUTCOME: ${data.transformation || "(unknown)"}
+TOPICS: ${data.topics.join(", ") || "(unknown)"}
+CLUB NAME: ${data.clubName || "(unnamed)"}`;
+
+    try {
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "system", content: system }, { role: "user", content: user }],
+        }),
+      });
+      if (resp.status === 429) return { ...empty, error: "Rate limit reached — try again in a moment." };
+      if (resp.status === 402) return { ...empty, error: "Out of AI credits." };
+      if (!resp.ok) {
+        console.error("generateNavigation gateway error", resp.status, await resp.text());
+        return { ...empty, error: "AI is unavailable right now." };
+      }
+      const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const raw = (json.choices?.[0]?.message?.content ?? "").trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+      let parsed: { items?: unknown; rationale?: unknown } = {};
+      try { parsed = JSON.parse(raw); } catch { return { ...empty, error: "AI returned an unexpected response." }; }
+      const items: NavGenRow[] = Array.isArray(parsed.items)
+        ? (parsed.items as unknown[]).flatMap((r) => {
+            if (!r || typeof r !== "object") return [];
+            const rec = r as Record<string, unknown>;
+            const type = typeof rec.type === "string" ? rec.type : "";
+            const label = typeof rec.label === "string" ? rec.label : "";
+            if (!type || !label) return [];
+            const group = typeof rec.group === "string" ? rec.group : undefined;
+            return [{ type, label, ...(group ? { group } : {}) }];
+          }).slice(0, 10)
+        : [];
+      if (!items.length) return { ...empty, error: "AI could not draft a structure. Try adding more detail." };
+      return { items, rationale: typeof parsed.rationale === "string" ? parsed.rationale.slice(0, 200) : "", error: null };
+    } catch (e) {
+      console.error("generateNavigation error", e);
+      return { ...empty, error: "AI is unavailable right now." };
+    }
+  });
