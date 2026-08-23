@@ -145,8 +145,6 @@ function Index() {
         </div>
       </section>
 
-      </section>
-
       {/* STATS */}
       <div className="stats-row">
         <div className="stat-item"><div className="stat-n">14k+</div><div className="stat-l">Active Advisors</div></div>
