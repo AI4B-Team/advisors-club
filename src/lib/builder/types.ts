@@ -103,3 +103,16 @@ export const CATEGORY_META: Record<BlockCategory, { label: string; tint: string;
 export const CATEGORY_ORDER: BlockCategory[] = [
   "content", "community", "learning", "proof", "offer", "business", "advanced",
 ];
+
+/** The canonical page model every builder edits and every renderer draws. */
+export type BuilderPage = {
+  id: string;
+  pageType: PageTypeId;
+  title: string;
+  /** Public URL slug — only meaningful for public page types. */
+  slug: string;
+  blocks: BuilderBlock[];
+  theme: BuilderTheme;
+  updatedAt: number;
+  publishedAt: number | null;
+};
