@@ -2,6 +2,10 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check, Star, Users, Zap, Sparkles, ArrowRight, Shield, Calendar, MessageSquare, Award, Play } from "lucide-react";
 import { CLUBS, type Club } from "@/lib/clubs-data";
 import { SiteNav } from "@/components/SiteNav";
+import { useEffect, useState } from "react";
+import { getSellDoc, subscribeSell } from "@/lib/sell/store";
+import { SellPreview } from "@/components/sell/SellPreview";
+import type { SellPage } from "@/lib/sell/types";
 
 export const Route = createFileRoute("/clubs/$clubId")({
   loader: ({ params }) => {
