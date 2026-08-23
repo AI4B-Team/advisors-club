@@ -49,7 +49,7 @@ function ClubSalesPage() {
   useEffect(() => {
     const read = () => {
       const doc = getSellDoc();
-      const match = [doc.clubPage, ...doc.pages].find(p => p.slug === club.id && p.published);
+      const match = [doc.clubPage, ...doc.pages].find(p => p.slug === club.id && Boolean(p.publishedAt));
       setCustom(match ?? null);
     };
     read();
