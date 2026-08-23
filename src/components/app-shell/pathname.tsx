@@ -6,22 +6,17 @@ import { useRouterState } from "@tanstack/react-router";
  *
  * The shell, the route guard, the topbar and the command palette each had
  * their own `useRouterState` subscription, so every navigation woke four
- * independent selectors. The shell subscribes once and shares the value.
+ * independent selectors. The shell subscribes once and shares the value with
+ * everything rendered inside it.
  */
-const PathnameCtx = createContext<string | null>(null);
+const PathnameCtx = createContext<string>("");
 
 export function PathnameProvider({ children }: { children: React.ReactNode }) {
   const pathname = useRouterState({ select: s => s.location.pathname });
   return <PathnameCtx.Provider value={pathname}>{children}</PathnameCtx.Provider>;
 }
 
-/** Current pathname. Falls back to its own subscription outside the shell. */
+/** Current pathname, shared from the app shell. Use only inside `/app`. */
 export function usePathname(): string {
-  const ctx = useContext(PathnameCtx);
-  const fallback = useRouterState({
-    select: s => s.location.pathname,
-    // Only subscribe when there is no provider above us.
-    enabled: ctx === null,
-  } as Parameters<typeof useRouterState>[0]) as string;
-  return ctx ?? fallback;
+  return useContext(PathnameCtx);
 }
