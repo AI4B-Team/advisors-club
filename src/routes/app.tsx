@@ -291,14 +291,23 @@ function CommunitySidebar() {
 
       <ViewModeToggle />
 
-      {TOP_LINKS.map(link => (
-        <SidebarTopLink key={link.label} link={link} />
+      {!setupComplete && (
+        <div className="cc-sb-onboarding">
+          <SidebarTopLink link={toTopLink(ONBOARDING_NAV)} />
+        </div>
+      )}
+
+      {memberNav.map(link => (
+        <SidebarTopLink key={link.id} link={link} />
       ))}
 
-      <div className="cc-sb-foot">
-        <button className="cc-sb-live" type="button" onClick={()=>window.dispatchEvent(new CustomEvent("cc:go-live"))}><span className="cc-sb-live-dot"/><Video size={15}/> Start Live Session</button>
-        
+      <div className="cc-sb-sys">
+        <div className="cc-sb-sys-label">Admin</div>
+        {systemNav.map(link => (
+          <SidebarTopLink key={link.id} link={link} />
+        ))}
       </div>
+
     </aside>
   );
 }
