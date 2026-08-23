@@ -601,7 +601,7 @@ function ViewModeToggle() {
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        <span className="cc-tb-vw-label">VIEW</span>
+        <span className="cc-tb-vw-label">View</span>
         {isAdmin ? (
           <span className="cc-tb-vw-current admin">
             <ShieldCheck size={13}/> <span>Admin</span>
