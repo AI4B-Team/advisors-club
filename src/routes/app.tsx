@@ -210,6 +210,12 @@ const TOP_LINKS: TopLink[] = [
       {label:"Brand & Domain",to:"/app/customize", icon:<Globe size={14}/>},
     ],
     menu: DEFAULT_MENU },
+  { label: "Sell", to: "/app/sell", icon: <Globe size={16}/>,
+    subs: [
+      {label:"Public Club Page",to:"/app/sell", icon:<Globe size={14}/>},
+      {label:"Landing Pages",to:"/app/sell", icon:<LayoutGrid size={14}/>},
+    ],
+    menu: DEFAULT_MENU },
   { label: "AIVA", to: "/app/aiva", icon: <Sparkles size={16}/>, pill: false,
     subs: [
       {label:"Overview",to:"/app/aiva", icon:<Terminal size={14}/>},
