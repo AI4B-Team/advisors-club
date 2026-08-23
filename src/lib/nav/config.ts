@@ -163,7 +163,7 @@ export const SYSTEM_NAV: NavItem[] = [
     subs: [], menu: [],
   },
   {
-    id: "manage", label: "Manage", to: "/app/manage", icon: "manage", section: "system",
+    id: "settings", label: "Settings", to: "/app/settings", icon: "manage", section: "system",
     subs: [], menu: [],
   },
 ];
