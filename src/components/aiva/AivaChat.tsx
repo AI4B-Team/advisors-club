@@ -138,11 +138,10 @@ export function AivaChat({ onOpen }: { onOpen: (tab: AmPrimaryKey, sub?: AmSetti
 
   useEffect(() => {
     const ctx = getAivaContext();
-    const name = ctx?.profile?.businessName?.trim();
+    const name = ctx?.profile?.business?.trim();
     if (name) setClubName(name);
-    const who = ctx?.profile?.name?.trim();
-    if (who) setFirstName(who.split(" ")[0]);
   }, []);
+
 
   useEffect(() => {
     streamRef.current?.scrollTo({ top: streamRef.current.scrollHeight, behavior: "smooth" });
