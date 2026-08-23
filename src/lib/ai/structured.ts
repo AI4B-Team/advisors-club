@@ -28,24 +28,24 @@ export type StructuredResult<T> =
   | { ok: false; error: string };
 
 /** Validate raw model text against a Zod schema. */
-export function parseStructuredAiResponse<T>(
-  schema: z.ZodType<T>,
+export function parseStructuredAiResponse<S extends z.ZodTypeAny>(
+  schema: S,
   raw: string,
   fallbackError = "The AI returned an unexpected response. Try rephrasing.",
-): StructuredResult<T> {
+): StructuredResult<z.output<S>> {
   const json = extractJson(raw);
   if (json === null) return { ok: false, error: fallbackError };
   const parsed = schema.safeParse(json);
   if (!parsed.success) return { ok: false, error: fallbackError };
-  return { ok: true, data: parsed.data };
+  return { ok: true, data: parsed.data as z.output<S> };
 }
 
 /** Convenience: gateway result → validated structured payload in one step. */
-export function structuredFrom<T>(
-  schema: z.ZodType<T>,
+export function structuredFrom<S extends z.ZodTypeAny>(
+  schema: S,
   result: AiResult,
   fallbackError?: string,
-): StructuredResult<T> {
+): StructuredResult<z.output<S>> {
   if (!result.ok) return { ok: false, error: result.error };
   return parseStructuredAiResponse(schema, result.text, fallbackError);
 }
