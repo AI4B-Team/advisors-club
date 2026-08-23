@@ -19,8 +19,10 @@ import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as PSlugRouteImport } from './routes/p.$slug'
 import { Route as ClubsClubIdRouteImport } from './routes/clubs.$clubId'
 import { Route as ClubSplatRouteImport } from './routes/club.$'
+import { Route as AppSellRouteImport } from './routes/app.sell'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
 import { Route as AppGettingStartedRouteImport } from './routes/app.getting-started'
@@ -30,6 +32,7 @@ import { Route as AppCalendarRouteImport } from './routes/app.calendar'
 import { Route as AppBookmarksRouteImport } from './routes/app.bookmarks'
 import { Route as AppAivaRouteImport } from './routes/app.aiva'
 import { Route as AppAccountRouteImport } from './routes/app.account'
+import { Route as AppSellPageIdRouteImport } from './routes/app.sell.$pageId'
 import { Route as AppClubSettingsRouteImport } from './routes/app.club.settings'
 import { Route as AppClubResourcesRouteImport } from './routes/app.club.resources'
 import { Route as AppClubMembersRouteImport } from './routes/app.club.members'
@@ -91,6 +94,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const PSlugRoute = PSlugRouteImport.update({
+  id: '/p/$slug',
+  path: '/p/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClubsClubIdRoute = ClubsClubIdRouteImport.update({
   id: '/clubs/$clubId',
   path: '/clubs/$clubId',
@@ -100,6 +108,11 @@ const ClubSplatRoute = ClubSplatRouteImport.update({
   id: '/club/$',
   path: '/club/$',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppSellRoute = AppSellRouteImport.update({
+  id: '/sell',
+  path: '/sell',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppNotificationsRoute = AppNotificationsRouteImport.update({
   id: '/notifications',
@@ -145,6 +158,11 @@ const AppAccountRoute = AppAccountRouteImport.update({
   id: '/account',
   path: '/account',
   getParentRoute: () => AppRoute,
+} as any)
+const AppSellPageIdRoute = AppSellPageIdRouteImport.update({
+  id: '/$pageId',
+  path: '/$pageId',
+  getParentRoute: () => AppSellRoute,
 } as any)
 const AppClubSettingsRoute = AppClubSettingsRouteImport.update({
   id: '/club/settings',
@@ -216,8 +234,10 @@ export interface FileRoutesByFullPath {
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/sell': typeof AppSellRouteWithChildren
   '/club/$': typeof ClubSplatRoute
   '/clubs/$clubId': typeof ClubsClubIdRoute
+  '/p/$slug': typeof PSlugRoute
   '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -229,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/sell/$pageId': typeof AppSellPageIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -248,8 +269,10 @@ export interface FileRoutesByTo {
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/sell': typeof AppSellRouteWithChildren
   '/club/$': typeof ClubSplatRoute
   '/clubs/$clubId': typeof ClubsClubIdRoute
+  '/p/$slug': typeof PSlugRoute
   '/app': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -261,6 +284,7 @@ export interface FileRoutesByTo {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/sell/$pageId': typeof AppSellPageIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -282,8 +306,10 @@ export interface FileRoutesById {
   '/app/getting-started': typeof AppGettingStartedRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/sell': typeof AppSellRouteWithChildren
   '/club/$': typeof ClubSplatRoute
   '/clubs/$clubId': typeof ClubsClubIdRoute
+  '/p/$slug': typeof PSlugRoute
   '/app/': typeof AppIndexRoute
   '/app/club/analytics': typeof AppClubAnalyticsRoute
   '/app/club/challenges': typeof AppClubChallengesRoute
@@ -295,6 +321,7 @@ export interface FileRoutesById {
   '/app/club/members': typeof AppClubMembersRoute
   '/app/club/resources': typeof AppClubResourcesRoute
   '/app/club/settings': typeof AppClubSettingsRoute
+  '/app/sell/$pageId': typeof AppSellPageIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -317,8 +344,10 @@ export interface FileRouteTypes {
     | '/app/getting-started'
     | '/app/messages'
     | '/app/notifications'
+    | '/app/sell'
     | '/club/$'
     | '/clubs/$clubId'
+    | '/p/$slug'
     | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -330,6 +359,7 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/sell/$pageId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -349,8 +379,10 @@ export interface FileRouteTypes {
     | '/app/getting-started'
     | '/app/messages'
     | '/app/notifications'
+    | '/app/sell'
     | '/club/$'
     | '/clubs/$clubId'
+    | '/p/$slug'
     | '/app'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -362,6 +394,7 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/sell/$pageId'
   id:
     | '__root__'
     | '/'
@@ -382,8 +415,10 @@ export interface FileRouteTypes {
     | '/app/getting-started'
     | '/app/messages'
     | '/app/notifications'
+    | '/app/sell'
     | '/club/$'
     | '/clubs/$clubId'
+    | '/p/$slug'
     | '/app/'
     | '/app/club/analytics'
     | '/app/club/challenges'
@@ -395,6 +430,7 @@ export interface FileRouteTypes {
     | '/app/club/members'
     | '/app/club/resources'
     | '/app/club/settings'
+    | '/app/sell/$pageId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -409,6 +445,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   ClubSplatRoute: typeof ClubSplatRoute
   ClubsClubIdRoute: typeof ClubsClubIdRoute
+  PSlugRoute: typeof PSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -483,6 +520,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/p/$slug': {
+      id: '/p/$slug'
+      path: '/p/$slug'
+      fullPath: '/p/$slug'
+      preLoaderRoute: typeof PSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/clubs/$clubId': {
       id: '/clubs/$clubId'
       path: '/clubs/$clubId'
@@ -496,6 +540,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/club/$'
       preLoaderRoute: typeof ClubSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/sell': {
+      id: '/app/sell'
+      path: '/sell'
+      fullPath: '/app/sell'
+      preLoaderRoute: typeof AppSellRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/notifications': {
       id: '/app/notifications'
@@ -559,6 +610,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/account'
       preLoaderRoute: typeof AppAccountRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/sell/$pageId': {
+      id: '/app/sell/$pageId'
+      path: '/$pageId'
+      fullPath: '/app/sell/$pageId'
+      preLoaderRoute: typeof AppSellPageIdRouteImport
+      parentRoute: typeof AppSellRoute
     }
     '/app/club/settings': {
       id: '/app/club/settings'
@@ -633,6 +691,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppSellRouteChildren {
+  AppSellPageIdRoute: typeof AppSellPageIdRoute
+}
+
+const AppSellRouteChildren: AppSellRouteChildren = {
+  AppSellPageIdRoute: AppSellPageIdRoute,
+}
+
+const AppSellRouteWithChildren =
+  AppSellRoute._addFileChildren(AppSellRouteChildren)
+
 interface AppRouteChildren {
   AppAccountRoute: typeof AppAccountRoute
   AppAivaRoute: typeof AppAivaRoute
@@ -643,6 +712,7 @@ interface AppRouteChildren {
   AppGettingStartedRoute: typeof AppGettingStartedRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
+  AppSellRoute: typeof AppSellRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
   AppClubAnalyticsRoute: typeof AppClubAnalyticsRoute
   AppClubChallengesRoute: typeof AppClubChallengesRoute
@@ -666,6 +736,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppGettingStartedRoute: AppGettingStartedRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppNotificationsRoute: AppNotificationsRoute,
+  AppSellRoute: AppSellRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
   AppClubAnalyticsRoute: AppClubAnalyticsRoute,
   AppClubChallengesRoute: AppClubChallengesRoute,
@@ -693,6 +764,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   ClubSplatRoute: ClubSplatRoute,
   ClubsClubIdRoute: ClubsClubIdRoute,
+  PSlugRoute: PSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
