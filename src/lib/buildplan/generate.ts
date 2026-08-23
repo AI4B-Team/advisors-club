@@ -9,7 +9,7 @@
 
 import { getAivaContext, type AivaContext } from "@/lib/aiva-context";
 import { getGS, type GSStore } from "@/lib/gs-store";
-import { APP_TEMPLATES } from "@/lib/apps/library";
+import { APP_LIBRARY } from "@/lib/apps/library";
 import type { BuildPlan, BuildPlanItem, BuildPlanKind } from "./types";
 
 const now = () => new Date().toISOString();
@@ -28,8 +28,8 @@ function appTemplatesFor(niche: string, topics: string[]) {
     [/business|marketing|agency|consult|sales|ecom/, "Business"],
   ];
   const cat = map.find(([re]) => re.test(hay))?.[1];
-  const picks = cat ? APP_TEMPLATES.filter(t => t.category === cat) : [];
-  const fallback = APP_TEMPLATES.filter(t => t.category === "Universal");
+  const picks = cat ? APP_LIBRARY.filter(t => t.category === cat) : [];
+  const fallback = APP_LIBRARY.filter(t => t.category === "Universal");
   return (picks.length ? picks : fallback).slice(0, 2);
 }
 
