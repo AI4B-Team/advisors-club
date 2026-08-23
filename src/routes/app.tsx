@@ -247,6 +247,17 @@ function CommunitySidebar() {
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+
+  // Navigation is data-driven; admin overrides will be layered in here later.
+  const memberNav = useMemo(() => resolveNav(DEFAULT_MEMBER_NAV).map(toTopLink), []);
+  const systemNav = useMemo(() => SYSTEM_NAV.map(toTopLink), []);
+  const [setupComplete, setSetupComplete] = useState(true);
+  useEffect(() => {
+    const read = () => setSetupComplete(Boolean(getGS().quickstartCompleted));
+    read();
+    return subscribeGS(read);
+  }, []);
+
   return (
     <aside className="cc-sb">
       <div className="cc-sb-top" ref={ref}>
