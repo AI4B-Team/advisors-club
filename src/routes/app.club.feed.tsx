@@ -206,7 +206,13 @@ function FeedPage() {
             {openComments[p.id] && <PostComments postId={p.id} />}
           </article>
         ))}
+        {hasMorePosts && (
+          <div ref={feedSentinel} className="cc-feed-more">
+            <button type="button" className="cc-page-btn" onClick={loadMorePosts}>Load More Posts</button>
+          </div>
+        )}
       </div>
+
     </div>
   );
 }
