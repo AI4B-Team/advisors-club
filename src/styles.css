@@ -5022,3 +5022,11 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
   .lt .dc-card{flex-basis:80%}
   .lt .dc-row-head{margin:0 0 10px}
 }
+@media (max-width:640px){
+  .ac nav,.site-nav{padding:0 14px;gap:10px}
+  .ac .nav-logo,.site-nav .nav-logo{font-size:15px}
+  .ac .logo-img,.site-nav .logo-img{height:20px}
+  .ac .nav-btn,.site-nav .nav-btn{padding:8px 14px;font-size:13px;white-space:nowrap}
+  .site-nav .nav-links{gap:12px;font-size:13px}
+  .lt .dc-min{padding-top:90px}
+}
