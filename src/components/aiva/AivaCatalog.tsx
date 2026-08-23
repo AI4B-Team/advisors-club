@@ -40,7 +40,7 @@ export function AivaCatalog() {
 
   return (
     <div style={{display:"grid",gap:16}}>
-      <AmCard title="Catalog AIVA Understands" icon={Boxes}>
+      <AmCard title="Catalog AIVA Understands" icon={<Boxes size={16}/>}>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:10}}>
           {GROUPS.map(t => (
             <div key={t} style={{border:"1px solid #E5E7EB",borderRadius:10,padding:"10px 12px"}}>
@@ -55,7 +55,7 @@ export function AivaCatalog() {
         </p>
       </AmCard>
 
-      <AmCard title="Recommendation Opportunities" icon={Sparkles}>
+      <AmCard title="Recommendation Opportunities" icon={<Sparkles size={16}/>}>
         <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",marginBottom:12}}>
           <span style={{fontSize:13,color:"#374151"}}>
             {queue.length
