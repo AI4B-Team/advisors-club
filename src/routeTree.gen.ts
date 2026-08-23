@@ -25,6 +25,7 @@ import { Route as ClubSplatRouteImport } from './routes/club.$'
 import { Route as AppSellRouteImport } from './routes/app.sell'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppMessagesRouteImport } from './routes/app.messages'
+import { Route as AppManageRouteImport } from './routes/app.manage'
 import { Route as AppGettingStartedRouteImport } from './routes/app.getting-started'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppCustomizeRouteImport } from './routes/app.customize'
@@ -124,6 +125,11 @@ const AppNotificationsRoute = AppNotificationsRouteImport.update({
 const AppMessagesRoute = AppMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppManageRoute = AppManageRouteImport.update({
+  id: '/manage',
+  path: '/manage',
   getParentRoute: () => AppRoute,
 } as any)
 const AppGettingStartedRoute = AppGettingStartedRouteImport.update({
@@ -245,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/manage': typeof AppManageRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/sell': typeof AppSellRouteWithChildren
@@ -282,6 +289,7 @@ export interface FileRoutesByTo {
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/manage': typeof AppManageRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/club/$': typeof ClubSplatRoute
@@ -320,6 +328,7 @@ export interface FileRoutesById {
   '/app/customize': typeof AppCustomizeRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/getting-started': typeof AppGettingStartedRoute
+  '/app/manage': typeof AppManageRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/sell': typeof AppSellRouteWithChildren
@@ -360,6 +369,7 @@ export interface FileRouteTypes {
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/app/sell'
@@ -397,6 +407,7 @@ export interface FileRouteTypes {
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/club/$'
@@ -434,6 +445,7 @@ export interface FileRouteTypes {
     | '/app/customize'
     | '/app/dashboard'
     | '/app/getting-started'
+    | '/app/manage'
     | '/app/messages'
     | '/app/notifications'
     | '/app/sell'
@@ -582,6 +594,13 @@ declare module '@tanstack/react-router' {
       path: '/messages'
       fullPath: '/app/messages'
       preLoaderRoute: typeof AppMessagesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/manage': {
+      id: '/app/manage'
+      path: '/manage'
+      fullPath: '/app/manage'
+      preLoaderRoute: typeof AppManageRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/getting-started': {
@@ -749,6 +768,7 @@ interface AppRouteChildren {
   AppCustomizeRoute: typeof AppCustomizeRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppGettingStartedRoute: typeof AppGettingStartedRoute
+  AppManageRoute: typeof AppManageRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppSellRoute: typeof AppSellRouteWithChildren
@@ -774,6 +794,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCustomizeRoute: AppCustomizeRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppGettingStartedRoute: AppGettingStartedRoute,
+  AppManageRoute: AppManageRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppSellRoute: AppSellRouteWithChildren,
