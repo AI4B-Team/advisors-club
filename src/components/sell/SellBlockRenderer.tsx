@@ -224,7 +224,7 @@ export function SellBlockView({ block, data }: { block: SellBlock; data: SellDat
             {SEED_POSTS.slice(0, Math.max(1, num(block, "limit", 2))).map((p, i) => (
               <div className="sp-post" key={i}>
                 <div className="sp-post-top">
-                  {p.avatar ? <img src={p.avatar} alt="" /> : <span className="sp-av">{(p.author || "M").slice(0, 1)}</span>}
+                  {p.photo ? <img src={p.photo} alt="" /> : <span className="sp-av">{p.initials || (p.author || "M").slice(0, 1)}</span>}
                   <strong>{p.author}</strong><span>{p.time ?? "2h"}</span>
                 </div>
                 <p>{(p.body || "").slice(0, 180)}</p>
