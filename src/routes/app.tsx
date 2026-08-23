@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { Search, Bell, LogOut, ChevronDown, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, ChevronRight, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
+import { Search, Bell, LogOut, ChevronDown, ChevronLeft, ChevronRight, MessageSquare, BookOpen, Flame, Calendar, Users, BarChart3, Sparkles, Settings, Plus, Zap, User, CreditCard, Mail, Languages, Sun, Award, Home, Rocket, Hand, Book, MessageCircle, Hash, Bookmark, MoreHorizontal, Video, Compass, Activity, LayoutDashboard, Megaphone, MessagesSquare, PlayCircle, CheckCircle2, ListChecks, Clock, History, CalendarDays, CalendarClock, CalendarCheck, UserCheck, ShieldCheck, Terminal, Lightbulb, FileClock, FolderOpen, Library, FileText, Link2, Download, Palette, LayoutGrid, Globe, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { ViewModeProvider, useViewMode, SAMPLE_MEMBERS } from "@/hooks/use-view-mode";
 import { AivaCommandPalette } from "@/components/aiva/AivaCommandPalette";
@@ -77,7 +77,7 @@ function AppShell() {
         ) : (
           <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}${minSidebar && !hideSidebar ? " cc-min-sidebar" : ""}`}>
             <IconRail />
-            {!hideSidebar && <CommunitySidebar />}
+            {!hideSidebar && <CommunitySidebar minSidebar={minSidebar} onToggleSidebar={() => setMinSidebar(m => !m)} />}
             <div className="cc-main-wrap">
               <Topbar />
               <main className="cc-main">
@@ -247,7 +247,7 @@ function SidebarTopLink({ link }: { link: TopLink }) {
   );
 }
 
-function CommunitySidebar() {
+function CommunitySidebar({ minSidebar, onToggleSidebar }: { minSidebar: boolean; onToggleSidebar: () => void }) {
   const { active, setActive } = useContext(ClubCtx);
   const nav = useNavigate();
   const clubs = useClubsFromGS();
@@ -285,6 +285,15 @@ function CommunitySidebar() {
 
   return (
     <aside className="cc-sb">
+      <button
+        type="button"
+        className="cc-sb-collapse"
+        aria-label={minSidebar ? "Expand sidebar" : "Collapse sidebar"}
+        data-tip={minSidebar ? "Expand sidebar" : "Collapse sidebar"}
+        onClick={onToggleSidebar}
+      >
+        {minSidebar ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+      </button>
       <div className="cc-sb-top" ref={ref}>
         <button className="cc-sb-switcher" onClick={() => setOpen(o => !o)}>
           <span className="cc-sb-mini" style={{background: active.color}}>{active.label.slice(0,1)}</span>
