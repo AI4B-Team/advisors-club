@@ -148,7 +148,15 @@ function AivaArea() {
       {tab === "console" && <AivaConsole />}
       {tab === "opportunities" && <OpportunityBoard />}
       {tab === "flywheel" && <FlywheelBoard />}
-      {tab === "activity" && <AivaActivity admin={admin} update={update} />}
+      {tab === "activity" && (
+        <AivaActivityFeed
+          legacy={admin.activity}
+          onGoInternal={(view, s) => {
+            if (view === "create") { setTab("create"); if (s) setSub(s as AmTabKey); }
+            else setTab(view as AmPrimaryKey);
+          }}
+        />
+      )}
 
       {tab === "create" && sub === "overview" && <AivaOverview admin={admin} update={update} go={go} />}
       {tab === "create" && sub === "knowledge" && <AivaKnowledge admin={admin} update={update} />}
