@@ -10,7 +10,7 @@ import { APP_LIBRARY, LIBRARY_CATEGORIES } from "@/lib/apps/library";
 import { addFromTemplate, createApp, getApps, patchApp, removeApp, subscribeApps } from "@/lib/apps/store";
 import { visibleApps } from "@/lib/apps/access";
 import {
-  APP_KIND_LABEL, MEMBERSHIP_TIERS, accessLabel,
+  APP_KIND_LABEL, MEMBERSHIP_TIERS,
   type App, type AppAccess, type AppIconKey, type AppKind,
 } from "@/lib/apps/types";
 
@@ -294,5 +294,3 @@ function AddAppModal({ onClose, onDone }: { onClose: () => void; onDone: () => v
     </div>
   );
 }
-
-export { accessLabel };
