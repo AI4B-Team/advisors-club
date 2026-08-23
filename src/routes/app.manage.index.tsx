@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Palette, Globe, Users, BarChart3, Settings, Sparkles, Rocket, LayoutGrid, ArrowRight, ListTree } from "lucide-react";
+import { Palette, Globe, Users, BarChart3, Settings, Sparkles, Rocket, LayoutGrid, ArrowRight, ListTree, Bot } from "lucide-react";
 
 export const Route = createFileRoute("/app/manage/")({
   component: ManagePage,
@@ -44,6 +44,7 @@ const GROUPS: { title: string; cards: Card[] }[] = [
     cards: [
       { label: "Club Settings", desc: "General Club Configuration.", to: "/app/club/settings", icon: <Settings size={18} /> },
       { label: "AI", desc: "Knowledge, Instructions And Activity.", to: "/app/aiva", icon: <Sparkles size={18} /> },
+      { label: "AI Persona", desc: "The Member-Facing AI Trained On You.", to: "/app/manage/persona", icon: <Bot size={18} /> },
       { label: "Getting Started", desc: "Setup Checklist And Onboarding.", to: "/app/getting-started", icon: <Rocket size={18} /> },
     ],
   },
