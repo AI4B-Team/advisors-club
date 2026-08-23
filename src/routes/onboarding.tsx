@@ -211,7 +211,7 @@ function OnboardingPage() {
           <StepRecommendations
             selected={components} setSelected={setComponents}
             recommended={recommendComponents(monetization)}
-            onBack={() => go(3)} onNext={() => go(6)}
+            onBack={() => go(3)} onNext={() => go(5)}
           />
         )}
         {step === 5 && (
@@ -224,7 +224,7 @@ function OnboardingPage() {
         {step === 6 && (
           <StepBrand
             brand={brand} setBrand={setBrand} profile={profile}
-            onBack={() => go(4)} onNext={() => go(7)}
+            onBack={() => go(5)} onNext={() => go(7)}
           />
         )}
         {step === 7 && (
