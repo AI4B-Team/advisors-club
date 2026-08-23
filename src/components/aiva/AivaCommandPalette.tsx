@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useRouterState } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { usePathname } from "@/components/app-shell/pathname";
 import { useServerFn } from "@tanstack/react-start";
 import ReactMarkdown from "react-markdown";
 import { Sparkles, ArrowUp, X, Loader2, Copy, Check, ArrowRight } from "lucide-react";
@@ -49,7 +50,7 @@ export function AivaCommandPalette({
   /** When present, AIVA opens the conversation with what she found. */
   briefing?: PaletteBriefing | null;
 }) {
-  const path = useRouterState({ select: (s) => s.location.pathname });
+  const path = usePathname();
   const nav = useNavigate();
   const ctx = useMemo(() => areaForPath(path), [path]);
   const run = useServerFn(aivaCommand);

@@ -1,4 +1,5 @@
-import { useNavigate, useRouterState } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { usePathname } from "@/components/app-shell/pathname";
 import { useEffect, useRef, useState } from "react";
 import { Search, Bell, LogOut, ChevronDown, BookOpen, Calendar, Sparkles, Plus, Zap, User, CreditCard, Languages, Sun, MessageCircle, Bookmark, Video, HelpCircle, Route as RouteIcon, MessageSquarePlus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
@@ -17,7 +18,7 @@ export function Topbar() {
   const { displayName, initial, user, signOut } = useAuth();
   const { viewAs, setMode, isAdmin } = useViewMode();
 
-  const pathname = useRouterState({ select: s => s.location.pathname });
+  const pathname = usePathname();
   const showPostActions = pathname === "/app" || pathname === "/app/club/feed";
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);

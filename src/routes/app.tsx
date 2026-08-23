@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ViewModeProvider, useViewMode } from "@/hooks/use-view-mode";
@@ -10,12 +10,21 @@ import { ClubCtx, useClubsFromGS, type Club } from "@/components/app-shell/club-
 import { IconRail } from "@/components/app-shell/IconRail";
 import { CommunitySidebar } from "@/components/app-shell/CommunitySidebar";
 import { Topbar } from "@/components/app-shell/Topbar";
+import { PathnameProvider, usePathname } from "@/components/app-shell/pathname";
 
 export const Route = createFileRoute("/app")({
   component: AppShell,
 });
 
 function AppShell() {
+  return (
+    <PathnameProvider>
+      <AppShellInner />
+    </PathnameProvider>
+  );
+}
+
+function AppShellInner() {
   const clubs = useClubsFromGS();
   const [active, setActive] = useState<Club>(clubs[0]);
   // Keep active in sync if the primary club name/color changes
@@ -25,7 +34,7 @@ function AppShell() {
   }, [clubs[0].label, clubs[0].color]);
   const [liveOpen, setLiveOpen] = useState(false);
   const [minSidebar, setMinSidebar] = useState(false);
-  const pathname = useRouterState({ select: s => s.location.pathname });
+  const pathname = usePathname();
   const hideSidebar = false;
   const fullBleed = pathname.startsWith("/app/getting-started");
   useEffect(() => {
@@ -79,7 +88,7 @@ function AppShell() {
    the gate lives in one place instead of being re-implemented per route.
    UI-level defence in depth — RLS remains the real boundary. */
 function GuardedOutlet() {
-  const pathname = useRouterState({ select: s => s.location.pathname });
+  const pathname = usePathname();
   const capability = capabilityForPath(pathname);
   if (!capability) return <Outlet />;
   return (
