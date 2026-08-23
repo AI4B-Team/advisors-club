@@ -181,7 +181,7 @@
 .ac .hero-aiva-input{width:100%;min-height:132px;resize:none;border:1px solid rgba(255,255,255,0.10);border-radius:14px;background:rgba(255,255,255,0.04);color:#fff;font-family:var(--ac-font);font-size:16px;line-height:1.55;padding:16px 18px 74px 18px;outline:none;transition:border-color .2s,background .2s}
 .ac .hero-aiva-input::placeholder{color:rgba(255,255,255,0.42)}
 .ac .hero-aiva-input:focus{border-color:rgba(245,166,35,0.45);background:rgba(255,255,255,0.06)}
-.ac .hero-aiva-foot{display:flex;align-items:center;justify-content:flex-start;gap:16px;margin-top:16px;flex-wrap:wrap}
+.ac .hero-aiva-foot{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:16px;flex-wrap:wrap}
 .ac .hero-chips{display:flex;flex-wrap:nowrap;gap:8px}
 .ac .hero-chip{padding:7px 13px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.66);font-family:var(--ac-font);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap}
 .ac .hero-chip:hover{color:#fff;border-color:rgba(245,166,35,0.4);background:rgba(245,166,35,0.10)}
