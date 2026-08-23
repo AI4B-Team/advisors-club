@@ -1,3 +1,4 @@
+import type { AccessPolicy } from "@/lib/commerce/types";
 // Business Intelligence / Product Graph — shared vocabulary.
 //
 // Every first-class thing a creator's business contains (community posts,
@@ -45,12 +46,8 @@ export const ENTITY_LABEL: Record<EntityType, string> = {
 };
 
 /** Mirrors the access vocabulary already used by Apps and Courses. */
-export type AccessLevel =
-  | { type: "all" }
-  | { type: "membership"; membership: string }
-  | { type: "course"; courseId: string; courseLabel?: string }
-  | { type: "paid" }
-  | { type: "admin" };
+/** The graph speaks the shared commerce policy, same as every feature. */
+export type AccessLevel = AccessPolicy;
 
 export type NodeStatus = "draft" | "published" | "archived" | "scheduled" | "active" | "completed";
 

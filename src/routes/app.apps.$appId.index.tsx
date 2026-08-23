@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, Lock, Pencil } from "lucide-react";
+import { ArrowLeft, Pencil } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { useNavLabel } from "@/hooks/use-nav-label";
 import { getApps, subscribeApps } from "@/lib/apps/store";
-import { canAccess } from "@/lib/apps/access";
 import { recordUsage } from "@/lib/apps/usage";
 import { AppRunner } from "@/components/apps/AppRunner";
+import { AccessGate } from "@/components/commerce/AccessGate";
 import { getGS, subscribeGS } from "@/lib/gs-store";
-import { accessLabel, type App } from "@/lib/apps/types";
+import { toAccessPolicy, type App } from "@/lib/apps/types";
+
 
 export const Route = createFileRoute("/app/apps/$appId/")({
   component: AppRunPage,
@@ -60,24 +61,7 @@ function AppRunPage() {
     );
   }
 
-  const allowed = canAccess(app.access, {
-    isAdmin: previewing,
-    membership: viewAs?.role.includes("Founding") ? "Founding" : "Pro",
-    paid: true,
-  });
-
-  if (!allowed) {
-    return (
-      <div className="pg">
-        <BackLink label={label} />
-        <div className="apx-empty">
-          <Lock size={18} />
-          <strong>{app.name} Is Locked</strong>
-          <span>This Tool Is Available To {accessLabel(app.access)}.</span>
-        </div>
-      </div>
-    );
-  }
+  const policy = toAccessPolicy(app.access);
 
   return (
     <div className="pg">
@@ -91,14 +75,24 @@ function AppRunPage() {
         )}
       </div>
 
-      <AppRunner
-        app={app}
+      <AccessGate
+        productRef={{ kind: "app", id: app.id }}
+        policy={policy}
+        title={app.name}
+        description={app.description}
         accent={accent}
-        onComplete={() => { if (!previewing) recordUsage({ appId: app.id, memberId, memberName, kind: "completed" }); }}
-      />
+        teaser={<AppRunner app={app} accent={accent} />}
+      >
+        <AppRunner
+          app={app}
+          accent={accent}
+          onComplete={() => { if (!previewing) recordUsage({ appId: app.id, memberId, memberName, kind: "completed" }); }}
+        />
+      </AccessGate>
     </div>
   );
 }
+
 
 function BackLink({ label }: { label: string }) {
   return <Link to="/app/apps" className="apx-back"><ArrowLeft size={14} /> {label}</Link>;

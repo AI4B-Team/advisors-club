@@ -8,10 +8,10 @@ import { getUsage, statsFor, subscribeUsage, type UsageEvent } from "@/lib/apps/
 import { AppBuilder } from "@/components/apps/AppBuilder";
 import { AppRunner } from "@/components/apps/AppRunner";
 import { getGS, subscribeGS } from "@/lib/gs-store";
-import {
-  MEMBERSHIP_TIERS, pricingLabel,
-  type App, type AppAccess, type AppPricing,
-} from "@/lib/apps/types";
+import { toAccessPolicy, type App } from "@/lib/apps/types";
+import { AccessPolicyEditor } from "@/components/commerce/AccessPolicyEditor";
+import { courseOptions, planOptions, programOptions } from "@/lib/commerce/catalog";
+import { isPurchasable } from "@/lib/commerce";
 
 export const Route = createFileRoute("/app/apps/$appId/edit")({
   component: AppEditPage,
@@ -27,18 +27,6 @@ export const Route = createFileRoute("/app/apps/$appId/edit")({
   }),
 });
 
-const ACCESS_OPTIONS: { value: string; label: string; access: AppAccess }[] = [
-  { value: "all", label: "All Members", access: { type: "all" } },
-  ...MEMBERSHIP_TIERS.map(m => ({
-    value: `membership:${m}`, label: `${m} Membership`, access: { type: "membership", membership: m } as AppAccess,
-  })),
-  { value: "paid", label: "Paid Access", access: { type: "paid" } },
-  { value: "admin", label: "Admin Only", access: { type: "admin" } },
-];
-
-function accessValue(a: AppAccess) {
-  return a.type === "membership" ? `membership:${a.membership}` : a.type;
-}
 
 type Tab = "build" | "preview" | "settings" | "usage";
 
@@ -125,7 +113,7 @@ function AppEditPage() {
           <div className="apx-total"><span>Completions</span><strong>{stats.completions}</strong></div>
           <div className="apx-total"><span>Completion Rate</span><strong>{stats.completionRate}%</strong></div>
           <div className="apx-total"><span>Members Reached</span><strong>{stats.members}</strong></div>
-          {app.pricing && app.pricing.model !== "free" && (
+          {isPurchasable(toAccessPolicy(app.access)) && (
             <>
               <div className="apx-total"><span>Conversions</span><strong>{stats.conversions}</strong></div>
               <div className="apx-total"><span>Revenue</span><strong>${stats.revenue.toLocaleString()}</strong></div>
@@ -142,70 +130,36 @@ function TabBtn({ on, onClick, children }: { on: boolean; onClick: () => void; c
 }
 
 function SettingsTab({ app }: { app: App }) {
-  const pricing: AppPricing = app.pricing ?? { model: "free" };
+  const appsLabel = useNavLabel("apps", "Apps");
+  const plans = useMemo(() => planOptions().map(p => p.id), []);
+  const courses = useMemo(() => courseOptions(), []);
+  const programs = useMemo(() => programOptions(), []);
 
   return (
     <div className="apx-build">
       <section className="apx-build-sec">
-        <h3>Who Can Use It</h3>
-        <div className="apx-build-grid">
-          <label className="apx-field">
-            <span className="apx-field-l">Access</span>
-            <select
-              value={accessValue(app.access)}
-              onChange={e => {
-                const opt = ACCESS_OPTIONS.find(o => o.value === e.target.value);
-                if (opt) patchApp(app.id, { access: opt.access });
-              }}
-            >
-              {ACCESS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
-          </label>
-          <label className="apx-check-inline">
-            <input
-              type="checkbox"
-              checked={app.listed !== false}
-              onChange={e => patchApp(app.id, { listed: e.target.checked })}
-            />
-            Show In The {useNavLabel("apps", "Apps")} List
-          </label>
-        </div>
-        <p className="apx-muted">Hidden Apps Still Work For Anyone With A Direct Link — Useful For Funnels And Course Lessons.</p>
+        <h3>Access And Pricing</h3>
+        <AccessPolicyEditor
+          policy={toAccessPolicy(app.access)}
+          onChange={next => patchApp(app.id, { access: next })}
+          plans={plans}
+          courses={courses}
+          programs={programs}
+          productNoun="App"
+        />
       </section>
 
       <section className="apx-build-sec">
-        <h3>Pricing</h3>
-        <div className="apx-build-grid">
-          <label className="apx-field">
-            <span className="apx-field-l">Model</span>
-            <select
-              value={pricing.model}
-              onChange={e => {
-                const model = e.target.value as AppPricing["model"];
-                patchApp(app.id, {
-                  pricing: model === "free" ? { model: "free" }
-                    : model === "one-time" ? { model: "one-time", price: 49 }
-                    : { model: "subscription", price: 19, interval: "month" },
-                });
-              }}
-            >
-              <option value="free">Included Free</option>
-              <option value="one-time">One-Time Purchase</option>
-              <option value="subscription">Subscription</option>
-            </select>
-          </label>
-          {pricing.model !== "free" && (
-            <label className="apx-field">
-              <span className="apx-field-l">Price</span>
-              <input
-                type="number"
-                value={pricing.price}
-                onChange={e => patchApp(app.id, { pricing: { ...pricing, price: Number(e.target.value) } as AppPricing })}
-              />
-            </label>
-          )}
-        </div>
-        <p className="apx-muted">Members See This As {pricingLabel(pricing)}.</p>
+        <h3>Visibility</h3>
+        <label className="apx-check-inline">
+          <input
+            type="checkbox"
+            checked={app.listed !== false}
+            onChange={e => patchApp(app.id, { listed: e.target.checked })}
+          />
+          Show In The {appsLabel} List
+        </label>
+        <p className="apx-muted">Hidden Apps Still Work For Anyone With A Direct Link — Useful For Funnels And Course Lessons.</p>
       </section>
 
       {app.prompt && (
@@ -217,3 +171,4 @@ function SettingsTab({ app }: { app: App }) {
     </div>
   );
 }
+

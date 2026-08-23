@@ -5,6 +5,8 @@
 // model only — the runtime that renders and evaluates an app lives in
 // `runtime.ts`, and the UI layer never hard-codes a specific app.
 
+import { accessLabel as policyLabel, type AccessPolicy } from "@/lib/commerce/types";
+
 /** What kind of interactive tool this app is. Drives the runtime. */
 export type AppKind =
   | "calculator"
@@ -41,24 +43,30 @@ export type AppIconKey =
  * (courses, coaching programs, sell pages) rather than inventing a second
  * permission system.
  */
-export type AppAccess =
-  | { type: "all" }
-  | { type: "membership"; membership: string }
-  | { type: "course"; courseId: string; courseLabel?: string }
-  | { type: "paid" }
-  | { type: "admin" };
+export type AppAccess = AccessPolicy;
 
 export const MEMBERSHIP_TIERS = ["Free", "Pro", "Founding"] as const;
 
-export function accessLabel(a: AppAccess): string {
+/** Old union-shaped access documents, kept readable for stored apps. */
+type LegacyAccess =
+  | { type: "all" } | { type: "membership"; membership: string }
+  | { type: "course"; courseId: string; courseLabel?: string }
+  | { type: "paid" } | { type: "admin" };
+
+/** Normalizes any stored access value into the shared commerce policy. */
+export function toAccessPolicy(a: AppAccess | LegacyAccess | undefined): AccessPolicy {
+  if (!a) return { mode: "free" };
+  if ("mode" in a) return a;
   switch (a.type) {
-    case "all": return "All Members";
-    case "membership": return `${a.membership} Membership`;
-    case "course": return a.courseLabel ? `Program: ${a.courseLabel}` : "Specific Program";
-    case "paid": return "Paid Access";
-    case "admin": return "Admin Only";
+    case "all": return { mode: "free" };
+    case "admin": return { mode: "admin" };
+    case "paid": return { mode: "membership" };
+    case "membership": return { mode: "plan", plans: [a.membership] };
+    case "course": return { mode: "course", courseIds: [a.courseId], courseLabels: a.courseLabel ? { [a.courseId]: a.courseLabel } : undefined };
   }
 }
+
+export const accessLabel = policyLabel;
 
 export type AppStatus = "draft" | "published";
 
