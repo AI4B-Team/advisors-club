@@ -77,7 +77,7 @@ function AppShell() {
         ) : (
           <div className={`cc${hideSidebar ? " cc-no-sidebar" : ""}${minSidebar && !hideSidebar ? " cc-min-sidebar" : ""}`}>
             <IconRail />
-            {!hideSidebar && <CommunitySidebar />}
+            {!hideSidebar && <CommunitySidebar minSidebar={minSidebar} onToggleSidebar={() => setMinSidebar(m => !m)} />}
             <div className="cc-main-wrap">
               <Topbar />
               <main className="cc-main">
