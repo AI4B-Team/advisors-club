@@ -207,14 +207,14 @@ export function offersProjection(): Projection {
   }
 
   const ctx = getAivaContext();
-  if (ctx.memberAi.configured || ctx.memberAi.name) {
+  if (ctx.persona.configured || ctx.persona.name) {
     nodes.push({
-      id: nodeId("persona", "member-ai"), sourceId: "member-ai", type: "persona",
-      title: ctx.memberAi.name || "AI Assistant", description: ctx.memberAi.personality,
-      tags: deriveTags(ctx.memberAi.personality, ctx.profile.expertise), audience: [ctx.profile.audience].filter(Boolean),
-      status: ctx.memberAi.configured ? "active" : "draft", access: { mode: "free" },
-      origin: "ai", source: "aiva", href: "/app/aiva",
-      meta: { mode: ctx.memberAi.mode },
+      id: nodeId("persona", "persona"), sourceId: "persona", type: "persona",
+      title: ctx.persona.name || "AI Assistant", description: ctx.persona.personality,
+      tags: deriveTags(ctx.persona.personality, ctx.profile.expertise), audience: [ctx.profile.audience].filter(Boolean),
+      status: ctx.persona.configured ? "active" : "draft", access: { mode: "free" },
+      origin: "ai", source: "aiva", href: "/app/manage/persona",
+      meta: { identityMode: ctx.persona.identityMode },
     });
   }
 

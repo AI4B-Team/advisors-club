@@ -247,7 +247,7 @@ const BUILDERS: Record<string, Builder> = {
     const s = getGS();
     setPersona({
       enabled: true,
-      name: input?.name || ctx.memberAi.name || `${s.niche || "Member"} Coach AI`,
+      name: input?.name || ctx.persona.name || `${s.niche || "Member"} Coach AI`,
       title: input?.title || "AI Coach",
       description: input?.description || "AI assistant trained on your content, methodology and voice.",
     });
