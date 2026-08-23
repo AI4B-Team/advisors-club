@@ -60,7 +60,7 @@ export function makeFunnel(name: string, steps: FunnelStepKind[]): Funnel {
 export function defaultSellDoc(): SellDoc {
   return {
     version: 1,
-    clubPage: { ...makePage("club", "Public Club Page"), slug: "club" },
+    clubPage: { ...makePage("club", "Public Club Page"), id: "club-page", slug: "club" },
     pages: [],
     funnels: [],
     funnelsEnabled: false,
@@ -74,7 +74,11 @@ export function getSellDoc(): SellDoc {
   if (typeof window === "undefined") return defaultSellDoc();
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (!raw) return defaultSellDoc();
+    if (!raw) {
+      const fresh = defaultSellDoc();
+      window.localStorage.setItem(KEY, JSON.stringify(fresh));
+      return fresh;
+    }
     const parsed = JSON.parse(raw) as Partial<SellDoc>;
     const base = defaultSellDoc();
     return {
