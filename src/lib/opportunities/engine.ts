@@ -309,7 +309,7 @@ export function detectOpportunities(
     let kind = classify(c, related);
     if (!kind) continue;
     if (kind === "content" && count(c, "abandon") >= 10) kind = "engagement";
-    const s = suggest(kind === "engagement" ? "content" : kind, c, related);
+    const s = suggest(kind, c, related);
     const members = c.members.size;
     const evidence = evidenceOf(c);
     out.push({
@@ -319,7 +319,7 @@ export function detectOpportunities(
       insight: insightText(kind, c, members, related),
       signal: signalLine(evidence),
       action: actionText(kind, s),
-      noticed: noticedText(kind === "engagement" ? "content" : kind, c, members, related),
+      noticed: noticedText(kind, c, members, related),
       why: whyText(kind),
       suggestedTitle: s.title,
       suggestedSummary: s.summary,
