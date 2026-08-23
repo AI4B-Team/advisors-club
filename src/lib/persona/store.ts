@@ -1,8 +1,11 @@
-// AI Persona store — local-first, same pattern as member-ai / aiva-admin.
-// Seeded from the existing Member AI settings so nothing is lost when an
-// expert upgrades from the simple member assistant to a full Persona.
+// AI Persona store — the ONE member-facing AI configuration.
+//
+// This replaces the retired `member-ai` branch; anything an expert saved there
+// is migrated in once by `takeLegacyMigration()`. AIVA (admin operator)
+// settings live in aiva-admin and never leak into this store.
 
-import { getMemberAi } from "@/lib/member-ai";
+import { getAivaContext, setAivaContext } from "@/lib/aiva-context";
+import { takeLegacyMigration } from "./migrate";
 import {
   PERSONA_ACTIONS, PERSONA_ESCALATION_TRIGGERS, PERSONA_MEMBER_CONTEXT, PERSONA_SOURCES,
   type PersonaSettings,
@@ -48,23 +51,31 @@ export const PERSONA_DEFAULTS: PersonaSettings = {
 type Listener = (s: PersonaSettings) => void;
 const listeners = new Set<Listener>();
 
+/** Onboarding answers seed the persona until the expert configures it. */
 function seed(): Partial<PersonaSettings> {
-  const m = getMemberAi();
+  const p = getAivaContext().persona;
   return {
-    expertName: m.coachName,
-    name: m.mode === "custom" ? m.name : "",
-    identityMode: m.mode === "custom" ? "separate" : "expert",
-    avatarUrl: m.avatarUrl,
-    greeting: m.introduction || PERSONA_DEFAULTS.greeting,
-    tone: m.tone || PERSONA_DEFAULTS.tone,
-    instructions: m.instructions || PERSONA_DEFAULTS.instructions,
+    identityMode: p.identityMode,
+    name: p.identityMode === "separate" ? p.name : "",
+    avatarUrl: p.avatarUrl,
+    greeting: p.personality || PERSONA_DEFAULTS.greeting,
   };
+}
+
+/** Folds a legacy member-ai blob into the persona record exactly once. */
+function ensureMigrated(stored: Partial<PersonaSettings>): Partial<PersonaSettings> {
+  const migrated = takeLegacyMigration();
+  if (!Object.keys(migrated).length) return stored;
+  const merged = { ...migrated, ...stored };
+  try { window.localStorage.setItem(KEY, JSON.stringify(merged)); } catch { /* storage full */ }
+  return merged;
 }
 
 export function getPersona(): PersonaSettings {
   if (typeof window === "undefined") return { ...PERSONA_DEFAULTS };
   let data: Partial<PersonaSettings> = {};
   try { data = JSON.parse(window.localStorage.getItem(KEY) || "{}"); } catch { data = {}; }
+  data = ensureMigrated(data);
   const base = { ...PERSONA_DEFAULTS, ...seed() };
   return {
     ...base,
@@ -88,6 +99,17 @@ export function getPersona(): PersonaSettings {
 export function setPersona(patch: Partial<PersonaSettings>): PersonaSettings {
   const next: PersonaSettings = { ...getPersona(), ...patch, configured: true };
   if (typeof window !== "undefined") window.localStorage.setItem(KEY, JSON.stringify(next));
+  // Keep onboarding / the build checklist in sync with the canonical persona.
+  setAivaContext({
+    persona: {
+      ...getAivaContext().persona,
+      identityMode: next.identityMode,
+      name: personaName(next),
+      avatarUrl: next.avatarUrl,
+      personality: next.greeting,
+      configured: true,
+    },
+  });
   listeners.forEach(l => l(next));
   return next;
 }
