@@ -160,7 +160,8 @@ function SidebarTopLink({ link }: { link: TopLink }) {
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
   const baseCls = link.pill ? "cc-sb-pill" : "cc-sb-feed";
-  const isAiva = link.label === AIVA_LABEL;
+  const isSystem = Boolean(link.system);
+  const hasSubs = link.subs.length > 0;
   return (
     <div className={`cc-sb-item${isAiva ? " cc-sb-item-aiva" : ""}${expanded ? " expanded" : ""}`}>
       <div className={`cc-sb-item-row ${baseCls}-wrap`}>
