@@ -5121,3 +5121,12 @@ button[role="switch"]{height:24px;width:42px;background:#E5E7EB}
 button[role="switch"][data-state="checked"]{background:var(--ac-color-success)}
 button[role="switch"] > span{height:20px;width:20px;background:var(--ac-surface-raised);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 button[role="switch"][data-state="checked"] > span{transform:translateX(18px)}
+
+/* ===== Incremental list loading (feed, leaderboard, discover) ===== */
+.cc-feed-more,
+.lb-more {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0 4px;
+}
+.dc-row-sentinel { flex: 0 0 1px; }
