@@ -128,7 +128,7 @@ const SUGGESTIONS = [
 ];
 
 export function AivaChat({ onOpen }: { onOpen: (tab: AmPrimaryKey, sub?: AmSettingsKey) => void }) {
-  const attention = useAivaAttention(false);
+  const attention = useAivaAttention();
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
