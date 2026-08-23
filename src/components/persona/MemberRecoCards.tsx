@@ -42,7 +42,7 @@ export function MemberRecoCards({
               trackReco({ nodeId: r.nodeId, title: r.title, owned: r.owned, paid: r.paid, type: "clicked", query, memberId });
               if (r.href) {
                 onNavigate?.();
-                void nav({ to: r.href });
+                void nav({ to: r.href as never });
               }
             }}
           >
