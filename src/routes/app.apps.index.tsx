@@ -14,6 +14,7 @@ import { AiAppBuilder } from "@/components/apps/AiAppBuilder";
 import { takePendingAppBrief, setPendingAppBrief } from "@/lib/apps/pending";
 import { APP_KIND_LABEL, toAccessPolicy, type App, type AppKind } from "@/lib/apps/types";
 import { AccessChip } from "@/components/commerce/AccessGate";
+import { useRevenue } from "@/hooks/use-commerce";
 
 export const Route = createFileRoute("/app/apps/")({
   component: AppsPage,
@@ -100,15 +101,22 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
     if (brief) { setPendingAppBrief(brief); setAi(true); }
   }, []);
 
+  // Revenue comes from paid orders on the server whenever a real club is
+  // active; local usage events are only a prototype stand-in.
+  const { summary: revenueSummary } = useRevenue();
   const totals = useMemo(() => {
     const all = apps.map(a => statsFor(a, events));
+    const serverAppRevenue = revenueSummary
+      ? revenueSummary.byProduct.filter(p => p.productKind === "app").reduce((s, p) => s + p.grossCents, 0) / 100
+      : null;
     return {
       published: apps.filter(a => a.status === "published").length,
       opens: all.reduce((s, x) => s + x.opens, 0),
       members: new Set(events.map(e => e.memberId)).size,
-      revenue: all.reduce((s, x) => s + x.revenue, 0),
+      revenue: serverAppRevenue ?? all.reduce((s, x) => s + x.revenue, 0),
+      liveRevenue: Boolean(revenueSummary?.live),
     };
-  }, [apps, events]);
+  }, [apps, events, revenueSummary]);
 
   return (
     <div className="pg">

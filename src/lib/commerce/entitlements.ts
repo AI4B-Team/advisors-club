@@ -1,8 +1,12 @@
 // Entitlement ledger — the single record of who owns what.
 //
-// One store for every product kind. Checkout writes here, access reads here,
-// and nothing else in the app is allowed to decide ownership on its own.
-// Swapping localStorage for a Cloud table later touches this file only.
+// Two modes, one interface:
+//   • server mode (a real club is selected) — the ledger is a READ-ONLY mirror
+//     of `public.entitlements`, hydrated by `@/lib/commerce/remote`. Nothing in
+//     the browser can add to it; only the server grants access.
+//   • prototype mode (no club yet) — localStorage, as before, so the demo
+//     experience keeps working.
+// Access resolution reads this list either way.
 
 import { productKey, type ProductRef } from "./types";
 
@@ -27,7 +31,22 @@ export type Entitlement = {
 type Listener = (list: Entitlement[]) => void;
 const listeners = new Set<Listener>();
 
+/** Server-owned mirror. Non-null means the browser may not write. */
+let serverLedger: Entitlement[] | null = null;
+
+export function isServerLedger(): boolean {
+  return serverLedger !== null;
+}
+
+/** Called by the remote sync layer after reading from the database. */
+export function hydrateEntitlements(list: Entitlement[]): void {
+  serverLedger = list;
+  if (typeof window !== "undefined") window.dispatchEvent(new Event(EVT));
+  listeners.forEach(l => l(list));
+}
+
 export function getEntitlements(): Entitlement[] {
+  if (serverLedger) return serverLedger;
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(KEY);
@@ -39,12 +58,18 @@ export function getEntitlements(): Entitlement[] {
 }
 
 function write(next: Entitlement[]) {
+  if (serverLedger) {
+    // Defensive: nothing client-side may mutate a server-owned ledger.
+    console.warn("[commerce] Ignored a client write to the server entitlement ledger.");
+    return;
+  }
   if (typeof window !== "undefined") {
     window.localStorage.setItem(KEY, JSON.stringify(next));
     window.dispatchEvent(new Event(EVT));
   }
   listeners.forEach(l => l(next));
 }
+
 
 export function subscribeEntitlements(cb: Listener): () => void {
   listeners.add(cb);

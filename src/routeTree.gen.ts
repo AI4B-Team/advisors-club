@@ -57,6 +57,7 @@ import { Route as AppClubAnalyticsRouteImport } from './routes/app.club.analytic
 import { Route as AppAppsAppIdRouteImport } from './routes/app.apps.$appId'
 import { Route as AppAppsAppIdIndexRouteImport } from './routes/app.apps.$appId.index'
 import { Route as AppAppsAppIdEditRouteImport } from './routes/app.apps.$appId.edit'
+import { Route as ApiPublicWebhooksStripeRouteImport } from './routes/api/public/webhooks/stripe'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -298,6 +299,11 @@ const AppAppsAppIdEditRoute = AppAppsAppIdEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => AppAppsAppIdRoute,
 } as any)
+const ApiPublicWebhooksStripeRoute = ApiPublicWebhooksStripeRouteImport.update({
+  id: '/api/public/webhooks/stripe',
+  path: '/api/public/webhooks/stripe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -346,6 +352,7 @@ export interface FileRoutesByFullPath {
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
   '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
   '/app/apps/$appId/': typeof AppAppsAppIdIndexRoute
 }
@@ -390,6 +397,7 @@ export interface FileRoutesByTo {
   '/app/manage': typeof AppManageIndexRoute
   '/app/sell': typeof AppSellIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
+  '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
   '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
   '/app/apps/$appId': typeof AppAppsAppIdIndexRoute
 }
@@ -441,6 +449,7 @@ export interface FileRoutesById {
   '/app/manage/': typeof AppManageIndexRoute
   '/app/sell/': typeof AppSellIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
   '/app/apps/$appId/edit': typeof AppAppsAppIdEditRoute
   '/app/apps/$appId/': typeof AppAppsAppIdIndexRoute
 }
@@ -493,6 +502,7 @@ export interface FileRouteTypes {
     | '/app/manage/'
     | '/app/sell/'
     | '/app/settings/'
+    | '/api/public/webhooks/stripe'
     | '/app/apps/$appId/edit'
     | '/app/apps/$appId/'
   fileRoutesByTo: FileRoutesByTo
@@ -537,6 +547,7 @@ export interface FileRouteTypes {
     | '/app/manage'
     | '/app/sell'
     | '/app/settings'
+    | '/api/public/webhooks/stripe'
     | '/app/apps/$appId/edit'
     | '/app/apps/$appId'
   id:
@@ -587,6 +598,7 @@ export interface FileRouteTypes {
     | '/app/manage/'
     | '/app/sell/'
     | '/app/settings/'
+    | '/api/public/webhooks/stripe'
     | '/app/apps/$appId/edit'
     | '/app/apps/$appId/'
   fileRoutesById: FileRoutesById
@@ -604,6 +616,7 @@ export interface RootRouteChildren {
   ClubSplatRoute: typeof ClubSplatRoute
   ClubsClubIdRoute: typeof ClubsClubIdRoute
   PSlugRoute: typeof PSlugRoute
+  ApiPublicWebhooksStripeRoute: typeof ApiPublicWebhooksStripeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -944,6 +957,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAppsAppIdEditRouteImport
       parentRoute: typeof AppAppsAppIdRoute
     }
+    '/api/public/webhooks/stripe': {
+      id: '/api/public/webhooks/stripe'
+      path: '/api/public/webhooks/stripe'
+      fullPath: '/api/public/webhooks/stripe'
+      preLoaderRoute: typeof ApiPublicWebhooksStripeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1088,6 +1108,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClubSplatRoute: ClubSplatRoute,
   ClubsClubIdRoute: ClubsClubIdRoute,
   PSlugRoute: PSlugRoute,
+  ApiPublicWebhooksStripeRoute: ApiPublicWebhooksStripeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

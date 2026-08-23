@@ -616,6 +616,100 @@ export type Database = {
           },
         ]
       }
+      checkout_sessions: {
+        Row: {
+          amount_cents: number
+          checkout_url: string | null
+          club_id: string
+          completed_at: string | null
+          created_at: string
+          currency: string
+          expires_at: string
+          failure_reason: string | null
+          id: string
+          interval: string | null
+          metadata: Json
+          offer_id: string | null
+          order_id: string | null
+          product_id: string | null
+          product_key: string
+          product_kind: string
+          provider: string
+          provider_ref: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_cents?: number
+          checkout_url?: string | null
+          club_id: string
+          completed_at?: string | null
+          created_at?: string
+          currency?: string
+          expires_at?: string
+          failure_reason?: string | null
+          id?: string
+          interval?: string | null
+          metadata?: Json
+          offer_id?: string | null
+          order_id?: string | null
+          product_id?: string | null
+          product_key: string
+          product_kind: string
+          provider?: string
+          provider_ref?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          checkout_url?: string | null
+          club_id?: string
+          completed_at?: string | null
+          created_at?: string
+          currency?: string
+          expires_at?: string
+          failure_reason?: string | null
+          id?: string
+          interval?: string | null
+          metadata?: Json
+          offer_id?: string | null
+          order_id?: string | null
+          product_id?: string | null
+          product_key?: string
+          product_kind?: string
+          provider?: string
+          provider_ref?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checkout_sessions_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checkout_sessions_offer_id_fkey"
+            columns: ["offer_id"]
+            isOneToOne: false
+            referencedRelation: "offers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checkout_sessions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       club_memberships: {
         Row: {
           club_id: string
@@ -1973,6 +2067,7 @@ export type Database = {
           club_id: string
           created_at: string
           currency: string
+          failure_reason: string | null
           id: string
           paid_at: string | null
           provider: string | null
@@ -1987,6 +2082,7 @@ export type Database = {
           club_id: string
           created_at?: string
           currency?: string
+          failure_reason?: string | null
           id?: string
           paid_at?: string | null
           provider?: string | null
@@ -2001,6 +2097,7 @@ export type Database = {
           club_id?: string
           created_at?: string
           currency?: string
+          failure_reason?: string | null
           id?: string
           paid_at?: string | null
           provider?: string | null
