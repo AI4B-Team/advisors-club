@@ -173,6 +173,16 @@ export function PersonaAssistantPanel({
                       <button onClick={() => { onClose(); nav({ to: nextAction.to }); }}>{ctaLabel}</button>
                     </div>
                   )}
+                  {!!m.recos?.length && (
+                    <MemberRecoCards
+                      recos={m.recos}
+                      memberId={me.id}
+                      query={msgs.find(x => x.id === m.id - 1)?.text ?? ""}
+                      onNavigate={onClose}
+                      onDismiss={id => setMsgs(list => list.map(x =>
+                        x.id === m.id ? { ...x, recos: (x.recos ?? []).filter(r => r.nodeId !== id) } : x))}
+                    />
+                  )}
                 </div>
               </div>
             )
