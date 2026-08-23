@@ -18,7 +18,7 @@ export const AM_TABS: { key: AmPrimaryKey; label: string }[] = [
 
 export type AmSettingsKey =
   | "business-knowledge" | "knowledge-sources" | "instructions" | "voice"
-  | "member-ai" | "capabilities" | "autonomy"
+  | "persona" | "capabilities" | "autonomy"
   | "catalog" | "connections" | "intelligence" | "flywheel"
   | "marketing" | "workflows" | "agents" | "inbox";
 
@@ -29,7 +29,7 @@ export const AM_SETTINGS: {
   { key: "knowledge-sources", label: "Knowledge Sources", desc: "Add, inspect, approve, or remove the sources AIVA can use.", group: "AIVA" },
   { key: "instructions", label: "Instructions", desc: "Permanent rules, terminology, and things AIVA should never do.", group: "AIVA" },
   { key: "voice", label: "Voice & Personality", desc: "How your AI communicates with members.", group: "AIVA" },
-  { key: "member-ai", label: "Member AI", desc: "How AIVA interacts with members day to day.", group: "Behavior" },
+  { key: "persona", label: "AI Persona", desc: "The member-facing AI trained on your method. AIVA stays admin-only.", group: "Behavior" },
   { key: "capabilities", label: "Capabilities", desc: "What AIVA is allowed to do inside your Club.", group: "Behavior" },
   { key: "autonomy", label: "Autonomy", desc: "Suggest, approve, or autopilot — per capability.", group: "Behavior" },
   { key: "catalog", label: "Product Catalog", desc: "Everything AIVA can reference and recommend.", group: "Advanced" },
@@ -59,7 +59,8 @@ export const AM_LEGACY_SUB: Record<string, AmSettingsKey> = {
   overview: "business-knowledge",
   knowledge: "knowledge-sources",
   instructions: "instructions",
-  "member-ai": "member-ai",
+  "member-ai": "persona",
+  persona: "persona",
   capabilities: "capabilities",
   catalog: "catalog",
   connections: "connections",

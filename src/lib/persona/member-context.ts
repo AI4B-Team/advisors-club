@@ -1,51 +1,20 @@
-import { memberOnboardingSummary } from "./member-onboarding";
-// Builds the member-safe context snapshot the assistant is allowed to see.
-// Permission-gated by the admin's Member AI settings. Private admin data
-// (coach notes, pipeline, other members, billing) is never included.
+// The member-safe context snapshot the AI Persona is allowed to see.
+//
+// Migrated from the retired `member-ai-snapshot` module. Gated by the
+// Persona's memberContext permissions. Private admin data — coach notes,
+// pipeline, billing, other members — is never included here, and AIVA's admin
+// context builders are deliberately NOT reachable from this file.
 
-import { getCoaching, dayIso, goalPct } from "./coaching/store";
-import { loadAdmin } from "./courses/storage";
-import { FALLBACK_COURSES } from "./courses/member-data";
-import { getEvents } from "./events-store";
-import { getAivaContext } from "./aiva-context";
-import { getAivaAdmin } from "./aiva-admin";
-import type { MemberAiSettings } from "./member-ai";
+import { memberOnboardingSummary } from "@/lib/member-onboarding";
+import { getCoaching, dayIso, goalPct } from "@/lib/coaching/store";
+import { FALLBACK_COURSES } from "@/lib/courses/member-data";
+import { getEvents } from "@/lib/events-store";
+import type { PersonaSettings } from "./types";
 
 export type MemberIdentity = { id: string; name: string };
 
-/** Public business/knowledge context — what the assistant is trained on. */
-export function knowledgeSnapshot(s: MemberAiSettings): string {
-  const ctx = getAivaContext();
-  const admin = getAivaAdmin();
-  const out: string[] = [];
-
-  if (s.sources.methodology) {
-    const method = admin.facts["your-methodology"] || ctx.profile.transformation;
-    if (method) out.push(`METHODOLOGY:\n${method}`);
-  }
-  if (ctx.profile.business || ctx.profile.expertise) {
-    out.push(`ABOUT THE BUSINESS:\n${[ctx.profile.business, ctx.profile.expertise, ctx.profile.audience].filter(Boolean).join(" | ")}`);
-  }
-  if (s.sources.faqs && admin.facts["your-offers"]) out.push(`OFFERS:\n${admin.facts["your-offers"]}`);
-  if (s.sources.website && ctx.websiteUrl) out.push(`WEBSITE: ${ctx.websiteUrl}`);
-
-  if (s.sources.courses) {
-    const admins = loadAdmin();
-    const catalog = admins.length
-      ? admins.map(c => `- ${c.title}: ${(c.modules || []).map(m => m.title).join(", ")}`)
-      : FALLBACK_COURSES.map(c => `- ${c.title} (${c.hours}): ${c.blurb}`);
-    if (catalog.length) out.push(`COURSE CATALOG:\n${catalog.slice(0, 12).join("\n")}`);
-  }
-  if (s.sources.transcripts) out.push("TRANSCRIPTS: Lesson transcripts are available for the published lessons above.");
-  if (s.sources.resources) out.push("RESOURCE LIBRARY: Worksheets, templates, and links attached to the lessons above.");
-
-
-  return out.join("\n\n").slice(0, 6000);
-}
-
-/** The member's own data, gated by admin permissions. Never includes coach notes. */
-export function memberSnapshot(s: MemberAiSettings, me: MemberIdentity): string {
-  const p = s.permissions;
+export function memberContextSnapshot(s: PersonaSettings, me: MemberIdentity): string {
+  const p = s.memberContext;
   const doc = getCoaching();
   const client =
     doc.clients.find(c => c.name.toLowerCase() === me.name.toLowerCase()) ??

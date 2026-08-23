@@ -4,7 +4,7 @@ import {
   RefreshCw, Share2, Trash2, Upload, Youtube,
 } from "lucide-react";
 import { AmCard, AmStatus } from "./ui";
-import { getAivaAdmin, setAivaAdmin, type AivaAdmin, type KnowledgeKind, type KnowledgeItem } from "@/lib/aiva-admin";
+import { getAivaAdmin, setAivaAdmin, type AivaAdmin, type KnowledgeKind, type KnowledgeAudience, type KnowledgeItem } from "@/lib/aiva-admin";
 
 const KINDS: { id: KnowledgeKind; label: string; icon: typeof Globe; addable: boolean; placeholder: string }[] = [
   { id: "website", label: "Website", icon: Globe, addable: true, placeholder: "https://yourwebsite.com" },
@@ -54,6 +54,10 @@ export function AivaKnowledge({ admin, update }: { admin: AivaAdmin; update: (p:
     finish(id);
   }
 
+  function setAudience(id: string, audience: KnowledgeAudience) {
+    update({ knowledge: admin.knowledge.map(k => k.id === id ? { ...k, audience } : k) });
+  }
+
   function remove(id: string) {
     update({ knowledge: admin.knowledge.filter(k => k.id !== id) });
   }
@@ -87,6 +91,16 @@ export function AivaKnowledge({ admin, update }: { admin: AivaAdmin; update: (p:
                   <b>{item.label}</b>
                   {item.detail && <p className="am-muted">{item.detail}</p>}
                 </div>
+                <select
+                  className="am-input am-input-sm"
+                  aria-label={`Who can use ${item.label}`}
+                  value={item.audience ?? "both"}
+                  onChange={e => setAudience(item.id, e.target.value as KnowledgeAudience)}
+                >
+                  <option value="both">AIVA + Persona</option>
+                  <option value="aiva">AIVA Only</option>
+                  <option value="persona">Persona Only</option>
+                </select>
                 <AmStatus kind={item.status}>{STATUS_LABEL[item.status]}</AmStatus>
                 <span className="am-src-date">Updated {new Date(item.updatedAt).toLocaleDateString()}</span>
                 <div className="am-src-actions">

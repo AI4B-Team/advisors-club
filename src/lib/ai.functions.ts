@@ -485,12 +485,14 @@ Rules:
     }
   });
 
-/* ============ Member-facing AI assistant ============ */
-const MemberAssistantSchema = z.object({
+/* ============ AI Persona — the member-facing assistant ============ */
+// NOTE: AIVA is the ADMIN business operator and must never appear here.
+// This prompt has no admin tools, no admin data, and no AIVA identity.
+const PersonaAssistantSchema = z.object({
   persona: z.object({
     name: z.string().max(80),
-    mode: z.enum(["aiva", "my-coach", "custom"]),
-    coachName: z.string().max(80).default(""),
+    identityMode: z.enum(["expert", "separate"]),
+    expertName: z.string().max(80).default(""),
     tone: z.string().max(300).default(""),
     instructions: z.string().max(2000).default(""),
     introduction: z.string().max(600).default(""),
@@ -506,19 +508,18 @@ const MemberAssistantSchema = z.object({
   messages: z.array(MessageSchema).min(1).max(24),
 });
 
-export const memberAssistant = createServerFn({ method: "POST" })
-  .inputValidator((input) => MemberAssistantSchema.parse(input))
+export const personaAssistant = createServerFn({ method: "POST" })
+  .inputValidator((input) => PersonaAssistantSchema.parse(input))
   .handler(async ({ data }) => {
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) return { reply: "", escalate: false, error: "AI is not configured for this workspace." };
 
     const { persona, escalation } = data;
+    const expert = persona.expertName || "the coach";
     const who =
-      persona.mode === "my-coach"
-        ? `You are "${persona.name}", an AI assistant trained on ${persona.coachName || "the coach"}'s methodology, courses, resources, and content. You are NOT ${persona.coachName || "the coach"} and never speak as them.`
-        : persona.mode === "custom"
-          ? `You are "${persona.name}", the AI assistant inside this Club.`
-          : `You are AIVA, the AI assistant inside this Advisors Club community.`;
+      persona.identityMode === "expert"
+        ? `You are "${persona.name}", an AI assistant trained on ${expert}'s methodology, courses, resources, and content. You are NOT ${expert} and never speak as them.`
+        : `You are "${persona.name}", the AI assistant inside this Club, trained on ${expert}'s methodology and content.`;
 
     const system = `${who}
 You help ONE member: answer questions about the courses and the coach's method, explain lessons, tell them what to do next, build action plans, help them hit their goals, find resources, and prepare them for coaching.
@@ -553,7 +554,7 @@ When you escalate: say "${escalation.message}", explain in one line why, then po
       if (resp.status === 429) return { reply: "", escalate: false, error: "A lot of questions right now — try again in a moment." };
       if (resp.status === 402) return { reply: "", escalate: false, error: "The AI assistant is temporarily unavailable. Your coach has been notified." };
       if (!resp.ok) {
-        console.error("memberAssistant gateway error", resp.status, await resp.text());
+        console.error("personaAssistant gateway error", resp.status, await resp.text());
         return { reply: "", escalate: false, error: "The assistant is unavailable right now." };
       }
       const json = await resp.json() as { choices?: Array<{ message?: { content?: string } }> };
@@ -561,7 +562,7 @@ When you escalate: say "${escalation.message}", explain in one line why, then po
       const escalate = raw.includes("[[ESCALATE]]");
       return { reply: raw.replace(/\[\[ESCALATE\]\]/g, "").trim(), escalate, error: null };
     } catch (e) {
-      console.error("memberAssistant error", e);
+      console.error("personaAssistant error", e);
       return { reply: "", escalate: false, error: "The assistant is unavailable right now." };
     }
   });

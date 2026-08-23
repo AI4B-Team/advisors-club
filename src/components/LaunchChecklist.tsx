@@ -15,7 +15,7 @@ type Item = {
 
 const ITEMS: Item[] = [
   { id: "club-created",   label: "Club Created",        desc: "Your Club structure is live.",                 to: "/app",                 auto: (c) => c.built.includes("structure") },
-  { id: "aiva-config",    label: "AIVA Configured",     desc: "Member-facing AI is set up.",                  to: "/app/aiva",            auto: (c) => c.memberAi.configured },
+  { id: "persona-config", label: "AI Persona Configured", desc: "Your member-facing AI is set up.",            to: "/app/manage/persona",  auto: (c) => c.persona.configured },
   { id: "add-logo",       label: "Add Logo",            desc: "Give your Club a recognizable mark.",          to: "/app/club/settings",   auto: (c, gs) => Boolean(c.brand.logoUrl || gs.logoUrl) },
   { id: "connect-pay",    label: "Connect Payments",    desc: "Start taking memberships and sales.",          to: "/app/club/settings",   auto: (c) => c.payments.connected },
   { id: "review-program", label: "Review First Program", desc: "Check the outline AIVA drafted for you.",     to: "/app/club/courses",    auto: (c, gs) => Boolean(gs.course) && c.checklistDone.includes("review-program") },

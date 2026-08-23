@@ -3,7 +3,7 @@ import { AM_SETTINGS, type AmSettingsKey } from "./tabs";
 import { AivaOverview } from "./AivaOverview";
 import { AivaKnowledge } from "./AivaKnowledge";
 import { AivaInstructions } from "./AivaInstructions";
-import { AivaMemberAi } from "./AivaMemberAi";
+import { AivaPersonaPanel } from "./AivaPersonaPanel";
 import { AivaCapabilities } from "./AivaCapabilities";
 import { AivaAutonomy } from "./AivaAutonomy";
 import { AivaCatalog } from "./AivaCatalog";
@@ -72,7 +72,7 @@ function SettingsPanel({ k, admin, update, onOpen }: {
     case "knowledge-sources": return <AivaKnowledge admin={admin} update={update} />;
     case "instructions": return <AivaInstructions admin={admin} update={update} />;
     case "voice": return <VoicePersonality />;
-    case "member-ai": return <AivaMemberAi />;
+    case "persona": return <AivaPersonaPanel />;
     case "capabilities": return <AivaCapabilities admin={admin} update={update} />;
     case "autonomy": return <AivaAutonomy admin={admin} update={update} />;
     case "catalog": return <AivaCatalog />;

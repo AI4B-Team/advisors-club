@@ -51,7 +51,7 @@ function respond(q: string, clubName: string): Reply {
       ],
       actions: [
         { label: "Turn It On", kind: "do", done: "Running. You'll see every send in Activity." },
-        { label: "Review Member AI", kind: "go", go: { tab: "settings", sub: "member-ai" } },
+        { label: "Review AI Persona", kind: "go", go: { tab: "settings", sub: "persona" } },
       ],
     };
   }

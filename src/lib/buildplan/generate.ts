@@ -176,9 +176,8 @@ export function generateOnboardingPlan(): BuildPlan {
   }
 
   /* AI PERSONA */
-  if (wants("member-ai") || ctx.memberAi.configured || true) {
-    const personaName = ctx.memberAi.name && ctx.memberAi.name !== "AIVA"
-      ? ctx.memberAi.name : `${niche} Coach AI`;
+  if (wants("persona") || ctx.persona.configured || true) {
+    const personaName = ctx.persona.name || `${niche} Coach AI`;
     items.push(item({
       id: "persona", label: personaName, category: "persona", recommended: true,
       description: "AI assistant trained on your content, methodology and voice.",
