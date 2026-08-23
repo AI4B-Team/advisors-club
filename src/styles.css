@@ -5228,3 +5228,46 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#F6F6F8;
 .ainav-x:hover{background:#FEF2F2;color:#B91C1C}
 .ainav-foot{margin:14px 0 0;font-size:12px;color:#9CA3AF;line-height:1.5}
 .ob-navgen-wait{display:flex;align-items:center;justify-content:center;gap:10px;font-size:13.5px;color:#6B7280;padding:28px}
+
+/* ============ APPS ============ */
+.ap-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.ap-add{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border:0;border-radius:9px;background:#111827;color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+.ap-add:hover{background:#1F2937}
+.ap-add:disabled{opacity:.45;cursor:not-allowed}
+.ap-add-sm{height:30px;padding:0 12px;font-size:12.5px}
+.ap-tabs{display:flex;gap:4px;border-bottom:1px solid #EDEFF2;margin-bottom:18px}
+.ap-tab{position:relative;padding:8px 12px;border:0;background:none;font-size:13.5px;font-weight:600;color:#6B7280;cursor:pointer}
+.ap-tab.is-on{color:#111827;box-shadow:inset 0 -2px 0 #111827}
+.ap-tab-n{margin-left:5px;font-size:11px;color:#9CA3AF}
+.ap-note{margin:0 0 16px;font-size:12.5px;color:#6B7280}
+.ap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ap-card{display:flex;flex-direction:column;gap:10px;padding:14px;border:1px solid #E5E7EB;border-radius:12px;background:#fff;transition:border-color .15s,box-shadow .15s}
+.ap-card:hover{border-color:#D1D5DB;box-shadow:0 6px 18px rgba(17,24,39,.06)}
+.ap-card-i{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#F5F6F8;color:#111827}
+.ap-card-main{display:block}
+.ap-card-t{display:block;font-weight:600;font-size:13.5px;color:#111827}
+.ap-card-d{display:block;font-size:12.5px;color:#6B7280;margin-top:2px;line-height:1.4}
+.ap-card-foot{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:8px;border-top:1px solid #F3F4F6}
+.ap-select{flex:1;min-width:0;height:28px;border:1px solid #E5E7EB;border-radius:7px;background:#fff;font-size:11.5px;color:#374151;padding:0 6px}
+.ap-status{height:28px;padding:0 9px;border:1px solid #E5E7EB;border-radius:7px;background:#fff;font-size:11.5px;font-weight:600;color:#6B7280;cursor:pointer}
+.ap-status.is-live{border-color:#CDEBD8;background:#F1FAF4;color:#2F7D53}
+.ap-icon-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:1px solid #E5E7EB;border-radius:7px;background:#fff;color:#9CA3AF;cursor:pointer}
+.ap-icon-btn:hover{color:#111827;border-color:#D1D5DB}
+.ap-kind{flex:1;font-size:11.5px;color:#9CA3AF}
+.ap-mini{height:28px;padding:0 11px;border:1px solid #E5E7EB;border-radius:7px;background:#fff;font-size:12px;font-weight:600;color:#374151;cursor:pointer}
+.ap-mini:hover{border-color:#D1D5DB}
+.ap-modal-wrap{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(17,24,39,.42)}
+.ap-modal{width:100%;max-width:520px;max-height:88vh;overflow:auto;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(17,24,39,.22)}
+.ap-modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #EDEFF2}
+.ap-modal-head h3{margin:0;font-size:15px;font-weight:700;color:#111827}
+.ap-modal-body{padding:18px;display:flex;flex-direction:column;gap:14px}
+.ap-modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:14px 18px;border-top:1px solid #EDEFF2}
+.ap-field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.ap-field>span{font-size:12px;font-weight:600;color:#374151}
+.ap-field input,.ap-field select{height:36px;border:1px solid #E5E7EB;border-radius:9px;padding:0 10px;font-size:13px;color:#111827;background:#fff}
+.ap-field input:focus,.ap-field select:focus{outline:none;border-color:#C7CCD4}
+.ap-field-row{display:flex;gap:12px}
+.ap-ai{display:flex;align-items:center;gap:10px;padding:12px;border:1px dashed #E5E7EB;border-radius:11px;background:#FAFBFC;color:#6B7280}
+.ap-ai strong{display:block;font-size:13px;color:#111827}
+.ap-ai span{font-size:12px}
+.ap-ai>div{flex:1}
