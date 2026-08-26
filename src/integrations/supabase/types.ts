@@ -545,6 +545,161 @@ export type Database = {
           },
         ]
       }
+      app_installs: {
+        Row: {
+          app_id: string | null
+          author_net_cents: number
+          club_id: string
+          gross_cents: number
+          id: string
+          installed_at: string
+          listing_id: string
+          order_id: string | null
+          platform_fee_cents: number
+          revoked_at: string | null
+          version: number
+        }
+        Insert: {
+          app_id?: string | null
+          author_net_cents?: number
+          club_id: string
+          gross_cents?: number
+          id?: string
+          installed_at?: string
+          listing_id: string
+          order_id?: string | null
+          platform_fee_cents?: number
+          revoked_at?: string | null
+          version?: number
+        }
+        Update: {
+          app_id?: string | null
+          author_net_cents?: number
+          club_id?: string
+          gross_cents?: number
+          id?: string
+          installed_at?: string
+          listing_id?: string
+          order_id?: string | null
+          platform_fee_cents?: number
+          revoked_at?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_installs_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "app_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_installs_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_installs_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_installs_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_listings: {
+        Row: {
+          author_club_id: string
+          category: string
+          changelog: string | null
+          config: Json
+          description: string
+          details: string | null
+          icon: string
+          id: string
+          installs: number
+          kind: string
+          name: string
+          pricing: Json
+          published_at: string
+          rating: number | null
+          rating_count: number
+          schema: Json
+          source_app_id: string | null
+          status: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          author_club_id: string
+          category?: string
+          changelog?: string | null
+          config?: Json
+          description?: string
+          details?: string | null
+          icon?: string
+          id?: string
+          installs?: number
+          kind: string
+          name: string
+          pricing?: Json
+          published_at?: string
+          rating?: number | null
+          rating_count?: number
+          schema?: Json
+          source_app_id?: string | null
+          status?: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          author_club_id?: string
+          category?: string
+          changelog?: string | null
+          config?: Json
+          description?: string
+          details?: string | null
+          icon?: string
+          id?: string
+          installs?: number
+          kind?: string
+          name?: string
+          pricing?: Json
+          published_at?: string
+          rating?: number | null
+          rating_count?: number
+          schema?: Json
+          source_app_id?: string | null
+          status?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_listings_author_club_id_fkey"
+            columns: ["author_club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_listings_source_app_id_fkey"
+            columns: ["source_app_id"]
+            isOneToOne: false
+            referencedRelation: "apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       apps: {
         Row: {
           access: Json
@@ -557,6 +712,8 @@ export type Database = {
           id: string
           kind: string
           listed: boolean
+          listing_id: string | null
+          listing_version: number | null
           name: string
           pricing: Json | null
           prompt: string | null
@@ -577,6 +734,8 @@ export type Database = {
           id?: string
           kind: string
           listed?: boolean
+          listing_id?: string | null
+          listing_version?: number | null
           name: string
           pricing?: Json | null
           prompt?: string | null
@@ -597,6 +756,8 @@ export type Database = {
           id?: string
           kind?: string
           listed?: boolean
+          listing_id?: string | null
+          listing_version?: number | null
           name?: string
           pricing?: Json | null
           prompt?: string | null
@@ -631,6 +792,8 @@ export type Database = {
           metadata: Json
           offer_id: string | null
           order_id: string | null
+          payee_club_id: string | null
+          platform_fee_cents: number
           product_id: string | null
           product_key: string
           product_kind: string
@@ -654,6 +817,8 @@ export type Database = {
           metadata?: Json
           offer_id?: string | null
           order_id?: string | null
+          payee_club_id?: string | null
+          platform_fee_cents?: number
           product_id?: string | null
           product_key: string
           product_kind: string
@@ -677,6 +842,8 @@ export type Database = {
           metadata?: Json
           offer_id?: string | null
           order_id?: string | null
+          payee_club_id?: string | null
+          platform_fee_cents?: number
           product_id?: string | null
           product_key?: string
           product_kind?: string
@@ -2070,6 +2237,8 @@ export type Database = {
           failure_reason: string | null
           id: string
           paid_at: string | null
+          payee_club_id: string | null
+          platform_fee_cents: number
           provider: string | null
           provider_ref: string | null
           refunded_at: string | null
@@ -2085,6 +2254,8 @@ export type Database = {
           failure_reason?: string | null
           id?: string
           paid_at?: string | null
+          payee_club_id?: string | null
+          platform_fee_cents?: number
           provider?: string | null
           provider_ref?: string | null
           refunded_at?: string | null
@@ -2100,6 +2271,8 @@ export type Database = {
           failure_reason?: string | null
           id?: string
           paid_at?: string | null
+          payee_club_id?: string | null
+          platform_fee_cents?: number
           provider?: string | null
           provider_ref?: string | null
           refunded_at?: string | null

@@ -4,12 +4,18 @@
 import { z } from "zod";
 
 export const productRefSchema = z.object({
-  kind: z.enum(["app", "course", "coaching", "resource", "event", "bundle"]),
+  kind: z.enum(["app", "app-listing", "course", "coaching", "resource", "event", "bundle"]),
   id: z.string().min(1),
 });
 
 export const offerSchema = z.object({
-  /** Dollars, as authored in the product editors. */
+  /**
+   * Dollars, as authored in the product editors.
+   *
+   * Advisory only for a cross-club kind: the server re-reads the price from
+   * the seller's own row and ignores whatever the buyer sent. A buyer must
+   * never be able to name the price of something they do not own.
+   */
   price: z.number().nonnegative(),
   currency: z.string().default("usd"),
   interval: z.enum(["month", "year"]).optional(),
@@ -35,6 +41,12 @@ export const claimFreeInput = z.object({
 });
 
 export const clubScopeInput = z.object({ clubId: z.string().uuid() });
+
+/** Installing a marketplace listing into a club the caller administers. */
+export const installListingInput = z.object({
+  clubId: z.string().uuid(),
+  listingId: z.string().uuid(),
+});
 
 export const adminGrantInput = z.object({
   clubId: z.string().uuid(),
@@ -77,6 +89,22 @@ export type CheckoutStart = {
 export type CheckoutOutcome =
   | { ok: true; orderId: string; entitlement: ServerEntitlement | null }
   | { ok: false; error: string };
+
+/** What a creator has earned publishing apps other creators installed. */
+export type MarketplaceEarnings = {
+  currency: string;
+  /** What installing creators paid, before the platform share. */
+  grossCents: number;
+  /** What Advisors Club kept. */
+  platformFeeCents: number;
+  /** What this creator receives. */
+  netCents: number;
+  refundedCents: number;
+  installs: number;
+  byListing: { listingId: string; name: string; installs: number; netCents: number }[];
+  /** False while the sandbox provider is in use — never present as revenue. */
+  live: boolean;
+};
 
 export type RevenueSummary = {
   currency: string;

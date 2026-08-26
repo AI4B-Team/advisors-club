@@ -19,8 +19,10 @@ export type CheckoutRequest = {
   amountCents: number;
   currency: string;
   interval?: "month" | "year" | null;
-  /** Stripe Connect account of the club, when the creator is onboarded. */
+  /** Stripe Connect account of the PAYEE club, when they are onboarded. */
   connectedAccountId?: string | null;
+  /** Advisors Club's share, taken as an application fee on a connected sale. */
+  platformFeeCents?: number;
   successUrl: string;
   cancelUrl: string;
 };
@@ -81,9 +83,14 @@ const stripeProvider: PaymentProvider = {
       "line_items[0][price_data][product_data][name]": req.productLabel,
     };
     if (req.interval) body["line_items[0][price_data][recurring][interval]"] = req.interval;
-    // Creator payouts: the club's connected account receives the funds.
+    // Creator payouts: the payee's connected account receives the funds. On a
+    // marketplace sale the platform share rides along as an application fee,
+    // so Stripe splits it rather than us invoicing for it afterwards.
     if (req.connectedAccountId) {
       body["payment_intent_data[transfer_data][destination]"] = req.connectedAccountId;
+      if (req.platformFeeCents && req.platformFeeCents > 0) {
+        body["payment_intent_data[application_fee_amount]"] = String(req.platformFeeCents);
+      }
     }
     const session = await stripeCall("checkout/sessions", body);
     return {

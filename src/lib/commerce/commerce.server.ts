@@ -36,6 +36,57 @@ async function requireClubAdmin(supabase: Caller, clubId: string) {
   if (error || !data) throw new Error("Only Club Owners And Admins Can Do That.");
 }
 
+/**
+ * Who is charged, who is paid, and how much. Split out because a marketplace
+ * listing is the one product where those are three different answers.
+ *
+ * For an ordinary product the club sells to its own member, so the price the
+ * club authored is authoritative and the club is its own payee. For a listing
+ * the buyer belongs to a DIFFERENT club than the seller, so nothing the buyer
+ * sends about price is trusted: the terms are re-read from the seller's row.
+ */
+export async function resolveTerms(
+  supabase: Caller,
+  admin: Caller,
+  userId: string,
+  input: {
+    clubId: string; ref: Ref; productLabel: string;
+    offer: { price: number; currency: string; interval?: "month" | "year" };
+  },
+): Promise<{
+  amountCents: number; currency: string; interval: "month" | "year" | null;
+  payeeClubId: string; platformFeeCents: number; label: string;
+}> {
+  if (input.ref.kind !== "app-listing") {
+    await requireMembership(supabase, input.clubId, userId);
+    return {
+      amountCents: Math.round(input.offer.price * 100),
+      currency: input.offer.currency || "usd",
+      interval: input.offer.interval ?? null,
+      payeeClubId: input.clubId,
+      platformFeeCents: 0,
+      label: input.productLabel,
+    };
+  }
+
+  // Installing is a creator action on their own club, not a member purchase.
+  await requireClubAdmin(supabase, input.clubId);
+
+  const { listingTerms } = await import("@/lib/apps/marketplace.server");
+  const terms = await listingTerms(admin, input.ref.id);
+  if (terms.authorClubId === input.clubId) {
+    throw new Error("You Published This App. It Is Already In Your Club.");
+  }
+  return {
+    amountCents: terms.amountCents,
+    currency: terms.currency,
+    interval: terms.interval,
+    payeeClubId: terms.authorClubId,
+    platformFeeCents: terms.platformFeeCents,
+    label: terms.name,
+  };
+}
+
 export async function startCheckout(
   supabase: Caller,
   userId: string,
@@ -45,11 +96,11 @@ export async function startCheckout(
     simulate?: "success" | "fail"; successUrl?: string; cancelUrl?: string;
   },
 ): Promise<CheckoutStart> {
-  await requireMembership(supabase, input.clubId, userId);
-  const amountCents = Math.round(input.offer.price * 100);
+  const admin = await adminClient();
+  const terms = await resolveTerms(supabase, admin, userId, input);
+  const amountCents = terms.amountCents;
   if (amountCents <= 0) throw new Error("This Item Has No Price Set.");
 
-  const admin = await adminClient();
   const { data: session, error } = await admin
     .from("checkout_sessions")
     .insert({
@@ -60,10 +111,12 @@ export async function startCheckout(
       product_id: productIdOf(input.ref),
       product_key: productKeyOf(input.ref),
       amount_cents: amountCents,
-      currency: input.offer.currency || "usd",
-      interval: input.offer.interval ?? null,
+      currency: terms.currency,
+      interval: terms.interval,
+      payee_club_id: terms.payeeClubId,
+      platform_fee_cents: terms.platformFeeCents,
       status: "pending",
-      metadata: { simulate: input.simulate ?? "success", label: input.productLabel },
+      metadata: { simulate: input.simulate ?? "success", label: terms.label },
     })
     .select("*")
     .single();
@@ -75,11 +128,14 @@ export async function startCheckout(
     clubId: input.clubId,
     userId,
     productKey: session.product_key,
-    productLabel: input.productLabel,
+    productLabel: terms.label,
     amountCents,
     currency: session.currency,
-    interval: input.offer.interval ?? null,
-    connectedAccountId: await connectedAccountFor(admin, input.clubId),
+    interval: terms.interval,
+    // The PAYEE's account receives the funds — for a marketplace install that
+    // is the publishing creator, not the club doing the buying.
+    connectedAccountId: await connectedAccountFor(admin, terms.payeeClubId),
+    platformFeeCents: terms.platformFeeCents,
     successUrl: input.successUrl ?? "/app",
     cancelUrl: input.cancelUrl ?? "/app",
   });
@@ -231,22 +287,38 @@ export async function adminOrderChange(
   return { ok: true };
 }
 
-/** Revenue derived from paid orders only. Never from client state. */
+/**
+ * Revenue derived from paid orders only. Never from client state.
+ *
+ * Scoped by PAYEE, not by the club the order was placed in. Those are the same
+ * club for everything a club sells to its own members, and deliberately not
+ * the same for a marketplace install: money a creator SPENDS installing
+ * someone else's app is not their revenue, and money they EARN when another
+ * creator installs theirs sits in an order belonging to the buyer's club.
+ */
 export async function revenue(supabase: Caller, clubId: string): Promise<RevenueSummary> {
   await requireClubAdmin(supabase, clubId);
   const { data: orders } = await supabase
     .from("orders")
-    .select("id, status, total_cents, currency, provider")
-    .eq("club_id", clubId);
+    .select("id, status, total_cents, currency, provider, platform_fee_cents")
+    .eq("payee_club_id", clubId);
 
   const rows = (orders ?? []).filter(o => o.provider !== "sandbox");
   const paid = rows.filter(o => o.status === "paid");
   const refunded = rows.filter(o => o.status === "refunded");
+  if (!paid.length && !refunded.length) {
+    return {
+      currency: "usd", grossCents: 0, refundedCents: 0, netCents: 0,
+      orders: 0, refunds: 0, byProduct: [], live: providerIsLive(),
+    };
+  }
 
+  // Items are filtered by their ORDER, not by club: on a marketplace sale the
+  // item row belongs to the buyer's club while the money is ours.
   const { data: items } = await supabase
     .from("order_items")
     .select("order_id, product_kind, product_id, unit_amount_cents, quantity")
-    .eq("club_id", clubId);
+    .in("order_id", [...paid, ...refunded].map(o => o.id));
 
   const paidIds = new Set(paid.map(o => o.id));
   const grouped = new Map<string, { productKind: string; productId: string | null; grossCents: number; orders: number }>();
@@ -261,11 +333,14 @@ export async function revenue(supabase: Caller, clubId: string): Promise<Revenue
 
   const grossCents = paid.reduce((s, o) => s + (o.total_cents ?? 0), 0);
   const refundedCents = refunded.reduce((s, o) => s + (o.total_cents ?? 0), 0);
+  const feeCents = paid.reduce((s, o) => s + (o.platform_fee_cents ?? 0), 0);
   return {
     currency: paid[0]?.currency ?? "usd",
     grossCents,
     refundedCents,
-    netCents: grossCents - refundedCents,
+    // What the club actually receives: gross, less refunds, less whatever
+    // Advisors Club kept on a marketplace sale (zero on their own products).
+    netCents: grossCents - refundedCents - feeCents,
     orders: paid.length,
     refunds: refunded.length,
     byProduct: [...grouped.values()].sort((a, b) => b.grossCents - a.grossCents),

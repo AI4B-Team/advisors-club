@@ -15,7 +15,7 @@ import { AiAppBuilder } from "@/components/apps/AiAppBuilder";
 import { MarketplaceTab } from "@/components/apps/MarketplaceTab";
 import { PublishAppModal } from "@/components/apps/PublishAppModal";
 import { canPublish, updateAvailable, type Listing } from "@/lib/apps/marketplace";
-import { getListings, subscribeMarketplace, updateInstalledApp } from "@/lib/apps/marketplace-store";
+import { getListings, hydrateMarketplace, subscribeMarketplace, updateInstalledApp } from "@/lib/apps/marketplace-store";
 import { takePendingAppBrief, setPendingAppBrief } from "@/lib/apps/pending";
 import { APP_KIND_LABEL, toAccessPolicy, type App, type AppKind } from "@/lib/apps/types";
 import { AccessChip } from "@/components/commerce/AccessGate";
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/app/apps/")({
   // Pull the club's apps from the backend before the route renders, so the
   // list doesn't paint empty and then pop in after an effect resolves.
   // (No-op while the apps domain is still local-only.)
-  loader: async () => { await hydrateApps(); },
+  loader: async () => { await Promise.all([hydrateApps(), hydrateMarketplace()]); },
   errorComponent: ({ error }) => <div className="pg" role="alert">Couldn't load your apps: {error.message}</div>,
   head: () => ({
     meta: [

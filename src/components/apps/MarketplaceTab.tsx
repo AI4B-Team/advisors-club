@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { BadgeCheck, Check, Download, Eye, EyeOff, Search, Star, Store } from "lucide-react";
+import { AlertTriangle, BadgeCheck, Check, Download, Eye, EyeOff, Loader2, Search, Star, Store } from "lucide-react";
 import { appIcon } from "@/components/apps/icons";
 import { DataBadge } from "@/components/DataBadge";
+import { useCommerceViewer } from "@/hooks/use-commerce";
+import type { MarketplaceEarnings } from "@/lib/commerce/wire";
 import {
   catalogListings, categoriesOf, filterListings, isPaidListing, listingPrice,
   sortListings, splitRevenue, type CatalogSort, type Listing, type RevenueSplit,
 } from "@/lib/apps/marketplace";
 import {
-  getListings, installListing, installedListingIds, isOwnListing, myEarnings,
+  fetchMarketplaceEarnings, getListings, hydrateMarketplace, installListing,
+  installedListingIds, isOwnListing, marketplaceIsServerBacked, myEarnings,
   myListings, setListingStatus, subscribeMarketplace,
 } from "@/lib/apps/marketplace-store";
 import { APP_KIND_LABEL, pricingLabel } from "@/lib/apps/types";
@@ -38,9 +41,29 @@ function useMarketplace(): MarketState {
       earned: myEarnings(),
     });
     sync();
+    // Inside a real club the catalog lives in the database; pull it once.
+    void hydrateMarketplace();
     return subscribeMarketplace(sync);
   }, []);
   return state;
+}
+
+/**
+ * Payout totals from the server. Money is counted from paid orders, never
+ * from the local ledger — so until this answers, nothing is presented as
+ * earnings inside a real club.
+ */
+function useEarnings(): { server: MarketplaceEarnings | null; loading: boolean } {
+  const [server, setServer] = useState<MarketplaceEarnings | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    void fetchMarketplaceEarnings().then(r => {
+      if (!cancelled) { setServer(r); setLoading(false); }
+    });
+    return () => { cancelled = true; };
+  }, []);
+  return { server, loading };
 }
 
 /**
@@ -50,11 +73,15 @@ function useMarketplace(): MarketState {
  */
 export function MarketplaceTab({ onInstalled }: { onInstalled: (appId: string) => void }) {
   const { listings, installed, mine, earned } = useMarketplace();
+  const { server: serverEarnings, loading: earningsLoading } = useEarnings();
+  const viewer = useCommerceViewer();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [freeOnly, setFreeOnly] = useState(false);
   const [sort, setSort] = useState<CatalogSort>("popular");
   const [open, setOpen] = useState<Listing | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const catalog = useMemo(() => catalogListings(listings), [listings]);
   const categories = useMemo(() => categoriesOf(catalog), [catalog]);
@@ -63,10 +90,20 @@ export function MarketplaceTab({ onInstalled }: { onInstalled: (appId: string) =
     [catalog, query, category, freeOnly, sort],
   );
 
-  const install = useCallback((listing: Listing) => {
-    const result = installListing(listing);
-    if (result) { setOpen(null); onInstalled(result.app.id); }
-  }, [onInstalled]);
+  const install = useCallback(async (listing: Listing) => {
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await installListing(listing, viewer);
+      if (!result.ok) { setError(result.error); return; }
+      // Hosted checkout: the provider takes over and its webhook installs it.
+      if ("redirectUrl" in result) { window.location.assign(result.redirectUrl); return; }
+      setOpen(null);
+      onInstalled(result.appId);
+    } finally {
+      setBusy(false);
+    }
+  }, [onInstalled, viewer]);
 
   return (
     <>
@@ -78,12 +115,13 @@ export function MarketplaceTab({ onInstalled }: { onInstalled: (appId: string) =
       {mine.length > 0 && (
         <section className="apx-lib-sec">
           <h2 className="apx-lib-t">Your Listings</h2>
-          <div className="apx-totals">
-            <div className="apx-total"><span>Listed</span><strong>{mine.length}</strong></div>
-            <div className="apx-total"><span>Installs</span><strong>{earned.count}</strong></div>
-            <div className="apx-total"><span>You've Earned</span><strong>${earned.authorNet.toLocaleString()}</strong></div>
-            <div className="apx-total"><span>Platform Share</span><strong>${earned.platformFee.toLocaleString()}</strong></div>
-          </div>
+          <EarningsTotals
+            listed={mine.length}
+            local={earned}
+            server={serverEarnings}
+            loading={earningsLoading}
+            expectServer={marketplaceIsServerBacked()}
+          />
           <div className="apx-grid">
             {mine.map(l => (
               <div key={l.id} className="apx-card">
@@ -140,11 +178,19 @@ export function MarketplaceTab({ onInstalled }: { onInstalled: (appId: string) =
         </button>
       </div>
 
+      {error && (
+        <p className="apx-warn" role="alert"><AlertTriangle size={13} /> {error}</p>
+      )}
+
       {shown.length === 0 ? (
         <div className="apx-empty">
           <Store size={18} />
-          <strong>Nothing Matches</strong>
-          <span>Try A Different Category Or Clear The Search.</span>
+          <strong>{catalog.length === 0 ? "No Apps Listed Yet" : "Nothing Matches"}</strong>
+          <span>
+            {catalog.length === 0
+              ? "Nobody Has Published An App For Other Creators Yet. Yours Could Be The First."
+              : "Try A Different Category Or Clear The Search."}
+          </span>
         </div>
       ) : (
         <div className="apx-grid">
@@ -165,8 +211,10 @@ export function MarketplaceTab({ onInstalled }: { onInstalled: (appId: string) =
           listing={open}
           installed={installed.has(open.id)}
           own={isOwnListing(open)}
-          onClose={() => setOpen(null)}
-          onInstall={() => install(open)}
+          busy={busy}
+          error={error}
+          onClose={() => { if (!busy) { setOpen(null); setError(null); } }}
+          onInstall={() => void install(open)}
         />
       )}
     </>
@@ -211,10 +259,12 @@ function ListingCard({ listing, installed, own, onOpen }: {
   );
 }
 
-function ListingModal({ listing, installed, own, onClose, onInstall }: {
+function ListingModal({ listing, installed, own, busy, error, onClose, onInstall }: {
   listing: Listing;
   installed: boolean;
   own: boolean;
+  busy: boolean;
+  error: string | null;
   onClose: () => void;
   onInstall: () => void;
 }) {
@@ -279,25 +329,83 @@ function ListingModal({ listing, installed, own, onClose, onInstall }: {
             <strong>{pricingLabel(listing.pricing)}</strong>
             <span>
               {price > 0
-                ? `${listing.author.name} Receives $${split.authorNet.toLocaleString()}. Advisors Club Keeps $${split.platformFee.toLocaleString()}.`
+                ? `Paid Once At Checkout. ${listing.author.name} Receives $${split.authorNet.toLocaleString()}, Advisors Club Keeps $${split.platformFee.toLocaleString()}.`
                 : "This Creator Lists It Free. No Revenue Share Applies."}
             </span>
           </div>
         </div>
 
         <div className="apx-modal-foot">
-          <button className="apx-mini" onClick={onClose}>Close</button>
+          {error && <span className="apx-warn" role="alert"><AlertTriangle size={13} /> {error}</span>}
+          <button className="apx-mini" onClick={onClose} disabled={busy}>Close</button>
           {own ? (
             <button className="apx-primary-btn" disabled>This Is Your Listing</button>
           ) : installed ? (
             <button className="apx-primary-btn" disabled><Check size={14} /> Already Installed</button>
           ) : (
-            <button className="apx-primary-btn" onClick={onInstall}>
-              <Download size={14} /> {price > 0 ? `Install For $${price.toLocaleString()}` : "Install Free"}
+            <button className="apx-primary-btn" onClick={onInstall} disabled={busy}>
+              {busy
+                ? <><Loader2 size={14} className="apx-spin" /> {price > 0 ? "Opening Checkout…" : "Installing…"}</>
+                : <><Download size={14} /> {price > 0 ? `Install For $${price.toLocaleString()}` : "Install Free"}</>}
             </button>
           )}
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Payout totals.
+ *
+ * Inside a real club the ONLY number presented as money is the server's, from
+ * paid orders. The local ledger is a sandbox artefact, so it is shown as demo
+ * data and labelled — never quietly promoted to revenue.
+ */
+function EarningsTotals({ listed, local, server, loading, expectServer }: {
+  listed: number;
+  local: RevenueSplit & { count: number };
+  server: MarketplaceEarnings | null;
+  loading: boolean;
+  /** True inside a real club, where only the server may state earnings. */
+  expectServer: boolean;
+}) {
+  // Inside a real club the server is the only source of a money figure. If it
+  // has not answered, the honest answer is "we do not know yet" — not the
+  // local ledger wearing a demo label, and certainly not a number.
+  const unknown = expectServer && !server;
+  const live = Boolean(server?.live);
+  const installs = server ? server.installs : local.count;
+  const net = server ? server.netCents / 100 : local.authorNet;
+  const fee = server ? server.platformFeeCents / 100 : local.platformFee;
+  const money = (v: number) => (loading || unknown ? "—" : `$${v.toLocaleString()}`);
+
+  return (
+    <>
+      <div className="apx-totals">
+        <div className="apx-total"><span>Listed</span><strong>{listed}</strong></div>
+        <div className="apx-total"><span>Installs</span><strong>{loading || unknown ? "—" : installs}</strong></div>
+        <div className="apx-total">
+          <span>{live ? "You've Earned" : "Earnings"}</span>
+          <strong>{money(net)}</strong>
+        </div>
+        <div className="apx-total"><span>Platform Share</span><strong>{money(fee)}</strong></div>
+      </div>
+
+      {!loading && unknown && (
+        <p className="apx-warn" role="status">
+          <AlertTriangle size={13} /> Couldn't Reach The Payout Ledger. Reload To Try Again.
+        </p>
+      )}
+      {!loading && !unknown && !live && (
+        <p className="apx-muted">
+          <DataBadge kind={expectServer ? "demo" : "sample"} />{" "}
+          No Payments Have Settled Yet — These Totals Are Not Revenue.
+        </p>
+      )}
+      {server && server.refundedCents > 0 && (
+        <p className="apx-muted">${(server.refundedCents / 100).toLocaleString()} Refunded And Excluded Above.</p>
+      )}
+    </>
   );
 }

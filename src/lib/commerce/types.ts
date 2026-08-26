@@ -6,17 +6,30 @@
 // permission logic — they describe *what* they sell and ask this layer
 // whether the current viewer may open it.
 
-/** Every content type that can carry an access policy. */
-export type ProductKind = "app" | "course" | "coaching" | "resource" | "event" | "bundle";
+/**
+ * Every content type that can carry an access policy.
+ *
+ * `app-listing` is the odd one out and deliberately so: every other kind is
+ * sold BY a club TO its own member, so the buying club and the paid club are
+ * the same. A marketplace app is sold by one creator to another, which is why
+ * checkout carries a payee separate from the buyer (see `commerce.server.ts`).
+ */
+export type ProductKind = "app" | "app-listing" | "course" | "coaching" | "resource" | "event" | "bundle";
 
 export const PRODUCT_KIND_LABEL: Record<ProductKind, string> = {
   app: "App",
+  "app-listing": "Marketplace App",
   course: "Course",
   coaching: "Coaching Program",
   resource: "Resource",
   event: "Event",
   bundle: "Bundle",
 };
+
+/** True when the sale pays a club other than the one the buyer belongs to. */
+export function isCrossClubKind(kind: ProductKind): boolean {
+  return kind === "app-listing";
+}
 
 /** A stable pointer to any monetizable entity. */
 export type ProductRef = { kind: ProductKind; id: string };

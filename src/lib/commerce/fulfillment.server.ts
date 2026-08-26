@@ -19,6 +19,9 @@ export type SessionRow = {
   amount_cents: number;
   currency: string;
   interval: string | null;
+  /** The club being paid. Differs from `club_id` on a marketplace sale. */
+  payee_club_id: string | null;
+  platform_fee_cents: number | null;
   provider: string;
   provider_ref: string | null;
   status: string;
@@ -57,6 +60,10 @@ export async function fulfillSession(
       status: "paid",
       total_cents: session.amount_cents,
       currency: session.currency,
+      // Frozen onto the order: a later change to the platform rate must never
+      // restate what someone already earned.
+      payee_club_id: session.payee_club_id ?? session.club_id,
+      platform_fee_cents: session.platform_fee_cents ?? 0,
       provider: session.provider,
       provider_ref: session.provider_ref,
       paid_at: new Date().toISOString(),
@@ -86,6 +93,20 @@ export async function fulfillSession(
     amountCents: session.amount_cents,
     expiresAt: renewalDate(session.interval),
   });
+
+  // A marketplace install is only real once the app exists in the buyer's
+  // club. Doing it here means the confirm path and the Stripe webhook both
+  // get it, and the unique install index means neither can do it twice.
+  if (session.product_kind === "app-listing" && session.product_id) {
+    const { fulfillListingInstall } = await import("@/lib/apps/marketplace.server");
+    await fulfillListingInstall(admin, {
+      listingId: session.product_id,
+      clubId: session.club_id,
+      orderId: order.id,
+      amountCents: session.amount_cents,
+      platformFeeCents: session.platform_fee_cents ?? 0,
+    });
+  }
 
   await admin
     .from("checkout_sessions")
@@ -168,4 +189,7 @@ export async function revokeForOrder(
     .update({ revoked_at: new Date().toISOString() })
     .eq("order_id", orderId)
     .is("revoked_at", null);
+
+  const { revokeInstallForOrder } = await import("@/lib/apps/marketplace.server");
+  await revokeInstallForOrder(admin, orderId);
 }
