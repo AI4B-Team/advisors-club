@@ -2,7 +2,7 @@
 // automatically; each entry ships a real, runnable schema so a creator gets a
 // working tool the moment they add it.
 
-import type { AppSchema, AppTemplate } from "./types";
+import type { AppSchema, AppTemplate, FieldOption } from "./types";
 
 const dealAnalyzer: AppSchema = {
   intro: "Enter The Numbers For A Property And See Whether The Deal Works.",
@@ -304,6 +304,185 @@ const accountabilityTracker: AppSchema = {
   ],
 };
 
+const roiCalculator: AppSchema = {
+  intro: "See What A Spend Actually Returns Before You Commit To It.",
+  fields: [
+    { key: "investment", label: "Up-Front Investment", type: "currency", required: true, placeholder: "5000", help: "Everything You Put In To Start — Fees, Tools, Setup." },
+    { key: "ongoing", label: "Ongoing Monthly Cost", type: "currency", defaultValue: 0 },
+    { key: "returned", label: "Value It Returns", type: "currency", required: true, placeholder: "18000" },
+    { key: "months", label: "Over How Many Months", type: "number", required: true, defaultValue: 12, min: 1 },
+  ],
+  outputs: [
+    { key: "allIn", label: "All-In Cost", expression: "investment + ongoing * months", format: "currency" },
+    { key: "gain", label: "Net Gain", expression: "returned - allIn", format: "currency", badBelow: 0 },
+    { key: "roi", label: "Return On Investment", expression: "if(allIn > 0, (returned - allIn) / allIn * 100, 0)", format: "percent", primary: true, goodAbove: 100, badBelow: 0 },
+    { key: "annualized", label: "Annualized Return", expression: "if(months > 0, roi * 12 / months, 0)", format: "percent", goodAbove: 100 },
+    { key: "payback", label: "Months To Break Even", expression: "if(returned > 0, allIn / (returned / max(months, 1)), 0)", format: "number", help: "How Long Before The Return Covers The Cost." },
+  ],
+  interpretations: [
+    { outputKey: "roi", min: 100, title: "Clear Return", body: "This Returns More Than Double What Goes In. Fund It.", tone: "good" },
+    { outputKey: "roi", min: 0, max: 99.99, title: "Positive But Modest", body: "It Pays For Itself. Check Whether The Same Money Returns More Somewhere Else.", tone: "warn" },
+    { outputKey: "roi", max: -0.01, title: "Loses Money", body: "As Modelled, This Costs More Than It Returns. Cut The Cost Or Raise The Return Before Committing.", tone: "bad" },
+  ],
+};
+
+const leadQualifier: AppSchema = {
+  intro: "Four Questions To Tell You Whether This Lead Is Worth A Call.",
+  fields: [
+    { key: "budget", label: "Can They Afford Your Offer?", type: "select", required: true, options: [
+      { label: "Choose One", value: "", score: 0 },
+      { label: "No Budget", value: "none", score: 0 },
+      { label: "Would Have To Stretch", value: "stretch", score: 3 },
+      { label: "Budget Already Set Aside", value: "ready", score: 5 },
+    ] },
+    { key: "authority", label: "Are They The Decision Maker?", type: "select", required: true, options: [
+      { label: "Choose One", value: "", score: 0 },
+      { label: "Someone Else Decides", value: "no", score: 0 },
+      { label: "Shares The Decision", value: "shared", score: 3 },
+      { label: "Decides Alone", value: "sole", score: 5 },
+    ] },
+    { key: "need", label: "How Urgent Is The Problem?", type: "select", required: true, options: [
+      { label: "Choose One", value: "", score: 0 },
+      { label: "Nice To Fix Someday", value: "low", score: 1 },
+      { label: "Actively Costing Them", value: "mid", score: 3 },
+      { label: "Blocking Everything Else", value: "high", score: 5 },
+    ] },
+    { key: "timing", label: "When Would They Start?", type: "select", required: true, options: [
+      { label: "Choose One", value: "", score: 0 },
+      { label: "No Timeline", value: "none", score: 0 },
+      { label: "Next Quarter", value: "quarter", score: 3 },
+      { label: "This Month", value: "now", score: 5 },
+    ] },
+    { key: "fit", label: "They Match Who You Serve Best", type: "toggle" },
+  ],
+  outputs: [
+    { key: "score", label: "Lead Score", expression: "min((budget + authority + need + timing) / 20 * 100 + fit * 5, 100)", format: "percent", primary: true, goodAbove: 70, badBelow: 40 },
+    { key: "points", label: "Points Out Of 20", expression: "budget + authority + need + timing", format: "number" },
+    { key: "weakest", label: "Lowest Signal", expression: "min(min(budget, authority), min(need, timing))", format: "number", help: "Zero Means One Of The Four Is Missing Entirely." },
+  ],
+  interpretations: [
+    { outputKey: "score", min: 70, title: "Book The Call", body: "Budget, Authority And Urgency Are All There. Get This On The Calendar This Week.", tone: "good" },
+    { outputKey: "score", min: 40, max: 69.99, title: "Nurture First", body: "Something Is Missing — Usually Timing Or Budget. Follow-Up List, Not The Calendar.", tone: "warn" },
+    { outputKey: "score", max: 39.99, title: "Not Yet", body: "Send Free Material And Revisit In 90 Days. Don't Spend A Call Here.", tone: "bad" },
+  ],
+  ctaLabel: "Book A Qualification Call",
+};
+
+/**
+ * Quiz options. The right answer scores 1, everything else 0.
+ *
+ * Two things matter here. A select defaults to its FIRST option, so the first
+ * entry is an empty placeholder — otherwise the quiz opens already answered,
+ * and a member could pass it without reading a question. And the right answer
+ * sits at `correctAt` rather than always first, so the pattern isn't the tell.
+ */
+function answers(correct: string, wrong: string[], correctAt: number): FieldOption[] {
+  const options: FieldOption[] = wrong.map((w, i) => ({ label: w, value: `w${i + 1}`, score: 0 }));
+  options.splice(Math.min(correctAt, options.length), 0, { label: correct, value: "correct", score: 1 });
+  return [{ label: "Choose An Answer", value: "", score: 0 }, ...options];
+}
+
+const certificationQuiz: AppSchema = {
+  intro: "Five Questions. You Need 80% To Pass. Swap These For Questions From Your Own Program.",
+  fields: [
+    { key: "q1", label: "Gross Margin Is Which Of These?", type: "select", required: true, options: answers(
+      "Revenue Minus Cost Of Delivery, Divided By Revenue",
+      ["Revenue Minus Every Business Expense", "Total Revenue For The Year", "Profit Divided By Number Of Clients"], 2,
+    ) },
+    { key: "q2", label: "Lifetime Value Measures...", type: "select", required: true, options: answers(
+      "Total Revenue One Client Produces Before They Leave",
+      ["What A Client Pays In Their First Month", "The Cost Of Acquiring One Client", "How Long A Client Has Been With You"], 0,
+    ) },
+    { key: "q3", label: "Which Number Tells You Whether Your Offer Converts?", type: "select", required: true, options: answers(
+      "Sales Divided By Qualified Conversations",
+      ["Total Website Visitors", "Followers Gained This Month", "Emails Sent Per Week"], 3,
+    ) },
+    { key: "q4", label: "What Should Happen Before You Raise Your Price?", type: "select", required: true, options: answers(
+      "Document The Results You Already Deliver",
+      ["Wait For A Client To Complain About Value", "Add More Deliverables To Justify It", "Match Whatever A Competitor Charges"], 1,
+    ) },
+    { key: "q5", label: "Churn Measures...", type: "select", required: true, options: answers(
+      "The Share Of Clients Who Leave In A Period",
+      ["The Share Of Leads That Never Reply", "How Often You Change Your Offer", "Revenue Lost To Discounts"], 2,
+    ) },
+  ],
+  outputs: [
+    { key: "correct", label: "Correct Answers", expression: "q1 + q2 + q3 + q4 + q5", format: "number" },
+    { key: "score", label: "Score", expression: "(q1 + q2 + q3 + q4 + q5) / 5 * 100", format: "percent", primary: true, goodAbove: 80, badBelow: 60 },
+    { key: "toPass", label: "Answers Still Needed To Pass", expression: "max(4 - (q1 + q2 + q3 + q4 + q5), 0)", format: "number" },
+  ],
+  interpretations: [
+    { outputKey: "score", min: 80, title: "Passed", body: "You Cleared The Threshold. Your Certificate Is Ready.", tone: "good" },
+    { outputKey: "score", min: 60, max: 79.99, title: "One Or Two Short", body: "Review The Module And Retake — You're Close.", tone: "warn" },
+    { outputKey: "score", max: 59.99, title: "Review And Retake", body: "Work Through The Material Again Before Your Next Attempt.", tone: "bad" },
+  ],
+  ctaLabel: "Claim Your Certificate",
+};
+
+const budgetPlanner: AppSchema = {
+  intro: "Give Every Dollar A Job Before The Month Starts.",
+  fields: [
+    { key: "income", label: "Monthly Take-Home", type: "currency", required: true, placeholder: "9500", group: "Income" },
+    { key: "other", label: "Other Income", type: "currency", defaultValue: 0, group: "Income" },
+    { key: "housing", label: "Housing", type: "currency", required: true, placeholder: "2200", group: "Fixed Costs" },
+    { key: "transport", label: "Transport", type: "currency", defaultValue: 600, group: "Fixed Costs" },
+    { key: "food", label: "Food & Household", type: "currency", defaultValue: 900, group: "Fixed Costs" },
+    { key: "insurance", label: "Insurance & Health", type: "currency", defaultValue: 400, group: "Fixed Costs" },
+    { key: "debt", label: "Debt Payments", type: "currency", defaultValue: 0, group: "Fixed Costs" },
+    { key: "flex", label: "Everything Else", type: "currency", defaultValue: 700, group: "Flexible Spending", help: "Eating Out, Subscriptions, Entertainment." },
+    { key: "goal", label: "Savings Target", type: "percent", defaultValue: 20, group: "Goals" },
+  ],
+  outputs: [
+    { key: "totalIn", label: "Total Income", expression: "income + other", format: "currency" },
+    { key: "fixed", label: "Fixed Costs", expression: "housing + transport + food + insurance + debt", format: "currency" },
+    { key: "spend", label: "Total Spending", expression: "fixed + flex", format: "currency" },
+    { key: "left", label: "Left To Save", expression: "totalIn - spend", format: "currency", primary: true, goodAbove: 0, badBelow: 0 },
+    { key: "rate", label: "Savings Rate", expression: "if(totalIn > 0, (totalIn - spend) / totalIn * 100, 0)", format: "percent", goodAbove: 20, badBelow: 0 },
+    { key: "gap", label: "Gap To Your Target", expression: "max(totalIn * (goal / 100) - (totalIn - spend), 0)", format: "currency", help: "What You'd Have To Cut To Hit The Target." },
+    { key: "fixedShare", label: "Fixed Costs As A Share Of Income", expression: "if(totalIn > 0, fixed / totalIn * 100, 0)", format: "percent" },
+  ],
+  interpretations: [
+    { outputKey: "rate", min: 20, title: "On Target", body: "You're Saving At Or Above Your Goal. Automate The Transfer On Payday.", tone: "good" },
+    { outputKey: "rate", min: 0, max: 19.99, title: "Saving, But Under Goal", body: "Close The Gap From Flexible Spending First — It's The Fastest Line To Move.", tone: "warn" },
+    { outputKey: "rate", max: -0.01, title: "Spending More Than You Earn", body: "Fixed Costs Are The Problem At This Point, Not Coffee. Housing, Transport And Debt Are Where To Look.", tone: "bad" },
+  ],
+};
+
+const proposalGenerator: AppSchema = {
+  intro: "Answer These And Get A Proposal You Can Send Today.",
+  fields: [
+    { key: "client", label: "Client Name", type: "text", required: true, placeholder: "Northside Realty" },
+    { key: "problem", label: "The Problem They Described", type: "longtext", required: true, placeholder: "Leads Come In But Nobody Follows Up Past Day Two." },
+    { key: "outcome", label: "The Outcome You'll Deliver", type: "text", required: true, placeholder: "A Follow-Up System That Runs Without You" },
+    { key: "deliverables", label: "What They Get", type: "longtext", required: true, placeholder: "Weekly Calls, A Written Playbook, Two Team Trainings." },
+    { key: "weeks", label: "Length Of Engagement (Weeks)", type: "number", required: true, defaultValue: 12, min: 1 },
+    { key: "fee", label: "Total Fee", type: "currency", required: true, defaultValue: 9000 },
+    { key: "payments", label: "Number Of Payments", type: "number", defaultValue: 3, min: 1 },
+  ],
+  outputs: [
+    { key: "total", label: "Total Fee", expression: "fee", format: "currency", primary: true },
+    { key: "perPayment", label: "Per Payment", expression: "if(payments > 0, fee / payments, fee)", format: "currency" },
+    { key: "perWeek", label: "Cost Per Week", expression: "if(weeks > 0, fee / weeks, 0)", format: "currency", help: "Useful When A Client Calls The Total Number Big." },
+  ],
+  template: `Proposal For {{client}}
+
+The Problem
+{{problem}}
+
+The Outcome
+{{outcome}} — within {{weeks}} weeks.
+
+What's Included
+{{deliverables}}
+
+Investment
+{{total}} total, payable in {{payments}} instalments of {{perPayment}}. That is {{perWeek}} per week of the engagement.
+
+Next Step
+Reply "approved" and I'll send the agreement along with a start date.`,
+  ctaLabel: "Send This Proposal",
+};
+
 export const APP_LIBRARY: AppTemplate[] = [
   // Real Estate
   { id: "re-deal-analyzer", name: "Deal Analyzer", description: "Score A Property Deal From Purchase, Rehab And Rent Inputs.", kind: "calculator", icon: "calculator", category: "Real Estate", schema: dealAnalyzer },
@@ -321,6 +500,9 @@ export const APP_LIBRARY: AppTemplate[] = [
   { id: "biz-pricing-calculator", name: "Pricing Calculator", description: "Find A Price Point From Costs, Margin And Volume.", kind: "calculator", icon: "calculator", category: "Business", schema: pricingCalculator },
   { id: "biz-profit-calculator", name: "Profit Calculator", description: "See What The Business Actually Keeps Each Month.", kind: "calculator", icon: "chart", category: "Business", schema: profitCalculator },
   { id: "biz-assessment", name: "Business Assessment", description: "Score A Business Across Five Growth Pillars.", kind: "assessment", icon: "clipboard", category: "Business", schema: businessAssessment },
+  { id: "biz-roi-calculator", name: "ROI Calculator", description: "Show What A Spend Returns Before Anyone Commits To It.", kind: "calculator", icon: "chart", category: "Business", schema: roiCalculator },
+  { id: "biz-lead-qualifier", name: "Lead Qualifier", description: "Score A Lead On Budget, Authority, Need And Timing.", kind: "assessment", icon: "target", category: "Business", schema: leadQualifier },
+  { id: "biz-proposal-generator", name: "Proposal Generator", description: "Turn Call Notes Into A Proposal You Can Send Today.", kind: "generator", icon: "wand", category: "Business", schema: proposalGenerator },
 
   // Coaching
   { id: "coach-goal-planner", name: "Goal Planner", description: "Turn A Goal Into Weekly Numbers.", kind: "planner", icon: "target", category: "Coaching", schema: goalPlanner },
@@ -330,6 +512,8 @@ export const APP_LIBRARY: AppTemplate[] = [
   // Universal
   { id: "gen-launch-checklist", name: "Launch Checklist", description: "A Step-By-Step Checklist Members Can Work Through.", kind: "checklist", icon: "list", category: "Universal", schema: launchChecklist },
   { id: "gen-readiness-quiz", name: "Readiness Quiz", description: "A Short Quiz That Routes Members To The Right Next Step.", kind: "quiz", icon: "target", category: "Universal", schema: readinessQuiz },
+  { id: "gen-certification-quiz", name: "Certification Quiz", description: "A Scored Knowledge Check With A Pass Mark And A Certificate.", kind: "quiz", icon: "clipboard", category: "Universal", schema: certificationQuiz },
+  { id: "gen-budget-planner", name: "Budget Planner", description: "Plan A Month Of Income, Fixed Costs And Savings.", kind: "planner", icon: "layers", category: "Universal", schema: budgetPlanner },
 ];
 
 export const LIBRARY_CATEGORIES = Array.from(new Set(APP_LIBRARY.map(t => t.category)));

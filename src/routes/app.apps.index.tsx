@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   Plus, Sparkles, LayoutGrid, MoreHorizontal, Copy, Trash2, Pencil, Eye, Users, DollarSign,
+  Store, ArrowUpCircle,
 } from "lucide-react";
 import { useViewMode } from "@/hooks/use-view-mode";
 import { useNavLabel } from "@/hooks/use-nav-label";
@@ -11,6 +12,10 @@ import { getUsage, statsFor, subscribeUsage, type UsageEvent } from "@/lib/apps/
 import { visibleApps } from "@/lib/apps/access";
 import { appIcon } from "@/components/apps/icons";
 import { AiAppBuilder } from "@/components/apps/AiAppBuilder";
+import { MarketplaceTab } from "@/components/apps/MarketplaceTab";
+import { PublishAppModal } from "@/components/apps/PublishAppModal";
+import { canPublish, updateAvailable, type Listing } from "@/lib/apps/marketplace";
+import { getListings, subscribeMarketplace, updateInstalledApp } from "@/lib/apps/marketplace-store";
 import { takePendingAppBrief, setPendingAppBrief } from "@/lib/apps/pending";
 import { APP_KIND_LABEL, toAccessPolicy, type App, type AppKind } from "@/lib/apps/types";
 import { AccessChip } from "@/components/commerce/AccessGate";
@@ -40,6 +45,16 @@ function useApps(): App[] {
   const [apps, setApps] = useState<App[]>([]);
   useEffect(() => { setApps(getApps()); return subscribeApps(setApps); }, []);
   return apps;
+}
+
+function useListings(): Listing[] {
+  const [listings, setListings] = useState<Listing[]>([]);
+  useEffect(() => {
+    const sync = () => setListings(getListings());
+    sync();
+    return subscribeMarketplace(sync);
+  }, []);
+  return listings;
 }
 
 function useUsage(): UsageEvent[] {
@@ -93,10 +108,12 @@ function MemberApps({ apps, label }: { apps: App[]; label: string }) {
 
 function AdminApps({ apps, label }: { apps: App[]; label: string }) {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"yours" | "library">("yours");
+  const [tab, setTab] = useState<"yours" | "library" | "marketplace">("yours");
   const [ai, setAi] = useState(false);
   const [manual, setManual] = useState(false);
+  const [publishing, setPublishing] = useState<App | null>(null);
   const events = useUsage();
+  const listings = useListings();
 
   // "Build It" from an AIVA Opportunity lands here with the brief already written.
   useEffect(() => {
@@ -149,30 +166,55 @@ function AdminApps({ apps, label }: { apps: App[]; label: string }) {
           Your Apps <span>{apps.length}</span>
         </button>
         <button className={`apx-tab${tab === "library" ? " is-on" : ""}`} onClick={() => setTab("library")}>App Library</button>
+        <button className={`apx-tab${tab === "marketplace" ? " is-on" : ""}`} onClick={() => setTab("marketplace")}>
+          <Store size={14} /> Marketplace
+        </button>
       </div>
 
-      {tab === "yours" ? (
+      {tab === "yours" && (
         apps.length === 0 ? (
           <EmptyState
             title="No Apps Yet"
-            body="Describe What You Teach And AI Will Draft The Tool, Or Start From The App Library."
+            body="Describe What You Teach, Start From The App Library, Or Install One Another Creator Already Built."
             action={<button className="apx-ai-btn" onClick={() => setAi(true)}><Sparkles size={14} /> Build App With AI</button>}
           />
         ) : (
           <div className="apx-grid">
-            {apps.map(a => <AdminAppCard key={a.id} app={a} events={events} />)}
+            {apps.map(a => (
+              <AdminAppCard
+                key={a.id}
+                app={a}
+                events={events}
+                listings={listings}
+                onPublish={() => setPublishing(a)}
+              />
+            ))}
           </div>
         )
-      ) : (
+      )}
+
+      {tab === "library" && (
         <LibraryTab onAdded={id => void navigate({ to: "/app/apps/$appId/edit", params: { appId: id } })} />
       )}
 
+      {tab === "marketplace" && (
+        <MarketplaceTab onInstalled={id => void navigate({ to: "/app/apps/$appId/edit", params: { appId: id } })} />
+      )}
+
       {ai && <AiAppBuilder onClose={() => setAi(false)} />}
+      {publishing && (
+        <PublishAppModal
+          app={publishing}
+          onClose={() => setPublishing(null)}
+          onPublished={() => setTab("marketplace")}
+        />
+      )}
       {manual && (
         <NewAppModal
           onClose={() => setManual(false)}
           onAi={() => { setManual(false); setAi(true); }}
           onTemplate={() => { setManual(false); setTab("library"); }}
+          onMarketplace={() => { setManual(false); setTab("marketplace"); }}
         />
       )}
     </div>
@@ -188,9 +230,27 @@ function Stat({ label, value, icon }: { label: string; value: string; icon?: Rea
   );
 }
 
-function AdminAppCard({ app, events }: { app: App; events: UsageEvent[] }) {
+function AdminAppCard({ app, events, listings, onPublish }: {
+  app: App;
+  events: UsageEvent[];
+  listings: Listing[];
+  onPublish: () => void;
+}) {
   const [menu, setMenu] = useState(false);
   const stats = statsFor(app, events);
+
+  // Two different relationships to the marketplace: an app this club LISTED,
+  // and an app this club INSTALLED from someone else's listing. Sample supply
+  // carries no `sourceAppId`, so it can never match as something this club listed.
+  const listed = useMemo(
+    () => listings.find(l => l.sourceAppId === app.id && l.status !== "removed"),
+    [listings, app.id],
+  );
+  const source = useMemo(
+    () => listings.find(l => l.id === app.listingId),
+    [listings, app.listingId],
+  );
+  const hasUpdate = updateAvailable(app, source);
 
   return (
     <div className="apx-card">
@@ -209,6 +269,16 @@ function AdminAppCard({ app, events }: { app: App; events: UsageEvent[] }) {
               <button onClick={() => { patchApp(app.id, { listed: app.listed === false }); setMenu(false); }}>
                 <LayoutGrid size={13} /> {app.listed === false ? "Show In List" : "Hide From List"}
               </button>
+              {canPublish(app) && (
+                <button onClick={() => { onPublish(); setMenu(false); }}>
+                  <Store size={13} /> {listed ? "Publish An Update" : "Publish To Marketplace"}
+                </button>
+              )}
+              {hasUpdate && (
+                <button onClick={() => { updateInstalledApp(app.id); setMenu(false); }}>
+                  <ArrowUpCircle size={13} /> Take Version {source?.version}
+                </button>
+              )}
               <button className="is-danger" onClick={() => { removeApp(app.id); setMenu(false); }}><Trash2 size={13} /> Delete</button>
             </div>
           </>
@@ -224,7 +294,25 @@ function AdminAppCard({ app, events }: { app: App; events: UsageEvent[] }) {
         <span className="apx-card-kind">{APP_KIND_LABEL[app.kind]}</span>
         <AccessChip policy={toAccessPolicy(app.access)} />
         {app.source === "ai" && <span className="apx-card-kind is-ai"><Sparkles size={11} /> AI</span>}
+        {app.source === "marketplace" && source && (
+          <span className="apx-card-kind"><Store size={11} /> {source.author.name}</span>
+        )}
+        {listed && (
+          <span className="apx-card-kind is-listed">
+            <Store size={11} /> {listed.status === "live" ? `Listed · v${listed.version}` : "Unlisted"}
+          </span>
+        )}
       </div>
+
+      {hasUpdate && (
+        <button className="apx-update" onClick={() => updateInstalledApp(app.id)}>
+          <ArrowUpCircle size={13} />
+          <span>
+            <strong>Version {source?.version} Is Available</strong>
+            <em>{source?.changelog ?? `${source?.author.name} Published An Update.`} Your Own Edits Stay Until You Take It.</em>
+          </span>
+        </button>
+      )}
 
       <div className="apx-card-foot">
         <button
@@ -270,10 +358,11 @@ function LibraryTab({ onAdded }: { onAdded: (id: string) => void }) {
   );
 }
 
-function NewAppModal({ onClose, onAi, onTemplate }: {
+function NewAppModal({ onClose, onAi, onTemplate, onMarketplace }: {
   onClose: () => void;
   onAi: () => void;
   onTemplate: () => void;
+  onMarketplace: () => void;
 }) {
   const navigate = useNavigate();
   const [path, setPath] = useState<"choose" | "manual">("choose");
@@ -311,6 +400,14 @@ function NewAppModal({ onClose, onAi, onTemplate }: {
                 <span>
                   <strong>Start From Template</strong>
                   <em>Proven Apps For Your Niche — Edit Anything Before You Publish.</em>
+                </span>
+              </button>
+
+              <button className="apx-path is-plain" onClick={onMarketplace}>
+                <Store size={16} />
+                <span>
+                  <strong>Install From The Marketplace</strong>
+                  <em>Tools Other Creators Built And Listed. Free Or Paid, Yours To Adapt.</em>
                 </span>
               </button>
 

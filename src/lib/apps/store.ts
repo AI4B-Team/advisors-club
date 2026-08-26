@@ -96,6 +96,9 @@ export type NewApp = {
   templateId?: string;
   prompt?: string;
   contextRefs?: string[];
+  /** Set when the app is installed from a marketplace listing. */
+  listingId?: string;
+  listingVersion?: number;
   schema?: AppSchema;
 };
 
@@ -115,6 +118,8 @@ export function createApp(input: NewApp): App {
     source: input.source ?? "blank",
     prompt: input.prompt,
     contextRefs: input.contextRefs ?? [],
+    listingId: input.listingId,
+    listingVersion: input.listingVersion,
     schema: input.schema ?? { fields: [], outputs: [] },
     config: {},
     createdAt: now(),

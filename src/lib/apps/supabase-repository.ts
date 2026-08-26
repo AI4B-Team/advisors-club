@@ -13,6 +13,7 @@ type AppRow = {
   id: string; club_id: string; name: string; description: string; kind: string;
   icon: string; status: "draft" | "published" | "archived"; listed: boolean;
   source: string; template_id: string | null; prompt: string | null;
+  listing_id: string | null; listing_version: number | null;
   context_refs: unknown; schema: unknown; config: unknown; access: unknown;
   pricing: unknown; created_at: string; updated_at: string;
 };
@@ -32,6 +33,8 @@ function toApp(r: AppRow): App {
     source: (r.source as App["source"]) ?? "blank",
     prompt: r.prompt ?? undefined,
     contextRefs: (r.context_refs as string[]) ?? [],
+    listingId: r.listing_id ?? undefined,
+    listingVersion: r.listing_version ?? undefined,
     schema: (r.schema as App["schema"]) ?? { fields: [], outputs: [] },
     config: (r.config as App["config"]) ?? {},
     createdAt: r.created_at,
@@ -51,6 +54,8 @@ function toRow(app: Partial<App>): Record<string, unknown> {
   if (app.templateId !== undefined) row.template_id = app.templateId;
   if (app.prompt !== undefined) row.prompt = app.prompt;
   if (app.contextRefs !== undefined) row.context_refs = app.contextRefs;
+  if (app.listingId !== undefined) row.listing_id = app.listingId;
+  if (app.listingVersion !== undefined) row.listing_version = app.listingVersion;
   if (app.schema !== undefined) row.schema = app.schema;
   if (app.config !== undefined) row.config = app.config;
   if (app.access !== undefined) row.access = app.access;
@@ -87,6 +92,8 @@ export const supabaseAppsRepository: AppsRepository = {
       template_id: input.templateId ?? null,
       prompt: input.prompt ?? null,
       context_refs: (input.contextRefs ?? []) as never,
+      listing_id: input.listingId ?? null,
+      listing_version: input.listingVersion ?? null,
       schema: (input.schema ?? { fields: [], outputs: [] }) as never,
     } as never).select("*").single();
     if (error) throw new RepositoryError("Could not create that app", error);

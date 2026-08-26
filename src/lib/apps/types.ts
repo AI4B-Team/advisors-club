@@ -179,12 +179,19 @@ export type App = {
   pricing?: AppPricing;
   /** Template this app was created from, when applicable. */
   templateId?: string;
-  /** Set when the app was drafted by the AI app builder. */
-  source: "blank" | "library" | "ai";
+  /**
+   * Where the app came from. `marketplace` means another creator published it
+   * and this club installed it — see `src/lib/apps/marketplace.ts`.
+   */
+  source: "blank" | "library" | "ai" | "marketplace";
   /** The prompt the creator gave the AI builder, kept for re-generation. */
   prompt?: string;
   /** Ids of club content the AI used as context (courses, lessons, resources). */
   contextRefs?: string[];
+  /** Marketplace listing this app was installed from, when applicable. */
+  listingId?: string;
+  /** The listing version installed, so a later republish reads as an update. */
+  listingVersion?: number;
   schema?: AppSchema;
   config: AppConfig;
   createdAt: string;
