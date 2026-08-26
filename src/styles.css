@@ -187,16 +187,6 @@
 .ac .hero-aiva-input::placeholder{color:rgba(255,255,255,0.42)}
 .ac .hero-aiva-input:focus{border-color:rgba(245,166,35,0.45);background:rgba(255,255,255,0.06)}
 
-/* Rotating examples.
-   An OVERLAY, never the field's value — a visitor's own words can never be
-   overwritten by the rotation. Metrics mirror .hero-aiva-input exactly (the
-   transparent border stands in for the input's own) so the sentence lands
-   where the placeholder would, and the right padding keeps the longest line
-   clear of the Build It With AI button rather than sliding underneath it. */
-.ac .hero-aiva-examples{position:absolute;inset:0;pointer-events:none;border:1px solid transparent;padding:14px 214px 40px 16px;font-family:var(--ac-font);font-size:16px;line-height:1.55;text-align:left;color:rgba(255,255,255,0.42);overflow:hidden}
-.ac .hero-aiva-examples span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;opacity:1;transition:opacity .32s ease}
-.ac .hero-aiva-examples span.is-out{opacity:0}
-@media (prefers-reduced-motion:reduce){.ac .hero-aiva-examples span{transition:none}}
 .ac .hero-aiva-foot{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap}
 .ac .hero-chips{display:flex;flex-wrap:nowrap;gap:8px}
 .ac .hero-chip{padding:7px 13px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.66);font-family:var(--ac-font);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap}
@@ -209,8 +199,6 @@
   .ac .hero-chips{flex-wrap:wrap}
   .ac .hero-aiva-cta{position:static;justify-content:center;width:100%;margin-top:12px}
   .ac .hero-aiva-input{padding:16px 18px}
-  .ac .hero-aiva-examples{padding:16px 18px}
-  .ac .hero-aiva-examples span{-webkit-line-clamp:3;line-clamp:3}
 }
 
 .ac .showcase{padding:56px 52px;max-width:1200px;margin:0 auto}

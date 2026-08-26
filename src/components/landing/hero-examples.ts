@@ -20,9 +20,25 @@ export type HeroCategory =
 export type HeroExample = { category: HeroCategory; text: string };
 
 /**
- * Ordered so the idle rotation moves between categories rather than showing
- * two community prompts in a row — a visitor watching for a few seconds
- * should see the breadth of what can be built.
+ * The resting rotation: what a visitor reads before touching anything.
+ *
+ * These are the sentences already running on the live site, kept verbatim so
+ * the landing page says the same thing wherever it is built from.
+ */
+export const ROTATING_PROMPTS: string[] = [
+  "Turn my expertise into a premium membership with courses, coaching, events, resources, and a member experience people want to stay in.",
+  "Build a paid coaching community around what I know, structure the offer, create the program, and give me a plan to land my first 25 members.",
+  "Turn my existing audience into recurring revenue with a membership offer, onboarding experience, content plan, and retention strategy.",
+  "Study what my members keep asking for and show me what should become my next course, resource, app, or paid offer.",
+  "Build a certification program from my expertise with structured lessons, assessments, resources, and a journey people are proud to complete.",
+  "Analyze my community and show me the biggest opportunities to improve engagement, retention, and revenue.",
+  "I already run my business on another platform. Bring my courses, members, community, and content over without me starting again.",
+  "Turn the most common problem in my community into a useful calculator or tool my members can use.",
+];
+
+/**
+ * What each quick-action pill drops into the box. Ordered so a pill clicked
+ * twice offers a second angle on the same category.
  */
 export const HERO_EXAMPLES: HeroExample[] = [
   {
@@ -76,8 +92,8 @@ export const HERO_QUICK_STARTS: { label: string; category: HeroCategory }[] = [
   { label: "Run A Challenge", category: "challenge" },
 ];
 
-/** Examples for one pill, or the full rotation when nothing is selected. */
-export function examplesFor(category: HeroCategory | null): string[] {
-  const list = category ? HERO_EXAMPLES.filter(e => e.category === category) : HERO_EXAMPLES;
+/** The examples a pill offers, in order. */
+export function examplesFor(category: HeroCategory): string[] {
+  const list = HERO_EXAMPLES.filter(e => e.category === category);
   return (list.length ? list : HERO_EXAMPLES).map(e => e.text);
 }

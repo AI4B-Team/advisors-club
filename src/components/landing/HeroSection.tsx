@@ -1,7 +1,7 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { examplesFor, HERO_QUICK_STARTS, type HeroCategory } from "./hero-examples";
+import { useEffect, useRef, useState } from "react";
+import { examplesFor, HERO_QUICK_STARTS, ROTATING_PROMPTS, type HeroCategory } from "./hero-examples";
 
 const COVERS = [coverWealth, coverRealEstate, coverSales, coverMindset, coverMarketing, coverCrypto, coverFitness, coverSpeaking, coverStartup, coverAI, coverBrand, coverInvesting];
 const HERO_TILES: string[] = Array.from({ length: 28 }, (_, i) => COVERS[i % COVERS.length]);
@@ -9,9 +9,10 @@ const HERO_TILES: string[] = Array.from({ length: 28 }, (_, i) => COVERS[i % COV
 /** Shown the moment a visitor takes the box over, so it is never left blank. */
 const STATIC_PLACEHOLDER = "Tell us about your business, audience, expertise, or idea...";
 
-/** How long an example rests before it crossfades to the next one. */
-const HOLD_MS = 4200;
-const FADE_MS = 320;
+/** Typewriter pacing, matching the live site. */
+const TYPE_SPEED = 26;   // ms per character while typing
+const HOLD_MS = 2600;    // pause on a finished sentence
+const ERASE_SPEED = 12;  // ms per character while erasing
 
 import coverWealth from "@/assets/covers/wealth.jpg";
 import coverRealEstate from "@/assets/covers/realestate.jpg";
@@ -27,20 +28,18 @@ import coverBrand from "@/assets/covers/brand.jpg";
 import coverInvesting from "@/assets/covers/investing.jpg";
 
 /**
- * Crossfades through `examples` while `active`.
+ * Types the rotating examples into the placeholder, then erases and moves on.
  *
- * Two rules it must not break: it never touches the textarea's value (the
- * examples live in an overlay, not in the field), and it stops the moment the
- * visitor engages. Someone reading a moving sentence while trying to type is
- * being fought by the page.
- *
- * Honours `prefers-reduced-motion` by holding on the first example instead of
- * rotating at all.
+ * It drives the PLACEHOLDER, never the value, which is what makes "your own
+ * words are never overwritten" structural rather than a promise. It stops the
+ * moment the visitor engages — someone reading a moving sentence while trying
+ * to type is being fought by the page — and `prefers-reduced-motion` rests on
+ * one complete sentence instead of animating.
  */
-function useRotatingExample(examples: string[], active: boolean): { text: string; fading: boolean } {
-  const [index, setIndex] = useState(0);
-  const [fading, setFading] = useState(false);
+function useTypedPlaceholder(active: boolean): string {
+  const [text, setText] = useState(ROTATING_PROMPTS[0]);
   const [stillMotion, setStillMotion] = useState(false);
+  const at = useRef(0);
 
   useEffect(() => {
     const query = window.matchMedia?.("(prefers-reduced-motion: reduce)");
@@ -51,23 +50,35 @@ function useRotatingExample(examples: string[], active: boolean): { text: string
     return () => query.removeEventListener("change", sync);
   }, []);
 
-  // A new set (a pill was chosen) starts from the top rather than mid-rotation.
-  useEffect(() => { setIndex(0); setFading(false); }, [examples]);
-
   useEffect(() => {
-    if (!active || stillMotion || examples.length < 2) return;
-    let swap: ReturnType<typeof setTimeout> | undefined;
-    const hold = setTimeout(() => {
-      setFading(true);
-      swap = setTimeout(() => {
-        setIndex(i => (i + 1) % examples.length);
-        setFading(false);
-      }, FADE_MS);
-    }, HOLD_MS);
-    return () => { clearTimeout(hold); clearTimeout(swap); };
-  }, [active, stillMotion, index, examples]);
+    if (!active || stillMotion) return;
+    let timer: ReturnType<typeof setTimeout>;
+    let char = 0;
+    let erasing = false;
+    setText("");
 
-  return { text: examples[index] ?? examples[0] ?? "", fading };
+    const tick = () => {
+      const full = ROTATING_PROMPTS[at.current % ROTATING_PROMPTS.length];
+      if (!erasing) {
+        char += 1;
+        setText(full.slice(0, char));
+        if (char >= full.length) { erasing = true; timer = setTimeout(tick, HOLD_MS); return; }
+        timer = setTimeout(tick, TYPE_SPEED);
+      } else {
+        char -= 1;
+        setText(full.slice(0, char));
+        if (char <= 0) { erasing = false; at.current += 1; timer = setTimeout(tick, 320); return; }
+        timer = setTimeout(tick, ERASE_SPEED);
+      }
+    };
+
+    timer = setTimeout(tick, 150);
+    return () => clearTimeout(timer);
+  }, [active, stillMotion]);
+
+  // Resting or engaged: a stable, complete sentence rather than a half word.
+  if (!active || stillMotion) return ROTATING_PROMPTS[0];
+  return text;
 }
 
 export function HeroSection() {
@@ -76,13 +87,9 @@ export function HeroSection() {
   // Set as soon as the visitor makes the box theirs — by focusing it, typing,
   // or picking a pill. From then on the examples stop moving for good.
   const [engaged, setEngaged] = useState(false);
-  const [category, setCategory] = useState<HeroCategory | null>(null);
 
-  // Memoized on the category: a fresh array every render would restart the
-  // rotation's timer before it could ever fire.
-  const examples = useMemo(() => examplesFor(category), [category]);
-  const showExamples = !engaged && !heroPrompt;
-  const { text: example, fading } = useRotatingExample(examples, showExamples);
+  const rotating = !engaged && !heroPrompt;
+  const placeholder = useTypedPlaceholder(rotating);
 
   const startBuilding = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +107,6 @@ export function HeroSection() {
   const pickCategory = (next: HeroCategory) => {
     const list = examplesFor(next);
     const at = list.indexOf(heroPrompt);
-    setCategory(next);
     setEngaged(true);
     setHeroPrompt(list[(at + 1) % list.length] ?? "");
   };
@@ -131,17 +137,10 @@ export function HeroSection() {
                 value={heroPrompt}
                 onChange={e => { setEngaged(true); setHeroPrompt(e.target.value); }}
                 onFocus={() => setEngaged(true)}
-                // While the examples are showing they ARE the placeholder; the
-                // static one takes back over the moment they stop.
-                placeholder={showExamples ? "" : STATIC_PLACEHOLDER}
+                placeholder={placeholder}
                 aria-label={STATIC_PLACEHOLDER}
                 rows={3}
               />
-              {showExamples && (
-                <div className="hero-aiva-examples" aria-hidden="true">
-                  <span className={fading ? "is-out" : undefined}>{example}</span>
-                </div>
-              )}
               <button
                 type="submit"
                 className="hero-aiva-cta"
