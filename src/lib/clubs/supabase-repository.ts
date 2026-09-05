@@ -119,16 +119,22 @@ export const supabaseClubsRepository: ClubsRepository = {
     return (data as MembershipRow[]).map(toMembership);
   },
 
+  // RLS refuses a write the caller may not make by matching NO ROWS, not by
+  // raising. Without the row count these two would return normally after a
+  // denied change — and they return void, so the caller has nothing to test.
+  // Asking for the affected ids turns that silence into the documented failure.
   async setMemberRole(clubId, userId, role) {
-    const { error } = await supabase.from("club_memberships")
-      .update({ role }).eq("club_id", clubId).eq("user_id", userId);
+    const { data, error } = await supabase.from("club_memberships")
+      .update({ role }).eq("club_id", clubId).eq("user_id", userId).select("id");
     if (error) throw new RepositoryError("Could not change that member's role", error);
+    if (!data?.length) throw new RepositoryError("Could not change that member's role");
   },
 
   async setMemberStatus(clubId, userId, status) {
-    const { error } = await supabase.from("club_memberships")
-      .update({ status }).eq("club_id", clubId).eq("user_id", userId);
+    const { data, error } = await supabase.from("club_memberships")
+      .update({ status }).eq("club_id", clubId).eq("user_id", userId).select("id");
     if (error) throw new RepositoryError("Could not update that membership", error);
+    if (!data?.length) throw new RepositoryError("Could not update that membership");
   },
 
   async join(clubId) {
